@@ -20,10 +20,10 @@ version=1.0.0
 #   check path
 PWD=`pwd`
 if [[ ! "$PWD" =~ "bin" ]];then
-  echo "$0 must in /InstallPath/bin/"
+  echo "$0 must in $DMPSWSYS"
   exit
 else
-  prefix=$PWD/..
+  prefix=${PWD%"/bin"}
 fi
 
 #   list all libraries of DmpSW

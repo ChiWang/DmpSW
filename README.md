@@ -7,7 +7,62 @@ DAMPE Software
 
 ##  Installation
 
+### Requirement
+Before install DMPSW, you need install Root, Geant4 and SCons first.
+
+*Install ROOT
+
+        1) download root_v5.34.09.source.tar.gz from http://root.cern.ch/drupal/content/production-version-534
+        
+        2) unpack root_v5.34.09.source.tar.gz, for exmaple in directory <myRootPath>, using
+            dgzip -dc root_v5.34.09.source.tar.gz | tar -xf -
+        
+        3) cd <myRootPath>/root
+        
+        4) ./configure <arch>        [change arch appropriately]
+        
+        5) make                   [or, make -j n for n core machines]
+
+*Install Geant4
+
+        1) download geant4.9.6.p02.tar from http://geant4.web.cern.ch/geant4/support/download.shtml, using the button marked "GNU or Linux tar format, compre
+        ssed using gzip (24.3Mb, 25480383 bytes)"
+        
+        2) unpack geant4.9.6.p02.tar, for example in directory <myG4Path>.
+        
+        3) mkdir geant4.9.6-build
+        
+        4) cd geant4.9.6-build
+        
+        5) cmake -DCMAKE_INSTALL_PREFIX=<myG4Path>/geant4.9.6-install -DGEANT4_INSTALL_DATA=ON -DGEANT4_USE_OPENGL_X11=ON -DGEANT4_INSTALL_EXAMPLES=ON <myG4Path>
+        /geant4.9.6.p02
+        
+        6) make -j2 (for duo-core machine)
+        
+        7) make install
+        
+        Note: because of the datafile it takes up to an hour to config and install.
+        Note: install GDML at the same time
+
+*Install SCons
+
+        1) download scons-2.3.0.tar.gz from http://www.scons.org/download.php
+        
+        2) unpack scons-2.3.0.tar.gz, using following command
+            tar -zxvf scons-2.32.tar.gz
+        
+        3) cd ./scons-2.32 , install scon as README.txt said
+            python setup.py install     (root user)
+        
+        4) type command:
+            scons --help
+
+### Install
+
     At current directory, execute installation command "scons options" 
+
+        option 1:   prefix
+        option 2:   database
 
     default prefix=/usr/local, you can point it by:
 

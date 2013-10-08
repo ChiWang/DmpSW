@@ -22,9 +22,11 @@ ChuyangRDCDeploy
 
 # test directory
 test
-./*/test
-./*/*/test
 
 # vim .swp; emacs
 *.swp
 *~
+
+# created executable files
+dmp*
+!dmp*.cc
