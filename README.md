@@ -8,8 +8,8 @@ DAMPE Software
 ##  Installation
 
 ### Requirement
-Before install DMPSW, you need install Root, Geant4 and SCons first.
 
+DMPSW will uses tools Root, Geant4 and SCons.
 *Install ROOT
 
         1) download root_v5.34.09.source.tar.gz from http://root.cern.ch/drupal/content/production-version-534
