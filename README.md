@@ -60,6 +60,8 @@ Install SCons
 
 ### How to install
 
+Installation:
+
     At current directory, execute installation command 
 
         scons options
@@ -78,6 +80,9 @@ Install SCons
 
     Note:   the path of database must be a absolute path
 
+Set Environment
+
+    source /prefix/bin/thisdmpsw.sh
 
 ##  Development guid
 
