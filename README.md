@@ -109,6 +109,7 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
             ???
 
     5.5     simulation
+
         rawDataName-rec0-sim.root
               // CMD: dmpSim;   Input:  dmpGenertor-XXX???XXX.dat
               // the same as reconstruction/rawDatName-rec0.root
@@ -118,6 +119,7 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
 1.  cp *.scons SConstruct
 2.  scons debug=1
 3.  scons -c
+
         ## but there are some problems yet, like pathes(in code) for debug and for release are different 
         ?? using "/PREFIX/SubDirectoryName"
 
