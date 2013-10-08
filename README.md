@@ -71,16 +71,16 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
 
 5.  database (a directory or a soft link. Refer to Installation option)
 
-  there are directories:
-    *   raw
-    *   calibration
-    *   reconstruction
-    *   distribution
-    *   simulation      // is the same as reconstruction/rawDatName-rec0.root
+  There are directories:
+    *       raw
+    *       calibration
+    *       reconstruction
+    *       distribution
+    *       simulation                // is the same as reconstruction/rawDatName-rec0.root
 
     5.1   raw
-      real raw data, output from detector
-      ??  name format
+        real raw data, output from detector
+        ??  name format
 
     5.2   calibration
       rawDataName-cal0-psd.dat
