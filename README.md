@@ -10,7 +10,7 @@ DAMPE Software
 ### Requirement
 
 DMPSW will uses tools Root, Geant4 and SCons.
-*Install ROOT
+    *Install ROOT
 
         1) download root_v5.34.09.source.tar.gz from http://root.cern.ch/drupal/content/production-version-534
         
@@ -23,7 +23,7 @@ DMPSW will uses tools Root, Geant4 and SCons.
         
         5) make                   [or, make -j n for n core machines]
 
-*Install Geant4
+    *Install Geant4
 
         1) download geant4.9.6.p02.tar from http://geant4.web.cern.ch/geant4/support/download.shtml, using the button marked "GNU or Linux tar format, compre
         ssed using gzip (24.3Mb, 25480383 bytes)"
@@ -44,7 +44,7 @@ DMPSW will uses tools Root, Geant4 and SCons.
         Note: because of the datafile it takes up to an hour to config and install.
         Note: install GDML at the same time
 
-*Install SCons
+    *Install SCons
 
         1) download scons-2.3.0.tar.gz from http://www.scons.org/download.php
         
