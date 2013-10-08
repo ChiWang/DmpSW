@@ -26,53 +26,57 @@ DAMPE Software
 
 ### Software structure of development
 
-*   each module is a top-1 directory. Some modules(like RawDataConversion) depend on other modules, more details in their Readme.md
-*   some top-1 directories(like Calibration) has top-2 direcotry if necessary.
+*   each module is a top-1 directory. Some modules (like RawDataConversion) depend on other modules, more details in their Readme.md
+*   some top-1 directories (like Calibration) has top-2 direcotry if necessary.
 
 ### Structure of installation (after installation) 
-  These directories(or link) below will be created in "/prefix/DmpSW_Version"
-    *   bin
-    *   lib
-    *   include
-    *   share
-    *   database
+
+These directories (or link) below will be created in "/prefix/DmpSW_Version"
+
+  *   bin
+  *   lib
+  *   include
+  *   share
+  *   database
 
 1.  bin (executable files)
-  * thisdmpsw.sh        // shell environment
-  * dmpsw-config        // compilation options
-  * dmpSim              // Simulation of DAMPE
-  * dmpRecL0            // Reconstruction Level-0:  Raw Data Conversion
-  * dmpCalL0Ped         // Calibration Level-0: find pedestal
-  * dmpRecL1            // Reconstruction Level-1:  cal. data without pedestal
-  * dmpCalL0SBgoMip     // Calibration Level-0-Special-Bgo: find Mip
-  * dmpCalL0SBgoRel     // Calibration Level-0-Special-Bgo: find Relation
 
-  * dmpCalL0SPsdX       // Calibration Level-0-Special-Psd: XXXXX
-  * dmpCalL0SStkX       // Calibration Level-0-Special-Stk: XXXXX
-  * dmpCalL0SNudX       // Calibration Level-0-Special-Nud: XXXXX
-  * dmpCalL1            // Calibration Level-0: find XXXXX
-  * dmpRecL2            // Reconstruction Level-2:  ..... waiting to add
+  thisdmpsw.sh        // shell environment
+  dmpsw-config        // compilation options
+  dmpSim              // Simulation of DAMPE
+  dmpRecL0            // Reconstruction Level-0:  Raw Data Conversion
+  dmpCalL0Ped         // Calibration Level-0: find pedestal
+  dmpRecL1            // Reconstruction Level-1:  cal. data without pedestal
+  dmpCalL0SBgoMip     // Calibration Level-0-Special-Bgo: find Mip
+  dmpCalL0SBgoRel     // Calibration Level-0-Special-Bgo: find Relation
+  dmpCalL0SPsdX       // Calibration Level-0-Special-Psd: XXXXX
+  dmpCalL0SStkX       // Calibration Level-0-Special-Stk: XXXXX
+  dmpCalL0SNudX       // Calibration Level-0-Special-Nud: XXXXX
+  dmpCalL1            // Calibration Level-0: find XXXXX
+  dmpRecL2            // Reconstruction Level-2:  ..... waiting to add
 
 2.  lib (shared libraries)
-  * libdmpAnalysis.so
-  * libdmpEvent.so
+
+  libdmpAnalysis.so
+  libdmpEvent.so
 
 3.  include (needed header files while using libraries)
 
 4.  share (common files)
-  * geometry                // a directory store all GDML files
-  * connector               // FEE <--> Detector connection files
-  * example/DmpRecL0Input.infor  // example of the input file for bantch mode of dmpRecL0
-  * example/analysis        // analysis example. How to use distribuition data to analysis
+
+  geometry                      // a directory store all GDML files
+  connector                     // FEE <--> Detector connection files
+  example/DmpRecL0Input.infor   // example of the input file for bantch mode of dmpRecL0
+  example/analysis              // analysis example. How to use distribuition data to analysis
 
 5.  database (a directory or a soft link. Refer to Installation option)
 
   there are directories:
-  *   raw
-  *   calibration
-  *   reconstruction
-  *   distribution
-  *   simulation      // is the same as reconstruction/rawDatName-rec0.root
+    raw
+    calibration
+    reconstruction
+    distribution
+    simulation      // is the same as reconstruction/rawDatName-rec0.root
 
     5.1   raw
       real raw data, output from detector
