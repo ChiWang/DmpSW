@@ -161,50 +161,55 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
             whole detector: no;
             sub-detector:   Psd, Stk, Bgo, Nud, Header
 
-4.  file name
+4.  command (dmpATM{Level}{Detector})
 
-    4.1  for code
-    * header file: .hh      // in a directory "include", even only one header file
-    * source file: .cc      // in a directory "src", include main function
+        * dmp
+            Prefix of command
+        * ATM
+            Abbreviation of Top-1 Module as mentioned above
+        * {Level}
+            only one command in a module:   no Level
+            level from 0 to N
+        * {Detector}
+            for whole detector:     no Detector
+            for sub-detector:       Psd, Stk, Bgo, Nud
 
-    4.2  input files of command batch mode
-        name as the command with the suffix "Input.infor" and change the first "D" as uppercase letter
-        DmpRecL0Input.infor         // execute "dmpRecL0" will use DmpRecL0Input.infor defaultly
-        DmpRecL0Input_XXXX.infor    // execute "dmpRecL0 DmpRecL0Input_XXX.infor"
-    
-    4.3  FileName.scons is a compilation file which will be used by build tool "SCons".
-        Two kinds layout:
-        *   a CMD for certain sub-detector
-            FileName.scons in /path/CMDNamedDir/
-        *   a CMD for whole detector
-            FileName.scons at the same directory as /path/CMDNamedDir/
 
-    4.4  Readme.md
-        Except directores include, Scons, src, there is a file named Reade.md(or README.md) in all directories to explain:
+5.  file name
+
+    5.1  Readme.md
+
+        Except directores include, src, there is a file named Reade.md(or README.md) in all directories.
         *   Structure
         *   Usage
         *   Relation of other modules
         *   Debug method
         *   Bug report
         *   Others
-    4.5  Name.cnct
-        dectector <-> FEE, connection information
 
-5.  command (dmpATM{Level}{Detector})
+    5.2  for code
 
-    * dmp
-        Prefix of command
-    * ATM
-        Abbreviation of Top-1 Module as mentioned above
-    * {Level}
-        only one command in a module:   no Level
-        level from 0 to N
-    * {Detector}
-        for whole detector:     no Detector
-        for sub-detector:       Psd, Stk, Bgo, Nud
+        header file:    *.hh      // in a directory "include", even only one header file
+        source file:    *.cc      // in a directory "src", include main function
+            The main function for create a command in /path/src/CMDNamed.cc
 
-6.  command named source files (CMDNamed.cc, all uppercase letter of first "D")
+    5.3  FileName.scons
 
-        The main function for create a command in /path/src/CMDNamed.cc
+        compilation file which will be used by build tool "SCons". Two kinds layout:
+
+        * a CMD for certain sub-detector
+            FileName.scons in /path/CMDNamedDir/
+        * a CMD for whole detector
+            FileName.scons at the same directory as /path/CMDNamedDir/
+
+    5.4  file as command argument
+
+        name as the command with the suffix "Input.infor" and change the first "D" as uppercase letter
+        DmpRecL0Input.infor         // execute "dmpRecL0" will use DmpRecL0Input.infor defaultly
+        DmpRecL0Input_XXXX.infor    // execute "dmpRecL0 DmpRecL0Input_XXX.infor"
+    
+    5.5  FileName.cnct
+
+        dectector <-> FEE, connection information. Those files end with ".cnct"
 
 
