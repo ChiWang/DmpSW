@@ -32,12 +32,11 @@ DAMPE Software
 ### Structure of installation (after installation) 
 
 These directories (or link) below will be created in "/prefix/DmpSW_Version"
-
-  *   bin
-  *   lib
-  *   include
-  *   share
-  *   database
+*   bin
+*   lib
+*   include
+*   share
+*   database
 
 1.  bin (executable files)
 
@@ -76,7 +75,7 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
     *       calibration
     *       reconstruction
     *       distribution
-    *       simulation                // is the same as reconstruction/rawDatName-rec0.root
+    *       simulation
 
     5.1   raw
 
@@ -108,56 +107,59 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
     5.4   distribution
 
             ???
+
     5.5     simulation
+        rawDataName-rec0-sim.root
+              // CMD: dmpSim;   Input:  dmpGenertor-XXX???XXX.dat
+              // the same as reconstruction/rawDatName-rec0.root
 
 ### How to debug? (Refer to Readme.md in each directory)
 
 1.  cp *.scons SConstruct
 2.  scons debug=1
 3.  scons -c
-
-    ## but there are some problems yet, like pathes(in code) for debug and for release are different 
-    ?? using "/PREFIX/SubDirectoryName"
+        ## but there are some problems yet, like pathes(in code) for debug and for release are different 
+        ?? using "/PREFIX/SubDirectoryName"
 
 ### Convention
+
 1.  use detector names below ANY WHERE (except: data files are all lower case)
-    *   Psd
-    *   Stk
-    *   Bgo
-    *   Nud
-    *   Header      // Event Header
-    *   Dmg         // Data Management
-    *   Stl         // Satellite
+
+        Psd
+        Stk
+        Bgo
+        Nud
+        Header      // Event Header
+        Dmg         // Data Management
+        Stl         // Satellite
 
 2.  Abbreviation of Top-1 Module   (ATM)
-    *   Calibration:        Cal
-    *   Reconstruction:     Rec
-    *   RawDataConversion:  Rdc
-    *   Simulatin:          Sim
-    *   Visulization:       Vis
-    *   Event:              Evt
-    *   Analysis:           Ana
-    *   Generation:         Gen
-    *   DetectorCondition:  Dcd
-    *   Geometry:           Gem
+
+        Calibration:        Cal
+        Reconstruction:     Rec
+        RawDataConversion:  Rdc
+        Simulatin:          Sim
+        Visulization:       Vis
+        Event:              Evt
+        Analysis:           Ana
+        Generation:         Gen
+        DetectorCondition:  Dcd
+        Geometry:           Gem
 
 3.  class (DmpATM{SpecialKey}Dominant{sub-detector})
-    * Dmp
 
-        Prefix of class
-    * ATM
-
-        Abbreviation of Top-1 Module as mentioned above
-    * {SpecialKey}
-
-        normal class:   no SpecialKey
-        vertial class:  V
-    * Dominant
-
-        explain the usefulness. Example:    DmpRdcManager
-    * {sub-detector}
-        if for whole detector:  no
-        else:       Psd, Stk, Bgo, Nud, Header
+        * Dmp
+            Prefix of any class
+        * ATM
+            Abbreviation of Top-1 Module as mentioned above
+        * {SpecialKey}
+            normal class:   no SpecialKey;
+            vertial class:  V
+        * Dominant
+            explain the usefulness. Example:    DmpRdcManager
+        * {sub-detector}
+            whole detector: no;
+            sub-detector:   Psd, Stk, Bgo, Nud, Header
 
 4.  file name
 
