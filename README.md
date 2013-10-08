@@ -58,12 +58,13 @@ Install SCons
         4) type command:
             scons --help
 
-### Install
+### How to install
 
-    At current directory, execute installation command "scons options" 
+    At current directory, execute installation command 
 
-        option 1:   prefix
-        option 2:   database
+        scons options
+            option 1:   prefix
+            option 2:   database
 
     default prefix=/usr/local, you can point it by:
 
