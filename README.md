@@ -57,26 +57,26 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
 
 2.  lib (shared libraries)
 
-  libdmpAnalysis.so
-  libdmpEvent.so
+        libdmpAnalysis.so
+        libdmpEvent.so
 
 3.  include (needed header files while using libraries)
 
 4.  share (common files)
 
-  geometry                      // a directory store all GDML files
-  connector                     // FEE <--> Detector connection files
-  example/DmpRecL0Input.infor   // example of the input file for bantch mode of dmpRecL0
-  example/analysis              // analysis example. How to use distribuition data to analysis
+        geometry                      // a directory store all GDML files
+        connector                     // FEE <--> Detector connection files
+        example/DmpRecL0Input.infor   // example of the input file for bantch mode of dmpRecL0
+        example/analysis              // analysis example. How to use distribuition data to analysis
 
 5.  database (a directory or a soft link. Refer to Installation option)
 
   there are directories:
-    raw
-    calibration
-    reconstruction
-    distribution
-    simulation      // is the same as reconstruction/rawDatName-rec0.root
+    *   raw
+    *   calibration
+    *   reconstruction
+    *   distribution
+    *   simulation      // is the same as reconstruction/rawDatName-rec0.root
 
     5.1   raw
       real raw data, output from detector
