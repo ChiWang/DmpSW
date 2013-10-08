@@ -1,0 +1,2 @@
+
+##      Detector connection information

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<!-- Declare the given ENTITY -->
+<!DOCTYPE gdml [ 
+<!ENTITY materials SYSTEM "materials.xml">
+]>
+
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+<!-- This GDML file is BGO subdetector geometry description -->
+
+ <define>
+<!--define constants-->
+ <!--BGO detector:742*742*494.5mm-->
+  <constant name="BGO_detector_x" value="742" />
+  <constant name="BGO_detector_y" value="742" />
+  <constant name="BGO_detector_z" value="494.5" />
+ <!--layer thickness-->
+  <constant name="layerthickness" value="29" />
+ <!--first layer position Z-->
+  <constant name="FirstLayerPosZ" value="-188.5" />
+ <!--define rotation-->
+  <rotation name="orthogonal" z="pi/2." />
+ </define>
+
+ &materials;
+
+ <solids>
+  <box lunit="mm" name="BGO_detector_box" x="BGO_detector_x" y="BGO_detector_y" z="BGO_detector_z" />
+ </solids>
+
+ <structure>
+
+  <volume name="BGO_detector_vol" >
+   <materialref ref="Vacuum" />
+   <solidref ref="BGO_detector_box" />
+   
+   <physvol name="layer_00">
+    <file name="../layer.gdml" />
+    <position name="layer_Pos0" unit="mm" x="0" y="0" z="FirstLayerPosZ" />
+   </physvol>
+
+   <physvol name="layer_01">
+    <file name="../layer.gdml" />
+    <position name="layer_Pos1" unit="mm" x="0" y="0" z="FirstLayerPosZ+layerthickness" />
+    <rotationref ref="orthogonal" />
+   </physvol>
+  
+   <physvol name="layer_02">
+    <file name="../layer.gdml" />
+    <position name="layer_Pos2" unit="mm" x="0" y="0" z="FirstLayerPosZ+2*layerthickness" />
+   </physvol>
+
+   <physvol name="layer_03">
+    <file name="../layer.gdml" />
+    <position name="layer_Pos3" unit="mm" x="0" y="0" z="FirstLayerPosZ+3*layerthickness" />
+    <rotationref ref="orthogonal" />
+   </physvol>
+
+   <physvol name="layer_04">
+    <file name="../layer.gdml" />
+    <position name="layer_Pos4" unit="mm" x="0" y="0" z="FirstLayerPosZ+4*layerthickness" />
+   </physvol>
+
+   <physvol name="layer_05">
+    <file name="../layer.gdml" />
+    <position name="layer_Pos5" unit="mm" x="0" y="0" z="FirstLayerPosZ+5*layerthickness" />
+    <rotationref ref="orthogonal" />
+   </physvol>
+
+   <physvol name="layer_06">
+    <file name="../layer.gdml" />
+    <position name="layer_Pos6" unit="mm" x="0" y="0" z="FirstLayerPosZ+6*layerthickness" />
+   </physvol>
+
+   <physvol name="layer_07">
+    <file name="../layer.gdml" />
+    <position name="layer_Pos7" unit="mm" x="0" y="0" z="FirstLayerPosZ+7*layerthickness" />
+    <rotationref ref="orthogonal" />
+   </physvol>
+
+   <physvol name="layer_08">
+    <file name="../layer.gdml" />
+    <position name="layer_Pos8" unit="mm" x="0" y="0" z="FirstLayerPosZ+8*layerthickness" />
+   </physvol>
+
+   <physvol name="layer_09">
+    <file name="../layer.gdml" />
+    <position name="layer_Pos9" unit="mm" x="0" y="0" z="FirstLayerPosZ+9*layerthickness" />
+    <rotationref ref="orthogonal" />
+   </physvol>
+
+   <physvol name="layer_10">
+    <file name="../layer.gdml" />
+    <position name="layer_Pos10" unit="mm" x="0" y="0" z="FirstLayerPosZ+10*layerthickness" />
+   </physvol>
+
+   <physvol name="layer_11">
+    <file name="../layer.gdml" />
+    <position name="layer_Pos11" unit="mm" x="0" y="0" z="FirstLayerPosZ+11*layerthickness" />
+    <rotationref ref="orthogonal" />
+   </physvol>
+
+   <physvol name="layer_12">
+    <file name="../layer.gdml" />
+    <position name="layer_Pos12" unit="mm" x="0" y="0" z="FirstLayerPosZ+12*layerthickness" />
+   </physvol>
+
+   <physvol name="layer_13">
+    <file name="../layer.gdml" />
+    <position name="layer_Pos13" unit="mm" x="0" y="0" z="FirstLayerPosZ+13*layerthickness" />
+    <rotationref ref="orthogonal" />
+   </physvol>
+
+  </volume>
+
+<!--tesworld is used in testing BGO_detector_vol visualizaion,it will be deleted soon-->
+  <volume name="tesworld" >
+   <materialref ref="Vacuum" />
+   <solidref ref="BGO_detector_box" />
+
+   <physvol>
+    <volumeref ref="BGO_detector_vol" />
+    <position name="tesPos" unit="mm" x="0" y="0" z="0" />
+   </physvol>
+
+  </volume>
+<!--//////////////////testworld////////////////-->
+ </structure>
+
+ <setup name="Default" version="1.0" >
+  <!--<world ref="BGO_detector_vol" />-->
+  <world ref="tesworld" />
+ </setup>
+
+</gdml>
+

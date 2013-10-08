@@ -1,0 +1,83 @@
+#=============================================================================
+#       FileName :          SConscript
+#       Version  :          0.0.1
+#       Author   :          Chi    (chiwang@mail.ustc.edu.cn)
+#       Time     :          2013-07-24   21:51:55
+#
+#------------------------------------------------------------------------------
+#       Description  :
+#         *** Default degub=0, scons debug=1 will create in debug mode
+#               means: create all thing in current directory instead of install into /prefix
+#
+#           Using Root
+#               ARGUMENTS.get('root',value):        set default use(value=1) root;
+#               if execute "scons root=0"   will not use root
+#           Using Geant4
+#               ARGUMENTS.get('g4',value):          set default use(value=1) geant4;
+#               if execute "scons g4=0"   will not use geant4
+#           Using OpenMP
+#               ARGUMENTS.get('omp',value):         set default use(value=1) OpenMP;
+#               if execute "scons omp=0"   will not use OpenMP
+#
+#------------------------------------------------------------------------------
+#       History  :
+#                                          Update:  2013-09-20   12:42:21
+#=============================================================================
+
+print "\n\t\t--->building Event module"
+
+import os
+EnvEvt = Environment(ENV = os.environ)
+
+#   set the programme name
+LibName='DmpEvent'
+
+#   set debug modle.
+#    if yes, then can use gdb:  http://www.ibm.com/developerworks/cn/linux/sdk/gdb/
+debug=ARGUMENTS.get('debug',1)
+if int(debug):
+    print "\t\t debug mode"
+    EnvEvt.Prepend(CCFLAGS = '-g')
+    EnvEvt.Append(CCFLAGS = '-DDEBUG')
+    installdir="./"
+else:
+    EnvEvt.Append(CCFLAGS = '-DRELEASE')
+    Import('PREFIX')
+    installdir=PREFIX
+
+#   set Geant4 environment
+if int(ARGUMENTS.get('g4',0)):
+    g4sys=os.environ['G4INSTALL']
+    EnvEvt.PrependENVPath('PATH', g4sys+'/bin')
+    EnvEvt.ParseConfig("geant4-config --cflags --libs")
+
+#   set Root environment
+if int(ARGUMENTS.get('root',1)):
+    rootsys=os.environ['ROOTSYS']
+    EnvEvt.PrependENVPath('PATH', rootsys+'/bin')
+    EnvEvt.ParseConfig("root-config --cflags --libs")
+
+#   set OpenMP
+if int(ARGUMENTS.get('omp',0)):
+    LibName=LibName+"_omp"
+    EnvEvt.MergeFlags('-fopenmp')
+
+#   include
+for key in ['DmpEvent','Psd','Stk','Bgo','Nud','Header']:
+    includeDir=key+'/include'
+    if int( not debug):
+        for file in os.listdir(includeDir):
+            Default(Command(PREFIX+'/include/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
+    EnvEvt.Prepend(CPPPATH=[includeDir])
+
+#   Use other top-1 module
+    #+  DetectorCondition
+M1Path='../DetectorCondition/Parameter'
+EnvEvt.Prepend(CPPPATH=[M1Path+'/include'])
+
+#   main build
+execute=EnvEvt.SharedLibrary(LibName,Glob('./*/src/*.cc'))
+if (installdir != "./" ):
+    Default(EnvEvt.InstallAs(installdir+"/lib/lib"+LibName+".so",execute))
+
+

@@ -1,0 +1,5 @@
+
+#
+print "\n\t\t--->building Generation module\n"
+
+Import('PREFIX')

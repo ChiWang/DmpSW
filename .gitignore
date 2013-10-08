@@ -4,6 +4,7 @@
 *.o
 
 # Compiled Dynamic libraries
+*.os
 *.so
 *.dylib
 
@@ -11,3 +12,19 @@
 *.lai
 *.la
 *.a
+
+# this is Chuyang RawDataConversion only for deploy, it's another reponsitory: https://github.com/ChiWang/CRDCUSTC
+ChuyangRDCDeploy
+
+# scons temprary
+#.sconsign.dblite
+*.dblite
+
+# test directory
+test
+./*/test
+./*/*/test
+
+# vim .swp; emacs
+*.swp
+*~

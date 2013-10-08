@@ -1,0 +1,93 @@
+<!-- this is a file defining materials in split.gdml -->
+<!-- it is _not_ a standalone GDML file -->
+
+<!-- Define all materials used in DAMPE -->
+
+ <materials>
+<!--define element-->
+  <element Z="14" formula="Si" name="Si" >
+   <atom value="28.085" />
+  </element>
+
+  <element Z="83" formula="Bi" name="Bi" >
+   <atom value="208.980" />
+  </element>
+
+  <element Z="32" formula="Ge" name="Ge" >
+   <atom value="72.63" />
+  </element>
+
+  <element Z="8" formula="O" name="O" >
+   <atom value="15.999" />
+  </element>
+
+  <element Z="8" formula="C" name="C" >
+   <atom value="12.011" />
+  </element>
+
+  <element Z="1" formula="H" name="H" >
+   <atom value="1.008" />
+  </element>
+
+  <element Z="79" formula="Au" name="Au" >
+   <atom value="196.967" />
+  </element>
+
+  <element Z="82" formula="Pb" name="Pb" >
+   <atom value="207.2" />
+  </element>
+
+  <element Z="13" formula="Al" name="Al" >
+   <atom value="26.982" />
+  </element>
+
+  <!--Tantalum-->
+  <element Z="73" formula="Ta" name="Ta" >
+   <atom value="180.948" />
+  </element>
+
+  <element Z="26" formula="Fe" name="Fe" >
+   <atom value="55.845" />
+  </element>
+
+  <element Z="55" formula="Cs" name="Cs" >
+   <atom value="132.905" />
+  </element>
+
+  <element Z="53" formula="I" name="I" >
+   <atom value="126.904" />
+  </element>
+
+<!--define material-->
+  <!--BGO-->
+  <material name="BGO" formula="Bi4Ge3O12" >
+   <D value="7.13" unit="g/cm3" />
+   <composite n="4" ref="Bi" />
+   <composite n="3" ref="Ge" />
+   <composite n="12" ref="O" />
+  </material>
+
+  <!--Carbon Fiber-->
+  <material name="CarbonFiber" formula="CH2" >
+   <D value="1.62" unit="g/cm3" />
+   <composite n="1" ref="C" />
+   <composite n="2" ref="H" />
+  </material>
+
+  <!--CsI solid-->
+  <material name="CsI" formula="CsI" >
+   <D value="4.51" unit="g/cm3" />
+   <composite n="1" ref="Cs" />
+   <composite n="1" ref="I" />
+  </material>
+
+  <!--Vacuum-->
+  <element name="videRef" formula="VACUUM" Z="1">
+   <atom value="1."/>
+  </element>
+  <material formula=" " name="Vacuum">
+   <D value="1.e-25" unit="g/cm3" />
+   <fraction n="1.0" ref="videRef" />
+  </material>
+
+ </materials>

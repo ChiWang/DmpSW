@@ -1,0 +1,22 @@
+
+#   shared files, only need to copy them into software
+
+print "\n\t\t--->building Detector Condition module\n"
+
+import os
+
+Import('PREFIX')
+installdir=PREFIX
+
+#  copy Connection/* into /prefix/share/connector
+import shutil
+if not (os.path.exists(PREFIX+'/share/connector')):
+    shutil.copytree('Connector',PREFIX+'/share/connector')
+
+
+#  copy Parameter/include/* into /prefix/include/
+includeDir='Parameter/include'
+for file in os.listdir(includeDir):
+    Default(Command(PREFIX+'/include/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
+
+

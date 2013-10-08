@@ -1,0 +1,17 @@
+
+#   shared files, only need to copy them into software
+
+print "\n\t\t--->building Geometry module\n"
+
+import os
+
+Import('PREFIX')
+installdir=PREFIX
+
+#  copy Parameter/include/* into /prefix/include/
+includeDir='./'
+for file in os.listdir(includeDir):
+    if ( ".gdml" in file):
+        Default(Command(PREFIX+'/share/geometry/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
+
+
