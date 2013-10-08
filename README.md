@@ -79,10 +79,12 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
     *       simulation                // is the same as reconstruction/rawDatName-rec0.root
 
     5.1   raw
+
         real raw data, output from detector
         ??  name format
 
     5.2   calibration
+
       rawDataName-cal0-psd.dat
             // CMD:   dmpCalL0;   Input:  rawDataName-rec0.root
       rawDataName-cal0-stk.dat
