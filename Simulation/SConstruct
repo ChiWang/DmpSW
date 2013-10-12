@@ -34,13 +34,13 @@ ExeName='dmpSim'
 
 #   set debug modle.
 #    if yes, then can use gdb:  http://www.ibm.com/developerworks/cn/linux/sdk/gdb/
-debug=ARGUMENTS.get('debug',1)
+debug=ARGUMENTS.get('debug',0)
 if int(debug):
     print "\t\t debug mode"
     EnvSim.Prepend(CCFLAGS = '-g')
     EnvSim.Append(CCFLAGS = '-DDEBUG')
     installdir="./"
-    SConscript(['../Event/SConstruct'])    # need libdmpEvent
+    SConscript(['../Event/Event.scons'])    # need libdmpEvent
 else:
     EnvSim.Append(CCFLAGS = '-DRELEASE')
     Import('PREFIX')

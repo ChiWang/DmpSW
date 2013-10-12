@@ -40,7 +40,7 @@ if int(debug):
     EnvRdc.Prepend(CCFLAGS = '-g')
     EnvRdc.Append(CCFLAGS = '-DDEBUG')
     installdir="./"
-    SConscript(['../Event/Event.scons'])    # need libdmpEvent
+    SConscript(['../Event/Event.scons'])    # need libDmpEvent
 else:
     EnvRdc.Append(CCFLAGS = '-DRELEASE')
     Import('PREFIX')

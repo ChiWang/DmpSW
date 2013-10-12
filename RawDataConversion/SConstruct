@@ -64,7 +64,6 @@ if int(ARGUMENTS.get('omp',0)):
     EnvRdc.MergeFlags('-fopenmp')
 
 #   include
-EnvRdc.Append(CPPPATH = '../include')
 for key in ['DmpRdc','Psd','Stk','Bgo','Nud','Header']:
     includeDir=key+'/include'
     EnvRdc.Prepend(CPPPATH=[includeDir])

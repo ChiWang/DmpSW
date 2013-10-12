@@ -19,6 +19,7 @@
 
     *Input
         *   DmpSimInput.infor                   // output of dmpGenertor
+        *   /trunk/Geometry/*gdml               // GDML files
 
     *Output (root file of whole detector, with 5 treees. same as reconstruction/rawDataName-rec0.root)
         *   rawDataName-rec0-sim.root

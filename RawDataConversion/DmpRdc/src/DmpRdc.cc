@@ -29,13 +29,6 @@ int main(int argc, char* argv[]){
   TString inFileName = "DmpRdcInput.infor";
   if (argc == 2) inFileName = argv[1];
 
-  string note, dataName, inDataPath,outDataPath;
-  DmpRdcManager* RdcMan = DmpRdcManager::GetInstance();
-  if ( !RdcMan->GetPsd()->SetConnector()) return 0;
-  if ( !RdcMan->GetStk()->SetConnector()) return 0;
-  if ( !RdcMan->GetBgo()->SetConnector()) return 0;
-  if ( !RdcMan->GetNud()->SetConnector()) return 0;
-
   ifstream* BatchInfor = 0;
   if ( inFileName.Contains(".infor") && inFileName.Contains("DmpRdcInput") ) {
     BatchInfor = new ifstream (inFileName,ios::in);
@@ -44,9 +37,17 @@ int main(int argc, char* argv[]){
   }
 
   if (!BatchInfor->good()) {
-    cout<<"\n\t---->Error: there's not a file named "<<inFileName<<" at current directory"<<endl;
+    cout<<"\n\t---->Error: there's not a file named "<<inFileName<<endl;
     return 0;
   }
+
+  string note, dataName, inDataPath,outDataPath;
+  DmpRdcManager* RdcMan = DmpRdcManager::GetInstance();
+  if ( !RdcMan->GetPsd()->SetConnector()) return 0;
+  if ( !RdcMan->GetStk()->SetConnector()) return 0;
+  if ( !RdcMan->GetBgo()->SetConnector()) return 0;
+  if ( !RdcMan->GetNud()->SetConnector()) return 0;
+
   for (Short_t i=0;i<4;++i) {
     getline(*BatchInfor,note);    // reserved 4 lines for note
   }

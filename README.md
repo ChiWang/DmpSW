@@ -5,9 +5,7 @@ DmpSW
 DAMPE Software
 
 
-##  Installation
-
-### Requirement
+##  Requirement
 
 DMPSW will uses tools Root, Geant4 and SCons.
 
@@ -58,7 +56,7 @@ Install SCons
         4) type command:
             scons --help
 
-### How to install
+## How to install DMPSW (This part is not used before publish DMPSW for user out of DAMPE group)
 
 Installation:
 
@@ -84,7 +82,8 @@ Set Environment
 
     source /prefix/bin/thisdmpsw.sh
 
-##  Development guid
+##  Development guide
+
 
 ### Software structure of development
 
@@ -106,7 +105,7 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
         dmpsw-config        // compilation options
         dmpSim              // Simulation of DAMPE
         dmpRecL0            // Reconstruction Level-0:  Raw Data Conversion
-        dmpCalL0Ped         // Calibration Level-0: find pedestal
+        dmpCalL0            // Calibration Level-0: find pedestal
         dmpRecL1            // Reconstruction Level-1:  cal. data without pedestal
         dmpCalL0SBgoMip     // Calibration Level-0-Special-Bgo: find Mip
         dmpCalL0SBgoRel     // Calibration Level-0-Special-Bgo: find Relation
@@ -179,11 +178,9 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
 ### How to debug? (Refer to Readme.md in each directory)
 
 1.  cp *.scons SConstruct
-2.  scons debug=1
-3.  scons -c
+2.  scons                   // Or use: scons debug=1
+3.  scons -c                // Or, append debug=1 
 
-        ## but there are some problems yet, like pathes(in code) for debug and for release are different 
-        ?? using "/PREFIX/SubDirectoryName"
 
 ### Convention
 
@@ -275,5 +272,20 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
     5.5  FileName.cnct
 
         dectector <-> FEE, connection information. Those files end with ".cnct"
+
+### Others
+
+1.  All personal test must in "test" directory, you can create "test" directory at wherever you need. Then other people will not waste their time on checking test.
+
+2.  We set macro definition of "DEBUG" and "RELEASE" if you use our SCons files, it will makes your code more flexible, for example:
+
+    #ifdef DEBUG
+      cout<<"some thing you want to check"<<endl;
+      // or some thing you need for debug.
+    #endif
+    #ifdef RELEASE
+      cout<<"This is release mode. I'm (this line) is useless"<<endl;
+      // or some thing for release.
+    #endif
 
 

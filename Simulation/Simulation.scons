@@ -40,7 +40,7 @@ if int(debug):
     EnvSim.Prepend(CCFLAGS = '-g')
     EnvSim.Append(CCFLAGS = '-DDEBUG')
     installdir="./"
-    SConscript(['../Event/Event.scons'])    # need libdmpEvent
+    SConscript(['../Event/Event.scons'])    # need libDmpEvent
 else:
     EnvSim.Append(CCFLAGS = '-DRELEASE')
     Import('PREFIX')
@@ -67,7 +67,7 @@ if int(ARGUMENTS.get('omp',0)):
     EnvSim.MergeFlags('-fopenmp')
 
 #   include
-for key in ['DmpSimu','Psd','Stk','Bgo','Nud','Trigger']:
+for key in ['DmpSim','Psd','Stk','Bgo','Nud','Trigger']:
     includeDir=key+'/include'
     EnvSim.Prepend(CPPPATH=[includeDir])
 

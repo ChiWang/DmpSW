@@ -24,7 +24,7 @@ if [ ! $DMPSWSYS ];then
     export DMPSWSYS=${PWD%"/bin"}
     unset $PWD
     export DMPSWDB=$DMPSWSYS/database
-    export PATH=$DMPSWSYS/Install/bin:$PATH
-    export LD_LIBRARY_PATH=$DMPSWSYS/Install/lib:$LD_LIBRARY_PATH
+    export PATH=$DMPSWSYS/bin:$PATH
+    export LD_LIBRARY_PATH=$DMPSWSYS/lib:$LD_LIBRARY_PATH
 fi
 
