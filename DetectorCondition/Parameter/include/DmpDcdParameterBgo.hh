@@ -19,12 +19,12 @@
 namespace DmpDcdParameter{
 
   namespace Bgo{            //Sub-detector  Bgo parameters                             
-    const short kPlaneNb = 2;
+    const short kPlaneNb = 1;
     const short kBarNb   = 22;
     const short kRefBarNb= 2;
     const short kSideNb  = 2;
     const short kDyNb    = 3;
-    const short kStdDataLength = ((kBarNb+kRefBarNb)*kDyNb*2+3)*2;          //3: (1)data Length 0x00a2; (2)reverse 0x0000; (3)CRC 0x0xxx.  *2:to unit Byte
+    const short kStdDataLength = ((kBarNb+kRefBarNb)*kDyNb*kSideNb+3)*2;          //3: (1)data Length 0x00a2; (2)reverse 0x0000; (3)CRC 0x0xxx.  *2:to unit Byte
   }
 
 }

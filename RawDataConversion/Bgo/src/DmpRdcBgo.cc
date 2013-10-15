@@ -78,21 +78,21 @@ Bool_t DmpRdcBgo::Conversion(ifstream *HexData){
   Short_t nChan=0, dataLong=0;
   Short_t rawHex[2]={0};
 
-  for (Short_t p=0;p<kPlaneNb;++p) {
+  for (Short_t pl=0;pl<kPlaneNb*2;++pl) {
     Short_t tmp=0;
     HexData->read((char*)(&tmp),1);
     if (tmp!=0xeb) {
-      cout<<"\t\t\t\t----> 0xeb wrong"<<tmp<<endl;
+      cout<<"\t\t\t\t----> 0xeb wrong\t"<<hex<<tmp<<endl;
       return false;
     }
     HexData->read((char*)(&tmp),1);
     if (tmp!=0x90) {
-      cout<<"\t\t\t\t----> 0x90 wrong"<<tmp<<endl;
+      cout<<"\t\t\t\t----> 0x90 wrong\t"<<hex<<tmp<<endl;
       return false;
     }
     HexData->read((char*)(&tmp),1);         //trigger
     HexData->read((char*)(&feeID),1);
-    if (p == 0) {                           //trigger check, runMode check
+    if (pl == 0) {                           //trigger check, runMode check
       fTrigger = tmp;
       fEvt->SetMode(DmpDcdRunMode(feeID/16));
     } else {
