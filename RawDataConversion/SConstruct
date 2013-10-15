@@ -39,7 +39,7 @@ if int(debug):
     print "\t\t debug mode"
     EnvRdc.Prepend(CCFLAGS = '-g')
     EnvRdc.Append(CCFLAGS = '-DDEBUG')
-    installdir="./"
+    installdir=os.environ['DMPSWWORKGit']
     SConscript(['../Event/SConstruct'])    # need libDmpEvent
 else:
     EnvRdc.Append(CCFLAGS = '-DRELEASE')
@@ -82,7 +82,6 @@ for key in ['DmpEvent','Header','Psd','Stk','Bgo','Nud']:
 
 #   main build
 execute=EnvRdc.Program(ExeName,Glob('./*/src/*.cc'))
-if (installdir != "./" ):
-    Default(EnvRdc.InstallAs(installdir+'/bin/'+ExeName,execute))
+Default(EnvRdc.InstallAs(installdir+'/bin/'+ExeName,execute))
 
 

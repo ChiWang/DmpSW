@@ -1,9 +1,4 @@
 
-##  fConnectorPath Issue
-
-    in DmpRdc/src/DmpRdcVBasic.cc
-    ***     if we install into prefix, how can we find the path in C++ code   ***
-
 #   Raw Data Conversion  Module of Dampe software
 
     *Goal

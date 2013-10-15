@@ -39,7 +39,7 @@ if int(debug):
     print "\t\t debug mode"
     EnvCalL0SBgoR.Prepend(CCFLAGS = '-g')
     EnvCalL0SBgoR.Append(CCFLAGS = '-DDEBUG')
-    installdir="./"
+    installdir=os.environ['DMPSWWORKGit']
     SConscript(['../../../Event/SConstruct'])    # need libDmpEvent
 else:
     EnvCalL0SBgoR.Append(CCFLAGS = '-DRELEASE')
@@ -80,7 +80,6 @@ for key in ['DmpEvent','Header','Psd','Stk','Bgo','Nud']:
 
 #   main build
 execute=EnvCalL0SBgoR.Program(ExeName,Glob('./src/*.cc'))
-if (installdir != "./" ):
-    Default(EnvCalL0SBgoR.InstallAs(installdir+'/bin/'+ExeName,execute))
+Default(EnvCalL0SBgoR.InstallAs(installdir+'/bin/'+ExeName,execute))
 
 

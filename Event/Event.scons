@@ -39,7 +39,7 @@ if int(debug):
     print "\t\t debug mode"
     EnvEvt.Prepend(CCFLAGS = '-g')
     EnvEvt.Append(CCFLAGS = '-DDEBUG')
-    installdir="./"
+    installdir=os.environ['DMPSWWORKGit']
 else:
     EnvEvt.Append(CCFLAGS = '-DRELEASE')
     Import('PREFIX')
@@ -77,7 +77,6 @@ EnvEvt.Prepend(CPPPATH=[M1Path+'/include'])
 
 #   main build
 execute=EnvEvt.SharedLibrary(LibName,Glob('./*/src/*.cc'))
-if (installdir != "./" ):
-    Default(EnvEvt.InstallAs(installdir+"/lib/lib"+LibName+".so",execute))
+Default(EnvEvt.InstallAs(installdir+"/lib/lib"+LibName+".so",execute))
 
 

@@ -13,6 +13,11 @@
 #                                          Update:  2013-10-03   21:29:20
 =============================================================================*/
 
+
+#ifdef DEBUG
+#include <iostream>
+using namespace std;
+#endif
 #include "TFile.h"
 #include "TTree.h"
 #include "TString.h"
@@ -41,7 +46,7 @@ void DmpEvtVBasic::Reset(){
 
 void DmpEvtVBasic::BookTree(TString treeName){
   fNewTree = true;
-  TTree* fTree = new TTree(treeName,treeName);
+  fTree = new TTree(treeName,treeName);
   fTree->Branch("Mode",&fMode,"fMode/S");
 }
 

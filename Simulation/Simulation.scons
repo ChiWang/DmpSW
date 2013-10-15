@@ -39,7 +39,7 @@ if int(debug):
     print "\t\t debug mode"
     EnvSim.Prepend(CCFLAGS = '-g')
     EnvSim.Append(CCFLAGS = '-DDEBUG')
-    installdir="./"
+    installdir=os.environ['DMPSWWORKGit']
     SConscript(['../Event/Event.scons'])    # need libDmpEvent
 else:
     EnvSim.Append(CCFLAGS = '-DRELEASE')
@@ -85,6 +85,5 @@ for key in ['DmpEvent','Header','Psd','Stk','Bgo','Nud']:
 
 #   main build
 execute=EnvSim.Program(ExeName,Glob('./*/src/*.cc'))
-if (installdir != "./" ):
-    Default(EnvSim.InstallAs(installdir+'/bin/'+ExeName,execute))
+Default(EnvSim.InstallAs(installdir+'/bin/'+ExeName,execute))
 

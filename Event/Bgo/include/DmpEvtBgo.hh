@@ -19,6 +19,7 @@
 #define DmpEvtBgo_H
 
 #include <iostream>
+//#include <vector>
 
 #include "DmpEvtVBasicSubDet.hh"
 
@@ -33,11 +34,11 @@ class DmpEvtBgoRaw : public DmpEvtVBasicSubDet{
   void   SetSignal(Short_t layerID,Short_t barID,Short_t sideID,Short_t dyID,Float_t adc);        // set a signal of one channal in a event
 
  private:
-  std::vector<Short_t>   fLayerID;         // one event 2016 channles signal at most.
-  std::vector<Short_t>   fBarID;
-  std::vector<Short_t>   fSideID;
-  std::vector<Short_t>   fDyID;
-  std::vector<Short_t>   fADC;
+  std::vector<int>   *fLayerID;         // one event 2016 channles signal at most.  Must use <int> or <double> here
+  std::vector<int>   *fBarID;
+  std::vector<int>   *fSideID;
+  std::vector<int>   *fDyID;
+  std::vector<int>   *fADC;
 /*
   Short_t   fLayerID[2016];         // one event 2016 channles signal at most.
   Short_t   fBarID[2016];

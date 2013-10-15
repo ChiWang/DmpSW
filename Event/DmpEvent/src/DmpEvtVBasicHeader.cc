@@ -25,8 +25,8 @@ void DmpEvtVBasicHeader::BookBranchHeader(){
     fTree->Branch("EventID",&fEvtID,"fEvtID/L");
     fTree->Branch("Second",&fSec,"fSec/L");
     fTree->Branch("mSecond",&fmSec,"fSec/S");
-    fTree->Branch("TimeGap/mSec",&fTimeGap,"fTimeGap/L");
-    fTree->Branch("Particle ID",&fPID,"fPID/S");
+    fTree->Branch("TimeGap",&fTimeGap,"fTimeGap/L");
+    fTree->Branch("ParticleID",&fPID,"fPID/S");
   } else {
     fTree->SetBranchAddress("EventID",&fEvtID);
     fTree->SetBranchAddress("Second",&fSec);

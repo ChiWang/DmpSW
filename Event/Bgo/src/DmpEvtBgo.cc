@@ -13,19 +13,19 @@
 #                                          Update:  2013-10-03   20:04:22
 =============================================================================*/
 
-
 #include "TFile.h"
 #include "TTree.h"
 #include "TString.h"
 
 #include "DmpEvtBgo.hh"
 
+
 DmpEvtBgoRaw::DmpEvtBgoRaw(){
-  fLayerID.clear();
-  fBarID.clear();
-  fSideID.clear();
-  fDyID.clear();
-  fADC.clear();
+  fLayerID = new std::vector<int>();
+  fBarID = new std::vector<int>();
+  fSideID = new std::vector<int>();
+  fDyID = new std::vector<int>();
+  fADC = new std::vector<int>();
 }
 
 DmpEvtBgoRaw::~DmpEvtBgoRaw(){
@@ -55,19 +55,19 @@ TTree* DmpEvtBgoRaw::GetTree(TString treeName, TFile* rootFile){
 
 void DmpEvtBgoRaw::Reset(){
   fNSignal = 0;
-  fLayerID.clear();
-  fBarID.clear();
-  fSideID.clear();
-  fDyID.clear();
-  fADC.clear();
+  fLayerID->clear();
+  fBarID->clear();
+  fSideID->clear();
+  fDyID->clear();
+  fADC->clear();
 }
 
 void DmpEvtBgoRaw::SetSignal(Short_t LID,Short_t BID,Short_t SID,Short_t DID,Float_t ADC){
-  fLayerID.push_back(LID);
-  fBarID.push_back(BID);
-  fSideID.push_back(SID);
-  fDyID.push_back(DID);
-  fADC.push_back(ADC);
+  fLayerID->push_back(LID);
+  fBarID->push_back(BID);
+  fSideID->push_back(SID);
+  fDyID->push_back(DID);
+  fADC->push_back(ADC);
   ++fNSignal;
 }
 

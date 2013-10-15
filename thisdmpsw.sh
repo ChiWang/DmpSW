@@ -9,22 +9,27 @@
 #       Description  :
 #           *   after installation, source this file in .zshrc(.bashrc), then you can use DampeSoftware
 #
-#       **  NOTE  **
-#           *   this file must in /prefix/bin
 #
 #------------------------------------------------------------------------------
 #       History  :
 #                                          Update:  2013-10-01   18:56:05
+#
 #=============================================================================
 
 
-#+  Set DAMPE software environment
-if [ ! $DMPSWSYS ];then
-    PWD=`pwd`
-    export DMPSWSYS=${PWD%"/bin"}
-    unset $PWD
-    export DMPSWDB=$DMPSWSYS/database
-    export PATH=$DMPSWSYS/bin:$PATH
-    export LD_LIBRARY_PATH=$DMPSWSYS/lib:$LD_LIBRARY_PATH
+#+  Set DAMPE software developement environment         # for developer
+if [ ! $DMPSWWORKGit ];then
+  export DMPSWWORKGit=$HOME/DMPSWWOKGit
+  export PATH=$DMPSWWORKGit/bin:$PATH
+  export LD_LIBRARY_PATH=$DMPSWWORKGit/lib:$LD_LIBRARY_PATH
 fi
+
+#+  Set DAMPE software installation environment         # for future general user installation
+#if [ ! $DMPSWSYS ];then
+#  PWD=`pwd`
+#  export DMPSWSYS=${PWD%"/bin"}      # if use this line, this file must in /prefix/bin
+#  export DMPSWDB=$DMPSWSYS/database
+#  export PATH=$DMPSWSYS/bin:$PATH
+#  export LD_LIBRARY_PATH=$DMPSWSYS/lib:$LD_LIBRARY_PATH
+#fi
 
