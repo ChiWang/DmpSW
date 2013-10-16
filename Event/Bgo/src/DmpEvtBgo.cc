@@ -25,35 +25,22 @@ DmpEvtBgoRaw::DmpEvtBgoRaw(){
   fBarID = new std::vector<int>();
   fSideID = new std::vector<int>();
   fDyID = new std::vector<int>();
-  fADC = new std::vector<int>();
+  fADC = new std::vector<double>();
 }
 
 DmpEvtBgoRaw::~DmpEvtBgoRaw(){
 }
 
-TTree* DmpEvtBgoRaw::GetTree(TString treeName){
-  BookTree(treeName);
-  BookBranchSubDet();
-  fTree->Branch("LayerID",  &fLayerID);
-  fTree->Branch("BarID",    &fBarID);
-  fTree->Branch("SideID",   &fSideID);
-  fTree->Branch("DyID",     &fDyID);
-  fTree->Branch("ADC",      &fADC);
-  return fTree;
-}
-
-TTree* DmpEvtBgoRaw::GetTree(TString treeName, TFile* rootFile){
-  BookTree(treeName,rootFile);
-  BookBranchSubDet();
-  fTree->SetBranchAddress("LayerID",&fLayerID);
-  fTree->SetBranchAddress("BarID",  &fBarID);
-  fTree->SetBranchAddress("SideID", &fSideID);
-  fTree->SetBranchAddress("DyID",   &fDyID);
-  fTree->SetBranchAddress("ADC",    &fADC);
-  return fTree;
+Bool_t DmpEvtBgoRaw::BookBranch(){
+  if (!fTree)   return false;
+  BookBranchBasic("Bgo");
+  BookBranchSubDet("Bgo");
+  BookBranchBgoRaw();
+  return true;
 }
 
 void DmpEvtBgoRaw::Reset(){
+  fMode = kMixed;
   fNSignal = 0;
   fLayerID->clear();
   fBarID->clear();
@@ -71,4 +58,19 @@ void DmpEvtBgoRaw::SetSignal(Short_t LID,Short_t BID,Short_t SID,Short_t DID,Flo
   ++fNSignal;
 }
 
+void DmpEvtBgoRaw::BookBranchBgoRaw(){
+  if (fRootFile) {
+    fTree->SetBranchAddress("Bgo_LayerID",&fLayerID);
+    fTree->SetBranchAddress("Bgo_BarID",  &fBarID);
+    fTree->SetBranchAddress("Bgo_SideID", &fSideID);
+    fTree->SetBranchAddress("Bgo_DyID",   &fDyID);
+    fTree->SetBranchAddress("Bgo_ADC",    &fADC);
+  } else {
+    fTree->Branch("Bgo_LayerID",  &fLayerID);
+    fTree->Branch("Bgo_BarID",    &fBarID);
+    fTree->Branch("Bgo_SideID",   &fSideID);
+    fTree->Branch("Bgo_DyID",     &fDyID);
+    fTree->Branch("Bgo_ADC",      &fADC);
+  }
+}
 

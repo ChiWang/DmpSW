@@ -23,15 +23,17 @@ class DmpEvtHeaderRaw : public DmpEvtVBasicHeader{
  public:
   DmpEvtHeaderRaw();
   ~DmpEvtHeaderRaw();
+  inline void   Reset()                     {fSec = 0; fmSec = 0; fTimeGap = 0; fPID = kUnknown;}
   inline Long64_t   GetPackageID() const    {return fPackageID;}
-  TTree* GetTree(TString);          // create a new tree, with the name of argument
-  TTree* GetTree(TString,TFile*);   // read a existed tree in a existed root file
+  Bool_t BookBranch();              // book all branches of Header Raw
   void   IsValidPackage();          // count fPackageID if package header of science data is correct
   Bool_t IsValidEvent();
   void  SetMode(DmpDcdRunMode, DmpDcdRunMode, DmpDcdRunMode, DmpDcdRunMode);
 
+ private:
+  void BookBranchHeaderRaw();
 
- protected:
+ private:
   Long64_t      fPackageID;         // Discard wrong package. may not continue
 
 };

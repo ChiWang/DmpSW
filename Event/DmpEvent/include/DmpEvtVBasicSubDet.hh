@@ -25,7 +25,9 @@ class DmpEvtVBasicSubDet : public DmpEvtVBasic{
   virtual ~DmpEvtVBasicSubDet();
   inline Short_t GetSignalNumber() const    {return fNSignal;}
   inline void  SetMode(DmpDcdRunMode M0)    {fMode = M0;}
-  void BookBranchSubDet();      // all Sub-detector has this branch
+
+ protected:
+  void BookBranchSubDet(TString sub_detectorName);      // all Sub-detector has this branch
 
  protected:
   Short_t       fNSignal;       // max number of signal of sub-detector

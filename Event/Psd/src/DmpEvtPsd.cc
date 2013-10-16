@@ -11,23 +11,31 @@ DmpEvtPsdRaw::DmpEvtPsdRaw()
 DmpEvtPsdRaw::~DmpEvtPsdRaw(){
 }
 
+Bool_t DmpEvtPsdRaw::BookBranch(){
+  if (!fTree)   return false;
+  BookBranchBasic("Psd");
+  BookBranchSubDet("Psd");
+  BookBranchPsdRaw();
+  return true;
+}
+
+void DmpEvtPsdRaw::Reset(){
+  fMode = kMixed;
+  fNSignal = 0;
+  fADC = 0;
+}
+
 void DmpEvtPsdRaw::SetSignal(Float_t ADC){
   fADC = ADC;
   ++fNSignal;
 }
 
-TTree* DmpEvtPsdRaw::GetTree(TString treeName){
-  BookTree(treeName);
-  BookBranchSubDet();
-  fTree->Branch("ACD",&fADC,"fADC/F");
-  return fTree;
-}
-
-TTree* DmpEvtPsdRaw::GetTree(TString treeName,TFile* rootFile){
-  BookTree(treeName,rootFile);
-  BookBranchSubDet();
-  fTree->SetBranchAddress("ACD",&fADC);
-  return fTree;
+void DmpEvtPsdRaw::BookBranchPsdRaw(){
+  if (fRootFile) {
+    fTree->SetBranchAddress("Psd_ACD",&fADC);
+  } else {
+    fTree->Branch("Psd_ACD",&fADC,"fADC/F");
+  }
 }
 
 

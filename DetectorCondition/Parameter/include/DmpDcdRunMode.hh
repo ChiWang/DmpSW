@@ -23,7 +23,6 @@ enum DmpDcdRunMode {
   kCompress  = 5,       // compress mode
   kCalPed    = 6,       // Calibrate pedestal
   kCalFEE    = 9,       // ADC Calibration
-
 };
 
 #endif

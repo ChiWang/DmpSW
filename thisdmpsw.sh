@@ -19,9 +19,14 @@
 
 #+  Set DAMPE software developement environment         # for developer
 if [ ! $DMPSWWORKGit ];then
-  export DMPSWWORKGit=$HOME/DMPSWWOKGit
+  export DMPSWWORKGit=$HOME/DMPSWWORKGit
   export PATH=$DMPSWWORKGit/bin:$PATH
-  export LD_LIBRARY_PATH=$DMPSWWORKGit/lib:$LD_LIBRARY_PATH
+  if [ $LD_LIBRARY_PATH ];then
+    export LD_LIBRARY_PATH=$DMPSWWORKGit/lib:$LD_LIBRARY_PATH
+  fi
+  if [ $DYLD_LIBRARY_PATH ];then        # Mac OS
+    export DYLD_LIBRARY_PATH=$DMPSWWORKGit/lib:$DYLD_LIBRARY_PATH
+  fi
 fi
 
 #+  Set DAMPE software installation environment         # for future general user installation

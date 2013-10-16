@@ -26,18 +26,12 @@ DmpEvtHeaderRaw::DmpEvtHeaderRaw()
 DmpEvtHeaderRaw::~DmpEvtHeaderRaw(){
 }
 
-TTree* DmpEvtHeaderRaw::GetTree(TString treeName){
-  BookTree(treeName);
-  BookBranchHeader();
-  fTree->Branch("PackageID",&fPackageID,"fPackageID/L");
-  return fTree;
-}
-
-TTree* DmpEvtHeaderRaw::GetTree(TString treeName, TFile* rootFile){
-  BookTree(treeName,rootFile);
-  BookBranchHeader();
-  fTree->SetBranchAddress("PackageID",&fPackageID);
-  return fTree;
+Bool_t DmpEvtHeaderRaw::BookBranch(){
+  if (!fTree)   return false;
+  BookBranchBasic("Dampe");
+  BookBranchHeaderBasic();
+  BookBranchHeaderRaw();
+  return true;
 }
 
 void DmpEvtHeaderRaw::IsValidPackage(){
@@ -55,3 +49,13 @@ void DmpEvtHeaderRaw::SetMode(DmpDcdRunMode M0,DmpDcdRunMode M1,DmpDcdRunMode M2
     fMode = kMixed;
   }
 }
+
+void DmpEvtHeaderRaw::BookBranchHeaderRaw(){
+  if (fRootFile) {
+    fTree->SetBranchAddress("PackageID",&fPackageID);
+  } else {
+    fTree->Branch("PackageID",&fPackageID,"fPackageID/L");
+  }
+}
+
+

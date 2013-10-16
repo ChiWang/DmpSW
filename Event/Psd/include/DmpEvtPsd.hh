@@ -9,9 +9,12 @@ class DmpEvtPsdRaw : public DmpEvtVBasicSubDet{
  public:
   DmpEvtPsdRaw();
   ~DmpEvtPsdRaw();
-  TTree* GetTree(TString);          // create a new tree, with the name of argument
-  TTree* GetTree(TString,TFile*);   // read a existed tree in a existed root file
-  void  SetSignal(Float_t adc);
+  Bool_t BookBranch();              // book all branches of Psd Raw
+  void   Reset();                   // reset a event
+  void   SetSignal(Float_t adc);
+
+ private:
+  void BookBranchPsdRaw();
 
  private:
   Float_t   fADC;

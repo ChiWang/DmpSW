@@ -24,36 +24,34 @@ using namespace std;
 
 #include "DmpEvtVBasic.hh"
 
+
+TTree*  DmpEvtVBasic::fTree = 0;
+TFile*  DmpEvtVBasic::fRootFile = 0;
+
 DmpEvtVBasic::DmpEvtVBasic()
- :fNewTree(true),
-  fTree(0),
-  fMode(kCompress)
+ :fMode(kMixed)
 {}
 
 DmpEvtVBasic::~DmpEvtVBasic()
 {}
 
-TTree* DmpEvtVBasic::GetTree(TString treeName){
-  return fTree;
+Bool_t  DmpEvtVBasic::BookTree(TString treeName, TFile* rootFile){
+  fRootFile = rootFile;         // defualt rootFile = 0
+  if (fRootFile) {
+    fTree = (TTree*)fRootFile->Get(treeName);
+  } else {
+    fTree = new TTree(treeName,treeName);
+  }
+  return true;
 }
 
-TTree* DmpEvtVBasic::GetTree(TString treeName,TFile* rootFile){
-  return fTree;
+void DmpEvtVBasic::BookBranchBasic(TString pre){
+  if (fRootFile) {
+    fTree->SetBranchAddress(pre+"_Mode",&fMode);
+  } else {
+    fTree->Branch(pre+"_Mode",&fMode,"fMode/S");
+  }
 }
 
-void DmpEvtVBasic::Reset(){
-}
-
-void DmpEvtVBasic::BookTree(TString treeName){
-  fNewTree = true;
-  fTree = new TTree(treeName,treeName);
-  fTree->Branch("Mode",&fMode,"fMode/S");
-}
-
-void DmpEvtVBasic::BookTree(TString treeName, TFile* rootFile){
-  fNewTree = false;
-  TTree* fTree = (TTree*)rootFile->Get(treeName);
-  fTree->SetBranchAddress("Mode",&fMode);
-}
 
 

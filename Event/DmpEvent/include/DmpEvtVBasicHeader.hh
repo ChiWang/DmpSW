@@ -23,12 +23,13 @@ class DmpEvtVBasicHeader : public DmpEvtVBasic{
  public:
   DmpEvtVBasicHeader();
   virtual ~DmpEvtVBasicHeader();
-  inline void   Reset()                     {fSec = 0; fmSec = 0; fTimeGap = 0; fPID = kUnknown;}
   inline Long64_t   GetEventID() const      {return fEvtID;}
   inline Long64_t   GetTimeGap() const      {return fTimeGap;}
-  void  BookBranchHeader();         // all Sub-detector has this branch
   void  SetTime(Short_t* time);     // converte hex time to dec time and cal. time gap
   void  ShowTime() const;           // print normal time
+
+ protected:
+  void  BookBranchHeaderBasic();         // all types Header has this branch
 
  protected:
   Long64_t       fEvtID;            // valid event count. continnue

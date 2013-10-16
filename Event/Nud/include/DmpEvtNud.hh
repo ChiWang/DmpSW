@@ -9,10 +9,12 @@ class DmpEvtNudRaw : public DmpEvtVBasicSubDet{
  public:
   DmpEvtNudRaw();
   ~DmpEvtNudRaw();
-  TTree* GetTree(TString);          // create a new tree, with the name of argument
-  TTree* GetTree(TString,TFile*);   // read a existed tree in a existed root file
+  Bool_t BookBranch();              // book all branches of Nud Raw
   void   Reset();                   // reset a event
   void   SetSignal(Float_t adc);
+
+ private:
+  void BookBranchNudRaw();
 
  private:
   Float_t   fADC;

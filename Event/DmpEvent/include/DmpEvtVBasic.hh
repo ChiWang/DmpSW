@@ -30,18 +30,21 @@ class DmpEvtVBasic {
  public:
   DmpEvtVBasic();
   virtual ~DmpEvtVBasic();
-  virtual TTree* GetTree(TString);          // create a new tree, with the name of argument
-  virtual TTree* GetTree(TString,TFile*);   // read a existed tree in a existed root file
-  virtual void   Reset();             // concrete class will implement it
+  static Bool_t BookTree(TString treeName, TFile* rootFile=0);
+    // treeName: all level data in one root file with different tree name.
+    // rootFile != 0, return the treePointer in the rootFile; rootFile = 0, create a new tree;
+  static TTree* GetTreePointer()            {return fTree;}
   inline DmpDcdRunMode GetMode() const      {return fMode;}
-  void BookTree(TString);             // book a new tree, with the name of argument
-  void BookTree(TString,TFile*);      // read a existed tree in a existed root file
 
-// protected:
- public:
-  Bool_t        fNewTree;       //! fTree is new created or read from old root file
-  TTree*        fTree;          //! sub-detector tree of root file
-  DmpDcdRunMode fMode;          // run mode
+ protected:
+  void BookBranchBasic(TString sub_detectorName);                // Book Branch of data members
+
+ protected:
+  static  TTree*    fTree;          //! tree pointers of sub-detector are the same
+  static  TFile*    fRootFile;      //! fRootFile == 0, will create a new one later; fRootFileName != 0, fTree in fRootFileName
+
+ protected:
+  DmpDcdRunMode     fMode;          // run mode
 
 };
 

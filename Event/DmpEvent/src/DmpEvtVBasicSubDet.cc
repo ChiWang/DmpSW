@@ -24,11 +24,11 @@ DmpEvtVBasicSubDet::DmpEvtVBasicSubDet()
 DmpEvtVBasicSubDet::~DmpEvtVBasicSubDet()
 {}
 
-void DmpEvtVBasicSubDet::BookBranchSubDet(){
-  if (fNewTree) {
-    fTree->Branch("NSignal",&fNSignal,"fNSignal/S");
+void DmpEvtVBasicSubDet::BookBranchSubDet(TString dec){
+  if (fRootFile) {
+    fTree->SetBranchAddress(dec+"_NSignal",&fNSignal);
   } else {
-    fTree->SetBranchAddress("NSignal",&fNSignal);
+    fTree->Branch(dec+"_NSignal",&fNSignal,"fNSignal/S");
   }
 }
 

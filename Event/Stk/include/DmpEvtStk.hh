@@ -9,9 +9,12 @@ class DmpEvtStkRaw : public DmpEvtVBasicSubDet{
  public:
   DmpEvtStkRaw();
   ~DmpEvtStkRaw();
-  TTree* GetTree(TString);          // create a new tree, with the name of argument
-  TTree* GetTree(TString,TFile*);   // read a existed tree in a existed root file
+  Bool_t BookBranch();              // book all branches of Stk Raw
+  void   Reset();                   // reset a event
   void  SetSignal(Float_t adc);
+
+ private:
+  void BookBranchStkRaw();
 
  private:
   Float_t   fADC;
