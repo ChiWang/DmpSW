@@ -12,7 +12,6 @@ DmpRdcPsd::DmpRdcPsd()
  :fEvt(0)
 {
   fEvt = new DmpEvtPsdRaw();
-  fTree = fEvt->GetTree("Psd");
 }
 
 DmpRdcPsd::~DmpRdcPsd(){
@@ -47,7 +46,7 @@ Bool_t DmpRdcPsd::SetConnector(){
     mapFile.close();
   }
 */
-  cout<<"\tsuccess"<<endl;
+  cout<<"\n\t\t\t\tSuccessful"<<endl;
   return true;
 }
 

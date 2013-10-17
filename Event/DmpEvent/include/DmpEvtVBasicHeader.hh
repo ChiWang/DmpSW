@@ -16,20 +16,26 @@
 #ifndef DmpEvtVBasicHeader_H
 #define DmpEvtVBasicHeader_H
 
-#include "DmpEvtVBasic.hh"
+#include "TROOT.h"
+
 #include "DmpDcdParticle.hh"
 
-class DmpEvtVBasicHeader : public DmpEvtVBasic{
+class TTree;
+class TString;
+
+class DmpEvtVBasicHeader {
  public:
   DmpEvtVBasicHeader();
   virtual ~DmpEvtVBasicHeader();
+  virtual void Reset();
+  virtual Bool_t BookBranch(TTree* tree, Bool_t read, TString detectorName);
   inline Long64_t   GetEventID() const      {return fEvtID;}
   inline Long64_t   GetTimeGap() const      {return fTimeGap;}
   void  SetTime(Short_t* time);     // converte hex time to dec time and cal. time gap
   void  ShowTime() const;           // print normal time
 
  protected:
-  void  BookBranchHeaderBasic();         // all types Header has this branch
+  void  BookBranchHeaderBasic(TTree* tree, Bool_t read, TString Header);         // all types Header has this branch
 
  protected:
   Long64_t       fEvtID;            // valid event count. continnue

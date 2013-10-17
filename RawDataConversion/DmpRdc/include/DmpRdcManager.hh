@@ -19,6 +19,7 @@
 #include "TString.h"
 
 class TFile;
+class TTree;
 class DmpRdcHeader;
 class DmpRdcPsd;
 class DmpRdcStk;
@@ -29,6 +30,8 @@ class DmpRdcManager {
  public:
   static DmpRdcManager* GetInstance();      // get DmpRdc Manager
   void Clear();                             // delete DmpRdc Manager
+  TTree* BookTree(TString treeName);
+  Bool_t BookBranch(TTree* tree, Bool_t read=0);
 
   inline void SetInDataPath(TString path)   {fInDataPath=path;}
   inline void SetDataName(TString name)     {fDataName=name;}
@@ -42,7 +45,7 @@ class DmpRdcManager {
   inline  DmpRdcNud*    GetNud()  const     {return fNud;}
 
   void FillAnEvent();           // fill current event
-  void SaveRootFile();          // save all TTree of sub-detectors into fOutDataFile
+  void SaveRootFile();          // save all TTree of sub-detectors into fOutRootFile
 
  private:
   static DmpRdcManager*    fInstance;
@@ -54,7 +57,8 @@ class DmpRdcManager {
   TString   fInDataPath;
   TString   fOutDataPath;
   TString   fDataName;
-  TFile*    fOutDataFile;
+  TFile*    fOutRootFile;
+  TTree*    fTree;
   
  private:
   DmpRdcHeader*  fHeader;

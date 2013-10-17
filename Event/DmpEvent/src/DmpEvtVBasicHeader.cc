@@ -20,6 +20,12 @@ DmpEvtVBasicHeader::DmpEvtVBasicHeader()
 DmpEvtVBasicHeader::~DmpEvtVBasicHeader()
 {}
 
+void DmpEvtVBasicHeader::Reset(){
+}
+
+Bool_t  DmpEvtVBasicHeader::BookBranch(TTree* tree, Bool_t read, TString detector){
+}
+
 void DmpEvtVBasicHeader::SetTime(Short_t* Time){
   cout<<"\t\t\t Setting time"<<endl;
   Long64_t SecTmp = Time[2]*Power(16,6)+Time[3]*Power(16,4)+Time[4]*Power(16,2)+Time[5]*Power(16,0);
@@ -33,19 +39,19 @@ void DmpEvtVBasicHeader::ShowTime() const{
   cout<<"Show normal time"<<endl;
 }
 
-void DmpEvtVBasicHeader::BookBranchHeaderBasic(){
-  if (fRootFile) {
-    fTree->SetBranchAddress("EventID",&fEvtID);
-    fTree->SetBranchAddress("Second",&fSec);
-    fTree->SetBranchAddress("mSecond",&fmSec);
-    fTree->SetBranchAddress("TimeGap/mSec",&fTimeGap);
-    fTree->SetBranchAddress("Particle ID",&fPID);
+void DmpEvtVBasicHeader::BookBranchHeaderBasic(TTree* tree, Bool_t read, TString pre){
+  if (read) {
+    tree->SetBranchAddress(pre+"_EventID",&fEvtID);
+    tree->SetBranchAddress(pre+"_Second",&fSec);
+    tree->SetBranchAddress(pre+"_mSecond",&fmSec);
+    tree->SetBranchAddress(pre+"_TimeGap",&fTimeGap);
+    tree->SetBranchAddress(pre+"_ParticleID",&fPID);
   } else {
-    fTree->Branch("EventID",&fEvtID,"fEvtID/L");
-    fTree->Branch("Second",&fSec,"fSec/L");
-    fTree->Branch("mSecond",&fmSec,"fSec/S");
-    fTree->Branch("TimeGap",&fTimeGap,"fTimeGap/L");
-    fTree->Branch("ParticleID",&fPID,"fPID/S");
+    tree->Branch(pre+"_EventID",&fEvtID,"fEvtID/L");
+    tree->Branch(pre+"_Second",&fSec,"fSec/L");
+    tree->Branch(pre+"_mSecond",&fmSec,"fSec/S");
+    tree->Branch(pre+"_TimeGap",&fTimeGap,"fTimeGap/L");
+    tree->Branch(pre+"_ParticleID",&fPID,"fPID/S");
   }
 }
 

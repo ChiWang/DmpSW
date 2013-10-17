@@ -24,11 +24,19 @@ DmpEvtVBasicSubDet::DmpEvtVBasicSubDet()
 DmpEvtVBasicSubDet::~DmpEvtVBasicSubDet()
 {}
 
-void DmpEvtVBasicSubDet::BookBranchSubDet(TString dec){
-  if (fRootFile) {
-    fTree->SetBranchAddress(dec+"_NSignal",&fNSignal);
+void DmpEvtVBasicSubDet::Reset(){
+}
+
+Bool_t  DmpEvtVBasicSubDet::BookBranch(TTree* tree, Bool_t read, TString detector){
+}
+
+void DmpEvtVBasicSubDet::BookBranchSubDet(TTree* tree, Bool_t read,TString pre){
+  if (read) {
+    tree->SetBranchAddress(pre+"_Mode",&fMode);
+    tree->SetBranchAddress(pre+"_NSignal",&fNSignal);
   } else {
-    fTree->Branch(dec+"_NSignal",&fNSignal,"fNSignal/S");
+    tree->Branch(pre+"_Mode",&fMode,"fMode/S");
+    tree->Branch(pre+"_NSignal",&fNSignal,"fNSignal/S");
   }
 }
 

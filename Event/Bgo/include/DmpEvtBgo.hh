@@ -28,20 +28,19 @@ class DmpEvtBgoRaw : public DmpEvtVBasicSubDet{
  public:
   DmpEvtBgoRaw();
   ~DmpEvtBgoRaw();
-  Bool_t BookBranch();              // all branch of Bgo Raw
   void   Reset();                   // reset a event
+  Bool_t BookBranch(TTree* tree, Bool_t read, TString detectorName);              // all branch of Bgo Raw
   void   SetSignal(Short_t layerID,Short_t barID,Short_t sideID,Short_t dyID,Float_t adc);        // set a signal of one channal in a event
 
  private:
-  void BookBranchBgoRaw();
+  void BookBranchBgoRaw(TTree* tree, Bool_t read, TString detectorName);
 
  private:
   std::vector<int>   *fLayerID;     // must use vector<int> or vector<double> in branch 
   std::vector<int>   *fBarID;
   std::vector<int>   *fSideID;
   std::vector<int>   *fDyID;
-  //std::vector<float> *fADC;
-  std::vector<double>   *fADC;
+  std::vector<double> *fADC;
 
 };
 

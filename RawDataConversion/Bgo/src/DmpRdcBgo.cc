@@ -26,7 +26,6 @@ DmpRdcBgo::DmpRdcBgo()
  :fEvt(0)
 {
   fEvt = new DmpEvtBgoRaw();
-  fTree = fEvt->GetTree("Bgo");
 }
 
 DmpRdcBgo::~DmpRdcBgo(){
@@ -72,7 +71,9 @@ Bool_t DmpRdcBgo::SetConnector(){
 
 // need real data to implement this part
 Bool_t DmpRdcBgo::Conversion(ifstream *HexData){
-  cout<<"\t\t\tEvent Conversion:\tBgo"<<endl;
+#ifdef DEBUG
+//  cout<<"\t\t\tEvent Conversion:\tBgo"<<endl;
+#endif
   fEvt->Reset();
   Short_t feeID=0, channelID=0;
   Short_t nChan=0, dataLong=0;

@@ -28,11 +28,14 @@ DmpRdcHeader::DmpRdcHeader()
  :fEvt(0)
 {
   fEvt = new DmpEvtHeaderRaw();
-  fTree = fEvt->GetTree("Header");
 }
 
 DmpRdcHeader::~DmpRdcHeader(){
   delete fEvt;
+}
+
+void DmpRdcHeader::Initialize(){
+  fEvt->Reset();
 }
 
 // need real data to implement this part

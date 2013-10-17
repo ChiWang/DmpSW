@@ -24,8 +24,7 @@ TString DmpRdcVBasic::fConnectorPath="Absolute path of /prefix/share/connector";
 #endif
 
 DmpRdcVBasic::DmpRdcVBasic()
- :fTree(0),
-  fDataLength(0),
+ :fDataLength(0),
   fTrigger(0)
 {
 }

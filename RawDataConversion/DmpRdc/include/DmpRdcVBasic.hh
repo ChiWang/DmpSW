@@ -25,8 +25,6 @@
 
 #include "TString.h"
 
-class TTree;
-
 class DmpRdcVBasic {
  public:
   DmpRdcVBasic();
@@ -34,16 +32,14 @@ class DmpRdcVBasic {
 
   virtual Bool_t  SetConnector();                   // FEE <-> Detector connection
   virtual Bool_t  Conversion(ifstream* HexData);    // use this function at where start of current sub-detector data in whole Hex data(detector data) pipe
-  inline TTree* GetTree() const     {return fTree;}
   inline Int_t  GetTrigger() const  {return fTrigger;}
 
  protected:
-  TTree*     fTree;         // each sub-detector is a TTree
-  Short_t    fDataLength;   // data length of current event of a sub-detector
-  Short_t    fTrigger;      // event trigger
+  Short_t    fDataLength;               // data length of current event of a sub-detector
+  Short_t    fTrigger;                  // event trigger
 
  protected:
-  static TString    fConnectorPath;     //connection files of FEE to Detector
+  static TString    fConnectorPath;     // connection files of FEE to Detector
 
 };
 

@@ -33,7 +33,7 @@ int main(int argc, char* argv[]){
   if ( inFileName.Contains(".infor") && inFileName.Contains("DmpRdcInput") ) {
     BatchInfor = new ifstream (inFileName,ios::in);
   } else {
-    cout<<"Usage:\n\t1. dmpRdc\n\t2. dmpRdc DmpRdcInput.infor\n\t3. dmpRdc rawDataName.dat\n\t4. dmpRdc /Path/rawDataName.dat"<<endl;
+    cout<<"Usage:\n\t1. dmpRdc\n\t2. dmpRdc /path/DmpRdcInput.infor"<<endl;
   }
 
   if (!BatchInfor->good()) {
@@ -69,6 +69,14 @@ int main(int argc, char* argv[]){
     } else {
       cout<<"\n\t---->Reading "<<inDataPath+dataName<<endl;
     }
+
+    TTree* tree = RdcMan->BookTree("rec-0");
+    if ( ! RdcMan->BookBranch(tree) ) {
+      *BatchInfor>>dataName;
+      continue;
+    }
+
+    RdcMan->GetHeader()->Initialize();
 
     //loop of event package. set the order of suv-detector as the order of FEE in InData
     for (Long64_t nEvt=0;!InData->eof();++nEvt) {

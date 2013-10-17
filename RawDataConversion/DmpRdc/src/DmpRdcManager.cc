@@ -54,8 +54,23 @@ void DmpRdcManager::Clear(){
   cout<<"delete DmpRdc Manager"<<endl;
 }
 
+TTree* DmpRdcManager::BookTree(TString treeName){
+  fTree = new TTree(treeName,treeName);
+  return fTree;
+}
+
+Bool_t DmpRdcManager::BookBranch(TTree* tree, Bool_t read){
+  if ( ! fHeader->GetEventPointer()->BookBranch(tree, read, "Header") ) return false;
+  if ( ! fPsd->GetEventPointer()->BookBranch(tree, read, "Psd") )    return false;
+  if ( ! fStk->GetEventPointer()->BookBranch(tree, read, "Stk") )    return false;
+  if ( ! fBgo->GetEventPointer()->BookBranch(tree, read, "Bgo") )    return false;
+  if ( ! fNud->GetEventPointer()->BookBranch(tree, read, "Nud") )    return false;
+  return true;
+}
+
 DmpRdcManager::DmpRdcManager()
- :fOutDataFile(0)
+ :fOutRootFile(0),
+  fTree(0)
 {
   fHeader = new DmpRdcHeader();
   fPsd = new DmpRdcPsd();
@@ -75,33 +90,24 @@ DmpRdcManager::~DmpRdcManager(){
 void DmpRdcManager::FillAnEvent(){
   if (TriggerCheck() == true) {
     fHeader->GetEventPointer()->IsValidEvent();
-    fHeader->GetEventPointer()->SetMode(fPsd->GetEventPointer()->GetMode(),fStk->GetEventPointer()->GetMode(),fBgo->GetEventPointer()->GetMode(),fNud->GetEventPointer()->GetMode());
   } else {
     cout<<"\t\t----> Fill event failed:\ttrigger not match\n"<<endl;
     return;
   }
-  fHeader->GetTree()->Fill();
-  fPsd->GetTree()->Fill();
-  fStk->GetTree()->Fill();
-  fBgo->GetTree()->Fill();
-  fNud->GetTree()->Fill();
+  fTree->Fill();
 #ifdef DEBUG
-  cout<<"Fill event "<<fHeader->GetEventPointer()->GetEventID()<<endl<<endl;
+  //cout<<"Fill event "<<dec<<fHeader->GetEventPointer()->GetEventID()<<endl<<endl;
 #endif
 }
 
 void DmpRdcManager::SaveRootFile(){
   fDataName.ReplaceAll(".dat","-rec0.root");
   
-  fOutDataFile = new TFile(fOutDataPath+fDataName,"RECREATE");
-  fHeader->GetTree()->Write();
-  fPsd->GetTree()->Write();
-  fStk->GetTree()->Write();
-  fBgo->GetTree()->Write();
-  fNud->GetTree()->Write();
-
-  fOutDataFile->Close();
-  delete fOutDataFile;
+  fOutRootFile = new TFile(fOutDataPath+fDataName,"RECREATE");
+  fTree->Write();
+  fOutRootFile->Close();
+  delete fOutRootFile;
+  fOutRootFile = 0;
 }
 
 Bool_t DmpRdcManager::TriggerCheck() const {

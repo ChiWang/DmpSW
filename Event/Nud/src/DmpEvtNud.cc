@@ -1,5 +1,4 @@
 
-#include "TFile.h"
 #include "TTree.h"
 #include "TString.h"
 
@@ -11,11 +10,9 @@ DmpEvtNudRaw::DmpEvtNudRaw()
 DmpEvtNudRaw::~DmpEvtNudRaw(){
 }
 
-Bool_t DmpEvtNudRaw::BookBranch(){
-  if (!fTree)   return false;
-  BookBranchBasic("Nud");
-  BookBranchSubDet("Nud");
-  BookBranchNudRaw();
+Bool_t DmpEvtNudRaw::BookBranch(TTree* tree, Bool_t read, TString pre){
+  BookBranchSubDet(tree, read, pre);
+  BookBranchNudRaw(tree, read, pre);
   return true;
 }
 
@@ -31,11 +28,11 @@ void DmpEvtNudRaw::SetSignal(Float_t ADC){
   ++fNSignal;
 }
 
-void DmpEvtNudRaw::BookBranchNudRaw(){
-  if (fRootFile) {
-    fTree->SetBranchAddress("Nud_ACD",&fADC);
+void DmpEvtNudRaw::BookBranchNudRaw(TTree* tree, Bool_t read, TString pre){
+  if (read) {
+    tree->SetBranchAddress(pre+"_ACD",&fADC);
   } else {
-    fTree->Branch("Nud_ACD",&fADC,"fADC/F");
+    tree->Branch(pre+"_ACD",&fADC,"fADC/F");
   }
 }
 

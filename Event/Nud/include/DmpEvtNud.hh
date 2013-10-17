@@ -9,12 +9,12 @@ class DmpEvtNudRaw : public DmpEvtVBasicSubDet{
  public:
   DmpEvtNudRaw();
   ~DmpEvtNudRaw();
-  Bool_t BookBranch();              // book all branches of Nud Raw
+  Bool_t BookBranch(TTree* tree, Bool_t read, TString detector);              // book all branches of Nud Raw
   void   Reset();                   // reset a event
   void   SetSignal(Float_t adc);
 
  private:
-  void BookBranchNudRaw();
+  void BookBranchNudRaw(TTree* tree, Bool_t read, TString detector);
 
  private:
   Float_t   fADC;

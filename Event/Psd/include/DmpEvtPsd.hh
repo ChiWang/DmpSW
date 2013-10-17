@@ -9,12 +9,12 @@ class DmpEvtPsdRaw : public DmpEvtVBasicSubDet{
  public:
   DmpEvtPsdRaw();
   ~DmpEvtPsdRaw();
-  Bool_t BookBranch();              // book all branches of Psd Raw
+  Bool_t BookBranch(TTree* tree, Bool_t read, TString detector);              // book all branches of Psd Raw
   void   Reset();                   // reset a event
   void   SetSignal(Float_t adc);
 
  private:
-  void BookBranchPsdRaw();
+  void BookBranchPsdRaw(TTree* tree, Bool_t read, TString detector);
 
  private:
   Float_t   fADC;

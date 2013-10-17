@@ -1,5 +1,4 @@
 
-#include "TFile.h"
 #include "TTree.h"
 #include "TString.h"
 
@@ -11,11 +10,9 @@ DmpEvtStkRaw::DmpEvtStkRaw()
 DmpEvtStkRaw::~DmpEvtStkRaw(){
 }
 
-Bool_t DmpEvtStkRaw::BookBranch(){
-  if (!fTree)   return false;
-  BookBranchBasic("Stk");
-  BookBranchSubDet("Stk");
-  BookBranchStkRaw();
+Bool_t DmpEvtStkRaw::BookBranch(TTree* tree, Bool_t read, TString pre){
+  BookBranchSubDet(tree, read, pre);
+  BookBranchStkRaw(tree, read, pre);
   return true;
 }
 
@@ -31,11 +28,11 @@ void DmpEvtStkRaw::SetSignal(Float_t ADC){
   ++fNSignal;
 }
 
-void DmpEvtStkRaw::BookBranchStkRaw(){
-  if (fRootFile) {
-    fTree->SetBranchAddress("Stk_ACD",&fADC);
+void DmpEvtStkRaw::BookBranchStkRaw(TTree* tree, Bool_t read, TString pre){
+  if (read) {
+    tree->SetBranchAddress(pre+"_ACD",&fADC);
   } else {
-    fTree->Branch("Stk_ACD",&fADC,"fADC/F");
+    tree->Branch(pre+"_ACD",&fADC,"fADC/F");
   }
 }
 

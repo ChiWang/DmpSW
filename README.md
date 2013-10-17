@@ -56,7 +56,11 @@ Install SCons
         4) type command:
             scons --help
 
-## How to install DMPSW (This part is not used before publish DMPSW for user out of DAMPE group)
+## How to install DMPSW
+
+    -----------------------------------------------------------------------------------------------------------------------------------------
+    *****   This part is not used before publish DMPSW for user out of DAMPE group. Please read the next section "Development guide")   *****
+    -----------------------------------------------------------------------------------------------------------------------------------------
 
 Installation:
 
@@ -84,10 +88,26 @@ Set Environment
 
 ##  Development guide
 
+    It could be helpful if you understand the naming convention firstly at --> http://dpnc.unige.ch/dampe/dokuwiki/doku.php?id=dampesoftware:namingconvention
+
+    There are 4 key points to do use DMPSW.
+
+    0)  checkout(or update) whole trunk
+    1)  source thisdmpsw.sh                             // if "echo $DMPSWWORK" print $HOME/DMPSWWORK, then do not need to source this file
+        //  you can add "source /where/is/trunk/thisdmpsw.sh" in $HOME/.bashrc(or .zshrc) instead of source it every time.
+    2)  cd into the package you are developing.         // developing a certain package
+    3)  compile->running->debug->compile...             // development circle
+        *   compile:   "scons"                          // execute "scons" at the current directory (there is a file named SConstruct under this package)
+        *   execute the command created                 // just type the command name
+
+    In cause you get any error, please send a group email.
+
+    If you want to understand the DMPSW more clearly, please read sub-sections below.
+
 
 ### Software structure of development
 
-*   each module is a top-1 directory. Some modules (like RawDataConversion) depend on other modules, more details in their Readme.md
+*   each package is a top-1 directory. Some packages (like RawDataConversion) depend on other packages, more details in their Readme.md
 *   some top-1 directories (like Calibration) has top-2 direcotry if necessary.
 
 ### Structure of installation (after installation) 
@@ -177,9 +197,9 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
 
 ### How to debug? (Refer to Readme.md in each directory)
 
-1.  cp *.scons SConstruct
-2.  scons                   // Or use: scons debug=1
-3.  scons -c                // Or, append debug=1 
+1.  cp *.scons SConstruct   // if there is a file named SConstruct, skip to step 2.
+2.  scons                   // Or use "scons debug=1"
+3.  scons -c                // Or append "debug=1"
 
 
 ### Convention
@@ -229,7 +249,7 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
         * ATM
             Abbreviation of Top-1 Module as mentioned above
         * {Level}
-            only one command in a module:   no Level
+            only one command in a package:   no Level
             level from 0 to N
         * {Detector}
             for whole detector:     no Detector
@@ -243,7 +263,7 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
         Except directores include, src, there is a file named Reade.md(or README.md) in all directories.
         *   Structure
         *   Usage
-        *   Relation of other modules
+        *   Relation of other packages
         *   Debug method
         *   Bug report
         *   Others

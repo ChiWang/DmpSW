@@ -24,6 +24,7 @@ class DmpRdcHeader : public DmpRdcVBasic {
  public:
   DmpRdcHeader();
   ~DmpRdcHeader();
+  void  Initialize();
   Bool_t    Conversion(ifstream* HexData);
   DmpEvtHeaderRaw*  GetEventPointer() const   {return fEvt;}
 

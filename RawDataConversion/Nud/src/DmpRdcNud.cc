@@ -12,7 +12,6 @@ DmpRdcNud::DmpRdcNud()
   :fEvt(0)
 {
   fEvt = new DmpEvtNudRaw();
-  fTree = fEvt->GetTree("Nud");
 }
 
 DmpRdcNud::~DmpRdcNud(){
@@ -47,7 +46,7 @@ Bool_t DmpRdcNud::SetConnector(){
     mapFile.close();
   }
 */
-  cout<<"\tsuccess"<<endl;
+  cout<<"\n\t\t\t\tSuccessful"<<endl;
   return true;
 }
 

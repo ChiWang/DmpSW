@@ -12,7 +12,6 @@ DmpRdcStk::DmpRdcStk()
  :fEvt(0)
 {
   fEvt = new DmpEvtStkRaw();
-  fTree = fEvt->GetTree("Stk");
 }
 
 DmpRdcStk::~DmpRdcStk(){
@@ -48,7 +47,7 @@ Bool_t DmpRdcStk::SetConnector(){
     mapFile.close();
   }
 */
-  cout<<"\tsuccess"<<endl;
+  cout<<"\n\t\t\t\tSuccessful"<<endl;
   return true;
 }
 
