@@ -1,7 +1,26 @@
+/*=============================================================================
+#       FileName :          DmpCalL0SBgoMip.cc
+#       Version  :          0.0.1
+#       Author   :          Chi Wang    (chiwang@mail.ustc.edu.cn)
+#       Time     :          2013-10-17   15:40:10
+#
+#------------------------------------------------------------------------------
+#       Description  :
+#
+#
+#------------------------------------------------------------------------------
+#       History  :
+#                                          Update:  2013-10-17   15:40:10
+=============================================================================*/
 
 #include <iostream>
 
-#include "DmpEvtBgo.hh"
+#include "DmpCalManager.hh"
+#include "DmpCalHeader.hh"
+#include "DmpCalPsd.hh"
+#include "DmpCalStk.hh"
+#include "DmpCalBgo.hh"
+#include "DmpCalNud.hh"
 
 using namespace std;
 
@@ -13,7 +32,7 @@ int main(int argc, char* argv[]){
   if ( inFileName.Contains(".infor") && inFileName.Contains("DmpCalL0SBgoMipInput") ) {
     BatchInfor = new ifstream (inFileName,ios::in);
   } else {
-    cout<<"Usage:\n\t1. dmpCalL0SBgoMip\n\t2. dmpCalL0SBgoMip DmpCalL0SBgoMipInput.infor"<<endl;
+    cout<<"Usage:\n\t1. dmpRdc\n\t2. dmpRdc /path/DmpCalL0SBgoMipInput.infor"<<endl;
   }
 
   if (!BatchInfor->good()) {
@@ -22,12 +41,13 @@ int main(int argc, char* argv[]){
   }
 
   string note, dataName, inDataPath,outDataPath;
-  DmpRdcManager* RdcMan = DmpRdcManager::GetInstance();
+/*
+  DmpCalManager* RdcMan = DmpCalManager::GetInstance();
   if ( !RdcMan->GetPsd()->SetConnector()) return 0;
   if ( !RdcMan->GetStk()->SetConnector()) return 0;
   if ( !RdcMan->GetBgo()->SetConnector()) return 0;
   if ( !RdcMan->GetNud()->SetConnector()) return 0;
-
+*/
   for (Short_t i=0;i<4;++i) {
     getline(*BatchInfor,note);    // reserved 4 lines for note
   }
@@ -50,11 +70,20 @@ int main(int argc, char* argv[]){
       cout<<"\n\t---->Reading "<<inDataPath+dataName<<endl;
     }
 
+    TTree* tree = RdcMan->BookTree("rec-0");
+    if ( ! RdcMan->BookBranch(tree) ) {
+      *BatchInfor>>dataName;
+      continue;
+    }
+
+    RdcMan->GetHeader()->Initialize();
+
     //loop of event package. set the order of suv-detector as the order of FEE in InData
     for (Long64_t nEvt=0;!InData->eof();++nEvt) {
 //Long64_t EvtID = RdcMan->GetHeader()->GetPackageID();
 //if (EvtID == 20) break;
 
+/*
       if (! RdcMan->GetHeader()->Conversion(InData)) {
         continue;
       }
@@ -67,6 +96,7 @@ int main(int argc, char* argv[]){
       if (! RdcMan->GetStk()->Conversion(InData)) {
         continue;
       }
+*/
       if (! RdcMan->GetBgo()->Conversion(InData)) {
         continue;
       }

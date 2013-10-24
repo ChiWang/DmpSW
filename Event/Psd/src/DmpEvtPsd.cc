@@ -5,7 +5,8 @@
 
 #include "DmpEvtPsd.hh"
 
-DmpEvtPsdRaw::DmpEvtPsdRaw()
+DmpEvtPsdRaw::DmpEvtPsdRaw(DmpEvtVBasicHeader* header)
+ :DmpEvtVBasicSubDet(header)
 {}
 
 DmpEvtPsdRaw::~DmpEvtPsdRaw(){
@@ -19,13 +20,13 @@ Bool_t DmpEvtPsdRaw::BookBranch(TTree* tree, Bool_t read, TString pre){
 
 void DmpEvtPsdRaw::Reset(){
   fMode = kMixed;
-  fNSignal = 0;
+  fNHit = 0;
   fADC = 0;
 }
 
 void DmpEvtPsdRaw::SetSignal(Float_t ADC){
   fADC = ADC;
-  ++fNSignal;
+  ++fNHit;
 }
 
 void DmpEvtPsdRaw::BookBranchPsdRaw(TTree* tree, Bool_t read, TString pre){

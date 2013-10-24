@@ -16,34 +16,27 @@
 #ifndef DmpRdcManager_H
 #define DmpRdcManager_H
 
-#include "TString.h"
+#include "DmpVManager.hh"
 
-class TFile;
-class TTree;
 class DmpRdcHeader;
 class DmpRdcPsd;
 class DmpRdcStk;
 class DmpRdcBgo;
 class DmpRdcNud;
 
-class DmpRdcManager {
+class DmpRdcManager : public DmpVManager{
  public:
   static DmpRdcManager* GetInstance();      // get DmpRdc Manager
   void Clear();                             // delete DmpRdc Manager
-  TTree* BookTree(TString treeName);
-  Bool_t BookBranch(TTree* tree, Bool_t read=0);
+  Bool_t BookBranch();
 
-  inline void SetInDataPath(TString path)   {fInDataPath=path;}
-  inline void SetDataName(TString name)     {fDataName=name;}
-  inline void SetOutDataPath(TString path)  {fOutDataPath=path;}
-  inline TString GetInDataPath() const      {return fInDataPath;}
-  inline TString GetOutDataPath() const     {return fOutDataPath;}
   inline  DmpRdcHeader* GetHeader()const    {return fHeader;}
   inline  DmpRdcPsd*    GetPsd()  const     {return fPsd;}
   inline  DmpRdcStk*    GetStk()  const     {return fStk;}
   inline  DmpRdcBgo*    GetBgo()  const     {return fBgo;}
   inline  DmpRdcNud*    GetNud()  const     {return fNud;}
 
+ public:
   void FillAnEvent();           // fill current event
   void SaveRootFile();          // save all TTree of sub-detectors into fOutRootFile
 
@@ -53,13 +46,6 @@ class DmpRdcManager {
   ~DmpRdcManager();
   Bool_t TriggerCheck() const;
 
- private:
-  TString   fInDataPath;
-  TString   fOutDataPath;
-  TString   fDataName;
-  TFile*    fOutRootFile;
-  TTree*    fTree;
-  
  private:
   DmpRdcHeader*  fHeader;
   DmpRdcPsd*     fPsd;

@@ -42,22 +42,23 @@ int main(int argc, char* argv[]){
   }
 
   string note, dataName, inDataPath,outDataPath;
+  for (Short_t i=0;i<4;++i) {
+    getline(*BatchInfor,note);    // reserved 4 lines for note
+  }
+  getline(*BatchInfor,inDataPath);
+  getline(*BatchInfor,note);      // reserved 1 line for note
+  getline(*BatchInfor,outDataPath);
+  getline(*BatchInfor,note);     // reserved 1 line for note
+  *BatchInfor>>dataName;         // get the first dataName
+
   DmpRdcManager* RdcMan = DmpRdcManager::GetInstance();
   if ( !RdcMan->GetPsd()->SetConnector()) return 0;
   if ( !RdcMan->GetStk()->SetConnector()) return 0;
   if ( !RdcMan->GetBgo()->SetConnector()) return 0;
   if ( !RdcMan->GetNud()->SetConnector()) return 0;
 
-  for (Short_t i=0;i<4;++i) {
-    getline(*BatchInfor,note);    // reserved 4 lines for note
-  }
-  getline(*BatchInfor,inDataPath);
   RdcMan->SetInDataPath(inDataPath);
-  getline(*BatchInfor,note);      // reserved 1 line for note
-  getline(*BatchInfor,outDataPath);
   RdcMan->SetOutDataPath(outDataPath);
-  getline(*BatchInfor,note);     // reserved 1 line for note
-  *BatchInfor>>dataName;         // get the first dataName
 
   while (dataName != "END") {
     RdcMan->SetDataName(dataName);
@@ -70,13 +71,14 @@ int main(int argc, char* argv[]){
       cout<<"\n\t---->Reading "<<inDataPath+dataName<<endl;
     }
 
-    TTree* tree = RdcMan->BookTree("rec-0");
-    if ( ! RdcMan->BookBranch(tree) ) {
+    if ( ! RdcMan->BookTree() ) {
       *BatchInfor>>dataName;
       continue;
     }
-
-    RdcMan->GetHeader()->Initialize();
+    if ( ! RdcMan->BookBranch() ) {
+      *BatchInfor>>dataName;
+      continue;
+    }
 
     //loop of event package. set the order of suv-detector as the order of FEE in InData
     for (Long64_t nEvt=0;!InData->eof();++nEvt) {

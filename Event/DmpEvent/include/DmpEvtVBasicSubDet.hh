@@ -23,23 +23,26 @@
 
 class TTree;
 class TString;
+class DmpEvtVBasicHeader;
 
 class DmpEvtVBasicSubDet {
  public:
-  DmpEvtVBasicSubDet();
+  DmpEvtVBasicSubDet(DmpEvtVBasicHeader* header=0);
   virtual ~DmpEvtVBasicSubDet();
-  virtual void Reset();
-  virtual Bool_t BookBranch(TTree* tree, Bool_t read, TString detectorName);
-  inline Short_t GetSignalNumber() const    {return fNSignal;}
+  inline Int_t GetHitNumber() const       {return fNHit;}
   inline void  SetMode(DmpDcdRunMode M0)    {fMode = M0;}
   inline DmpDcdRunMode GetMode() const      {return fMode;}
+  virtual void Reset() = 0;
+  virtual Bool_t BookBranch(TTree* tree, Bool_t read, TString detectorName) = 0;
+  virtual void PrintEvent() const;
 
  protected:
   void BookBranchSubDet(TTree* tree, Bool_t read, TString detectorName);      // all Sub-detector has this branch
 
  protected:
-  DmpDcdRunMode fMode;          // run mode
-  Short_t       fNSignal;       // max number of signal of sub-detector
+  DmpEvtVBasicHeader*   fEvtHeader;     //! sub-detector could get event header by this
+  DmpDcdRunMode         fMode;          // run mode
+  Int_t                 fNHit;          // max number of signal of sub-detector
 
 };
 

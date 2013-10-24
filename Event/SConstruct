@@ -48,7 +48,7 @@ else:
 #   set Geant4 environment
 if int(ARGUMENTS.get('g4',0)):
     g4sys=os.environ['G4INSTALL']
-    EnvEvt.PrependENVPath('PATH', g4sys+'/bin')
+    EnvCalL0SBgoM.PrependENVPath('PATH', g4sys+'/../../../bin')
     EnvEvt.ParseConfig("geant4-config --cflags --libs")
 
 #   set Root environment

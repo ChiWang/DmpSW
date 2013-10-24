@@ -33,8 +33,6 @@
 #include "DmpRdcBgo.hh"
 #include "DmpRdcNud.hh"
 
-using namespace std;
-
 DmpRdcManager*  DmpRdcManager::fInstance=0;
 
 DmpRdcManager*  DmpRdcManager::GetInstance(){
@@ -51,26 +49,28 @@ void DmpRdcManager::Clear(){
     delete fInstance;
     fInstance = 0;
   }
-  cout<<"delete DmpRdc Manager"<<endl;
+  std::cout<<"delete DmpRdc Manager"<<std::endl;
 }
-
+/*
 TTree* DmpRdcManager::BookTree(TString treeName){
   fTree = new TTree(treeName,treeName);
   return fTree;
 }
+*/
 
-Bool_t DmpRdcManager::BookBranch(TTree* tree, Bool_t read){
-  if ( ! fHeader->GetEventPointer()->BookBranch(tree, read, "Header") ) return false;
-  if ( ! fPsd->GetEventPointer()->BookBranch(tree, read, "Psd") )    return false;
-  if ( ! fStk->GetEventPointer()->BookBranch(tree, read, "Stk") )    return false;
-  if ( ! fBgo->GetEventPointer()->BookBranch(tree, read, "Bgo") )    return false;
-  if ( ! fNud->GetEventPointer()->BookBranch(tree, read, "Nud") )    return false;
+Bool_t DmpRdcManager::BookBranch(){
+  Bool_t read = false;
+  if (fInRootFile)  read = true;
+  if ( ! fHeader->GetEventPointer()->BookBranch(fTree, read, "Header") ) return false;
+  if ( ! fPsd->GetEventPointer()->BookBranch(fTree, read, "Psd") )    return false;
+  if ( ! fStk->GetEventPointer()->BookBranch(fTree, read, "Stk") )    return false;
+  if ( ! fBgo->GetEventPointer()->BookBranch(fTree, read, "Bgo") )    return false;
+  if ( ! fNud->GetEventPointer()->BookBranch(fTree, read, "Nud") )    return false;
   return true;
 }
 
 DmpRdcManager::DmpRdcManager()
- :fOutRootFile(0),
-  fTree(0)
+ :DmpVManager()
 {
   fHeader = new DmpRdcHeader();
   fPsd = new DmpRdcPsd();
@@ -91,23 +91,24 @@ void DmpRdcManager::FillAnEvent(){
   if (TriggerCheck() == true) {
     fHeader->GetEventPointer()->IsValidEvent();
   } else {
-    cout<<"\t\t----> Fill event failed:\ttrigger not match\n"<<endl;
+    std::cout<<"\t\t----> Fill event failed:\ttrigger not match\n"<<std::endl;
     return;
   }
   fTree->Fill();
 #ifdef DEBUG
-  //cout<<"Fill event "<<dec<<fHeader->GetEventPointer()->GetEventID()<<endl<<endl;
+  //std::cout<<"Fill event "<<dec<<fHeader->GetEventPointer()->GetEventID()<<std::endl<<std::endl;
 #endif
 }
 
 void DmpRdcManager::SaveRootFile(){
   fDataName.ReplaceAll(".dat","-rec0.root");
-  
   fOutRootFile = new TFile(fOutDataPath+fDataName,"RECREATE");
   fTree->Write();
   fOutRootFile->Close();
   delete fOutRootFile;
   fOutRootFile = 0;
+  fHeader->GetEventPointer()->Reset();
+  Reset();
 }
 
 Bool_t DmpRdcManager::TriggerCheck() const {

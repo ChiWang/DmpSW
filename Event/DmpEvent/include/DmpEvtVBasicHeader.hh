@@ -27,12 +27,12 @@ class DmpEvtVBasicHeader {
  public:
   DmpEvtVBasicHeader();
   virtual ~DmpEvtVBasicHeader();
-  virtual void Reset();
-  virtual Bool_t BookBranch(TTree* tree, Bool_t read, TString detectorName);
   inline Long64_t   GetEventID() const      {return fEvtID;}
   inline Long64_t   GetTimeGap() const      {return fTimeGap;}
   void  SetTime(Short_t* time);     // converte hex time to dec time and cal. time gap
   void  ShowTime() const;           // print normal time
+  virtual void Reset() = 0;
+  virtual Bool_t BookBranch(TTree* tree, Bool_t read, TString detectorName) = 0;
 
  protected:
   void  BookBranchHeaderBasic(TTree* tree, Bool_t read, TString Header);         // all types Header has this branch

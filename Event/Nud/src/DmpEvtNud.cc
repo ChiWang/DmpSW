@@ -4,7 +4,8 @@
 
 #include "DmpEvtNud.hh"
 
-DmpEvtNudRaw::DmpEvtNudRaw()
+DmpEvtNudRaw::DmpEvtNudRaw(DmpEvtVBasicHeader* header)
+ :DmpEvtVBasicSubDet(header)
 {}
 
 DmpEvtNudRaw::~DmpEvtNudRaw(){
@@ -19,13 +20,13 @@ Bool_t DmpEvtNudRaw::BookBranch(TTree* tree, Bool_t read, TString pre){
 
 void DmpEvtNudRaw::Reset(){
   fMode = kMixed;
-  fNSignal = 0;
+  fNHit = 0;
   fADC = 0;
 }
 
 void DmpEvtNudRaw::SetSignal(Float_t ADC){
   fADC = ADC;
-  ++fNSignal;
+  ++fNHit;
 }
 
 void DmpEvtNudRaw::BookBranchNudRaw(TTree* tree, Bool_t read, TString pre){

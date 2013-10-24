@@ -7,7 +7,7 @@
 //  class DmpEvtXXXXRaw  for DmpRDC and DmpCalPed
 class DmpEvtPsdRaw : public DmpEvtVBasicSubDet{
  public:
-  DmpEvtPsdRaw();
+  DmpEvtPsdRaw(DmpEvtVBasicHeader*);
   ~DmpEvtPsdRaw();
   Bool_t BookBranch(TTree* tree, Bool_t read, TString detector);              // book all branches of Psd Raw
   void   Reset();                   // reset a event

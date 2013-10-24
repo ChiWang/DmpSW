@@ -6,7 +6,6 @@
 
 #include "DmpEvtVBasicHeader.hh"
 
-using namespace std;
 using namespace TMath;
 
 DmpEvtVBasicHeader::DmpEvtVBasicHeader()
@@ -20,14 +19,8 @@ DmpEvtVBasicHeader::DmpEvtVBasicHeader()
 DmpEvtVBasicHeader::~DmpEvtVBasicHeader()
 {}
 
-void DmpEvtVBasicHeader::Reset(){
-}
-
-Bool_t  DmpEvtVBasicHeader::BookBranch(TTree* tree, Bool_t read, TString detector){
-}
-
 void DmpEvtVBasicHeader::SetTime(Short_t* Time){
-  cout<<"\t\t\t Setting time"<<endl;
+  std::cout<<"\t\t\t Setting time"<<std::endl;
   Long64_t SecTmp = Time[2]*Power(16,6)+Time[3]*Power(16,4)+Time[4]*Power(16,2)+Time[5]*Power(16,0);
   Short_t  mSecTmp = Time[6]*256+Time[7];
   fTimeGap = (fSec==0 && fmSec==0)?111:((SecTmp-fSec)*1000+(mSecTmp-fmSec));
@@ -36,7 +29,7 @@ void DmpEvtVBasicHeader::SetTime(Short_t* Time){
 }
 
 void DmpEvtVBasicHeader::ShowTime() const{
-  cout<<"Show normal time"<<endl;
+  std::cout<<"Show normal time"<<std::endl;
 }
 
 void DmpEvtVBasicHeader::BookBranchHeaderBasic(TTree* tree, Bool_t read, TString pre){

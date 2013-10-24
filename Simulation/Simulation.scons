@@ -49,7 +49,7 @@ else:
 #   set Geant4 environment
 if int(ARGUMENTS.get('g4',1)):
     g4sys=os.environ['G4INSTALL']
-    EnvSim.PrependENVPath('PATH', g4sys+'/bin')
+    EnvEvt.PrependENVPath('PATH', g4sys+'/../../../bin')
     EnvSim.ParseConfig("geant4-config --cflags --libs")
     #EnvSim.Prepend(CPPFLAGS = '-DG4VIS_USE')       # set our -DRelease or -DDebug
     #EnvSim.Append(CPPFLAGS = ' -DG4UI_USE')

@@ -1,17 +1,17 @@
-# reserve the first "3" lines for explain the usage. user can replace them by their own note
-# format as below.  If user want to convert MANY HexData once, add HexDataName between "# Hex data name" and "END"(where stop input)
+# Reserve the first "3" lines to explain the usage. user can replace them by their own note
+# Format as below.  If user want to convert MANY HexData once, add DataName before the keywork "END"
 # Note: data below is beam test data
-# where to read hex data (in data). The path end with /                                (keep this line forever)
+# where to read input data. The path end with /         (keep this line forever)
 ./
-# where to save raw data(Raw Data Conversion output). The path end with /    (keep this line forever)
+# where to save oupt data. The path end with /          (keep this line forever)
 ./
-# Hex data name                                         (keep this line forever)
-HexDataName_1
-HexDataName_2
+# data name                                             (keep this line forever)
+DataName_1
+DataName_2
 ScienceData_20121005164959.dat
 END
 ScienceData_20121005222009.dat
-HexDataName_3
-HexDataName_4
-HexDataName_5
+DataName_3
+DataName_4
+DataName_5
 

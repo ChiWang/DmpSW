@@ -4,7 +4,8 @@
 
 #include "DmpEvtStk.hh"
 
-DmpEvtStkRaw::DmpEvtStkRaw()
+DmpEvtStkRaw::DmpEvtStkRaw(DmpEvtVBasicHeader* header)
+ :DmpEvtVBasicSubDet(header)
 {}
 
 DmpEvtStkRaw::~DmpEvtStkRaw(){
@@ -18,14 +19,14 @@ Bool_t DmpEvtStkRaw::BookBranch(TTree* tree, Bool_t read, TString pre){
 
 void DmpEvtStkRaw::Reset(){
   fMode = kMixed;
-  fNSignal = 0;
+  fNHit = 0;
   fADC = 0;
 }
 
 void DmpEvtStkRaw::SetSignal(Float_t ADC){
   fMode = kCalPed;
   fADC = ADC;
-  ++fNSignal;
+  ++fNHit;
 }
 
 void DmpEvtStkRaw::BookBranchStkRaw(TTree* tree, Bool_t read, TString pre){

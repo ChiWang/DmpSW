@@ -1,26 +1,17 @@
+#   Plane_ID:
+XX
+##   Side:   0   X-A
+XX
+###   FEE-ID:
+XX
+####    Bar_ID  Dy_ID   Channel_ID     //24 Bar (include 2 Reference Bar)
+       Dy2
+       Dy5
+       Dy8
 
-one Plane
-    X Layer
-        Side(-1) -> One FEE
-            24 Bar (include 2 Reference Bar)
-                Dy2
-                Dy5
-                Dy8
-        Side(1) -> an other one FEE
-            24 Bar (include 2 Reference Bar)
-                Dy2
-                Dy5
-                Dy8
+##   Side:   1   Y-A
 
-    Y Layer
-        Side(-1) -> One FEE
-            24 Bar (include 2 Reference Bar)
-                Dy2
-                Dy5
-                Dy8
-        Side(1) -> an other one FEE
-            24 Bar (include 2 Reference Bar)
-                Dy2
-                Dy5
-                Dy8
+##   Side:   2   X-B
+
+##   Side:   3   Y-B
 

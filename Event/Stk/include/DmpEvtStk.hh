@@ -7,7 +7,7 @@
 //  class DmpEvtXXXXRaw  for DmpRDC and DmpCalPed
 class DmpEvtStkRaw : public DmpEvtVBasicSubDet{
  public:
-  DmpEvtStkRaw();
+  DmpEvtStkRaw(DmpEvtVBasicHeader*);
   ~DmpEvtStkRaw();
   Bool_t BookBranch(TTree* tree, Bool_t read, TString detector);              // book all branches of Stk Raw
   void   Reset();                   // reset a event
