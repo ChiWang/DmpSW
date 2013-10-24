@@ -34,8 +34,8 @@ void DmpCalL0Manager::BookHistBgo(){
       for (Short_t b=0;b<kBarNb+kRefBarNb;++b) {
         for (Short_t d=0;d<kDyNb;++d) {
           TString histName = GetHistNameBgo(p,q,b,d);
-          fHistBgo->push_back(new TH1F(histName,histName+";ADC;count",500,-200,1300));
-          fName2IDBgo.insert(std::make_pair(histName,n));
+          fMHistBgo.insert(std::make_pair(histName,new TH1F(histName,histName+";ADC;count",500,-200,1300)));
+//std::cout<<fMHistBgo.at(histName)->GetName()<<std::endl;
           ++n;
         }
       }
@@ -45,7 +45,6 @@ void DmpCalL0Manager::BookHistBgo(){
 
 /*
 TH1F* DmpCalL0Manager::GetHist(Short_t p,Short_t q,Short_t b,Short_t dy){
-  TH1F* hist = (*fHistBgo)[fName2IDBgo[GetHistNameBgo(p,q,b,dy)]];
   return hist;
 }
 */
@@ -68,7 +67,10 @@ void DmpCalL0Manager::FillPedestalBgo(){
 
   Int_t nHit = fEvtBgo->GetHitNumber();
   for (Int_t n=0;n<nHit;++n) {
-    (*fHistBgo)[fName2IDBgo[GetHistNameBgo(planeID->at(n),quadrantID->at(n),barID->at(n),dyID->at(n))]]->Fill(adc->at(n));
+    TString histName = GetHistNameBgo(planeID->at(n),quadrantID->at(n),barID->at(n),dyID->at(n));
+std::cout<<"2222XXX"<<std::endl;
+    //(fMHistBgo.at(histName))->Fill(adc->at(n));
+std::cout<<"3333XXX"<<std::endl;
   }
 }
 
@@ -84,37 +86,38 @@ void DmpCalL0Manager::SavePedestalBgo(){
   ofstream outPed(fOutDataPath+dataName+".dat");
   outPed<<"#Format:\tPlane, Quadrant, Bar, Dy: mean, sigma"<<std::endl;
 
-  for (Int_t i=0;i<fHistBgo->size();++i) {
+  for (std::map<TString, TH1F*>::iterator i=fMHistBgo.begin();i!=fMHistBgo.end();++i) {
+    TH1F    *hist = i->second;
     // reset range, rebin
     Int_t min=0, max=0;
-    Int_t nBins = (*fHistBgo)[i]->GetXaxis()->GetNbins();
+    Int_t nBins = hist->GetXaxis()->GetNbins();
     for (Int_t n=0;n<nBins;++n) {
-      if ( (*fHistBgo)[i]->GetBinContent(n)>0 ) {
+      if ( hist->GetBinContent(n)>0 ) {
         min = n;
         break;
       }
     }
     for (Int_t n=nBins;n>0;--n) {
-      if ( (*fHistBgo)[i]->GetBinContent(n)>0 ) {
+      if ( hist->GetBinContent(n)>0 ) {
         max = n;
         if((max+5)>nBins) max = nBins;
         break;
       }
     }
-    (*fHistBgo)[i]->GetXaxis()->SetRange(min,max);                  // use new range
-    while ((*fHistBgo)[i]->GetBinContent((*fHistBgo)[i]->GetMaximumBin()) < (*fHistBgo)[i]->Integral()/15) {
-      (*fHistBgo)[i]->Rebin();
+    hist->GetXaxis()->SetRange(min,max);                  // use new range
+    while (hist->GetBinContent(hist->GetMaximumBin()) < hist->Integral()/15) {
+      hist->Rebin();
     }
     // Fit and check results
-    TFitResultPtr r = (*fHistBgo)[i]->Fit("gaus","LSQ");       // L: likelihood, Q: quiet mode, S: return fit results to TFitResultPtr
+    TFitResultPtr r = hist->Fit("gaus","LSQ");       // L: likelihood, Q: quiet mode, S: return fit results to TFitResultPtr
     if (r->Chi2() > 0 ) {
-        std::cout<<"Warning:\t"<<(*fHistBgo)[i]->GetName()<<"\t\tChi2 = "<<r->Chi2()<<std::endl;
+        std::cout<<"Warning:\t"<<hist->GetName()<<"\t\tChi2 = "<<r->Chi2()<<std::endl;
     }
     outPed<<r->Parameter(0)<<" "<<r->Parameter(1)<<"  ";
     
 
-    (*fHistBgo)[i]->Write();
-    (*fHistBgo)[i]->Reset();
+    hist->Write();
+    hist->Reset();
   }
   outPed.close();
   ResetRootFile();

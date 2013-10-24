@@ -84,8 +84,7 @@ class DmpCalL0Manager : public DmpVManager{
   void  SavePedestalBgo();
 
   DmpEvtBgoRaw*             fEvtBgo;
-  std::map<TString, Int_t>  fName2IDBgo;    //! key: HistName,  value:   hist ID
-  std::vector<TH1F*>        *fHistBgo;      //! (*fHistBgo)[fName2IDBgo[GetHistNameBgo(p,q,b,dy)]]
+  std::map<TString,TH1F*>   fMHistBgo;      //! fMHistBgo[GetHistNameBgo(p,q,b,dy)]
   Short_t                   ****fHitOrder;  //! Hit order from max to min.  fHitOrder[Bgo::kPlaneNb][Bgo::kSideNb*2][Bgo::kDyNb][Bgo::kBarNum+Bgo::kRefBarNb]
   // Nud
  private:

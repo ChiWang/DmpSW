@@ -79,7 +79,6 @@ DmpCalL0Manager::DmpCalL0Manager()
   fEvtStk   = new DmpEvtStkRaw(fEvtHeader);
   fEvtBgo   = new DmpEvtBgoRaw(fEvtHeader);
   fEvtNud   = new DmpEvtNudRaw(fEvtHeader);
-  fHistBgo = new std::vector<TH1F*>();
   BookHistBgo();
 
   fHitOrder = new Short_t*** [Bgo::kPlaneNb];        // create 4 dimenstion array
@@ -100,10 +99,10 @@ DmpCalL0Manager::~DmpCalL0Manager(){
   delete fEvtStk;
   delete fEvtBgo;
   delete fEvtNud;
-  for (Int_t i=0;i<fHistBgo->size();++i) {
-    delete fHistBgo->at(i);
+  for (std::map<TString,TH1F*>::iterator i=fMHistBgo.begin();i!=fMHistBgo.end();++i) {
+    std::cout<<"deleteing "<<(i->second)->GetName()<<std::endl;
+    delete i->second;
   }
-  delete fHistBgo;
   for(Short_t p=0;p<Bgo::kPlaneNb;++p){
     for(Short_t q=0;q<Bgo::kSideNb*2;++q){
       for(Short_t d=0;d<Bgo::kDyNb;++d){

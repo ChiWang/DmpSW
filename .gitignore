@@ -21,7 +21,7 @@ ChuyangRDCDeploy
 *.dblite
 
 # test directory
-test
+*test*
 
 # vim .swp; emacs
 *.swp
