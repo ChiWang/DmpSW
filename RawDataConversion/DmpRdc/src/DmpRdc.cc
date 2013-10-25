@@ -17,11 +17,6 @@
 #include <iostream>
 
 #include "DmpRdcManager.hh"
-#include "DmpRdcHeader.hh"
-#include "DmpRdcPsd.hh"
-#include "DmpRdcStk.hh"
-#include "DmpRdcBgo.hh"
-#include "DmpRdcNud.hh"
 
 using namespace std;
 
@@ -52,23 +47,20 @@ int main(int argc, char* argv[]){
   *BatchInfor>>dataName;         // get the first dataName
 
   DmpRdcManager* RdcMan = DmpRdcManager::GetInstance();
-  if ( !RdcMan->GetPsd()->SetConnector()) return 0;
-  if ( !RdcMan->GetStk()->SetConnector()) return 0;
-  if ( !RdcMan->GetBgo()->SetConnector()) return 0;
-  if ( !RdcMan->GetNud()->SetConnector()) return 0;
+  if ( !RdcMan->SetConnector("Dampe")) return 0;
 
   RdcMan->SetInDataPath(inDataPath);
   RdcMan->SetOutDataPath(outDataPath);
 
   while (dataName != "END") {
     RdcMan->SetDataName(dataName);
-    ifstream* InData = new ifstream((TString)inDataPath+(TString)dataName,ios::in|ios::binary);
+    ifstream* InData = new ifstream(RdcMan->GetInDataPath()+(TString)dataName,ios::in|ios::binary);
     if (!InData->good()) {
-      cout<<"\n\t---->Warning: open "<<inDataPath+dataName<<" failed"<<endl;
+      cout<<"\n\t---->Warning: open "<<RdcMan->GetInDataPath()+dataName<<" failed"<<endl;
       *BatchInfor>>dataName;
       continue;
     } else {
-      cout<<"\n\t---->Reading "<<inDataPath+dataName<<endl;
+      cout<<"\n\t---->Reading "<<RdcMan->GetInDataPath()+dataName<<endl;
     }
 
     if ( ! RdcMan->BookTree() ) {
@@ -85,19 +77,12 @@ int main(int argc, char* argv[]){
 //Long64_t EvtID = RdcMan->GetHeader()->GetPackageID();
 //if (EvtID == 20) break;
 
-      if (! RdcMan->GetHeader()->Conversion(InData)) {
+/*
+      if (! RdcMan->Conversion(InData)) {
         continue;
       }
-      if (! RdcMan->GetNud()->Conversion(InData)) {
-        continue;
-      }
-      if (! RdcMan->GetPsd()->Conversion(InData)) {
-        continue;
-      }
-      if (! RdcMan->GetStk()->Conversion(InData)) {
-        continue;
-      }
-      if (! RdcMan->GetBgo()->Conversion(InData)) {
+*/
+      if (! RdcMan->Conversion(InData,"Bgo")) {
         continue;
       }
 
@@ -110,7 +95,7 @@ int main(int argc, char* argv[]){
   }
   BatchInfor->close();
   RdcMan->Clear();
-  cout<<"\n\t---->End of Raw Data Conversion"<<endl;
+  cout<<"\t---->End of Raw Data Conversion"<<endl;
 
 }
 

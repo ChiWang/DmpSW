@@ -20,23 +20,23 @@
 
 #include <vector>
 
-#include "DmpEvtVBasicSubDet.hh"
+#include "DmpEvtVSubDet.hh"
 
 //typedef std::vector<int>  dmpContainerInt;
 //  class DmpEvtXXXXRaw  for DmpRDC and DmpCalPed
-class DmpEvtBgoRaw : public DmpEvtVBasicSubDet{
+class DmpEvtBgoRaw : public DmpEvtVSubDet{
  public:
-  DmpEvtBgoRaw(DmpEvtVBasicHeader*);
+  DmpEvtBgoRaw(DmpEvtVHeader*);
   ~DmpEvtBgoRaw();
   void   Reset();                   // reset a event
-  Bool_t BookBranch(TTree* tree, Bool_t read, TString detectorName);              // all branch of Bgo Raw
+  Bool_t BookBranch(TTree *tree, Bool_t read, TString detectorName);              // all branch of Bgo Raw
   void   PrintEvent() const;
   void   SetSignal(Short_t planeID,Short_t quadrantID,Short_t barID,Short_t dyID,Float_t adc);        // set a signal of one channal in a event
-  std::vector<int>   *GetEvent(TString);
-  std::vector<double>   *GetEventADC();
+  std::vector<int>*     GetEvent(TString);
+  std::vector<double>*  GetEventADC();
 
  private:
-  void BookBranchBgoRaw(TTree* tree, Bool_t read, TString detectorName);
+  void BookBranchBgoRaw(TTree *tree, Bool_t read, TString detectorName);
 
  private:
   std::vector<int>      *fPlaneID;      //! (1) must use vector<int> or vector<double> in branch. (2) must use pointer here, in order to SetBranchAddress() latter
@@ -49,7 +49,7 @@ class DmpEvtBgoRaw : public DmpEvtVBasicSubDet{
 
 
 //  class DmpEvtXXXXRec  for DmpRec
-//  class DmpEvtBgoRecL0 : public DmpEvtBasic{}
+//  class DmpEvtBgoRecL0 : public DmpEvt{}
 
 //  class DmpEvtXXXXDst  for Analysis part of DMPSW
 

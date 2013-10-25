@@ -13,9 +13,7 @@
 #                                          Update:  2013-10-18   15:53:34
 =============================================================================*/
 
-#ifdef DEBUG
 #include <iostream>
-#endif
 
 #include "DmpCalL0Manager.hh"
 #include "DmpEvtHeader.hh"     // include DmpDcdRunMode.hh

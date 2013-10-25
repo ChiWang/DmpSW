@@ -38,17 +38,17 @@ debug=ARGUMENTS.get('debug',0)
 if int(debug):
     print "\t\t debug mode"
     EnvEvt.Prepend(CCFLAGS = '-g')
-    EnvEvt.Append(CCFLAGS = '-DDEBUG')
+    EnvEvt.Append(CCFLAGS = '-DDmp_DEBUG')
     installdir=os.environ['DMPSWWORKGit']
 else:
-    EnvEvt.Append(CCFLAGS = '-DRELEASE')
+    EnvEvt.Append(CCFLAGS = '-DDmp_RELEASE')
     Import('PREFIX')
     installdir=PREFIX
 
 #   set Geant4 environment
 if int(ARGUMENTS.get('g4',0)):
     g4sys=os.environ['G4INSTALL']
-    EnvCalL0SBgoM.PrependENVPath('PATH', g4sys+'/../../../bin')
+    EnvEvt.PrependENVPath('PATH', g4sys+'/../../../bin')
     EnvEvt.ParseConfig("geant4-config --cflags --libs")
 
 #   set Root environment

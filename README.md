@@ -58,9 +58,9 @@ Install SCons
 
 ## How to install DMPSW
 
-    -----------------------------------------------------------------------------------------------------------------------------------------
-    *****   This part is not used before publish DMPSW for user out of DAMPE group. Please read the next section "Development guide")   *****
-    -----------------------------------------------------------------------------------------------------------------------------------------
+    ---------------------------------------------------------------------------------------------------------------------
+    *****   Not used before publish DMPSW out of DAMPE group. Please skip to the next section "Development guide"   *****
+    ---------------------------------------------------------------------------------------------------------------------
 
 Installation:
 
@@ -90,27 +90,47 @@ Set Environment
 
     It could be helpful if you understand the naming convention firstly at --> http://dpnc.unige.ch/dampe/dokuwiki/doku.php?id=dampesoftware:namingconvention
 
-    There are 4 key points to do use DMPSW.
+    There are 6 key steps while developing DMPSW.
 
     0)  checkout(or update) whole trunk
-    1)  source thisdmpsw.sh                             // if "echo $DMPSWWORK" print $HOME/DMPSWWORK, then do not need to source this file
-        //  you can add "source /where/is/trunk/thisdmpsw.sh" in $HOME/.bashrc(or .zshrc) instead of source it every time.
-    2)  cd into the package you are developing.         // developing a certain package
-    3)  compile->running->debug->compile...             // development circle
-        *   compile:   "scons"                          // execute "scons" at the current directory (there is a file named SConstruct under this package)
-        *   execute the command created                 // just type the command name
+            svn checkout http://dpnc.unige.ch/SVNDAMPE/DAMPE/DmpSoftware/trunk  --username=tutorial
+            // assume trunk under "/Path/work"
+
+    1)  source thisdmpsw.sh
+            if "echo $DMPSWWORK" is blank, then do as follow:
+            source /Path/work/trunk/thisdmpsw.sh
+            or, you can add the line above into $HOME/.bashrc(or .zshrc) instead of source it every time.
+
+    2)  work on certian package
+            cd into the package (or sub-directory you are working)
+            commit work JUST IN THE WORKING DIRECTORY.
+
+    3)  development circle
+            compile --> running --> debug --> compile...
+            * compile:   "scons"
+                execute "scons" at where the SConstruct file at.( use the closest one SConstruct. Or, refer to Readme.md in the package)
+            * running the command just created
+                just type the command name
+            * clean up: "scons -c"
+
+    4)  commit work
+            svn commit
+            then, add the commit note at the head of the opened file.
+            if work fine, then, svn update
+
+    5)  use other package of DMPSW
+            if the package you are developing need a new dependence of other package.
 
     In cause you get any error, please send a group email.
 
-    If you want to understand the DMPSW more clearly, please read sub-sections below.
+    Next is about structure of DMPSW, if you to know more clearly of DMPSW setup, please read below.
 
-
-### Software structure of development
-
-*   each package is a top-1 directory. Some packages (like RawDataConversion) depend on other packages, more details in their Readme.md
-*   some top-1 directories (like Calibration) has top-2 direcotry if necessary.
 
 ### Structure of installation (after installation) 
+
+    -------------------------------------------------------------------------------------------------
+    *****   Not used before publish DMPSW out of DAMPE group. Please skip to the next section   *****
+    -------------------------------------------------------------------------------------------------
 
 These directories (or link) below will be created in "/prefix/DmpSW_Version"
 *   bin
@@ -195,13 +215,6 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
               // CMD: dmpSim;   Input:  dmpGenertor-XXX???XXX.dat
               // the same as reconstruction/rawDatName-rec0.root
 
-### How to debug? (Refer to Readme.md in each directory)
-
-1.  cp *.scons SConstruct   // if there is a file named SConstruct, skip to step 2.
-2.  scons                   // Or use "scons debug=1"
-3.  scons -c                // Or append "debug=1"
-
-
 ### Convention
 
 1.  use detector names below ANY WHERE (except: data files are all lower case)
@@ -214,7 +227,7 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
         Dmg         // Data Management
         Stl         // Satellite
 
-2.  Abbreviation of Top-1 Module   (ATM)
+2.  Abbreviation of Package   (AP)
 
         Calibration:        Cal
         Reconstruction:     Rec
@@ -227,83 +240,86 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
         DetectorCondition:  Dcd
         Geometry:           Gem
 
-3.  class (DmpATM{SpecialKey}Dominant{sub-detector})
+3.  class (DmpAP{SpecialKey}Dominant{sub-detector})
 
         * Dmp
             Prefix of any class
-        * ATM
-            Abbreviation of Top-1 Module as mentioned above
+        * AP
+            Abbreviation of Package as mentioned above
         * {SpecialKey}
             normal class:   no SpecialKey;
             vertial class:  V
+            template class: T
         * Dominant
             explain the usefulness. Example:    DmpRdcManager
         * {sub-detector}
             whole detector: no;
             sub-detector:   Psd, Stk, Bgo, Nud, Header
 
-4.  command (dmpATM{Level}{Detector})
+4.  command (dmpAP{Level}{Detector})
 
         * dmp
             Prefix of command
-        * ATM
-            Abbreviation of Top-1 Module as mentioned above
+        * AP
+            Abbreviation of Package
         * {Level}
             only one command in a package:   no Level
             level from 0 to N
         * {Detector}
             for whole detector:     no Detector
             for sub-detector:       Psd, Stk, Bgo, Nud
-
+        Note:   if a package create a shared library, name as libDmpXXXX.so
 
 5.  file name
 
     5.1  Readme.md
 
-        Except directores include, src, there is a file named Reade.md(or README.md) in all directories.
+        Except directores include and src, there is a file named Reade.md(or README.md) in all directories to explain:
+        *   Goal
         *   Structure
         *   Usage
-        *   Relation of other packages
-        *   Debug method
+        *   Dependency
+        *   Input and output
         *   Bug report
         *   Others
 
-    5.2  for code
+    5.2  coding file
 
-        header file:    *.hh      // in a directory "include", even only one header file
-        source file:    *.cc      // in a directory "src", include main function
+        *.hh    header file, all must in directory "include"
+        *.cc    source file, all must in directory "src"
             The main function for create a command in /path/src/CMDNamed.cc
 
     5.3  FileName.scons
 
-        compilation file which will be used by build tool "SCons". Two kinds layout:
+        compilation files which will be used by build tool "SCons".
 
+        Two kinds layout:
         * a CMD for certain sub-detector
-            FileName.scons in /path/CMDNamedDir/
+            will not invoke other sub-detectors
         * a CMD for whole detector
-            FileName.scons at the same directory as /path/CMDNamedDir/
+            will invoke all sub-detectors
 
-    5.4  file as command argument
-
-        name as the command with the suffix "Input.infor" and change the first "D" as uppercase letter
-        DmpRecL0Input.infor         // execute "dmpRecL0" will use DmpRecL0Input.infor defaultly
-        DmpRecL0Input_XXXX.infor    // execute "dmpRecL0 DmpRecL0Input_XXX.infor"
+    5.4  interface of command of input files(batch mode)
+            dmpRdc  DmpRecL0Input_XXX.infor
+            *   prefix:     DmpeRecL0       // CMD name
+            *   suffix:     .infor          // all use this
+            *   middle:     Input_XXX       // note
     
     5.5  FileName.cnct
 
-        dectector <-> FEE, connection information. Those files end with ".cnct"
+        dectector <-> FEE, connection information.
 
 ### Others
 
 1.  All personal test must in "test" directory, you can create "test" directory at wherever you need. Then other people will not waste their time on checking test.
 
-2.  We set macro definition of "DEBUG" and "RELEASE" if you use our SCons files, it will makes your code more flexible, for example:
+2.  We set macro definition of "Dmp_DEBUG" and "Dmp_RELEASE" in g++ while you using we setted SCons files, it will makes your code more flexible, for example:
 
-    #ifdef DEBUG
+    #ifdef Dmp_DEBUG
       cout<<"some thing you want to check"<<endl;
       // or some thing you need for debug.
     #endif
-    #ifdef RELEASE
+    #ifdef Dmp_RELEASE
       cout<<"This is release mode. I'm (this line) is useless"<<endl;
       // or some thing for release.
     #endif

@@ -10,7 +10,7 @@
 #
 #------------------------------------------------------------------------------
 #       History  :
-#                                          Update:  2013-10-18   22:02:06
+#                                          Update:  2013-10-25   15:35:20
 =============================================================================*/
 
 #ifndef DmpVManager_H
@@ -26,7 +26,7 @@ class DmpVManager {
   DmpVManager();
   virtual ~DmpVManager();
   inline void   SetDataName(TString name)       {fDataName = name;}
-  inline  TTree* GetTreePointer() const         {return fTree;}
+  inline  TTree*  GetTreePointer() const        {return fTree;}
   inline  TString GetInDataPath() const         {return fInDataPath;}
   inline  TString GetOutDataPath() const        {return fOutDataPath;}
   void    SetInDataPath(TString path);
@@ -42,9 +42,9 @@ class DmpVManager {
   TString   fInDataPath;
   TString   fOutDataPath;
   TString   fDataName;
-  TFile*    fInRootFile;
-  TFile*    fOutRootFile;
-  TTree*    fTree;
+  TFile     *fInRootFile;
+  TFile     *fOutRootFile;
+  TTree     *fTree;
   
 };
 

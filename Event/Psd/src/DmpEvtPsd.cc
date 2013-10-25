@@ -5,15 +5,15 @@
 
 #include "DmpEvtPsd.hh"
 
-DmpEvtPsdRaw::DmpEvtPsdRaw(DmpEvtVBasicHeader* header)
- :DmpEvtVBasicSubDet(header)
+DmpEvtPsdRaw::DmpEvtPsdRaw(DmpEvtVHeader* header)
+ :DmpEvtVSubDet(header)
 {}
 
 DmpEvtPsdRaw::~DmpEvtPsdRaw(){
 }
 
-Bool_t DmpEvtPsdRaw::BookBranch(TTree* tree, Bool_t read, TString pre){
-  BookBranchSubDet(tree, read,pre);
+Bool_t DmpEvtPsdRaw::BookBranch(TTree *tree, Bool_t read, TString pre){
+  BookBranchVSubDet(tree, read,pre);
   BookBranchPsdRaw(tree, read, pre);
   return true;
 }
@@ -29,7 +29,7 @@ void DmpEvtPsdRaw::SetSignal(Float_t ADC){
   ++fNHit;
 }
 
-void DmpEvtPsdRaw::BookBranchPsdRaw(TTree* tree, Bool_t read, TString pre){
+void DmpEvtPsdRaw::BookBranchPsdRaw(TTree *tree, Bool_t read, TString pre){
   if (read) {
     tree->SetBranchAddress(pre+"_ACD",&fADC);
   } else {

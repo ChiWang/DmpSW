@@ -4,15 +4,15 @@
 
 #include "DmpEvtNud.hh"
 
-DmpEvtNudRaw::DmpEvtNudRaw(DmpEvtVBasicHeader* header)
- :DmpEvtVBasicSubDet(header)
+DmpEvtNudRaw::DmpEvtNudRaw(DmpEvtVHeader *header)
+ :DmpEvtVSubDet(header)
 {}
 
 DmpEvtNudRaw::~DmpEvtNudRaw(){
 }
 
-Bool_t DmpEvtNudRaw::BookBranch(TTree* tree, Bool_t read, TString pre){
-  BookBranchSubDet(tree, read, pre);
+Bool_t DmpEvtNudRaw::BookBranch(TTree *tree, Bool_t read, TString pre){
+  BookBranchVSubDet(tree, read, pre);
   BookBranchNudRaw(tree, read, pre);
   return true;
 }
@@ -29,7 +29,7 @@ void DmpEvtNudRaw::SetSignal(Float_t ADC){
   ++fNHit;
 }
 
-void DmpEvtNudRaw::BookBranchNudRaw(TTree* tree, Bool_t read, TString pre){
+void DmpEvtNudRaw::BookBranchNudRaw(TTree *tree, Bool_t read, TString pre){
   if (read) {
     tree->SetBranchAddress(pre+"_ACD",&fADC);
   } else {

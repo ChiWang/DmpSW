@@ -17,18 +17,15 @@
 
 #include "TFile.h"
 //#include "TTree.h"
-#include "TH1F.h"
+//#include "TH1F.h"
 
 #include "DmpCalL0Manager.hh"
 
 #include "DmpEvtHeader.hh"
 #include "DmpEvtPsd.hh"
 #include "DmpEvtStk.hh"
-#include "DmpDcdParameterBgo.hh"
 #include "DmpEvtBgo.hh"
 #include "DmpEvtNud.hh"
-
-using namespace DmpDcdParameter;
 
 DmpCalL0Manager*  DmpCalL0Manager::fInstance=0;
 
@@ -74,45 +71,19 @@ void DmpCalL0Manager::SavePedestal(TString subDet){
 DmpCalL0Manager::DmpCalL0Manager()
  :DmpVManager()
 {
-  fEvtHeader= new DmpEvtHeaderRaw();
-  fEvtPsd   = new DmpEvtPsdRaw(fEvtHeader);
-  fEvtStk   = new DmpEvtStkRaw(fEvtHeader);
-  fEvtBgo   = new DmpEvtBgoRaw(fEvtHeader);
-  fEvtNud   = new DmpEvtNudRaw(fEvtHeader);
-  BookHistBgo();
-
-  fHitOrder = new Short_t*** [Bgo::kPlaneNb];        // create 4 dimenstion array
-  for(Short_t p=0;p<Bgo::kPlaneNb;++p){
-    fHitOrder[p] = new Short_t** [Bgo::kSideNb*2];
-    for(Short_t q=0;q<Bgo::kSideNb*2;++q){
-      fHitOrder[p][q] = new Short_t* [Bgo::kDyNb];
-      for(Short_t d=0;d<Bgo::kDyNb;++d){
-        fHitOrder[p][q][d] = new Short_t [Bgo::kBarNb+Bgo::kRefBarNb];
-      }
-    }
-  }
+  fEvtHeader= new DmpEvtHeaderRaw();    // must before sub-detector. it will be used in ConstructorSubDet()
+  ConstructorPsd();
+  ConstructorStk();
+  ConstructorBgo();
+  ConstructorNud();
 }
 
 DmpCalL0Manager::~DmpCalL0Manager(){
   delete fEvtHeader;
-  delete fEvtPsd;
-  delete fEvtStk;
-  delete fEvtBgo;
-  delete fEvtNud;
-  for (std::map<TString,TH1F*>::iterator i=fMHistBgo.begin();i!=fMHistBgo.end();++i) {
-    std::cout<<"deleteing "<<(i->second)->GetName()<<std::endl;
-    delete i->second;
-  }
-  for(Short_t p=0;p<Bgo::kPlaneNb;++p){
-    for(Short_t q=0;q<Bgo::kSideNb*2;++q){
-      for(Short_t d=0;d<Bgo::kDyNb;++d){
-        delete[] fHitOrder[p][q][d];
-      }
-      delete[] fHitOrder[p][q];
-    }
-    delete[] fHitOrder[p];
-  }
-  delete[] fHitOrder;
+  DestructorPsd();
+  DestructorStk();
+  DestructorBgo();
+  DestructorNud();
 }
 
 void DmpCalL0Manager::FillPedestal(TString subDet){

@@ -21,7 +21,8 @@
 
 #include "DmpVManager.hh"
 
-class TH1F;
+class RooDataSet;
+class RooRealVar;
 class DmpEvtHeaderRaw;
 class DmpEvtPsdRaw;
 class DmpEvtStkRaw;
@@ -67,30 +68,42 @@ class DmpCalL0Manager : public DmpVManager{
 //  ---------------->   sub-detector
   // Header
  private:
-  DmpEvtHeaderRaw*  fEvtHeader;
+  DmpEvtHeaderRaw   *fEvtHeader;
   // Psd
  private:
-  DmpEvtPsdRaw*     fEvtPsd;
+  void ConstructorPsd();
+  void DestructorPsd();
+  DmpEvtPsdRaw      *fEvtPsd;
   // Stk
  private:
-  DmpEvtStkRaw*     fEvtStk;
+  void ConstructorStk();
+  void DestructorStk();
+  DmpEvtStkRaw      *fEvtStk;
   // Bgo
  private:
-  void BookHistBgo();
-  TString GetHistNameBgo(Short_t planeID,Short_t quadrantID,Short_t barID,Short_t dyID);
-  //TH1F* GetHist(Short_t p,Short_t quadrant,Short_t b,Short_t dy);
+  void ConstructorBgo();
+  void DestructorBgo();
+  void BookMapBgo();
+  TString GetMapNameBgo(Short_t planeID,Short_t quadrantID,Short_t barID);
   void  FillPedestalBgo();
   void  UpdateHitOrder();        // return 4 dimentions array
   void  SavePedestalBgo();
 
-  DmpEvtBgoRaw*             fEvtBgo;
-  std::map<TString,TH1F*>   fMHistBgo;      //! fMHistBgo[GetHistNameBgo(p,q,b,dy)]
+  DmpEvtBgoRaw                  *fEvtBgo;   //! interface to input root file
+  RooRealVar                    *fDy2;      //! 3 RooRealVar are used in RooDataSet
+  RooRealVar                    *fDy5;
+  RooRealVar                    *fDy8;
+  std::map<TString,RooDataSet*> *fMapBgo;   //! fMapBgo[GetMapNameBgo(p,q,b)]
+  
   Short_t                   ****fHitOrder;  //! Hit order from max to min.  fHitOrder[Bgo::kPlaneNb][Bgo::kSideNb*2][Bgo::kDyNb][Bgo::kBarNum+Bgo::kRefBarNb]
   // Nud
  private:
-  DmpEvtNudRaw*     fEvtNud;
+  void ConstructorNud();
+  void DestructorNud();
+  DmpEvtNudRaw      *fEvtNud;
 
 };
 
 #endif
+
 

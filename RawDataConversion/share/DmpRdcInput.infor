@@ -1,15 +1,18 @@
 # Reserve the first "3" lines to explain the usage. user can replace them by their own note
 # Format as below.  If user want to convert MANY HexData once, add DataName before the keywork "END"
 # Note: data below is beam test data
-# where to read input data. The path end with /         (keep this line forever)
-./
-# where to save oupt data. The path end with /          (keep this line forever)
-./
+# where to read input data.                             (keep this line forever)
+/WorkDir/workDir/chi/DataBase
+# where to save oupt data.                              (keep this line forever)
+./test
 # data name                                             (keep this line forever)
+2013-10-15-17-44-35.dat
+2013-10-15-17-44-00.dat
+END
+2013-10-15-05-15-01.dat
 DataName_1
 DataName_2
 ScienceData_20121005164959.dat
-END
 ScienceData_20121005222009.dat
 DataName_3
 DataName_4

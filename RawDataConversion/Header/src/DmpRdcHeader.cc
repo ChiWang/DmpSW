@@ -15,33 +15,17 @@
 
 #include <iostream>
 
-#include "TROOT.h"
+#include "DmpRdcManager.hh"
 
 #include "DmpDcdParameterDmg.hh"
 #include "DmpEvtHeader.hh"
-#include "DmpRdcHeader.hh"
 
-using namespace std;
 using namespace DmpDcdParameter::Dmg::Sci;
 
-DmpRdcHeader::DmpRdcHeader()
- :fEvt(0)
-{
-  fEvt = new DmpEvtHeaderRaw();
-}
-
-DmpRdcHeader::~DmpRdcHeader(){
-  delete fEvt;
-}
-
-void DmpRdcHeader::Initialize(){
-  fEvt->Reset();
-}
-
 // need real data to implement this part
-Bool_t DmpRdcHeader::Conversion(ifstream* HexData){
-#ifdef DEBUG
-  cout<<"\t\t\tEvent Conversion:\tHeader"<<endl;
+Bool_t DmpRdcManager::ConversionHeader(ifstream* HexData){
+#ifdef Dmp_DEBUG
+  std::cout<<"\t\t\tEvent Conversion:\tHeader"<<std::endl;
 #endif
   Short_t tmp=0;
   HexData->read((char*)(&tmp),1);
@@ -52,13 +36,13 @@ Bool_t DmpRdcHeader::Conversion(ifstream* HexData){
   if (tmp!=0x08)    return false;
   HexData->read((char*)(&tmp),1);
   if (tmp!=0x13) {
-    cout<<"\t\t\t\t----> Searching 0xe225 0813"<<endl;
+    std::cout<<"\t\t\t\t----> Searching 0xe225 0813"<<std::endl;
     return false;
   } else {
-    fEvt->IsValidPackage();
+    fEvtHeader->IsValidPackage();
   }
-  HexData->read((char*)(&fTrigger),1);      //this needed
-  HexData->read((char*)(&fTrigger),1);
+  HexData->read((char*)(&tmp),1);           //this needed
+  HexData->read((char*)(&fTrigger["Header"]),1);
   HexData->read((char*)(&tmp),1);           //Datalongth
   HexData->read((char*)(&tmp),1);           //Datalongth
 
@@ -68,9 +52,9 @@ Bool_t DmpRdcHeader::Conversion(ifstream* HexData){
     HexData->read((char*)(&time[i]),1);
   }
 
-  fEvt->SetTime(time);
-#ifdef DEBUG
-cout<<"\t\ttrigger = "<<fTrigger<<"\tPcg = "<<fEvt->GetPackageID()<<endl;
+  fEvtHeader->SetTime(time);
+#ifdef Dmp_DEBUG
+std::cout<<"\t\ttrigger = "<<fTrigger["Header"]<<"\tPcg = "<<fEvtHeader->GetPackageID()<<std::endl;
 #endif
 
   return true;

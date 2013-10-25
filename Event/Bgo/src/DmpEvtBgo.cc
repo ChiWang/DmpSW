@@ -21,8 +21,8 @@
 #include "DmpEvtHeader.hh"
 #include "DmpEvtBgo.hh"
 
-DmpEvtBgoRaw::DmpEvtBgoRaw(DmpEvtVBasicHeader* header)
- :DmpEvtVBasicSubDet(header)
+DmpEvtBgoRaw::DmpEvtBgoRaw(DmpEvtVHeader *header)
+ :DmpEvtVSubDet(header)
 {
   fPlaneID  = new std::vector<int>;
   fQuadrantID = new std::vector<int>;
@@ -49,8 +49,8 @@ void DmpEvtBgoRaw::Reset(){
   fADC->clear();
 }
 
-Bool_t DmpEvtBgoRaw::BookBranch(TTree* tree, Bool_t read, TString detector){
-  BookBranchSubDet(tree,read,detector);
+Bool_t DmpEvtBgoRaw::BookBranch(TTree *tree, Bool_t read, TString detector){
+  BookBranchVSubDet(tree,read,detector);
   BookBranchBgoRaw(tree,read,detector);
   return true;
 }
@@ -90,7 +90,7 @@ std::vector<double>* DmpEvtBgoRaw::GetEventADC(){
   return fADC;
 }
 
-void DmpEvtBgoRaw::BookBranchBgoRaw(TTree* tree, Bool_t read, TString pre){
+void DmpEvtBgoRaw::BookBranchBgoRaw(TTree *tree, Bool_t read, TString pre){
   if (read) {
     tree->SetBranchAddress(pre+"_PlaneID",   &fPlaneID);
     tree->SetBranchAddress(pre+"_QuadrantID",&fQuadrantID);

@@ -2,19 +2,19 @@
 #ifndef DmpEvtNud_H
 #define DmpEvtNud_H
 
-#include "DmpEvtVBasicSubDet.hh"
+#include "DmpEvtVSubDet.hh"
 
 //  class DmpEvtXXXXRaw  for DmpRDC and DmpCalPed
-class DmpEvtNudRaw : public DmpEvtVBasicSubDet{
+class DmpEvtNudRaw : public DmpEvtVSubDet{
  public:
-  DmpEvtNudRaw(DmpEvtVBasicHeader*);
+  DmpEvtNudRaw(DmpEvtVHeader*);
   ~DmpEvtNudRaw();
-  Bool_t BookBranch(TTree* tree, Bool_t read, TString detector);              // book all branches of Nud Raw
+  Bool_t BookBranch(TTree *tree, Bool_t read, TString detector);              // book all branches of Nud Raw
   void   Reset();                   // reset a event
   void   SetSignal(Float_t adc);
 
  private:
-  void BookBranchNudRaw(TTree* tree, Bool_t read, TString detector);
+  void BookBranchNudRaw(TTree *tree, Bool_t read, TString detector);
 
  private:
   Float_t   fADC;
@@ -23,7 +23,7 @@ class DmpEvtNudRaw : public DmpEvtVBasicSubDet{
 
 
 //  class DmpEvtXXXXRec  for DmpRec
-//class DmpEvtNudRecL0 : public DmpEvtBasic{}
+//class DmpEvtNudRecL0 : public DmpEvt{}
 
 
 //  class DmpEvtXXXXDst  for Analysis part of DMPSW

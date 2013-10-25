@@ -38,18 +38,18 @@ debug=ARGUMENTS.get('debug',0)
 if int(debug):
     print "\t\t debug mode"
     EnvRecStk.Prepend(CCFLAGS = '-g')
-    EnvRecStk.Append(CCFLAGS = '-DDEBUG')
+    EnvRecStk.Append(CCFLAGS = '-DDmp_DEBUG')
     installdir="./"
     SConscript(['../../Event/SConstruct'])    # need libdmpEvent
 else:
-    EnvRecStk.Append(CCFLAGS = '-DRELEASE')
+    EnvRecStk.Append(CCFLAGS = '-DDmp_RELEASE')
     Import('PREFIX')
     installdir=PREFIX
 
 #   set Geant4 environment
 if int(ARGUMENTS.get('g4',0)):
     g4sys=os.environ['G4INSTALL']
-    EnvRecStk.PrependENVPath('PATH', g4sys+'/bin')
+    EnvRecStk.PrependENVPath('PATH', g4sys+'/../../../bin')
     EnvRecStk.ParseConfig("geant4-config --cflags --libs")
 
 #   set Root environment

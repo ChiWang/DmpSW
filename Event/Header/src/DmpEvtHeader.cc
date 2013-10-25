@@ -25,8 +25,8 @@ DmpEvtHeaderRaw::DmpEvtHeaderRaw()
 DmpEvtHeaderRaw::~DmpEvtHeaderRaw(){
 }
 
-Bool_t DmpEvtHeaderRaw::BookBranch(TTree* tree, Bool_t read, TString pre){
-  BookBranchHeaderBasic(tree, read, pre);
+Bool_t DmpEvtHeaderRaw::BookBranch(TTree *tree, Bool_t read, TString pre){
+  BookBranchVHeader(tree, read, pre);
   BookBranchHeaderRaw(tree, read, pre);
   return true;
 }
@@ -39,7 +39,7 @@ Bool_t DmpEvtHeaderRaw::IsValidEvent(){
   ++fEvtID;
 }
 
-void DmpEvtHeaderRaw::BookBranchHeaderRaw(TTree* tree, Bool_t read, TString pre){
+void DmpEvtHeaderRaw::BookBranchHeaderRaw(TTree *tree, Bool_t read, TString pre){
   if (read) {
     tree->SetBranchAddress(pre+"_PackageID",&fPackageID);
   } else {

@@ -13,9 +13,17 @@
 #                                          Update:  2013-10-18   15:53:34
 =============================================================================*/
 
-#ifdef DEBUG
 #include <iostream>
-#endif
 
 #include "DmpCalL0Manager.hh"
 #include "DmpEvtStk.hh"     // include DmpDcdRunMode.hh
+
+void DmpCalL0Manager::ConstructorStk(){
+  fEvtStk   = new DmpEvtStkRaw((DmpEvtVHeader*)fEvtHeader);
+}
+
+void DmpCalL0Manager::DestructorStk(){
+  delete fEvtStk;
+}
+
+

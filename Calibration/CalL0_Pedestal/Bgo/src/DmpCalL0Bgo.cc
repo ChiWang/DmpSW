@@ -17,41 +17,78 @@
 #include <fstream>
 
 #include "TFile.h"
-#include "TH1F.h"
+#include "RooGlobalFunc.h"
+#include "RooDataSet.h"
+#include "RooRealVar.h"
+//#include "TH1F.h"
 #include "TPostScript.h"        // save as *.eps
-#include "TFitResult.h"
+//#include "TFitResult.h"
 
 #include "DmpCalL0Manager.hh"
 #include "DmpDcdParameterBgo.hh"
-#include "DmpEvtBgo.hh"     // include DmpDcdRunMode.hh
+#include "DmpEvtBgo.hh"         // include DmpDcdRunMode.hh
 
 using namespace DmpDcdParameter::Bgo;
 
-void DmpCalL0Manager::BookHistBgo(){
-  Int_t n=0;
-  for (Short_t p=0;p<kPlaneNb;++p) {
-    for (Short_t q=0;q<kSideNb*2;++q) {
-      for (Short_t b=0;b<kBarNb+kRefBarNb;++b) {
-        for (Short_t d=0;d<kDyNb;++d) {
-          TString histName = GetHistNameBgo(p,q,b,d);
-          fMHistBgo.insert(std::make_pair(histName,new TH1F(histName,histName+";ADC;count",500,-200,1300)));
-//std::cout<<fMHistBgo.at(histName)->GetName()<<std::endl;
-          ++n;
-        }
+void DmpCalL0Manager::ConstructorBgo(){
+  fEvtBgo   = new DmpEvtBgoRaw((DmpEvtVHeader*)fEvtHeader);
+  fDy2 = new RooRealVar("dy2","dy2",-100,1100);
+  fDy5 = new RooRealVar("dy5","dy5",-100,1100);
+  fDy8 = new RooRealVar("dy8","dy8",-100,1100);
+  BookMapBgo();             // must after fDyX
+
+  fHitOrder = new Short_t*** [kPlaneNb];        // create 4 dimenstion array
+  for(Short_t p=0;p<kPlaneNb;++p){
+    fHitOrder[p] = new Short_t** [kSideNb*2];
+    for(Short_t q=0;q<kSideNb*2;++q){
+      fHitOrder[p][q] = new Short_t* [kDyNb];
+      for(Short_t d=0;d<kDyNb;++d){
+        fHitOrder[p][q][d] = new Short_t [kBarNb+kRefBarNb];
       }
     }
   }
 }
 
-/*
-TH1F* DmpCalL0Manager::GetHist(Short_t p,Short_t q,Short_t b,Short_t dy){
-  return hist;
+void DmpCalL0Manager::DestructorBgo(){
+  delete fEvtBgo;
+  for (std::map<TString,RooDataSet*>::iterator i=fMapBgo->begin();i!=fMapBgo->end();++i) {
+    std::cout<<"deleteing "<<(i->second)->GetName()<<std::endl;
+    delete i->second;
+  }
+  delete fDy2;
+  delete fDy5;
+  delete fDy8;
+  for(Short_t p=0;p<kPlaneNb;++p){
+    for(Short_t q=0;q<kSideNb*2;++q){
+      for(Short_t d=0;d<kDyNb;++d){
+        delete[] fHitOrder[p][q][d];
+      }
+      delete[] fHitOrder[p][q];
+    }
+    delete[] fHitOrder[p];
+  }
+  delete[] fHitOrder;
 }
-*/
 
-TString DmpCalL0Manager::GetHistNameBgo(Short_t p,Short_t q,Short_t b ,Short_t dy){
+void DmpCalL0Manager::BookMapBgo(){
+  for (Short_t p=0;p<kPlaneNb;++p) {
+    for (Short_t q=0;q<kSideNb*2;++q) {
+      for (Short_t b=0;b<kBarNb+kRefBarNb;++b) {
+        TString name = GetMapNameBgo(p,q,b);
+        RooDataSet  *dataSet = new RooDataSet(name,name,RooArgSet(*fDy2,*fDy5,*fDy8));
+std::cout<<"XXX->   "<<dataSet<<"\t "<<&b<<std::endl;
+        //fMapBgo->insert(std::make_pair<TString,RooDataSet*>(name,dataSet));
+        fMapBgo->insert(std::make_pair(name,dataSet));
+        //(*fMapBgo)[name] = dataSet;
+std::cout<<"1111XXX"<<std::endl;
+      }
+    }
+  }
+}
+
+TString DmpCalL0Manager::GetMapNameBgo(Short_t p,Short_t q,Short_t b){
   char name[20];
-  sprintf (name,"Bgo-P%d_Q%d_B%d_D%d",p,q,b,dy);
+  sprintf (name,"Bgo-P%d_Q%d_B%d",p,q,b);
   return (TString)name;
 }
 
@@ -63,15 +100,12 @@ void DmpCalL0Manager::FillPedestalBgo(){
   std::vector<double>   *adc    = fEvtBgo->GetEventADC();
 /*
   UpdateHitOrder();
-*/
 
   Int_t nHit = fEvtBgo->GetHitNumber();
   for (Int_t n=0;n<nHit;++n) {
-    TString histName = GetHistNameBgo(planeID->at(n),quadrantID->at(n),barID->at(n),dyID->at(n));
-std::cout<<"2222XXX"<<std::endl;
-    //(fMHistBgo.at(histName))->Fill(adc->at(n));
-std::cout<<"3333XXX"<<std::endl;
+    TString name = GetMapNameBgo(planeID->at(n),quadrantID->at(n),barID->at(n));
   }
+*/
 }
 
 void DmpCalL0Manager::UpdateHitOrder(){
@@ -86,7 +120,8 @@ void DmpCalL0Manager::SavePedestalBgo(){
   ofstream outPed(fOutDataPath+dataName+".dat");
   outPed<<"#Format:\tPlane, Quadrant, Bar, Dy: mean, sigma"<<std::endl;
 
-  for (std::map<TString, TH1F*>::iterator i=fMHistBgo.begin();i!=fMHistBgo.end();++i) {
+/*
+  for (std::map<TString, TH1F*>::iterator i=fMapBgo->begin();i!=fMapBgo->end();++i) {
     TH1F    *hist = i->second;
     // reset range, rebin
     Int_t min=0, max=0;
@@ -119,6 +154,7 @@ void DmpCalL0Manager::SavePedestalBgo(){
     hist->Write();
     hist->Reset();
   }
+*/
   outPed.close();
   ResetRootFile();
 }

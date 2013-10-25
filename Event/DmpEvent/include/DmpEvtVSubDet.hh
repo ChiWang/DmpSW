@@ -1,5 +1,5 @@
 /*=============================================================================
-#       FileName :          DmpEvtVBasicSubDet.hh
+#       FileName :          DmpEvtVSubDet.hh
 #       Version  :          0.0.1
 #       Author   :          Chi Wang    (chiwang@mail.ustc.edu.cn)
 #       Time     :          2013-10-03   21:58:16
@@ -14,33 +14,31 @@
 =============================================================================*/
 
 
-#ifndef DmpEvtVBasicSubDet_H
-#define DmpEvtVBasicSubDet_H
-
-#include "TROOT.h"
+#ifndef DmpEvtVSubDet_H
+#define DmpEvtVSubDet_H
 
 #include "DmpDcdRunMode.hh"
 
 class TTree;
 class TString;
-class DmpEvtVBasicHeader;
+class DmpEvtVHeader;
 
-class DmpEvtVBasicSubDet {
+class DmpEvtVSubDet {
  public:
-  DmpEvtVBasicSubDet(DmpEvtVBasicHeader* header=0);
-  virtual ~DmpEvtVBasicSubDet();
-  inline Int_t GetHitNumber() const       {return fNHit;}
+  DmpEvtVSubDet(DmpEvtVHeader*);
+  virtual ~DmpEvtVSubDet();
+  inline Int_t GetHitNumber() const         {return fNHit;}
   inline void  SetMode(DmpDcdRunMode M0)    {fMode = M0;}
   inline DmpDcdRunMode GetMode() const      {return fMode;}
   virtual void Reset() = 0;
-  virtual Bool_t BookBranch(TTree* tree, Bool_t read, TString detectorName) = 0;
+  virtual Bool_t BookBranch(TTree *tree, Bool_t read, TString detectorName) = 0;
   virtual void PrintEvent() const;
 
  protected:
-  void BookBranchSubDet(TTree* tree, Bool_t read, TString detectorName);      // all Sub-detector has this branch
+  void BookBranchVSubDet(TTree *tree, Bool_t read, TString detectorName);      // all Sub-detector has this branch
 
  protected:
-  DmpEvtVBasicHeader*   fEvtHeader;     //! sub-detector could get event header by this
+  DmpEvtVHeader         *fEvtHeader;     //! sub-detector could get event header by this
   DmpDcdRunMode         fMode;          // run mode
   Int_t                 fNHit;          // max number of signal of sub-detector
 

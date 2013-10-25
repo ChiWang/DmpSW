@@ -38,11 +38,11 @@ debug=ARGUMENTS.get('debug',0)
 if int(debug):
     print "\t\t debug mode"
     EnvCalL0SBgoR.Prepend(CCFLAGS = '-g')
-    EnvCalL0SBgoR.Append(CCFLAGS = '-DDEBUG')
+    EnvCalL0SBgoR.Append(CCFLAGS = '-DDmp_DEBUG')
     installdir=os.environ['DMPSWWORKGit']
     SConscript(['../../../Event/SConstruct'])    # need libDmpEvent
 else:
-    EnvCalL0SBgoR.Append(CCFLAGS = '-DRELEASE')
+    EnvCalL0SBgoR.Append(CCFLAGS = '-DDmp_RELEASE')
     Import('PREFIX')
     installdir=PREFIX
 
