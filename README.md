@@ -1,4 +1,3 @@
-
 DmpSW
 =====
 
@@ -88,7 +87,8 @@ Set Environment
 
 ##  Development guide
 
-    It could be helpful if you understand the naming convention firstly at --> http://dpnc.unige.ch/dampe/dokuwiki/doku.php?id=dampesoftware:namingconvention
+    It could be helpful if you understand the naming convention firstly at:
+    http://dpnc.unige.ch/dampe/dokuwiki/doku.php?id=dampesoftware:namingconvention
 
     There are 6 key steps while developing DMPSW.
 
