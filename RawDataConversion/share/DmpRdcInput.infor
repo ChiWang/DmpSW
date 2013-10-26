@@ -6,9 +6,10 @@
 # where to save oupt data.                              (keep this line forever)
 ./test
 # data name                                             (keep this line forever)
-2013-10-15-17-44-35.dat
 2013-10-15-17-44-00.dat
 END
+2013-10-25-16-40-23.dat
+2013-10-15-17-44-35.dat
 2013-10-15-05-15-01.dat
 DataName_1
 DataName_2

@@ -16,7 +16,7 @@ void DmpRdcManager::DestructorStk(){
 }
 
 Bool_t DmpRdcManager::SetConnectorStk(){
-  std::cout<<"\n\tSetup Stk connector"<<std::endl;
+  std::cout<<"\n\tSetup connector:\tStk"<<std::endl;
   std::cout<<"\n\t\t\t\tSuccessful"<<std::endl;
   return true;
 }

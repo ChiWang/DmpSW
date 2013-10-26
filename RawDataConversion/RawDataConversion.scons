@@ -39,7 +39,7 @@ if int(debug):
     print "\t\t debug mode"
     EnvRdc.Prepend(CCFLAGS = '-g')
     EnvRdc.Append(CCFLAGS = '-DDmp_DEBUG')
-    installdir=os.environ['DMPSWWORKGit']
+    installdir=os.environ['DMPSWWORK']
     SConscript(['../Event/SConstruct'])    # need libDmpEvent
 else:
     EnvRdc.Append(CCFLAGS = '-DDmp_RELEASE')

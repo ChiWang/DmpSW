@@ -16,7 +16,7 @@ void DmpRdcManager::DestructorPsd(){
 }
 
 Bool_t DmpRdcManager::SetConnectorPsd(){
-  std::cout<<"\n\tSetup Psd connector"<<std::endl;
+  std::cout<<"\n\tSetup connector:\tPsd"<<std::endl;
   std::cout<<"\n\t\t\t\tSuccessful"<<std::endl;
   return true;
 }

@@ -1,3 +1,4 @@
+
 DmpSW
 =====
 
@@ -88,18 +89,18 @@ Set Environment
 ##  Development guide
 
     It could be helpful if you understand the naming convention firstly at:
-    http://dpnc.unige.ch/dampe/dokuwiki/doku.php?id=dampesoftware:namingconvention
+        http://dpnc.unige.ch/dampe/dokuwiki/doku.php?id=dampesoftware:namingconvention
 
     There are 6 key steps while developing DMPSW.
 
     0)  checkout(or update) whole trunk
             svn checkout http://dpnc.unige.ch/SVNDAMPE/DAMPE/DmpSoftware/trunk  --username=tutorial
-            // assume trunk under "/Path/work"
 
     1)  source thisdmpsw.sh
             if "echo $DMPSWWORK" is blank, then do as follow:
-            source /Path/work/trunk/thisdmpsw.sh
-            or, you can add the line above into $HOME/.bashrc(or .zshrc) instead of source it every time.
+            source thisdmpsw.sh         // this file in the dowloaded directory trunk
+            then, "echo $DMPSWWORK" is not blank 
+            // or, you can add the line above into $HOME/.bashrc(or .zshrc) instead of source it every time.
 
     2)  work on certian package
             cd into the package (or sub-directory you are working)
@@ -240,27 +241,27 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
         DetectorCondition:  Dcd
         Geometry:           Gem
 
-3.  class (DmpAP{SpecialKey}Dominant{sub-detector})
+3.  class ( format: Dmp{AP}{SpecialKey}{Dominant}{sub-detector}. example: DmpRdcManager)
 
         * Dmp
             Prefix of any class
-        * AP
+        * {AP}
             Abbreviation of Package as mentioned above
         * {SpecialKey}
             normal class:   no SpecialKey;
             vertial class:  V
             template class: T
-        * Dominant
+        * {Dominant}
             explain the usefulness. Example:    DmpRdcManager
         * {sub-detector}
             whole detector: no;
             sub-detector:   Psd, Stk, Bgo, Nud, Header
 
-4.  command (dmpAP{Level}{Detector})
+4.  command ( format: dmp{AP}{Level}{Detector}. example: dmpSim)
 
         * dmp
             Prefix of command
-        * AP
+        * {AP}
             Abbreviation of Package
         * {Level}
             only one command in a package:   no Level
@@ -300,6 +301,7 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
             will invoke all sub-detectors
 
     5.4  interface of command of input files(batch mode)
+
             dmpRdc  DmpRecL0Input_XXX.infor
             *   prefix:     DmpeRecL0       // CMD name
             *   suffix:     .infor          // all use this

@@ -31,7 +31,7 @@ void DmpRdcManager::DestructorBgo(){
 }
 
 Bool_t DmpRdcManager::SetConnectorBgo(){
-  std::cout<<"\n\tSetup Bgo connector"<<std::endl;
+  std::cout<<"\n\tSetup connector:\tBgo"<<std::endl;
   Int_t FEEID, ChannelID;
   Short_t PlaneID, QuadrantID, BarID, DyID;
   Int_t const ChannelNbOneQuadrant = (kBarNb+kRefBarNb)*kDyNb;
@@ -65,7 +65,7 @@ Bool_t DmpRdcManager::SetConnectorBgo(){
     }
     mapFile.close();
   }
-  std::cout<<"\n\t\t\t\tSuccessful"<<std::endl;
+  std::cout<<"\n\t\t\t\t\tSuccessful"<<std::endl;
   return true;
 }
 
@@ -74,35 +74,39 @@ Bool_t DmpRdcManager::ConversionBgo(ifstream *HexData){
 #ifdef Dmp_DEBUG
 //  std::cout<<"\t\t\tEvent Conversion:\tBgo"<<std::endl;
 #endif
-  fEvtBgo->Reset();
-  Short_t feeID=0, channelID=0;
-  Short_t nChan=0, dataLong=0;
-  Short_t rawHex[2]={0};
+  static const Short_t  kStdDataLength0 = ((kBarNb+kRefBarNb)*kDyNb*kSideNb+3)*2;   // 3: (1)data Length 0x00a2; (2)reverse 0x0000; (3)CRC 0x0xxx.  *2:to unit Byte
+  static const Short_t  kStdDataLength1 = ((kBarNb+kRefBarNb)*kDyNb+3)*2;           // kStdDataLength0 is A and B type Fee. kStdDataLength1 is C type Fee
+  static Short_t feeID=0, channelID=0;
+  static Short_t nChan=0, dataLong=0;
+  static Short_t rawHex[2]={0};
 
-  for (Short_t pl=0;pl<kPlaneNb*2;++pl) {
+  static Short_t pl=0,nc=0;     // for loop, define as static at here to save time
+
+  fEvtBgo->Reset();
+  for (pl=0;pl<kPlaneNb*2;++pl) {
     Short_t tmp=0;
     HexData->read((char*)(&tmp),1);
     if (tmp!=0xeb) {
-      std::cout<<"\t\t\t\t----> 0xeb wrong\t"<<std::hex<<tmp<<std::endl;
+      std::cout<<"\t\tBgo ----> 0xeb wrong\t"<<std::hex<<tmp<<std::endl;
       return false;
     }
     HexData->read((char*)(&tmp),1);
     if (tmp!=0x90) {
-      std::cout<<"\t\t\t\t----> 0x90 wrong\t"<<std::hex<<tmp<<std::endl;
+      std::cout<<"\t\tBgo ----> 0x90 wrong\t"<<std::hex<<tmp<<std::endl;
       return false;
     }
     HexData->read((char*)(&tmp),1);         //trigger
     HexData->read((char*)(&feeID),1);
-    if (pl == 0) {                           //trigger check, runMode check
+    if (pl == 0) {                          //trigger check, runMode check
       fTrigger["Bgo"] = tmp;
       fEvtBgo->SetMode(DmpDcdRunMode(feeID/16));
     } else {
       if (tmp != fTrigger["Bgo"]) {
-        std::cout<<"\t\t\t\t----> FEE trigger not match"<<std::endl;
+        std::cout<<"\t\tBgo ----> FEE trigger not match.\tLast trigger = "<<fTrigger["Bgo"]<<"\tFEE 0x"<<std::hex<<feeID<<" trigger = "<<tmp<<std::endl;
         return false;
       }
       if (feeID/16 != fEvtBgo->GetMode()) {
-        std::cout<<"\t\t\t\t----> FEE Mode not match"<<std::endl;
+        std::cout<<"\t\tBgo ----> FEE Mode not match"<<std::endl;
         return false;
       }
     }
@@ -110,15 +114,15 @@ Bool_t DmpRdcManager::ConversionBgo(ifstream *HexData){
     HexData->read((char*)(&tmp),1);         // datalong, 2 Bytes
     HexData->read((char*)(&dataLong),1);
     Int_t dataLength = tmp*256 + dataLong;
-    if (dataLength == kStdDataLength) {
+    if (dataLength == kStdDataLength0 || dataLength == kStdDataLength1) {
       nChan = (dataLength-2*3)/2;
     } else {
       nChan = (dataLength-2*3)/3;
     }
-//std::cout<<"\t\t\t XX 2  nChan = "<<nChan<<" dL = "<<dataLength<<" kDL = "<<kStdDataLength<<std::endl;
+//std::cout<<"\t\t\t XX 2  nChan = "<<nChan<<" dL = "<<dataLength<<std::endl;
 
-    for (Short_t nc=0;nc<nChan;++nc) {
-      if (dataLength == kStdDataLength) {
+    for (nc=0;nc<nChan;++nc) {
+      if (dataLength == kStdDataLength0 || dataLength == kStdDataLength1) {
         channelID = nc;
       } else {
         HexData->read((char*)(&channelID),1);

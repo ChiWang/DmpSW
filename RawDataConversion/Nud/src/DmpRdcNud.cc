@@ -16,7 +16,7 @@ void DmpRdcManager::DestructorNud(){
 }
 
 Bool_t DmpRdcManager::SetConnectorNud(){
-  std::cout<<"\n\tSetup Nud connector"<<std::endl;
+  std::cout<<"\n\tSetup connector:\tNud"<<std::endl;
 
   std::cout<<"\n\t\t\t\tSuccessful"<<std::endl;
   return true;
