@@ -92,12 +92,12 @@ TString DmpCalL0Manager::GetMapNameBgo(Short_t p,Short_t q,Short_t b){
   return (TString)name;
 }
 
-void DmpCalL0Manager::FillPedestalBgo(){
-  std::vector<int>  *planeID    = fEvtBgo->GetEvent("PlaneID");
-  std::vector<int>  *quadrantID = fEvtBgo->GetEvent("QuadrantID");
-  std::vector<int>  *barID      = fEvtBgo->GetEvent("BarID");
-  std::vector<int>  *dyID       = fEvtBgo->GetEvent("DyID");
-  std::vector<double>   *adc    = fEvtBgo->GetEventADC();
+void DmpCalL0Manager::FindPedetsalEeventBgo(){
+  static std::vector<int>  *planeID    = fEvtBgo->GetEvent("PlaneID");
+  static std::vector<int>  *quadrantID = fEvtBgo->GetEvent("QuadrantID");
+  static std::vector<int>  *barID      = fEvtBgo->GetEvent("BarID");
+  static std::vector<int>  *dyID       = fEvtBgo->GetEvent("DyID");
+  static std::vector<double>   *adc    = fEvtBgo->GetEventADC();
 /*
   UpdateHitOrder();
 

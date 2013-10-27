@@ -47,7 +47,7 @@ class DmpCalL0Manager : public DmpVManager{
 
 //  ---------------->   manager special
  public:
-  void FillPedestal(TString subDet);
+  void FindPedetsalEevent(TString subDet);
   template <typename TDmpEvt>               // Why could not find this function if we implment it in src/*.cc?
   TDmpEvt*  GetEvent(TString subDet) {
   if (subDet == "Header") {
@@ -85,7 +85,7 @@ class DmpCalL0Manager : public DmpVManager{
   void DestructorBgo();
   void BookMapBgo();
   TString GetMapNameBgo(Short_t planeID,Short_t quadrantID,Short_t barID);
-  void  FillPedestalBgo();
+  void  FindPedetsalEeventBgo();
   void  UpdateHitOrder();        // return 4 dimentions array
   void  SavePedestalBgo();
 

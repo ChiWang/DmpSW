@@ -79,7 +79,7 @@ int main(int argc, char* argv[]){
       if (iEvt > 100) break;
       //cout<<"Evt ID = "<<CalL0Man->GetEvent<DmpEvtHeaderRaw>("Header")->GetEventID()<<endl;
       //CalL0Man->GetEvent<DmpEvtBgoRaw>("Bgo")->PrintEvent();
-      CalL0Man->FillPedestal("Bgo");
+      CalL0Man->FindPedetsalEevent("Bgo");
 
     }
     CalL0Man->SavePedestal("Bgo");

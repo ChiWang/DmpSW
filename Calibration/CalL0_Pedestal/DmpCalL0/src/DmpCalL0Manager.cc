@@ -86,14 +86,14 @@ DmpCalL0Manager::~DmpCalL0Manager(){
   DestructorNud();
 }
 
-void DmpCalL0Manager::FillPedestal(TString subDet){
+void DmpCalL0Manager::FindPedetsalEevent(TString subDet){
   if (subDet == "Psd") {
   } else if (subDet == "Stk") {
   } else if (subDet == "Bgo") {
-    FillPedestalBgo();
+    FindPedetsalEeventBgo();
   } else if (subDet == "Nud") {
   } else {
-    std::cout<<"Error: In DmpCalL0Manager::FillPedestal(TString subDet). subDet = {Psd | Stk | Bgo | Nud}"<<std::endl;
+    std::cout<<"Error: In DmpCalL0Manager::FindPedetsalEevent(TString subDet). subDet = {Psd | Stk | Bgo | Nud}"<<std::endl;
   }
 }
 
