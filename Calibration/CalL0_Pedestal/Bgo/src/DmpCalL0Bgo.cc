@@ -32,18 +32,33 @@ using namespace DmpDcdParameter::Bgo;
 
 void DmpCalL0Manager::ConstructorBgo(){
   fEvtBgo   = new DmpEvtBgoRaw((DmpEvtVHeader*)fEvtHeader);
-  fDy2 = new RooRealVar("dy2","dy2",-100,1100);
-  fDy5 = new RooRealVar("dy5","dy5",-100,1100);
-  fDy8 = new RooRealVar("dy8","dy8",-100,1100);
-  BookMapBgo();             // must after fDyX
 
+  static Short_t  p=0, q=0, b=0, d=0;
   fHitOrder = new Short_t*** [kPlaneNb];        // create 4 dimenstion array
-  for(Short_t p=0;p<kPlaneNb;++p){
+  for(p=0;p<kPlaneNb;++p){
     fHitOrder[p] = new Short_t** [kSideNb*2];
-    for(Short_t q=0;q<kSideNb*2;++q){
+    for(q=0;q<kSideNb*2;++q){
       fHitOrder[p][q] = new Short_t* [kDyNb];
-      for(Short_t d=0;d<kDyNb;++d){
+      for(d=0;d<kDyNb;++d){
         fHitOrder[p][q][d] = new Short_t [kBarNb+kRefBarNb];
+      }
+    }
+  }
+
+  static TString name ="";
+  fADC = new RooRealVar**** [kPlaneNb];
+  fMapBgo = new std::map<TString, RooDataSet*>;
+  for (p=0;p<kPlaneNb;++p) {            //    BookMapBgo
+    fADC[p] = new RooRealVar*** [kSideNb*2];
+    for (q=0;q<kSideNb*2;++q) {
+      fADC[p][q] = new RooRealVar** [kBarNb+kRefBarNb];
+      for (b=0;b<kBarNb+kRefBarNb;++b) {
+        fADC[p][q][b] = new RooRealVar* [kDyNb];
+        name = GetMapNameBgo(p,q,b);
+        fADC[p][q][b][0] = new RooRealVar(name+"-dy2","dy2",-100,1100);
+        fADC[p][q][b][1] = new RooRealVar(name+"-dy5","dy5",-100,1100);
+        fADC[p][q][b][2] = new RooRealVar(name+"-dy8","dy8",-100,1100);
+        fMapBgo->insert(std::make_pair(name,new RooDataSet(name,name,RooArgSet(*fADC[p][q][b][0],*fADC[p][q][b][1],*fADC[p][q][b][2]))));
       }
     }
   }
@@ -51,16 +66,11 @@ void DmpCalL0Manager::ConstructorBgo(){
 
 void DmpCalL0Manager::DestructorBgo(){
   delete fEvtBgo;
-  for (std::map<TString,RooDataSet*>::iterator i=fMapBgo->begin();i!=fMapBgo->end();++i) {
-    std::cout<<"deleteing "<<(i->second)->GetName()<<std::endl;
-    delete i->second;
-  }
-  delete fDy2;
-  delete fDy5;
-  delete fDy8;
-  for(Short_t p=0;p<kPlaneNb;++p){
-    for(Short_t q=0;q<kSideNb*2;++q){
-      for(Short_t d=0;d<kDyNb;++d){
+
+  static Short_t  p=0, q=0, b=0, d=0;
+  for(p=0;p<kPlaneNb;++p){
+    for(q=0;q<kSideNb*2;++q){
+      for(d=0;d<kDyNb;++d){
         delete[] fHitOrder[p][q][d];
       }
       delete[] fHitOrder[p][q];
@@ -68,23 +78,28 @@ void DmpCalL0Manager::DestructorBgo(){
     delete[] fHitOrder[p];
   }
   delete[] fHitOrder;
+
+  for(p=0;p<kPlaneNb;++p){
+    for(q=0;q<kSideNb*2;++q){
+      for(b=0;b<kBarNb+kRefBarNb;++b){
+        for(d=0;d<kDyNb;++d){
+          delete fADC[p][q][b][d];
+        }
+        delete[] fADC[p][q][b];
+      }
+      delete[] fADC[p][q];
+    }
+    delete[] fADC[p];
+  }
+  delete[] fADC;
+
+  std::cout<<"\n\tdeleteing map of data set of Bgo"<<std::endl;
+  for (std::map<TString,RooDataSet*>::iterator i=fMapBgo->begin();i!=fMapBgo->end();++i) {
+    delete i->second;
+  }
+  delete fMapBgo;
 }
 
-void DmpCalL0Manager::BookMapBgo(){
-  for (Short_t p=0;p<kPlaneNb;++p) {
-    for (Short_t q=0;q<kSideNb*2;++q) {
-      for (Short_t b=0;b<kBarNb+kRefBarNb;++b) {
-        TString name = GetMapNameBgo(p,q,b);
-        RooDataSet  *dataSet = new RooDataSet(name,name,RooArgSet(*fDy2,*fDy5,*fDy8));
-std::cout<<"XXX->   "<<dataSet<<"\t "<<&b<<std::endl;
-        //fMapBgo->insert(std::make_pair<TString,RooDataSet*>(name,dataSet));
-        fMapBgo->insert(std::make_pair(name,dataSet));
-        //(*fMapBgo)[name] = dataSet;
-std::cout<<"1111XXX"<<std::endl;
-      }
-    }
-  }
-}
 
 TString DmpCalL0Manager::GetMapNameBgo(Short_t p,Short_t q,Short_t b){
   char name[20];
@@ -100,12 +115,27 @@ void DmpCalL0Manager::FindPedetsalEeventBgo(){
   static std::vector<double>   *adc    = fEvtBgo->GetEventADC();
 /*
   UpdateHitOrder();
-
-  Int_t nHit = fEvtBgo->GetHitNumber();
-  for (Int_t n=0;n<nHit;++n) {
-    TString name = GetMapNameBgo(planeID->at(n),quadrantID->at(n),barID->at(n));
-  }
 */
+
+  static Int_t nHit = 0;
+  static Short_t n=0, p = 0, q = 0,b = 0;
+  nHit = fEvtBgo->GetHitNumber();
+std::cout<<"xxx"<<std::endl;
+  for (n=0;n<nHit;++n) {
+std::cout<<"xxxxxx = "<<dyID->at(n)<<"\t"<<dyID->at(n)/3<<std::endl;
+    *(fADC[planeID->at(n)][quadrantID->at(n)][barID->at(n)][dyID->at(n)/3]) = adc->at(n);
+  }
+std::cout<<"xxx"<<std::endl;
+
+  static TString name ="";
+  for (p=0;p<kPlaneNb;++p) {            //    BookMapBgo
+    for (q=0;q<kSideNb*2;++q) {
+      for (b=0;b<kBarNb+kRefBarNb;++b) {
+        name = GetMapNameBgo(p,q,b);
+        (*fMapBgo)[name]->add(RooArgSet((*fADC[p][q][b][0]),(*fADC[p][q][b][1]),(*fADC[p][q][b][2])));
+      }
+    }
+  }
 }
 
 void DmpCalL0Manager::UpdateHitOrder(){

@@ -1,0 +1,87 @@
+#=============================================================================
+#       FileName :          SConscript
+#       Version  :          0.0.1
+#       Author   :          Chi    (chiwang@mail.ustc.edu.cn)
+#       Time     :          2013-07-24   21:51:55
+#
+#------------------------------------------------------------------------------
+#       Description  :
+#         *** Default degub=0, scons debug=1 will create in debug mode
+#               means: create all thing in current directory instead of install into /prefix
+#
+#           Using Root
+#               ARGUMENTS.get('root',value):        set default use(value=1) root;
+#               if execute "scons root=0"   will not use root
+#           Using Geant4
+#               ARGUMENTS.get('g4',value):          set default use(value=1) geant4;
+#               if execute "scons g4=0"   will not use geant4
+#           Using OpenMP
+#               ARGUMENTS.get('omp',value):         set default use(value=1) OpenMP;
+#               if execute "scons omp=0"   will not use OpenMP
+#
+#------------------------------------------------------------------------------
+#       History  :
+#                                          Update:  2013-09-20   12:42:21
+#=============================================================================
+
+print "\n\t\t--->building Chuyang Raw Data Conversion module"
+
+import os
+EnvRdc = Environment(ENV = os.environ)
+
+#   set the programme name
+ExeName='dmpCRdc'
+
+#   set debug modle.
+#    if yes, then can use gdb:  http://www.ibm.com/developerworks/cn/linux/sdk/gdb/
+debug=ARGUMENTS.get('debug',1)
+if int(debug):
+    print "\t\t debug mode"
+    EnvRdc.Prepend(CCFLAGS = '-g')
+    EnvRdc.Append(CCFLAGS = '-DDmp_DEBUG')
+    installdir=os.environ['DMPSWWORK']
+    SConscript(['../Event/SConstruct'])    # need libDmpEvent
+else:
+    EnvRdc.Append(CCFLAGS = '-DDmp_RELEASE')
+    Import('PREFIX')
+    installdir=PREFIX
+
+#   set Geant4 environment
+if int(ARGUMENTS.get('g4',0)):
+    g4sys=os.environ['G4INSTALL']
+    EnvRdc.PrependENVPath('PATH', g4sys+'/../../../bin')
+    EnvRdc.ParseConfig("geant4-config --cflags --libs")
+
+#   set Root environment
+if int(ARGUMENTS.get('root',1)):
+    rootsys=os.environ['ROOTSYS']
+    EnvRdc.PrependENVPath('PATH', rootsys+'/bin')
+    EnvRdc.ParseConfig("root-config --cflags --libs")
+
+#   set OpenMP
+if int(ARGUMENTS.get('omp',0)):
+    ExeName=ExeName+"_omp"
+    EnvRdc.MergeFlags('-fopenmp')
+
+#   include
+for key in ['DmpRdc','Psd','Stk','Bgo','Nud','Header']:
+    includeDir=key+'/include'
+    EnvRdc.Prepend(CPPPATH=[includeDir])
+
+#   Use other top-1 module
+    #+  DetectorCondition
+M1Path='../DetectorCondition/Parameter'
+EnvRdc.Prepend(CPPPATH=[M1Path+'/include'])
+    #+  Event library
+M2Path='../Event/'
+EnvRdc.Prepend(LIBS='DmpEvent')
+EnvRdc.Prepend(LIBPATH=M2Path)
+for key in ['DmpEvent','Header','Psd','Stk','Bgo','Nud']:
+    includeDir=M2Path+key+'/include'
+    EnvRdc.Prepend(CPPPATH=[includeDir])
+
+#   main build
+execute=EnvRdc.Program(ExeName,Glob('./*/src/*.cc'))
+Default(EnvRdc.InstallAs(installdir+'/bin/'+ExeName,execute))
+
+

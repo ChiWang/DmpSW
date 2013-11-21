@@ -1,5 +1,5 @@
 /*=============================================================================
-#       FileName :          DmpEvtVSubDetSubDet.cc
+#       FileName :          DmpEvtAbsSubDetSubDet.cc
 #       Version  :          0.0.1
 #       Author   :          Chi Wang    (chiwang@mail.ustc.edu.cn)
 #       Time     :          2013-10-03   22:01:24
@@ -15,20 +15,30 @@
 
 #include "TTree.h"
 
-#include "DmpEvtVSubDet.hh"
+#include "DmpEvtAbsSubDet.hh"
 
-DmpEvtVSubDet::DmpEvtVSubDet(DmpEvtVHeader *header)
- :fNHit(0),
-  fEvtHeader(header)
+ClassImp(DmpEvtAbsSubDet)
+
+//______________________________________________________________________________
+DmpEvtAbsSubDet::DmpEvtAbsSubDet()
+ :fEvtHeader(0),
+  fMode(kMixed),
+  fNHit(0)
 {}
 
-DmpEvtVSubDet::~DmpEvtVSubDet()
+//______________________________________________________________________________
+DmpEvtAbsSubDet::DmpEvtAbsSubDet(DmpEvtAbsHeader *header)
+ :fEvtHeader(header),
+  fMode(kMixed),
+  fNHit(0)
 {}
 
-void DmpEvtVSubDet::PrintEvent() const{
-}
+//______________________________________________________________________________
+DmpEvtAbsSubDet::~DmpEvtAbsSubDet()
+{}
 
-void DmpEvtVSubDet::BookBranchVSubDet(TTree *tree, Bool_t read,TString pre){
+//______________________________________________________________________________
+void DmpEvtAbsSubDet::BookBranchAbsSubDet(TTree *tree, Bool_t read,TString pre){
   if (read) {
     tree->SetBranchAddress(pre+"_Mode",&fMode);
     tree->SetBranchAddress(pre+"_NHit",&fNHit);

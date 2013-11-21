@@ -36,6 +36,7 @@ Bool_t DmpRdcManager::SetConnectorBgo(){
   Short_t PlaneID, QuadrantID, BarID, DyID;
   Int_t const ChannelNbOneQuadrant = (kBarNb+kRefBarNb)*kDyNb;
   std::string note;
+
   for(Short_t p=0;p<kPlaneNb;++p){
     char fileName[20];
     sprintf(fileName,"Plane_%d.cnct",p);
@@ -80,11 +81,11 @@ Bool_t DmpRdcManager::ConversionBgo(ifstream *HexData){
   static Short_t nChan=0, dataLong=0;
   static Short_t rawHex[2]={0};
 
-  static Short_t pl=0,nc=0;     // for loop, define as static at here to save time
+  static Short_t pl=0,nc=0,tmp=0;     // for loop, define as static at here to save time
 
   fEvtBgo->Reset();
   for (pl=0;pl<kPlaneNb*2;++pl) {
-    Short_t tmp=0;
+    tmp=0;
     HexData->read((char*)(&tmp),1);
     if (tmp!=0xeb) {
       std::cout<<"\t\tBgo ----> 0xeb wrong\t"<<std::hex<<tmp<<std::endl;

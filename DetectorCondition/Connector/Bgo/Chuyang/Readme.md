@@ -1,9 +1,10 @@
 
-##      Theose files (*.cnct) will be used in DmpSoftware/RawDataConversion/Bgo/src/DmpRdcBgo.cc
+##      Those files (*.map) will be used in DmpSoftware/RawDataConversion/Bgo/src/DmpRdcBgo.cc
 
 ##      NOTE:
         *   must named as Plane_i.cnct
         *   set the format as BgoConnectionMethod telled
+        *   Real Bar_ID from 0~21. Bar_ID = 22 or 23 is reference
 
 
         -------------------------

@@ -1,5 +1,5 @@
 
-##      Theose files (*.cnct) will be used in DmpSoftware/RawDataConversion/Bgo/src/DmpRdcBgo.cc
+##      Those files (*.map) will be used in DmpSoftware/RawDataConversion/Bgo/src/DmpRdcBgo.cc
 
 ##      NOTE:
         *   must named as Plane_i.cnct

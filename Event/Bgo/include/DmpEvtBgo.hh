@@ -20,30 +20,30 @@
 
 #include <vector>
 
-#include "DmpEvtVSubDet.hh"
+#include "DmpEvtAbsSubDet.hh"
 
 //typedef std::vector<int>  dmpContainerInt;
 //  class DmpEvtXXXXRaw  for DmpRDC and DmpCalPed
-class DmpEvtBgoRaw : public DmpEvtVSubDet{
- public:
-  DmpEvtBgoRaw(DmpEvtVHeader*);
-  ~DmpEvtBgoRaw();
-  void   Reset();                   // reset a event
-  Bool_t BookBranch(TTree *tree, Bool_t read, TString detectorName);              // all branch of Bgo Raw
-  void   PrintEvent() const;
-  void   SetSignal(Short_t planeID,Short_t quadrantID,Short_t barID,Short_t dyID,Float_t adc);        // set a signal of one channal in a event
-  std::vector<int>*     GetEvent(TString);
-  std::vector<double>*  GetEventADC();
+class DmpEvtBgoRaw : public DmpEvtAbsSubDet{
+ private:
+  std::vector<int>      *fPlaneID;      // (1) must use vector<int> or vector<double> in branch. (2) must use pointer here, in order to SetBranchAddress() latter
+  std::vector<int>      *fQuadrantID;   // one plane has 2 layers, each layer has 2 quadrants. 0,2 -> X layer. 1,3 -> Y layer
+  std::vector<int>      *fBarID;        // 1 layer use the SAME bar ID for 2 quadrants
+  std::vector<int>      *fDyID;
+  std::vector<double>   *fADC;
 
  private:
   void BookBranchBgoRaw(TTree *tree, Bool_t read, TString detectorName);
 
- private:
-  std::vector<int>      *fPlaneID;      //! (1) must use vector<int> or vector<double> in branch. (2) must use pointer here, in order to SetBranchAddress() latter
-  std::vector<int>      *fQuadrantID;   //! one plane has 2 layers, each layer has 2 quadrants. 0,2 -> X layer. 1,3 -> Y layer
-  std::vector<int>      *fBarID;        //! 1 layer use the SAME bar ID for 2 quadrants
-  std::vector<int>      *fDyID;
-  std::vector<double>   *fADC;
+ public:
+  DmpEvtBgoRaw(DmpEvtAbsHeader*);
+  ~DmpEvtBgoRaw();
+  void   Reset();
+  Bool_t BookBranch(TTree *tree, Bool_t read, TString detectorName);
+  void   PrintEvent() const;
+  void   SetSignal(Short_t planeID,Short_t quadrantID,Short_t barID,Short_t dyID,Float_t adc);        // set a signal of one channal in a event
+  std::vector<int>*     GetEvent(TString);
+  std::vector<double>*  GetEventADC();
 
 };
 
@@ -54,5 +54,4 @@ class DmpEvtBgoRaw : public DmpEvtVSubDet{
 //  class DmpEvtXXXXDst  for Analysis part of DMPSW
 
 #endif
-
 

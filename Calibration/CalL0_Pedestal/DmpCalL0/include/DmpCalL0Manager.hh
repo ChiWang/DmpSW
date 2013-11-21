@@ -83,19 +83,16 @@ class DmpCalL0Manager : public DmpVManager{
  private:
   void ConstructorBgo();
   void DestructorBgo();
-  void BookMapBgo();
   TString GetMapNameBgo(Short_t planeID,Short_t quadrantID,Short_t barID);
   void  FindPedetsalEeventBgo();
   void  UpdateHitOrder();        // return 4 dimentions array
   void  SavePedestalBgo();
 
-  DmpEvtBgoRaw                  *fEvtBgo;   //! interface to input root file
-  RooRealVar                    *fDy2;      //! 3 RooRealVar are used in RooDataSet
-  RooRealVar                    *fDy5;
-  RooRealVar                    *fDy8;
-  std::map<TString,RooDataSet*> *fMapBgo;   //! fMapBgo[GetMapNameBgo(p,q,b)]
+  DmpEvtBgoRaw                  *fEvtBgo;       //! interface to input root file
+  Short_t                       ****fHitOrder;  //! Hit order from max to min.  fHitOrder[PID][QID][DyID][BID]
+  RooRealVar                    *****fADC;       //! fADC[PID][QID][BID][DyID] RooRealVar are used in RooDataSet
+  std::map<TString, RooDataSet*> *fMapBgo;      //! fMapBgo[GetMapNameBgo(p,q,b)]
   
-  Short_t                   ****fHitOrder;  //! Hit order from max to min.  fHitOrder[Bgo::kPlaneNb][Bgo::kSideNb*2][Bgo::kDyNb][Bgo::kBarNum+Bgo::kRefBarNb]
   // Nud
  private:
   void ConstructorNud();

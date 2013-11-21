@@ -1,17 +1,17 @@
-#   Plane_ID:
+#   Quadrant_ID +X:
+0
+#   FEE_ID 0x??:
 XX
-##   Side:   0   X-A
-XX
-###   FEE-ID:
-XX
-####    Bar_ID  Dy_ID   Channel_ID     //24 Bar (include 2 Reference Bar)
-       Dy2
-       Dy5
-       Dy8
+#   Bar_ID	Dy_ID	Channel_ID  (Real Bar: 0~21.  RefBar: 22, 23)
+       Dy2  (24 lines)
+       Dy5  (24 lines)
+       Dy8  (24 lines)
 
-##   Side:   1   Y-A
+#   Quadrant_ID -X:
+2
 
-##   Side:   2   X-B
+#   Quadrant_ID -Y:
+1
 
-##   Side:   3   Y-B
-
+#   Quadrant_ID +Y:
+3

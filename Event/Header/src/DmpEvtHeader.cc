@@ -25,6 +25,16 @@ DmpEvtHeaderRaw::DmpEvtHeaderRaw()
 DmpEvtHeaderRaw::~DmpEvtHeaderRaw(){
 }
 
+//______________________________________________________________________________
+void DmpEvtHeaderRaw::SetTime(Short_t *Time){
+  std::cout<<"\t\t\t Setting time"<<std::endl;
+  Long64_t SecTmp = Time[2]*Power(16,6)+Time[3]*Power(16,4)+Time[4]*Power(16,2)+Time[5]*Power(16,0);
+  Short_t  mSecTmp = Time[6]*256+Time[7];
+  fTimeGap = (fSec==0 && fmSec==0)?111:((SecTmp-fSec)*1000+(mSecTmp-fmSec));
+  fSec = SecTmp;
+  fmSec = mSecTmp;
+}
+
 Bool_t DmpEvtHeaderRaw::BookBranch(TTree *tree, Bool_t read, TString pre){
   BookBranchVHeader(tree, read, pre);
   BookBranchHeaderRaw(tree, read, pre);
