@@ -18,10 +18,11 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
-#pragma link C++ enum ERunMode;
-#pragma link C++ enum EParticleID;
+#pragma link C++ enum DmpERunMode;
+#pragma link C++ enum DmpEParticleID;
 
-#pragma link C++ class DmpEvtAbsHeader+;
+#pragma link C++ class DmpParticle+;
 #pragma link C++ class DmpEvtAbsSubDet+;
+#pragma link C++ class DmpEvtAbsHeader+;
 
 

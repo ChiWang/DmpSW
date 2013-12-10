@@ -1,31 +1,35 @@
 /*=============================================================================
-#       FileName :          DmpEvtAbsSubDetSubDet.cc
+#       FileName :          DmpParticle.cc
 #       Version  :          0.0.1
-#       Author   :          Chi Wang    (chiwang@mail.ustc.edu.cn)
-#       Time     :          2013-10-03   22:01:24
-#
+#       Author   :          Chi WANG    (chiwang@mail.ustc.edu.cn)
+#       Time     :          2013-12-10   13:44:29
 #------------------------------------------------------------------------------
 #       Description  :
 #
-#
 #------------------------------------------------------------------------------
 #       History  :
-#                                          Update:  2013-10-04   09:08:49
+#                                          Update:  2013-12-10   13:44:29
 =============================================================================*/
 
-#include "DmpEvtAbsSubDet.hh"
+#include "DmpParticle.hh"
 
-ClassImp(DmpEvtAbsSubDet)
-
-//______________________________________________________________________________
-DmpEvtAbsSubDet::DmpEvtAbsSubDet()
- :fMode(kMixed),
-  fNHit(0)
-{}
-
+ClassImp(DmpParticle)
 
 //______________________________________________________________________________
-DmpEvtAbsSubDet::~DmpEvtAbsSubDet()
+DmpParticle::DmpParticle()
+ :fPID(kUnknown),
+  fCharge(-100),
+  fEnergy(-100)
 {}
 
+//______________________________________________________________________________
+DmpParticle::~DmpParticle()
+{}
+
+//______________________________________________________________________________
+void DmpParticle::Reset(){
+  fPID = kUnknown;
+  fCharge = -100;
+  fEnergy = -100;
+}
 

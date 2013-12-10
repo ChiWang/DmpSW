@@ -14,7 +14,7 @@
 *.a
 
 # this is Chuyang RawDataConversion only for deploy, it's another reponsitory: https://github.com/ChiWang/CRDCUSTC
-ChuyangRDCDeploy
+ustcDeploy
 
 # scons temprary
 #.sconsign.dblite
