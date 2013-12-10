@@ -23,6 +23,6 @@
 
 #pragma link C++ class DmpParticle+;
 #pragma link C++ class DmpEvtAbsSubDet+;
-#pragma link C++ class DmpEvtAbsHeader+;
+#pragma link C++ class DmpEvtHeader+;
 
 

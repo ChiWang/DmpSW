@@ -18,7 +18,19 @@
 
 #include "TObject.h"
 
+class DmpEvtHeader;
+
 class DmpEvtAbsSubDet : public TObject{
+/*
+ *  DmpEvtAbsSubDet
+ *
+ *  abstruct class of all event classes of sub-detector
+ *
+ *  not save Event header in any sub-det.
+ *
+ *  But, if one sub-detector wants to use information from event header, must SetEventHeader pointer into DmpAbsEvtSubDet by DmpAbsEvtSubDet::SetEventHeader(pinter), after creating EventHeader
+ *
+*/
 
 enum DmpERunMode {
   kMixed     = 0,       // only for Event Header, if sub-detectors setted different mode, run mode of Event Header is kMixed
@@ -35,11 +47,12 @@ enum DmpERunMode {
   virtual void PrintEvent() const = 0;
   void  SetMode(DmpERunMode m)  {fMode = m;}
   DmpERunMode GetMode() const   {return fMode;}
-  Int_t GetHitNumber() const    {return fNHit;}
+  static void SetEventHeader(DmpEvtHeader *p)   {fHeader = p;}
+  static DmpEvtHeader*  GetEventHeader()        {return fHeader;}
 
  protected:
-  DmpERunMode   fMode;          // run mode
-  Int_t         fNHit;          // max number of signal of sub-detector
+  DmpERunMode           fMode;          // run mode
+  static DmpEvtHeader   *fHeader        //! pointer to git event header
 
   ClassDef(DmpEvtAbsSubDet,1)
 };

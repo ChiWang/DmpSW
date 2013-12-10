@@ -13,14 +13,18 @@
 #                                          Update:  2013-10-04   09:08:49
 =============================================================================*/
 
+#include <iostream>
+
 #include "DmpEvtAbsSubDet.hh"
 
 ClassImp(DmpEvtAbsSubDet)
 
 //______________________________________________________________________________
+DmpEvtAbsSubDet::fHeader=0;
+
+//______________________________________________________________________________
 DmpEvtAbsSubDet::DmpEvtAbsSubDet()
- :fMode(kMixed),
-  fNHit(0)
+ :fMode(kMixed)
 {}
 
 
@@ -28,4 +32,9 @@ DmpEvtAbsSubDet::DmpEvtAbsSubDet()
 DmpEvtAbsSubDet::~DmpEvtAbsSubDet()
 {}
 
-
+DmpEvtAbsSubDet::DmpEvtHeader* GetEventHeader(){
+  if(fHeader){
+    std::cout<<"Error:  DmpEvtAbsSubDet::GetEventHeader(). Not set event header. Please use DmpEvtSubDet::SetEventHeader(DmpEvtHeader*) firstly"<<std::endl;
+  }
+  return fHeader;
+}
