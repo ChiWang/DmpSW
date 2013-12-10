@@ -45,14 +45,14 @@ enum DmpERunMode {
   virtual ~DmpEvtAbsSubDet();
   virtual void Reset() = 0;
   virtual void PrintEvent() const = 0;
+  static void SetEventHeader(DmpEvtHeader *p)   {fHeader = p;}
+  static DmpEvtHeader*  GetEventHeader();
   void  SetMode(DmpERunMode m)  {fMode = m;}
   DmpERunMode GetMode() const   {return fMode;}
-  static void SetEventHeader(DmpEvtHeader *p)   {fHeader = p;}
-  static DmpEvtHeader*  GetEventHeader()        {return fHeader;}
 
  protected:
-  DmpERunMode           fMode;          // run mode
   static DmpEvtHeader   *fHeader        //! pointer to git event header
+  DmpERunMode           fMode;          // run mode
 
   ClassDef(DmpEvtAbsSubDet,1)
 };

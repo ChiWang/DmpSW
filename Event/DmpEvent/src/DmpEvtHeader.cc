@@ -24,18 +24,22 @@ ClassImp(DmpEvtHeader)
 
 //______________________________________________________________________________
 DmpEvtHeader::DmpEvtHeader()
- :fEvtID(-1),
+ :fPackageID(-1),
+  fEvtID(-1),
   fSec(0),
   fmSec(0),
   fTimeGap(0),
-  fBeam(0)
+  fBeam(0),
+  fParticle(0)
 {
   fBeam = new DmpParticle();
+  fParticle = new DmpParticle();
 }
 
 //______________________________________________________________________________
 DmpEvtHeader::~DmpEvtHeader(){
   delete fBeam;
+  delete fParticle;
 }
 
 //______________________________________________________________________________
