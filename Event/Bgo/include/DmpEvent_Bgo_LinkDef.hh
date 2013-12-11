@@ -20,4 +20,4 @@
 
 #pragma link C++ class DmpEvtBgoRaw+;
 
-
+#endif

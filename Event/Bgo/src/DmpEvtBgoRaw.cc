@@ -13,11 +13,14 @@
 #                                          Update:  2013-10-03   20:04:22
 =============================================================================*/
 
+#include <iostream>
+
 #include "DmpEvtHeader.hh"
 #include "DmpEvtBgoRaw.hh"
 
 ClassImp(DmpEvtBgoRaw)
 
+//______________________________________________________________________________
 DmpEvtBgoRaw::DmpEvtBgoRaw()
  :fNSignal(0)
 {}
@@ -51,7 +54,7 @@ void DmpEvtBgoRaw::PrintEvent() const{
 
 
 //______________________________________________________________________________
-void  DmpEvtBgoRaw::PrintEvent(Short_t layer,Short_t bar,Short_t side,Short_t dy) const{
+void  DmpEvtBgoRaw::PrintEvent(Short_t layer,Short_t bar,Short_t side,Short_t dy){
   static Int_t iSignal, id;
   id = CreateLBSDID(layer,bar,side,dy);
   for (Int_t i=0; i<fNSignal;++i) {
@@ -62,7 +65,7 @@ void  DmpEvtBgoRaw::PrintEvent(Short_t layer,Short_t bar,Short_t side,Short_t dy
   }
   std::cout<<"--->  Bgo:\tEvent ID = "<<fHeader->GetEventID()<<"\tSignal No.of dynode = "<<fNSignal<<std::endl;
   std::cout<<"Layer | Bar | Side | Dy | ADC"<<std::endl;
-  std::cout<<layer<<"\t"<<bar<<"\t"<<side<<"\t"<<dy<<"\t"<<fADC[i]<<std::endl;
+  std::cout<<layer<<"\t"<<bar<<"\t"<<side<<"\t"<<dy<<"\t"<<fADC[id]<<std::endl;
 }
 
 //______________________________________________________________________________

@@ -24,5 +24,6 @@
 
 ##  Development guid
 
-    1.  example:    Bgo
+    1.  create dictionary in each subdirectory
+        1.1 how to write LinkDef.h?     example:    DmpEvent, Bgo
 

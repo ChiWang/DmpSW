@@ -53,8 +53,6 @@ if int(ARGUMENTS.get('g4',0)):
 
 #   set Root environment
 if int(ARGUMENTS.get('root',1)):
-    rootsys=os.environ['ROOTSYS']
-    EnvEvt.PrependENVPath('PATH', rootsys+'/bin')
     EnvEvt.ParseConfig("root-config --cflags --libs")
 
 #   set OpenMP
@@ -63,7 +61,7 @@ if int(ARGUMENTS.get('omp',0)):
     EnvEvt.MergeFlags('-fopenmp')
 
 #   include
-for key in ['DmpEvent','Psd','Stk','Bgo','Nud','Header']:
+for key in ['DmpEvent','Psd','Stk','Bgo','Nud']:
     includeDir=key+'/include'
     if int( not debug):
         for file in os.listdir(includeDir):

@@ -20,7 +20,7 @@
 ClassImp(DmpEvtAbsSubDet)
 
 //______________________________________________________________________________
-DmpEvtAbsSubDet::fHeader=0;
+DmpEvtHeader* DmpEvtAbsSubDet::fHeader=0;
 
 //______________________________________________________________________________
 DmpEvtAbsSubDet::DmpEvtAbsSubDet()
@@ -32,7 +32,7 @@ DmpEvtAbsSubDet::DmpEvtAbsSubDet()
 DmpEvtAbsSubDet::~DmpEvtAbsSubDet()
 {}
 
-DmpEvtAbsSubDet::DmpEvtHeader* GetEventHeader(){
+DmpEvtHeader* DmpEvtAbsSubDet::GetEventHeader(){
   if(fHeader){
     std::cout<<"Error:  DmpEvtAbsSubDet::GetEventHeader(). Not set event header. Please use DmpEvtSubDet::SetEventHeader(DmpEvtHeader*) firstly"<<std::endl;
   }

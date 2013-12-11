@@ -32,15 +32,15 @@ class DmpEvtAbsSubDet : public TObject{
  *
 */
 
-enum DmpERunMode {
-  kMixed     = 0,       // only for Event Header, if sub-detectors setted different mode, run mode of Event Header is kMixed
-  k0Compress = 1,       // zero compress
-  kCompress  = 5,       // compress mode
-  kCalPed    = 6,       // Calibrate pedestal
-  kCalFEE    = 9,       // ADC Calibration
-};
-
  public:
+  enum DmpERunMode {
+    kMixed     = 0,       // only for Event Header, if sub-detectors setted different mode, run mode of Event Header is kMixed
+    k0Compress = 1,       // zero compress
+    kCompress  = 5,       // compress mode
+    kCalPed    = 6,       // Calibrate pedestal
+    kCalFEE    = 9,       // ADC Calibration
+  };
+
   DmpEvtAbsSubDet();
   virtual ~DmpEvtAbsSubDet();
   virtual void Reset() = 0;
@@ -51,7 +51,7 @@ enum DmpERunMode {
   DmpERunMode GetMode() const   {return fMode;}
 
  protected:
-  static DmpEvtHeader   *fHeader        //! pointer to git event header
+  static DmpEvtHeader   *fHeader;       //! pointer to git event header
   DmpERunMode           fMode;          // run mode
 
   ClassDef(DmpEvtAbsSubDet,1)

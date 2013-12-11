@@ -30,22 +30,22 @@ class DmpEvtHeader : public TObject{
  *
 */
 
-enum DmpEParticleID {
-  kUnknown  = -99,
-  kElectron = -1,
-  kMuon     = 0,
-  kProton   = 9,
-  kCarbon   = 12,
-};
-
  public:
+  enum DmpEParticleID {
+    kUnknown  = -99,
+    kElectron = -1,
+    kMuon     = 0,
+    kProton   = 9,
+    kCarbon   = 12,
+  };
+
   DmpEvtHeader();
   ~DmpEvtHeader();
   void  Reset();
   Bool_t IsValidEvent();
   void  SetTime(Short_t time[],Int_t size);     // converte hex time to dec time and cal. time gap
   void  ShowTime() const;
-  void    SetPID(DmpEParticelID pid){fPID = pid;}
+  void    SetPID(DmpEParticleID pid){fPID = pid;}
   void    SetCharge(Short_t q)      {fCharge = q;}
   void    SetEnergy(Double_t e)     {fEnergy = e;}
   Long64_t   GetPackageID() const   {return fPackageID;}

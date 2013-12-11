@@ -15,6 +15,7 @@
 
 #include <iostream>
 
+#include "TMath.h"
 #include "DmpEvtHeader.hh"
 
 using namespace TMath;
@@ -24,7 +25,7 @@ ClassImp(DmpEvtHeader)
 //______________________________________________________________________________
 DmpEvtHeader::DmpEvtHeader()
  :fPackageID(-1),
-  fEvtID(-1),
+  fEventID(-1),
   fSec(0),
   fmSec(0),
   fTimeGap(0),

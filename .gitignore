@@ -19,6 +19,7 @@ ustcDeploy
 # scons temprary
 #.sconsign.dblite
 *.dblite
+*_Dict.*
 
 # test directory
 *test*

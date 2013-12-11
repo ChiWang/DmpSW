@@ -38,7 +38,7 @@ class DmpEvtBgoRaw : public DmpEvtAbsSubDet{
   ~DmpEvtBgoRaw();
   void  Reset();
   void  PrintEvent() const;
-  void  PrintEvent(Short_t layerID,Short_t barID,Short_t sideID,Short_t dyID) const;
+  void  PrintEvent(Short_t layerID,Short_t barID,Short_t sideID,Short_t dyID);
   void  SetSignal(Short_t layerID,Short_t barID,Short_t sideID,Short_t dyID,Double_t adc);
   Int_t GetSignalNumber() const {return fNSignal;}
 
