@@ -14,8 +14,6 @@
 
     *   DmpEvent
 
-    *   Header
-
     *   Psd
 
     *   Stk
@@ -26,6 +24,5 @@
 
 ##  Development guid
 
-    1. all abstruct classed in directory DmpEvent
-    2. Each sub-detector has a header file named DmpEvtSub-Det.hh, in which there are all needed event classes for DmpEvent 
+    1.  example:    Bgo
 

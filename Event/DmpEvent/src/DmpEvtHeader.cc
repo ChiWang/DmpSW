@@ -16,7 +16,6 @@
 #include <iostream>
 
 #include "DmpEvtHeader.hh"
-#include "DmpParticle.hh"
 
 using namespace TMath;
 
@@ -29,18 +28,15 @@ DmpEvtHeader::DmpEvtHeader()
   fSec(0),
   fmSec(0),
   fTimeGap(0),
-  fBeam(0),
-  fParticle(0)
+  fPID(kUnknown),
+  fCharge(-100),
+  fEnergy(-100)
 {
-  fBeam = new DmpParticle();
-  fParticle = new DmpParticle();
 }
 
 //______________________________________________________________________________
-DmpEvtHeader::~DmpEvtHeader(){
-  delete fBeam;
-  delete fParticle;
-}
+DmpEvtHeader::~DmpEvtHeader()
+{}
 
 //______________________________________________________________________________
 void DmpEvtHeader::Reset(){
@@ -49,8 +45,9 @@ void DmpEvtHeader::Reset(){
   fSec = 0;
   fmSec = 0;
   fTimeGap = 0;
-  fBeam->Reset();
-  fParticle->Reset();
+  fPID = kUnknown;
+  fCharge = -100;
+  fEnergy = -100;
 }
 
 //______________________________________________________________________________
