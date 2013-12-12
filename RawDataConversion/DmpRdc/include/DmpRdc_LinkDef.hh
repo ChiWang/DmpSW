@@ -9,7 +9,7 @@
 #
 #------------------------------------------------------------------------------
 #       History  :
-#                                          Update:  2013-11-13   00:39:02
+#                                          Update:  2013-12-10   19:01:57
 =============================================================================*/
 
 #ifdef __CINT__
@@ -18,7 +18,6 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
-#pragma link C++ class DmpEvtHeader+;
-#pragma link C++ class DmpEvtAbsSubDet+;
+#pragma link C++ class DmpRdc-;
 
 #endif

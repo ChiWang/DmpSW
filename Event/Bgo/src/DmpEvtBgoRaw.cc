@@ -20,16 +20,16 @@
 
 ClassImp(DmpEvtBgoRaw)
 
-//______________________________________________________________________________
+//------------------------------------------------------------------------------
 DmpEvtBgoRaw::DmpEvtBgoRaw()
  :fNSignal(0)
 {}
 
-//______________________________________________________________________________
+//------------------------------------------------------------------------------
 DmpEvtBgoRaw::~DmpEvtBgoRaw()
 {}
 
-//______________________________________________________________________________
+//------------------------------------------------------------------------------
 void DmpEvtBgoRaw::Reset(){
   fMode = kMixed;
   fNSignal = 0;
@@ -37,7 +37,7 @@ void DmpEvtBgoRaw::Reset(){
   fADC.clear();
 }
 
-//______________________________________________________________________________
+//------------------------------------------------------------------------------
 void DmpEvtBgoRaw::PrintEvent() const{
   std::cout<<"--->  Bgo:\tEvent ID = "<<fHeader->GetEventID()<<"\tSignal No.of dynode = "<<fNSignal<<std::endl;
   std::cout<<"Layer | Bar | Side | Dy | ADC"<<std::endl;
@@ -52,8 +52,7 @@ void DmpEvtBgoRaw::PrintEvent() const{
   }
 }
 
-
-//______________________________________________________________________________
+//------------------------------------------------------------------------------
 void  DmpEvtBgoRaw::PrintEvent(Short_t layer,Short_t bar,Short_t side,Short_t dy){
   static Int_t iSignal, id;
   id = CreateLBSDID(layer,bar,side,dy);
@@ -68,15 +67,14 @@ void  DmpEvtBgoRaw::PrintEvent(Short_t layer,Short_t bar,Short_t side,Short_t dy
   std::cout<<layer<<"\t"<<bar<<"\t"<<side<<"\t"<<dy<<"\t"<<fADC[id]<<std::endl;
 }
 
-//______________________________________________________________________________
-void DmpEvtBgoRaw::SetSignal(Short_t L,Short_t B,Short_t S,Short_t D,Double_t ADC){
-  fLBSD_ID.push_back(CreateLBSDID(L,B,S,D));
+//------------------------------------------------------------------------------
+void DmpEvtBgoRaw::SetSignal(Int_t LBSD_ID,Double_t ADC){
+  fLBSD_ID.push_back(LBSD_ID);
   fADC.push_back(ADC);
   ++fNSignal;
 }
 
-
-//______________________________________________________________________________
+//------------------------------------------------------------------------------
 Int_t DmpEvtBgoRaw::CreateLBSDID(Short_t L,Short_t B,Short_t S,Short_t D){
   return D+S*10+B*100+L*10000;
 }

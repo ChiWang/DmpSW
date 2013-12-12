@@ -1,5 +1,5 @@
 /*=============================================================================
-#       FileName :          DmpEvtAbsSubDet.hh
+#       FileName :          DmpEvtSubDet.hh
 #       Version  :          0.0.1
 #       Author   :          Chi Wang    (chiwang@mail.ustc.edu.cn)
 #       Time     :          2013-10-03   21:58:16
@@ -13,18 +13,18 @@
 #                                          Update:  2013-11-13   00:53:08
 =============================================================================*/
 
-#ifndef DmpEvtAbsSubDet_H
-#define DmpEvtAbsSubDet_H
+#ifndef DmpEvtSubDet_H
+#define DmpEvtSubDet_H
 
 #include "TObject.h"
 
 class DmpEvtHeader;
 
-class DmpEvtAbsSubDet : public TObject{
+class DmpEvtSubDet : public TObject{
 /*
- *  DmpEvtAbsSubDet
+ *  DmpEvtSubDet
  *
- *  abstruct class of all event classes of sub-detector
+ *  abstruct class of event class, all concrete classes of sub-detector will use it.
  *
  *  not save Event header in any sub-det.
  *
@@ -41,8 +41,8 @@ class DmpEvtAbsSubDet : public TObject{
     kCalFEE    = 9,       // ADC Calibration
   };
 
-  DmpEvtAbsSubDet();
-  virtual ~DmpEvtAbsSubDet();
+  DmpEvtSubDet();
+  virtual ~DmpEvtSubDet();
   virtual void Reset() = 0;
   virtual void PrintEvent() const = 0;
   static void SetEventHeader(DmpEvtHeader *p)   {fHeader = p;}
@@ -54,7 +54,7 @@ class DmpEvtAbsSubDet : public TObject{
   static DmpEvtHeader   *fHeader;       //! pointer to git event header
   DmpERunMode           fMode;          // run mode
 
-  ClassDef(DmpEvtAbsSubDet,1)
+  ClassDef(DmpEvtSubDet,1)
 };
 
 #endif

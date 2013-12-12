@@ -24,64 +24,51 @@
 #                                          Update:  2013-09-20   12:42:21
 #=============================================================================
 
-print "\n\t\t--->building Chuyang Raw Data Conversion module"
+print "\n\t\t--->building DAMPE Software Kernel"
 
 import os
-EnvRdc = Environment(ENV = os.environ)
+EnvKernel = Environment(ENV = os.environ)
 
 #   set the programme name
-ExeName='dmpCRdc'
+LibName='DmpCore'
 
 #   set debug modle.
 #    if yes, then can use gdb:  http://www.ibm.com/developerworks/cn/linux/sdk/gdb/
 debug=ARGUMENTS.get('debug',1)
 if int(debug):
     print "\t\t debug mode"
-    EnvRdc.Prepend(CCFLAGS = '-g')
-    EnvRdc.Append(CCFLAGS = '-DDmp_DEBUG')
+    EnvKernel.Prepend(CCFLAGS = '-g')
+    EnvKernel.Append(CCFLAGS = '-DDmp_DEBUG')
     installdir=os.environ['DMPSWWORK']
-    SConscript(['../Event/SConstruct'])    # need libDmpEvent
 else:
-    EnvRdc.Append(CCFLAGS = '-DDmp_RELEASE')
+    EnvKernel.Append(CCFLAGS = '-DDmp_RELEASE')
     Import('PREFIX')
     installdir=PREFIX
 
 #   set Geant4 environment
 if int(ARGUMENTS.get('g4',0)):
     g4sys=os.environ['G4INSTALL']
-    EnvRdc.PrependENVPath('PATH', g4sys+'/../../../bin')
-    EnvRdc.ParseConfig("geant4-config --cflags --libs")
+    EnvKernel.PrependENVPath('PATH', g4sys+'/../../../bin')
+    EnvKernel.ParseConfig("geant4-config --cflags --libs")
 
 #   set Root environment
 if int(ARGUMENTS.get('root',1)):
-    rootsys=os.environ['ROOTSYS']
-    EnvRdc.PrependENVPath('PATH', rootsys+'/bin')
-    EnvRdc.ParseConfig("root-config --cflags --libs")
+    EnvKernel.ParseConfig("root-config --cflags --libs")
 
 #   set OpenMP
 if int(ARGUMENTS.get('omp',0)):
-    ExeName=ExeName+"_omp"
-    EnvRdc.MergeFlags('-fopenmp')
+    LibName=LibName+"_omp"
+    EnvKernel.MergeFlags('-fopenmp')
 
 #   include
-for key in ['DmpRdc','Psd','Stk','Bgo','Nud','Header']:
-    includeDir=key+'/include'
-    EnvRdc.Prepend(CPPPATH=[includeDir])
-
-#   Use other top-1 module
-    #+  DetectorCondition
-M1Path='../DetectorCondition/Parameter'
-EnvRdc.Prepend(CPPPATH=[M1Path+'/include'])
-    #+  Event library
-M2Path='../Event/'
-EnvRdc.Prepend(LIBS='DmpEvent')
-EnvRdc.Prepend(LIBPATH=M2Path)
-for key in ['DmpEvent','Header','Psd','Stk','Bgo','Nud']:
-    includeDir=M2Path+key+'/include'
-    EnvRdc.Prepend(CPPPATH=[includeDir])
+includeDir='./include'
+if int( not debug):
+    for file in os.listdir(includeDir):
+        Default(Command(PREFIX+'/include/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
+EnvKernel.Prepend(CPPPATH=[includeDir])
 
 #   main build
-execute=EnvRdc.Program(ExeName,Glob('./*/src/*.cc'))
-Default(EnvRdc.InstallAs(installdir+'/bin/'+ExeName,execute))
+execute=EnvKernel.SharedLibrary(LibName,Glob('./src/*.cc'))
+Default(EnvKernel.InstallAs(installdir+'/lib/lib'+LibName+".so",execute))
 
 

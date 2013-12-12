@@ -1,5 +1,5 @@
 /*=============================================================================
-#       FileName :          DmpEvtAbsSubDetSubDet.cc
+#       FileName :          DmpEvtSubDet.cc
 #       Version  :          0.0.1
 #       Author   :          Chi Wang    (chiwang@mail.ustc.edu.cn)
 #       Time     :          2013-10-03   22:01:24
@@ -15,26 +15,27 @@
 
 #include <iostream>
 
-#include "DmpEvtAbsSubDet.hh"
+#include "DmpEvtSubDet.hh"
 
-ClassImp(DmpEvtAbsSubDet)
+ClassImp(DmpEvtSubDet)
 
-//______________________________________________________________________________
-DmpEvtHeader* DmpEvtAbsSubDet::fHeader=0;
+//------------------------------------------------------------------------------
+DmpEvtHeader* DmpEvtSubDet::fHeader=0;
 
-//______________________________________________________________________________
-DmpEvtAbsSubDet::DmpEvtAbsSubDet()
+//------------------------------------------------------------------------------
+DmpEvtSubDet::DmpEvtSubDet()
  :fMode(kMixed)
 {}
 
-
-//______________________________________________________________________________
-DmpEvtAbsSubDet::~DmpEvtAbsSubDet()
+//------------------------------------------------------------------------------
+DmpEvtSubDet::~DmpEvtSubDet()
 {}
 
-DmpEvtHeader* DmpEvtAbsSubDet::GetEventHeader(){
+DmpEvtHeader* DmpEvtSubDet::GetEventHeader(){
   if(fHeader){
-    std::cout<<"Error:  DmpEvtAbsSubDet::GetEventHeader(). Not set event header. Please use DmpEvtSubDet::SetEventHeader(DmpEvtHeader*) firstly"<<std::endl;
+    std::cout<<"Error:  DmpEvtSubDet::GetEventHeader(). Not set event header. Please use DmpEvt::SetEventHeader(DmpEvtHeader*) firstly"<<std::endl;
   }
   return fHeader;
 }
+
+

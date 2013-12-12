@@ -40,7 +40,6 @@ if int(debug):
     EnvRdc.Prepend(CCFLAGS = '-g')
     EnvRdc.Append(CCFLAGS = '-DDmp_DEBUG')
     installdir=os.environ['DMPSWWORK']
-    SConscript(['../Event/SConstruct'])    # need libDmpEvent
 else:
     EnvRdc.Append(CCFLAGS = '-DDmp_RELEASE')
     Import('PREFIX')
@@ -54,8 +53,6 @@ if int(ARGUMENTS.get('g4',0)):
 
 #   set Root environment
 if int(ARGUMENTS.get('root',1)):
-    rootsys=os.environ['ROOTSYS']
-    EnvRdc.PrependENVPath('PATH', rootsys+'/bin')
     EnvRdc.ParseConfig("root-config --cflags --libs")
 
 #   set OpenMP
@@ -64,21 +61,25 @@ if int(ARGUMENTS.get('omp',0)):
     EnvRdc.MergeFlags('-fopenmp')
 
 #   include
-for key in ['DmpRdc','Psd','Stk','Bgo','Nud','Header']:
+for key in ['DmpRdc','Psd','Stk','Bgo','Nud']:
     includeDir=key+'/include'
     EnvRdc.Prepend(CPPPATH=[includeDir])
 
 #   Use other top-1 module
-    #+  DetectorCondition
-M1Path='../DetectorCondition/Parameter'
+    #+  Kernel
+M1Path='../Kernel'
 EnvRdc.Prepend(CPPPATH=[M1Path+'/include'])
+    #+  DetectorCondition
+M2Path='../DetectorCondition/Parameter'
+EnvRdc.Prepend(CPPPATH=[M2Path+'/include'])
     #+  Event library
-M2Path='../Event/'
-EnvRdc.Prepend(LIBS='DmpEvent')
-EnvRdc.Prepend(LIBPATH=M2Path)
-for key in ['DmpEvent','Header','Psd','Stk','Bgo','Nud']:
-    includeDir=M2Path+key+'/include'
+M3Path='../Event/'
+for key in ['Psd','Stk','Bgo','Nud']:
+    includeDir=M3Path+key+'/include'
     EnvRdc.Prepend(CPPPATH=[includeDir])
+
+EnvRdc.Prepend(LIBS=['DmpCore','DmpEvent'])
+EnvRdc.Prepend(LIBPATH=[M1Path,M3Path])
 
 #   main build
 execute=EnvRdc.Program(ExeName,Glob('./*/src/*.cc'))

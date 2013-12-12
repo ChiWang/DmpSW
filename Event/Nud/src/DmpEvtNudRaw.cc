@@ -16,6 +16,10 @@ void DmpEvtNudRaw::Reset(){
 }
 
 //______________________________________________________________________________
+void DmpEvtNudRaw::PrintEvent() const {
+
+}
+//______________________________________________________________________________
 void DmpEvtNudRaw::SetSignal(Float_t ADC){
 }
 

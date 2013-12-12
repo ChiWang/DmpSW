@@ -1,5 +1,5 @@
 /*=============================================================================
-#       FileName :          DmpAbsManager.hh
+#       FileName :          DmpFileManager.hh
 #       Version  :          0.0.1
 #       Author   :          DAMPE software group
 #                           Chi WANG    (chiwang@mail.ustc.edu.cn)
@@ -17,61 +17,38 @@
 #                                          Update:  2013-11-11   09:08:48
 =============================================================================*/
 
-#ifndef DmpAbsManager_H
-#define DmpAbsManager_H
+#ifndef DmpFileManager_H
+#define DmpFileManager_H
 
-//#include "TObject.h"
+#include "TObject.h"
 #include "TString.h"
 
-class TFile;
-class TTree;
-
-//class DmpAbsManager : public TObject {
-class DmpAbsManager {
+class DmpFileManager : virtual public TObject{
+/*
+ * DmpFileManager
+ *
+ *  
+ *
+*/
  public:
-  DmpAbsManager();
-  //DmpAbsManager(const DmpAbsManager *other);
-  virtual ~DmpAbsManager();
+  DmpFileManager();
+  virtual ~DmpFileManager();
+  virtual Bool_t Core()=0;
 
-  TTree*  GetTreePointer() const;
-  TString GetInDataPath() const;
-  TString GetOutDataPath() const;
   void    SetInDataPath(TString path);
   void    SetOutDataPath(TString path);
-  void    SetDataName(TString name);
-  void    ResetRootFile();
-  Bool_t  BookTree();
-
- public:
-  virtual Bool_t    BookBranch() = 0;
-  virtual void      SaveRootFile();
+  void    SetDataName(TString name) {fDataName = name;}
+  TString GetInDataPath() const     {return fInDataPath;}
+  TString GetOutDataPath() const    {return fOutDataPath;}
 
  protected:
   TString   fInDataPath;
   TString   fOutDataPath;
   TString   fDataName;
-  TFile     *fInRootFile;
-  TFile     *fOutRootFile;
-  TTree     *fTree;
   
-// ClassDef(DmpAbsManager,1)        // adding class in root
+  ClassDef(DmpFileManager,0)
+
 };
-
-inline TTree* DmpAbsManager::GetTreePointer() const{
-  return fTree;
-}
-
-inline TString DmpAbsManager::GetInDataPath() const{
-  return fInDataPath;
-}
-
-inline TString DmpAbsManager::GetOutDataPath() const{
-  return fOutDataPath;
-}
-
-inline void DmpAbsManager::SetDataName(TString name){
-  fDataName = name;
-}
 
 #endif
 

@@ -1,9 +1,9 @@
 
-##      Those files (*.map) will be used in DmpSoftware/RawDataConversion/Bgo/src/DmpRdcBgo.cc
+##      Those files (*.cnct) will be used in DmpSoftware/RawDataConversion/Bgo/src/DmpRdcBgo.cc
 
 ##      NOTE:
-        *   must named as Plane_i.cnct
-        *   set the format as BgoConnectionMethod telled
+        *   must named as Layer_i.cnct
+        *   set the format as BgoConnectionMethod stated
 
 
         -------------------------
@@ -12,8 +12,6 @@
 
         1.  mkdir connector_back_$date
         2.  copy all files into backup directory
-        3.  modify connector in Plane_i.cnct
+        3.  modify connector in Layer_i.cnct
         4.  record change information in BgoConnectorChangeNote.md
-
-
 

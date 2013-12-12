@@ -17,9 +17,9 @@
 
 #include <vector>
 
-#include "DmpEvtAbsSubDet.hh"
+#include "DmpEvtSubDet.hh"
 
-class DmpEvtBgoRaw : public DmpEvtAbsSubDet{
+class DmpEvtBgoRaw : public DmpEvtSubDet{
 /*
  *  DmpEvtBgoRaw
  *
@@ -29,7 +29,7 @@ class DmpEvtBgoRaw : public DmpEvtAbsSubDet{
  *      1.  how many dynode has signal?     (fNSignal)
  *      2.  and, what is the ADC value from evry dynode?    (fADC)
  *      3.  and, where is this dynode?      (fLayerId, fBarID, fSideID, fDyID)
- *      4.  and, some variables inherit from DmpEvtAbsSubDet
+ *      4.  and, some variables inherit from DmpEvtSubDet
  *
 */
 
@@ -39,7 +39,7 @@ class DmpEvtBgoRaw : public DmpEvtAbsSubDet{
   void  Reset();
   void  PrintEvent() const;
   void  PrintEvent(Short_t layerID,Short_t barID,Short_t sideID,Short_t dyID);
-  void  SetSignal(Short_t layerID,Short_t barID,Short_t sideID,Short_t dyID,Double_t adc);
+  void  SetSignal(Int_t LBSD_ID,Double_t adc);
   Int_t GetSignalNumber() const {return fNSignal;}
 
  private:

@@ -61,7 +61,7 @@ if int(ARGUMENTS.get('omp',0)):
     EnvEvt.MergeFlags('-fopenmp')
 
 #   include
-for key in ['DmpEvent','Psd','Stk','Bgo','Nud']:
+for key in ['Psd','Stk','Bgo','Nud']:
     includeDir=key+'/include'
     if int( not debug):
         for file in os.listdir(includeDir):
@@ -69,8 +69,8 @@ for key in ['DmpEvent','Psd','Stk','Bgo','Nud']:
     EnvEvt.Prepend(CPPPATH=[includeDir])
 
 #   Use other top-1 module
-    #+  DetectorCondition
-M1Path='../DetectorCondition/Parameter'
+    #+  Kernel
+M1Path='../Kernel'
 EnvEvt.Prepend(CPPPATH=[M1Path+'/include'])
 
 #   main build

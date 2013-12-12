@@ -4,9 +4,9 @@
 
 #include <vector>
 
-#include "DmpEvtAbsSubDet.hh"
+#include "DmpEvtSubDet.hh"
 
-class DmpEvtStkRaw : public DmpEvtAbsSubDet{
+class DmpEvtStkRaw : public DmpEvtSubDet{
 /*
  * DmpEvtStkRaw
  *

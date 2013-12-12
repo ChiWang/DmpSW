@@ -22,7 +22,7 @@
 #=============================================================================
 
 includeDir="./include"
-includeDir1="../DmpEvent/include"
+includeDir1="../../Kernel/include"
 srcDir="./src"
 
 #+  auto define linkDef and fileList
@@ -49,6 +49,15 @@ done
 
 diction=`echo $linkDef | sed s/LinkDef//`
 diction="${diction%.*}_Dict.cc"
+
+if [ -f $srcDir/$diction ];then
+    read -p   " dictionary ($diction) is exist, delete it? (Y/N):        " Ans
+    if [ $Ans == "Y" ];then
+        \rm ./*/${diction%.*}* 2>/dev/null
+        echo "You should to re-execute this command."
+    fi
+    exit 0      # can't execute rootcint just after \rm ....
+fi
 
 echo "generating    $diction"
 rootcint -f ${includeDir}/${diction} -c -p -I$includeDir -I$includeDir1 $fileList $linkDef
