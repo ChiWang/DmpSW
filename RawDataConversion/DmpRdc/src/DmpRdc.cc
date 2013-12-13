@@ -1,19 +1,13 @@
-/*=============================================================================
-#       FileName :          DmpRdc.cc
-#       Version  :          0.0.1
-#       Author   :          Chi Wang    (chiwang@mail.ustc.edu.cn)
-#       Time     :          2013-08-07   10:52:13
-#
-#------------------------------------------------------------------------------
-#       Description  :
-#           This file only implement functions of manager, functions of sub-detector in ../sub-det/src/*.cc
-#           closed TriggerMatch()
-#
-#
-#------------------------------------------------------------------------------
-#       History  :
-#                                          Update:  2013-10-07   00:57:47
-=============================================================================*/
+/*=====================================================================
+ *   File:   DmpRdc.cc
+ *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
+ *---------------------------------------------------------------------
+ *   Description:
+ *
+ *---------------------------------------------------------------------
+ *   History:
+ *                           Last update:  13/12/2013   12:30:39
+=====================================================================*/
 
 #include <iostream>
 
@@ -137,7 +131,7 @@ Bool_t DmpRdc::TriggerMatch() {
   if (fTrigger["Bgo"] == fTrigger["Psd"] && fTrigger["Bgo"] == fTrigger["Stk"] && fTrigger["Bgo"] == fTrigger["Nud"] && fTrigger["Bgo"] == fTrigger["Header"]) {
   return true;
   } else {
-    std::cerr<<"\t\ttrigger not match\n"<<std::endl;
+    std::cerr<<"\t\tTriggers of Sub-detectors NOT match\n"<<std::endl;
     std::cerr<<"Header = "<<fTrigger["Header"]<<"\tPsd = "<<fTrigger["Psd"]<<"\tStk = "<<fTrigger["Stk"]<<"\tBgo = "<<fTrigger["Nud"]<<std::endl;
   }
   return true;

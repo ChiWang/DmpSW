@@ -1,28 +1,29 @@
-#=============================================================================
-#       FileName :          SConscript
-#       Version  :          0.0.1
-#       Author   :          Chi    (chiwang@mail.ustc.edu.cn)
-#       Time     :          2013-07-24   21:51:55
+#=====================================================================
+#   File:   SConstruct
+#   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    24/07/2013
+#---------------------------------------------------------------------
+#   Description:
 #
-#------------------------------------------------------------------------------
-#       Description  :
-#         *** Default degub=0, scons debug=1 will create in debug mode
-#               means: create all thing in current directory instead of install into /prefix
+#   *** Default degub=0, scons debug=1 will create in debug mode
+#         means: create all thing in current directory instead of install into /prefix
 #
-#           Using Root
-#               ARGUMENTS.get('root',value):        set default use(value=1) root;
-#               if execute "scons root=0"   will not use root
-#           Using Geant4
-#               ARGUMENTS.get('g4',value):          set default use(value=1) geant4;
-#               if execute "scons g4=0"   will not use geant4
-#           Using OpenMP
-#               ARGUMENTS.get('omp',value):         set default use(value=1) OpenMP;
-#               if execute "scons omp=0"   will not use OpenMP
+#   1.  Root
+#       ARGUMENTS.get('root',value):
+#           value = 1,      use root
+#           scons root=0,   not use
+#   2.  Geant4
+#         ARGUMENTS.get('g4',value):
+#           value = 0,      not use geant4
+#           scons g4=1,     use geant4
+#   3.  OpenMP
+#         ARGUMENTS.get('omp',value):
+#           value = 0,      not use OpenMP
+#           scons omp=1,    use it
 #
-#------------------------------------------------------------------------------
-#       History  :
-#                                          Update:  2013-09-20   12:42:21
-#=============================================================================
+#---------------------------------------------------------------------
+#   History:
+#                           Last update:  13/12/2013   12:22:48
+#=====================================================================
 
 print "\n\t\t--->building Event module"
 

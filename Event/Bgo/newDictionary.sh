@@ -1,12 +1,10 @@
 #! /bin/bash
-#=============================================================================
-#       FileName :          userootcint.sh
-#       Version  :          0.0.1
-#       Author   :          Chi WANG    (chiwang@mail.ustc.edu.cn)
-#       Time     :          2013-12-11   16:15:20
-#------------------------------------------------------------------------------
-#       Description  :
-#   Using rootcint
+#=====================================================================
+#   File:   newDictionary.sh
+#   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    11/12/2013
+#---------------------------------------------------------------------
+#   Description:
+#   1.  How to use rootcint
 #       http://www.scons.org/doc/HTML/scons-user.html#chap-builders-writing
 #       http://kalmanalignment.hepforge.org/svn/trunk/event/SConscript
 #
@@ -15,11 +13,10 @@
 #       1.  define linkDef: XXXLinkDefXXX.hh
 #       2.  define fileList:    will be used header files
 #       3.  if need external header files, use includeDir1
-#
-#------------------------------------------------------------------------------
-#       History  :
-#                                          Update:  2013-12-11   21:50:35
-#=============================================================================
+#---------------------------------------------------------------------
+#   History:
+#                           Last update:  13/12/2013   12:36:21
+#=====================================================================
 
 includeDir="./include"
 includeDir1="../../Kernel/include"
