@@ -1,5 +1,5 @@
 /*=====================================================================
- *   File:   DmpRdcMain.cc
+ *   File:   DmpRdcManagerMain.cc
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
  *---------------------------------------------------------------------
  *   Description:
@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-#include "DmpRdc.hh"
+#include "DmpRdcManager.hh"
 
 using namespace std;
 
@@ -21,7 +21,7 @@ void Usage();
 //------------------------------------------------------------------------------
 int main(int argc, char* argv[]){
 
-  DmpRdc* RdcMan = DmpRdc::GetInstance();
+  DmpRdcManager* RdcMan = DmpRdcManager::GetInstance();
   if ( ! RdcMan->SetConnectorPsd() ) return 1;
   if ( ! RdcMan->SetConnectorStk() ) return 1;
   if ( ! RdcMan->SetConnectorBgo() ) return 1;
@@ -44,19 +44,19 @@ int main(int argc, char* argv[]){
     RdcMan->SetInDataPath((TString)note.substr(0,found));
     RdcMan->SetDataName((TString)note.substr(found+1));
     RdcMan->Core();
-  } else if (inFileName.Contains(".infor")) {
+  } else if (inFileName.Contains("RdcInput.infor")) {
     ifstream* BatchInfor = new ifstream (inFileName,ios::in);
     if (!BatchInfor->good()) {
-      cerr<<"\n\tRDC batch mode: there's not a file named "<<inFileName<<endl;
+      cerr<<"Error: There's not a file named "<<inFileName<<" as batch mode input"<<endl;
       return 1;
     }
-    getline(*BatchInfor,note);    // reserved 1 lines for note
+    getline(*BatchInfor,note);    // reserved 1 line for note
     getline(*BatchInfor,note);
     RdcMan->SetInDataPath(note);
-    getline(*BatchInfor,note);    // reserved 1 lines for note
+    getline(*BatchInfor,note);    // reserved 1 line for note
     getline(*BatchInfor,note);
     RdcMan->SetOutDataPath(note);
-    getline(*BatchInfor,note);    // reserved 1 lines for note
+    getline(*BatchInfor,note);    // reserved 1 line for note
     while (note != "END") {
       *BatchInfor>>note;
       if (note == "END") break;
@@ -70,12 +70,12 @@ int main(int argc, char* argv[]){
     return 1;
   }
 
-  DmpRdc::Clear();
+  DmpRdcManager::Clear();
   return 0;
 
 }
 
 //------------------------------------------------------------------------------
 void Usage(){
-  cerr<<"Usage:\tXXX"<<endl;
+  cerr<<"Error: Usage:\tXXX"<<endl;
 }

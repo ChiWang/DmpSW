@@ -73,7 +73,7 @@ diction="${diction%.*}_Dict.cc"
 
 if [ -f $srcDir/$diction ];then
     read -p   " dictionary ($diction) is exist, delete it? (Y/N):        " Ans
-    if [ $Ans == "Y" ];then
+    if [ "XX$Ans" != "XXN" ];then
         \rm ./*/${diction%.*}* 2>/dev/null
         echo "You should to re-execute this command."
     fi

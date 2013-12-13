@@ -1,21 +1,21 @@
 
 #include <iostream>
 
-#include "DmpRdc.hh"
+#include "DmpRdcManager.hh"
 #include "DmpEvtNudRaw.hh"
 #include "DmpDcdParameterNud.hh"
 
 using namespace DmpDcdParameter::Nud;
 
 //------------------------------------------------------------------------------
-Bool_t DmpRdc::SetConnectorNud(){
+Bool_t DmpRdcManager::SetConnectorNud(){
   std::cout<<"\n\tSetup connector:\tNud"<<std::endl;
   std::cout<<"\n\t\t\t\tSuccessful"<<std::endl;
   return true;
 }
 
 //------------------------------------------------------------------------------
-Bool_t DmpRdc::ConversionNud(){
+Bool_t DmpRdcManager::ConversionNud(){
   std::cout<<"\t\t\tEvent Conversion:\tNud"<<std::endl;
   Short_t tmp=0;
   fHexData->read((char*)(&tmp),1);

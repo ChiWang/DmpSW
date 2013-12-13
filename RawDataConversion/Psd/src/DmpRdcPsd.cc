@@ -1,21 +1,21 @@
 
 #include <iostream>
 
-#include "DmpRdc.hh"
+#include "DmpRdcManager.hh"
 #include "DmpEvtPsdRaw.hh"
 #include "DmpDcdParameterPsd.hh"
 
 using namespace DmpDcdParameter::Psd;
 
 //------------------------------------------------------------------------------
-Bool_t DmpRdc::SetConnectorPsd(){
+Bool_t DmpRdcManager::SetConnectorPsd(){
   std::cout<<"\n\tSetup connector:\tPsd"<<std::endl;
   std::cout<<"\n\t\t\t\tSuccessful"<<std::endl;
   return true;
 }
 
 //------------------------------------------------------------------------------
-Bool_t DmpRdc::ConversionPsd(){
+Bool_t DmpRdcManager::ConversionPsd(){
   std::cout<<"\t\t\tEvent Conversion:\tPsd"<<std::endl;
   Short_t tmp=0;
   fHexData->read((char*)(&tmp),1);

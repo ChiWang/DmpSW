@@ -6,7 +6,7 @@
  *
  *---------------------------------------------------------------------
  *   History:
- *                           Last update:  13/12/2013   12:04:54
+ *                           Last update:  13/12/2013   15:26:11
 =====================================================================*/
 
 #ifndef DmpEvtHeader_H
@@ -39,7 +39,7 @@ class DmpEvtHeader : public TObject{
   ~DmpEvtHeader();
   void  Reset();
   void  SetTime(Short_t time[],Int_t size);     // converte hex time to dec time and cal. time gap
-  void  ShowTime() const;
+  void  ShowTime(Short_t mode=1) const;         // mode = {0|1} 0: raw hex time; 1: normal time(date,time)
   void  CountPackage()  {++fPackageID;}
   void  CountEvent()    {++fEventID;}
   void  SetPID(DmpEParticleID pid){fPID = pid;}

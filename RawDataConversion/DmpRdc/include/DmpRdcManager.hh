@@ -1,16 +1,16 @@
 /*=====================================================================
- *   File:   DmpRdc.hh
+ *   File:   DmpRdcManager.hh
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
  *---------------------------------------------------------------------
  *   Description:
  *
  *---------------------------------------------------------------------
  *   History:
- *                           Last update:  13/12/2013   12:29:55
+ *                           Last update:  13/12/2013   15:20:26
 =====================================================================*/
 
-#ifndef DmpRdc_H
-#define DmpRdc_H
+#ifndef DmpRdcManager_H
+#define DmpRdcManager_H
 
 #include <map>
 #include <fstream>      // Conversion(ifstream* HexData)
@@ -25,9 +25,9 @@ class DmpEvtStkRaw;
 class DmpEvtBgoRaw;
 class DmpEvtNudRaw;
 
-class DmpRdc : public DmpFileManager, public DmpEvtManager{
+class DmpRdcManager : public DmpFileManager, public DmpEvtManager{
 /*
- *  DmpRdc
+ *  DmpRdcManager
  *
  *  SetConnectorSub-DetX() and ConversionSub-DetX()    could have many versions, for cosmic; whole; Beam test 2012..
  *  
@@ -36,18 +36,19 @@ class DmpRdc : public DmpFileManager, public DmpEvtManager{
 
 //  ------------------------------------------------>
  public:
-  static DmpRdc*    GetInstance();
+  static DmpRdcManager*    GetInstance();
   static void   Clear();
   Bool_t Core();
+  DmpEvtSubDet*  GetEventPointer(TString det) const {return 0;}
   void  SetHexData(ifstream *p)  {fHexData = p;}
 
  private:
-  DmpRdc();
-  ~DmpRdc();
+  DmpRdcManager();
+  ~DmpRdcManager();
   Bool_t    TriggerMatch();
 
  private:
-  static DmpRdc     *fInstance;
+  static DmpRdcManager     *fInstance;
   static TString    fConnectorPath;         // connection files of FEE to Detector
   ifstream  *fHexData;
   TTree     *fTree;
@@ -80,7 +81,7 @@ class DmpRdc : public DmpFileManager, public DmpEvtManager{
     //LBSD_ID = Layer_id*10000+Bar_id*100+Side_id*10+Dy_id
   std::map<Int_t, Int_t>  ConnectorNud;
 
-  ClassDef(DmpRdc,0)
+  ClassDef(DmpRdcManager,0)
 
 };
 

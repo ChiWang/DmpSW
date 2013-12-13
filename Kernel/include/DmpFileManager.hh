@@ -25,7 +25,6 @@ class DmpFileManager : virtual public TObject{
  public:
   DmpFileManager();
   virtual ~DmpFileManager();
-  virtual Bool_t Core()=0;
 
   void    SetInDataPath(TString);
   void    SetOutDataPath(TString);

@@ -6,7 +6,7 @@
  *
  *---------------------------------------------------------------------
  *   History:
- *                           Last update:  13/12/2013   12:30:02
+ *                           Last update:  13/12/2013   15:20:38
 =====================================================================*/
 
 #ifdef __CINT__
@@ -15,6 +15,6 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
-#pragma link C++ class DmpRdc+;
+#pragma link C++ class DmpRdcManager+;
 
 #endif

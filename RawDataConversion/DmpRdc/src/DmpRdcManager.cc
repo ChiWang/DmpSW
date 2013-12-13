@@ -1,5 +1,5 @@
 /*=====================================================================
- *   File:   DmpRdc.cc
+ *   File:   DmpRdcManager.cc
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
  *---------------------------------------------------------------------
  *   Description:
@@ -14,7 +14,7 @@
 #include "TFile.h"
 #include "TTree.h"
 
-#include "DmpRdc.hh"
+#include "DmpRdcManager.hh"
 
 #include "DmpEvtHeader.hh"
 #include "DmpEvtPsdRaw.hh"
@@ -22,44 +22,44 @@
 #include "DmpEvtBgoRaw.hh"
 #include "DmpEvtNudRaw.hh"
 
-ClassImp(DmpRdc)
+ClassImp(DmpRdcManager)
 
 //------------------------------------------------------------------------------
-DmpRdc* DmpRdc::fInstance = 0;
+DmpRdcManager* DmpRdcManager::fInstance = 0;
 //------------------------------------------------------------------------------
 #ifdef Dmp_DEBUG
-TString DmpRdc::fConnectorPath="../DetectorCondition/Connector";
+TString DmpRdcManager::fConnectorPath="../DetectorCondition/Connector";
 #endif
 #ifdef Dmp_RELEASE
-TString DmpRdc::fConnectorPath="Absolute path of /prefix/share/connector";
+TString DmpRdcManager::fConnectorPath="Absolute path of /prefix/share/connector";
 #endif
 
 //------------------------------------------------------------------------------
-DmpRdc* DmpRdc::GetInstance(){
+DmpRdcManager* DmpRdcManager::GetInstance(){
   if (fInstance == 0 ){
-    fInstance = new DmpRdc();
+    fInstance = new DmpRdcManager();
   }
   return fInstance;
 }
 
 //------------------------------------------------------------------------------
-void DmpRdc::Clear(){
+void DmpRdcManager::Clear(){
   if (fInstance != 0 ){
     delete fInstance;
     fInstance = 0;
   }
-  std::cout<<"\nDelete DmpRdc Manager"<<std::endl;
+  std::cout<<"\nDelete DmpRdcManager Manager"<<std::endl;
 }
 
 //------------------------------------------------------------------------------
-Bool_t DmpRdc::Core(){
+Bool_t DmpRdcManager::Core(){
 
   fHexData = new ifstream(fInDataPath+fDataName,std::ios::in|std::ios::binary);
   if (!fHexData->good()) {
-    std::cout<<"\n\t---->Warning: open "<<fInDataPath+fDataName<<" failed"<<std::endl;
+    std::cerr<<"Warning: open "<<fInDataPath+fDataName<<" failed"<<std::endl;
     return false;
   } else {
-    std::cout<<"\n\t---->Reading "<<fInDataPath+fDataName<<std::endl;
+    std::cout<<"Reading "<<fInDataPath+fDataName<<std::endl;
   }
 
   fTree = new TTree("Dampe_raw","raw_event");
@@ -101,7 +101,7 @@ Bool_t DmpRdc::Core(){
 }
 
 //------------------------------------------------------------------------------
-DmpRdc::DmpRdc()
+DmpRdcManager::DmpRdcManager()
  :fPsd(0),
   fStk(0),
   fBgo(0),
@@ -119,7 +119,7 @@ DmpRdc::DmpRdc()
 }
 
 //------------------------------------------------------------------------------
-DmpRdc::~DmpRdc(){
+DmpRdcManager::~DmpRdcManager(){
   delete fPsd;
   delete fStk;
   delete fBgo;
@@ -127,18 +127,18 @@ DmpRdc::~DmpRdc(){
 }
 
 //------------------------------------------------------------------------------
-Bool_t DmpRdc::TriggerMatch() {
+Bool_t DmpRdcManager::TriggerMatch() {
   if (fTrigger["Bgo"] == fTrigger["Psd"] && fTrigger["Bgo"] == fTrigger["Stk"] && fTrigger["Bgo"] == fTrigger["Nud"] && fTrigger["Bgo"] == fTrigger["Header"]) {
   return true;
   } else {
-    std::cerr<<"\t\tTriggers of Sub-detectors NOT match\n"<<std::endl;
-    std::cerr<<"Header = "<<fTrigger["Header"]<<"\tPsd = "<<fTrigger["Psd"]<<"\tStk = "<<fTrigger["Stk"]<<"\tBgo = "<<fTrigger["Nud"]<<std::endl;
+    std::cerr<<"Error: Triggers of Sub-detectors NOT match\n";
+    std::cerr<<"\t\tHeader = "<<fTrigger["Header"]<<"\tPsd = "<<fTrigger["Psd"]<<"\tStk = "<<fTrigger["Stk"]<<"\tBgo = "<<fTrigger["Nud"]<<std::endl;
   }
   return true;
 }
 
 //------------------------------------------------------------------------------
-Bool_t DmpRdc::ConversionHeader(){
+Bool_t DmpRdcManager::ConversionHeader(){
 #ifdef Dmp_DEBUG
   std::cout<<"\t\t\tEvent Conversion:\tHeader"<<std::endl;
 #endif

@@ -11,14 +11,15 @@
 
 #include <iostream>
 
-#include "DmpRdc.hh"
+#include "DmpRdcManager.hh"
+#include "DmpEvtHeader.hh"
 #include "DmpEvtBgoRaw.hh"     // include DmpERunMode.hh
 #include "DmpDcdParameterBgo.hh"
 
 using namespace DmpDcdParameter::Bgo;
 
 //------------------------------------------------------------------------------
-Bool_t DmpRdc::SetConnectorBgo(){
+Bool_t DmpRdcManager::SetConnectorBgo(){
   std::cout<<"\n\tSetup connector:\tBgo"<<std::endl;
   Int_t FEEID, ChannelID;
   Short_t LID, BID, SID, DID;
@@ -31,7 +32,7 @@ Bool_t DmpRdc::SetConnectorBgo(){
     sprintf(fileName,"Layer_%d.cnct",l);
     ifstream cnctFile(fConnectorPath+"/Bgo/"+fileName);
     if (!cnctFile.good()) {
-      std::cerr<<"\t\tDmpRdc::SetConnectorBgo():\tOpen "<<fileName<<"\tfailed..."<<std::endl;
+      std::cerr<<"Error: DmpRdcManager::SetConnectorBgo():\tRead "<<fileName<<"\tfailed..."<<std::endl;
       return false;
     } else {
       std::cout<<"\t"<<fileName;
@@ -54,7 +55,7 @@ Bool_t DmpRdc::SetConnectorBgo(){
 }
 
 //------------------------------------------------------------------------------
-Bool_t DmpRdc::ConversionBgo(){
+Bool_t DmpRdcManager::ConversionBgo(){
   std::cout<<"\t\t\tEvent Conversion:\tBgo\t\tMode: 2013 whole Bgo"<<std::endl;
   static const Short_t  kStdDataLength0 = ((kBarNb+kRefBarNb)*kDyNb*kSideNb+3)*2;   // 3: (1)data Length 0x00a2; (2)reverse 0x0000; (3)CRC 0x0xxx.  *2:to unit Byte
   static const Short_t  kStdDataLength1 = ((kBarNb+kRefBarNb)*kDyNb+3)*2;           // kStdDataLength0 is A and B type Fee. kStdDataLength1 is C type Fee
@@ -69,12 +70,14 @@ Bool_t DmpRdc::ConversionBgo(){
     tmp=0;
     fHexData->read((char*)(&tmp),1);
     if (tmp!=0xeb) {
-      std::cerr<<"\t\tBgo ----> 0xeb wrong\t"<<std::hex<<tmp<<std::endl;
+      std::cerr<<"Error: DmpRdcManager::ConversionBgo()\t0xeb wrong\t";
+      fBgo->GetEventHeader()->ShowTime(0);
       return false;
     }
     fHexData->read((char*)(&tmp),1);
     if (tmp!=0x90) {
-      std::cerr<<"\t\tBgo ----> 0x90 wrong\t"<<std::hex<<tmp<<std::endl;
+      std::cerr<<"Error: DmpRdcManager::ConversionBgo()\t0x90 wrong\t";
+      fBgo->GetEventHeader()->ShowTime(0);
       return false;
     }
     fHexData->read((char*)(&tmp),1);         //trigger
@@ -84,11 +87,13 @@ Bool_t DmpRdc::ConversionBgo(){
       fBgo->SetMode(DmpEvtSubDet::DmpERunMode(feeID/16));
     } else {
       if (tmp != fTrigger["Bgo"]) {
-        std::cerr<<"\t\tBgo ----> FEE trigger not match.\tLast trigger = "<<fTrigger["Bgo"]<<"\tFEE 0x"<<std::hex<<feeID<<" trigger = "<<tmp<<std::endl;
+        std::cerr<<"Error: DmpRdcManager::ConversionBgo()\tFEE trigger not match\t";
+        fBgo->GetEventHeader()->ShowTime(0);
         return false;
       }
       if (feeID/16 != fBgo->GetMode()) {
-        std::cerr<<"\t\tBgo ----> FEE Mode not match"<<std::endl;
+        std::cerr<<"Error: DmpRdcManagerConversionBgo()\tFEE mode not match\t";
+        fBgo->GetEventHeader()->ShowTime(0);
         return false;
       }
     }
@@ -124,4 +129,5 @@ Bool_t DmpRdc::ConversionBgo(){
   }
   return true;
 }
+
 

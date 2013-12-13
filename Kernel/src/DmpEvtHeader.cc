@@ -60,9 +60,17 @@ void DmpEvtHeader::SetTime(Short_t Time[],Int_t size){
 }
 
 //------------------------------------------------------------------------------
-void DmpEvtHeader::ShowTime() const{
-  std::cout<<"Normal time:"<<std::endl;
-  std::cout<<"Hex time:"<<std::endl;
+void DmpEvtHeader::ShowTime(Short_t mode) const{
+/*
+ *  use cerr instead of cout, since most situation while calling ShowTime() is just after a cerr.
+ *  So, if we use cout in this function, then the output file will not match the file of the last cerr information in.
+ *
+*/ 
+  if (mode ==1) {
+    std::cerr<<"Normal time:"<<std::endl;
+  } else {
+    std::cerr<<"Hex time:"<<std::endl;
+  }
 }
 
 

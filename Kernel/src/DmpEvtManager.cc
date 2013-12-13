@@ -28,8 +28,3 @@ DmpEvtManager::~DmpEvtManager(){
   delete fHeader;
 }
 
-//------------------------------------------------------------------------------
-DmpEvtSubDet*  DmpEvtManager::GetEventPointer(TString subDet){
-  return 0;
-}
-
