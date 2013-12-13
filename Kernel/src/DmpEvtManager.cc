@@ -20,8 +20,7 @@
 ClassImp(DmpEvtManager)
 
 //------------------------------------------------------------------------------
-DmpEvtManager::DmpEvtManager()
-{
+DmpEvtManager::DmpEvtManager(){
   fHeader = new DmpEvtHeader();
   DmpEvtSubDet::SetEventHeader(fHeader);
 }

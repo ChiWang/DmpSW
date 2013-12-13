@@ -20,12 +20,12 @@ Bool_t DmpRdc::ConversionPsd(){
   Short_t tmp=0;
   fHexData->read((char*)(&tmp),1);
   if (tmp!=0xeb) {
-    std::cout<<"\t\t\t\t----> 0xeb wrong"<<std::endl;
+    std::cerr<<"\t\t\t\t----> 0xeb wrong"<<std::endl;
     return false;
   }
   fHexData->read((char*)(&tmp),1);
   if (tmp!=0x90) {
-    std::cout<<"\t\t\t\t----> 0x90 wrong"<<std::endl;
+    std::cerr<<"\t\t\t\t----> 0x90 wrong"<<std::endl;
     return false;
   }
   for (Short_t i=0;i<22;++i)

@@ -35,8 +35,8 @@ class DmpFileManager : virtual public TObject{
   virtual ~DmpFileManager();
   virtual Bool_t Core()=0;
 
-  void    SetInDataPath(TString path);
-  void    SetOutDataPath(TString path);
+  void    SetInDataPath(TString);
+  void    SetOutDataPath(TString);
   void    SetDataName(TString name) {fDataName = name;}
   TString GetInDataPath() const     {return fInDataPath;}
   TString GetOutDataPath() const    {return fOutDataPath;}

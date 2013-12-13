@@ -35,7 +35,7 @@ Bool_t DmpRdc::SetConnectorBgo(){
     sprintf(fileName,"Layer_%d.cnct",l);
     ifstream cnctFile(fConnectorPath+"/Bgo/"+fileName);
     if (!cnctFile.good()) {
-      std::cout<<"\t\tOpen "<<fileName<<"\tfailed..."<<std::endl;
+      std::cerr<<"\t\tDmpRdc::SetConnectorBgo():\tOpen "<<fileName<<"\tfailed..."<<std::endl;
       return false;
     } else {
       std::cout<<"\t"<<fileName;
@@ -73,12 +73,12 @@ Bool_t DmpRdc::ConversionBgo(){
     tmp=0;
     fHexData->read((char*)(&tmp),1);
     if (tmp!=0xeb) {
-      std::cout<<"\t\tBgo ----> 0xeb wrong\t"<<std::hex<<tmp<<std::endl;
+      std::cerr<<"\t\tBgo ----> 0xeb wrong\t"<<std::hex<<tmp<<std::endl;
       return false;
     }
     fHexData->read((char*)(&tmp),1);
     if (tmp!=0x90) {
-      std::cout<<"\t\tBgo ----> 0x90 wrong\t"<<std::hex<<tmp<<std::endl;
+      std::cerr<<"\t\tBgo ----> 0x90 wrong\t"<<std::hex<<tmp<<std::endl;
       return false;
     }
     fHexData->read((char*)(&tmp),1);         //trigger
@@ -88,11 +88,11 @@ Bool_t DmpRdc::ConversionBgo(){
       fBgo->SetMode(DmpEvtSubDet::DmpERunMode(feeID/16));
     } else {
       if (tmp != fTrigger["Bgo"]) {
-        std::cout<<"\t\tBgo ----> FEE trigger not match.\tLast trigger = "<<fTrigger["Bgo"]<<"\tFEE 0x"<<std::hex<<feeID<<" trigger = "<<tmp<<std::endl;
+        std::cerr<<"\t\tBgo ----> FEE trigger not match.\tLast trigger = "<<fTrigger["Bgo"]<<"\tFEE 0x"<<std::hex<<feeID<<" trigger = "<<tmp<<std::endl;
         return false;
       }
       if (feeID/16 != fBgo->GetMode()) {
-        std::cout<<"\t\tBgo ----> FEE Mode not match"<<std::endl;
+        std::cerr<<"\t\tBgo ----> FEE Mode not match"<<std::endl;
         return false;
       }
     }

@@ -40,14 +40,14 @@ class DmpRdc : public DmpFileManager, public DmpEvtManager{
 
 //  ------------------------------------------------>
  public:
-  DmpRdc();
-  ~DmpRdc();
   static DmpRdc*    GetInstance();
-  void  Clear();
+  static void   Clear();
   Bool_t Core();
   void  SetHexData(ifstream *p)  {fHexData = p;}
 
  private:
+  DmpRdc();
+  ~DmpRdc();
   Bool_t    TriggerMatch();
 
  private:

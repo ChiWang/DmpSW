@@ -33,7 +33,7 @@ DmpEvtSubDet::~DmpEvtSubDet()
 
 DmpEvtHeader* DmpEvtSubDet::GetEventHeader(){
   if(fHeader){
-    std::cout<<"Error:  DmpEvtSubDet::GetEventHeader(). Not set event header. Please use DmpEvt::SetEventHeader(DmpEvtHeader*) firstly"<<std::endl;
+    std::cerr<<"Error:  DmpEvtSubDet::GetEventHeader(). Not set event header. Please use DmpEvt::SetEventHeader(DmpEvtHeader*) firstly"<<std::endl;
   }
   return fHeader;
 }

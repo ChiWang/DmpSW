@@ -32,7 +32,7 @@ class DmpEvtManager : virtual public TObject{
  public:
   DmpEvtManager();
   virtual ~DmpEvtManager();
-  virtual DmpEvtSubDet*  GetEventPointer(TString subDet);
+  virtual DmpEvtSubDet*  GetEventPointer(TString);
 
  protected:
   DmpEvtHeader  *fHeader;
@@ -42,3 +42,5 @@ class DmpEvtManager : virtual public TObject{
 };
 
 #endif
+
+

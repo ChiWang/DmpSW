@@ -7,7 +7,7 @@
 
 #pragma link C++ class DmpEvtHeader+;
 #pragma link C++ class DmpEvtSubDet+;
-#pragma link C++ class DmpFileManager-;
-#pragma link C++ class DmpEvtManager-;
+#pragma link C++ class DmpFileManager+;
+#pragma link C++ class DmpEvtManager+;
 
 #endif

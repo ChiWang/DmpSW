@@ -76,7 +76,7 @@ int main(int argc, char* argv[]){
     }
   }
 
-  RdcMan->Clear();
+  DmpRdc::Clear();
   return 0;
 
 }

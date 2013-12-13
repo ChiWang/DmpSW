@@ -31,8 +31,7 @@
 ClassImp(DmpRdc)
 
 //------------------------------------------------------------------------------
-DmpRdc* DmpRdc::fInstance=0;
-
+DmpRdc* DmpRdc::fInstance = 0;
 //------------------------------------------------------------------------------
 #ifdef Dmp_DEBUG
 TString DmpRdc::fConnectorPath="../DetectorCondition/Connector";
@@ -43,7 +42,7 @@ TString DmpRdc::fConnectorPath="Absolute path of /prefix/share/connector";
 
 //------------------------------------------------------------------------------
 DmpRdc* DmpRdc::GetInstance(){
-  if (fInstance == 0) {
+  if (fInstance == 0 ){
     fInstance = new DmpRdc();
   }
   return fInstance;
@@ -51,9 +50,7 @@ DmpRdc* DmpRdc::GetInstance(){
 
 //------------------------------------------------------------------------------
 void DmpRdc::Clear(){
-  if (fInstance == 0) {
-    return;
-  } else {
+  if (fInstance != 0 ){
     delete fInstance;
     fInstance = 0;
   }
@@ -110,7 +107,12 @@ Bool_t DmpRdc::Core(){
 }
 
 //------------------------------------------------------------------------------
-DmpRdc::DmpRdc(){
+DmpRdc::DmpRdc()
+ :fPsd(0),
+  fStk(0),
+  fBgo(0),
+  fNud(0)
+{
   fPsd = new DmpEvtPsdRaw();
   fStk = new DmpEvtStkRaw();
   fBgo = new DmpEvtBgoRaw();
@@ -135,8 +137,8 @@ Bool_t DmpRdc::TriggerMatch() {
   if (fTrigger["Bgo"] == fTrigger["Psd"] && fTrigger["Bgo"] == fTrigger["Stk"] && fTrigger["Bgo"] == fTrigger["Nud"] && fTrigger["Bgo"] == fTrigger["Header"]) {
   return true;
   } else {
-    std::cout<<"\t\ttrigger not match\n"<<std::endl;
-    std::cout<<"Header = "<<fTrigger["Header"]<<"\tPsd = "<<fTrigger["Psd"]<<"\tStk = "<<fTrigger["Stk"]<<"\tBgo = "<<fTrigger["Nud"]<<std::endl;
+    std::cerr<<"\t\ttrigger not match\n"<<std::endl;
+    std::cerr<<"Header = "<<fTrigger["Header"]<<"\tPsd = "<<fTrigger["Psd"]<<"\tStk = "<<fTrigger["Stk"]<<"\tBgo = "<<fTrigger["Nud"]<<std::endl;
   }
   return true;
 }
