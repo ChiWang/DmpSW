@@ -23,10 +23,12 @@
 #
 #---------------------------------------------------------------------
 #   History:
-#                           Last update:  15/12/2013   17:34:51
+#                           Last update:  15/12/2013   23:04:14
 #=====================================================================
 
 includeDir="./include"
+includeDir1="../../Kernel/include"
+includeDir2="xxxx"
 srcDir="./src"
 
 if [ ! -d $includeDir ];then
@@ -77,15 +79,15 @@ diction=`echo $linkDef | sed s/LinkDef//`
 diction="${diction%.*}_Dict.cc"
 
 if [ -f $srcDir/$diction ];then
-    read -p   " dictionary ($diction) is exist, delete it? (Y/N):        " Ans
+    read -p   " Dictionary ($diction) is exist, delete it? (Y/N):        " Ans
     if [ "XX$Ans" != "XXN" ];then
         \rm ./*/${diction%.*}* 2>/dev/null
-        echo "You should to re-execute this command."
+        echo  "     Please re-execute this command."
     fi
     exit 0      # can't execute rootcint just after \rm ....
 fi
 
-echo "generating    $diction"
-rootcint -f ${includeDir}/${diction} -c -p -I$includeDir $fileList $linkDef
+echo "Generating dictionary ${diction}..."
+rootcint -f ${includeDir}/${diction} -c -p -I$includeDir -I$includeDir1 -I$includeDir2 $fileList $linkDef
 mv $includeDir/$diction $srcDir/$diction 2>/dev/null
 

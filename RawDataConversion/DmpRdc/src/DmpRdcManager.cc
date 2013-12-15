@@ -142,7 +142,7 @@ Bool_t DmpRdcManager::TriggerMatch() {
 //------------------------------------------------------------------------------
 Bool_t DmpRdcManager::ConversionHeader(){
 #ifdef Dmp_DEBUG
-std::cerr<<"\n\tBegin Conversion:\n\t\t-->Header from "<<fHexData->tellg();
+std::cerr<<"\n\tBegin Conversion:\n\t\t-->Header from "<<std::dec<<fHexData->tellg();
 #endif
   static Short_t tmp=0;
   fHexData->read((char*)(&tmp),1);
@@ -171,7 +171,7 @@ std::cerr<<"\n\tBegin Conversion:\n\t\t-->Header from "<<fHexData->tellg();
 
   fHeader->SetTime(time,8);
 #ifdef Dmp_DEBUG
-std::cerr<<"\tto "<<fHexData->tellg()<<std::endl;
+std::cerr<<"\tto "<<std::dec<<fHexData->tellg()<<std::endl;
 //std::cout<<"\t\ttrigger = "<<fTrigger["Header"]<<"\tPackage ID = "<<fHeader->GetPackageID()<<std::endl;
 #endif
 

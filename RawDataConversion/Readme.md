@@ -37,7 +37,7 @@
 ##  Development
 
     1. cd DmpRdc then generate the dictionary of DampRdc
-        execute "./newDictionaty.sh"
+        execute "./createDictionaty.sh"
     2. create command "dmpRdc"
         execute "scons" at where is SConstruct
 

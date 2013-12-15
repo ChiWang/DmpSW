@@ -18,7 +18,7 @@ Bool_t DmpRdcManager::SetConnectorNud(){
 //------------------------------------------------------------------------------
 Bool_t DmpRdcManager::ConversionNud(){
 #ifdef Dmp_DEBUG
-std::cerr<<"\t\t-->Nud from "<<fHexData->tellg();
+std::cerr<<"\t\t-->Nud from "<<std::dec<<fHexData->tellg();
 #endif
 
 /*
@@ -38,7 +38,7 @@ std::cerr<<"\t\t-->Nud from "<<fHexData->tellg();
 */
 
 #ifdef Dmp_DEBUG
-std::cerr<<"\tto "<<fHexData->tellg()<<std::endl;
+std::cerr<<"\tto "<<std::dec<<fHexData->tellg()<<std::endl;
 #endif
 
   return true;

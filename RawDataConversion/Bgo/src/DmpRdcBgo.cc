@@ -61,7 +61,7 @@ Bool_t DmpRdcManager::SetConnectorBgo(){
 //------------------------------------------------------------------------------
 Bool_t DmpRdcManager::ConversionBgo(){
 #ifdef Dmp_DEBUG
-std::cerr<<"\t\t-->Bgo from "<<fHexData->tellg();
+std::cerr<<"\t\t-->Bgo from "<<std::dec<<fHexData->tellg();
 #endif
   static const Short_t  kFeeDataLength0 = ((kBarNb+kRefBarNb)*kDyNb*kSideNb*2+3)*2;  // 3: (1)data Length 0x00a2; (2)reverse 0x0000; (3)CRC 0x0xxx.  *2:to unit Byte.  Fee type A or B
   static const Short_t  kFeeDataLength1 = ((kBarNb+kRefBarNb)*kDyNb*kSideNb+3)*2;   // Fee type C
@@ -134,7 +134,7 @@ std::cerr<<"\t\t-->Bgo from "<<fHexData->tellg();
   }
 
 #ifdef Dmp_DEBUG
-std::cerr<<"\tto "<<fHexData->tellg()<<std::endl;
+std::cerr<<"\tto "<<std::dec<<fHexData->tellg()<<std::endl;
 #endif
 
   return true;

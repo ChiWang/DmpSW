@@ -158,15 +158,16 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
 
 2.  lib (shared libraries)
 
-        libdmpAnalysis.so
-        libdmpEvent.so
+        libDmpCore.so
+        libDmpEvent.so
+        libDmpAnalysis.so
 
 3.  include (needed header files while using libraries)
 
 4.  share (common files)
 
-        geometry                        // a directory store all GDML files
-        connector                       // FEE <--> Detector connection files
+        Geometry                        // a directory store all GDML files
+        Connector                       // FEE <--> Detector connection files
         example/DmpRdcInput.infor       // example of the input file for bantch mode of dmpRdc
         example/analysis                // analysis example. How to use distribuition data to analysis
 
@@ -240,7 +241,7 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
         Generation:         Gen
         Geometry:           Gem
 
-3.  class ( format: Dmp{AP}{SpecialKey}{Dominant}{sub-detector}. example: DmpRdcManager)
+3.  class (format: Dmp{AP}{SpecialKey}{Dominant}{sub-detector}. example: DmpRdcManager)
 
         * Dmp
             Prefix of any class
