@@ -17,7 +17,11 @@ Bool_t DmpRdcManager::SetConnectorNud(){
 
 //------------------------------------------------------------------------------
 Bool_t DmpRdcManager::ConversionNud(){
-  std::cout<<"\t\t\tEvent Conversion:\tNud"<<std::endl;
+#ifdef Dmp_DEBUG
+std::cerr<<"\t\t-->Nud from "<<fHexData->tellg();
+#endif
+
+/*
   Short_t tmp=0;
   fHexData->read((char*)(&tmp),1);
   if (tmp!=0xeb) {
@@ -31,7 +35,12 @@ Bool_t DmpRdcManager::ConversionNud(){
   }
   for (Short_t i=0;i<8;++i)
   fHexData->read((char*)(&tmp),1);
-  
+*/
+
+#ifdef Dmp_DEBUG
+std::cerr<<"\tto "<<fHexData->tellg()<<std::endl;
+#endif
+
   return true;
 }
 

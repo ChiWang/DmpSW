@@ -6,7 +6,7 @@
  *
  *---------------------------------------------------------------------
  *   History:
- *                           Last update:  13/12/2013   12:30:59
+ *                           Last update:  15/12/2013   17:28:03
 =====================================================================*/
 
 #include <iostream>
@@ -21,21 +21,25 @@ void Usage();
 //------------------------------------------------------------------------------
 int main(int argc, char* argv[]){
 
-  DmpRdcManager* RdcMan = DmpRdcManager::GetInstance();
-  if ( ! RdcMan->SetConnectorPsd() ) return 1;
-  if ( ! RdcMan->SetConnectorStk() ) return 1;
-  if ( ! RdcMan->SetConnectorBgo() ) return 1;
-  if ( ! RdcMan->SetConnectorNud() ) return 1;
-
   TString inFileName;
   if (argc > 2) {
     Usage();
     return 1;
   } else if (argc == 2) {
     inFileName = argv[1];
+    if ( !inFileName.Contains(".dat") && !inFileName.Contains("RdcInput.infor")) {
+      Usage();
+      return 1;
+    }
   } else {
     inFileName = "DmpRdcInput.infor";
   }
+
+  DmpRdcManager* RdcMan = DmpRdcManager::GetInstance();
+  if ( ! RdcMan->SetConnectorPsd() ) return 1;
+  if ( ! RdcMan->SetConnectorStk() ) return 1;
+  if ( ! RdcMan->SetConnectorBgo() ) return 1;
+  if ( ! RdcMan->SetConnectorNud() ) return 1;
 
   string note;
   if (inFileName.Contains(".dat")) {

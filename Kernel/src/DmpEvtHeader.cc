@@ -6,7 +6,7 @@
  *
  *---------------------------------------------------------------------
  *   History:
- *                           Last update:  13/12/2013   12:08:09
+ *                           Last update:  15/12/2013   21:52:35
 =====================================================================*/
 
 #include <iostream>
@@ -28,8 +28,7 @@ DmpEvtHeader::DmpEvtHeader()
   fPID(kUnknown),
   fCharge(-100),
   fEnergy(-100)
-{
-}
+{}
 
 //------------------------------------------------------------------------------
 DmpEvtHeader::~DmpEvtHeader()
@@ -49,14 +48,14 @@ void DmpEvtHeader::Reset(){
 
 //------------------------------------------------------------------------------
 void DmpEvtHeader::SetTime(Short_t Time[],Int_t size){
-#ifdef Dmp_DEGUB
-  std::cout<<"\t\t\t Setting time"<<std::endl;
-#endif
-  Long64_t SecTmp = Time[2]*Power(16,6)+Time[3]*Power(16,4)+Time[4]*Power(16,2)+Time[5]*Power(16,0);
-  Short_t  mSecTmp = Time[6]*256+Time[7];
-  fTimeGap = (fSec==0 && fmSec==0)?111:((SecTmp-fSec)*1000+(mSecTmp-fmSec));
+  static Long64_t SecTmp;
+  static Short_t mSecTmp;
+  SecTmp = Time[2]*Power(16,6)+Time[3]*Power(16,4)+Time[4]*Power(16,2)+Time[5]*Power(16,0);
+  mSecTmp = Time[6]*256+Time[7];
+  fTimeGap = (fPackageID==0 && fEventID==-1)?100:((SecTmp-fSec)*1000+(mSecTmp-fmSec));
   fSec = SecTmp;
   fmSec = mSecTmp;
+  fTime = Time;
 }
 
 //------------------------------------------------------------------------------
@@ -71,11 +70,14 @@ void DmpEvtHeader::ShowTime(Short_t mode) const{
     std::cerr<<"Normal time:"<<std::endl;
   } else {
     std::cerr<<"Hex time:\t";
+    std::cerr<<std::hex<<fTime[2]<<" "<<fTime[3]<<" "<<fTime[4]<<" "<<fTime[5]<<" "<<fTime[6]<<" "<<fTime[7]<<std::endl;
+/*
     std::cerr<<std::hex<<tmp/Power(16,6)<<"  "; tmp = tmp%(16*16*16*16*16*16);
     std::cerr<<std::hex<<tmp/Power(16,4)<<"  "; tmp = tmp%(16*16*16*16);
     std::cerr<<std::hex<<tmp/Power(16,2)<<"  "; tmp = tmp%(16*16);
     std::cerr<<std::hex<<tmp<<"  "; tmp = fmSec;
     std::cerr<<std::hex<<tmp/256<<"  "<<tmp%256<<std::endl;
+*/
   }
 }
 

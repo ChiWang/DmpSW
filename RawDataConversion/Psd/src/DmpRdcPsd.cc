@@ -17,7 +17,11 @@ Bool_t DmpRdcManager::SetConnectorPsd(){
 
 //------------------------------------------------------------------------------
 Bool_t DmpRdcManager::ConversionPsd(){
-  std::cout<<"\t\t\tEvent Conversion:\tPsd"<<std::endl;
+#ifdef Dmp_DEBUG
+std::cerr<<"\t\t-->Psd from "<<fHexData->tellg();
+#endif
+
+/*
   Short_t tmp=0;
   fHexData->read((char*)(&tmp),1);
   if (tmp!=0xeb) {
@@ -31,6 +35,11 @@ Bool_t DmpRdcManager::ConversionPsd(){
   }
   for (Short_t i=0;i<22;++i)
   fHexData->read((char*)(&tmp),1);
+*/
+
+#ifdef Dmp_DEBUG
+std::cerr<<"\tto "<<fHexData->tellg()<<std::endl;
+#endif
   return true;
 }
 

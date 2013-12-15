@@ -1,15 +1,19 @@
 
+#   Kernel of DAMPE software
 
-DAMPE Software kernel:
+##  What are in here:
+    1.  common abstract classes
+        If only one package will use an abstract class, just put it in the certain package instead of in here.
+    2.  Parameters of sub-detector
+        we summarize of parameters in the namespace DmpParameter.
+    3.  if some classes will be used in the common abstract classes(for instance: DmpEvtHeader will be use in DmpEvtManager)
+        we put them(DmpEvtHeader) at here, in order to reduce dependency of Kernel from other package
 
-    1.  commom abstract classes, not one package will use those classes. (If only one package will use a abstract class, we put it in the certain package).
+##  Usage:
 
-    2.  this package not depend on other package, so, if like DmpEvtHeader(it is not a abstruct class,) we must put it in here.
+    1.  execute "./createDictionary" to create dictionary of Kernel
 
-Usage:
+    2.  execute "scons" to create shared library of Kernel
 
-    1.  execute "./createDictionary" to create Kernel_Dict.h and Kernel_Dict.cc
-
-    2.  execute "scons" to create shared library.
-
+    3.  link the created library and include header files, when other packages want to use some thing in Kernel
 

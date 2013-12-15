@@ -40,7 +40,7 @@ class DmpEvtSubDet : public TObject{
   DmpEvtSubDet();
   virtual ~DmpEvtSubDet();
   virtual void Reset() = 0;
-  virtual void PrintEvent() const = 0;
+  virtual void PrintEvent() const=0;
   static void SetEventHeader(DmpEvtHeader *p) {fHeader = p;}
   static DmpEvtHeader*  GetEventHeader();
   void  SetMode(DmpERunMode m)  {fMode = m;}

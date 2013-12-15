@@ -4,21 +4,26 @@
 #   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    11/12/2013
 #---------------------------------------------------------------------
 #   Description:
+#   0.  This script is used to generate a dictionary for Kernel package of DAMPE software
+#   1.  Requirement
+#       1.  must has 2 directories (include, src) at where you execute this script
+#       2.  must have a file named *LinkDef* in ./include
+#
+#   Usage:
+#   mode 1.  0 arguments
+#       just do "./NameOfThisFile"
+#   mode 2.  at least 2 arguments (LinkDef, header files)
+#       do "./NameOfThisFile arguments"
+#   *** for Kernel package, use mode 1
+#
+#   Reference:
 #   1.  How to use rootcint
 #       http://www.scons.org/doc/HTML/scons-user.html#chap-builders-writing
 #       http://kalmanalignment.hepforge.org/svn/trunk/event/SConscript
-#   2.  Requirement
-#       must has 2 directories (include, src) at where you execute this script
-#
-#   Usage:
-#   1.  0 arguments
-#       find *LinkDef* in include; use all header files in include
-#   2.  at least 2 arguments (LinkDef, header files)
-#       use *LinkDef*;  use header files
 #
 #---------------------------------------------------------------------
 #   History:
-#                           Last update:  13/12/2013   12:34:40
+#                           Last update:  15/12/2013   17:34:51
 #=====================================================================
 
 includeDir="./include"

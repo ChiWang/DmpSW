@@ -1,29 +1,17 @@
 
-#   Event module of Dampe software
+#   Event of DAMPE software
 
-    *Goals
-        create a lib:   libDmpEvent.so
+##  What are in here:
+    1.  all event classes are in this package.
 
-    *Object
-        whole detector
+##  Usage
+    1.  cd into sub-detector
+    2.  execute "./newDictionary" to create dictionary of Kernel
+    3.  execute "scons" to create shared library of Kernel(at where is SConstruct)
 
-    *Usage
-        any part want to use Event module, include header files and link libDmpEvent.so
-
-##  Structure
-
-    *   DmpEvent
-
-    *   Psd
-
-    *   Stk
-
-    *   Bgo
-
-    *   Nud
+    4.  link the created library and include header files, when other packages want to use some thing in Kernel
 
 ##  Development guid
 
-    1.  create dictionary in each subdirectory
-        1.1 how to write LinkDef.h?     example:    DmpEvent, Bgo
+    all the event classes of Sub-detector inherit from DmpEvtSubDet(in Kernel package)
 

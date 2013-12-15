@@ -1,14 +1,14 @@
 # where to read input data.         (keep this line forever)
-/work/workDir/chi/workDir/DmpSW/git/RawDataConversion/share
+/work/workDir/chi/workDir/DmpSW/git/RawDataConversion/share/testData
 # where to save oupt data.          (keep this line forever)
 ./test
 # data name                         (keep this line forever)
 BGO_ScienceData_20121003012321.dat
 2013-10-15-17-44-00.dat
 2013-10-25-16-40-23.dat
+END
 2013-10-15-17-44-35.dat
 2013-10-15-05-15-01.dat
-END
 DataName_1
 DataName_2
 ScienceData_20121005164959.dat

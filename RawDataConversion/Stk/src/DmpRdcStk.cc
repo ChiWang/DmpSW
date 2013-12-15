@@ -17,8 +17,14 @@ Bool_t DmpRdcManager::SetConnectorStk(){
 
 //------------------------------------------------------------------------------
 Bool_t DmpRdcManager::ConversionStk(){
-  std::cout<<"\t\t\tEvent Conversion:\tStk"<<std::endl;
+#ifdef Dmp_DEBUG
+std::cerr<<"\t\t-->Stk from "<<fHexData->tellg();
+#endif
   Short_t tmp=0;
+
+#ifdef Dmp_DEBUG
+std::cerr<<"\tto "<<fHexData->tellg()<<std::endl;
+#endif
   return true;
 }
 

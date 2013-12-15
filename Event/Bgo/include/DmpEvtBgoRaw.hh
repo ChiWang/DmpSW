@@ -23,10 +23,9 @@ class DmpEvtBgoRaw : public DmpEvtSubDet{
  *  hex data to dec root file, store raw data of Bgo.
  *
  *  For one event:
- *      1.  how many dynode has signal?     (fNSignal)
- *      2.  and, what is the ADC value from evry dynode?    (fADC)
- *      3.  and, where is this dynode?      (fLayerId, fBarID, fSideID, fDyID)
- *      4.  and, some variables inherit from DmpEvtSubDet
+ *      1.  collection of ADC value from evry dynode    (fADC)
+ *      2.  collection of ID correspond to ADC values   (fLayerId, fBarID, fSideID, fDyID)
+ *      3.  and, some variables inherit from DmpEvtSubDet
  *
 */
 
@@ -37,10 +36,8 @@ class DmpEvtBgoRaw : public DmpEvtSubDet{
   void  PrintEvent() const;
   void  PrintEvent(Short_t layerID,Short_t barID,Short_t sideID,Short_t dyID);
   void  SetSignal(Int_t LBSD_ID,Double_t adc);
-  Int_t GetSignalNumber() const {return fNSignal;}
 
  private:
-  Int_t                 fNSignal;       // signal number of Bgo of current event
   std::vector<int>      fLBSD_ID;       //  LayerID*10000 + BarID*100 + SideID*10 +DyID= fLBSD_ID   (must use vector<int> or vector<double>)
   std::vector<double>   fADC;
 
@@ -52,5 +49,4 @@ class DmpEvtBgoRaw : public DmpEvtSubDet{
 };
 
 #endif
-
 

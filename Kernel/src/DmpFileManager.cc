@@ -25,8 +25,8 @@ DmpFileManager::DmpFileManager()
 {}
 
 //------------------------------------------------------------------------------
-DmpFileManager::~DmpFileManager(){
-}
+DmpFileManager::~DmpFileManager()
+{}
 
 //------------------------------------------------------------------------------
 void DmpFileManager::SetInDataPath(TString path){
