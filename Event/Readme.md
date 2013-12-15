@@ -6,8 +6,8 @@
 
 ##  Usage
     1.  cd into sub-detector
-    2.  execute "./newDictionary" to create dictionary of Kernel
-    3.  execute "scons" to create shared library of Kernel(at where is SConstruct)
+    2.  execute "./newDictionary" to create dictionary of this sub-detector
+    3.  execute "scons" to create shared library of Event package(at where is SConstruct)
 
     4.  link the created library and include header files, when other packages want to use some thing in Kernel
 

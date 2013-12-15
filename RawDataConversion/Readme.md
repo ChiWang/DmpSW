@@ -9,7 +9,7 @@
             "dmpRdc    /Path/RawDatName.dat"
             Read dataName.dat from /Path, and save results at ./(where you execute command dmpRdc)
         mode 2. batch mode
-            2.1 default read "DmpRdcInput.infor" at ./(where you excute dmpRdc) if not argument
+            2.1 default read "DmpRdcInput.infor" at ./(where you excute dmpRdc) if without argument
             "dmpRdc"
             2.2 read pointed "*RdcInput.infor"
             "dmpRdc /Path/*RdcInput.infor"

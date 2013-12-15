@@ -2,7 +2,7 @@
 DmpSW
 =====
 
-DAMPE Software
+Offline software of DAMPE
 
 
 ##  Requirement
@@ -145,7 +145,7 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
         thisdmpsw.sh        // shell environment
         dmpsw-config        // compilation options
         dmpSim              // Simulation of DAMPE
-        dmpRecL0            // Reconstruction Level-0:  Raw Data Conversion
+        dmpRdc              // Reconstruction Level-0:  Raw Data Conversion
         dmpCalL0            // Calibration Level-0: find pedestal
         dmpRecL1            // Reconstruction Level-1:  cal. data without pedestal
         dmpCalL0SBgoMip     // Calibration Level-0-Special-Bgo: find Mip
@@ -165,10 +165,10 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
 
 4.  share (common files)
 
-        geometry                      // a directory store all GDML files
-        connector                     // FEE <--> Detector connection files
-        example/DmpRecL0Input.infor   // example of the input file for bantch mode of dmpRecL0
-        example/analysis              // analysis example. How to use distribuition data to analysis
+        geometry                        // a directory store all GDML files
+        connector                       // FEE <--> Detector connection files
+        example/DmpRdcInput.infor       // example of the input file for bantch mode of dmpRdc
+        example/analysis                // analysis example. How to use distribuition data to analysis
 
 5.  database (a directory or a soft link. Refer to Installation option)
 
@@ -187,13 +187,13 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
     5.2   calibration
 
         rawDataName-cal0-psd.dat
-              // CMD:   dmpCalL0;   Input:  rawDataName-rec0.root
+              // CMD:   dmpCalL0;   Input:  rawDataName-raw.root
         rawDataName-cal0-stk.dat
-              // CMD:   dmpCalL0;   Input:  rawDataName-rec0.root
+              // CMD:   dmpCalL0;   Input:  rawDataName-raw.root
         rawDataName-cal0-bgo.dat
-              // CMD:   dmpCalL0;   Input:  rawDataName-rec0.root
+              // CMD:   dmpCalL0;   Input:  rawDataName-raw.root
         rawDataName-cal0-nud.dat
-              // CMD:   dmpCalL0;   Input:  rawDataName-rec0.root
+              // CMD:   dmpCalL0;   Input:  rawDataName-raw.root
         rawDataName1-cal0s-bgo-mip_rawDataName2-cal0.dat
               // CMD:   dmpCalL0SBgoMip;  Input:  rawDataName1-rec1_rawDataName2-cal0.root
         rawDataName1-cal0s-bgo-rel_rawDataName2-cal0.dat
@@ -201,8 +201,8 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
 
     5.3   reconstruction
 
-        rawDataName-rec0.root
-              // CMD: dmpRecL0(dmpRdc);   Input:  rawDataName.dat
+        rawDataName-raw.root
+              // CMD: dmpRdc;   Input:  rawDataName.dat Or *DmpRdcInput.infor
         rawDataName1-rec1_rawDataName2-cal0-{all}.root
               // CMD: dmpRecL1;   Input:  rawDataName-rec1.root, rawDataName2-cal0-{all}.dat
 
@@ -212,9 +212,9 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
 
     5.5     simulation
 
-        rawDataName-rec0-sim.root
-              // CMD: dmpSim;   Input:  dmpGenertor-XXX???XXX.dat
-              // the same as reconstruction/rawDatName-rec0.root
+        rawDataName-sim-raw.root
+              // CMD: dmpSim;   Input:  *DmpSimInput.infor
+              // the same as reconstruction/rawDatName-raw.root
 
 ### Convention
 
@@ -238,7 +238,6 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
         Event:              Evt
         Analysis:           Ana
         Generation:         Gen
-        DetectorCondition:  Dcd
         Geometry:           Gem
 
 3.  class ( format: Dmp{AP}{SpecialKey}{Dominant}{sub-detector}. example: DmpRdcManager)
@@ -249,13 +248,11 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
             Abbreviation of Package as mentioned above
         * {SpecialKey}
             normal class:   no SpecialKey;
-            vertial class:  V
-            template class: T
         * {Dominant}
             explain the usefulness. Example:    DmpRdcManager
         * {sub-detector}
             whole detector: no;
-            sub-detector:   Psd, Stk, Bgo, Nud, Header
+            sub-detector:   Psd, Stk, Bgo, Nud
 
 4.  command ( format: dmp{AP}{Level}{Detector}. example: dmpSim)
 
@@ -288,7 +285,7 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
 
         *.hh    header file, all must in directory "include"
         *.cc    source file, all must in directory "src"
-            The main function for create a command in /path/src/CMDNamed.cc
+            The main function for create a command in /path/src/Dmp{AP}Main.cc
 
     5.3  FileName.scons
 
@@ -302,10 +299,7 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
 
     5.4  interface of command of input files(batch mode)
 
-            dmpRdc  DmpRecL0Input_XXX.infor
-            *   prefix:     DmpeRecL0       // CMD name
-            *   suffix:     .infor          // all use this
-            *   middle:     Input_XXX       // note
+            dmpRdc  *DmpRdcInput.infor
     
     5.5  FileName.cnct
 
