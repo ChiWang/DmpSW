@@ -1,8 +1,8 @@
 
-#ifndef DmpDcdParameterPsd_H
-#define DmpDcdParameterPsd_H
+#ifndef DmpParameterPsd_H
+#define DmpParameterPsd_H
 
-namespace DmpDcdParameter{
+namespace DmpParameter{
 
   namespace Psd{            //Sub-detector  Psd parameters                             
     const short kPlaneNb = 6;

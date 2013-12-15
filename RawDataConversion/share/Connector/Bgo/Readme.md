@@ -4,7 +4,7 @@
 ##      NOTE:
         *   must named as Layer_i.cnct
         *   set the format as BgoConnectionMethod stated
-
+        *   Layer_0 to Layer_14: from top to bottom
 
         -------------------------
         **  if changed channel **

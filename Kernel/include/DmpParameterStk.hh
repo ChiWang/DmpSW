@@ -1,8 +1,8 @@
 
-#ifndef DmpDcdParameterStk_H
-#define DmpDcdParameterStk_H
+#ifndef DmpParameterStk_H
+#define DmpParameterStk_H
 
-namespace DmpDcdParameter{
+namespace DmpParameter{
 
   namespace Stk{            //Sub-detector  Stk parameters                             
     const short kPlaneNb = 6;

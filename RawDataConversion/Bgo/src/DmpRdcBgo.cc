@@ -14,13 +14,14 @@
 #include "DmpRdcManager.hh"
 #include "DmpEvtHeader.hh"
 #include "DmpEvtBgoRaw.hh"     // include DmpERunMode.hh
-#include "DmpDcdParameterBgo.hh"
+#include "DmpParameterBgo.hh"
 
-using namespace DmpDcdParameter::Bgo;
+using namespace DmpParameter::Bgo;
 
 //------------------------------------------------------------------------------
 Bool_t DmpRdcManager::SetConnectorBgo(){
-  std::cout<<"\n\tSetup connector:\tBgo"<<std::endl;
+  std::cout<<"\nSetup connector:\tBgo"<<std::endl;
+  std::cout<<"-----------------------"<<std::endl;
   Int_t FEEID, ChannelID;
   Short_t LID, BID, SID, DID;
   Int_t const MaxSignalNb_Side = (kBarNb+kRefBarNb)*kDyNb;
@@ -38,9 +39,11 @@ Bool_t DmpRdcManager::SetConnectorBgo(){
       std::cout<<"\t"<<fileName;
     }
     for(Short_t s=0;s<kSideNb;++s){
-      getline(cnctFile,note);   cnctFile>>SID;
-      getline(cnctFile,note);   cnctFile>>FEEID;
-      getline(cnctFile,note);
+      getline(cnctFile,note);   // reserved 1 line for note
+      cnctFile>>SID;
+      getline(cnctFile,note);   // reserved 1 line for note
+      cnctFile>>FEEID;
+      getline(cnctFile,note);   // reserved 1 line for note
       for(Short_t c=0;c<MaxSignalNb_Side;++c){
         cnctFile>>BID;
         cnctFile>>DID;
@@ -50,15 +53,14 @@ Bool_t DmpRdcManager::SetConnectorBgo(){
     }
     cnctFile.close();
   }
-  std::cout<<"\n\t\t\t\tSuccessful"<<std::endl;
+  std::cout<<"\t\tSuccessful"<<std::endl;
   return true;
 }
 
 //------------------------------------------------------------------------------
 Bool_t DmpRdcManager::ConversionBgo(){
-  std::cout<<"\t\t\tEvent Conversion:\tBgo\t\tMode: 2013 whole Bgo"<<std::endl;
+  std::cout<<"\tEvent Conversion:\tBgo\t\tMode: 2013 whole Bgo"<<std::endl;
   static const Short_t  kStdDataLength0 = ((kBarNb+kRefBarNb)*kDyNb*kSideNb+3)*2;   // 3: (1)data Length 0x00a2; (2)reverse 0x0000; (3)CRC 0x0xxx.  *2:to unit Byte
-  static const Short_t  kStdDataLength1 = ((kBarNb+kRefBarNb)*kDyNb+3)*2;           // kStdDataLength0 is A and B type Fee. kStdDataLength1 is C type Fee
   static Short_t feeID=0, channelID=0;
   static Short_t nChan=0, dataLong=0;
   static Short_t rawHex[2]={0};
@@ -69,50 +71,60 @@ Bool_t DmpRdcManager::ConversionBgo(){
   for (pl=0;pl<kPlaneNb*2;++pl) {
     tmp=0;
     fHexData->read((char*)(&tmp),1);
+std::cerr<<" at = "<<fHexData->tellg();
     if (tmp!=0xeb) {
-      std::cerr<<"Error: DmpRdcManager::ConversionBgo()\t0xeb wrong\t";
-      fBgo->GetEventHeader()->ShowTime(0);
+      std::cerr<<"Error: DmpRdcManager::ConversionBgo()\t0xeb wrong iii\t";
+#ifdef Dmp_DEBUG
+      std::cerr<<tmp<<std::endl;
+#endif
+      fHeader->ShowTime(0);
       return false;
     }
     fHexData->read((char*)(&tmp),1);
+std::cerr<<" xxxx at = "<<fHexData->tellg();
     if (tmp!=0x90) {
       std::cerr<<"Error: DmpRdcManager::ConversionBgo()\t0x90 wrong\t";
-      fBgo->GetEventHeader()->ShowTime(0);
+      fHeader->ShowTime(0);
       return false;
     }
-    fHexData->read((char*)(&tmp),1);         //trigger
+    fHexData->read((char*)(&tmp),1);        //trigger
+std::cerr<<" 1 at = "<<fHexData->tellg();
     fHexData->read((char*)(&feeID),1);
+std::cerr<<" 2 at = "<<fHexData->tellg();
     if (pl == 0) {                          //trigger check, runMode check
       fTrigger["Bgo"] = tmp;
       fBgo->SetMode(DmpEvtSubDet::DmpERunMode(feeID/16));
     } else {
       if (tmp != fTrigger["Bgo"]) {
         std::cerr<<"Error: DmpRdcManager::ConversionBgo()\tFEE trigger not match\t";
-        fBgo->GetEventHeader()->ShowTime(0);
+        fHeader->ShowTime(0);
         return false;
       }
       if (feeID/16 != fBgo->GetMode()) {
         std::cerr<<"Error: DmpRdcManagerConversionBgo()\tFEE mode not match\t";
-        fBgo->GetEventHeader()->ShowTime(0);
+        fHeader->ShowTime(0);
         return false;
       }
     }
     feeID = feeID%16;
-    fHexData->read((char*)(&tmp),1);         // datalong, 2 Bytes
+    fHexData->read((char*)(&tmp),1);        // datalong, 2 Bytes
+std::cerr<<" 3 at = "<<fHexData->tellg();
     fHexData->read((char*)(&dataLong),1);
+std::cerr<<" 4 at = "<<fHexData->tellg();
     Int_t dataLength = tmp*256 + dataLong;
-    if (dataLength == kStdDataLength0 || dataLength == kStdDataLength1) {
+    if (dataLength == kStdDataLength0) {
       nChan = (dataLength-2*3)/2;
     } else {
       nChan = (dataLength-2*3)/3;
     }
-//std::cout<<"\t\t\t XX 2  nChan = "<<nChan<<" dL = "<<dataLength<<std::endl;
+std::cout<<"\t\t\t XX 2  nChan = "<<nChan<<" dL = "<<std::hex<<tmp<<" "<<dataLong<<std::endl;
 
     for (nc=0;nc<nChan;++nc) {
-      if (dataLength == kStdDataLength0 || dataLength == kStdDataLength1) {
+      if (dataLength == kStdDataLength0) {
         channelID = nc;
       } else {
         fHexData->read((char*)(&channelID),1);
+std::cerr<<" (nc = "<<nc<<") at = "<<fHexData->tellg();
       }
       fHexData->read((char*)(&rawHex[0]),1);
       fHexData->read((char*)(&rawHex[1]),1);

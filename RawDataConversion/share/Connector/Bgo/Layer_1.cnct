@@ -1,6 +1,6 @@
-#  Side:
+#   Side:
 0
-# FEE_ID 0x12:
+#   FEE_ID 0x12:
 2
 #   Bar_ID	Dy_ID	Channel_ID  (Real Bar: 0~21.  RefBar: 22, 23)
 0	2	0
@@ -75,9 +75,9 @@
 21	8	117
 22	8	118
 23	8	119
-#  Side:
+#   Side:
 1
-# FEE_ID 0x1a:
+#   FEE_ID 0x1a:
 10
 #   Bar_ID	Dy_ID	Channel_ID  (Real Bar: 0~21.  RefBar: 22, 23)
 0	2	0

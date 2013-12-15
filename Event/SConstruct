@@ -69,10 +69,10 @@ for key in ['Psd','Stk','Bgo','Nud']:
             Default(Command(PREFIX+'/include/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
     EnvEvt.Prepend(CPPPATH=[includeDir])
 
-#   Use other top-1 module
+#   Use other top-1 package
     #+  Kernel
-M1Path='../Kernel'
-EnvEvt.Prepend(CPPPATH=[M1Path+'/include'])
+P1Path='../Kernel'
+EnvEvt.Prepend(CPPPATH=[P1Path+'/include'])
 
 #   main build
 execute=EnvEvt.SharedLibrary(LibName,Glob('./*/src/*.cc'))

@@ -34,7 +34,7 @@ class DmpRdcManager : public DmpFileManager, public DmpEvtManager{
  *
 */
 
-//  ------------------------------------------------>
+//------------------------------------------------------------------------------
  public:
   static DmpRdcManager*    GetInstance();
   static void   Clear();
@@ -54,7 +54,7 @@ class DmpRdcManager : public DmpFileManager, public DmpEvtManager{
   TTree     *fTree;
   std::map<TString,Short_t> fTrigger;
 
-//  ------------------------------------------------>
+//------------------------------------------------------------------------------
  public:
   Bool_t    SetConnectorPsd();
   Bool_t    SetConnectorStk();

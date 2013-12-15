@@ -66,10 +66,16 @@ void DmpEvtHeader::ShowTime(Short_t mode) const{
  *  So, if we use cout in this function, then the output file will not match the file of the last cerr information in.
  *
 */ 
+  Long64_t tmp=fSec;
   if (mode ==1) {
     std::cerr<<"Normal time:"<<std::endl;
   } else {
-    std::cerr<<"Hex time:"<<std::endl;
+    std::cerr<<"Hex time:\t";
+    std::cerr<<std::hex<<tmp/Power(16,6)<<"  "; tmp = tmp%(16*16*16*16*16*16);
+    std::cerr<<std::hex<<tmp/Power(16,4)<<"  "; tmp = tmp%(16*16*16*16);
+    std::cerr<<std::hex<<tmp/Power(16,2)<<"  "; tmp = tmp%(16*16);
+    std::cerr<<std::hex<<tmp<<"  "; tmp = fmSec;
+    std::cerr<<std::hex<<tmp/256<<"  "<<tmp%256<<std::endl;
   }
 }
 

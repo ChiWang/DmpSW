@@ -1,8 +1,8 @@
 
-#ifndef DmpDcdParameterNud_H
-#define DmpDcdParameterNud_H
+#ifndef DmpParameterNud_H
+#define DmpParameterNud_H
 
-namespace DmpDcdParameter{
+namespace DmpParameter{
 
   namespace Nud{            //Sub-detector  Nud parameters                             
     const short kPlaneNb = 6;

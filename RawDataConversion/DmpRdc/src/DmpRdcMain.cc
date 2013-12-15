@@ -48,6 +48,7 @@ int main(int argc, char* argv[]){
     ifstream* BatchInfor = new ifstream (inFileName,ios::in);
     if (!BatchInfor->good()) {
       cerr<<"Error: There's not a file named "<<inFileName<<" as batch mode input"<<endl;
+      Usage();
       return 1;
     }
     getline(*BatchInfor,note);    // reserved 1 line for note
@@ -77,5 +78,10 @@ int main(int argc, char* argv[]){
 
 //------------------------------------------------------------------------------
 void Usage(){
-  cerr<<"Error: Usage:\tXXX"<<endl;
+  cerr<<"Usage:"<<endl;
+  cerr<<"\t./dmpRdc\t\t batch mode, use DmpRdcInput.infor at where execute dmpRdc\n";
+  cerr<<"\t./dmpRdc XXXXRdcInput.infor\t\t batch mode, use XXXXRdcInput.infor\n";
+  cerr<<"\t./dmpRdc XXXX.dat\t\t single mode, just convert one data"<<endl;
 }
+
+

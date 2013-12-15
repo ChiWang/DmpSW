@@ -66,21 +66,18 @@ for key in ['DmpRdc','Psd','Stk','Bgo','Nud']:
     includeDir=key+'/include'
     EnvRdc.Prepend(CPPPATH=[includeDir])
 
-#   Use other top-1 module
+#   Use other top-1 package
     #+  Kernel
-M1Path='../Kernel'
-EnvRdc.Prepend(CPPPATH=[M1Path+'/include'])
-    #+  DetectorCondition
-M2Path='../DetectorCondition/Parameter'
-EnvRdc.Prepend(CPPPATH=[M2Path+'/include'])
+P1Path='../Kernel'
+EnvRdc.Prepend(CPPPATH=[P1Path+'/include'])
     #+  Event library
-M3Path='../Event/'
+P2Path='../Event/'
 for key in ['Psd','Stk','Bgo','Nud']:
-    includeDir=M3Path+key+'/include'
+    includeDir=P2Path+key+'/include'
     EnvRdc.Prepend(CPPPATH=[includeDir])
 
 EnvRdc.Prepend(LIBS=['DmpCore','DmpEvent'])
-EnvRdc.Prepend(LIBPATH=[M1Path,M3Path])
+EnvRdc.Prepend(LIBPATH=[P1Path,P2Path])
 
 #   main build
 execute=EnvRdc.Program(ExeName,Glob('./*/src/*.cc'))

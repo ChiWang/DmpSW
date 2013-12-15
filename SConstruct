@@ -59,7 +59,7 @@ for key in ['dmpsw-config','thisdmpsw.sh']:
 
 # invoke top1 modules' SConscript
 subScript=[]
-for key in ['Analysis','Calibration','DetectorCondition','Event','Generation','Geometry','RawDataConversion','Reconstruction','Simulation','Visualization']:
+for key in ['Analysis','Calibration','Event','Generation','Geometry','Kernel','RawDataConversion','Reconstruction','Simulation','Visualization']:
     subScript=subScript+[key+'/'+key+'.scons']
 SConscript(subScript,exports='PREFIX')
 

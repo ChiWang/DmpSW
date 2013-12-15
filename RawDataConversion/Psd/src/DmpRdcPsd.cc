@@ -3,14 +3,15 @@
 
 #include "DmpRdcManager.hh"
 #include "DmpEvtPsdRaw.hh"
-#include "DmpDcdParameterPsd.hh"
+#include "DmpParameterPsd.hh"
 
-using namespace DmpDcdParameter::Psd;
+using namespace DmpParameter::Psd;
 
 //------------------------------------------------------------------------------
 Bool_t DmpRdcManager::SetConnectorPsd(){
-  std::cout<<"\n\tSetup connector:\tPsd"<<std::endl;
-  std::cout<<"\n\t\t\t\tSuccessful"<<std::endl;
+  std::cout<<"\nSetup connector:\tPsd"<<std::endl;
+  std::cout<<"-----------------------"<<std::endl;
+  std::cout<<"\t\tSuccessful"<<std::endl;
   return true;
 }
 

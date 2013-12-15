@@ -1,21 +1,15 @@
 #!  /bin/bash
-#=============================================================================
-#       FileName :          thisdmpsw.sh
-#       Version  :          0.0.1
-#       Author   :          Chi Wang    (chiwang@mail.ustc.edu.cn)
-#       Time     :          2013-10-01   10:53:23
-
-#------------------------------------------------------------------------------
-#       Description  :
-#           *   after installation, source this file in .zshrc(.bashrc), then you can use DampeSoftware
+#=====================================================================
+#   File:   thisdmpsw.sh
+#   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    01/10/2013
+#---------------------------------------------------------------------
+#   Description:
 #
-#
-#------------------------------------------------------------------------------
-#       History  :
-#                                          Update:  2013-10-01   18:56:05
-#
-#=============================================================================
-
+#       after installation, source this file in .zshrc(.bashrc), then you can use DampeSoftware
+#---------------------------------------------------------------------
+#   History:
+#                           Last update:  14/12/2013   10:47:33
+#=====================================================================
 
 #+  Set DAMPE software developement environment         # for developer
 if [ ! $DMPSWWORK ];then
