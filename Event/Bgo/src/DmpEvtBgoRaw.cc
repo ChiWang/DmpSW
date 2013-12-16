@@ -6,7 +6,7 @@
  *
  *---------------------------------------------------------------------
  *   History:
- *                           Last update:  15/12/2013   21:07:20
+ *                           Last update:  16/12/2013   11:33:40
 =====================================================================*/
 
 #include <iostream>
@@ -27,8 +27,8 @@ DmpEvtBgoRaw::~DmpEvtBgoRaw()
 //------------------------------------------------------------------------------
 void DmpEvtBgoRaw::Reset(){
   fMode = kMixed;
-  fLBSD_ID.clear();
-  fADC.clear();
+  fLBSDCollection.clear();
+  fADCCollection.clear();
 }
 
 //------------------------------------------------------------------------------
@@ -37,36 +37,36 @@ void DmpEvtBgoRaw::PrintEvent() const{
   std::cout<<"Layer | Bar | Side | Dy | ADC"<<std::endl;
   static Int_t id, nSignal;
   static Short_t layer, bar, side, dy;
-  nSignal = fADC.size();
+  nSignal = fADCCollection.size();
   for (Int_t i=0;i<nSignal;++i) {
-    id = fLBSD_ID[i];
+    id = fLBSDCollection[i];
     layer = id/10000; id = id%10000;
     bar = id/100;     id = id%100;
     side = id/10;     dy = id%10;
-    std::cout<<std::dec<<layer<<"\t"<<bar<<"\t"<<side<<"\t"<<dy<<"\t"<<fADC[i]<<std::endl;
+    std::cout<<std::dec<<layer<<"\t"<<bar<<"\t"<<side<<"\t"<<dy<<"\t"<<fADCCollection[i]<<std::endl;
   }
 }
 
 //------------------------------------------------------------------------------
 void  DmpEvtBgoRaw::PrintEvent(Short_t layer,Short_t bar,Short_t side,Short_t dy){
   static Int_t id, nSignal, iSignal;
-  nSignal = fADC.size();
+  nSignal = fADCCollection.size();
   id = CreateLBSDID(layer,bar,side,dy);
   for (Int_t i=0; i<nSignal;++i) {
-    if (fLBSD_ID[i] == id) {
+    if (fLBSDCollection[i] == id) {
       iSignal = i;
       break;
     }
   }
   std::cout<<"--->  Bgo:\tEvent ID = "<<fHeader->GetEventID()<<std::endl;
   std::cout<<"Layer | Bar | Side | Dy | ADC"<<std::endl;
-  std::cout<<layer<<"\t"<<bar<<"\t"<<side<<"\t"<<dy<<"\t"<<fADC[iSignal]<<std::endl;
+  std::cout<<layer<<"\t"<<bar<<"\t"<<side<<"\t"<<dy<<"\t"<<fADCCollection[iSignal]<<std::endl;
 }
 
 //------------------------------------------------------------------------------
 void DmpEvtBgoRaw::SetSignal(Int_t LBSD_ID,Double_t ADC){
-  fLBSD_ID.push_back(LBSD_ID);
-  fADC.push_back(ADC);
+  fLBSDCollection.push_back(LBSD_ID);
+  fADCCollection.push_back(ADC);
 }
 
 //------------------------------------------------------------------------------

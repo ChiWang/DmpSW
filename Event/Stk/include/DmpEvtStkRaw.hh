@@ -22,7 +22,7 @@ class DmpEvtStkRaw : public DmpEvtSubDet{
   void  SetSignal(Float_t adc);
 
  private:
-  std::vector<double>   fADC;
+  std::vector<double>   fADCCollection;
 
 };
 

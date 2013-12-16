@@ -23,7 +23,7 @@ class DmpEvtNudRaw : public DmpEvtSubDet{
  *  hex data to dec root file, store raw data of Nud.
  *
  *  For one event:
- *      1.  collection of ADC value from evry dynode    (fADC)
+ *      1.  collection of ADC value from evry dynode    (fADCCollection)
  *      2.  collection of ID correspond to ADC values   (fLayerId, fBarID, fSideID, fDyID)
  *      3.  and, some variables inherit from DmpEvtSubDet
  *
@@ -38,8 +38,8 @@ class DmpEvtNudRaw : public DmpEvtSubDet{
   void  SetSignal(Int_t LBSD_ID,Double_t adc);
 
  private:
-  std::vector<int>      fLBSD_ID;       //  LayerID*10000 + BarID*100 + SideID*10 +DyID= fLBSD_ID   (must use vector<int> or vector<double>)
-  std::vector<double>   fADC;
+  std::vector<int>      fLBSDCollection;    // LayerID*10000 + BarID*100 + SideID*10 +DyID= fLBSD   (must use vector<int> or vector<double>)
+  std::vector<double>   fADCCollection;
 
  private:
   Int_t CreateLBSDID(Short_t Layer,Short_t Bar,Short_t Side,Short_t Dy);
