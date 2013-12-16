@@ -19,6 +19,6 @@ SimuEnv.Prepend(CPPPATH=M1Path+'/include')
 
 #Execute file
 execute=SimuEnv.Program('DmpReconstruction/test/DmpRec',['DmpReconstruction/DmpRec.cc',Glob('./*/src/*.cc'),Glob(M1Path+'/src/*.cc')])
-installdir=os.environ['DMPSWSYS']+'/Install'
+installdir=os.environ['DMPOSSYS']+'/Install'
 Default(SimuEnv.InstallAs(installdir+'/bin/DmpReconstruction',execute))
 

@@ -12,19 +12,19 @@
 #=====================================================================
 
 #+  Set DAMPE software developement environment         # for developer
-if ( ! ($?DMPSWWORK) ) then
+if ( ! ($?DMPOSWORK) ) then
   if ( $#argv == 0 ) then
     set dir=$HOME/dmpsw_workdir
   else
     set dir=$argv[1]
   endif
-  setenv DMPSWWORK $dir
-  setenv PATH $DMPSWWORK/bin:$PATH
+  setenv DMPOSWORK $dir
+  setenv PATH $DMPOSWORK/bin:$PATH
   if ( ($?LD_LIBRARY_PATH) ) then
-    setenv LD_LIBRARY_PATH $DMPSWWORK/lib:$LD_LIBRARY_PATH
+    setenv LD_LIBRARY_PATH $DMPOSWORK/lib:$LD_LIBRARY_PATH
   endif
   if ( ($?DYLD_LIBRARY_PATH) ) then        # Mac OS
-    setenv DYLD_LIBRARY_PATH $DMPSWWORK/lib:$DYLD_LIBRARY_PATH
+    setenv DYLD_LIBRARY_PATH $DMPOSWORK/lib:$DYLD_LIBRARY_PATH
   endif
   unset dir
 endif

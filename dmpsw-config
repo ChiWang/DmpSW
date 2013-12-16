@@ -20,7 +20,7 @@ version=1.0.0
 #   check path
 PWD=`pwd`
 if [[ ! "$PWD" =~ "bin" ]];then
-  echo "$0 must in $DMPSWSYS"
+  echo "$0 must in $DMPOSSYS"
   exit
 else
   prefix=${PWD%"/bin"}

@@ -40,7 +40,7 @@ if int(debug):
     print "\t\t debug mode"
     EnvRdc.Prepend(CCFLAGS = '-g')
     EnvRdc.Append(CCFLAGS = '-DDmp_DEBUG')
-    installdir=os.environ['DMPSWWORK']
+    installdir=os.environ['DMPOSWORK']
 else:
     EnvRdc.Append(CCFLAGS = '-DDmp_RELEASE')
     Import('PREFIX')

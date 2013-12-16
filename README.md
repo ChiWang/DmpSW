@@ -1,13 +1,13 @@
 
-DmpSW
+DMPOS
 =====
 
-Offline software of DAMPE
+DAMPE Offline software
 
 
 ##  Requirement
 
-DMPSW will uses tools Root, Geant4 and SCons.
+DMPOS will uses tools Root, Geant4 and SCons.
 
 Install ROOT
 
@@ -56,10 +56,10 @@ Install SCons
         4) type command:
             scons --help
 
-## How to install DMPSW
+## How to install DMPOS
 
     ---------------------------------------------------------------------------------------------------------------------
-    *****   Not used before publish DMPSW out of DAMPE group. Please skip to the next section "Development guide"   *****
+    *****   Not used before publish DMPOS out of DAMPE group. Please skip to the next section "Development guide"   *****
     ---------------------------------------------------------------------------------------------------------------------
 
 Installation:
@@ -91,15 +91,15 @@ Set Environment
     It could be helpful if you understand the naming convention firstly at:
         http://dpnc.unige.ch/dampe/dokuwiki/doku.php?id=dampesoftware:namingconvention
 
-    There are 6 key steps while developing DMPSW.
+    There are 6 key steps while developing DMPOS.
 
     0)  checkout(or update) whole trunk
             svn checkout http://dpnc.unige.ch/SVNDAMPE/DAMPE/DmpSoftware/trunk  --username=tutorial
 
     1)  source thisdmpsw.sh
-            if "echo $DMPSWWORK" is blank, then do as follow:
+            if "echo $DMPOSWORK" is blank, then do as follow:
             source thisdmpsw.sh         // this file in the dowloaded directory trunk
-            then, "echo $DMPSWWORK" is not blank 
+            then, "echo $DMPOSWORK" is not blank 
             // or, you can add the line above into $HOME/.bashrc(or .zshrc) instead of source it every time.
 
     2)  work on certian package
@@ -119,18 +119,18 @@ Set Environment
             then, add the commit note at the head of the opened file.
             if work fine, then, svn update
 
-    5)  use other package of DMPSW
+    5)  use other package of DMPOS
             if the package you are developing need a new dependence of other package.
 
     In cause you get any error, please send a group email.
 
-    Next is about structure of DMPSW, if you to know more clearly of DMPSW setup, please read below.
+    Next is about structure of DMPOS, if you to know more clearly of DMPOS setup, please read below.
 
 
 ### Structure of installation (after installation) 
 
     -------------------------------------------------------------------------------------------------
-    *****   Not used before publish DMPSW out of DAMPE group. Please skip to the next section   *****
+    *****   Not used before publish DMPOS out of DAMPE group. Please skip to the next section   *****
     -------------------------------------------------------------------------------------------------
 
 These directories (or link) below will be created in "/prefix/DmpSW_Version"
