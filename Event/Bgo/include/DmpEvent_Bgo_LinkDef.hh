@@ -6,7 +6,7 @@
  *
  *---------------------------------------------------------------------
  *   History:
- *                           Last update:  13/12/2013   12:40:40
+ *                           Last update:  16/12/2013   10:39:39
 =====================================================================*/
 
 #ifdef __CINT__
@@ -16,5 +16,9 @@
 #pragma link off all functions;
 
 #pragma link C++ class DmpEvtBgoRaw+;
+#pragma link C++ class DmpEvtBgoHit+;
+#pragma link C++ class DmpEvtBgoCluster+;
+#pragma link C++ class DmpEvtBgoShower+;
 
 #endif
+
