@@ -61,12 +61,12 @@ Bool_t DmpRdcManager::Core(){
     std::cout<<"\nReading "<<fInDataPath+fDataName<<std::endl;
   }
 
-  fTree = new TTree("DAMPE_raw","raw data");
-  fTree->Branch("Header","DmpEvtHeader",&fHeader);
-  fTree->Branch("Psd","DmpEvtPsdRaw",&fPsd);
-//  fTree->Branch("Stk","DmpEvtStkRaw",&fStk);
-  fTree->Branch("Bgo","DmpEvtBgoRaw",&fBgo);
-  fTree->Branch("Nud","DmpEvtNudRaw",&fNud);
+  TTree *outTree = new TTree("DAMPE_raw","raw data");
+  outTree->Branch("Header","DmpEvtHeader",&fHeader);
+  outTree->Branch("Psd","DmpEvtPsdRaw",&fPsd);
+//  outTree->Branch("Stk","DmpEvtStkRaw",&fStk);
+  outTree->Branch("Bgo","DmpEvtBgoRaw",&fBgo);
+  outTree->Branch("Nud","DmpEvtNudRaw",&fNud);
 
   //loop of event package. set the order of sub-detector as the order of FEE in fDataName
   for (Long64_t nEvt=0;!fHexData->eof();++nEvt) {
@@ -82,7 +82,7 @@ if (nEvt == 1) fHeader->ShowTime(0);
 
     if (TriggerMatch()) {
       fHeader->CountEvent();
-      fTree->Fill();
+      outTree->Fill();
 #ifdef Dmp_DEBUG
 std::cout<<"\tFill event "<<std::dec<<fHeader->GetEventID()<<std::endl;
 #endif
@@ -93,7 +93,7 @@ std::cout<<"\tFill event "<<std::dec<<fHeader->GetEventID()<<std::endl;
 
   fDataName.ReplaceAll(".dat","-raw.root");
   TFile *outRootFile = new TFile(fOutDataPath+fDataName,"RECREATE");
-  fTree->Write();
+  outTree->Write();
   outRootFile->Close();
   delete outRootFile;
   fHeader->Reset();      // reset event ID, waiting next input data file

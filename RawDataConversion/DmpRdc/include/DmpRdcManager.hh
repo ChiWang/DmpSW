@@ -18,8 +18,6 @@
 #include "DmpFileManager.hh"
 #include "DmpEvtManager.hh"
 
-class TTree;
-
 class DmpEvtPsdRaw;
 class DmpEvtStkRaw;
 class DmpEvtBgoRaw;
@@ -48,11 +46,10 @@ class DmpRdcManager : public DmpFileManager, public DmpEvtManager{
   Bool_t    TriggerMatch();
 
  private:
-  static DmpRdcManager     *fInstance;
-  static TString    fConnectorPath;         // connection files of FEE to Detector
-  ifstream  *fHexData;
-  TTree     *fTree;
-  std::map<TString,Short_t> fTrigger;
+  static DmpRdcManager  *fInstance;         // singleton
+  static TString        fConnectorPath;     // connection files of FEE to Detector
+  ifstream  *fHexData;                      // hex data
+  std::map<TString,Short_t> fTrigger;       // 5 key: {Header|Psd|Stk|Bgo|Nud}
 
 //------------------------------------------------------------------------------
  public:

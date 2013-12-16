@@ -2,14 +2,15 @@
 #   RawDataConversion of DAMPE software
 
     *Goal
-        create one commond "dmpRdc", and then install this command
+        create one command "dmpRdc", and then install this command
 
     *Usage
         mode 1. single data mode
-            "dmpRdc    /Path/RawDatName.dat"
-            Read dataName.dat from /Path, and save results at ./(where you execute command dmpRdc)
+            "dmpRdc    /Path/RawDataName.dat"
+            Read RawDataName.dat from /Path, and
+            save results at ./(where you execute command dmpRdc)
         mode 2. batch mode
-            2.1 default read "DmpRdcInput.infor" at ./(where you excute dmpRdc) if without argument
+            2.1 read "DmpRdcInput.infor" at ./ defaultly
             "dmpRdc"
             2.2 read pointed "*RdcInput.infor"
             "dmpRdc /Path/*RdcInput.infor"

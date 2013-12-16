@@ -24,7 +24,7 @@ class DmpEvtBgoRaw : public DmpEvtSubDet{
  *
  *  For one event:
  *      1.  collection of ADC value from evry dynode    (fADCCollection)
- *      2.  collection of ID correspond to ADC values   (fLayerId, fBarID, fSideID, fDyID)
+ *      2.  collection of ID correspond to ADC values   (fLBSDCollection:   LBSD = LayerID*10000+BarID*100+SideID*10+DyID)
  *      3.  and, some variables inherit from DmpEvtSubDet
  *
 */
@@ -38,7 +38,7 @@ class DmpEvtBgoRaw : public DmpEvtSubDet{
   void  SetSignal(Int_t LBSD_ID,Double_t adc);
 
  private:
-  std::vector<int>      fLBSDCollection;    // LayerID*10000 + BarID*100 + SideID*10 +DyID= fLBSD   (must use vector<int> or vector<double>)
+  std::vector<int>      fLBSDCollection;    // LayerID*10000 + BarID*100 + SideID*10 +DyID = LBSD   (must use vector<int> or vector<double>)
   std::vector<double>   fADCCollection;
 
  private:
