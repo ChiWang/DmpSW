@@ -82,7 +82,7 @@ if [ -f $srcDir/$diction ];then
     read -p   " Dictionary ($diction) is exist, delete it? (Y/N):        " Ans
     if [ "XX$Ans" != "XXN" ];then
         \rm ./*/${diction%.*}* 2>/dev/null
-        echo  "     Please re-execute this command."
+        echo  "     Please re-execute \"$0\""
     fi
     exit 0      # can't execute rootcint just after \rm ....
 fi
