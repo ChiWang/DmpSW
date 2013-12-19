@@ -1,5 +1,5 @@
 /*=====================================================================
- *   File:   DmpFileManager.hh
+ *   File:   DmpVFileManager.hh
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
  *---------------------------------------------------------------------
  *   Description:
@@ -9,22 +9,22 @@
  *                           Last update:  13/12/2013   12:06:40
 =====================================================================*/
 
-#ifndef DmpFileManager_H
-#define DmpFileManager_H
+#ifndef DmpVFileManager_H
+#define DmpVFileManager_H
 
 #include "TObject.h"
 #include "TString.h"
 
-class DmpFileManager : virtual public TObject{
+class DmpVFileManager : virtual public TObject{
 /*
- * DmpFileManager
+ * DmpVFileManager
  *
  *  
  *
 */
  public:
-  DmpFileManager();
-  virtual ~DmpFileManager();
+  DmpVFileManager();
+  virtual ~DmpVFileManager();
 
   void  SetInDataPath(TString);
   void  SetOutDataPath(TString);
@@ -37,7 +37,7 @@ class DmpFileManager : virtual public TObject{
   TString   fOutDataPath;
   TString   fDataName;
   
-  ClassDef(DmpFileManager,0)
+  ClassDef(DmpVFileManager,0)
 
 };
 

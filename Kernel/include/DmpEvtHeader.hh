@@ -60,7 +60,7 @@ class DmpEvtHeader : public TObject{
   Long64_t  fEvtID;             // valid event count. continuous
   Long64_t  fSec;               // Time: sec + msec
   Short_t   fmSec;              //
-  Long64_t  fTimeGap;           // unit:   msec
+  Long64_t  fTimeGap;           // unit: msec
 
  private:
     // reconstructed information
@@ -69,7 +69,7 @@ class DmpEvtHeader : public TObject{
   Double_t  fEnergy;            // reconstructed energy
 
  private:
-  Short_t   *fTime;             //! pointer to store data of hex time
+  Short_t   *fTime;             //! pointer to store data of hex time. Only used in ShowTime(Short_t mode=0) which will only be used in package RDC. So, not save fTime
 
   ClassDef(DmpEvtHeader,1)
 };

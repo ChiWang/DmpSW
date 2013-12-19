@@ -23,8 +23,8 @@
 #pragma link C++ namespace DmpParameter::Nud;
 
 #pragma link C++ class DmpEvtHeader+;
-#pragma link C++ class DmpEvtSubDet+;
-#pragma link C++ class DmpFileManager+;
-#pragma link C++ class DmpEvtManager+;
+#pragma link C++ class DmpVEvtSubDet+;
+#pragma link C++ class DmpVFileManager+;
+#pragma link C++ class DmpVEvtManager+;
 
 #endif

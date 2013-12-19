@@ -12,9 +12,9 @@
 #ifndef DmpEvtBgoShower_H
 #define DmpEvtBgoShower_H
 
-#include "DmpEvtSubDet.hh"
+#include "DmpVEvtSubDet.hh"
 
-class DmpEvtBgoShower : public DmpEvtSubDet{
+class DmpEvtBgoShower : public DmpVEvtSubDet{
 /*
  *  DmpEvtBgoShower
  *

@@ -14,9 +14,9 @@
 
 #include <vector>
 
-#include "DmpEvtSubDet.hh"
+#include "DmpVEvtSubDet.hh"
 
-class DmpEvtNudRaw : public DmpEvtSubDet{
+class DmpEvtNudRaw : public DmpVEvtSubDet{
 /*
  *  DmpEvtNudRaw
  *
@@ -25,7 +25,7 @@ class DmpEvtNudRaw : public DmpEvtSubDet{
  *  For one event:
  *      1.  collection of ADC value from evry dynode    (fADCCollection)
  *      2.  collection of ID correspond to ADC values   (fLayerId, fBarID, fSideID, fDyID)
- *      3.  and, some variables inherit from DmpEvtSubDet
+ *      3.  and, some variables inherit from DmpVEvtSubDet
  *
 */
 

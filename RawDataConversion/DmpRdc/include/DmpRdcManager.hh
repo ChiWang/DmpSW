@@ -15,15 +15,15 @@
 #include <map>
 #include <fstream>      // Conversion(ifstream* HexData)
 
-#include "DmpFileManager.hh"
-#include "DmpEvtManager.hh"
+#include "DmpVFileManager.hh"
+#include "DmpVEvtManager.hh"
 
 class DmpEvtPsdRaw;
 class DmpEvtStkRaw;
 class DmpEvtBgoRaw;
 class DmpEvtNudRaw;
 
-class DmpRdcManager : public DmpFileManager, public DmpEvtManager{
+class DmpRdcManager : public DmpVFileManager, public DmpVEvtManager{
 /*
  *  DmpRdcManager
  *
@@ -37,7 +37,7 @@ class DmpRdcManager : public DmpFileManager, public DmpEvtManager{
   static DmpRdcManager*    GetInstance();
   static void   Clear();
   Bool_t Core();
-  DmpEvtSubDet*  GetEventPointer(TString det) const {return 0;}
+  DmpVEvtSubDet*  GetEventPointer(TString det) const {return 0;}
   void  SetHexData(ifstream *p)  {fHexData = p;}
 
  private:

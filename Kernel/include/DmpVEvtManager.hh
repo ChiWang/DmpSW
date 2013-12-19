@@ -1,5 +1,5 @@
 /*=====================================================================
- *   File:   DmpEvtManager.hh
+ *   File:   DmpVEvtManager.hh
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
  *---------------------------------------------------------------------
  *   Description:
@@ -9,34 +9,34 @@
  *                           Last update:  13/12/2013   12:06:09
 =====================================================================*/
 
-#ifndef DmpEvtManager_H
-#define DmpEvtManager_H
+#ifndef DmpVEvtManager_H
+#define DmpVEvtManager_H
 
 #include "TObject.h"
 
 class DmpEvtHeader;
-class DmpEvtSubDet;
+class DmpVEvtSubDet;
 
-class DmpEvtManager : virtual public TObject{
+class DmpVEvtManager : virtual public TObject{
 /*
- *  DmpEvtManager
+ *  DmpVEvtManager
  *
- *  only defined fHeader, and attach the fHeader to DmpEvtSubDet::SetHeader();
+ *  only defined fHeader, and attach the fHeader to DmpVEvtSubDet::SetHeader();
  *
  *  So, any class inherit from this class, must declare and define fPsd, fStk, fBgo, fNud in it own constructor.
  *
  *
 */
  public:
-  DmpEvtManager();
-  virtual ~DmpEvtManager();
+  DmpVEvtManager();
+  virtual ~DmpVEvtManager();
   virtual Bool_t Core()=0;
-  virtual DmpEvtSubDet*  GetEventPointer(TString) const=0;
+  virtual DmpVEvtSubDet*  GetEventPointer(TString) const=0;
 
  protected:
   DmpEvtHeader  *fHeader;
 
-  ClassDef(DmpEvtManager,0)
+  ClassDef(DmpVEvtManager,0)
 
 };
 

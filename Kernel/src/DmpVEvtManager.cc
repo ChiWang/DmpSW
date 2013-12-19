@@ -1,5 +1,5 @@
 /*=====================================================================
- *   File:   DmpEvtManager.cc
+ *   File:   DmpVEvtManager.cc
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
  *---------------------------------------------------------------------
  *   Description:
@@ -11,20 +11,20 @@
 
 #include "TString.h"
 
-#include "DmpEvtManager.hh"
+#include "DmpVEvtManager.hh"
 #include "DmpEvtHeader.hh"
-#include "DmpEvtSubDet.hh"
+#include "DmpVEvtSubDet.hh"
 
-ClassImp(DmpEvtManager)
+ClassImp(DmpVEvtManager)
 
 //------------------------------------------------------------------------------
-DmpEvtManager::DmpEvtManager(){
+DmpVEvtManager::DmpVEvtManager(){
   fHeader = new DmpEvtHeader();
-  DmpEvtSubDet::SetEventHeader(fHeader);
+  DmpVEvtSubDet::SetEventHeader(fHeader);
 }
 
 //------------------------------------------------------------------------------
-DmpEvtManager::~DmpEvtManager(){
+DmpVEvtManager::~DmpVEvtManager(){
   delete fHeader;
 }
 

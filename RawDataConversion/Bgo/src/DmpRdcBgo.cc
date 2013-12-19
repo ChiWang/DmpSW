@@ -89,7 +89,7 @@ std::cerr<<"\t\t-->Bgo from "<<std::dec<<fHexData->tellg();
     fHexData->read((char*)(&feeID),1);
     if (feeCount == 0) {                          //trigger check, runMode check
       fTrigger["Bgo"] = tmp;
-      fBgo->SetMode(DmpEvtSubDet::DmpERunMode(feeID/16));
+      fBgo->SetMode(DmpVEvtSubDet::DmpERunMode(feeID/16));
     } else {
       if (tmp != fTrigger["Bgo"]) {
         std::cerr<<"\nError: DmpRdcManager::ConversionBgo()\tFEE trigger not match\t";

@@ -13,5 +13,5 @@
 
 ##  Development guid
 
-    all the event classes of Sub-detector inherit from DmpEvtSubDet(in Kernel package)
+    all the event classes of Sub-detector inherit from DmpVEvtSubDet(in Kernel package)
 

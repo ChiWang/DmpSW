@@ -12,9 +12,9 @@
 #ifndef DmpEvtBgoHit_H
 #define DmpEvtBgoHit_H
 
-#include "DmpEvtSubDet.hh"
+#include "DmpVEvtSubDet.hh"
 
-class DmpEvtBgoHit : public DmpEvtSubDet{
+class DmpEvtBgoHit : public DmpVEvtSubDet{
 /*
  *  DmpEvtBgoHit
  *

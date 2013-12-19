@@ -1,5 +1,5 @@
 /*=====================================================================
- *   File:   DmpFileManager.cc
+ *   File:   DmpVFileManager.cc
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
  *---------------------------------------------------------------------
  *   Description:
@@ -13,23 +13,23 @@
 
 #include "TSystem.h"
 
-#include "DmpFileManager.hh"
+#include "DmpVFileManager.hh"
 
-ClassImp(DmpFileManager)
+ClassImp(DmpVFileManager)
 
 //------------------------------------------------------------------------------
-DmpFileManager::DmpFileManager()
+DmpVFileManager::DmpVFileManager()
  :fInDataPath("./"),
   fOutDataPath("./"),
   fDataName("")
 {}
 
 //------------------------------------------------------------------------------
-DmpFileManager::~DmpFileManager()
+DmpVFileManager::~DmpVFileManager()
 {}
 
 //------------------------------------------------------------------------------
-void DmpFileManager::SetInDataPath(TString path){
+void DmpVFileManager::SetInDataPath(TString path){
   if (path.EndsWith("/")) {
     fInDataPath = path;
   } else {
@@ -38,7 +38,7 @@ void DmpFileManager::SetInDataPath(TString path){
 }
 
 //------------------------------------------------------------------------------
-void DmpFileManager::SetOutDataPath(TString path){
+void DmpVFileManager::SetOutDataPath(TString path){
   if (path.EndsWith("/")) {
     fOutDataPath = path;
   } else {

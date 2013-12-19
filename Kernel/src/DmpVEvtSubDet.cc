@@ -1,5 +1,5 @@
 /*=====================================================================
- *   File:   DmpEvtSubDet.cc
+ *   File:   DmpVEvtSubDet.cc
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
  *---------------------------------------------------------------------
  *   Description:
@@ -11,26 +11,26 @@
 
 #include <iostream>
 
-#include "DmpEvtSubDet.hh"
+#include "DmpVEvtSubDet.hh"
 
-ClassImp(DmpEvtSubDet)
-
-//------------------------------------------------------------------------------
-DmpEvtHeader* DmpEvtSubDet::fHeader=0;
+ClassImp(DmpVEvtSubDet)
 
 //------------------------------------------------------------------------------
-DmpEvtSubDet::DmpEvtSubDet()
+DmpEvtHeader* DmpVEvtSubDet::fHeader=0;
+
+//------------------------------------------------------------------------------
+DmpVEvtSubDet::DmpVEvtSubDet()
  :fMode(kMixed)
 {}
 
 //------------------------------------------------------------------------------
-DmpEvtSubDet::~DmpEvtSubDet()
+DmpVEvtSubDet::~DmpVEvtSubDet()
 {}
 
 //------------------------------------------------------------------------------
-DmpEvtHeader* DmpEvtSubDet::GetEventHeader(){
+DmpEvtHeader* DmpVEvtSubDet::GetEventHeader(){
   if(!fHeader){
-    std::cerr<<"Error:  DmpEvtSubDet::GetEventHeader(). Not set event header. Please use DmpEvt::SetEventHeader(DmpEvtHeader*) firstly"<<std::endl;
+    std::cerr<<"Error:  DmpVEvtSubDet::GetEventHeader(). Not set event header. Please use DmpEvt::SetEventHeader(DmpEvtHeader*) firstly"<<std::endl;
   }
   return fHeader;
 }

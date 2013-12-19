@@ -12,9 +12,9 @@
 #ifndef DmpEvtBgoCluster_H
 #define DmpEvtBgoCluster_H
 
-#include "DmpEvtSubDet.hh"
+#include "DmpVEvtSubDet.hh"
 
-class DmpEvtBgoCluster : public DmpEvtSubDet{
+class DmpEvtBgoCluster : public DmpVEvtSubDet{
 /*
  *  DmpEvtBgoCluster
  *
