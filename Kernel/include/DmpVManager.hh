@@ -1,42 +1,51 @@
 /*=====================================================================
- *   File:   DmpVEvtManager.hh
+ *   File:   DmpVManager.hh
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
  *---------------------------------------------------------------------
  *   Description:
  *
  *---------------------------------------------------------------------
  *   History:
- *                           Last update:  13/12/2013   12:06:09
+ *                           Last update:  22/12/2013   20:18:07
 =====================================================================*/
 
-#ifndef DmpVEvtManager_H
-#define DmpVEvtManager_H
+#ifndef DmpVManager_H
+#define DmpVManager_H
 
 #include "TObject.h"
+#include "TString.h"
 
 class DmpEvtHeader;
 class DmpVEvtSubDet;
 
-class DmpVEvtManager : virtual public TObject{
+class DmpVManager : public TObject{
 /*
- *  DmpVEvtManager
+ *  DmpVManager
  *
- *  only defined fHeader, and attach the fHeader to DmpVEvtSubDet::SetHeader();
+ *  defined fHeader, and attach the fHeader to DmpVEvtSubDet::SetHeader();
  *
  *  So, any class inherit from this class, must declare and define fPsd, fStk, fBgo, fNud in it own constructor.
  *
  *
 */
  public:
-  DmpVEvtManager();
-  virtual ~DmpVEvtManager();
+  DmpVManager();
+  virtual ~DmpVManager();
   virtual Bool_t Core()=0;
   virtual DmpVEvtSubDet*  GetEventPointer(TString) const=0;
+  void  SetInDataPath(TString);
+  void  SetOutDataPath(TString);
+  void  SetDataName(TString name)   {fDataName = name;}
+  TString GetInDataPath() const     {return fInDataPath;}
+  TString GetOutDataPath() const    {return fOutDataPath;}
 
  protected:
+  TString       fInDataPath;
+  TString       fOutDataPath;
+  TString       fDataName;
   DmpEvtHeader  *fHeader;
 
-  ClassDef(DmpVEvtManager,0)
+  ClassDef(DmpVManager,0)
 
 };
 

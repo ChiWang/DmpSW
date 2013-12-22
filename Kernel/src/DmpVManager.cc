@@ -1,35 +1,40 @@
 /*=====================================================================
- *   File:   DmpVFileManager.cc
+ *   File:   DmpVManager.cc
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
  *---------------------------------------------------------------------
  *   Description:
  *
  *---------------------------------------------------------------------
  *   History:
- *                           Last update:  13/12/2013   12:09:47
+ *                           Last update:  13/12/2013   12:08:19
 =====================================================================*/
 
 #include <iostream>
-
 #include "TSystem.h"
 
-#include "DmpVFileManager.hh"
+#include "DmpVManager.hh"
+#include "DmpEvtHeader.hh"
+#include "DmpVEvtSubDet.hh"
 
-ClassImp(DmpVFileManager)
+ClassImp(DmpVManager)
 
 //------------------------------------------------------------------------------
-DmpVFileManager::DmpVFileManager()
+DmpVManager::DmpVManager()
  :fInDataPath("./"),
   fOutDataPath("./"),
   fDataName("")
-{}
+{
+  fHeader = new DmpEvtHeader();
+  DmpVEvtSubDet::SetEventHeader(fHeader);
+}
 
 //------------------------------------------------------------------------------
-DmpVFileManager::~DmpVFileManager()
-{}
+DmpVManager::~DmpVManager(){
+  delete fHeader;
+}
 
 //------------------------------------------------------------------------------
-void DmpVFileManager::SetInDataPath(TString path){
+void DmpVManager::SetInDataPath(TString path){
   if (path.EndsWith("/")) {
     fInDataPath = path;
   } else {
@@ -38,7 +43,7 @@ void DmpVFileManager::SetInDataPath(TString path){
 }
 
 //------------------------------------------------------------------------------
-void DmpVFileManager::SetOutDataPath(TString path){
+void DmpVManager::SetOutDataPath(TString path){
   if (path.EndsWith("/")) {
     fOutDataPath = path;
   } else {

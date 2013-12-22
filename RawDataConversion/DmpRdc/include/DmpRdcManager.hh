@@ -15,15 +15,14 @@
 #include <map>
 #include <fstream>      // Conversion(ifstream* HexData)
 
-#include "DmpVFileManager.hh"
-#include "DmpVEvtManager.hh"
+#include "DmpVManager.hh"
 
 class DmpEvtPsdRaw;
 class DmpEvtStkRaw;
 class DmpEvtBgoRaw;
 class DmpEvtNudRaw;
 
-class DmpRdcManager : public DmpVFileManager, public DmpVEvtManager{
+class DmpRdcManager : public DmpVManager{
 /*
  *  DmpRdcManager
  *

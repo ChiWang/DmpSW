@@ -9,7 +9,7 @@
     2.  execute "./createDictionary" to create dictionary of this sub-detector
     3.  execute "scons" to create shared library of Event package(at where is SConstruct)
 
-    4.  link the created library and include header files, when other packages want to use some thing in Kernel
+    4.  link the created library and include header files, when other packages want to use some thing in Event
 
 ##  Development guid
 

@@ -1,5 +1,5 @@
 
-#   Kernel of DAMPE software
+#   Kernel of DAMPE offline software
 
 ##  What are in here:
     1.  common abstract classes

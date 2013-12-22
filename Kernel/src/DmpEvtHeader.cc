@@ -21,7 +21,7 @@ ClassImp(DmpEvtHeader)
 //------------------------------------------------------------------------------
 DmpEvtHeader::DmpEvtHeader()
  :fPackageID(-1),
-  fEvtID(-1),
+  fEventID(-1),
   fSec(0),
   fmSec(0),
   fTimeGap(0),
@@ -37,7 +37,7 @@ DmpEvtHeader::~DmpEvtHeader()
 //------------------------------------------------------------------------------
 void DmpEvtHeader::Reset(){
   fPackageID = -1;
-  fEvtID = -1;
+  fEventID = -1;
   fSec = 0;
   fmSec = 0;
   fTimeGap = 0;
@@ -52,7 +52,7 @@ void DmpEvtHeader::SetTime(Short_t Time[],Int_t size){
   static Short_t mSecTmp;
   SecTmp = Time[2]*Power(16,6)+Time[3]*Power(16,4)+Time[4]*Power(16,2)+Time[5]*Power(16,0);
   mSecTmp = Time[6]*256+Time[7];
-  fTimeGap = (fPackageID==0 && fEvtID==-1)?100:((SecTmp-fSec)*1000+(mSecTmp-fmSec));
+  fTimeGap = (fPackageID==0 && fEventID==-1)?100:((SecTmp-fSec)*1000+(mSecTmp-fmSec));
   fSec = SecTmp;
   fmSec = mSecTmp;
   fTime = Time;

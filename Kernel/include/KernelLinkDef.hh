@@ -24,7 +24,6 @@
 
 #pragma link C++ class DmpEvtHeader+;
 #pragma link C++ class DmpVEvtSubDet+;
-#pragma link C++ class DmpVFileManager+;
-#pragma link C++ class DmpVEvtManager+;
+#pragma link C++ class DmpVManager+;
 
 #endif

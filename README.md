@@ -33,7 +33,7 @@ Install Geant4
         
         4) cd geant4.9.6-build
         
-        5) cmake -DCMAKE_INSTALL_PREFIX=<myG4Path>/geant4.9.6-install -DGEANT4_INSTALL_DATA=ON -DGEANT4_USE_OPENGL_X11=ON -DGEANT4_INSTALL_EXAMPLES=ON <myG4Path>
+        5) cmake -DCMAKE_INSTALL_PREFIX=<myG4Path>/geant4.9.6-install -DGEANT4_INSTALL_DATA=ON -DGEANT4_USE_GDML=ON -DGEANT4_USE_OPENGL_X11=ON -DGEANT4_INSTALL_EXAMPLES=ON <myG4Path>
         /geant4.9.6.p02
         
         6) make -j2 (for duo-core machine)
@@ -41,7 +41,6 @@ Install Geant4
         7) make install
         
         Note: because of the datafile it takes up to an hour to config and install.
-        Note: install GDML at the same time
 
 Install SCons
 
@@ -249,6 +248,7 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
             Abbreviation of Package as mentioned above
         * {SpecialKey}
             normal class:   no SpecialKey;
+            vertial class:  V
         * {Dominant}
             explain the usefulness. Example:    DmpRdcManager
         * {sub-detector}
