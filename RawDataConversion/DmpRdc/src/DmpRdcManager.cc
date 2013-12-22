@@ -96,6 +96,7 @@ std::cout<<"\tFill event "<<std::dec<<fHeader->GetEventID()<<std::endl;
   outTree->Write();
   outRootFile->Close();
   delete outRootFile;
+  delete outTree;
   fHeader->Reset();      // reset event ID, waiting next input data file
   fHexData->close();
   delete fHexData;
