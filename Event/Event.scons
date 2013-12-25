@@ -31,7 +31,7 @@ LibName='DmpEvent'
 #   set debug modle.
 #    if yes, then can use gdb:  http://www.ibm.com/developerworks/cn/linux/sdk/gdb/
 if os.environ.has_key('DMPOSSYS'):
-    print "\t\tdebug mode\t re-install this package\n"
+    print "\t\tdebug mode\t re-install Event\n"
     installDir=os.environ['DMPOSSYS']
     EnvEvt.Prepend(CCFLAGS = '-g')
     EnvEvt.Append(CCFLAGS = '-DDmp_DEBUG')

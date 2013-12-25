@@ -4,7 +4,6 @@ DMPOS
 
 DAMPE Offline software
 
-
 ##  Requirement
 
 DMPOS will uses tools Root, Geant4 and SCons.
@@ -66,7 +65,7 @@ Installation
 Set Environment
 
     1.  cd into /prefix
-    2.  source bin/thisdmpsw.(c)sh
+    2.  source bin/thisdmpos.(c)sh
     then, if "echo $DMPOSSYS" is /prefix, Ok.
 
 ##  Development guide
@@ -107,8 +106,8 @@ These directories (or link) below are in "/prefix"
 
 1.  bin (executable files)
 
-        thisdmpsw.sh        // shell environment
-        dmpsw-config        // compilation options
+        thisdmpos.sh        // shell environment
+        dmpos-config        // compilation options
         dmpSim              // Simulation of DAMPE
         dmpRdc              // Reconstruction Level-0:  Raw Data Conversion
         dmpPed              // Calibration Level-0: find pedestal

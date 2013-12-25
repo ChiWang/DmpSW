@@ -31,7 +31,7 @@ LibName='DmpCore'
 #   set debug modle.
 #    if yes, then can use gdb:  http://www.ibm.com/developerworks/cn/linux/sdk/gdb/
 if os.environ.has_key('DMPOSSYS'):
-    print "\t\tdebug mode\t re-install this package\n"
+    print "\t\tdebug mode\t re-install Kernel\n"
     installDir=os.environ['DMPOSSYS']
     EnvKernel.Prepend(CCFLAGS = '-g')
     EnvKernel.Append(CCFLAGS = '-DDmp_DEBUG')
@@ -61,6 +61,11 @@ EnvKernel.Prepend(CPPPATH=[includeDir])
 for file in os.listdir(includeDir):
     if "LinkDef" not in file and "Dictionary" not in file:
         Default(Command(installDir+'/include/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
+
+#   install script
+for file in os.listdir('./script'):
+    if "Readme" not in file:
+        Default(Command(installDir+'/bin/'+file,'./script/'+file,Copy("$TARGET","$SOURCE")))
 
 #   main build
 execute=EnvKernel.SharedLibrary(LibName,Glob('./src/*.cc'))

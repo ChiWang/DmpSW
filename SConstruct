@@ -15,7 +15,7 @@
 
 import os
 
-##  check requirements
+# check requirements
 if not os.environ.has_key('ROOTSYS'):
     print 'root is not set up.'
     Exit(1)
@@ -32,10 +32,6 @@ if prefix=="":
     prefix='/usr/local'
 prefix=os.path.abspath(prefix)
 Export('prefix')
-
-# copy some excutable files into /prefix/bin
-for key in ['dmpsw-config','thisdmpsw.sh','thisdmpsw.csh']:
-    Default(Command(prefix+'/bin/'+key,key,Copy("$TARGET","$SOURCE")))
 
 # invoke top1 modules' SConscript
 subScript=[]
