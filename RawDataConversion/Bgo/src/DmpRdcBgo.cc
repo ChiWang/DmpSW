@@ -20,16 +20,16 @@
 using namespace DmpParameter::Bgo;
 
 //------------------------------------------------------------------------------
-Bool_t DmpRdcManager::SetConnectorBgo(){
+Bool_t DmpRdcManager::SetConnectorBgo_BT2012(){
   std::cout<<"\nSetup connector:\tBgo"<<std::endl;
   std::cout<<"-----------------------"<<std::endl;
   Int_t FEEID, ChannelID;
   Short_t LID, BID, SID, DID;
-  Int_t const MaxSignalNb_Side = (kBarNb+kRefBarNb)*kDyNb;
+  Int_t const MaxSignalNb_Side = (BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb;
   std::string note;
   char fileName[20];
 
-  for(Short_t l=0;l<kPlaneNb*2;++l){
+  for(Short_t l=0;l<BT2012::kPlaneNb*2;++l){
     LID = l;
     sprintf(fileName,"Layer_%d.cnct",l);
     ifstream cnctFile(fConnectorPath+"/Bgo/"+fileName);
@@ -39,7 +39,7 @@ Bool_t DmpRdcManager::SetConnectorBgo(){
     } else {
       std::cout<<"\t"<<fileName;
     }
-    for(Short_t s=0;s<kSideNb;++s){
+    for(Short_t s=0;s<BT2012::kSideNb;++s){
       getline(cnctFile,note);   // reserved 1 line for note
       cnctFile>>SID;
       getline(cnctFile,note);   // reserved 1 line for note
@@ -59,12 +59,12 @@ Bool_t DmpRdcManager::SetConnectorBgo(){
 }
 
 //------------------------------------------------------------------------------
-Bool_t DmpRdcManager::ConversionBgo(){
+Bool_t DmpRdcManager::ConversionBgo_BT2012(){
 #ifdef Dmp_DEBUG
 std::cerr<<"\t\t-->Bgo from "<<std::dec<<fHexData->tellg();
 #endif
-  static const Short_t  kFeeDataLength0 = ((kBarNb+kRefBarNb)*kDyNb*kSideNb*2+3)*2;  // 3: (1)data Length 0x00a2; (2)reverse 0x0000; (3)CRC 0x0xxx.  *2:to unit Byte.  Fee type A or B
-  static const Short_t  kFeeDataLength1 = ((kBarNb+kRefBarNb)*kDyNb*kSideNb+3)*2;   // Fee type C
+  static const Short_t  kFeeDataLength0 = ((BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb*BT2012::kSideNb*2+3)*2;  // 3: (1)data Length 0x00a2; (2)reverse 0x0000; (3)CRC 0x0xxx.  *2:to unit Byte.  Fee type A or B
+  static const Short_t  kFeeDataLength1 = ((BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb*BT2012::kSideNb+3)*2;   // Fee type C
   static Short_t feeCount=0, feeID=0, channelID=0;
   static Short_t nChan=0, dataLong=0;
   static Short_t rawHex[2]={0};

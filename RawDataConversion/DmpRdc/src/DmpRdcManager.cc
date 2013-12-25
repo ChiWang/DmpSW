@@ -76,7 +76,7 @@ Bool_t DmpRdcManager::Core(){
     if ( !ConversionHeader() ) continue;
     if ( !ConversionPsd() ) continue;
     if ( !ConversionStk() ) continue;
-    if ( !ConversionBgo() ) continue;
+    if ( !ConversionBgo_BT2012() ) continue;
     if ( !ConversionNud() ) continue;
 if (nEvt == 1) fHeader->ShowTime(0);
 
