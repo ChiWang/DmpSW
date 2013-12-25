@@ -5,13 +5,13 @@ print "\n\t\t--->building Geometry module\n"
 
 import os
 
-Import('PREFIX')
-installdir=PREFIX
+Import('prefix')
+installdir=prefix
 
 #  copy Parameter/include/* into /prefix/include/
 includeDir='./'
 for file in os.listdir(includeDir):
     if ( ".gdml" in file):
-        Default(Command(PREFIX+'/share/geometry/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
+        Default(Command(prefix+'/share/geometry/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
 
 

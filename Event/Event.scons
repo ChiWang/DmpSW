@@ -4,9 +4,6 @@
 #---------------------------------------------------------------------
 #   Description:
 #
-#   *** Default degub=0, scons debug=1 will create in debug mode
-#         means: create all thing in current directory instead of install into /prefix
-#
 #   1.  Root
 #       ARGUMENTS.get('root',value):
 #           value = 1,      use root
@@ -25,8 +22,6 @@
 #                           Last update:  13/12/2013   12:22:48
 #=====================================================================
 
-print "\n\t\t--->building Event module"
-
 import os
 EnvEvt = Environment(ENV = os.environ)
 
@@ -35,16 +30,15 @@ LibName='DmpEvent'
 
 #   set debug modle.
 #    if yes, then can use gdb:  http://www.ibm.com/developerworks/cn/linux/sdk/gdb/
-debug=ARGUMENTS.get('debug',0)
-if int(debug):
-    print "\t\t debug mode"
+if os.environ.has_key('DMPOSSYS'):
+    print "\t\tdebug mode\t re-install this package\n"
+    installDir=os.environ['DMPOSSYS']
     EnvEvt.Prepend(CCFLAGS = '-g')
     EnvEvt.Append(CCFLAGS = '-DDmp_DEBUG')
-    installdir=os.environ['DMPOSWORK']
 else:
+    Import('prefix')
+    installDir=prefix
     EnvEvt.Append(CCFLAGS = '-DDmp_RELEASE')
-    Import('PREFIX')
-    installdir=PREFIX
 
 #   set Geant4 environment
 if int(ARGUMENTS.get('g4',0)):
@@ -64,10 +58,10 @@ if int(ARGUMENTS.get('omp',0)):
 #   include
 for key in ['Psd','Stk','Bgo','Nud']:
     includeDir=key+'/include'
-    if int( not debug):
-        for file in os.listdir(includeDir):
-            Default(Command(PREFIX+'/include/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
     EnvEvt.Prepend(CPPPATH=[includeDir])
+    for file in os.listdir(includeDir):
+        if "LinkDef" not in file and "Dictionary" not in file:
+            Default(Command(installDir+'/include/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
 
 #   Use other top-1 package
     #+  Kernel
@@ -76,6 +70,6 @@ EnvEvt.Prepend(CPPPATH=[P1Path+'/include'])
 
 #   main build
 execute=EnvEvt.SharedLibrary(LibName,Glob('./*/src/*.cc'))
-Default(EnvEvt.InstallAs(installdir+"/lib/lib"+LibName+".so",execute))
+Default(EnvEvt.InstallAs(installDir+"/lib/lib"+LibName+".so",execute))
 
 

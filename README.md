@@ -55,89 +55,55 @@ Install SCons
         4) type command:
             scons --help
 
-## How to install DMPOS
+##  How to install DMPOS
 
-    ---------------------------------------------------------------------------------------------------------------------
-    *****   Not used before publish DMPOS out of DAMPE group. Please skip to the next section "Development guide"   *****
-    ---------------------------------------------------------------------------------------------------------------------
+    Suppose you did not install DMPOS, which means "echo $DMPOSSYS" is blank.
 
-Installation:
+Installation
 
-    At current directory, execute installation command 
-
-        scons options
-            option 1:   prefix
-            option 2:   database
-
-    default prefix=/usr/local, you can point it by:
-
-        scons prefix=/where/to/install
-
-    defaultly, database(store all kinds of datas) will create in /prefix,
-    but you can split database from software, this way is more conveniente for managing data.
-    Using the option below in installation command:
-
-        database=/where/is/database
-
-    Note:   the path of database must be a absolute path
+    just execute "scons" at current directory. Then, DMPOS will ask you where to install it, the default prefix=/usr/local
 
 Set Environment
 
-    source /prefix/bin/thisdmpsw.sh
+    1.  cd into /prefix
+    2.  source bin/thisdmpsw.(c)sh
+    then, if "echo $DMPOSSYS" is /prefix, Ok.
 
 ##  Development guide
 
-    It could be helpful if you understand the naming convention firstly at:
+    Fisrt of all, you should install it as last section (How to install DMPOS) stated.
+
+    It could be helpful if you understand the naming convention in:
         http://dpnc.unige.ch/dampe/dokuwiki/doku.php?id=dampesoftware:namingconvention
 
     There are 6 key steps while developing DMPOS.
 
-    0)  checkout(or update) whole trunk
-            svn checkout http://dpnc.unige.ch/SVNDAMPE/DAMPE/DmpSoftware/trunk  --username=tutorial
+    0)  cd into certain package and update it
 
-    1)  source thisdmpsw.sh
-            if "echo $DMPOSWORK" is blank, then do as follow:
-            source thisdmpsw.sh         // this file in the dowloaded directory trunk
-            then, "echo $DMPOSWORK" is not blank 
-            // or, you can add the line above into $HOME/.bashrc(or .zshrc) instead of source it every time.
+    1)  SConstruct(UNDER CERTAIN PACKAGE) file existing?
+        if there is not a file named SConstruct, do:    "cp *.scons SConstruct"
 
-    2)  work on certian package
-            cd into the package (or sub-directory you are working)
-            commit work JUST IN THE WORKING DIRECTORY.
-
-    3)  development circle
-            compile --> running --> debug --> compile...
+    2)  development circle
+            compile --> runn to debug --> compile...
             * compile:   "scons"
-                execute "scons" at where the SConstruct file at.( use the closest one SConstruct. Or, refer to Readme.md in the package)
-            * running the command just created
-                just type the command name
+            * execute the command just created
             * clean up: "scons -c"
 
-    4)  commit work
+    3)  commit work
             svn commit
             then, add the commit note at the head of the opened file.
-            if work fine, then, svn update
 
-    5)  use other package of DMPOS
-            if the package you are developing need a new dependence of other package.
-
-    In cause you get any error, please send a group email.
-
-    Next is about structure of DMPOS, if you to know more clearly of DMPOS setup, please read below.
+    NOTE:   If the package you are developing need a new dependence of other package, please send a group email.
 
 
-### Structure of installation (after installation) 
+## Structure after installation
 
-    -------------------------------------------------------------------------------------------------
-    *****   Not used before publish DMPOS out of DAMPE group. Please skip to the next section   *****
-    -------------------------------------------------------------------------------------------------
-
-These directories (or link) below will be created in "/prefix/DmpSW_Version"
+These directories (or link) below are in "/prefix"
 *   bin
 *   lib
 *   include
 *   share
-*   database
+*   log
 
 1.  bin (executable files)
 
@@ -145,10 +111,10 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
         dmpsw-config        // compilation options
         dmpSim              // Simulation of DAMPE
         dmpRdc              // Reconstruction Level-0:  Raw Data Conversion
-        dmpCalL0            // Calibration Level-0: find pedestal
+        dmpPed              // Calibration Level-0: find pedestal
         dmpRecL1            // Reconstruction Level-1:  cal. data without pedestal
-        dmpCalL0SBgoMip     // Calibration Level-0-Special-Bgo: find Mip
-        dmpCalL0SBgoRel     // Calibration Level-0-Special-Bgo: find Relation
+        dmpBgoMip           // Calibration Level-0-Special-Bgo: find Mip
+        dmpBgoRel           // Calibration Level-0-Special-Bgo: find Relation
         dmpCalL0SPsdX       // Calibration Level-0-Special-Psd: XXXXX
         dmpCalL0SStkX       // Calibration Level-0-Special-Stk: XXXXX
         dmpCalL0SNudX       // Calibration Level-0-Special-Nud: XXXXX
@@ -170,53 +136,14 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
         example/DmpRdcInput.infor       // example of the input file for bantch mode of dmpRdc
         example/analysis                // analysis example. How to use distribuition data to analysis
 
-5.  database (a directory or a soft link. Refer to Installation option)
+5.  log ( records of error information and request infor.)
 
-  There are directories:
-    *       raw
-    *       calibration
-    *       reconstruction
-    *       distribution
-    *       simulation
+        *   dmpPed_request.log
+                request_time    dmpPed_version  hexDataName_raw.root
+        *   bgo_ped_error-requestTime-verison-hexDataName.log    warning information
 
-    5.1   raw
 
-        real raw data, output from detector
-        ??  name format
-
-    5.2   calibration
-
-        rawDataName-cal0-psd.dat
-              // CMD:   dmpCalL0;   Input:  rawDataName-raw.root
-        rawDataName-cal0-stk.dat
-              // CMD:   dmpCalL0;   Input:  rawDataName-raw.root
-        rawDataName-cal0-bgo.dat
-              // CMD:   dmpCalL0;   Input:  rawDataName-raw.root
-        rawDataName-cal0-nud.dat
-              // CMD:   dmpCalL0;   Input:  rawDataName-raw.root
-        rawDataName1-cal0s-bgo-mip_rawDataName2-cal0.dat
-              // CMD:   dmpCalL0SBgoMip;  Input:  rawDataName1-rec1_rawDataName2-cal0.root
-        rawDataName1-cal0s-bgo-rel_rawDataName2-cal0.dat
-              // CMD:   dmpCalL0SBgoRel;  Input:  rawDataName1-rec1_rawDataName2-cal0.root
-
-    5.3   reconstruction
-
-        rawDataName-raw.root
-              // CMD: dmpRdc;   Input:  rawDataName.dat Or *DmpRdcInput.infor
-        rawDataName1-rec1_rawDataName2-cal0-{all}.root
-              // CMD: dmpRecL1;   Input:  rawDataName-rec1.root, rawDataName2-cal0-{all}.dat
-
-    5.4   distribution
-
-            ???
-
-    5.5     simulation
-
-        rawDataName-sim-raw.root
-              // CMD: dmpSim;   Input:  *DmpSimInput.infor
-              // the same as reconstruction/rawDatName-raw.root
-
-### Convention
+## Convention
 
 1.  use detector names below ANY WHERE (except: data files are all lower case)
 
@@ -298,19 +225,122 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
         * a CMD for whole detector
             will invoke all sub-detectors
 
-    5.4  interface of command of input files(batch mode)
+    5.4  input file as interface of command (batch mode)
 
-            dmpRdc  *DmpRdcInput.infor
+            dmp{AP} *{AP}Input.infor
+            for example:    dmpRdc  *RdcInput.infor
     
     5.5  FileName.cnct
 
         dectector <-> FEE, connection information.
 
-### Others
+##  Data names
+
+1   raw data(binary file, all DAMPE scientific data)
+
+      Suppose real data name is "hexDataName.dat", simulation data is "sim_hexDataName.dat".
+      We can not distinguish them, except the name...
+
+2   raw data(root file, all DAMPE scientifc data)
+
+      hexDataName_raw.root
+          // CMD: dmpRdc;   Input:  hexDataName.dat or sim_hexDataName.dat
+
+3   common calibration, pedestal
+
+      psd_pedestal.root
+
+      stk_pedestal.root
+
+      bgo_pedestal.root
+          variable:
+              version:    dmpPed_version
+              data name:  hexDataName_raw.root (Used which data to calibration Pedestal)
+              LBSDIDCollection
+              meanCollection
+              sigmaCollection
+
+      nud_pedestal.root
+
+          // CMD:   dmpPed;   Input:  hexDataName_raw.root
+          use one hexDataName_raw.root, subDet_pedestal.root add one entry
+
+      Some other output:
+          *   dmpPed_request.log
+                  request_time    dmpPed_version  hexDataName_raw.root
+          *   bgo_ped_error-request_time-dmpPed_verison-hexDataName_raw.log    warning information
+
+4   no pedestal data
+
+      DAMPE_hexDataName.root
+          // CMD:   dmpDataFactory;   Input:  hexDataName_raw.root   and 4 root files in 3.3, but only one entry
+
+          //-----------------------------------------------------------------------------------------------//
+          ##  every event has information of dmpPed_version and pedestal from which hexDataName_raw.root   ##
+          //-----------------------------------------------------------------------------------------------//
+
+5   special
+
+    5.1   Psd special
+
+    5.2   Stk special
+
+    5.3   Bgo special
+
+      5.3.1 Mips
+
+      bgo_mip.root
+          variable:
+              version:    dmpBgoMip_version
+              data name:  DAMPE_hexDataName.root (Used which data to calibration Mip)
+              LBSDIDCollection
+              meanCollection
+              sigmaCollection
+          // CMD:   dmpBgoMip;  Input:  DAMPE_hexDataName.root
+              Some other output:
+                  *   dmpBgoMip_request.log
+                          request_time    dmpBgoMip_version  DAMPE_hexDataName.root
+                  *   bgo_mip_error-request_time-dmpBgoMip_verison-DAMPE_hexDataName.log    warning information
+
+      5.3.2 Relation
+
+      bgo_relation.root
+          variable:
+              version:    dmpBgoRel_version
+              data name:  DAMPE_hexDataName.root (Used which data to calibration relation)
+              LBSDIDCollection
+              meanCollection
+              sigmaCollection
+          // CMD:   dmpBgoRel;  Input:  DAMPE_hexDataName.root
+              Some other output:
+                  *   dmpBgoRel_request.log
+                          request_time    dmpBgoRel_version  DAMPE_hexDataName.root
+                  *   bgo_rel_error-request_time-dmpBgoRel_verison-DAMPE_hexDataName.log    warning information
+
+    5.4   Nud special
+
+6   reconstruction
+
+    6.1   Psd special
+
+    6.2   Stk special
+
+    6.3   Bgo special
+
+        6.3.1 Hit -> energy in bar
+          
+          //---------------------------------------------------------------------------------------------------//
+          ##  every event has information of dmpBgoMip_version and Mip from which DAMPE_hexDataName_raw.root   ##
+          ##  every event has information of dmpBgoRel_version and Rel from which DAMPE_hexDataName_raw.root   ##
+          //---------------------------------------------------------------------------------------------------//
+
+    6.4   Nud special
+
+## Others
 
 1.  All personal test must in "test" directory, you can create "test" directory at wherever you need. Then other people will not waste their time on checking test.
 
-2.  We set macro definition of "Dmp_DEBUG" and "Dmp_RELEASE" in g++ while you using we setted SCons files, it will makes your code more flexible, for example:
+2.  We set macro definition of "Dmp_DEBUG" and "Dmp_RELEASE" in SCons, it will makes your code more flexible, for example:
 
     #ifdef Dmp_DEBUG
       cout<<"some thing you want to check"<<endl;
@@ -320,5 +350,7 @@ These directories (or link) below will be created in "/prefix/DmpSW_Version"
       cout<<"This is release mode. I'm (this line) is useless"<<endl;
       // or some thing for release.
     #endif
+
+
 
 

@@ -4,31 +4,24 @@
 #   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    01/10/2013
 #---------------------------------------------------------------------
 #   Description:
+#       source thie file:
+#       1)  cd /prefix
+#       2)  source ./bin/thisdmpsw.(c)sh
 #
-#       after installation, source this file in .zshrc(.bashrc), then you can use DampeSoftware
 #---------------------------------------------------------------------
 #   History:
-#                           Last update:  14/12/2013   10:47:33
+#                           Last update:  26/12/2013   01:39:05
 #=====================================================================
 
-#+  Set DAMPE software developement environment         # for developer
-if [ ! $DMPOSWORK ];then
-  export DMPOSWORK=$HOME/dmpsw_workdir
-  export PATH=$DMPOSWORK/bin:$PATH
+#+  Set installation environment of DAMPE offline software 
+
+if [ ! $DMPOSSYS ];then
+  export DMPOSSYS=`pwd`
+  export PATH=$DMPOSSYS/bin:$PATH
   if [ $LD_LIBRARY_PATH ];then
-    export LD_LIBRARY_PATH=$DMPOSWORK/lib:$LD_LIBRARY_PATH
-  fi
-  if [ $DYLD_LIBRARY_PATH ];then        # Mac OS
-    export DYLD_LIBRARY_PATH=$DMPOSWORK/lib:$DYLD_LIBRARY_PATH
+    export LD_LIBRARY_PATH=$DMPOSSYS/lib:$LD_LIBRARY_PATH
+  elif [ $DYLD_LIBRARY_PATH ];then        # Mac OS
+    export DYLD_LIBRARY_PATH=$DMPOSSYS/lib:$DYLD_LIBRARY_PATH
   fi
 fi
-
-#+  Set DAMPE software installation environment         # for future general user installation
-#if [ ! $DMPOSSYS ];then
-#  PWD=`pwd`
-#  export DMPOSSYS=${PWD%"/bin"}      # if use this line, this file must in /prefix/bin
-#  export DMPOSDB=$DMPOSSYS/database
-#  export PATH=$DMPOSSYS/bin:$PATH
-#  export LD_LIBRARY_PATH=$DMPOSSYS/lib:$LD_LIBRARY_PATH
-#fi
 

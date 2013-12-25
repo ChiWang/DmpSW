@@ -3,39 +3,45 @@
 #   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    01/10/2013
 #---------------------------------------------------------------------
 #   Description:
-
+#       prefix/bin
+#       prefix/include
+#       prefix/lib
+#       prefix/share
+#
 #---------------------------------------------------------------------
 #   History:
 #                           Last update:  25/12/2013   15:31:35
 #=====================================================================
 
-# release version
-ReleaseVersion='DmpSW_v1.0.0'
-
 import os
 
-# set installation path, and derive PREFIX into sub-level environment
-PREFIX=ARGUMENTS.get('prefix',os.path.abspath('.'))
-#PREFIX=ARGUMENTS.get('prefix','/usr/local')
-PREFIX=PREFIX+'/'+ReleaseVersion
-Export('PREFIX')
+##  check requirements
+if not os.environ.has_key('ROOTSYS'):
+    print 'root is not set up.'
+    Exit(1)
+if not os.environ.has_key('G4INSTALL'):
+    print 'geant4 is not set up.'
+    Exit(1)
+if not os.environ.has_key('G4LIB_USE_GDML'):
+    print 'GDML is not set up.'
+    Exit(1)
 
-# creat common installation directories if not exist
-for key in ['bin','lib','include','share']:
-    sub_dir=PREFIX+'/'+key
-    if not (os.path.exists(sub_dir)):
-        os.makedirs(sub_dir)
+# set installation path, and derive prefix into sub-level environment
+prefix=raw_input('Where to install DMPOS [default is "/usr/local"]: ')
+if prefix=="":
+    prefix='/usr/local'
+prefix=os.path.abspath(prefix)
+Export('prefix')
 
 # copy some excutable files into /prefix/bin
-#import shutil
 for key in ['dmpsw-config','thisdmpsw.sh','thisdmpsw.csh']:
-    Default(Command(PREFIX+'/bin/'+key,key,Copy("$TARGET","$SOURCE")))
+    Default(Command(prefix+'/bin/'+key,key,Copy("$TARGET","$SOURCE")))
 
 # invoke top1 modules' SConscript
 subScript=[]
-for key in ['Analysis','Calibration','Event','Generation','Geometry','Kernel','RawDataConversion','Reconstruction','Simulation','Visualization']:
+for key in ['Kernel','Event','RawDataConversion','Analysis']:
+#for key in ['Analysis','Calibration','Event','Generation','Geometry','Kernel','RawDataConversion','Reconstruction','Simulation','Visualization']:
     subScript=subScript+[key+'/'+key+'.scons']
-SConscript(subScript,exports='PREFIX')
-
+SConscript(subScript,exports='prefix')
 
 

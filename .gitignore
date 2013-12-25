@@ -19,7 +19,7 @@ ustcDeploy
 # scons temprary
 #.sconsign.dblite
 *.dblite
-*_Dict.*
+Dictionary_*
 
 # test directory
 *test*
@@ -31,3 +31,11 @@ ustcDeploy
 # created executable files
 dmp*
 !dmp*.cc
+
+# pakcage SConstruct
+SConstruct
+!./SConstruct
+
+
+
+

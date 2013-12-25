@@ -43,8 +43,8 @@ if int(debug):
     SConscript(['../../Event/SConstruct'])    # need libdmpEvent
 else:
     EnvRecStk.Append(CCFLAGS = '-DDmp_RELEASE')
-    Import('PREFIX')
-    installdir=PREFIX
+    Import('prefix')
+    installdir=prefix
 
 #   set Geant4 environment
 if int(ARGUMENTS.get('g4',0)):

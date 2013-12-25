@@ -39,12 +39,12 @@ if int(debug):
     print "\t\t debug mode"
     EnvCalL0SBgoR.Prepend(CCFLAGS = '-g')
     EnvCalL0SBgoR.Append(CCFLAGS = '-DDmp_DEBUG')
-    installdir=os.environ['DMPOSWORKGit']
+    installdir=os.environ['DMPOSSYSGit']
     SConscript(['../../../Event/SConstruct'])    # need libDmpEvent
 else:
     EnvCalL0SBgoR.Append(CCFLAGS = '-DDmp_RELEASE')
-    Import('PREFIX')
-    installdir=PREFIX
+    Import('prefix')
+    installdir=prefix
 
 #   set Geant4 environment
 if int(ARGUMENTS.get('g4',0)):

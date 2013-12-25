@@ -4,9 +4,6 @@
 #---------------------------------------------------------------------
 #   Description:
 #
-#   *** Default degub=0, scons debug=1 will create in debug mode
-#         means: create all thing in current directory instead of install into /prefix
-#
 #   1.  Root
 #       ARGUMENTS.get('root',value):
 #           value = 1,      use root
@@ -25,8 +22,6 @@
 #                           Last update:  13/12/2013   12:25:44
 #=====================================================================
 
-print "\n\t\t--->building DAMPE Software Kernel"
-
 import os
 EnvKernel = Environment(ENV = os.environ)
 
@@ -35,16 +30,15 @@ LibName='DmpCore'
 
 #   set debug modle.
 #    if yes, then can use gdb:  http://www.ibm.com/developerworks/cn/linux/sdk/gdb/
-debug=ARGUMENTS.get('debug',1)
-if int(debug):
-    print "\t\t debug mode"
+if os.environ.has_key('DMPOSSYS'):
+    print "\t\tdebug mode\t re-install this package\n"
+    installDir=os.environ['DMPOSSYS']
     EnvKernel.Prepend(CCFLAGS = '-g')
     EnvKernel.Append(CCFLAGS = '-DDmp_DEBUG')
-    installdir=os.environ['DMPOSWORK']
 else:
+    Import('prefix')
+    installDir=prefix
     EnvKernel.Append(CCFLAGS = '-DDmp_RELEASE')
-    Import('PREFIX')
-    installdir=PREFIX
 
 #   set Geant4 environment
 if int(ARGUMENTS.get('g4',0)):
@@ -63,13 +57,13 @@ if int(ARGUMENTS.get('omp',0)):
 
 #   include
 includeDir='./include'
-if int( not debug):
-    for file in os.listdir(includeDir):
-        Default(Command(PREFIX+'/include/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
 EnvKernel.Prepend(CPPPATH=[includeDir])
+for file in os.listdir(includeDir):
+    if "LinkDef" not in file and "Dictionary" not in file:
+        Default(Command(installDir+'/include/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
 
 #   main build
 execute=EnvKernel.SharedLibrary(LibName,Glob('./src/*.cc'))
-Default(EnvKernel.InstallAs(installdir+'/lib/lib'+LibName+".so",execute))
+Default(EnvKernel.InstallAs(installDir+'/lib/lib'+LibName+".so",execute))
 
 
