@@ -20,6 +20,28 @@
 using namespace DmpParameter::Bgo;
 
 //------------------------------------------------------------------------------
+Bool_t DmpRdcManager::SetConnectorBgo(){
+  if (fPhase == kBT2012) {
+    return SetConnectorBgo_BT2012();
+  } else if (fPhase == kCT2013) {
+    return SetConnectorBgo_CT2013();
+  } else {
+    return SetConnectorBgo_Final();
+  }
+}
+
+//------------------------------------------------------------------------------
+Bool_t DmpRdcManager::ConversionBgo(){
+  if (fPhase == kBT2012) {
+    return ConversionBgo_BT2012();
+  } else if (fPhase == kCT2013) {
+    return ConversionBgo_CT2013();
+  } else {
+    return ConversionBgo_Final();
+  }
+}
+
+//------------------------------------------------------------------------------
 Bool_t DmpRdcManager::SetConnectorBgo_BT2012(){
   std::cout<<"\nSetup connector:\tBgo"<<std::endl;
   std::cout<<"-----------------------"<<std::endl;
@@ -32,9 +54,9 @@ Bool_t DmpRdcManager::SetConnectorBgo_BT2012(){
   for(Short_t l=0;l<BT2012::kPlaneNb*2;++l){
     LID = l;
     sprintf(fileName,"Layer_%d.cnct",l);
-    ifstream cnctFile(fConnectorPath+"/Bgo/"+fileName);
+    ifstream cnctFile(fConnectorPath+"/BT2012/Bgo/"+fileName);
     if (!cnctFile.good()) {
-      std::cerr<<"Error: DmpRdcManager::SetConnectorBgo():\tRead "<<fileName<<"\tfailed..."<<std::endl;
+      std::cerr<<"Error: DmpRdcManager::SetConnectorBgo_BT2012():\tRead "<<fileName<<"\tfailed..."<<std::endl;
       return false;
     } else {
       std::cout<<"\t"<<fileName;
@@ -71,7 +93,7 @@ std::cerr<<"\t\t-->Bgo from "<<std::dec<<fHexData->tellg();
   static Short_t nc=0,tmp=0;     // for loop, define as static at here to save time
 
   fBgo->Reset();
-  for (feeCount=0;feeCount<kPlaneNb;++feeCount) {
+  for (feeCount=0;feeCount<BT2012::kPlaneNb;++feeCount) {
     tmp=0;
     fHexData->read((char*)(&tmp),1);
     if (tmp!=0xeb) {
@@ -139,5 +161,4 @@ std::cerr<<"\tto "<<std::dec<<fHexData->tellg()<<std::endl;
 
   return true;
 }
-
 

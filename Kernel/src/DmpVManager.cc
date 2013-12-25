@@ -19,6 +19,9 @@
 ClassImp(DmpVManager)
 
 //------------------------------------------------------------------------------
+DmpVManager::DmpEPhase  DmpVManager::fPhase=kBT2012;
+
+//------------------------------------------------------------------------------
 DmpVManager::DmpVManager()
  :fInDataPath("./"),
   fOutDataPath("./"),
@@ -26,6 +29,17 @@ DmpVManager::DmpVManager()
 {
   fHeader = new DmpEvtHeader();
   DmpVEvtSubDet::SetEventHeader(fHeader);
+
+  std::string  ph;
+  std::cout<<"\nWhich phase {kBT2012|kCT2013|kFinal}?\t";
+  std::cin>>ph;
+  if (ph=="kBT2012") {
+    fPhase=kBT2012;
+  } else if (ph=="kCT2013") {
+    fPhase=kBT2012;
+  } else{
+    fPhase=kFinal;
+  }
 }
 
 //------------------------------------------------------------------------------

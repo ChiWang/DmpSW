@@ -34,7 +34,7 @@ class DmpEvtBgoRaw : public DmpVEvtSubDet{
   ~DmpEvtBgoRaw();
   void  Reset();
   void  PrintEvent() const;
-  void  PrintEvent(Short_t layerID,Short_t barID,Short_t sideID,Short_t dyID);
+  double PrintSignal(Short_t layerID,Short_t barID,Short_t sideID,Short_t dyID);
   void  SetSignal(Int_t LBSD_ID,Double_t adc);
 
  private:

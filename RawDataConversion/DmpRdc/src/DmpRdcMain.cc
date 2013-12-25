@@ -38,7 +38,7 @@ int main(int argc, char* argv[]){
   DmpRdcManager* RdcMan = DmpRdcManager::GetInstance();
   if ( ! RdcMan->SetConnectorPsd() ) return 1;
   if ( ! RdcMan->SetConnectorStk() ) return 1;
-  if ( ! RdcMan->SetConnectorBgo_BT2012() ) return 1;
+  if ( ! RdcMan->SetConnectorBgo() ) return 1;
   if ( ! RdcMan->SetConnectorNud() ) return 1;
 
   string note;

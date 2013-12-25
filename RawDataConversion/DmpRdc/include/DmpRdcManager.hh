@@ -54,18 +54,22 @@ class DmpRdcManager : public DmpVManager{
  public:
   Bool_t    SetConnectorPsd();
   Bool_t    SetConnectorStk();
-  Bool_t    SetConnectorBgo(){return true;}
-  Bool_t    SetConnectorBgo_BT2012();
-  Bool_t    SetConnectorBgo_CT2013(){return true;}
+  Bool_t    SetConnectorBgo();
   Bool_t    SetConnectorNud();
 
   Bool_t    ConversionHeader();
   Bool_t    ConversionPsd();
   Bool_t    ConversionStk();
-  Bool_t    ConversionBgo(){return true;}
-  Bool_t    ConversionBgo_BT2012();
-  Bool_t    ConversionBgo_CT2013(){return true;}
+  Bool_t    ConversionBgo();
   Bool_t    ConversionNud();
+
+ private:
+  Bool_t    SetConnectorBgo_BT2012();
+  Bool_t    ConversionBgo_BT2012();
+  Bool_t    SetConnectorBgo_CT2013(){return true;}
+  Bool_t    ConversionBgo_CT2013(){return true;}
+  Bool_t    SetConnectorBgo_Final(){return true;}
+  Bool_t    ConversionBgo_Final(){return true;}
 
  private:
   DmpEvtPsdRaw  *fPsd;

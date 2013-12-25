@@ -6,7 +6,7 @@
  *
  *---------------------------------------------------------------------
  *   History:
- *                           Last update:  22/12/2013   20:18:07
+ *                           Last update:  26/12/2013   03:41:24
 =====================================================================*/
 
 #ifndef DmpVManager_H
@@ -28,7 +28,14 @@ class DmpVManager : public TObject{
  *
  *
 */
+
  public:
+  enum DmpEPhase {
+    kBT2012,
+    kCT2013,
+    kFinal,
+  };
+
   DmpVManager();
   virtual ~DmpVManager();
   virtual Bool_t Core()=0;
@@ -38,12 +45,15 @@ class DmpVManager : public TObject{
   void  SetDataName(TString name)   {fDataName = name;}
   TString GetInDataPath() const     {return fInDataPath;}
   TString GetOutDataPath() const    {return fOutDataPath;}
+  static void SetPhase(DmpEPhase p) {fPhase=p;}
+  static DmpEPhase  GetPhase()      {return fPhase;}
 
  protected:
   TString       fInDataPath;
   TString       fOutDataPath;
   TString       fDataName;
   DmpEvtHeader  *fHeader;
+  static DmpEPhase fPhase;
 
   ClassDef(DmpVManager,0)
 

@@ -130,8 +130,8 @@ These directories (or link) below are in "/prefix"
 
 4.  share (common files)
 
-        Geometry                        // a directory store all GDML files
-        Connector                       // FEE <--> Detector connection files
+        geometry                        // a directory store all GDML files
+        connector                       // FEE <--> Detector connection files
         example/DmpRdcInput.infor       // example of the input file for bantch mode of dmpRdc
         example/analysis                // analysis example. How to use distribuition data to analysis
 

@@ -10,6 +10,9 @@
 =====================================================================*/
 
 #include <iostream>
+#ifdef Dmp_RELEASE
+#include <stdlib.h>
+#endif
 
 #include "TFile.h"
 #include "TTree.h"
@@ -27,10 +30,10 @@ ClassImp(DmpRdcManager)
 DmpRdcManager* DmpRdcManager::fInstance = 0;
 //------------------------------------------------------------------------------
 #ifdef Dmp_DEBUG
-TString DmpRdcManager::fConnectorPath="./share/Connector/TestBeam2012";
+TString DmpRdcManager::fConnectorPath="./share/connector";
 #endif
 #ifdef Dmp_RELEASE
-TString DmpRdcManager::fConnectorPath="Absolute path of /prefix/share/connector";
+TString DmpRdcManager::fConnectorPath=(TString)getenv("DMPOSSYS")+"/share/connector";
 #endif
 
 //------------------------------------------------------------------------------
@@ -76,15 +79,18 @@ Bool_t DmpRdcManager::Core(){
     if ( !ConversionHeader() ) continue;
     if ( !ConversionPsd() ) continue;
     if ( !ConversionStk() ) continue;
-    if ( !ConversionBgo_BT2012() ) continue;
+    if ( !ConversionBgo() ) continue;
     if ( !ConversionNud() ) continue;
-if (nEvt == 1) fHeader->ShowTime(0);
+
+#ifdef Dmp_DEBUG
+if (nEvt == 0) fHeader->ShowTime(0);
+#endif
 
     if (TriggerMatch()) {
       fHeader->CountEvent();
       outTree->Fill();
 #ifdef Dmp_DEBUG
-std::cout<<"\tFill event "<<std::dec<<fHeader->GetEventID()<<std::endl;
+if (nEvt%1000==0) std::cout<<"\tFill event "<<std::dec<<fHeader->GetEventID()<<std::endl;
 #endif
     } else {
       continue;

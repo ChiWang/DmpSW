@@ -23,6 +23,7 @@ Dictionary_*
 
 # test directory
 *test*
+*Test*
 
 # vim .swp; emacs
 *.swp
