@@ -19,7 +19,7 @@
 #
 #---------------------------------------------------------------------
 #   History:
-#                           Last update:  13/12/2013   12:26:45
+#                           Last update:  26/12/2013   11:23:46
 #=====================================================================
 
 import os
@@ -72,6 +72,13 @@ for key in ['Psd','Stk','Bgo','Nud']:
 
 EnvRdc.Prepend(LIBS=['DmpCore','DmpEvent'])
 EnvRdc.Prepend(LIBPATH=[P1Path,P2Path])
+
+#   install share
+Default(Command(installDir+'/share/DmpRdcInput.infor','./share/DmpRdcInput.infor',Copy("$TARGET","$SOURCE")))
+cnctDir=installDir+"/share/connector"
+if not os.path.exists(cnctDir):
+    import shutil
+    shutil.copytree("./share/connector",cnctDir)
 
 #   main build
 execute=EnvRdc.Program(ExeName,Glob('./*/src/*.cc'))

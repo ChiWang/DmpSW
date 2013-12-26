@@ -60,7 +60,12 @@ Install SCons
 
 Installation
 
-    just execute "scons" at current directory. Then, DMPOS will ask you where to install it, the default prefix=/usr/local
+    1.  run pre-install.sh, do:
+        bash pre-install.sh
+
+    2.  install, execute "scons" at current directory
+
+    Then, DMPOS will ask you where to install it, the default prefix=/usr/local
 
 Set Environment
 

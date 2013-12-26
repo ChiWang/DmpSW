@@ -97,7 +97,7 @@ if (nEvt%1000==0) std::cout<<"\tFill event "<<std::dec<<fHeader->GetEventID()<<s
     }
   }
 
-  fDataName.ReplaceAll(".dat","-raw.root");
+  fDataName.ReplaceAll(".dat","_raw.root");
   TFile *outRootFile = new TFile(fOutDataPath+fDataName,"RECREATE");
   outTree->Write();
   outRootFile->Close();

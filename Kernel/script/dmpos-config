@@ -17,14 +17,8 @@
 #   set version before release  *********
 version=1.0.0
 
-#   check path
-PWD=`pwd`
-if [[ ! "$PWD" =~ "bin" ]];then
-  echo "$0 must in $DMPOSSYS/bin"
-  exit
-else
-  prefix=${PWD%"/bin"}
-fi
+
+prefix=$DMPOSSYS
 
 #   list all libraries of DMPOS
 libs=""
