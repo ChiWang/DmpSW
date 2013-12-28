@@ -24,8 +24,6 @@
 #include "DmpEvtBgoRaw.hh"
 #include "DmpEvtNudRaw.hh"
 
-ClassImp(DmpRdcManager)
-
 //------------------------------------------------------------------------------
 DmpRdcManager* DmpRdcManager::fInstance = 0;
 //------------------------------------------------------------------------------
@@ -111,10 +109,6 @@ if (nEvt%1000==0) std::cout<<"\tFill event "<<std::dec<<fHeader->GetEventID()<<s
 
 //------------------------------------------------------------------------------
 DmpRdcManager::DmpRdcManager()
- :fPsd(0),
-  fStk(0),
-  fBgo(0),
-  fNud(0)
 {
   fPsd = new DmpEvtPsdRaw();
   fStk = new DmpEvtStkRaw();

@@ -16,8 +16,6 @@
 #include "DmpEvtHeader.hh"
 #include "DmpVEvtSubDet.hh"
 
-ClassImp(DmpVManager)
-
 //------------------------------------------------------------------------------
 DmpVManager::DmpEPhase  DmpVManager::fPhase=kBT2012;
 
@@ -64,5 +62,10 @@ void DmpVManager::SetOutDataPath(TString path){
     fOutDataPath = path + "/";
   }
   gSystem->MakeDirectory(fOutDataPath);
+}
+
+//------------------------------------------------------------------------------
+Int_t DmpVManager::GetDynodeIDBgo(Short_t L,Short_t B,Short_t S,Short_t D){
+  return L*10000+B*100+S*10+D;
 }
 

@@ -1,5 +1,5 @@
 /*=====================================================================
- *   File:   DmpRdcManagerMain.cc
+ *   File:   DmpRdcMain.cc
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
  *---------------------------------------------------------------------
  *   Description:

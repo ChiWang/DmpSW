@@ -34,15 +34,12 @@ class DmpEvtBgoRaw : public DmpVEvtSubDet{
   ~DmpEvtBgoRaw();
   void  Reset();
   void  PrintEvent() const;
-  double PrintSignal(Short_t layerID,Short_t barID,Short_t sideID,Short_t dyID);
+  double GetSignal(Int_t LBSDID);
   void  SetSignal(Int_t LBSD_ID,Double_t adc);
 
  private:
   std::vector<int>      fLBSDCollection;    // LayerID*10000 + BarID*100 + SideID*10 +DyID = LBSD   (must use vector<int> or vector<double>)
   std::vector<double>   fADCCollection;
-
- private:
-  Int_t CreateLBSDID(Short_t Layer,Short_t Bar,Short_t Side,Short_t Dy);
 
   ClassDef(DmpEvtBgoRaw,1)
 

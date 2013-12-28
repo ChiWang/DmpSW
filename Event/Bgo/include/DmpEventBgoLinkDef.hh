@@ -19,6 +19,7 @@
 #pragma link C++ class DmpEvtBgoHit+;
 #pragma link C++ class DmpEvtBgoCluster+;
 #pragma link C++ class DmpEvtBgoShower+;
+#pragma link C++ class DmpRecordBgoPed+;
 
 #endif
 

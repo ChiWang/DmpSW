@@ -1,17 +1,13 @@
-/*=============================================================================
-#       FileName :          DmpCalL0Bgo.cc
-#       Version  :          0.0.1
-#       Author   :          USTC    (chiwang@mail.ustc.edu.cn)
-#       Time     :          2013-10-18   15:07:46
-#
-#------------------------------------------------------------------------------
-#       Description  :
-#
-#
-#------------------------------------------------------------------------------
-#       History  :
-#                                          Update:  2013-10-23   01:10:46
-=============================================================================*/
+/*=====================================================================
+ *   File:   DmpPedBgo.cc
+ *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    26/12/2013
+ *---------------------------------------------------------------------
+ *   Description:
+ *
+ *---------------------------------------------------------------------
+ *   History:
+ *                           Last update:  26/12/2013   17:24:00
+=====================================================================*/
 
 #include <iostream>
 #include <fstream>
@@ -20,30 +16,16 @@
 #include "RooGlobalFunc.h"
 #include "RooDataSet.h"
 #include "RooRealVar.h"
-//#include "TH1F.h"
-#include "TPostScript.h"        // save as *.eps
-//#include "TFitResult.h"
+#include "TPostScript.h"
 
-#include "DmpCalL0Manager.hh"
-#include "DmpDcdParameterBgo.hh"
-#include "DmpEvtBgo.hh"         // include DmpDcdRunMode.hh
+#include "DmpPedManager.hh"
+#include "DmpParameterBgo.hh"
+#include "DmpEvtBgoRaw.hh"
 
-using namespace DmpDcdParameter::Bgo;
+using namespace DmpParameter::Bgo;
 
-void DmpCalL0Manager::ConstructorBgo(){
-  fEvtBgo   = new DmpEvtBgoRaw((DmpEvtVHeader*)fEvtHeader);
-
+void DmpPedManager::ConstructorBgo(){
   static Short_t  p=0, q=0, b=0, d=0;
-  fHitOrder = new Short_t*** [kPlaneNb];        // create 4 dimenstion array
-  for(p=0;p<kPlaneNb;++p){
-    fHitOrder[p] = new Short_t** [kSideNb*2];
-    for(q=0;q<kSideNb*2;++q){
-      fHitOrder[p][q] = new Short_t* [kDyNb];
-      for(d=0;d<kDyNb;++d){
-        fHitOrder[p][q][d] = new Short_t [kBarNb+kRefBarNb];
-      }
-    }
-  }
 
   static TString name ="";
   fADC = new RooRealVar**** [kPlaneNb];
@@ -64,7 +46,7 @@ void DmpCalL0Manager::ConstructorBgo(){
   }
 }
 
-void DmpCalL0Manager::DestructorBgo(){
+void DmpPedManager::DestructorBgo(){
   delete fEvtBgo;
 
   static Short_t  p=0, q=0, b=0, d=0;
@@ -101,13 +83,13 @@ void DmpCalL0Manager::DestructorBgo(){
 }
 
 
-TString DmpCalL0Manager::GetMapNameBgo(Short_t p,Short_t q,Short_t b){
+TString DmpPedManager::GetMapNameBgo(Short_t p,Short_t q,Short_t b){
   char name[20];
   sprintf (name,"Bgo-P%d_Q%d_B%d",p,q,b);
   return (TString)name;
 }
 
-void DmpCalL0Manager::FindPedetsalEeventBgo(){
+void DmpPedManager::FindPedetsalEeventBgo(){
   static std::vector<int>  *planeID    = fEvtBgo->GetEvent("PlaneID");
   static std::vector<int>  *quadrantID = fEvtBgo->GetEvent("QuadrantID");
   static std::vector<int>  *barID      = fEvtBgo->GetEvent("BarID");
@@ -138,11 +120,11 @@ std::cout<<"xxx"<<std::endl;
   }
 }
 
-void DmpCalL0Manager::UpdateHitOrder(){
+void DmpPedManager::UpdateHitOrder(){
   // fHitOrder;
 }
 
-void DmpCalL0Manager::SavePedestalBgo(){
+void DmpPedManager::SavePedestalBgo(){
   fInRootFile->Close();
   TString dataName = fDataName;
   dataName.ReplaceAll("-rec0.root","-Bgo-ped");
@@ -150,41 +132,6 @@ void DmpCalL0Manager::SavePedestalBgo(){
   ofstream outPed(fOutDataPath+dataName+".dat");
   outPed<<"#Format:\tPlane, Quadrant, Bar, Dy: mean, sigma"<<std::endl;
 
-/*
-  for (std::map<TString, TH1F*>::iterator i=fMapBgo->begin();i!=fMapBgo->end();++i) {
-    TH1F    *hist = i->second;
-    // reset range, rebin
-    Int_t min=0, max=0;
-    Int_t nBins = hist->GetXaxis()->GetNbins();
-    for (Int_t n=0;n<nBins;++n) {
-      if ( hist->GetBinContent(n)>0 ) {
-        min = n;
-        break;
-      }
-    }
-    for (Int_t n=nBins;n>0;--n) {
-      if ( hist->GetBinContent(n)>0 ) {
-        max = n;
-        if((max+5)>nBins) max = nBins;
-        break;
-      }
-    }
-    hist->GetXaxis()->SetRange(min,max);                  // use new range
-    while (hist->GetBinContent(hist->GetMaximumBin()) < hist->Integral()/15) {
-      hist->Rebin();
-    }
-    // Fit and check results
-    TFitResultPtr r = hist->Fit("gaus","LSQ");       // L: likelihood, Q: quiet mode, S: return fit results to TFitResultPtr
-    if (r->Chi2() > 0 ) {
-        std::cout<<"Warning:\t"<<hist->GetName()<<"\t\tChi2 = "<<r->Chi2()<<std::endl;
-    }
-    outPed<<r->Parameter(0)<<" "<<r->Parameter(1)<<"  ";
-    
-
-    hist->Write();
-    hist->Reset();
-  }
-*/
   outPed.close();
   ResetRootFile();
 }

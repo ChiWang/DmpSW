@@ -31,7 +31,6 @@ prefix=raw_input('Where to install DMPOS [default is "/usr/local"]: ')
 if prefix=="":
     prefix='/usr/local'
 prefix=os.path.abspath(prefix)
-Export('prefix')
 
 # invoke top1 modules' SConscript
 subScript=[]

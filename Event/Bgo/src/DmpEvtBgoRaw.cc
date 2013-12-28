@@ -48,11 +48,9 @@ void DmpEvtBgoRaw::PrintEvent() const{
 }
 
 //------------------------------------------------------------------------------
-double  DmpEvtBgoRaw::PrintSignal(Short_t layer,Short_t bar,Short_t side,Short_t dy){
-  Int_t nSignal = fADCCollection.size();
-  Int_t id = CreateLBSDID(layer,bar,side,dy);
+double  DmpEvtBgoRaw::GetSignal(Int_t id){
   Int_t iSignal=-1;
-  for (Int_t i=0; i<nSignal;++i) {
+  for (Int_t i=0; i<fADCCollection.size();++i) {
     if (fLBSDCollection[i] == id) {
       iSignal = i;
       break;
@@ -61,9 +59,6 @@ double  DmpEvtBgoRaw::PrintSignal(Short_t layer,Short_t bar,Short_t side,Short_t
   if (iSignal == -1) {
     return -2000;
   }
-  std::cout<<"--->  Bgo:\tEvent ID = "<<fHeader->GetEventID()<<std::endl;
-  std::cout<<"Layer | Bar | Side | Dy | ADC"<<std::endl;
-  std::cout<<layer<<"\t"<<bar<<"\t"<<side<<"\t"<<dy<<"\t"<<fADCCollection[iSignal]<<std::endl;
   return fADCCollection[iSignal];
 }
 
@@ -71,10 +66,5 @@ double  DmpEvtBgoRaw::PrintSignal(Short_t layer,Short_t bar,Short_t side,Short_t
 void DmpEvtBgoRaw::SetSignal(Int_t LBSD_ID,Double_t ADC){
   fLBSDCollection.push_back(LBSD_ID);
   fADCCollection.push_back(ADC);
-}
-
-//------------------------------------------------------------------------------
-Int_t DmpEvtBgoRaw::CreateLBSDID(Short_t L,Short_t B,Short_t S,Short_t D){
-  return L*10000+B*100+S*10+D;
 }
 

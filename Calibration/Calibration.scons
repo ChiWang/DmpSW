@@ -1,12 +1,10 @@
 
-# invoke *scons in top-2 directory
-print "\n\t\t--->building Calibration module\n"
-
 Import('prefix')
 
 # invoke top-2 directories' SConscript
 subScript=[]
-for key in ['CalL0_Pedestal','Psd_Special','Stk_Special','Bgo_Special','Nud_Special']:
+#for key in ['PsdSpecial','StkSpecial','BgoSpecial','NudSpecial']:
+for key in ['BgoSpecial']:
     subScript=subScript+[key+'/'+key+'.scons']
 SConscript(subScript,exports='prefix')
 

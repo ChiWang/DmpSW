@@ -23,65 +23,54 @@
 #=====================================================================
 
 import os
-EnvRdc = Environment(ENV = os.environ)
+EnvBgoPed = Environment(ENV = os.environ)
 
 #   set the programme name
-ExeName='dmpRdc'
+ExeName='dmpBgoPed'
 
 #   set debug modle.
 #    if yes, then can use gdb:  http://www.ibm.com/developerworks/cn/linux/sdk/gdb/
 if os.environ.has_key('DMPOSSYS'):
-    print "\t\tdebug mode\t re-install Raw Data Conversion\n"
+    print "\t\tdebug mode\t re-install Calibration/dmpBgoPed\n"
     installDir=os.environ['DMPOSSYS']
-    EnvRdc.Prepend(CCFLAGS = '-g')
-    EnvRdc.Append(CCFLAGS = '-DDmp_DEBUG')
+    EnvBgoPed.Prepend(CCFLAGS = '-g')
+    EnvBgoPed.Append(CCFLAGS = '-DDmp_DEBUG')
 else:
     Import('prefix')
     installDir=prefix
-    EnvRdc.Append(CCFLAGS = '-DDmp_RELEASE')
+    EnvBgoPed.Append(CCFLAGS = '-DDmp_RELEASE')
 
 #   set Geant4 environment
 if int(ARGUMENTS.get('g4',0)):
     g4sys=os.environ['G4INSTALL']
-    EnvRdc.PrependENVPath('PATH', g4sys+'/../../../bin')
-    EnvRdc.ParseConfig("geant4-config --cflags --libs")
+    EnvBgoPed.PrependENVPath('PATH', g4sys+'/../../../bin')
+    EnvBgoPed.ParseConfig("geant4-config --cflags --libs")
 
 #   set Root environment
 if int(ARGUMENTS.get('root',1)):
-    EnvRdc.ParseConfig("root-config --cflags --libs")
+    EnvBgoPed.ParseConfig("root-config --cflags --libs")
 
 #   set OpenMP
 if int(ARGUMENTS.get('omp',0)):
     ExeName=ExeName+"_omp"
-    EnvRdc.MergeFlags('-fopenmp')
+    EnvBgoPed.MergeFlags('-fopenmp')
 
 #   include
-for key in ['DmpRdc','Psd','Stk','Bgo','Nud']:
-    includeDir=key+'/include'
-    EnvRdc.Prepend(CPPPATH=[includeDir])
+EnvBgoMip.Append(CPPPATH = './include')
 
 #   Use other top-1 package
     #+  Kernel
-P1Path='../Kernel'
-EnvRdc.Prepend(CPPPATH=[P1Path+'/include'])
+P1Path='../../../Kernel'
+EnvBgoPed.Prepend(CPPPATH=[P1Path+'/include'])
     #+  Event library
-P2Path='../Event/'
-for key in ['DmpEvent','Psd','Stk','Bgo','Nud']:
-    includeDir=P2Path+key+'/include'
-    EnvRdc.Prepend(CPPPATH=[includeDir])
+P2Path='../../../Event'
+EnvBgoPed.Prepend(CPPPATH=[P2Path+'/Bgo/include'])
 
-EnvRdc.Prepend(LIBS=['DmpCore','DmpEvent'])
-EnvRdc.Prepend(LIBPATH=[P1Path,P2Path])
-
-#   install share
-Default(Command(installDir+'/share/DmpRdcInput.infor','./share/DmpRdcInput.infor',Copy("$TARGET","$SOURCE")))
-cnctDir=installDir+"/share/connector"
-if not os.path.exists(cnctDir):
-    import shutil
-    shutil.copytree("./share/connector",cnctDir)
+EnvBgoPed.Prepend(LIBS=['DmpCore','DmpEvent'])
+EnvBgoPed.Prepend(LIBPATH=[P1Path,P2Path])
 
 #   main build
-execute=EnvRdc.Program(ExeName,Glob('./*/src/*.cc'))
-Default(EnvRdc.InstallAs(installDir+'/bin/'+ExeName,execute))
+execute=EnvBgoPed.Program(ExeName,Glob('./src/*.cc'))
+Default(EnvBgoPed.InstallAs(installDir+'/bin/'+ExeName,execute))
 
 

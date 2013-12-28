@@ -59,8 +59,12 @@ if int(ARGUMENTS.get('omp',0)):
 includeDir='./include'
 EnvKernel.Prepend(CPPPATH=[includeDir])
 for file in os.listdir(includeDir):
-    if "LinkDef" not in file and "Dictionary" not in file:
-        Default(Command(installDir+'/include/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
+    Default(Command(installDir+'/include/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
+
+#   Use other top-1 package
+    #+  Event
+P1Path='../Event/DmpEvent'
+EnvKernel.Prepend(CPPPATH=[P1Path+'/include'])
 
 #   install script
 for file in os.listdir('./script'):

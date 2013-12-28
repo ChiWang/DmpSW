@@ -33,7 +33,7 @@ class DmpRdcManager : public DmpVManager{
 
 //------------------------------------------------------------------------------
  public:
-  static DmpRdcManager*    GetInstance();
+  static DmpRdcManager* GetInstance();
   static void   Clear();
   Bool_t Core();
   DmpVEvtSubDet*  GetEventPointer(TString det) const {return 0;}
@@ -82,8 +82,6 @@ class DmpRdcManager : public DmpVManager{
     //ConnectorBgo[FEEID*1000+ChannelID][LBSD_ID]
     //LBSD_ID = Layer_id*10000+Bar_id*100+Side_id*10+Dy_id
   std::map<Int_t, Int_t>  ConnectorNud;
-
-  ClassDef(DmpRdcManager,0)
 
 };
 

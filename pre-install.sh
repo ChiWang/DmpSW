@@ -10,12 +10,11 @@
 #                           Last update:  26/12/2013   13:27:40
 #=====================================================================
 
-#+  Kernel
-pushd Kernel 1>/dev/null
+#+  Event
+pushd Event/DmpEvent 1>/dev/null
   ./createDictionary
 popd 1>/dev/null
 
-#+  Event
 pushd Event/Bgo 1>/dev/null
   ./createDictionary
 popd 1>/dev/null
@@ -25,11 +24,6 @@ pushd Event/Psd 1>/dev/null
 popd 1>/dev/null
 
 pushd Event/Nud 1>/dev/null
-  ./createDictionary
-popd 1>/dev/null
-
-#+  RDC
-pushd RawDataConversion/DmpRdc 1>/dev/null
   ./createDictionary
 popd 1>/dev/null
 

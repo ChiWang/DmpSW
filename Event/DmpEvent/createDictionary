@@ -26,7 +26,7 @@
 #=====================================================================
 
 includeDir="./include"
-includeDir1="../../Kernel/include"
+includeDir1="../DmpEvent/include"
 includeDir2="xxxx"
 srcDir="./src"
 

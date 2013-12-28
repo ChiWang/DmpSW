@@ -12,13 +12,12 @@
 #ifndef DmpVManager_H
 #define DmpVManager_H
 
-#include "TObject.h"
 #include "TString.h"
 
 class DmpEvtHeader;
 class DmpVEvtSubDet;
 
-class DmpVManager : public TObject{
+class DmpVManager{
 /*
  *  DmpVManager
  *
@@ -40,6 +39,7 @@ class DmpVManager : public TObject{
   virtual ~DmpVManager();
   virtual Bool_t Core()=0;
   virtual DmpVEvtSubDet*  GetEventPointer(TString) const=0;
+
   void  SetInDataPath(TString);
   void  SetOutDataPath(TString);
   void  SetDataName(TString name)   {fDataName = name;}
@@ -47,6 +47,7 @@ class DmpVManager : public TObject{
   TString GetOutDataPath() const    {return fOutDataPath;}
   static void SetPhase(DmpEPhase p) {fPhase=p;}
   static DmpEPhase  GetPhase()      {return fPhase;}
+  Int_t GetDynodeIDBgo(Short_t Layer,Short_t Bar,Short_t Side,Short_t Dy);
 
  protected:
   TString       fInDataPath;
@@ -54,8 +55,6 @@ class DmpVManager : public TObject{
   TString       fDataName;
   DmpEvtHeader  *fHeader;
   static DmpEPhase fPhase;
-
-  ClassDef(DmpVManager,0)
 
 };
 

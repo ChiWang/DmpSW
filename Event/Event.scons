@@ -56,7 +56,7 @@ if int(ARGUMENTS.get('omp',0)):
     EnvEvt.MergeFlags('-fopenmp')
 
 #   include
-for key in ['Psd','Stk','Bgo','Nud']:
+for key in ['DmpEvent','Psd','Stk','Bgo','Nud']:
     includeDir=key+'/include'
     EnvEvt.Prepend(CPPPATH=[includeDir])
     for file in os.listdir(includeDir):

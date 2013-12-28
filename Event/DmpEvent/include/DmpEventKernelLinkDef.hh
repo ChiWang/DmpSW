@@ -16,14 +16,8 @@
 #pragma link off all functions;
 #pragma link off all namespaces;
 
-#pragma link C++ namespace DmpParameter;
-#pragma link C++ namespace DmpParameter::Psd;
-#pragma link C++ namespace DmpParameter::Stk;
-#pragma link C++ namespace DmpParameter::Bgo;
-#pragma link C++ namespace DmpParameter::Nud;
-
 #pragma link C++ class DmpEvtHeader+;
 #pragma link C++ class DmpVEvtSubDet+;
-#pragma link C++ class DmpVManager+;
+#pragma link C++ class DmpVRecord+;
 
 #endif

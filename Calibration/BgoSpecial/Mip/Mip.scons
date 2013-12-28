@@ -23,63 +23,55 @@
 #       History  :
 #                                          Update:  2013-09-20   12:42:21
 #=============================================================================
-
-print "\n\t\t--->building CalL0S Bgo Relation"
-
 import os
-EnvCalL0SBgoR = Environment(ENV = os.environ)
+EnvBgoMip = Environment(ENV = os.environ)
 
 #   set the programme name
-ExeName='dmpCalL0SBgoRel'
+ExeName='dmpBgoMip'
 
 #   set debug modle.
 #    if yes, then can use gdb:  http://www.ibm.com/developerworks/cn/linux/sdk/gdb/
-debug=ARGUMENTS.get('debug',1)
-if int(debug):
-    print "\t\t debug mode"
-    EnvCalL0SBgoR.Prepend(CCFLAGS = '-g')
-    EnvCalL0SBgoR.Append(CCFLAGS = '-DDmp_DEBUG')
-    installdir=os.environ['DMPOSSYSGit']
-    SConscript(['../../../Event/SConstruct'])    # need libDmpEvent
+if os.environ.has_key('DMPOSSYS'):
+    print "\t\tdebug mode\t re-install Calibration/dmpBgoMip\n"
+    installDir=os.environ['DMPOSSYS']
+    EnvBgoMip.Prepend(CCFLAGS = '-g')
+    EnvBgoMip.Append(CCFLAGS = '-DDmp_DEBUG')
 else:
-    EnvCalL0SBgoR.Append(CCFLAGS = '-DDmp_RELEASE')
-    Import('PREFIX')
-    installdir=PREFIX
+    Import('prefix')
+    installDir=prefix
+    EnvBgoMip.Append(CCFLAGS = '-DDmp_RELEASE')
 
 #   set Geant4 environment
 if int(ARGUMENTS.get('g4',0)):
     g4sys=os.environ['G4INSTALL']
-    EnvCalL0SBgoM.PrependENVPath('PATH', g4sys+'/../../../bin')
-    EnvCalL0SBgoR.ParseConfig("geant4-config --cflags --libs")
+    EnvBgoMip.PrependENVPath('PATH', g4sys+'/../../../bin')
+    EnvBgoMip.ParseConfig("geant4-config --cflags --libs")
 
 #   set Root environment
 if int(ARGUMENTS.get('root',1)):
-    rootsys=os.environ['ROOTSYS']
-    EnvCalL0SBgoR.PrependENVPath('PATH', rootsys+'/bin')
-    EnvCalL0SBgoR.ParseConfig("root-config --cflags --libs")
+    EnvBgoMip.ParseConfig("root-config --cflags --libs")
 
 #   set OpenMP
 if int(ARGUMENTS.get('omp',0)):
     ExeName=ExeName+"_omp"
-    EnvCalL0SBgoR.MergeFlags('-fopenmp')
+    EnvBgoMip.MergeFlags('-fopenmp')
 
 #   include
-EnvCalL0SBgoR.Append(CPPPATH = './include')
+EnvBgoMip.Append(CPPPATH = './include')
 
-#   Use other top-1 module
-    #+  DetectorCondition
-M1Path='../DetectorCondition/Parameter'
-EnvCalL0SBgoR.Prepend(CPPPATH=[M1Path+'/include'])
+#   Use other top-1 package
+    #+  Kernel
+P1Path='../../../Kernel'
+EnvBgoMip.Prepend(CPPPATH=[P1Path+'/include'])
     #+  Event library
-M2Path='../../../Event/'
-EnvCalL0SBgoR.Prepend(LIBS='DmpEvent')
-EnvCalL0SBgoR.Prepend(LIBPATH=M2Path)
-for key in ['DmpEvent','Header','Psd','Stk','Bgo','Nud']:
-    includeDir=M2Path+key+'/include'
-    EnvCalL0SBgoR.Prepend(CPPPATH=[includeDir])
+P2Path='../../../Event'
+EnvBgoMip.Prepend(CPPPATH=[P2Path+'/Bgo/include'])
+
+EnvBgoMip.Prepend(LIBS=['DmpCore','DmpEvent'])
+EnvBgoMip.Prepend(LIBPATH=[P1Path,P2Path])
 
 #   main build
-execute=EnvCalL0SBgoR.Program(ExeName,Glob('./src/*.cc'))
-Default(EnvCalL0SBgoR.InstallAs(installdir+'/bin/'+ExeName,execute))
+execute=EnvBgoMip.Program(ExeName,Glob('./src/*.cc'))
+Default(EnvBgoMip.InstallAs(installdir+'/bin/'+ExeName,execute))
 
 
