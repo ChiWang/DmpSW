@@ -1,17 +1,25 @@
-
-#   shared files, only need to copy them into software
-
-print "\n\t\t--->building Geometry module\n"
+#=====================================================================
+#   File:   Geometry.scons
+#   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    23/01/2014
+#---------------------------------------------------------------------
+#   Description:
+#       This file is invoked by ../SConstruct
+#
+#---------------------------------------------------------------------
+#   History:
+#                           Last update:  23/01/2014   01:08:04
+#=====================================================================
 
 import os
+Import("*")     # import all vars from SConstruct
+print "\t\t\t invoke %s\n" % os.path.abspath("./")
+#--------------------------------------------------------------------
 
-Import('prefix')
-installdir=prefix
-
-#  copy Parameter/include/* into /prefix/include/
-includeDir='./'
-for file in os.listdir(includeDir):
-    if ( ".gdml" in file):
-        Default(Command(prefix+'/share/geometry/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
-
+# install share
+#--------------------------------------------------------------------
+shareDir=prefix+'/share/Geometry'
+if not os.path.exists(shareDir):
+    import shutil
+    shutil.copytree("../Geometry",shareDir)
+    os.remove(shareDir+"/Geometry.scons")
 

@@ -48,7 +48,7 @@ if os.environ.has_key('DMPOSSYS'):
     prefix=os.environ['DMPOSSYS']
 else:
     UsrPrefix=raw_input('Where to install DMPOS [default is "/usr/local"]: ')
-    if UsrPrefix != "":
+    if UsrPrefix is None:
         prefix=UsrPrefix
 prefix=os.path.abspath(prefix)
 subDetectors=['Psd','Stk','Bgo','Nud']
@@ -62,7 +62,7 @@ else:
 
 # invoke *.scons file of top-1 packages
 #--------------------------------------------------------------------
-pkgList='Kernel,Event,RawDataConversion,Analysis'
+pkgList='Kernel,Event,RawDataConversion,Analysis,Geometry'
     #'Calibration,Generation,Geometry,Reconstruction,Simulation,Visualization'
 pkgList=ARGUMENTS.get('package',pkgList)
 pkgList=pkgList.split(',')
@@ -71,4 +71,5 @@ for key in pkgList:
     subScript=subScript+[key+'/'+key+'.scons']
 
 SConscript(subScript,exports=['envBase','prefix','subDetectors'])
+
 

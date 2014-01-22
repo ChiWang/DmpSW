@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Declare the GDML Schema -->
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+
+<!--
+     File name: DAMPE.gdml
+     version:0.1
+     Author:weiyf(weiyf@mail.ustc.edu.cn)
+     Time:2013.10.25
+     Description:This GDML file is DAMPE detector geometry description 
+-->
+
+
+ <define>
+  
+   <!-- World   -->
+   <constant name="world_size"      value="4000"         />    <!-- mm -->
+ 
+   <!-- offests -->   
+   
+   <constant name="psd_z_offset"    value="-35 - 279"    />    <!-- mm -->
+   <constant name="stk_z_offset"    value="-35 - 80.75"  />    <!-- mm -->
+   <constant name="bgo_z_offset"    value="-35 + 289.75" />    <!-- mm -->
+   
+   <constant name="sat_adjust_x_position" value="300"/>        <!-- mm -->   
+   <constant name="sat_adjust_y_position" value="0"/>          <!-- mm -->
+   <constant name="sat_adjust_z_position" value="0"/>          <!-- mm -->
+   
+   <constant name="nud_adjust_x_position" value="-38.17839000000001"/>  <!-- mm -->
+   <constant name="nud_adjust_y_position" value="28.49135000000001"/>   <!-- mm -->
+   <constant name="nud_adjust_z_position" value="595.0"/>               <!-- mm -->
+   
+ </define>
+
+
+ <materials>
+
+  <!--Al-->
+  <material name="Al" Z="13.0" >
+   <D value="2.70" />
+   <atom value="26.98" />
+  </material>
+
+  <!--Vacuum-->
+  <element name="videRef" formula="VACUUM" Z="1">
+   <atom value="1."/>
+  </element>
+  <material formula=" " name="Vacuum">
+   <D value="1.e-25" unit="g/cm3" />
+   <fraction n="1.0" ref="videRef" />
+  </material>
+
+ </materials>
+
+
+ <solids>
+  <!--World:110600*110600*98065mm-->
+  <box lunit="mm" name="World_box"   x="world_size" y="world_size" z="world_size" />
+  <!--<box lunit="mm" name="Payload_box" x="2000" y="2000" z="2000" />-->  
+ </solids>
+
+
+ <structure>
+  
+  <volume name="World" >
+   <materialref ref="Vacuum" />
+   <solidref ref="World_box" />     
+    
+    
+    <!-- SAT -->
+    <physvol>
+      <file name="./Geometry/SAT/kx-b1.gdml"/> 
+      <position name="sat_adjust_position1" x="sat_adjust_x_position" y="sat_adjust_y_position" z="sat_adjust_z_position" unit="mm"/>
+    </physvol>         
+    <physvol>       
+      <file name="./Geometry/SAT/kx-b2.gdml"/>  
+      <position name="sat_adjust_position2" x="sat_adjust_x_position" y="sat_adjust_y_position" z="sat_adjust_z_position" unit="mm"/> 
+    </physvol>
+      
+      
+    <!-- NUD -->    
+    <physvol>
+      <file name="./Geometry/NUD/EJ25401.gdml"/> 
+      <position name="EJ25401_pos" x="nud_adjust_x_position" y="nud_adjust_y_position" z="nud_adjust_z_position" unit="mm"/>
+    </physvol>   
+    <physvol>       
+      <file name="./Geometry/NUD/EJ25402.gdml"/>  
+      <position name="EJ25402_pos" x="nud_adjust_x_position" y="nud_adjust_y_position" z="nud_adjust_z_position" unit="mm"/>
+    </physvol>  
+    <physvol>       
+      <file name="./Geometry/NUD/EJ25403.gdml"/>              
+      <position name="EJ25403_pos" x="nud_adjust_x_position" y="nud_adjust_y_position" z="nud_adjust_z_position" unit="mm"/>
+    </physvol>        
+    <physvol>       
+      <file name="./Geometry/NUD/EJ25404.gdml"/>             
+      <position name="EJ25404_pos" x="nud_adjust_x_position" y="nud_adjust_y_position" z="nud_adjust_z_position" unit="mm"/>
+    </physvol>    
+    <physvol>       
+      <file name="./Geometry/NUD/layer01.gdml"/>
+      <position name="layer01_pos" x="nud_adjust_x_position" y="nud_adjust_y_position" z="nud_adjust_z_position" unit="mm"/>
+    </physvol>
+    <physvol>       
+      <file name="./Geometry/NUD/layer02.gdml"/>
+      <position name="layer02_pos" x="nud_adjust_x_position" y="nud_adjust_y_position" z="nud_adjust_z_position" unit="mm"/>
+    </physvol>
+      
+      
+    <!-- BGO --> 
+    <physvol>
+     <file name="./Geometry/BGO.gdml" />
+     <position name="bgo_pos" unit="mm" x="0" y="0" z="bgo_z_offset" />     
+    </physvol>  
+    
+    
+    <!-- STK -->    
+    <physvol>
+     <file name="./Geometry/STK.gdml" />
+     <position name="stk_pos" unit="mm" x="0" y="0" z="stk_z_offset" />     
+    </physvol>
+    
+    
+    <!-- PSD -->
+    <physvol>
+     <file name="./Geometry/PSD.gdml" />
+     <position name="psd_pos" unit="mm" x="0" y="0" z="psd_z_offset" />     
+    </physvol>
+    
+    
+  </volume>
+ </structure>
+
+
+ <setup name="Default" version="1.0" >
+  <world ref="World" />
+ </setup>
+
+
+</gdml>

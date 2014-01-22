@@ -63,7 +63,12 @@ Installation
     1.  run pre-install.sh, do:
         bash pre-install.sh
 
-    2.  install, execute "scons" at current directory
+    2.  install whole DMPOS,
+        execute "scons" at current directory
+
+    3.  install some certain packges of DMPOS,
+        execute "scons package=package_1,package_2,package_3" at current directory
+
 
     Then, DMPOS will ask you where to install it, the default prefix=/usr/local
 
@@ -107,6 +112,14 @@ These directories (or link) below are in "/prefix"
 *   lib
 *   include
 *   share
+
+    Connector
+    Geometry
+    TestRelease
+        RawDataConversion
+        Simulation
+    Analysis
+
 *   log
 
 1.  bin (executable files)

@@ -32,7 +32,7 @@ P1Path='../Kernel'
 env.Prepend(CPPPATH=[P1Path+'/include'])
     #+  Event
 P2Path='../Event'
-env.Prepend(CPPPATH=P2Path+'/DmpRdc/include')
+env.Prepend(CPPPATH=P2Path+'/DmpEvent/include')
 for key in subDetectors:
     includeDir=P2Path+"/"+key+'/include'
     env.Prepend(CPPPATH=[includeDir])
