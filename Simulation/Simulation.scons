@@ -1,89 +1,74 @@
-#=============================================================================
-#       FileName :          Simulation.scons
-#       Version  :          0.0.1
-#       Author   :          Chi Wang    (chiwang@mail.ustc.edu.cn)
-#       Time     :          2013-10-08   11:48:54
-
-#------------------------------------------------------------------------------
-#       Description  :
-#         *** Default degub=0, scons debug=1 will create in debug mode
-#               means: create all thing in current directory instead of install into /prefix
+#=====================================================================
+#   File:   Simulation.scons
+#   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    22/01/2014
+#---------------------------------------------------------------------
+#   Description:
+#       This file is invoked by ../SConstruct
 #
-#           Using Root
-#               ARGUMENTS.get('root',value):        set default use(value=1) root;
-#               if execute "scons root=0"   will not use root
-#           Using Geant4
-#               ARGUMENTS.get('g4',value):          set default use(value=1) geant4;
-#               if execute "scons g4=0"   will not use geant4
-#           Using OpenMP
-#               ARGUMENTS.get('omp',value):         set default use(value=1) OpenMP;
-#               if execute "scons omp=0"   will not use OpenMP
-#
-#------------------------------------------------------------------------------
-#       History  :
-#                                          Update:  2013-10-08   11:48:54
-#=============================================================================
-
-print "\n\t\t--->building Simulation module\n"
+#---------------------------------------------------------------------
+#   History:
+#                           Last update:  22/01/2014   23:14:28
+#=====================================================================
 
 import os
 EnvSim = Environment(ENV = os.environ)
 
 #   set the programme name
-ExeName='dmpSim'
+target='dmpSim'
 
 #   set debug modle.
 #    if yes, then can use gdb:  http://www.ibm.com/developerworks/cn/linux/sdk/gdb/
-debug=ARGUMENTS.get('debug',0)
-if int(debug):
-    print "\t\t debug mode"
+if os.environ.has_key('DMPOSSYS'):
+    print "\t\tdebug mode\t re-install Simulation\n"
+    installDir=os.environ['DMPOSSYS']
     EnvSim.Prepend(CCFLAGS = '-g')
     EnvSim.Append(CCFLAGS = '-DDmp_DEBUG')
-    installdir=os.environ['DMPOSSYSGit']
-    SConscript(['../Event/SConstruct'])    # need libDmpEvent
 else:
-    EnvSim.Append(CCFLAGS = '-DDmp_RELEASE')
     Import('prefix')
-    installdir=prefix
+    installDir=prefix
+    EnvSim.Append(CCFLAGS = '-DDmp_RELEASE')
 
 #   set Geant4 environment
 if int(ARGUMENTS.get('g4',1)):
     g4sys=os.environ['G4INSTALL']
-    EnvEvt.PrependENVPath('PATH', g4sys+'/../../../bin')
+    EnvSim.PrependENVPath('PATH', g4sys+'/../../../bin')
     EnvSim.ParseConfig("geant4-config --cflags --libs")
-    #EnvSim.Prepend(CPPFLAGS = '-DG4VIS_USE')       # set our -DRelease or -DDebug
-    #EnvSim.Append(CPPFLAGS = ' -DG4UI_USE')
-    #EnvSim.Append(CPPFLAGS = ' -DG4VIS_USE_OPENGLX')
 
 #   set Root environment
 if int(ARGUMENTS.get('root',1)):
-    rootsys=os.environ['ROOTSYS']
-    EnvSim.PrependENVPath('PATH', rootsys+'/bin')
     EnvSim.ParseConfig("root-config --cflags --libs")
 
 #   set OpenMP
 if int(ARGUMENTS.get('omp',0)):
-    ExeName=ExeName+"_omp"
+    target=target+"_omp"
     EnvSim.MergeFlags('-fopenmp')
 
 #   include
-for key in ['DmpSim','Psd','Stk','Bgo','Nud','Trigger']:
+for key in ['DmpSim','Psd','Stk','Bgo','Nud']:
     includeDir=key+'/include'
     EnvSim.Prepend(CPPPATH=[includeDir])
 
-#   Use other top-1 module
-    #+  DetectorCondition
-M1Path='../DetectorCondition/Parameter'
-EnvSim.Prepend(CPPPATH=[M1Path+'/include'])
+#   Use other top-1 package
+    #+  Kernel
+P1Path='../Kernel'
+EnvSim.Prepend(CPPPATH=[P1Path+'/include'])
     #+  Event library
-M2Path='../Event/'
-EnvSim.Prepend(LIBS='DmpEvent')
-EnvSim.Prepend(LIBPATH=M2Path)
-for key in ['DmpEvent','Header','Psd','Stk','Bgo','Nud']:
-    includeDir=M2Path+key+'/include'
+P2Path='../Event/'
+for key in ['DmpEvent','Psd','Stk','Bgo','Nud']:
+    includeDir=P2Path+key+'/include'
     EnvSim.Prepend(CPPPATH=[includeDir])
 
+EnvSim.Prepend(LIBS=['DmpCore','DmpEvent'])
+EnvSim.Prepend(LIBPATH=[P1Path,P2Path])
+
+#   install share
+shareDir=installDir+"/share/connector"
+if not os.path.exists(shareDir):
+    import shutil
+    shutil.copytree("./share/connector",shareDir)
+
 #   main build
-execute=EnvSim.Program(ExeName,Glob('./*/src/*.cc'))
-Default(EnvSim.InstallAs(installdir+'/bin/'+ExeName,execute))
+goal=EnvSim.Program(target,Glob('./*/src/*.cc'))
+Default(EnvSim.InstallAs(installDir+'/bin/'+target,goal))
+
 

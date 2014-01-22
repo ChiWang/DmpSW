@@ -1,75 +1,46 @@
 #=====================================================================
-#   File:   SConstruct
+#   File:   Evnet.scons
 #   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    24/07/2013
 #---------------------------------------------------------------------
 #   Description:
-#
-#   1.  Root
-#       ARGUMENTS.get('root',value):
-#           value = 1,      use root
-#           scons root=0,   not use
-#   2.  Geant4
-#         ARGUMENTS.get('g4',value):
-#           value = 0,      not use geant4
-#           scons g4=1,     use geant4
-#   3.  OpenMP
-#         ARGUMENTS.get('omp',value):
-#           value = 0,      not use OpenMP
-#           scons omp=1,    use it
+#       This file is invoked by ../SConstruct
 #
 #---------------------------------------------------------------------
 #   History:
-#                           Last update:  13/12/2013   12:22:48
+#                           Last update:  22/01/2014   22:50:59
 #=====================================================================
 
 import os
-EnvEvt = Environment(ENV = os.environ)
+Import("*")     # import all vars from SConstruct
+print "\t\t\t invoke %s\n" % os.path.abspath("./")
+#--------------------------------------------------------------------
 
-#   set the programme name
-LibName='DmpEvent'
+target='DmpEvent'
+env = envBase.Clone()
 
-#   set debug modle.
-#    if yes, then can use gdb:  http://www.ibm.com/developerworks/cn/linux/sdk/gdb/
-if os.environ.has_key('DMPOSSYS'):
-    print "\t\tdebug mode\t re-install Event\n"
-    installDir=os.environ['DMPOSSYS']
-    EnvEvt.Prepend(CCFLAGS = '-g')
-    EnvEvt.Append(CCFLAGS = '-DDmp_DEBUG')
-else:
-    Import('prefix')
-    installDir=prefix
-    EnvEvt.Append(CCFLAGS = '-DDmp_RELEASE')
-
-#   set Geant4 environment
-if int(ARGUMENTS.get('g4',0)):
-    g4sys=os.environ['G4INSTALL']
-    EnvEvt.PrependENVPath('PATH', g4sys+'/../../../bin')
-    EnvEvt.ParseConfig("geant4-config --cflags --libs")
-
-#   set Root environment
-if int(ARGUMENTS.get('root',1)):
-    EnvEvt.ParseConfig("root-config --cflags --libs")
-
-#   set OpenMP
-if int(ARGUMENTS.get('omp',0)):
-    LibName=LibName+"_omp"
-    EnvEvt.MergeFlags('-fopenmp')
-
-#   include
-for key in ['DmpEvent','Psd','Stk','Bgo','Nud']:
+# include
+subDetectors.append('DmpEvent')
+for key in subDetectors:
     includeDir=key+'/include'
-    EnvEvt.Prepend(CPPPATH=[includeDir])
-    for file in os.listdir(includeDir):
-        if "LinkDef" not in file and "Dictionary" not in file:
-            Default(Command(installDir+'/include/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
+    env.Prepend(CPPPATH=[includeDir])
 
-#   Use other top-1 package
+# Use other top-1 package
+#--------------------------------------------------------------------
     #+  Kernel
 P1Path='../Kernel'
-EnvEvt.Prepend(CPPPATH=[P1Path+'/include'])
+env.Prepend(CPPPATH=[P1Path+'/include'])
 
-#   main build
-execute=EnvEvt.SharedLibrary(LibName,Glob('./*/src/*.cc'))
-Default(EnvEvt.InstallAs(installDir+"/lib/lib"+LibName+".so",execute))
+# install share
+#--------------------------------------------------------------------
+for key in subDetectors:
+    includeDir=key+'/include'
+    for file in os.listdir(includeDir):
+        if "LinkDef" not in file and "Dictionary" not in file:
+            Default(Command(prefix+'/include/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
+
+# main build
+#--------------------------------------------------------------------
+goal=env.SharedLibrary(target,Glob('./*/src/*.cc'))
+Default(env.InstallAs(prefix+"/lib/lib"+target+".so",goal))
 
 

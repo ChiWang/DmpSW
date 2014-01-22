@@ -1,87 +1,56 @@
 #=====================================================================
-#   File:   SConstruct
+#   File:   RawDataConversion.scons
 #   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
 #---------------------------------------------------------------------
 #   Description:
-#
-#   1.  Root
-#       ARGUMENTS.get('root',value):
-#           value = 1,      use root
-#           scons root=0,   not use
-#   2.  Geant4
-#         ARGUMENTS.get('g4',value):
-#           value = 0,      not use geant4
-#           scons g4=1,     use geant4
-#   3.  OpenMP
-#         ARGUMENTS.get('omp',value):
-#           value = 0,      not use OpenMP
-#           scons omp=1,    use it
+#       This file is invoked by ../SConstruct
 #
 #---------------------------------------------------------------------
 #   History:
-#                           Last update:  26/12/2013   11:23:46
+#                           Last update:  22/01/2014   22:35:01
 #=====================================================================
 
+
 import os
-EnvRdc = Environment(ENV = os.environ)
+Import("*")     # import all vars from SConstruct
+print "\t\t\t invoke %s\n" % os.path.abspath("./")
+#--------------------------------------------------------------------
 
-#   set the programme name
-ExeName='dmpRdc'
+target='dmpRdc'
+env = envBase.Clone()
 
-#   set debug modle.
-#    if yes, then can use gdb:  http://www.ibm.com/developerworks/cn/linux/sdk/gdb/
-if os.environ.has_key('DMPOSSYS'):
-    print "\t\tdebug mode\t re-install Raw Data Conversion\n"
-    installDir=os.environ['DMPOSSYS']
-    EnvRdc.Prepend(CCFLAGS = '-g')
-    EnvRdc.Append(CCFLAGS = '-DDmp_DEBUG')
-else:
-    Import('prefix')
-    installDir=prefix
-    EnvRdc.Append(CCFLAGS = '-DDmp_RELEASE')
-
-#   set Geant4 environment
-if int(ARGUMENTS.get('g4',0)):
-    g4sys=os.environ['G4INSTALL']
-    EnvRdc.PrependENVPath('PATH', g4sys+'/../../../bin')
-    EnvRdc.ParseConfig("geant4-config --cflags --libs")
-
-#   set Root environment
-if int(ARGUMENTS.get('root',1)):
-    EnvRdc.ParseConfig("root-config --cflags --libs")
-
-#   set OpenMP
-if int(ARGUMENTS.get('omp',0)):
-    ExeName=ExeName+"_omp"
-    EnvRdc.MergeFlags('-fopenmp')
-
-#   include
-for key in ['DmpRdc','Psd','Stk','Bgo','Nud']:
+# include
+env.Prepend(CPPPATH='DmpRdc/include')
+for key in subDetectors:
     includeDir=key+'/include'
-    EnvRdc.Prepend(CPPPATH=[includeDir])
+    env.Prepend(CPPPATH=[includeDir])
 
-#   Use other top-1 package
+# Use other top-1 package
+#--------------------------------------------------------------------
     #+  Kernel
 P1Path='../Kernel'
-EnvRdc.Prepend(CPPPATH=[P1Path+'/include'])
-    #+  Event library
-P2Path='../Event/'
-for key in ['DmpEvent','Psd','Stk','Bgo','Nud']:
-    includeDir=P2Path+key+'/include'
-    EnvRdc.Prepend(CPPPATH=[includeDir])
+env.Prepend(CPPPATH=[P1Path+'/include'])
+    #+  Event
+P2Path='../Event'
+env.Prepend(CPPPATH=P2Path+'/DmpRdc/include')
+for key in subDetectors:
+    includeDir=P2Path+"/"+key+'/include'
+    env.Prepend(CPPPATH=[includeDir])
 
-EnvRdc.Prepend(LIBS=['DmpCore','DmpEvent'])
-EnvRdc.Prepend(LIBPATH=[P1Path,P2Path])
+env.Prepend(LIBS=['DmpCore','DmpEvent'])
+env.Prepend(LIBPATH=[P1Path,P2Path])
 
-#   install share
-Default(Command(installDir+'/share/DmpRdcInput.infor','./share/DmpRdcInput.infor',Copy("$TARGET","$SOURCE")))
-cnctDir=installDir+"/share/connector"
-if not os.path.exists(cnctDir):
+# install share
+#--------------------------------------------------------------------
+Default(Command(prefix+'/share/DmpRdcInput.infor','./share/DmpRdcInput.infor',Copy("$TARGET","$SOURCE")))
+shareDir=prefix+"/share/connector"
+if not os.path.exists(shareDir):
     import shutil
-    shutil.copytree("./share/connector",cnctDir)
+    shutil.copytree("./share/connector",shareDir)
 
-#   main build
-execute=EnvRdc.Program(ExeName,Glob('./*/src/*.cc'))
-Default(EnvRdc.InstallAs(installDir+'/bin/'+ExeName,execute))
+# main build
+#--------------------------------------------------------------------
+goal=env.Program(target,Glob('./*/src/*.cc'))
+Default(env.InstallAs(prefix+'/bin/'+target,goal))
 
 
