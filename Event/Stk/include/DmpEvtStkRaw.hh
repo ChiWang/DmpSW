@@ -24,6 +24,8 @@ class DmpEvtStkRaw : public DmpVEvtSubDet{
  private:
   std::vector<double>   fADCCollection;
 
+  ClassDef(DmpEvtStkRaw,1)
+
 };
 
 

@@ -1,6 +1,8 @@
 
 #include "DmpEvtStkRaw.hh"
 
+ClassImp(DmpEvtStkRaw)
+
 //------------------------------------------------------------------------------
 DmpEvtStkRaw::DmpEvtStkRaw()
 {}
