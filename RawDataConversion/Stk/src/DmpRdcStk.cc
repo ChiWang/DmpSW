@@ -1,9 +1,9 @@
 
 #include <iostream>
 
-#include "DmpRdcManager.hh"
-#include "DmpEvtStkRaw.hh"
-#include "DmpParameterStk.hh"
+#include "DmpRdcManager.h"
+#include "DmpEvtStkRaw.h"
+#include "DmpParameterStk.h"
 
 using namespace DmpParameter::Stk;
 

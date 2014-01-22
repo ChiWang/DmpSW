@@ -10,7 +10,7 @@
 #include <TChain.h>
 #include <TBranch.h>
 
-#include "EventReader.hh"
+#include "EventReader.h"
 
 class StkRecManager;
 

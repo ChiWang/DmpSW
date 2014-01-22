@@ -12,10 +12,10 @@
 
 #include <iostream>
 
-#include "DmpRdcManager.hh"
-#include "DmpEvtHeader.hh"
-#include "DmpEvtBgoRaw.hh"     // include DmpERunMode.hh
-#include "DmpParameterBgo.hh"
+#include "DmpRdcManager.h"
+#include "DmpEvtHeader.h"
+#include "DmpEvtBgoRaw.h"     // include DmpERunMode.h
+#include "DmpParameterBgo.h"
 
 using namespace DmpParameter::Bgo;
 

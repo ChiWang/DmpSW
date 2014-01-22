@@ -1,9 +1,9 @@
 
 #include <iostream>
 
-#include "DmpRdcManager.hh"
-#include "DmpEvtPsdRaw.hh"
-#include "DmpParameterPsd.hh"
+#include "DmpRdcManager.h"
+#include "DmpEvtPsdRaw.h"
+#include "DmpParameterPsd.h"
 
 using namespace DmpParameter::Psd;
 

@@ -1,9 +1,9 @@
 
 #include <iostream>
 
-#include "DmpRdcManager.hh"
-#include "DmpEvtNudRaw.hh"
-#include "DmpParameterNud.hh"
+#include "DmpRdcManager.h"
+#include "DmpEvtNudRaw.h"
+#include "DmpParameterNud.h"
 
 using namespace DmpParameter::Nud;
 
