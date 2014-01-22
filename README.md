@@ -228,7 +228,7 @@ These directories (or link) below are in "/prefix"
 
     5.2  coding file
 
-        *.hh    header file, all must in directory "include"
+        *.h    header file, all must in directory "include"
         *.cc    source file, all must in directory "src"
             The main function for create a command in /path/src/Dmp{AP}Main.cc
 

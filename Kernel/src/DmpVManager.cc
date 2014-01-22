@@ -12,9 +12,9 @@
 #include <iostream>
 #include "TSystem.h"
 
-#include "DmpVManager.hh"
-#include "DmpEvtHeader.hh"
-#include "DmpVEvtSubDet.hh"
+#include "DmpVManager.h"
+#include "DmpEvtHeader.h"
+#include "DmpVEvtSubDet.h"
 
 //------------------------------------------------------------------------------
 DmpVManager::DmpEPhase  DmpVManager::fPhase=kBT2012;

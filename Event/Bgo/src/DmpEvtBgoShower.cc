@@ -9,7 +9,7 @@
  *                           Last update:  16/12/2013   10:41:52
 =====================================================================*/
 
-#include "DmpEvtBgoShower.hh"
+#include "DmpEvtBgoShower.h"
 
 ClassImp(DmpEvtBgoShower)
 

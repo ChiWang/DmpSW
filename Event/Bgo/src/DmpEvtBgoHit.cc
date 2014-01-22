@@ -9,7 +9,7 @@
  *                           Last update:  16/12/2013   10:41:52
 =====================================================================*/
 
-#include "DmpEvtBgoHit.hh"
+#include "DmpEvtBgoHit.h"
 
 ClassImp(DmpEvtBgoHit)
 

@@ -17,12 +17,12 @@
 #include "TFile.h"
 #include "TTree.h"
 
-#include "DmpRdcManager.hh"
-#include "DmpEvtHeader.hh"
-#include "DmpEvtPsdRaw.hh"
-#include "DmpEvtStkRaw.hh"
-#include "DmpEvtBgoRaw.hh"
-#include "DmpEvtNudRaw.hh"
+#include "DmpRdcManager.h"
+#include "DmpEvtHeader.h"
+#include "DmpEvtPsdRaw.h"
+#include "DmpEvtStkRaw.h"
+#include "DmpEvtBgoRaw.h"
+#include "DmpEvtNudRaw.h"
 
 //------------------------------------------------------------------------------
 DmpRdcManager* DmpRdcManager::fInstance = 0;

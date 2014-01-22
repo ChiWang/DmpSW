@@ -1,5 +1,5 @@
 /*=====================================================================
- *   File:   DmpVEvtSubDet.hh
+ *   File:   DmpVEvtSubDet.h
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
  *---------------------------------------------------------------------
  *   Description:

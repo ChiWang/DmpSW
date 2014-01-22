@@ -62,7 +62,8 @@ else:
 
 # invoke *.scons file of top-1 packages
 #--------------------------------------------------------------------
-pkgList='Kernel,Event,RawDataConversion,Analysis,Geometry'
+pkgList='Kernel,Event,RawDataConversion,Analysis,Geometry,Simulation'
+#pkgList='Simulation'
     #'Calibration,Generation,Geometry,Reconstruction,Simulation,Visualization'
 pkgList=ARGUMENTS.get('package',pkgList)
 pkgList=pkgList.split(',')

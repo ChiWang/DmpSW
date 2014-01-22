@@ -1,12 +1,12 @@
 /*=====================================================================
- *   File:   DmpEvent_Bgo_LinkDef.hh
+ *   File:   KernelLinkDef.h
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
  *---------------------------------------------------------------------
  *   Description:
  *
  *---------------------------------------------------------------------
  *   History:
- *                           Last update:  16/12/2013   10:39:39
+ *                           Last update:  14/12/2013   15:43:09
 =====================================================================*/
 
 #ifdef __CINT__
@@ -14,12 +14,10 @@
 #pragma link off all globals;
 #pragma link off all classes;
 #pragma link off all functions;
+#pragma link off all namespaces;
 
-#pragma link C++ class DmpEvtBgoRaw+;
-#pragma link C++ class DmpEvtBgoHit+;
-#pragma link C++ class DmpEvtBgoCluster+;
-#pragma link C++ class DmpEvtBgoShower+;
-#pragma link C++ class DmpRecordBgoPed+;
+#pragma link C++ class DmpEvtHeader+;
+#pragma link C++ class DmpVEvtSubDet+;
+#pragma link C++ class DmpVRecord+;
 
 #endif
-

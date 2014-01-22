@@ -9,7 +9,7 @@
  *                           Last update:  26/12/2013   21:36:42
 =====================================================================*/
 
-#include "DmpVRecord.hh"
+#include "DmpVRecord.h"
 
 ClassImp(DmpVRecord)
 

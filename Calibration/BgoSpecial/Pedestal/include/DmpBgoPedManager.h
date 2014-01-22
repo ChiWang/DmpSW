@@ -1,5 +1,5 @@
 /*=====================================================================
- *   File:   DmpBgoPedManager.hh
+ *   File:   DmpBgoPedManager.h
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    18/10/2013
  *---------------------------------------------------------------------
  *   Description:
@@ -14,7 +14,7 @@
 
 #include <map>
 
-#include "DmpVManager.hh"
+#include "DmpVManager.h"
 
 class TTree;
 class RooRealVar;

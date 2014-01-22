@@ -1,5 +1,5 @@
 /*=====================================================================
- *   File:   DmpEvent_Nud_LinkDef.hh
+ *   File:   DmpEvent_Nud_LinkDef.h
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
  *---------------------------------------------------------------------
  *   Description:

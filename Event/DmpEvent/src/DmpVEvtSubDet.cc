@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-#include "DmpVEvtSubDet.hh"
+#include "DmpVEvtSubDet.h"
 
 ClassImp(DmpVEvtSubDet)
 

@@ -1,5 +1,5 @@
 /*=============================================================================
-#       FileName :          DmpCalL0SBgoMipManager.hh
+#       FileName :          DmpCalL0SBgoMipManager.h
 #       Version  :          0.0.1
 #       Author   :          Chi Wang    (chiwang@mail.ustc.edu.cn)
 #       Time     :          2013-10-17   15:44:29

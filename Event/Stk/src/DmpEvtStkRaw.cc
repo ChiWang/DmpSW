@@ -1,5 +1,5 @@
 
-#include "DmpEvtStkRaw.hh"
+#include "DmpEvtStkRaw.h"
 
 ClassImp(DmpEvtStkRaw)
 

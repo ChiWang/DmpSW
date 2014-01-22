@@ -11,8 +11,8 @@
 
 #include <iostream>
 
-#include "DmpEvtHeader.hh"
-#include "DmpEvtBgoRaw.hh"
+#include "DmpEvtHeader.h"
+#include "DmpEvtBgoRaw.h"
 
 ClassImp(DmpEvtBgoRaw)
 

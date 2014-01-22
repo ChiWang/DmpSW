@@ -16,10 +16,10 @@
 #include "RooRealVar.h"
 //#include "TH1F.h"
 
-#include "DmpBgoPedManager.hh"
-#include "DmpEvtHeader.hh"
-#include "DmpEvtBgoRaw.hh"
-#include "DmpParameterBgo.hh"
+#include "DmpBgoPedManager.h"
+#include "DmpEvtHeader.h"
+#include "DmpEvtBgoRaw.h"
+#include "DmpParameterBgo.h"
 
 //------------------------------------------------------------------------------
 DmpBgoPedManager*  DmpBgoPedManager::fInstance=0;

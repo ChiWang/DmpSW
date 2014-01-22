@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-#include "DmpRdcManager.hh"
+#include "DmpRdcManager.h"
 
 using namespace std;
 

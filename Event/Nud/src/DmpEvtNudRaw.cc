@@ -11,8 +11,8 @@
 
 #include <iostream>
 
-#include "DmpEvtHeader.hh"
-#include "DmpEvtNudRaw.hh"
+#include "DmpEvtHeader.h"
+#include "DmpEvtNudRaw.h"
 
 ClassImp(DmpEvtNudRaw)
 

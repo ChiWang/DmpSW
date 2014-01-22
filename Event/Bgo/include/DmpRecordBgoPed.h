@@ -1,5 +1,5 @@
 /*=====================================================================
- *   File:   DmpRecordBgoPed.hh
+ *   File:   DmpRecordBgoPed.h
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    26/12/2013
  *---------------------------------------------------------------------
  *   Description:
@@ -12,7 +12,7 @@
 #ifndef DmpRecordBgoPed_H
 #define DmpRecordBgoPed_H
 
-#include "DmpVRecord.hh"
+#include "DmpVRecord.h"
 
 class DmpRecordBgoPed : public DmpVRecord {
 /*

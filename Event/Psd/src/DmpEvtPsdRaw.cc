@@ -11,8 +11,8 @@
 
 #include <iostream>
 
-#include "DmpEvtHeader.hh"
-#include "DmpEvtPsdRaw.hh"
+#include "DmpEvtHeader.h"
+#include "DmpEvtPsdRaw.h"
 
 ClassImp(DmpEvtPsdRaw)
 

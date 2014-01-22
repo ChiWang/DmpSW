@@ -9,7 +9,7 @@
  *                           Last update:  26/12/2013   22:17:20
 =====================================================================*/
 
-#include "DmpRecordBgoPed.hh"
+#include "DmpRecordBgoPed.h"
 
 //------------------------------------------------------------------------------
 DmpRecordBgoPed::DmpRecordBgoPed(){

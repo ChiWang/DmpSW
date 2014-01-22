@@ -12,7 +12,7 @@
 #include <iostream>
 
 #include "TMath.h"
-#include "DmpEvtHeader.hh"
+#include "DmpEvtHeader.h"
 
 using namespace TMath;
 

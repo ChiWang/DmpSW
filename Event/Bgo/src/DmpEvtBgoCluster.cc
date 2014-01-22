@@ -9,7 +9,7 @@
  *                           Last update:  16/12/2013   10:44:26
 =====================================================================*/
 
-#include "DmpEvtBgoCluster.hh"
+#include "DmpEvtBgoCluster.h"
 
 ClassImp(DmpEvtBgoCluster)
 

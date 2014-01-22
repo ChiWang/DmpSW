@@ -1,5 +1,5 @@
 /*=====================================================================
- *   File:   DmpEvtPsdRaw.hh
+ *   File:   DmpEvtNudRaw.h
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
  *---------------------------------------------------------------------
  *   Description:
@@ -9,18 +9,18 @@
  *                           Last update:  13/12/2013   12:10:44
 =====================================================================*/
 
-#ifndef DmpEvtPsdRaw_H
-#define DmpEvtPsdRaw_H
+#ifndef DmpEvtNudRaw_H
+#define DmpEvtNudRaw_H
 
 #include <vector>
 
-#include "DmpVEvtSubDet.hh"
+#include "DmpVEvtSubDet.h"
 
-class DmpEvtPsdRaw : public DmpVEvtSubDet{
+class DmpEvtNudRaw : public DmpVEvtSubDet{
 /*
- *  DmpEvtPsdRaw
+ *  DmpEvtNudRaw
  *
- *  hex data to dec root file, store raw data of Psd.
+ *  hex data to dec root file, store raw data of Nud.
  *
  *  For one event:
  *      1.  collection of ADC value from evry dynode    (fADCCollection)
@@ -30,21 +30,21 @@ class DmpEvtPsdRaw : public DmpVEvtSubDet{
 */
 
  public:
-  DmpEvtPsdRaw();
-  ~DmpEvtPsdRaw();
+  DmpEvtNudRaw();
+  ~DmpEvtNudRaw();
   void  Reset();
   void  PrintEvent() const;
   void  PrintEvent(Short_t layerID,Short_t barID,Short_t sideID,Short_t dyID);
   void  SetSignal(Int_t LBSD_ID,Double_t adc);
 
  private:
-  std::vector<int>      fLBSDCollection;        // LayerID*10000 + BarID*100 + SideID*10 +DyID= fLBSD   (must use vector<int> or vector<double>)
+  std::vector<int>      fLBSDCollection;    // LayerID*10000 + BarID*100 + SideID*10 +DyID= fLBSD   (must use vector<int> or vector<double>)
   std::vector<double>   fADCCollection;
 
  private:
   Int_t CreateLBSDID(Short_t Layer,Short_t Bar,Short_t Side,Short_t Dy);
 
-  ClassDef(DmpEvtPsdRaw,1)
+  ClassDef(DmpEvtNudRaw,1)
 
 };
 

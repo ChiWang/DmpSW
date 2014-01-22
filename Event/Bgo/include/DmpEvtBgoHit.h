@@ -1,5 +1,5 @@
 /*=====================================================================
- *   File:   DmpEvtBgoHit.hh
+ *   File:   DmpEvtBgoHit.h
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    16/12/2013
  *---------------------------------------------------------------------
  *   Description:
@@ -12,7 +12,7 @@
 #ifndef DmpEvtBgoHit_H
 #define DmpEvtBgoHit_H
 
-#include "DmpVEvtSubDet.hh"
+#include "DmpVEvtSubDet.h"
 
 class DmpEvtBgoHit : public DmpVEvtSubDet{
 /*

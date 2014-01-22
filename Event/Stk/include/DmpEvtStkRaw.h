@@ -4,7 +4,7 @@
 
 #include <vector>
 
-#include "DmpVEvtSubDet.hh"
+#include "DmpVEvtSubDet.h"
 
 class DmpEvtStkRaw : public DmpVEvtSubDet{
 /*

@@ -15,12 +15,12 @@
 
 #include <iostream>
 
-#include "DmpCalManager.hh"
-#include "DmpCalHeader.hh"
-#include "DmpCalPsd.hh"
-#include "DmpCalStk.hh"
-#include "DmpCalBgo.hh"
-#include "DmpCalNud.hh"
+#include "DmpCalManager.h"
+#include "DmpCalHeader.h"
+#include "DmpCalPsd.h"
+#include "DmpCalStk.h"
+#include "DmpCalBgo.h"
+#include "DmpCalNud.h"
 
 using namespace std;
 

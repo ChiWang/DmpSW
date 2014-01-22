@@ -1,36 +1,37 @@
 /*=====================================================================
- *   File:   DmpEvtBgoCluster.hh
+ *   File:   DmpEvtBgoShower.h
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    16/12/2013
  *---------------------------------------------------------------------
  *   Description:
  *
  *---------------------------------------------------------------------
  *   History:
- *                           Last update:  16/12/2013   10:34:56
+ *                           Last update:  16/12/2013   10:38:45
 =====================================================================*/
 
-#ifndef DmpEvtBgoCluster_H
-#define DmpEvtBgoCluster_H
+#ifndef DmpEvtBgoShower_H
+#define DmpEvtBgoShower_H
 
-#include "DmpVEvtSubDet.hh"
+#include "DmpVEvtSubDet.h"
 
-class DmpEvtBgoCluster : public DmpVEvtSubDet{
+class DmpEvtBgoShower : public DmpVEvtSubDet{
 /*
- *  DmpEvtBgoCluster
+ *  DmpEvtBgoShower
  *
  *
 */
 
  public:
-  DmpEvtBgoCluster();
-  ~DmpEvtBgoCluster();
+  DmpEvtBgoShower();
+  ~DmpEvtBgoShower();
   void  Reset();
   void  PrintEvent() const;
 
  private:
 
-  ClassDef(DmpEvtBgoCluster,1)
+  ClassDef(DmpEvtBgoShower,1)
 
 };
 
 #endif
+

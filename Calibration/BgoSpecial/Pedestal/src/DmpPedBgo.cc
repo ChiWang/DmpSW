@@ -18,9 +18,9 @@
 #include "RooRealVar.h"
 #include "TPostScript.h"
 
-#include "DmpPedManager.hh"
-#include "DmpParameterBgo.hh"
-#include "DmpEvtBgoRaw.hh"
+#include "DmpPedManager.h"
+#include "DmpParameterBgo.h"
+#include "DmpEvtBgoRaw.h"
 
 using namespace DmpParameter::Bgo;
 

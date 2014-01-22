@@ -1,5 +1,5 @@
 /*=====================================================================
- *   File:   DmpParameterBgo.hh
+ *   File:   DmpParameterBgo.h
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    06/08/2013
  *---------------------------------------------------------------------
  *   Description:

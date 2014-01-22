@@ -1,5 +1,5 @@
 /*=====================================================================
- *   File:   DmpRdcManager.hh
+ *   File:   DmpRdcManager.h
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
  *---------------------------------------------------------------------
  *   Description:
@@ -15,7 +15,7 @@
 #include <map>
 #include <fstream>      // Conversion(ifstream* HexData)
 
-#include "DmpVManager.hh"
+#include "DmpVManager.h"
 
 class DmpEvtPsdRaw;
 class DmpEvtStkRaw;

@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-#include "DmpBgoPedManager.hh"
+#include "DmpBgoPedManager.h"
 
 using namespace std;
 
