@@ -57,6 +57,7 @@ Install SCons
 ##  How to install DMPSW
 
     Suppose you did not install DMPSW, which means "echo $DMPSWSYS" is blank.
+    If, already has "$DMPSWSYS", skip to the next section "re-install DMPSW"
 
 Installation
 
@@ -64,17 +65,19 @@ Installation
         bash pre-install.sh
 
     2.  install whole DMPSW,
-        execute "scons" at current directory
+        execute "scons" at where the mother SConstruct file is(where has all packages)
         Then, DMPSW will ask you where to install it, the default prefix=/usr/local
-
-    NOTE: If you want to re-install some certain packges, later
-        execute "scons package=package_1,package_2,package_3" at current directory
 
 Set Environment
 
     1.  cd into /prefix
     2.  source bin/thisdmpsw.(c)sh
     then, if "echo $DMPSWSYS" is /prefix, Ok.
+
+##  re-install DMPSW
+
+    If you want to re-install some certain packges after you update some codes,
+        execute "scons package=package_1,package_2,package_3" at where the mother SConstruct file is(where has all packages)
 
 ##  Development guide
 
