@@ -49,10 +49,10 @@ subDetectors=['Psd','Stk','Bgo','Nud']
 
 # special C++ flags for DAMPE (mode)
 #--------------------------------------------------------------------
-if int(ARGUMENTS.get('debug',1)):
-    envBase.Append(CCFLAGS = ['-g','-DDmp_DEBUG'])
-else:
+if int(ARGUMENTS.get('release',0)):
     envBase.Append(CCFLAGS = ['-DDmp_RELEASE'])
+else:
+    envBase.Append(CCFLAGS = ['-g','-DDmp_DEBUG'])
 
 # invoke *.scons file of top-1 packages
 #--------------------------------------------------------------------
