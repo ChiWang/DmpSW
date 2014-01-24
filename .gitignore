@@ -27,6 +27,7 @@ Dictionary_*
 
 # test directory
 *test*
+!OrbitSimulation/test
 *Test*
 
 # vim .swp; emacs
