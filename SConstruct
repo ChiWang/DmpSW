@@ -48,7 +48,7 @@ if os.environ.has_key('DMPSWSYS'):
     prefix=os.environ['DMPSWSYS']
 else:
     UsrPrefix=raw_input('Where to install DMPSW [default is "/usr/local"]: ')
-    if UsrPrefix is None:
+    if UsrPrefix is not None:
         prefix=UsrPrefix
 prefix=os.path.abspath(prefix)
 subDetectors=['Psd','Stk','Bgo','Nud']
@@ -62,8 +62,8 @@ else:
 
 # invoke *.scons file of top-1 packages
 #--------------------------------------------------------------------
-#pkgList='Kernel,Event,RawDataConversion,Analysis,Geometry,Simulation'
-pkgList='Simulation'
+pkgList='Kernel,Event,RawDataConversion,Analysis,Geometry,Simulation'
+#pkgList='Simulation'
     #'Calibration,Generation,Geometry,Reconstruction,Simulation,Visualization'
 pkgList=ARGUMENTS.get('package',pkgList)
 pkgList=pkgList.split(',')
