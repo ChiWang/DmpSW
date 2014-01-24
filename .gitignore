@@ -37,6 +37,7 @@ Dictionary_*
 # created executable files
 dmp*
 !dmp*.cc
+OrbitSimulation/src/GLAST_slew_estimate
 
 # pakcage SConstruct
 SConstruct
