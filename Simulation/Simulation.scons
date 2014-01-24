@@ -42,10 +42,9 @@ env.Prepend(LIBPATH=[P1Path,P2Path])
 
 # install share
 #--------------------------------------------------------------------
-#shareDir=prefix+"/share/"
-#if not os.path.exists(shareDir):
-#    import shutil
-#    shutil.copytree("./share/connector",shareDir)
+for file in os.listdir('./share'):
+    if ".mac" in file:
+        Default(Command(prefix+'/share/TestRelease/'+file,'./share/'+file,Copy("$TARGET","$SOURCE")))
 
 # main build
 #--------------------------------------------------------------------

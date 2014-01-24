@@ -1,5 +1,4 @@
 
-
 ##  To Do List
 
     1.  modify names as our name conention (http://dpnc.unige.ch/dampe/dokuwiki/doku.php?id=dampesoftware:namingconvention)
@@ -43,8 +42,9 @@
 
 ##  Development
 
-    1.  to go where there is a file named "SConstruct" in this package
-    2.  scons                   // create commond at $DMPSWWORK/bin (or /$prefix/bin)
-    3.  scons -c                // clean up
+    1.  cd into trunk, where has the SConstruct file
+    2.  execute "scons package=Simulation" to create command "dmpRdc"
 
+        Note:   be sure that compiled Kernel and Event packages already, if not, do:
+        "scons package=Kernel,Event,Simulation"
 

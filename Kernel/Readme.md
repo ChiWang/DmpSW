@@ -10,10 +10,8 @@
         we put them(DmpEvtHeader) at here, in order to reduce dependency of Kernel from other package
 
 ##  Usage:
+    1.  cd into trunk, where has the SConstruct file
+    2.  execute "scons package=Kernel" to create shared library of Kernel package
 
-    1.  execute "./createDictionary" to create dictionary of Kernel
-
-    2.  execute "scons" to create shared library of Kernel
-
-    3.  link the created library and include header files, when other packages want to use some thing in Kernel
+    this package will create a shared library, other packages which want to use it, just link the created library and include header files
 

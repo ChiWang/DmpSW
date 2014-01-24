@@ -1,22 +1,19 @@
 #! /bin/bash
-#=============================================================================
-#       FileName :          dmpsw-config
-#       Version  :          0.0.1
-#       Author   :          Chi Wang (chiwang@mail.ustc.edu.cn)
-#       Time     :          2013-07-30   01:15:10
-#
-#------------------------------------------------------------------------------
-#       Description  :
+#=====================================================================
+#   File:   dmpsw-config
+#   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    30/07/2014
+#---------------------------------------------------------------------
+#   Description:
 #           *   need to modify version ID before publish
 #           *   must in /prefix/bin
-#------------------------------------------------------------------------------
-#       History  :
-#                                          Update:  2013-09-30   16:59:13
-#=============================================================================
+#---------------------------------------------------------------------
+#   History:
+#                           Last update:  24/01/2014   10:16:54
+#=====================================================================
+
 
 #   set version before release  *********
 version=1.0.0
-
 
 prefix=$DMPSWSYS
 
@@ -34,9 +31,8 @@ done
 # function help
 #          print help on available command line arguments and enabled
 
-help()
-{
-  cat<<EOF
+help(){
+cat<<EOF
 
 Usage: dmpsw-config [OPTION...]
 
@@ -47,7 +43,6 @@ Usage: dmpsw-config [OPTION...]
   --help                  output help information
 
 EOF
-
   exit 1
 }
 
@@ -85,7 +80,7 @@ while test $# -gt 0; do
       help
       ;;
    --version)
-      out="DampeSW verison $version"
+      out="DMPSW verison $version"
       ;;
   esac
   shift

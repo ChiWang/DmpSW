@@ -28,10 +28,10 @@
 DmpRdcManager* DmpRdcManager::fInstance = 0;
 //------------------------------------------------------------------------------
 #ifdef Dmp_DEBUG
-TString DmpRdcManager::fConnectorPath="./share/connector";
+TString DmpRdcManager::fConnectorPath="./share/Connector";
 #endif
 #ifdef Dmp_RELEASE
-TString DmpRdcManager::fConnectorPath=(TString)getenv("DMPSWSYS")+"/share/connector";
+TString DmpRdcManager::fConnectorPath=(TString)getenv("DMPSWSYS")+"/share/Connector";
 #endif
 
 //------------------------------------------------------------------------------

@@ -42,11 +42,11 @@ env.Prepend(LIBPATH=[P1Path,P2Path])
 
 # install share
 #--------------------------------------------------------------------
-Default(Command(prefix+'/share/DmpRdcInput.infor','./share/DmpRdcInput.infor',Copy("$TARGET","$SOURCE")))
-shareDir=prefix+"/share/connector"
+Default(Command(prefix+'/share/TestRelease/DmpRdcInput.infor','./share/DmpRdcInput.infor',Copy("$TARGET","$SOURCE")))
+shareDir=prefix+"/share/Connector"
 if not os.path.exists(shareDir):
     import shutil
-    shutil.copytree("./share/connector",shareDir)
+    shutil.copytree("./share/Connector",shareDir)
 
 # main build
 #--------------------------------------------------------------------

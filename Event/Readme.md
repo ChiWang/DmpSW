@@ -5,11 +5,11 @@
     1.  all event classes are in this package.
 
 ##  Usage
-    1.  cd into sub-detector
-    2.  execute "./createDictionary" to create dictionary of this sub-detector
-    3.  execute "scons" to create shared library of Event package(at where is SConstruct)
+    1.  cd into trunk, where has the SConstruct file
+    2.  execute "bash pre-install.sh" to create dictionary of this sub-detector
+    3.  execute "scons package=Event" to create shared library of Event package
 
-    4.  link the created library and include header files, when other packages want to use some thing in Event
+    this package will create a shared library, other packages which want to use it, just link the created library and include header files
 
 ##  Development guid
 

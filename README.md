@@ -2,7 +2,7 @@
 DMPSW
 =====
 
-DAMPE Offline software
+DAMPE Offline Software
 
 ##  Requirement
 
@@ -65,12 +65,10 @@ Installation
 
     2.  install whole DMPSW,
         execute "scons" at current directory
+        Then, DMPSW will ask you where to install it, the default prefix=/usr/local
 
-    3.  install some certain packges of DMPSW,
+    NOTE: If you want to re-install some certain packges, later
         execute "scons package=package_1,package_2,package_3" at current directory
-
-
-    Then, DMPSW will ask you where to install it, the default prefix=/usr/local
 
 Set Environment
 

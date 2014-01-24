@@ -3,19 +3,21 @@
 #   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    01/10/2013
 #---------------------------------------------------------------------
 #   Description:
-#           Install method in this file
-#       1. use basical softwares: root geant4
+#           setup install method in this file
+#       1. if you want to install the whole DMPSW, execute
+#           scons
+#           at current directory
+#       3. if you want to re-install some certain packages:
+#           scons package=package_1,package_2,package_3
 #       2. installation layout
 #           prefix/bin
 #           prefix/include
 #           prefix/lib
 #           prefix/share
-#       3. if you want to re-install some packages:
-#           scons package=package_1,package_2,package_3
 #
 #---------------------------------------------------------------------
 #   History:
-#                           Last update:  22/01/2014   23:53:57
+#                           Last update:  24/01/2014   10:10:17
 #=====================================================================
 
 import os
@@ -26,7 +28,7 @@ def checkEnvironment(VarList):
     print "Checking basic environment"
     for var in VarList:
         if not os.environ.has_key(var):
-            print '\tERROR:\tDoes not has environment variable: %s' %var
+            print '\tERROR:\tNo environment variable: %s' %var
             Exit(1)
 
 # set basical environment
@@ -51,6 +53,7 @@ else:
     if UsrPrefix is not None:
         prefix=UsrPrefix
 prefix=os.path.abspath(prefix)
+print "install DMPSW into: ",prefix
 subDetectors=['Psd','Stk','Bgo','Nud']
 
 # special C++ flags for DAMPE (mode)
@@ -72,5 +75,4 @@ for key in pkgList:
     subScript=subScript+[key+'/'+key+'.scons']
 
 SConscript(subScript,exports=['envBase','prefix','subDetectors'])
-
 

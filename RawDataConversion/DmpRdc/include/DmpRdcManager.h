@@ -13,7 +13,7 @@
 #define DmpRdcManager_H
 
 #include <map>
-#include <fstream>      // Conversion(ifstream* HexData)
+#include <fstream>      // ifstream*
 
 #include "DmpVManager.h"
 
