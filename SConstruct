@@ -41,7 +41,7 @@ envBase.ParseConfig("geant4-config --cflags --libs")
     # set Root environment
 envBase.ParseConfig("root-config --cflags --libs")
 
-# set general varables
+# set general variables
 #--------------------------------------------------------------------
 prefix='/usr/local'
 if os.environ.has_key('DMPSWSYS'):
