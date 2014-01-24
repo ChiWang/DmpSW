@@ -1,6 +1,6 @@
 #! /bin/bash
 #=============================================================================
-#       FileName :          dmpos-config
+#       FileName :          dmpsw-config
 #       Version  :          0.0.1
 #       Author   :          Chi Wang (chiwang@mail.ustc.edu.cn)
 #       Time     :          2013-07-30   01:15:10
@@ -18,9 +18,9 @@
 version=1.0.0
 
 
-prefix=$DMPOSSYS
+prefix=$DMPSWSYS
 
-#   list all libraries of DMPOS
+#   list all libraries of DMPSW
 libs=""
 for file in `ls ${prefix}/lib`;do
   if [[ ${file} = *libDmp* && ${file} = *.so* ]];then
@@ -38,7 +38,7 @@ help()
 {
   cat<<EOF
 
-Usage: dmpos-config [OPTION...]
+Usage: dmpsw-config [OPTION...]
 
   --prefix                output installation prefix of DAMPE Software
   --version               output version for DAMPE Software

@@ -31,9 +31,9 @@ ExeName='dmpBgoMip'
 
 #   set debug modle.
 #    if yes, then can use gdb:  http://www.ibm.com/developerworks/cn/linux/sdk/gdb/
-if os.environ.has_key('DMPOSSYS'):
+if os.environ.has_key('DMPSWSYS'):
     print "\t\tdebug mode\t re-install Calibration/dmpBgoMip\n"
-    installDir=os.environ['DMPOSSYS']
+    installDir=os.environ['DMPSWSYS']
     EnvBgoMip.Prepend(CCFLAGS = '-g')
     EnvBgoMip.Append(CCFLAGS = '-DDmp_DEBUG')
 else:

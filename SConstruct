@@ -44,10 +44,10 @@ envBase.ParseConfig("root-config --cflags --libs")
 # set general varables
 #--------------------------------------------------------------------
 prefix='/usr/local'
-if os.environ.has_key('DMPOSSYS'):
-    prefix=os.environ['DMPOSSYS']
+if os.environ.has_key('DMPSWSYS'):
+    prefix=os.environ['DMPSWSYS']
 else:
-    UsrPrefix=raw_input('Where to install DMPOS [default is "/usr/local"]: ')
+    UsrPrefix=raw_input('Where to install DMPSW [default is "/usr/local"]: ')
     if UsrPrefix is None:
         prefix=UsrPrefix
 prefix=os.path.abspath(prefix)
@@ -62,8 +62,8 @@ else:
 
 # invoke *.scons file of top-1 packages
 #--------------------------------------------------------------------
-pkgList='Kernel,Event,RawDataConversion,Analysis,Geometry,Simulation'
-#pkgList='Simulation'
+#pkgList='Kernel,Event,RawDataConversion,Analysis,Geometry,Simulation'
+pkgList='Simulation'
     #'Calibration,Generation,Geometry,Reconstruction,Simulation,Visualization'
 pkgList=ARGUMENTS.get('package',pkgList)
 pkgList=pkgList.split(',')

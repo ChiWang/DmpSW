@@ -31,7 +31,7 @@ DmpRdcManager* DmpRdcManager::fInstance = 0;
 TString DmpRdcManager::fConnectorPath="./share/connector";
 #endif
 #ifdef Dmp_RELEASE
-TString DmpRdcManager::fConnectorPath=(TString)getenv("DMPOSSYS")+"/share/connector";
+TString DmpRdcManager::fConnectorPath=(TString)getenv("DMPSWSYS")+"/share/connector";
 #endif
 
 //------------------------------------------------------------------------------

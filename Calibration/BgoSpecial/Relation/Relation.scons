@@ -39,7 +39,7 @@ if int(debug):
     print "\t\t debug mode"
     EnvCalL0SBgoR.Prepend(CCFLAGS = '-g')
     EnvCalL0SBgoR.Append(CCFLAGS = '-DDmp_DEBUG')
-    installdir=os.environ['DMPOSSYSGit']
+    installdir=os.environ['DMPSWSYSGit']
     SConscript(['../../../Event/SConstruct'])    # need libDmpEvent
 else:
     EnvCalL0SBgoR.Append(CCFLAGS = '-DDmp_RELEASE')

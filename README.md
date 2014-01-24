@@ -1,12 +1,12 @@
 
-DMPOS
+DMPSW
 =====
 
 DAMPE Offline software
 
 ##  Requirement
 
-DMPOS will uses tools Root, Geant4 and SCons.
+DMPSW will uses tools Root, Geant4 and SCons.
 
 Install ROOT
 
@@ -54,38 +54,38 @@ Install SCons
         4) type command:
             scons --help
 
-##  How to install DMPOS
+##  How to install DMPSW
 
-    Suppose you did not install DMPOS, which means "echo $DMPOSSYS" is blank.
+    Suppose you did not install DMPSW, which means "echo $DMPSWSYS" is blank.
 
 Installation
 
     1.  run pre-install.sh, do:
         bash pre-install.sh
 
-    2.  install whole DMPOS,
+    2.  install whole DMPSW,
         execute "scons" at current directory
 
-    3.  install some certain packges of DMPOS,
+    3.  install some certain packges of DMPSW,
         execute "scons package=package_1,package_2,package_3" at current directory
 
 
-    Then, DMPOS will ask you where to install it, the default prefix=/usr/local
+    Then, DMPSW will ask you where to install it, the default prefix=/usr/local
 
 Set Environment
 
     1.  cd into /prefix
-    2.  source bin/thisdmpos.(c)sh
-    then, if "echo $DMPOSSYS" is /prefix, Ok.
+    2.  source bin/thisdmpsw.(c)sh
+    then, if "echo $DMPSWSYS" is /prefix, Ok.
 
 ##  Development guide
 
-    Fisrt of all, you should install it as last section (How to install DMPOS) stated.
+    Fisrt of all, you should install it as last section (How to install DMPSW) stated.
 
     It could be helpful if you understand the naming convention in:
         http://dpnc.unige.ch/dampe/dokuwiki/doku.php?id=dampesoftware:namingconvention
 
-    There are 6 key steps while developing DMPOS.
+    There are 6 key steps while developing DMPSW.
 
     0)  cd into certain package and update it
 
@@ -124,8 +124,8 @@ These directories (or link) below are in "/prefix"
 
 1.  bin (executable files)
 
-        thisdmpos.sh        // shell environment
-        dmpos-config        // compilation options
+        thisdmpsw.sh        // shell environment
+        dmpsw-config        // compilation options
         dmpSim              // Simulation of DAMPE
         dmpRdc              // Reconstruction Level-0:  Raw Data Conversion
         dmpPed              // Calibration Level-0: find pedestal

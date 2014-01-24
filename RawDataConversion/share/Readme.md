@@ -6,7 +6,5 @@ while install this package, should copy
     DmpRdcInput.infor   -->  /prefix/share/example/
 
 Note:
-    in source file DmpRdcManager.cc, must set the right path of Connector (/prefix = $DMPOSINSTALL)
-    (DMPOS = DaMPe Offline Software)
-
+    in source file DmpRdcManager.cc, must set the right path of Connector for release version
 
