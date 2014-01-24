@@ -20,22 +20,11 @@
 #                           Last update:  24/01/2014   10:10:17
 #=====================================================================
 
-import os
 
-# functions
-#--------------------------------------------------------------------
-def checkEnvironment(VarList):
-    print "Checking basic environment",
-    for var in VarList:
-        if not os.environ.has_key(var):
-            print '\tERROR:\tNo environment variable: %s' %var
-            Exit(1)
-    print "\t Done"
+import os
 
 # set basical environment
 #--------------------------------------------------------------------
-requirement=['ROOTSYS','G4INSTALL','G4LIB_USE_GDML']
-checkEnvironment(requirement)
 envBase = Environment(ENV = os.environ)
     # set Geant4 environment
 g4sys=os.environ['G4INSTALL']
