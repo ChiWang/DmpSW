@@ -4,16 +4,12 @@
 #   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    30/07/2014
 #---------------------------------------------------------------------
 #   Description:
-#           *   need to modify version ID before publish
 #           *   must in /prefix/bin
 #---------------------------------------------------------------------
 #   History:
 #                           Last update:  24/01/2014   10:16:54
 #=====================================================================
 
-
-#   set version before release  *********
-version=1.0.0
 
 prefix=$DMPSWSYS
 
@@ -80,7 +76,7 @@ while test $# -gt 0; do
       help
       ;;
    --version)
-      out="DMPSW verison $version"
+      out="DMPSW verison VERSION"  # set this automatically while install
       ;;
   esac
   shift

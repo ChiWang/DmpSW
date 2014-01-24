@@ -25,11 +25,12 @@ import os
 # functions
 #--------------------------------------------------------------------
 def checkEnvironment(VarList):
-    print "Checking basic environment"
+    print "Checking basic environment",
     for var in VarList:
         if not os.environ.has_key(var):
             print '\tERROR:\tNo environment variable: %s' %var
             Exit(1)
+    print "\t Done"
 
 # set basical environment
 #--------------------------------------------------------------------
@@ -45,6 +46,7 @@ envBase.ParseConfig("root-config --cflags --libs")
 
 # set general variables
 #--------------------------------------------------------------------
+version='0.0.1'
 prefix='/usr/local'
 if os.environ.has_key('DMPSWSYS'):
     prefix=os.environ['DMPSWSYS']
@@ -74,5 +76,5 @@ subScript=[]
 for key in pkgList:
     subScript=subScript+[key+'/'+key+'.scons']
 
-SConscript(subScript,exports=['envBase','prefix','subDetectors'])
+SConscript(subScript,exports=['envBase','version','prefix','subDetectors'])
 
