@@ -17,7 +17,8 @@
 class DmpEvtBgoHit : public DmpVEvtSubDet{
 /*
  *  DmpEvtBgoHit
- *
+ *   this class used in reconstruction,
+ *   hit all one Bgo crystal
  *
 */
 

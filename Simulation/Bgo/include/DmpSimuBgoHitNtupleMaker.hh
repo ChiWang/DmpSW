@@ -49,8 +49,8 @@ public:
   int tt_CalHit_n;
   std::vector<int>*    tt_CalHit_bar;
   std::vector<double>* tt_CalHit_e;
-  std::vector<double>* tt_CalHit_epos;
-  std::vector<double>* tt_CalHit_eneg;
+  std::vector<double>* tt_CalHit_epos;  // positive
+  std::vector<double>* tt_CalHit_eneg;  // negative
   std::vector<double>* tt_CalHit_sumposition;
 
   std::vector<int>*    tt_CalMaxBar_layer;
@@ -64,7 +64,6 @@ public:
   std::vector<double>* tt_CalMaxBarNeg_e;
 
 };
-
 
 #endif
 

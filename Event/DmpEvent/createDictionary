@@ -4,16 +4,6 @@
 #   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    11/12/2013
 #---------------------------------------------------------------------
 #   Description:
-#   1.  Requirement
-#       1.  must has 2 directories (include, src) at where you execute this script
-#       2.  must have a file named *LinkDef* in ./include
-#
-#   Usage:
-#   mode 1.  0 arguments
-#       just do "./NameOfThisFile"
-#   mode 2.  at least 2 arguments (LinkDef, header files)
-#       do "./NameOfThisFile arguments"
-#   *** for Kernel package, use mode 1
 #
 #   Reference:
 #   1.  How to use rootcint
@@ -22,71 +12,69 @@
 #
 #---------------------------------------------------------------------
 #   History:
-#                           Last update:  25/12/2013   21:25:23
+#                           Last update:  25/01/2014   17:25:35
 #=====================================================================
 
-includeDir="./include"
-includeDir1="../DmpEvent/include"
-includeDir2="xxxx"
+
+#+ functions
+#--------------------------------------------------------------------
+Usage(){
+echo "
+Requirement:
+    a.  must have $incDir and $srcDir
+    b.  only one *LinkDef.h file in $incDir
+
+Usage:
+  create a dictionary for all the header files in $incDir:
+    $0
+  if header files in $incDir need some external header file:
+    $0  external_incDir_1 external_incDir_2 external_incDir_3
+"
+exit 1
+}
+checkDir(){
+  for dir in $@;do
+    if [ -d $dir ];then
+      echo "Error:  NOT have directory: $dir..."
+      exit 1
+    fi
+  done
+}
+
 srcDir="./src"
-
-if [ ! -d $includeDir ];then
-    echo "Error:    do NOT have include directory: $includeDir..."
-    exit 0
+incDir="./include"
+if [[ $1 == '--help' ]];then
+  Usage
 fi
-if [ ! -d $srcDir ];then
-    echo "Error:    do NOT have src directory: $srcDir..."
-fi
+checkDir srcDir incDir
 
-
-if [ $# = 0 ];then
-#+  $# = 0
-#   use LinkDef.h in $includeDir, all the other header files as fileList
 nLinkDef=0
-for file in `ls $includeDir`;do
-    if [[ $file =~ "LinkDef" && $file =~ ".h" ]];then
-        linkDef=$file
-        let nLinkDef=$nLinkDef+1
-    else
-        fileList="$fileList $file"
-    fi
-    if [ $nLinkDef = "2" ];then
-        echo "Error:    there're $nLinkDef LinkDef.h files..."
-        echo "must declare one LinkDef.h file and some header file as command arguments.."
-        exit 0
-    fi
+for file in `ls $incDir`;do
+  if [[ $file == *LinkDef.h ]];then
+    let nLinkDef=$nLinkDef+1
+    linkDef=$file
+  else
+    fileList="$fileList $file"
+  fi
 done
-
-else
-#+  $# != 0
-#   must input at least 2 arguments:
-#   1st:    WhichLinkDef.h
-#   2nd ~ $#:   header file list ()
-
-while [ $# != 0 ];do
-    if [[ $1 =~ "LinkDef" && $1 =~ ".h" ]];then
-        linkDef=$1
-    else
-        fileList="$fileList $1"
-    fi
-    shift
-done
-
+if [[ $nLinkDef -ne 1 ]];then
+  echo "Error:    there're $nLinkDef *LinkDef.h files in $incDir"
+  exit 1
 fi
 
 diction=`echo $linkDef | sed s/LinkDef//`
-diction="Dictionary_${diction%.*}.cc"
+diction="Dictionary_${diction%.*}"
 
-if [ -f $srcDir/$diction ];then
-    read -p   " Dictionary ($diction) is exist, delete it? (y/n):        " Ans
-    if [ "XX$Ans" != "XXn" ];then
-        \rm ./*/${diction%.*}* 2>/dev/null
-        echo  "     Please re-execute \"$0\""
-    fi
-    exit 0      # can't execute rootcint just after \rm ....
+if [ -f $incDir/$diction* ];then
+  read -p   " Dictionary ($diction) is exist, delete it? (y/n):        " Ans
+  if [ "XX$Ans" != "XXn" ];then
+    \rm ./*/$diction* 2>/dev/null
+    echo  "     Please execute \"$0\", again"
+  fi
+  exit 0      # can't execute rootcint just after \rm ....
 fi
 
 echo "Generating dictionary ${diction}..."
-rootcint -f ${includeDir}/${diction} -c -p -I$includeDir -I$includeDir1 -I$includeDir2 $fileList $linkDef
-mv $includeDir/$diction $srcDir/$diction 2>/dev/null
+rootcint -f ${incDir}/${diction}.cc -c -p -I$incDir -I../DmpEvent/include -I$1 -I$2 $3 $fileList $linkDef
+mv $incDir/$diction.cc $srcDir/$diction.cc 2>/dev/null
 
