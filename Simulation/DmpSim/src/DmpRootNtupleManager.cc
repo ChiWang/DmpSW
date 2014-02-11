@@ -37,7 +37,6 @@ DmpRootNtupleManager::DmpRootNtupleManager()
   rootMessenger = new DmpRootNtupleMessenger(this);
   G4cout << "ROOT FILE NAME: " << nRootFile << G4endl;
   //rootMessenger = new DmpRootNtupleMessenger();
-
 }
 
 DmpRootNtupleManager::~DmpRootNtupleManager()
@@ -56,8 +55,7 @@ DmpRootNtupleManager::~DmpRootNtupleManager()
 }
 
 void DmpRootNtupleManager::book(const G4Run* aRun)
-{ 
- 
+{
  // Creating a tree container to handle histograms and ntuples.
  // This tree is associated to an output file.
  //
@@ -72,11 +70,8 @@ void DmpRootNtupleManager::book(const G4Run* aRun)
    return;
  }
  G4cout << "\n----> Output ntuple file is opened in " << fileName << G4endl;
-
-
  // create 1 ntuple in subdirectory "tuples"
  tree = new TTree("dampe", "dampe tracker");
-
  //book ntuple branches and define ntuple data vectors here 
  dmpSimuRunEventNtupleMaker    ->book(aRun, tree);
  dmpSimuPrimariesNtupleMaker   ->book(aRun, tree);
@@ -86,7 +81,6 @@ void DmpRootNtupleManager::book(const G4Run* aRun)
  dmpSimuStkHitNtupleMaker      ->book(aRun, tree);
  dmpSimuStkDigiNtupleMaker     ->book(aRun, tree);
  dmpSimuPsdHitNtupleMaker      ->book(aRun, tree);
-
  // create 1 ntuple in subdirectory "tuples" to sotre the infos of the generated events
  treeGen = new TTree("dampeGenEvt", "dampe genereted events");
  //book ntuple branches and define ntuple data vectors here 
@@ -95,13 +89,11 @@ void DmpRootNtupleManager::book(const G4Run* aRun)
 
  nInput = 0;
  nSaved = 0;
-
 }
 
 void DmpRootNtupleManager::beginEvent(const G4Event* evt)
 {
   //clear all ntuple data vectors here
-  dmpSimuRunEventNtupleMaker    ->beginEvent(evt);
   dmpSimuPrimariesNtupleMaker   ->beginEvent(evt);
   dmpSimuStkStepNtupleMaker     ->beginEvent(evt);
   dmpSimuTrajectoryNtupleMaker  ->beginEvent(evt);
@@ -109,11 +101,10 @@ void DmpRootNtupleManager::beginEvent(const G4Event* evt)
   dmpSimuStkHitNtupleMaker      ->beginEvent(evt);
   dmpSimuStkDigiNtupleMaker     ->beginEvent(evt);
   dmpSimuPsdHitNtupleMaker      ->beginEvent(evt);
-
 }
 
 void DmpRootNtupleManager::save()
-{ 
+{
   if (rootFile) {
     rootFile->Write();        // Writing the histograms to the file
     rootFile->Close();        // and closing the tree (and the file)
@@ -132,7 +123,6 @@ void DmpRootNtupleManager::FillEvent(const G4Event* evt)
 {  
   //fill even info here, also filter and save ntuple
   bool toKeep = true;
-
   dmpSimuRunEventNtupleMaker    ->FillEvent(evt);
   dmpSimuPrimariesNtupleMaker   ->FillEvent(evt);
   dmpSimuTrajectoryNtupleMaker  ->FillEvent(evt);
@@ -165,9 +155,4 @@ void DmpRootNtupleManager::FillEvent(const G4Event* evt)
   if (treeGen && nRootGenDebug) treeGen->Fill();
 
 }
-
-
-
-
-
 

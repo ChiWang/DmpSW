@@ -24,7 +24,6 @@
 #endif
 
 #include "DmpRootNtupleManager.hh"
-
 //#include "DmpSimuPhysicsList.hh"
 
 #include "DmpDetectorConstruction.hh"
@@ -40,7 +39,6 @@
 // This is the main function 
 int main(int argc, char** argv)
 {
-
   // Construct the default run manager
   DmpG4RunManager* runManager = new DmpG4RunManager(); 
 

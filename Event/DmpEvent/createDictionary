@@ -20,6 +20,8 @@
 #--------------------------------------------------------------------
 Usage(){
 echo "
+    Use rootcint to create a dictionary
+
 Requirement:
     a.  must have $incDir and $srcDir
     b.  only one *LinkDef.h file in $incDir
@@ -41,6 +43,8 @@ checkDir(){
   done
 }
 
+#+ main
+#--------------------------------------------------------------------
 srcDir="./src"
 incDir="./include"
 if [[ $1 == '--help' ]];then
@@ -50,7 +54,9 @@ checkDir srcDir incDir
 
 nLinkDef=0
 for file in `ls $incDir`;do
-  if [[ $file == *LinkDef.h ]];then
+  if [[ -d $file ]];then
+    continue
+  elif [[ $file == *LinkDef.h ]];then
     let nLinkDef=$nLinkDef+1
     linkDef=$file
   else

@@ -21,12 +21,8 @@ class TH1D;
 
 class DmpRootNtupleMessenger;
 
-
-
-class DmpRootNtupleManager
-{
+class DmpRootNtupleManager{
 public:
-  
   DmpRootNtupleManager();
   ~DmpRootNtupleManager();
   
@@ -44,14 +40,10 @@ public:
   void SetSiDigicut(G4int val)         { siDigicut        = val;}
   void SetGenerationOnly(G4bool val)   { generationOnly = val;}
   void SetKeepOnlyDownward(G4bool val) { keepOnlyDownward = val;}
-
   TTree* GetGenTree()                  { return treeGen; }
   DmpSimuPrimariesNtupleMaker* GetDmpSimuPrimariesNtupleMaker() 
-                                       { return dmpSimuPrimariesNtupleMaker; }
   G4bool GenerationOnly()              { return generationOnly; }
-
 private:
-  
   DmpSimuRunEventNtupleMaker*     dmpSimuRunEventNtupleMaker;
   DmpSimuPrimariesNtupleMaker*    dmpSimuPrimariesNtupleMaker;
   DmpSimuStkStepNtupleMaker*      dmpSimuStkStepNtupleMaker;
@@ -71,12 +63,9 @@ private:
   G4int    siDigicut;
   G4bool generationOnly;
   G4bool keepOnlyDownward;
-
   G4int nInput;
   G4int nSaved;
-
 };
-
 
 #endif
 

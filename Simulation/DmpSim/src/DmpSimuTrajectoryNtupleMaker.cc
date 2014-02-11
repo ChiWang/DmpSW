@@ -10,6 +10,8 @@
 #include "G4VTrajectory.hh"
 #include "G4Trajectory.hh"
 #include "G4TransportationManager.hh"
+#include "G4Event.hh"
+#include "G4Run.hh"
 
 #include "TTree.h"
 
@@ -18,7 +20,7 @@ DmpSimuTrajectoryNtupleMaker::DmpSimuTrajectoryNtupleMaker()
 {
   //set debugEvent to a particular event number for debug printout  
   //debugEvent = -1; //-1 is all events
-  debugEvent = -100; //-100 no event
+  //debugEvent = -100; //-100 no event
 }
 
 DmpSimuTrajectoryNtupleMaker::~DmpSimuTrajectoryNtupleMaker()
@@ -26,10 +28,8 @@ DmpSimuTrajectoryNtupleMaker::~DmpSimuTrajectoryNtupleMaker()
 }
 
 void DmpSimuTrajectoryNtupleMaker::book(const G4Run* aRun, TTree* aTree)
-{ 
- 
+{
   tree = aTree;
-
  //book ntuple branches and define ntuple data vectors here 
  tree->Branch("tt_pvtrj_trackID",    &tt_pvtrj_trackID);
  tree->Branch("tt_pvtrj_stop_vo",    &tt_pvtrj_stop_vo);
@@ -64,19 +64,19 @@ void DmpSimuTrajectoryNtupleMaker::book(const G4Run* aRun, TTree* aTree)
 
  tt_sec_n = 0;
 
- tt_sec_px     = new std::vector<double>();
- tt_sec_py     = new std::vector<double>();
- tt_sec_pz     = new std::vector<double>();
- tt_sec_ekin   = new std::vector<double>();
- tt_sec_stop_x = new std::vector<double>();
- tt_sec_stop_y = new std::vector<double>();
- tt_sec_stop_z = new std::vector<double>();
- tt_sec_trackID    = new std::vector<int>();
- tt_sec_parentID   = new std::vector<int>();
- tt_sec_stop_index = new std::vector<int>();
- tt_sec_stop_vo    = new std::vector<std::string>();
- tt_sec_charge     = new std::vector<int>();
- tt_sec_pdg        = new std::vector<int>();
+ //tt_sec_px     = new std::vector<double>();
+ //tt_sec_py     = new std::vector<double>();
+ //tt_sec_pz     = new std::vector<double>();
+ //tt_sec_ekin   = new std::vector<double>();
+ //tt_sec_stop_x = new std::vector<double>();
+ //tt_sec_stop_y = new std::vector<double>();
+ //tt_sec_stop_z = new std::vector<double>();
+ //tt_sec_trackID    = new std::vector<int>();
+ //tt_sec_parentID   = new std::vector<int>();
+ //tt_sec_stop_index = new std::vector<int>();
+ //tt_sec_stop_vo    = new std::vector<std::string>();
+ //tt_sec_charge     = new std::vector<int>();
+ //tt_sec_pdg        = new std::vector<int>();
 
  tree->Branch("tt_sec_n",      &tt_sec_n,   "tt_sec_n/i"  );
  /***
@@ -100,38 +100,28 @@ void DmpSimuTrajectoryNtupleMaker::beginEvent(const G4Event* evt)
 {
   //set event number
   eventNumber = evt->GetEventID();
-
  //clear all ntuple data vectors here
  tt_sec_n = 0;
 
- tt_sec_px      -> clear();
- tt_sec_py      -> clear();
- tt_sec_pz      -> clear();
- tt_sec_ekin    -> clear();
- tt_sec_stop_x  -> clear();
- tt_sec_stop_y  -> clear();
- tt_sec_stop_z  -> clear();
- tt_sec_trackID     -> clear();
- tt_sec_parentID    -> clear();
- tt_sec_stop_index  -> clear();
- tt_sec_stop_vo     -> clear();
- tt_sec_charge      -> clear();
- tt_sec_pdg         -> clear();       
- 
-
-}
-
-void DmpSimuTrajectoryNtupleMaker::FillStep(const G4Step* aStep)
-{
+ //tt_sec_px      -> clear();
+ //tt_sec_py      -> clear();
+ //tt_sec_pz      -> clear();
+ //tt_sec_ekin    -> clear();
+ //tt_sec_stop_x  -> clear();
+ //tt_sec_stop_y  -> clear();
+ //tt_sec_stop_z  -> clear();
+ //tt_sec_trackID     -> clear();
+ //tt_sec_parentID    -> clear();
+ //tt_sec_stop_index  -> clear();
+ //tt_sec_stop_vo     -> clear();
+ //tt_sec_charge      -> clear();
+ //tt_sec_pdg         -> clear();       
 }
 
 void DmpSimuTrajectoryNtupleMaker::FillEvent(const G4Event* evt)
-{  
-  
-
+{
   G4TrajectoryContainer* trajectoryContainer = evt->GetTrajectoryContainer();
-  G4int n_trajectories = 0;
-  if (trajectoryContainer) n_trajectories = trajectoryContainer->entries();
+  G4int n_trajectories = trajectoryContainer->entries();
   G4Navigator* navigator = G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking();
 
   G4VTrajectory* trjPrimary = 0;
@@ -142,9 +132,7 @@ void DmpSimuTrajectoryNtupleMaker::FillEvent(const G4Event* evt)
       continue;
     }
   }
-
   //dumpinmg some trajectories
- 
   //G4cout << "Number of trajectories in this event =  " << n_trajectories << G4endl;
   G4VTrajectoryPoint* firstpoint = 0;
   G4VTrajectoryPoint*  lastpoint = 0;
@@ -183,7 +171,6 @@ void DmpSimuTrajectoryNtupleMaker::FillEvent(const G4Event* evt)
     }
   }
   ***/
-
   tt_pvtrj_trackID = -1;
   tt_pvtrj_stop_vo = "";
   tt_pvtrj_stop_x = 0;
@@ -222,7 +209,6 @@ void DmpSimuTrajectoryNtupleMaker::FillEvent(const G4Event* evt)
     else if(stopAt == "PlaneThinW")       vindex = 10; 
     else if(stopAt == "PlaneThickW")    vindex = 11; 
 
-    
     tt_pvtrj_trackID = trjPrimary->GetTrackID();
     tt_pvtrj_stop_index = vindex;
     tt_pvtrj_stop_vo    = stopAt;
@@ -374,9 +360,4 @@ void DmpSimuTrajectoryNtupleMaker::FillEvent(const G4Event* evt)
 
 
 }
-
-
-
-
-
 

@@ -30,17 +30,20 @@ envBase = Environment(ENV = os.environ)
 g4sys=os.environ['G4INSTALL']
 envBase.PrependENVPath('PATH', g4sys+'/../../../bin')
 envBase.ParseConfig("geant4-config --cflags --libs")
+envBase.Prepend(CPPFLAGS = '-DG4VIS_USE')       # set our -DRelease or -DDebug
+envBase.Append(CPPFLAGS = ' -DG4UI_USE')
+envBase.Append(CPPFLAGS = ' -DG4VIS_USE_OPENGLX')
     # set Root environment
 envBase.ParseConfig("root-config --cflags --libs")
 
 # set general variables
 #--------------------------------------------------------------------
 version='0.0.1'
-prefix='/usr/local'
+prefix='Install'
 if os.environ.has_key('DMPSWSYS'):
     prefix=os.environ['DMPSWSYS']
 else:
-    UsrPrefix=raw_input('Where to install DMPSW [default is "/usr/local"]: ')
+    UsrPrefix=raw_input('Where to install DMPSW (press Enter to use default "%s"):'%prefix)
     if UsrPrefix is not None:
         prefix=UsrPrefix
 prefix=os.path.abspath(prefix)
@@ -56,7 +59,8 @@ else:
 
 # invoke *.scons file of top-1 packages
 #--------------------------------------------------------------------
-pkgList='Kernel,Event,RawDataConversion,Analysis,Geometry,Simulation'
+pkgList='Kernel,Event,RawDataConversion,Analysis,Geometry'
+#,Simulation'
 #pkgList='Simulation'
     #'Calibration,Generation,Geometry,Reconstruction,Simulation,Visualization'
 pkgList=ARGUMENTS.get('package',pkgList)

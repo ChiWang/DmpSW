@@ -3,6 +3,8 @@
 // Author(s):
 //  - creation by X.Wu, 15/07/2013
 
+#include "G4Event.hh"
+#include "G4Run.hh"
 #include "DmpSimuPrimariesNtupleMaker.hh"
 
 #include "TTree.h"
@@ -12,7 +14,7 @@ DmpSimuPrimariesNtupleMaker::DmpSimuPrimariesNtupleMaker()
 {
   //set debugEvent to a particular event number for debug printout  
   //debugEvent = -1; //-1 is all events
-  debugEvent = -100; //-100 no event
+  //debugEvent = -100; //-100 no event
 }
 
 DmpSimuPrimariesNtupleMaker::~DmpSimuPrimariesNtupleMaker()
@@ -20,21 +22,17 @@ DmpSimuPrimariesNtupleMaker::~DmpSimuPrimariesNtupleMaker()
 }
 
 void DmpSimuPrimariesNtupleMaker::book(const G4Run* aRun, TTree* aTree)
-{ 
- 
+{
   tree = aTree;
-
  //book ntuple branches and define ntuple data vectors here 
  tree->Branch("tt_npv",       &tt_npv,     "tt_npv/i"  );
  //tree->Branch("tt_npvpart",   &tt_npv,     "tt_npvpart/i");
-
  tree->Branch("tt_pv_x",      &tt_pv_x);
  tree->Branch("tt_pv_y",      &tt_pv_y);
  tree->Branch("tt_pv_z",      &tt_pv_z);
  tree->Branch("tt_pv_r",      &tt_pv_r);
  tree->Branch("tt_pv_theta",  &tt_pv_theta);
  tree->Branch("tt_pv_phi",    &tt_pv_phi);
-
  tree->Branch("tt_pvpart_px", &tt_pvpart_px  );
  tree->Branch("tt_pvpart_py", &tt_pvpart_py  );
  tree->Branch("tt_pvpart_pz", &tt_pvpart_pz  );
@@ -45,32 +43,22 @@ void DmpSimuPrimariesNtupleMaker::book(const G4Run* aRun, TTree* aTree)
  // Zenuth  azimuth
  tree->Branch("tt_pvpart_zenith", &tt_pvpart_zenith );
  tree->Branch("tt_pvpart_azimuth", &tt_pvpart_azimuth );
- 
-
 
  tree->Branch("tt_pvpart_ekin",&tt_pvpart_ekin);
  tree->Branch("tt_pvpart_q",  &tt_pvpart_q   );
  tree->Branch("tt_pvpart_pdg",&tt_pvpart_pdg );
-
 }
 
 void DmpSimuPrimariesNtupleMaker::beginEvent(const G4Event* evt)
 {
   //set event number
   eventNumber = evt->GetEventID();
-
  //clear all ntuple data vectors here
-
-
-}
-
-void DmpSimuPrimariesNtupleMaker::FillStep(const G4Step* aStep)
-{
 }
 
 void DmpSimuPrimariesNtupleMaker::FillEvent(const G4Event* evt)
-{  
-  
+{
+/*
   if(eventNumber == debugEvent || debugEvent == -1) {
     G4int nVertex = evt->GetNumberOfPrimaryVertex();
     G4cout << " Number of PrimaryVertex: " << nVertex << G4endl;
@@ -84,7 +72,7 @@ void DmpSimuPrimariesNtupleMaker::FillEvent(const G4Event* evt)
       }
     }
   }
-  
+*/
   tt_npv   = evt->GetNumberOfPrimaryVertex();
   if(tt_npv>1) G4cout << " WARNING: Number of PrimaryVertex more than 1: " << tt_npv << G4endl;
 
@@ -130,7 +118,6 @@ void DmpSimuPrimariesNtupleMaker::FillEvent(const G4Event* evt)
   uphipart[2] = 0.0;
 
   // make normalizations of unit vectors (perhaps redundant, vectors should be properly normalized)
-
   G4double urnorm=0.0, uthetanorm=0.0, uphinorm=0.0;
   for (int k=0; k<3; k++){
     urnorm += pow(urpart[k], 2);
@@ -145,8 +132,6 @@ void DmpSimuPrimariesNtupleMaker::FillEvent(const G4Event* evt)
     uthetapart[k] = uthetapart[k] / uthetanorm;
     uphipart[k] = uphipart[k] / uphinorm;
   }
-
-
   // Zenith and azimuth angles
   G4double czen, cazi, sazi;
   
@@ -159,15 +144,8 @@ void DmpSimuPrimariesNtupleMaker::FillEvent(const G4Event* evt)
   tt_pvpart_zenith = acos(czen) * 180.0/pi;
   tt_pvpart_azimuth = atan2(sazi, cazi) * 180.0/pi;
 
-  tt_pvpart_ekin = evt->GetPrimaryVertex(0)->GetPrimary(0)->GetKineticEnergy();
+  tt_pvpart_ekin = evt->GetPrimaryVertex(0)->GetPrimary(0)->GetKineticEnergy();  //??? no this function??
   tt_pvpart_q    = evt->GetPrimaryVertex(0)->GetPrimary(0)->GetCharge();
   tt_pvpart_pdg  = evt->GetPrimaryVertex(0)->GetPrimary(0)->GetPDGcode();
-
-
 }
-
-
-
-
-
 
