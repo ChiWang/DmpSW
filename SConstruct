@@ -1,25 +1,20 @@
-#=====================================================================
-#   File:   SConstruct
-#   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    01/10/2013
-#---------------------------------------------------------------------
-#   Description:
-#           setup install method in this file
-#       1. if you want to install the whole DMPSW, execute
-#           scons
-#           at current directory
-#       3. if you want to re-install some certain packages:
-#           scons package=package_1,package_2,package_3
-#       2. installation layout
-#           prefix/bin
-#           prefix/include
-#           prefix/lib
-#           prefix/share
-#
-#---------------------------------------------------------------------
-#   History:
-#                           Last update:  24/01/2014   10:10:17
-#=====================================================================
-
+'''
+ *  $Id: SConstruct, 2014-02-24 14:06:12 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 24/02/2014
+ *---------------------------------------------------
+ *      setup install method in this file
+ *  1. if you want to install the whole DMPSW, execute
+ *      scons
+ *      at current directory
+ *  2. if you want to re-install some certain packages:
+ *      scons package=package_1,package_2,package_3
+ *  3. installation layout
+ *      prefix/bin
+ *      prefix/include
+ *      prefix/lib
+ *      prefix/share
+'''
 
 import os
 
@@ -30,6 +25,9 @@ envBase = Environment(ENV = os.environ)
 g4sys=os.environ['G4INSTALL']
 envBase.PrependENVPath('PATH', g4sys+'/../../../bin')
 envBase.ParseConfig("geant4-config --cflags --libs")
+envBase.Prepend(CPPFLAGS = '-DG4VIS_USE')       # set our -DRelease or -DDebug
+envBase.Append(CPPFLAGS = ' -DG4UI_USE')
+envBase.Append(CPPFLAGS = ' -DG4VIS_USE_OPENGLX')
     # set Root environment
 envBase.ParseConfig("root-config --cflags --libs")
 
@@ -57,7 +55,8 @@ else:
 
 # invoke *.scons file of top-1 packages
 #--------------------------------------------------------------------
-pkgList='Kernel,Event,RawDataConversion,Analysis,Geometry,Simulation'
+pkgList='Kernel,Event,RawDataConversion,Analysis,Geometry'
+#,Simulation'
 #pkgList='Simulation'
     #'Calibration,Generation,Geometry,Reconstruction,Simulation,Visualization'
 pkgList=ARGUMENTS.get('package',pkgList)
