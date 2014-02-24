@@ -1,0 +1,62 @@
+#=====================================================================
+#   File:   Simulation.scons
+#   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    22/01/2014
+#---------------------------------------------------------------------
+#   Description:
+#       This file is invoked by ../SConstruct
+#
+#---------------------------------------------------------------------
+#   History:
+#                           Last update:  23/01/2014   01:58:42
+#=====================================================================
+
+
+import os
+Import("*")
+print "\t\t\t invoke %s\n" % os.path.abspath("./")
+#--------------------------------------------------------------------
+
+target='dmpSim'
+env = envBase.Clone()
+
+# include
+env.Prepend(CPPPATH='DmpSim/include')
+for key in subDetectors:
+    includeDir=key+'/include'
+    env.Prepend(CPPPATH=[includeDir])
+
+# Use other top-1 package
+#--------------------------------------------------------------------
+    #+  Kernel
+P1Path='../Kernel'
+env.Prepend(CPPPATH=[P1Path+'/include'])
+    #+  Event
+P2Path='../Event'
+env.Prepend(CPPPATH=P2Path+'/DmpEvent/include')
+for key in subDetectors:
+    includeDir=P2Path+"/"+key+'/include'
+    env.Prepend(CPPPATH=[includeDir])
+   
+env.Prepend(LIBS=['DmpCore','DmpEvent'])
+env.Prepend(LIBPATH=[P1Path,P2Path])
+
+
+# install share
+#--------------------------------------------------------------------
+for file in os.listdir('./share'):
+    if ".mac" in file:
+        Default(Command(prefix+'/share/TestRelease/'+file,'./share/'+file,Copy("$TARGET","$SOURCE")))
+
+# run folder (configuration files to run geant4 in interactive mode)
+#--------------------------------------------------------------------
+for file in ["g4.ini","vis.mac"]:
+    Default(Command(prefix+'/run/'+file,'./run/'+file,Copy("$TARGET","$SOURCE")))
+
+
+
+# main build
+#--------------------------------------------------------------------
+goal=env.Program(target,Glob('./*/src/*.cc'))
+Default(env.InstallAs(prefix+'/bin/'+target,goal))
+
+
