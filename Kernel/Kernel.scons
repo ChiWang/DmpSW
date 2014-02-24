@@ -33,7 +33,7 @@ env.Prepend(CPPPATH=[P1Path+'/include'])
 for file in os.listdir(includeDir):
     Default(Command(prefix+'/include/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
 for file in os.listdir('./script'):
-    if "Readme" not in file:
+    if "." not int file[0] and "Readme" not in file:
         Default(Command(prefix+'/bin/'+file,'./script/'+file,Copy("$TARGET","$SOURCE")))
 
 # main build

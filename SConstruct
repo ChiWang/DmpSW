@@ -36,11 +36,12 @@ envBase.ParseConfig("root-config --cflags --libs")
 # set general variables
 #--------------------------------------------------------------------
 version='0.0.1'
-prefix='/usr/local'
+#prefix='/usr/local'
+prefix='Install'
 if os.environ.has_key('DMPSWSYS'):
     prefix=os.environ['DMPSWSYS']
 else:
-    UsrPrefix=raw_input('Where to install DMPSW [default is "/usr/local"]: ')
+    UsrPrefix=raw_input('Where to install DMPSW (press Enter to use default "%s"):'%prefix)
     if UsrPrefix is not None:
         prefix=UsrPrefix
 prefix=os.path.abspath(prefix)

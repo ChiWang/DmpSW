@@ -35,7 +35,7 @@ env.Prepend(CPPPATH=[P1Path+'/include'])
 for key in subDetectors:
     includeDir=key+'/include'
     for file in os.listdir(includeDir):
-        if "LinkDef" not in file and "Dictionary" not in file:
+        if "." not in file[0] and "LinkDef" not in file and "Dictionary" not in file:
             Default(Command(prefix+'/include/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
 
 # main build
