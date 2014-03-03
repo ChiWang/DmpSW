@@ -2,7 +2,7 @@
 #define DmpSimRunAction_H
 
 #include "G4UserRunAction.hh"
-#include "globals.hh"
+//#include "globals.hh"
 
 class DmpSimRunAction : public G4UserRunAction{
 public:
@@ -16,6 +16,5 @@ private:
 };
 
 #endif
-
 
 

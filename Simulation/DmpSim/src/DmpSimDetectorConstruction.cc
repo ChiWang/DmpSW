@@ -12,19 +12,16 @@
 #include "G4RegionStore.hh"
 
 #include "DmpSimDetectorConstruction.h"
-#include "DmpSimDetectorMessenger.h"
 
 DmpSimDetectorConstruction::DmpSimDetectorConstruction()
   :fPhysiWorld(0)
 {
 	// create commands for interactive definition of the payload
   fParser = new G4GDMLParser();
-  fDetMessenger = new DmpSimDetectorMessenger(this);
 }
 
 DmpSimDetectorConstruction::~DmpSimDetectorConstruction(){
   delete fParser;
-  delete fDetMessenger;
 }
 
 G4VPhysicalVolume* DmpSimDetectorConstruction::Construct(){

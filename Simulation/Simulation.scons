@@ -47,12 +47,6 @@ for file in os.listdir('./share'):
     if ".mac" in file:
         Default(Command(prefix+'/share/TestRelease/'+file,'./share/'+file,Copy("$TARGET","$SOURCE")))
 
-# run folder (configuration files to run geant4 in interactive mode)
-#--------------------------------------------------------------------
-for file in ["g4.ini","vis.mac"]:
-    Default(Command(prefix+'/run/'+file,'./run/'+file,Copy("$TARGET","$SOURCE")))
-
-
 # main build
 #--------------------------------------------------------------------
 goal=env.Program(target,Glob('./*/src/*.cc'))

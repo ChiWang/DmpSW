@@ -1,14 +1,8 @@
 // Description: This class hinerits from G4VSensitiveDetector. It is used to
-// build the BGO sensitive area geometry and produce DmpSimuBgoHit collection 
+// build the BGO sensitive area geometry and produce DmpSimBgoHit collection 
 //
 // Author(s):
 //  - creation by X.Wu, 12/07/2013
-
-#include "G4RunManager.hh"
-#include "DmpBgoSensitiveDetector.hh"
-#include "DmpSimuBgoHit.hh"
-#include "DmpDetectorConstruction.hh"
-#include "DmpBgoDetectorDescription.hh"
 
 #include "G4VPhysicalVolume.hh"
 #include "G4Step.hh"
@@ -17,16 +11,16 @@
 #include "G4SDManager.hh"
 #include "G4ios.hh"
 
-DmpBgoSensitiveDetector::DmpBgoSensitiveDetector(G4String name):G4VSensitiveDetector(name)
-{
- G4RunManager* runManager = G4RunManager::GetRunManager();
-  dmpDetector =
-    (DmpDetectorConstruction*)(runManager->GetUserDetectorConstruction());
-  
+#include "DmpBgoSimSensitiveDetector.hh"
+#include "DmpSimBgoHit.hh"
+#include "DmpBgoSimDetectorDescription.hh"
+#include "DmpParametersBgo.h"
+using namespace DmpParameters::Bgo;
+
+DmpBgoSimSensitiveDetector::DmpBgoSimSensitiveDetector(G4String name):G4VSensitiveDetector(name){
   NbOfCALLayerBars  = (dmpDetector->GetBgoDetectorDescription())->GetNbOfCALLayerBars();
   NbOfCALLayers  = (dmpDetector->GetBgoDetectorDescription())->GetNbOfCALLayers();
 
-  G4cout <<  NbOfCALLayerBars << " bars " << G4endl;
   G4cout <<  NbOfCALLayers << " layers " << G4endl;
   
   NbOfCALChannels = NbOfCALLayerBars*NbOfCALLayers/2;
@@ -44,15 +38,14 @@ DmpBgoSensitiveDetector::DmpBgoSensitiveDetector(G4String name):G4VSensitiveDete
   //(old)light attenuation per mm; default 0.06% per mm
 }
 
-DmpBgoSensitiveDetector::~DmpBgoSensitiveDetector()
+DmpBgoSimSensitiveDetector::~DmpBgoSimSensitiveDetector()
 {
   delete [] ChitXID;
   delete [] ChitYID;
 }
 
-void DmpBgoSensitiveDetector::Initialize(G4HCofThisEvent*)
-{
-  BGOHitCollection = new DmpSimuBgoHitsCollection
+void DmpBgoSimSensitiveDetector::Initialize(G4HCofThisEvent*){
+  BGOHitCollection = new DmpSimBgoHitsCollection
     (SensitiveDetectorName,collectionName[0]);
   for (G4int i=0;i<NbOfCALChannels;i++)
       {
@@ -61,9 +54,7 @@ void DmpBgoSensitiveDetector::Initialize(G4HCofThisEvent*)
       };
 }
 
-G4bool DmpBgoSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*)
-{ 
- 
+G4bool DmpBgoSimSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*){
  
   G4double     edep = aStep->GetTotalEnergyDeposit();
   G4ThreeVector pos = aStep->GetPreStepPoint()->GetPosition();
@@ -83,7 +74,7 @@ G4bool DmpBgoSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*)
   CALBarNumber = CopyNo-((int)(CopyNo/100))*100;  //bar No: 0~21
   CALLayerNumber = (int)(CopyNo/100);             //layer No: 0~13
   
-  G4int CALPlaneNumber = 0;    //Plane number is 0~6, to suit Xin's DmpSimuBgoHitNtupleMaker
+  G4int CALPlaneNumber = 0;    //Plane number is 0~6, to suit Xin's DmpSimBgoHitNtupleMaker
   if(CALLayerNumber==0  || CALLayerNumber==1 ){CALPlaneNumber=6;}
   if(CALLayerNumber==2  || CALLayerNumber==3 ){CALPlaneNumber=5;}
   if(CALLayerNumber==4  || CALLayerNumber==5 ){CALPlaneNumber=4;}
@@ -93,8 +84,6 @@ G4bool DmpBgoSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*)
   if(CALLayerNumber==12 || CALLayerNumber==13){CALPlaneNumber=0;}
 
   G4int NChannel = 0;
-  
-  //NChannel = CALPlaneNumber * NbOfCALLayerBars + CALBarNumber; 
   
   if (CALLayerNumber%2==0 )
     //even layers(0,2,4,6,8,10,12)
@@ -110,7 +99,7 @@ G4bool DmpBgoSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*)
       // This is a new hit
       if (ChitXID[NChannel]==-1)
 	{       
-	  DmpSimuBgoHit* CalorimeterHit = new DmpSimuBgoHit;
+	  DmpSimBgoHit* CalorimeterHit = new DmpSimBgoHit;
 	  CalorimeterHit->SetCALType(1);
 	  CalorimeterHit->AddEnergy(edep);
 	  CalorimeterHit->SetPos(pos);
@@ -123,7 +112,7 @@ G4bool DmpBgoSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*)
 	  ChitXID[NChannel] = 
 	  BGOHitCollection->insert(CalorimeterHit) -1;
 	  //std::cout << " new x bar hit at " << pos << " energy tot/pos/neg " << edep << "/" << fracPos*edep << "/" << (1.-fracPos)*edep << std::endl;
-          //G4cout << "[DmpBgoSensitiveDetector::ProcessHits]:hit bar at layer: " << CALLayerNumber << ", X plane: " << CALPlaneNumber << ", Bar: " << CALBarNumber << ", NChannel: " << NChannel << G4endl;
+          //G4cout << "[DmpBgoSimSensitiveDetector::ProcessHits]:hit bar at layer: " << CALLayerNumber << ", X plane: " << CALPlaneNumber << ", Bar: " << CALBarNumber << ", NChannel: " << NChannel << G4endl;
 	}
           
       else // This is not new
@@ -137,7 +126,7 @@ G4bool DmpBgoSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*)
 	  (*BGOHitCollection)
 	    [ChitXID[NChannel]]->AddEnergyNeg(fracNeg*edep);
 	  //std::cout << " old x bar hit at " << pos << " energy tot/pos/neg " << edep << "/" << fracPos*edep << "/" << (1.-fracPos)*edep << std::endl;
-          //G4cout << "[DmpBgoSensitiveDetector::ProcessHits]:This is not new hit, at layer: " << CALLayerNumber << ", X plane: " << CALPlaneNumber << ", Bar: " << CALBarNumber << ", NChannel: " << NChannel << G4endl;
+          //G4cout << "[DmpBgoSimSensitiveDetector::ProcessHits]:This is not new hit, at layer: " << CALLayerNumber << ", X plane: " << CALPlaneNumber << ", Bar: " << CALBarNumber << ", NChannel: " << NChannel << G4endl;
 	}
     }
  
@@ -154,8 +143,8 @@ G4bool DmpBgoSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*)
       // This is a new hit
       if (ChitYID[NChannel]==-1)
 	{       
-	  DmpSimuBgoHit* CalorimeterHit 
-	    = new DmpSimuBgoHit;
+	  DmpSimBgoHit* CalorimeterHit 
+	    = new DmpSimBgoHit;
 	  CalorimeterHit->SetCALType(0);
 	  CalorimeterHit->AddEnergy(edep);
 	  CalorimeterHit->SetPos(pos);
@@ -168,7 +157,7 @@ G4bool DmpBgoSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*)
 	  ChitYID[NChannel] = 
 	    BGOHitCollection->insert(CalorimeterHit)-1;
 	  //std::cout << " new y bar hit at " << pos << " energy tot/pos/neg " << edep << "/" << fracPos*edep << "/" << (1.-fracPos)*edep << std::endl;
-          //G4cout << "[DmpBgoSensitiveDetector::ProcessHits]:hit bar at layer: " << CALLayerNumber << ", Y plane: " << CALPlaneNumber << ", Bar: "<< CALBarNumber << ", NChannel: " << NChannel << G4endl;
+          //G4cout << "[DmpBgoSimSensitiveDetector::ProcessHits]:hit bar at layer: " << CALLayerNumber << ", Y plane: " << CALPlaneNumber << ", Bar: "<< CALBarNumber << ", NChannel: " << NChannel << G4endl;
 	}
       else // This is not new
 	{
@@ -181,7 +170,7 @@ G4bool DmpBgoSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*)
 	  (*BGOHitCollection)
 	    [ChitYID[NChannel]]->AddEnergyNeg(fracNeg*edep);
 	  //std::cout << " old y bar hit at " << pos << " energy tot/pos/neg " << edep << "/" << fracPos*edep << "/" << (1.-fracPos)*edep << std::endl;
-          //G4cout << "[DmpBgoSensitiveDetector::ProcessHits]:This is not new hit, at layer: " << CALLayerNumber << ", Y plane: " << CALPlaneNumber << ", Bar: " << CALBarNumber << ", NChannel: " << NChannel << G4endl;
+          //G4cout << "[DmpBgoSimSensitiveDetector::ProcessHits]:This is not new hit, at layer: " << CALLayerNumber << ", Y plane: " << CALPlaneNumber << ", Bar: " << CALBarNumber << ", NChannel: " << NChannel << G4endl;
 	}
     }
 
@@ -189,43 +178,18 @@ G4bool DmpBgoSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*)
   return true;
 }
 
-void DmpBgoSensitiveDetector::EndOfEvent(G4HCofThisEvent* HCE)
-{
+void DmpBgoSimSensitiveDetector::EndOfEvent(G4HCofThisEvent* HCE){
   static G4int HCID = -1;
   if(HCID<0)
     { 
       HCID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
     }
   HCE->AddHitsCollection(HCID,BGOHitCollection);
-
-
   for (G4int i=0;i<NbOfCALChannels;i++) 
     {
       ChitXID[i] = -1;
       ChitYID[i] = -1;
     };
 }
-
-
-void DmpBgoSensitiveDetector::clear()
-{} 
-
-void DmpBgoSensitiveDetector::DrawAll()
-{} 
-
-void DmpBgoSensitiveDetector::PrintAll()
-{} 
-
-
-
-
-
-
-
-
-
-
-
-
 
 

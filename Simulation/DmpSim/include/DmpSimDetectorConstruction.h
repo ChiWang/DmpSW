@@ -7,11 +7,13 @@
 #ifndef DmpSimDetectorConstruction_H
 #define DmpSimDetectorConstruction_H
 
+// *
+// *  TODO: binding set functions into python and contrul in python script, instead of using meseengers
+// *
 #include "G4VUserDetectorConstruction.hh"
 
 class G4GDMLParser;
 class G4VPhysicalVolume;
-class DmpSimDetectorMessenger;
 
 class DmpSimDetectorConstruction : public G4VUserDetectorConstruction{
 public:
@@ -24,8 +26,6 @@ public:
 private:
   G4GDMLParser              *fParser;
   G4VPhysicalVolume         *fPhysiWorld;    
-  DmpSimDetectorMessenger   *fDetMessenger;
-
 };
 
 #endif

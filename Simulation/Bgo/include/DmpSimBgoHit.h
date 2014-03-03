@@ -1,29 +1,23 @@
-#ifndef DmpSimuBgoHit_h
-#define DmpSimuBgoHit_h 1
+#ifndef DmpSimBgoHit_h
+#define DmpSimBgoHit_h 1
 
 #include "G4VHit.hh"
 #include "G4THitsCollection.hh"
 #include "G4Allocator.hh"
 #include "G4ThreeVector.hh"
 
-class DmpSimuBgoHit : public G4VHit
-{
+class DmpSimBgoHit : public G4VHit{
 public:
-  
-  DmpSimuBgoHit();
-  ~DmpSimuBgoHit();
-  DmpSimuBgoHit(const DmpSimuBgoHit&);
-  const DmpSimuBgoHit& operator=(const DmpSimuBgoHit&);
-  int operator==(const DmpSimuBgoHit&) const;
+  DmpSimBgoHit();
+  ~DmpSimBgoHit();
+  DmpSimBgoHit(const DmpSimBgoHit&);
+  const DmpSimBgoHit& operator=(const DmpSimBgoHit&);
+  int operator==(const DmpSimBgoHit&) const;
   
   inline void* operator new(size_t);
   inline void  operator delete(void*);
   
-  void Draw();
-  void Print();
-
 private:
-  
   G4double EdepNeg;      // Energy readout from the negative side of BGO bar
   G4double EdepPos;      // Energy readout from the positive side of BGO bar
   G4double SumPosition;  // Sum of Energy*position
@@ -33,7 +27,7 @@ private:
   G4int CALLayerNumber;  // Number of the BGO layers
   G4int IsCALLayer;      // Type of the layer (0 X, 1 Y)
 
-  G4int CALPlaneNumber;  // Provide number of BGO plane, to suit Xin's DmpSimuBgoHitNtupleMaker
+  G4int CALPlaneNumber;  // Provide number of BGO plane, to suit Xin's DmpSimBgoHitNtupleMaker
 
 public:
   
@@ -60,20 +54,21 @@ public:
   inline G4int    GetCALPlaneNumber()   { return CALPlaneNumber; };
 };
 
-typedef G4THitsCollection<DmpSimuBgoHit> DmpSimuBgoHitsCollection;
+//-------------------------------------------------------------------
+typedef G4THitsCollection<DmpSimBgoHit> DmpSimBgoHitsCollection;
 
-extern G4Allocator<DmpSimuBgoHit> DmpSimuBgoHitAllocator;
+extern G4Allocator<DmpSimBgoHit> DmpSimBgoHitAllocator;
 
-inline void* DmpSimuBgoHit::operator new(size_t)
+inline void* DmpSimBgoHit::operator new(size_t)
 {
   void* aHit;
-  aHit = (void*) DmpSimuBgoHitAllocator.MallocSingle();
+  aHit = (void*) DmpSimBgoHitAllocator.MallocSingle();
   return aHit;
 }
 
-inline void DmpSimuBgoHit::operator delete(void* aHit)
+inline void DmpSimBgoHit::operator delete(void* aHit)
 {
-  DmpSimuBgoHitAllocator.FreeSingle((DmpSimuBgoHit*) aHit);
+  DmpSimBgoHitAllocator.FreeSingle((DmpSimBgoHit*) aHit);
 }
 
 #endif

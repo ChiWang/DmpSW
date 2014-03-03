@@ -10,17 +10,15 @@
 #include "globals.hh"
 
 #include "DmpDataMessenger.hh"
-#include "DmpSimuRunEventHeaderMaker.hh"
 
 class TTree;
 class G4Run;
 class DmpEvtRaw;
-class DmpEvtSimSource;
+class DmpEvtSimPrimaryParticle;
 
 // *
 // *  TODO:  for Primary Generation;
 // *
-
 
 class DmpDataManager{
 public:
@@ -38,12 +36,9 @@ private:
 private:
   TTree             *fTree;
   DmpEvtRaw         *fEvtRaw;
-  DmpEvtSimSource   *fSimSource;
-
-  //DmpDataMessenger* rootMessenger;
+  DmpEvtSimPrimaryParticle   *fPrimaryParticle;
 
 };
-
 
 #endif
 

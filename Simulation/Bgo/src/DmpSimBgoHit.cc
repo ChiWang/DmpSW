@@ -8,8 +8,7 @@
 
 G4Allocator<DmpSimuBgoHit> DmpSimuBgoHitAllocator;
 
-DmpSimuBgoHit::DmpSimuBgoHit()
-{
+DmpSimuBgoHit::DmpSimuBgoHit(){
   EdepNeg = 0.;
   EdepPos = 0.;
   SumPosition = 0.;
@@ -53,20 +52,4 @@ int DmpSimuBgoHit::operator==(const DmpSimuBgoHit& right) const
 {
   return((EdepNeg==right.EdepNeg)&&(EdepPos==right.EdepPos)&&(SumPosition==right.SumPosition)&&(EdepCAL==right.EdepCAL)&&(CALBarNumber==right.CALBarNumber)&&(CALLayerNumber==right.CALLayerNumber)&&(IsCALLayer==right.IsCALLayer)&& (pos==right.pos));
 }
-
-void DmpSimuBgoHit::Draw()
-{;}
-
-void DmpSimuBgoHit::Print()
-{;}
-
-
-
-
-
-
-
-
-
-
 

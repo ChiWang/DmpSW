@@ -21,9 +21,9 @@ DmpEventRaw::DmpEventRaw()
 }
 
 DmpEventRaw::~DmpEventRaw(){
+  delete fEvtHeader;
   fBgoHits->Delete();
   fBgoHits->Clear();
   delete fBgoHits;
-  DmpEvtHeader::Clear();
 }
 

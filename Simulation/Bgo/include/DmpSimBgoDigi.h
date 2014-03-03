@@ -6,9 +6,7 @@
 #include "G4Allocator.hh"
 #include "G4ThreeVector.hh"
 
-class DmpSimuBgoDigi : public G4VDigi
-{
-
+class DmpSimuBgoDigi : public G4VDigi{
 public:
   
   DmpSimuBgoDigi();

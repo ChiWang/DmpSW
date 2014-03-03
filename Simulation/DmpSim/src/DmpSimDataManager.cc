@@ -31,21 +31,23 @@ void DmpDataManager::Clear(){
 //-------------------------------------------------------------------
 DmpDataManager::DmpDataManager()
  :fTree(0),
-  fEvtRaw(0)
+  fEvtRaw(0),
+  fPrimaryParticle(0)
 {
   fEvtRaw = new DmpEvtRaw();
+  fPrimaryParticle = new DmpEvtSimPrimaryParticle();
 }
 
 DmpDataManager::~DmpDataManager(){
   delete fEvtRaw;
-  delete fInstance;
+  delete fPrimaryParticle;
 }
 
 //-------------------------------------------------------------------
 void DmpDataManager::BookFile(const G4Run *aRun){
   fTree = new TTree("Simulation","DAMPESimulation");
   fTree->Branch("RawEvent","DmpEvtRaw",&fEvtRaw,32000,2);
-  fTree->Branch("EventSource","DmpEvtSimSource",&fSimSource,32000,2);
+  fTree->Branch("EventSource","DmpEvtSimPrimaryParticle",&fPrimaryParticle,32000,2);
 }
 
 void SaveFile(){

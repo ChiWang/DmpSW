@@ -38,7 +38,7 @@ public:
   long  GetTime() const         {return fTime;}
   TParticle* GetParticle() const {return fParticle;}
   void SetRunMode(short SubDet_ID, DmpRunMode mode) {fRunModes[SubDet_ID] = mode;}
-  DmpRunMode GetRunMode(short SubDet_ID) const {fRunModes[SubDet_ID] = mode;}
+  DmpRunMode GetRunMode(short SubDet_ID) const {return fRunModes[SubDet_ID];}
 
 private:
   int       fRunID;                 // Run ID
