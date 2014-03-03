@@ -63,10 +63,3 @@ void DmpSimuDigitization::Digitize()
 }
 
 
-
-
-
-
-
-
-

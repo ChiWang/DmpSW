@@ -1,13 +1,8 @@
-/*=====================================================================
- *   File:   DmpEvent_Bgo_LinkDef.h
- *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
- *---------------------------------------------------------------------
- *   Description:
- *
- *---------------------------------------------------------------------
- *   History:
- *                           Last update:  16/12/2013   10:39:39
-=====================================================================*/
+/*
+ *  $Id: DmpEventBgoLinkDef.h, 2014-02-25 10:15:15 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
+*/
 
 #ifdef __CINT__
 
@@ -15,9 +10,11 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
-#pragma link C++ class DmpEvtBgoRaw+;
 #pragma link C++ class DmpEvtBgoHit+;
-#pragma link C++ class DmpEvtBgoCluster+;
+// *
+// *  TODO: delete DmpEvtBgoRaw, and rewrite RDC using DmpBgoHit
+// *
+//#pragma link C++ class DmpEvtBgoRaw+;
 #pragma link C++ class DmpEvtBgoShower+;
 #pragma link C++ class DmpRecordBgoPed+;
 

@@ -1,75 +1,51 @@
-/*=====================================================================
- *   File:   DmpEvtHeader.h
- *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
- *---------------------------------------------------------------------
- *   Description:
- *
- *---------------------------------------------------------------------
- *   History:
- *                           Last update:  15/12/2013   21:52:29
-=====================================================================*/
+/*
+ *  $Id: DmpEvtHeader.h, 2014-03-02 22:20:49 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
+*/
 
 #ifndef DmpEvtHeader_H
 #define DmpEvtHeader_H
 
+#include <vector>
 #include "TObject.h"
 
+class TParticle;
 class DmpEvtHeader : public TObject{
 /*
  * DmpEvtHeader
  *
- * Information of event, refer to data member.
- *
- * Check package header(0xe225 0813), if right, ++fPackageID, then
- * read raw science data of event. If this event is valid (format right, trigger match, CRC right, longth right), ++fEventID, and then,
- * fill this event. So, fEventID must be continuous, fPackageID may not.
- *
- * default set fTimeGap=100mSec for the first event
+ * Anywhere could use this singleton
  *
 */
-
- public:
-  enum DmpEParticleID {
-    kUnknown  = -100,
-    kElectron = -1,
-    kMuon     = 0,
-    kProton   = 9,
-    kCarbon   = 12,
+public:
+  enum DmpRunMode{
+    kUnknow = -1,
+    kCompress = 5,
+    kCalPed = 6,
+    kCalADC = 7,
   };
 
+public:
   DmpEvtHeader();
   ~DmpEvtHeader();
-  void  Reset();
-  void  SetTime(Short_t time[],Int_t size);     // converte hex time to dec time and cal. time gap
-  void  ShowTime(Short_t mode=1) const;         // mode = {0|1} 0: raw hex time; 1: normal time(date,time)
-  void  CountPackage()              {++fPackageID;}
-  void  CountEvent()                {++fEventID;}
-  void  SetPID(DmpEParticleID pid)  {fPID = pid;}
-  void  SetCharge(Short_t q)        {fCharge = q;}
-  void  SetEnergy(Double_t e)       {fEnergy = e;}
-  Long64_t  GetPackageID() const    {return fPackageID;}
-  Long64_t  GetEventID() const      {return fEventID;}
-  Long64_t  GetTimeGap() const      {return fTimeGap;}
-  DmpEParticleID    GetPID() const  {return fPID;}
-  Short_t   GetCharge() const       {return fCharge;}
-  Double_t  GetEnergy() const       {return fEnergy;}
 
- private:
-    // recored information
-  Long64_t  fPackageID;         // check package header, if right, +1
-  Long64_t  fEventID;           // valid event count. continuous
-  Long64_t  fSec;               // Time: sec + msec
-  Short_t   fmSec;              //
-  Long64_t  fTimeGap;           // unit: msec
+  void  SetRunID(int id)        {fEventID = id;}
+  int   GetRunID() const        {return fEventID;}
+  void  SetEventID(long id)     {fEventID = id;}
+  long  GetEventID() const      {return fEventID;}
+  void  SetTime(long time)      {fTime = time;}
+  long  GetTime() const         {return fTime;}
+  TParticle* GetParticle() const {return fParticle;}
+  void SetRunMode(short SubDet_ID, DmpRunMode mode) {fRunModes[SubDet_ID] = mode;}
+  DmpRunMode GetRunMode(short SubDet_ID) const {fRunModes[SubDet_ID] = mode;}
 
- private:
-    // reconstructed information
-  DmpEParticleID    fPID;       // particle ID
-  Short_t   fCharge;            // reconstructed charge
-  Double_t  fEnergy;            // reconstructed energy
-
- private:
-  Short_t   *fTime;             //! pointer to store data of hex time. Only used in ShowTime(Short_t mode=0) which will only be used in package RDC. So, not save fTime
+private:
+  int       fRunID;                 // Run ID
+  long      fEventID;               // valid event count
+  long      fTime;                  // Unit msec
+  TParticle *fParticle;             // this particle
+  std::vector<DmpRunMode>   fRunModes;
 
   ClassDef(DmpEvtHeader,1)
 };

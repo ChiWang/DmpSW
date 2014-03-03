@@ -10,18 +10,17 @@ class G4Event;
 class DmpDetectorConstruction;
 class DmpSimuPrimaryGeneratorMessenger;
 class G4GeneralParticleSource;
-class DmpRootEventDataManager;
 class DmpG4RunManager;
 
 class DmpSimuPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
 public:
-
   DmpSimuPrimaryGeneratorAction();    
   ~DmpSimuPrimaryGeneratorAction();
   
 public:
   void GeneratePrimaries(G4Event*);
+
   void SetRndmFlag(G4String val)     { rndmFlag      = val;}
   void SetSourceType(G4int val)      { nSourceType   = val;}
   void SetSpectrumType(G4int val)    { nSpectrumType = val;}
@@ -36,12 +35,11 @@ public:
     angDist->SetParticleMomentumDirection(momentum);
   }
 
-
   G4ParticleDefinition* GetParticleDefinition() {
     return particleGun->GetParticleDefinition();
   }
   G4GeneralParticleSource* GetParticleSource() {
-    return particleSource;
+    return fGPS;
   }
   G4int GetSpectrumType(){
     return nSpectrumType;
@@ -58,11 +56,6 @@ public:
   G4int GetSourceGen(){
     return sourceGen;
   }
-  
-
-  
-
-  void SetDmpRootEventDataManager(DmpRootEventDataManager* val) {dmpRootEventDataManager = val;}
 
   //bool GenOnly()                      { return genOnly; }
   //void SetGenOnly(G4bool val)         { genOnly = val;  }
@@ -77,12 +70,9 @@ public:
   void SetFilterUpward  (G4bool val)  { filterUpward   = val; }
   void SetFilterBelowBGO(G4bool val)  { filterBelowBGO = val; }
 
-
-public:
-  
 private:
   G4ParticleGun*                 particleGun;
-  G4GeneralParticleSource*       particleSource;	  
+  G4GeneralParticleSource*       fGPS;	  
   DmpDetectorConstruction*       dmpDetector;  
   DmpSimuPrimaryGeneratorMessenger* gunMessenger; 
   G4String                       rndmFlag;    //flag for a random impact point (not used)
@@ -95,7 +85,6 @@ private:
   G4SPSAngDistribution*          angDist;  
   G4SPSRandomGenerator*          rndDist;
 
-  DmpRootEventDataManager*       dmpRootEventDataManager;
   DmpG4RunManager*               runManager;
 
   //G4bool genOnly;
@@ -109,11 +98,7 @@ private:
   G4int  nFilterRejected;
   G4int  nGenerated;
 
-  G4double BgoTopZ;
-
 };
 
 #endif
-
-
 

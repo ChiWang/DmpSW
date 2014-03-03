@@ -46,12 +46,10 @@ prefix=os.path.abspath(prefix)
 print "install DMPSW into: ",prefix
 subDetectors=['Psd','Stk','Bgo','Nud']
 
-# special C++ flags for DAMPE (mode)
+# special C++ flags for debug
 #--------------------------------------------------------------------
-if int(ARGUMENTS.get('release',0)):
-    envBase.Append(CCFLAGS = ['-DDmp_RELEASE'])
-else:
-    envBase.Append(CCFLAGS = ['-g','-DDmp_DEBUG'])
+if int(ARGUMENTS.get('debug',1)):
+    envBase.Append(CCFLAGS = ['-g','-DDmpDebug'])
 
 # invoke *.scons file of top-1 packages
 #--------------------------------------------------------------------

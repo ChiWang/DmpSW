@@ -168,6 +168,3 @@ G4bool DmpBgoDetectorDescription::isVolumeInsideCalorimeter(G4String& volumename
 
 
 
-
-
-

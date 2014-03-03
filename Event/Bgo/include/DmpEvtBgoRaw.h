@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEvtBgoRaw.h, 2014-02-15 23:19:30 chi $
+ *  $Id: DmpEvtBgoRaw.h, 2014-02-24 23:26:55 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/13
 */ 
@@ -8,10 +8,9 @@
 #define DmpEvtBgoRaw_H
 
 #include <vector>
+#include "TObject.h"
 
-#include "DmpVEvtSubDet.h"
-
-class DmpEvtBgoRaw : public DmpVEvtSubDet{
+class DmpEvtBgoRaw : public TObject{
 /*
  *  DmpEvtBgoRaw
  *
@@ -20,7 +19,7 @@ class DmpEvtBgoRaw : public DmpVEvtSubDet{
  *  For one event:
  *      1.  collection of ADC value from evry dynode    (fADCCollection)
  *      2.  collection of ID correspond to ADC values   (fLBSDCollection:   LBSD = LayerID*10000+BarID*100+SideID*10+DyID)
- *      3.  and, some variables inherit from DmpVEvtSubDet
+ *      3.  and, some variables inherit from TObject
  *
 */
 

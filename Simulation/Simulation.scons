@@ -53,7 +53,6 @@ for file in ["g4.ini","vis.mac"]:
     Default(Command(prefix+'/run/'+file,'./run/'+file,Copy("$TARGET","$SOURCE")))
 
 
-
 # main build
 #--------------------------------------------------------------------
 goal=env.Program(target,Glob('./*/src/*.cc'))

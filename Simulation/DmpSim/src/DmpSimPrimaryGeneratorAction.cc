@@ -4,14 +4,11 @@
 // Author(s):
 //  - creation by X.Wu, 11/07/2013
 
-#include "DmpG4RunManager.hh"
-#include "DmpSimuPrimaryGeneratorAction.hh"
+#include "DmpSimRunManager.h"
+#include "DmpSimPrimaryGeneratorAction.h"
 
-
-#include "DmpDetectorConstruction.hh"
-#include "DmpSimuPrimaryGeneratorMessenger.hh"
-//#include "DmpRootNtupleManager.hh"
-//#include "DmpSimuPrimariesNtupleMaker.hh"
+#include "DmpSimDetectorConstruction.h"
+#include "DmpSimPrimaryGeneratorMessenger.h"
 
 #include "G4Event.hh"
 #include "G4GeneralParticleSource.hh"
@@ -19,16 +16,10 @@
 #include "G4ParticleDefinition.hh"
 #include "Randomize.hh"
 
-
 #include "G4Material.hh"
-
-
 #include "G4Sphere.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
-
-
-#include "TTree.h"
 
 DmpSimuPrimaryGeneratorAction::DmpSimuPrimaryGeneratorAction()
   :rndmFlag("off"),nSourceType(0),nSpectrumType(0),useGenFilter(false),passGenFilter(true),
@@ -36,8 +27,6 @@ DmpSimuPrimaryGeneratorAction::DmpSimuPrimaryGeneratorAction()
 {
   runManager = (DmpG4RunManager*) G4RunManager::GetRunManager();
   dmpDetector = (DmpDetectorConstruction*)(runManager->GetUserDetectorConstruction());
-
-  BgoTopZ = dmpDetector->GetBGOCenter() + dmpDetector->GetBGOSizeZ()/2.;
 
   //create a messenger for this class
   gunMessenger = new DmpSimuPrimaryGeneratorMessenger(this);
@@ -55,37 +44,32 @@ DmpSimuPrimaryGeneratorAction::DmpSimuPrimaryGeneratorAction()
   particleGun->SetParticlePosition(G4ThreeVector(0.*cm,0.*cm,position));
 
 
-  particleSource = new G4GeneralParticleSource();
-  particleSource->SetNumberOfParticles(n_particle);
-  particleSource->SetParticleDefinition(particle);
+  fGPS = new G4GeneralParticleSource();
+  fGPS->SetNumberOfParticles(n_particle);
+  fGPS->SetParticleDefinition(particle);
 
 
   G4double PayLoadSizeZ = (dmpDetector->GetPayloadSizeZ());
   G4double PayLoadSizeXY = (dmpDetector->GetPayloadSizeXY());
   G4cout << "PayLoadSize x, y, z  XY:" << PayLoadSizeXY << " Z:" <<PayLoadSizeZ << G4endl;
-  G4cout << "Top of BGO at z = " << BgoTopZ << G4endl;
   G4ThreeVector dir0; 
   dir0 = G4ThreeVector(0.,0.,1.);
 
-  posDist = new G4SPSPosDistribution();
-  posDist = particleSource->GetCurrentSource()->GetPosDist();
-  angDist = new G4SPSAngDistribution();
-  angDist = particleSource->GetCurrentSource()->GetAngDist();
+  posDist = fGPS->GetCurrentSource()->GetPosDist();
+  angDist = fGPS->GetCurrentSource()->GetAngDist();
   
   //default setting
   posDist->SetPosDisType("Point");  //  Point, Plane, Surface or Volume source
   posDist->SetCentreCoords(G4ThreeVector(+13.75, +13.75, -(PayLoadSizeZ/2.)));
   angDist->SetParticleMomentumDirection(G4ThreeVector(0., 0., -1.));
 
-  eneDist = new G4SPSEneDistribution();
-  eneDist = particleSource->GetCurrentSource()->GetEneDist() ;
+  eneDist = fGPS->GetCurrentSource()->GetEneDist() ;
     
   //default setting
   eneDist->SetEnergyDisType("Mono");
   eneDist->SetMonoEnergy(5.0*GeV);
 
   rndDist = new G4SPSRandomGenerator();
-
 }
 
 DmpSimuPrimaryGeneratorAction::~DmpSimuPrimaryGeneratorAction()
@@ -94,7 +78,7 @@ DmpSimuPrimaryGeneratorAction::~DmpSimuPrimaryGeneratorAction()
   G4cout << "                               number of event rejected by filter = " << nFilterRejected << G4endl;
 
   delete particleGun;
-  delete particleSource;
+  delete fGPS;
   delete gunMessenger;
   
 }
@@ -108,8 +92,6 @@ void DmpSimuPrimaryGeneratorAction::SetupSourceType(G4int val)
   G4double PayLoadSizeXY = (dmpDetector->GetPayloadSizeXY());
   G4cout << "PayLoadSize x, y, z  XY:" << PayLoadSizeXY << " Z:" <<PayLoadSizeZ << G4endl;
  
-
-
   G4double r0 = dVertexRadius;
   if (r0 < 1){
     r0 = std::max(0.5*PayLoadSizeXY,0.5*PayLoadSizeZ)+50.; //mm
@@ -257,19 +239,14 @@ case 7:
     angDist->SetMinPhi(0.*rad);
     angDist->SetMaxPhi(twopi *rad);
     break;
-
-
-
   default:
     break;
   }
-  
 }
 
 void DmpSimuPrimaryGeneratorAction::SetupSpectrumType(G4int val)
 {
   nSpectrumType = val;
-
   //G4cout << "Init nSpectrumType " << nSpectrumType << G4endl; 
   switch(nSpectrumType) {    
   case 0:
@@ -289,12 +266,10 @@ void DmpSimuPrimaryGeneratorAction::SetupSpectrumType(G4int val)
   default:
     break;    
   }
-
 }
 
 void DmpSimuPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
-
   G4double z0 = 29.*cm; //just above the top layer of silicon
   G4double x0 = 0.*cm, y0 = 0.*cm;
   G4ThreeVector pos0;
@@ -308,26 +283,20 @@ void DmpSimuPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double PayLoadSizeXY = (dmpDetector->GetPayloadSizeXY());       
   G4double r0 = sqrt(2*pow(0.5*PayLoadSizeXY,2)+pow(0.5*PayLoadSizeZ,2));
     
-    
   switch(sourceGen){
-  case 0:
+  case 0:       // particle gun
     //this function is called at the begining of event
     //G4double z0 = 0.5*(dmpDetector->GetWorldSizeZ());
-   
-    if (dVertexRadius > xy*0.5)
-      { 
+    if (dVertexRadius > xy*0.5){
 	G4cout << "vertexRadius too big " << G4endl;
 	G4cout << "vertexRadius setted to " << xy*0.45 << G4endl;
 	dVertexRadius = xy*0.45;
       }
-    
-    if (dVertexRadius > z*0.5)
-      { 
+    if (dVertexRadius > z*0.5){
 	G4cout << "vertexRadius too high " << G4endl;
 	G4cout << "vertexRadius setted to " << z*0.45 << G4endl;
 	dVertexRadius = z*0.45;
       }
-    
     switch(nSourceType) {
     case 0:
       //shooting vertically at the center of the payload, useless for tracker
@@ -366,7 +335,6 @@ void DmpSimuPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     case 2:
       // Generate random position on the upper semi-sphere z>0
       //   random polar angle 135-180 degree (90-45 incident angle) 
-      
       vertex0.setX(G4UniformRand()*2.0*dVertexRadius - dVertexRadius);
       vertex0.setY(G4UniformRand()*2.0*dVertexRadius - dVertexRadius);
       vertex0.setZ(z0);
@@ -395,9 +363,7 @@ void DmpSimuPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
       particleGun->SetParticlePosition(vertex0);
       break;      
     }
-    
     G4double pEnergy;
-      
     switch(nSpectrumType) {
     case 0:
       break;
@@ -409,24 +375,16 @@ void DmpSimuPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	pEnergy = G4UniformRand() * 10. * GeV;
 	f = std::pow(pEnergy * (1/GeV), -4.);
       } while (y > f);
-      
       particleGun->SetParticleEnergy(pEnergy);      
       break;
     case 3:
       break;
     }
-    
     particleGun->GeneratePrimaryVertex(anEvent);
-      
     break;
-    
-  case 1:
-             
+  case 1:       // GPS
     //G4cout << "loop nSpectrumType " << nSpectrumType << G4endl; 
-
-    
-    particleSource->GeneratePrimaryVertex(anEvent);
-
+    fGPS->GeneratePrimaryVertex(anEvent);
 
     double pv_x = anEvent->GetPrimaryVertex(0)->GetPosition().x();
     double pv_y = anEvent->GetPrimaryVertex(0)->GetPosition().y();
@@ -434,7 +392,6 @@ void DmpSimuPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     double pvpart_px   = anEvent->GetPrimaryVertex(0)->GetPrimary(0)->GetMomentum().x();
     double pvpart_py   = anEvent->GetPrimaryVertex(0)->GetPrimary(0)->GetMomentum().y();
     double pvpart_pz   = anEvent->GetPrimaryVertex(0)->GetPrimary(0)->GetMomentum().z();
-    
 
     G4double R = dVertexRadius;
     if (R < 1){
@@ -450,8 +407,6 @@ void DmpSimuPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     // If the particles are produced inside a sphere (case 5, 6, 7) the launch point is projected back on the sphere surface
     
     if(nSourceType == 5 || nSourceType == 6 || nSourceType == 7 ){
-  
-        
       den = (pvpart_px*pvpart_px+pvpart_py*pvpart_py+pvpart_pz*pvpart_pz);
       if(den<=0){
 	break;
@@ -478,31 +433,10 @@ void DmpSimuPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
       //G4cout << "b: " <<b <<" c:" << c <<G4endl;
       //G4cout << "t: "<< t <<" x: " << x<< " y: " << y <<  " z: " << z << " R:" << sqrt(x*x+y*y+z*z)<<G4endl;
     }
-   
-
-
-
-
-
     ++nGenerated;
-    
-    /*
-    //fill ntuple if only generation is run, otherwise it is filled by EventAction
-    if(genOnly) {
-      if(dmpRootNtupleManager->GetGenTree()) {
-	DmpSimuPrimariesNtupleMaker* dmpSimuPrimariesNtupleMaker = 
-	  dmpRootNtupleManager->GetDmpSimuPrimariesNtupleMaker();
-	dmpSimuPrimariesNtupleMaker->FillEvent(anEvent);
-	dmpRootNtupleManager->GetGenTree()->Fill();
-      }
-    }*/
-
-
     if(useGenFilter) runGenFilter(anEvent);
-
     break;
   }
-
 }
 
 void DmpSimuPrimaryGeneratorAction::runGenFilter(G4Event* evt)
@@ -527,14 +461,9 @@ void DmpSimuPrimaryGeneratorAction::runGenFilter(G4Event* evt)
   //remove particle going upward
   if(filterUpward && thetaPrim<90.)   passGenFilter = false; 
 
-  //remove particle starting below Bgo
-  if(filterBelowBGO && pv_z<BgoTopZ)  passGenFilter = false; 
-
   if(!passGenFilter) ++nFilterRejected;
 
   return;
 }
-
-
 
 

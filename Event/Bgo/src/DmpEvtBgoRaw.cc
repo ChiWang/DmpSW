@@ -9,6 +9,11 @@
  *                           Last update:  16/12/2013   11:33:40
 =====================================================================*/
 
+
+// *
+// *  TODO: RDC will not use this class. Use DmpEvtBgoHit
+// *
+
 #include <iostream>
 
 #include "DmpEvtHeader.h"
