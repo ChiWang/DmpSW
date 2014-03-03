@@ -19,6 +19,11 @@ class DmpEvtSimParimaryParticle : public TObject{
 public:
   DmpEvtSimParimaryParticle();
   ~DmpEvtSimParimaryParticle();
+// *
+// *  TODO: add data members to instore information of Primary Pariticle Generator,
+//          and add SetXXX() functions which will be used in Simulation/DmpSimPrimaryGeneratorAction::GeneratePrimaries()
+// *
+  //void SetXXX();
 
 private:
   int       fType;

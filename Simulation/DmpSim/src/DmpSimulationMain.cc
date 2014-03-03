@@ -75,7 +75,7 @@ int main(int argc, char* argv[]){
   delete visManager;
 #endif
   delete runManager;
-  DmpSimDataManager::Clear();  // clear DmpSimDataManager
+  DmpSimDataManager::Vanish();  // remove instance of DmpSimDataManager
   return 0;
 }
 

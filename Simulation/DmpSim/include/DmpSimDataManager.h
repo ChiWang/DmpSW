@@ -1,37 +1,37 @@
 /*
- *  $Id: DmpSimDataManager.h, 2014-02-25 16:32:41 chi $
+ *  $Id: DmpSimDataManager.h, 2014-03-03 22:58:21 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/02/2014
 */
 
-#ifndef DmpDataManager_H
-#define DmpDataManager_H
+#ifndef DmpSimDataManager_H
+#define DmpSimDataManager_H
 
-#include "globals.hh"
-
+//#include "globals.hh"
 #include "DmpDataMessenger.hh"
+// *
+// *  TODO:  book event information for Primary Generation;
+// *
 
 class TTree;
 class G4Run;
 class DmpEvtRaw;
 class DmpEvtSimPrimaryParticle;
 
-// *
-// *  TODO:  for Primary Generation;
-// *
-
-class DmpDataManager{
+class DmpSimDataManager{
 public:
-  static DmpDataManager* GetInstance();
-  static void Clear();
-  ~DmpDataManager();
+  static DmpSimDataManager* GetInstance();
+  static void Vanish();
+  ~DmpSimDataManager();
   void BookFile(const G4Run*);      // invoked from BeginOfRunAcction()
   void SaveFile();                  // invoked from EndOgRunAction()
   void FillEvent(const G4Event*);   // invoked from EndOfEventAction()
+  DmpEvtRaw* GetRawEvent() const {return fEvtRaw;};
+  DmpEvtSimPrimaryParticle* GetPrimaryParticle() const {return fPrimaryParticle;}
  
 private:
-  DmpDataManager();
-  static DmpDataManager     *fInstance;  //!
+  DmpSimDataManager();
+  static DmpSimDataManager     *fInstance;  //!
 
 private:
   TTree             *fTree;

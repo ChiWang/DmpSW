@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEvtBgoHit.h, 2014-03-02 22:46:10 chi $
+ *  $Id: DmpEvtBgoHit.h, 2014-03-03 23:47:21 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */

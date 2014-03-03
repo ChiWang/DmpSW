@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimBgoSensitiveDetector.h, 2014-03-03 21:42:24 chi $
+ *  $Id: DmpSimBgoSensitiveDetector.h, 2014-03-03 22:46:29 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/03/2014
 */
@@ -10,6 +10,7 @@
 #include "G4VSensitiveDetector.hh"
 #include "DmpSimBgoHit.h"
 
+class TClonesArray;
 class DmpBgoSimSensitiveDetector : public G4VSensitiveDetector{
 public:
   DmpBgoSimSensitiveDetector(G4String);
@@ -20,16 +21,7 @@ public:
   void EndOfEvent(G4HCofThisEvent*);
 
 private:
-  DmpSimBgoHitsCollection*  BGOHitCollection;      
-
-  G4int (*ChitXID);
-  G4int (*ChitYID);
-
-  G4int NbOfCALLayers;
-  G4int NbOfCALLayerBars; 
-  G4int NbOfCALChannels; 
-
-  G4double m_attenuation; //light attenuation constant
+  TClonesArray      *fBgoHits;
 };
 
 #endif

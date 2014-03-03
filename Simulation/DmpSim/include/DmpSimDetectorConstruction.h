@@ -1,5 +1,5 @@
 /* 
- *  $Id: DmpSimDetectorConstruction.h, 2014-02-26 20:57:16 chi $
+ *  $Id: DmpSimDetectorConstruction.h, 2014-03-03 23:02:22 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 26/02/2014
 */
@@ -7,11 +7,10 @@
 #ifndef DmpSimDetectorConstruction_H
 #define DmpSimDetectorConstruction_H
 
-// *
-// *  TODO: binding set functions into python and contrul in python script, instead of using meseengers
-// *
 #include "G4VUserDetectorConstruction.hh"
-
+// *
+// *  TODO: binding set functions into python and control in python script, instead of using meseengers
+// *
 class G4GDMLParser;
 class G4VPhysicalVolume;
 
@@ -21,7 +20,7 @@ public:
   ~DmpSimDetectorConstruction();
   G4VPhysicalVolume* Construct();
 
-  void UpdateGeometry();
+  //void UpdateGeometry();   can't update any parameters if using gdml
 
 private:
   G4GDMLParser              *fParser;

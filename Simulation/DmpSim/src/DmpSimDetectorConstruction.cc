@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimDetectorConstruction.cc, 2014-02-26 20:57:11 chi $
+ *  $Id: DmpSimDetectorConstruction.cc, 2014-03-03 23:05:51 chi $
  *  Author(s):
  *    Xin WU (Xin.Wu@cern.cn)   11/07/2013
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 26/02/2014
@@ -8,8 +8,6 @@
 #include <stdlib.h>     // getenv()
 
 #include "G4GDMLParser.hh"
-#include "G4RunManager.hh"
-#include "G4RegionStore.hh"
 
 #include "DmpSimDetectorConstruction.h"
 
@@ -36,11 +34,14 @@ G4VPhysicalVolume* DmpSimDetectorConstruction::Construct(){
   return fPhysiWorld;
 }
 
+/*
+#include "G4RunManager.hh"
+#include "G4RegionStore.hh"
 void DmpSimDetectorConstruction::UpdateGeometry(){
   //  delete payloadSD??
   G4RunManager::GetRunManager()->DefineWorldVolume(Construct());
   G4RunManager::GetRunManager()->PhysicsHasBeenModified();
   G4RegionStore::GetInstance()->UpdateMaterialList(fPhysiWorld);
 }
-
+*/
 

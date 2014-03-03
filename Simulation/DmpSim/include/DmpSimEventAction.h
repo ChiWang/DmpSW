@@ -1,39 +1,32 @@
-#ifndef DmpSimuEventAction_h
-#define DmpSimuEventAction_h 1
+/*
+ *  $Id: DmpSimEventAction.h, 2014-03-03 23:30:30 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/03/2014
+*/
+
+#ifndef DmpSimEventAction_H
+#define DmpSimEventAction_H
 
 #include "G4UserEventAction.hh"
-#include "globals.hh"
+//#include "globals.hh"
 
-class DmpRootEventDataManager;
-
-class DmpSimuEventAction : public G4UserEventAction
-{
+class DmpSimEventAction : public G4UserEventAction{
 public:
-
-  DmpSimuEventAction(DmpRootEventDataManager*);
-  virtual ~DmpSimuEventAction();
-  
-public:
-  virtual void   BeginOfEventAction(const G4Event*);
-  virtual void   EndOfEventAction(const G4Event*);
+  DmpSimEventAction();
+  ~DmpSimEventAction();
+  void BeginOfEventAction(const G4Event*);
+  void EndOfEventAction(const G4Event*);
   
   void SetDrawFlag   (G4String val)  {drawFlag = val;};
   
 private:
-
   G4int       stkHitCollID;                
   G4int       bgoHitCollID;                
   G4int       psdHitCollID;                
   G4String    drawFlag;
-
-  DmpRootEventDataManager* rootEventDataManager;
 };
 
 #endif
 
     
-
-
-
-
 

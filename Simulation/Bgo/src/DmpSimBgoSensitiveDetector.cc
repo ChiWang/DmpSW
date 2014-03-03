@@ -1,8 +1,8 @@
-// Description: This class hinerits from G4VSensitiveDetector. It is used to
-// build the BGO sensitive area geometry and produce DmpSimBgoHit collection 
-//
-// Author(s):
-//  - creation by X.Wu, 12/07/2013
+/*
+ *  $Id: DmpSimBgoSensitiveDetector.cc, 2014-03-03 22:44:29 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/03/2014
+*/
 
 #include "G4VPhysicalVolume.hh"
 #include "G4Step.hh"
@@ -30,12 +30,7 @@ DmpBgoSimSensitiveDetector::DmpBgoSimSensitiveDetector(G4String name):G4VSensiti
   ChitYID = new G4int[NbOfCALChannels];
   collectionName.insert("BGOHitCollection");
 
-  //m_attenuation = -0.001; //light attenuation per mm; default 0.1% per mm
-
-  //average attenuation length is about 1.4m
-  //so m_attenuation=-1/(1.4m)=-0.000714 per mm
   m_attenuation = -0.000714; 
-  //(old)light attenuation per mm; default 0.06% per mm
 }
 
 DmpBgoSimSensitiveDetector::~DmpBgoSimSensitiveDetector()

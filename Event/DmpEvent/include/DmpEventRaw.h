@@ -5,13 +5,10 @@
 */
 
 #include "TObject.h"
+#include "DmpSubDetectors.h"
 
-// *
-// *  TODO: add hits collection of Psd, Stk and Nud
-// *
 class TClonesArray;
 class DmpEvtHeader;
-class DmpEvtBgoHit;
 
 class DmpEventRaw : public TObject{
 /*
@@ -28,10 +25,14 @@ public:
   DmpEventRaw();
   ~DmpEventRaw();
   DmpEvtHeader* GetEventHeader() const {return fEvtHeader;}
+  TClonesArray* GetHitCollection(DmpParameters::DmpSubDetectors SubDet_ID) const;
 
 private:
   DmpEvtHeader      *fEvtHeader;
+  TClonesArray      *fPsdHits;  //->
+  TClonesArray      *fStkHits;  //->
   TClonesArray      *fBgoHits;  //->
+  TClonesArray      *fNudHits;  //->
 
   ClassDef(DmpEventRaw,1)
 };

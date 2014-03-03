@@ -1,14 +1,12 @@
-// Description: This class hinerits from G4UserEventAction. It is used to
-// access information in the G4Event and process them, for example digitization  
-// and storage in the output ntuple
-//
-// Author(s):
-//  - creation by X.Wu, 09/07/2013
+/*
+ *  $Id: DmpSimEventAction.cc, 2014-03-03 23:30:34 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/03/2014
+*/
 
-#include "DmpSimuEventAction.hh"
-
-#include "DmpRootEventDataManager.hh"
-
+// *
+// *  TODO:  delete old useless codes from svn
+// *
 #include "G4Event.hh"
 #include "G4EventManager.hh"
 #include "G4HCofThisEvent.hh"
@@ -16,33 +14,31 @@
 #include "G4SDManager.hh"
 #include "G4UImanager.hh"
 #include "G4ios.hh"
+#include "G4DigiManager.hh"
 #include "G4UnitsTable.hh"
 #include "Randomize.hh"
 
-#include "DmpSimuStkHit.hh"
-#include "DmpSimuDigitization.hh"
-#include "G4DigiManager.hh"
+#include "DmpSimEventAction.h"
+#include "DmpSimDataManager.h"
+#include "DmpSimStkHit.h"
+#include "DmpSimDigitization.h"
 
-DmpSimuEventAction::DmpSimuEventAction(DmpRootEventDataManager* rootEventManager)
+DmpSimEventAction::DmpSimEventAction()
   :stkHitCollID(-1),bgoHitCollID(-1),psdHitCollID(-1), drawFlag("all")
-{ 
+{
   //set the digitizer to the G4DigiManager
-  G4DigiManager * fDM = G4DigiManager::GetDMpointer();
+  G4DigiManager *fDM = G4DigiManager::GetDMpointer();
   
-  DmpSimuDigitization * myDM = new DmpSimuDigitization( "DmpSimuDigitization" );
+  DmpSimDigitization * myDM = new DmpSimDigitization( "DmpSimDigitization" );
   fDM->AddNewModule(myDM);
-  
-  rootEventDataManager = rootEventManager;
 }
 
-DmpSimuEventAction::~DmpSimuEventAction()
+DmpSimEventAction::~DmpSimEventAction()
 {
 }
 
-void DmpSimuEventAction::BeginOfEventAction(const G4Event* evt)
-{
-
-  //G4int evtNb = evt->GetEventID();
+void DmpSimEventAction::BeginOfEventAction(const G4Event *aEvent){
+  //G4int evtNb = aEvent->GetEventID();
   G4SDManager * SDman = G4SDManager::GetSDMpointer();  
   
   if (stkHitCollID==-1) {
@@ -54,25 +50,19 @@ void DmpSimuEventAction::BeginOfEventAction(const G4Event* evt)
   if(bgoHitCollID==-1) {
     bgoHitCollID = SDman->GetCollectionID("BGOHitCollection");
   }
-  
-  //ask ntupleManager to clear ntuple data vectors
-  rootEventDataManager->beginEvent(evt);
-
+  //DmpSimDataManager::GetInstance()->BeginOfEventAction()
 }
 
-void DmpSimuEventAction::EndOfEventAction(const G4Event* evt)
-{
-
-  //G4int event_id = evt->GetEventID();
-  
-  G4HCofThisEvent* HCE = evt->GetHCofThisEvent();
-  DmpSimuStkHitsCollection* THC = 0;
+void DmpSimEventAction::EndOfEventAction(const G4Event* aEvent){
+  //G4int event_id = aEvent->GetEventID();
+  G4HCofThisEvent* HCE = aEvent->GetHCofThisEvent();
+  DmpSimStkHitsCollection* THC = 0;
 
   G4DigiManager * fDM = G4DigiManager::GetDMpointer();
   
   if (HCE)
     {      
-      THC = (DmpSimuStkHitsCollection*)(HCE->GetHC(stkHitCollID));
+      THC = (DmpSimStkHitsCollection*)(HCE->GetHC(stkHitCollID));
       /***
       if (THC)
 	{
@@ -82,25 +72,12 @@ void DmpSimuEventAction::EndOfEventAction(const G4Event* evt)
 	}
       ***/
 
-      DmpSimuDigitization * myDM = 
-	(DmpSimuDigitization*)fDM->FindDigitizerModule( "DmpSimuDigitization" );
+      DmpSimDigitization * myDM = 
+	(DmpSimDigitization*)fDM->FindDigitizerModule( "DmpSimDigitization" );
       myDM->Digitize();
     }
  
   //ask ntupleManager to fill ntuple data vectors 
-  rootEventDataManager->FillEvent(evt);
-
+  DmpSimDataManage::GetInstance()->FillEvent(aEvent);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 

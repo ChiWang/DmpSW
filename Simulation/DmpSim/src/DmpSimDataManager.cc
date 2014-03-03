@@ -5,23 +5,24 @@
 */
 
 #include <time.h>
-#include "G4Run.hh"
 
 #include "TFile.h"
 #include "TTree.h"
 
+#include "G4Run.hh"
+
 #include "DmpSimDataManager.h"
 
-DmpDataManager* DmpDataManager::fInstance = 0;
+DmpSimDataManager* DmpSimDataManager::fInstance = 0;
 
-DmpDataManager* GetInstance(){
+DmpSimDataManager* GetInstance(){
   if (fInstance == 0){
-    fInstance = new DmpDataManager();
+    fInstance = new DmpSimDataManager();
   }
   return fInstance;
 }
 
-void DmpDataManager::Clear(){
+void DmpSimDataManager::Vanish(){
   if(fInstance != 0){
     delete fInstance;
     fInstance = 0;
@@ -29,7 +30,7 @@ void DmpDataManager::Clear(){
 }
 
 //-------------------------------------------------------------------
-DmpDataManager::DmpDataManager()
+DmpSimDataManager::DmpSimDataManager()
  :fTree(0),
   fEvtRaw(0),
   fPrimaryParticle(0)
@@ -38,13 +39,13 @@ DmpDataManager::DmpDataManager()
   fPrimaryParticle = new DmpEvtSimPrimaryParticle();
 }
 
-DmpDataManager::~DmpDataManager(){
+DmpSimDataManager::~DmpSimDataManager(){
   delete fEvtRaw;
   delete fPrimaryParticle;
 }
 
 //-------------------------------------------------------------------
-void DmpDataManager::BookFile(const G4Run *aRun){
+void DmpSimDataManager::BookFile(const G4Run *aRun){
   fTree = new TTree("Simulation","DAMPESimulation");
   fTree->Branch("RawEvent","DmpEvtRaw",&fEvtRaw,32000,2);
   fTree->Branch("EventSource","DmpEvtSimPrimaryParticle",&fPrimaryParticle,32000,2);

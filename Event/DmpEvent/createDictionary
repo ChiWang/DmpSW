@@ -1,20 +1,14 @@
 #! /bin/bash
-#=====================================================================
-#   File:   createDictionary
-#   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    11/12/2013
-#---------------------------------------------------------------------
-#   Description:
-#
-#   Reference:
-#   1.  How to use rootcint
-#       http://www.scons.org/doc/HTML/scons-user.html#chap-builders-writing
-#       http://kalmanalignment.hepforge.org/svn/trunk/event/SConscript
-#
-#---------------------------------------------------------------------
-#   History:
-#                           Last update:  25/01/2014   17:25:35
-#=====================================================================
-
+:<<EOF
+ *  $Id: createDictionary, 2014-03-03 23:49:59 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 11/12/2013
+ *-------------------------------------------------------
+ * 1.  How to use rootcint
+ *     http://www.scons.org/doc/HTML/scons-user.html#chap-builders-writing
+ *     http://kalmanalignment.hepforge.org/svn/trunk/event/SConscript
+ *-------------------------------------------------------
+EOF
 
 #+ functions
 #--------------------------------------------------------------------
@@ -81,6 +75,6 @@ if [ -f $incDir/$diction* ];then
 fi
 
 echo "Generating dictionary ${diction}..."
-rootcint -f ${incDir}/${diction}.cc -c -p -I$incDir -I../DmpEvent/include -I$1 -I$2 $3 $fileList $linkDef
+rootcint -f ${incDir}/${diction}.cc -c -p -I$incDir -I../DmpEvent/include -I../../Kernel/include -I$1 -I$2 $3 $fileList $linkDef
 mv $incDir/$diction.cc $srcDir/$diction.cc 2>/dev/null
 

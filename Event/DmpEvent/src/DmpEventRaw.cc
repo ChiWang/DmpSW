@@ -5,19 +5,35 @@
 */
 
 #include "TClonesArray.h"
-
-#include "DmpEvtHeader.h"
-#include "DmpEvtBgoHit.h"
 #include "DmpEventRaw.h"
+#include "DmpEvtHeader.h"
+//#include "DmpEvtPsdHit.h"
+//#include "DmpEvtStkHit.h"
+#include "DmpEvtBgoHit.h"
+//#include "DmpEvtNudHit.h"
+// *
+// *  TODO: add hits collection of Psd, Stk and Nud
+// *
+
+using namespace DmpParameters;
 
 ClassImp(DmpEventRaw)
 
 DmpEventRaw::DmpEventRaw()
  :fEvtHeader(0),
-  fBgoHits(0)
+  fPsdHits(0),
+  fStkHits(0),
+  fBgoHits(0),
+  fNudHits(0)
 {
   fEvtHeader = new DmpEvtHeader();
   fBgoHits = new TClonesArray("DmpEvtBgoHit",300);
+// *
+// *  TODO: add hits collection of Psd, Stk and Nud
+// *
+  //fPsdHits = new TClonesArray("DmpEvtPsdHit",300);
+  //fStkHits = new TClonesArray("DmpEvtStkHit",300);
+  //fNudHits = new TClonesArray("DmpEvtNudHit",300);
 }
 
 DmpEventRaw::~DmpEventRaw(){
@@ -25,5 +41,23 @@ DmpEventRaw::~DmpEventRaw(){
   fBgoHits->Delete();
   fBgoHits->Clear();
   delete fBgoHits;
+// *
+// *  TODO: add hits collection of Psd, Stk and Nud
+// *
 }
+
+TClonesArray* DmpEventRaw::GetHitCollection(DmpSubDetectors id) const{
+  TClonesArray  *subDet=0;
+  if(id == kPsd){
+    subDet = fPsdHits;
+  }else if(id == kStk){
+    subDet = fStkHits;
+  }else if(id == kBgo){
+    subDet = fBgoHits;
+  }else if(id == kNud){
+    subDet = fNudHits;
+  }
+  return subDet;
+}
+
 
