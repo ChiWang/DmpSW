@@ -9,7 +9,7 @@
 
 #include "G4VSensitiveDetector.hh"
 
-class DmpSimDataManager;
+class TClonesArray;
 class DmpSimBgoSD : public G4VSensitiveDetector{
 /*
  *  DmpSimBgoSD
@@ -26,7 +26,7 @@ public:
   void EndOfEvent(G4HCofThisEvent*);
 
 private:
-  DmpSimDataManager     *fDataMan;
+  TClonesArray      *fHitCollection;
 };
 
 #endif

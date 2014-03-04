@@ -14,7 +14,7 @@ ClassImp(DmpEvtBgoHit)
 
 //------------------------------------------------------------------------------
 DmpEvtBgoHit::DmpEvtBgoHit()
- :fBarID(0),
+ :fUniqueID(0),
   fEnergy(0),
   fUsedSide(0),
   fPMT0(0),
@@ -40,7 +40,7 @@ void DmpEvtBgoHit::Reset(){
 void DmpEvtBgoHit::PrintHit() const{
 }
 
-void DmpEvtBgoHit::AddThisStep(double e, double x, double y, double z){
+void DmpEvtBgoHit::UpdateThisHit(double e, double x, double y, double z){
   double totE = e + fEnergy;
   double nX = (e*x + fEnergy*fPosition[0])/totE;
   double nY = (e*y + fEnergy*fPosition[1])/totE;
