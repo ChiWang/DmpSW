@@ -1,13 +1,13 @@
 /*
- *  $Id: DmpEventRaw.h, 2014-03-02 23:18:51 chi $
+ *  $Id: DmpEventRaw.h, 2014-03-04 10:39:09 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/02/2014
 */
 
 #include "TObject.h"
-#include "DmpSubDetectors.h"
 
 class TClonesArray;
+class DmpSimDataManager;
 class DmpEvtHeader;
 
 class DmpEventRaw : public TObject{
@@ -21,11 +21,10 @@ class DmpEventRaw : public TObject{
  *  Simulation will also use this class to book the branch, and the output of Simulation has the information of Hits
  *
  */
+  friend class DmpSimDataManager;  //! let Manager control all data members here 
 public:
   DmpEventRaw();
   ~DmpEventRaw();
-  DmpEvtHeader* GetEventHeader() const {return fEvtHeader;}
-  TClonesArray* GetHitCollection(DmpParameters::DmpSubDetectors SubDet_ID) const;
 
 private:
   DmpEvtHeader      *fEvtHeader;

@@ -10,19 +10,19 @@
 #include "DmpSimDataManager.h"
 #include "DmpEvtSimPrimaryParticle.h"
 
-DmpSimrimaryGeneratorAction::DmpSimrimaryGeneratorAction()
+DmpSimPrimaryGeneratorAction::DmpSimPrimaryGeneratorAction()
  :fGPS(0)
 {
   fGPS = new G4GeneralParticleSource();
   fGPS->SetNumberOfParticles(1);
-  fGPS->SetParticleDefinition(particle);
+//  fGPS->SetParticleDefinition(particle);
 }
 
-DmpSimrimaryGeneratorAction::~DmpSimrimaryGeneratorAction(){
+DmpSimPrimaryGeneratorAction::~DmpSimPrimaryGeneratorAction(){
   delete fGPS;
 }
 
-void DmpSimrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
+void DmpSimPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
   fGPS->GeneratePrimaryVertex(anEvent);
 // *
 // *  TODO: Use DataManager to save informations of parimary particle

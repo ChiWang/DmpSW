@@ -8,8 +8,16 @@
 #include <stdlib.h>     // getenv()
 
 #include "G4GDMLParser.hh"
+#include "G4SDManager.hh"
 
+// *
+// *  TODO: add SD of Psd, Stk and Nud
+// *
 #include "DmpSimDetectorConstruction.h"
+//#include "DmpSimPsdSD.h"
+//#include "DmpSimStkSD.h"
+#include "DmpSimBgoSD.h"
+//#include "DmpSimNudSD.h"
 
 DmpSimDetectorConstruction::DmpSimDetectorConstruction()
   :fPhysiWorld(0)
@@ -29,8 +37,17 @@ G4VPhysicalVolume* DmpSimDetectorConstruction::Construct(){
   G4String file = (G4String)getenv("DMPSWSYS")+"/share/Geometry/DAMPE.gdml"
   fParser->Read(file);
 #endif
-
   fPhysiWorld = fParser->GetWorldVolume();
+
+// *
+// *  TODO: set SD of SubDet at here
+// *
+  G4SDManager *SDMan = G4SDManager::GetSDMpointer();
+//  SDMan->AddNewDetector(new DmpSimPsdSD("/DmpDet/Psd"));
+//  SDMan->AddNewDetector(new DmpSimStkSD("/DmpDet/Stk"));
+  SDMan->AddNewDetector(new DmpSimBgoSD("/DmpDet/Bgo"));
+//  SDMan->AddNewDetector(new DmpSimNudSD("/DmpDet/Nud"));
+
   return fPhysiWorld;
 }
 

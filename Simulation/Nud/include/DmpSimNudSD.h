@@ -7,7 +7,7 @@
 class DmpDetectorConstruction;
 class G4HCofThisEvent;
 class G4Step;
-#include "DmpSimuNudHit.hh"
+#include "DmpSimNudHit.h"
 
 class DmpNudSensitiveDetector : public G4VSensitiveDetector
 {
@@ -25,11 +25,11 @@ public:
   
 private:
   
-//  DmpSimuNudHitsCollection*  NUDHitCollection;  
-   DmpSimuNudHitsCollection*  NUDHitCollection0;  
-   DmpSimuNudHitsCollection*  NUDHitCollection1;  
-   DmpSimuNudHitsCollection*  NUDHitCollection2;  
-   DmpSimuNudHitsCollection*  NUDHitCollection3;   
+//  DmpSimNudHitsCollection*  NUDHitCollection;  
+   DmpSimNudHitsCollection*  NUDHitCollection0;  
+   DmpSimNudHitsCollection*  NUDHitCollection1;  
+   DmpSimNudHitsCollection*  NUDHitCollection2;  
+   DmpSimNudHitsCollection*  NUDHitCollection3;   
   DmpDetectorConstruction* dmpDetector;
  // G4int *HitID;
   G4int *HitID0;

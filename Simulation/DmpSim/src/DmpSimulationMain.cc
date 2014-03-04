@@ -20,7 +20,6 @@
 #include "DmpSimRunAction.h"
 #include "DmpSimEventAction.h"
 #include "DmpSimTrackingAction.h"
-#include "DmpSimSteppingAction.h"
 
 #include "DmpSimDataManager.h"
 
@@ -44,7 +43,6 @@ int main(int argc, char* argv[]){
   runManager->SetUserAction(new DmpSimRunAction);
   runManager->SetUserAction(new DmpSimEventAction);
   runManager->SetUserAction(new DmpSimTrackingAction);
-  runManager->SetUserAction(new DmpSimSteppingAction);
 
 #ifdef G4VIS_USE
   // Visualization manager

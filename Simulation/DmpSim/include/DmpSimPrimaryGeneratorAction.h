@@ -10,10 +10,10 @@
 #include "G4VUserPrimaryGeneratorAction.hh"
 
 class G4GeneralParticleSource;
-class DmpSimrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction{
+class DmpSimPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction{
 public:
-  DmpSimrimaryGeneratorAction();    
-  ~DmpSimrimaryGeneratorAction();
+  DmpSimPrimaryGeneratorAction();    
+  ~DmpSimPrimaryGeneratorAction();
   
   void GeneratePrimaries(G4Event*);
 

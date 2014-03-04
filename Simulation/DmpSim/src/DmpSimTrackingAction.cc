@@ -1,18 +1,17 @@
-// Description: This class hinerits from G4UserTrackingAction and implements
-// its PreUserTrackingAction method to select track trajectories to be stored 
-// in event store for later analysis
-//
-// Author(s):
-//  - creation by X.Wu, 09/07/2013
+/*
+ *  $Id: DmpSimTrackingAction.cc, 2014-03-04 17:46:55 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 04/03/2014
+*/
 
-#include "DmpSimuTrackingAction.hh"
 #include "G4TrackingManager.hh"
 #include "G4Track.hh"
 
-void DmpSimuTrackingAction::PreUserTrackingAction(const G4Track* aTrack)
-{
+#include "DmpSimTrackingAction.h"
+
+void DmpSimTrackingAction::PreUserTrackingAction(const G4Track* aTrack){
   // Create trajectory only for primaries
-  if(aTrack->GetParentID()==0) { 
+  if(aTrack->GetParentID()==0) {
     fpTrackingManager->SetStoreTrajectory(true);
   }
   // also e+ and e- from primary photon conversion
@@ -23,5 +22,4 @@ void DmpSimuTrackingAction::PreUserTrackingAction(const G4Track* aTrack)
     fpTrackingManager->SetStoreTrajectory(false); 
   }
 }
-
 

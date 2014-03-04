@@ -6,15 +6,15 @@
 
 #include "DmpEvtSimPrimaryParticle.h"
 
-ClassImp(DmpEvtSimParimaryParticle)
+ClassImp(DmpEvtSimPrimaryParticle)
 
-DmpEvtSimParimaryParticle::DmpEvtSimParimaryParticle()
+DmpEvtSimPrimaryParticle::DmpEvtSimPrimaryParticle()
  :fType(0),
   fVertexRadius(0),
   fSpectrumType(0),
   fMaxEnergy(0)
 {}
 
-DmpEvtSimParimaryParticle::~DmpEvtSimParimaryParticle(){
+DmpEvtSimPrimaryParticle::~DmpEvtSimPrimaryParticle(){
 
 }

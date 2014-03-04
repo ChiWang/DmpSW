@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimEventAction.h, 2014-03-03 23:30:30 chi $
+ *  $Id: DmpSimEventAction.h, 2014-03-04 11:11:31 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/03/2014
 */
@@ -8,8 +8,9 @@
 #define DmpSimEventAction_H
 
 #include "G4UserEventAction.hh"
-//#include "globals.hh"
+#include "globals.hh"
 
+class DmpSimDataManager;
 class DmpSimEventAction : public G4UserEventAction{
 public:
   DmpSimEventAction();
@@ -17,16 +18,14 @@ public:
   void BeginOfEventAction(const G4Event*);
   void EndOfEventAction(const G4Event*);
   
-  void SetDrawFlag   (G4String val)  {drawFlag = val;};
-  
 private:
+  DmpSimDataManager     *fDataMan;
+  /*
   G4int       stkHitCollID;                
   G4int       bgoHitCollID;                
   G4int       psdHitCollID;                
-  G4String    drawFlag;
+  */
 };
 
 #endif
-
-    
 

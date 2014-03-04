@@ -1,14 +1,14 @@
 // Description: This class hinerits from G4VSensitiveDetector. It is used to
-// build the PSD sensitive area geometry and produce DmpSimuPsdHit collection
+// build the PSD sensitive area geometry and produce DmpSimPsdHit collection
 //
 // Author(s):
 //  - added by Tiekuang Dong 2012/12/23
 
-#include "G4RunManager.hh"
-#include "DmpNudSensitiveDetector.hh"
-#include "DmpSimuNudHit.hh"
-#include "DmpDetectorConstruction.hh"
+#include "DmpNudSensitiveDetector.h"
+#include "DmpSimNudHit.h"
+#include "DmpDetectorConstruction.h"
 
+#include "G4RunManager.hh"
 #include "G4VPhysicalVolume.hh"
 #include "G4Step.hh"
 #include "G4VTouchable.hh"
@@ -56,19 +56,19 @@ delete [] HitID3;
 
 void DmpNudSensitiveDetector::Initialize(G4HCofThisEvent*)
 {
- // NUDHitCollection = new DmpSimuNudHitsCollection
+ // NUDHitCollection = new DmpSimNudHitsCollection
   //  (SensitiveDetectorName,collectionName[0]);
  
 
- NUDHitCollection0 = new DmpSimuNudHitsCollection
+ NUDHitCollection0 = new DmpSimNudHitsCollection
     (SensitiveDetectorName,collectionName[0]);
   
- NUDHitCollection1 = new DmpSimuNudHitsCollection
+ NUDHitCollection1 = new DmpSimNudHitsCollection
     (SensitiveDetectorName,collectionName[1]);
 
- NUDHitCollection2 = new DmpSimuNudHitsCollection
+ NUDHitCollection2 = new DmpSimNudHitsCollection
     (SensitiveDetectorName,collectionName[2]);
- NUDHitCollection3 = new DmpSimuNudHitsCollection
+ NUDHitCollection3 = new DmpSimNudHitsCollection
     (SensitiveDetectorName,collectionName[3]);
 
 
@@ -123,7 +123,7 @@ if (NUDName == "NUD0")
       // This is a new hit
       if (HitID0[i]==-1)
 	{       
-	  DmpSimuNudHit* PSSDHit = new DmpSimuNudHit;
+	  DmpSimNudHit* PSSDHit = new DmpSimNudHit;
           PSSDHit->AddEnergy(EdepTime[i]);
 	  PSSDHit->SetPos(aStep->GetPreStepPoint()->GetPosition());
           PSSDHit->SetTime((i+1)*100.);   
@@ -145,7 +145,7 @@ else if (NUDName == "NUD1" )
      // This is a new hit
       if (HitID1[i]==-1)
 	{       
-	  DmpSimuNudHit* PSSDHit = new DmpSimuNudHit;
+	  DmpSimNudHit* PSSDHit = new DmpSimNudHit;
           PSSDHit->AddEnergy(EdepTime[i]);
 	  PSSDHit->SetPos(aStep->GetPreStepPoint()->GetPosition());
           PSSDHit->SetTime((i+1)*100.);   
@@ -166,7 +166,7 @@ else if (NUDName == "NUD2")
       // This is a new hit
       if (HitID2[i]==-1)
 	{       
-	  DmpSimuNudHit* PSSDHit = new DmpSimuNudHit;
+	  DmpSimNudHit* PSSDHit = new DmpSimNudHit;
           PSSDHit->AddEnergy(EdepTime[i]);
 	  PSSDHit->SetPos(aStep->GetPreStepPoint()->GetPosition());
         PSSDHit->SetTime((i+1)*100.);   
@@ -187,7 +187,7 @@ else if (NUDName == "NUD3")
      // This is a new hit
       if (HitID3[i]==-1)
 	{       
-	  DmpSimuNudHit* PSSDHit = new DmpSimuNudHit;
+	  DmpSimNudHit* PSSDHit = new DmpSimNudHit;
           PSSDHit->AddEnergy(EdepTime[i]);
 	  PSSDHit->SetPos(aStep->GetPreStepPoint()->GetPosition());
          PSSDHit->SetTime((i+1)*100.);   

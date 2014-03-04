@@ -34,6 +34,10 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
   delete fParticle;
 }
 
+void DmpEvtHeader::SetParticlePdgCode(int pdgCode){
+  fParticle->SetPdgCode(pdgCode);
+}
+
 //-------------------------------------------------------------------
 /*
 void DmpEvtHeader::SetTime(short Time[],int size){

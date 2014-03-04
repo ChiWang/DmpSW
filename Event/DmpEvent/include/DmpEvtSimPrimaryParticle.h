@@ -1,26 +1,26 @@
 /*
- *  $Id: DmpEvtSimPrimaryParticle.h, 2014-03-02 23:08:14 chi $
+ *  $Id: DmpEvtSimPrimaryParticle.h, 2014-03-04 17:04:12 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/02/2014
 */
 
-#ifndef DmpEvtSimParimaryParticle_H
-#define DmpEvtSimParimaryParticle_H
+#ifndef DmpEvtSimPrimaryParticle_H
+#define DmpEvtSimPrimaryParticle_H
 
 #include "TObject.h"
 
-class DmpEvtSimParimaryParticle : public TObject{
+class DmpEvtSimPrimaryParticle : public TObject{
 /*
- * DmpEvtSimParimaryParticle
+ * DmpEvtSimPrimaryParticle
  *
  * This class used (in Simulation DataManager) to store informations of user defined PrimaryGeneratorAction
  *
  */
 public:
-  DmpEvtSimParimaryParticle();
-  ~DmpEvtSimParimaryParticle();
+  DmpEvtSimPrimaryParticle();
+  ~DmpEvtSimPrimaryParticle();
 // *
-// *  TODO: add data members to instore information of Primary Pariticle Generator,
+// *  TODO: add data members to instore information of Primary Priticle Generator,
 //          and add SetXXX() functions which will be used in Simulation/DmpSimPrimaryGeneratorAction::GeneratePrimaries()
 // *
   //void SetXXX();
@@ -31,7 +31,7 @@ private:
   int       fSpectrumType;
   double    fMaxEnergy;
 
-  ClassDef(DmpEvtSimParimaryParticle,1)
+  ClassDef(DmpEvtSimPrimaryParticle,1)
 };
 
 #endif

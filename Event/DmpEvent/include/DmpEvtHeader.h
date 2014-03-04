@@ -36,6 +36,7 @@ public:
   long  GetEventID() const      {return fEventID;}
   void  SetTime(long time)      {fTime = time;}
   long  GetTime() const         {return fTime;}
+  void  SetParticlePdgCode(int);
   TParticle* GetParticle() const {return fParticle;}
   void SetRunMode(short SubDet_ID, DmpRunMode mode) {fRunModes[SubDet_ID] = mode;}
   DmpRunMode GetRunMode(short SubDet_ID) const {return fRunModes[SubDet_ID];}

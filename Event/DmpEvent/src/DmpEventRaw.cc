@@ -15,8 +15,6 @@
 // *  TODO: add hits collection of Psd, Stk and Nud
 // *
 
-using namespace DmpParameters;
-
 ClassImp(DmpEventRaw)
 
 DmpEventRaw::DmpEventRaw()
@@ -44,20 +42,6 @@ DmpEventRaw::~DmpEventRaw(){
 // *
 // *  TODO: add hits collection of Psd, Stk and Nud
 // *
-}
-
-TClonesArray* DmpEventRaw::GetHitCollection(DmpSubDetectors id) const{
-  TClonesArray  *subDet=0;
-  if(id == kPsd){
-    subDet = fPsdHits;
-  }else if(id == kStk){
-    subDet = fStkHits;
-  }else if(id == kBgo){
-    subDet = fBgoHits;
-  }else if(id == kNud){
-    subDet = fNudHits;
-  }
-  return subDet;
 }
 
 
