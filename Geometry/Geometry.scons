@@ -1,25 +1,21 @@
-#=====================================================================
-#   File:   Geometry.scons
-#   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    23/01/2014
-#---------------------------------------------------------------------
-#   Description:
-#       This file is invoked by ../SConstruct
-#
-#---------------------------------------------------------------------
-#   History:
-#                           Last update:  23/01/2014   01:08:04
-#=====================================================================
+'''
+ *  $Id: Geometry.scons, 2014-03-05 10:24:17 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 23/01/2014
+'''
 
 import os
 Import("*")     # import all vars from SConstruct
 print "\t\t\t invoke %s\n" % os.path.abspath("./")
 #--------------------------------------------------------------------
 
-# install share
+# install Geometry
 #--------------------------------------------------------------------
-shareDir=prefix+'/share/Geometry'
-if not os.path.exists(shareDir):
-    import shutil
-    shutil.copytree("../Geometry",shareDir)
-    os.remove(shareDir+"/Geometry.scons")
-
+for file in os.listdir('./'):
+    if ".gdml" not in file and "GDML" not in file: continue
+    Default(Command(prefix+'/share/Geometry/'+file,'./'+file,Copy("$TARGET","$SOURCE")))
+for directory in subDetectors:
+    for file in os.listdir(directory):
+        if ".gdml" not in file and "GDML" not in file: continue
+        Default(Command(prefix+'/share/Geometry/'+directory+"/"+file,'./'+directory+"/"+file,Copy("$TARGET","$SOURCE")))
+ 

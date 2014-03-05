@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- Declare the GDML Schema -->
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
-
-
 <!--
-     File name: DAMPE.gdml
-     version:0.1
-     Author:weiyf(weiyf@mail.ustc.edu.cn)
-     Time:2013.10.25
-     Description:This GDML file is DAMPE detector geometry description 
+ *  $Id: DAMPE.gdml, 2014-03-05 11:00:10 chi $
+ *  Author(s):
+ *    weiyf (weiyf@mail.ustc.edu.cn)  25/10/2013
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 05/03/2014
+ *  Description:
+ *    This GDML file is DAMPE detector geometry description 
 -->
 
 
@@ -67,8 +66,8 @@
    <materialref ref="Vacuum" />
    <solidref ref="World_box" />     
     
-    
     <!-- SAT -->
+<!--
     <physvol>
       <file name="./Geometry/SAT/kx-b1.gdml"/> 
       <position name="sat_adjust_position1" x="sat_adjust_x_position" y="sat_adjust_y_position" z="sat_adjust_z_position" unit="mm"/>
@@ -77,55 +76,59 @@
       <file name="./Geometry/SAT/kx-b2.gdml"/>  
       <position name="sat_adjust_position2" x="sat_adjust_x_position" y="sat_adjust_y_position" z="sat_adjust_z_position" unit="mm"/> 
     </physvol>
+      -->
       
-      
-    <!-- NUD -->    
+    <!-- Nud -->    
+<!--
     <physvol>
-      <file name="./Geometry/NUD/EJ25401.gdml"/> 
+      <file name="./Geometry/Nud/EJ25401.gdml"/> 
       <position name="EJ25401_pos" x="nud_adjust_x_position" y="nud_adjust_y_position" z="nud_adjust_z_position" unit="mm"/>
     </physvol>   
     <physvol>       
-      <file name="./Geometry/NUD/EJ25402.gdml"/>  
+      <file name="./Geometry/Nud/EJ25402.gdml"/>  
       <position name="EJ25402_pos" x="nud_adjust_x_position" y="nud_adjust_y_position" z="nud_adjust_z_position" unit="mm"/>
     </physvol>  
     <physvol>       
-      <file name="./Geometry/NUD/EJ25403.gdml"/>              
+      <file name="./Geometry/Nud/EJ25403.gdml"/>              
       <position name="EJ25403_pos" x="nud_adjust_x_position" y="nud_adjust_y_position" z="nud_adjust_z_position" unit="mm"/>
     </physvol>        
     <physvol>       
-      <file name="./Geometry/NUD/EJ25404.gdml"/>             
+      <file name="./Geometry/Nud/EJ25404.gdml"/>             
       <position name="EJ25404_pos" x="nud_adjust_x_position" y="nud_adjust_y_position" z="nud_adjust_z_position" unit="mm"/>
     </physvol>    
     <physvol>       
-      <file name="./Geometry/NUD/layer01.gdml"/>
+      <file name="./Geometry/Nud/layer01.gdml"/>
       <position name="layer01_pos" x="nud_adjust_x_position" y="nud_adjust_y_position" z="nud_adjust_z_position" unit="mm"/>
     </physvol>
     <physvol>       
-      <file name="./Geometry/NUD/layer02.gdml"/>
+      <file name="./Geometry/Nud/layer02.gdml"/>
       <position name="layer02_pos" x="nud_adjust_x_position" y="nud_adjust_y_position" z="nud_adjust_z_position" unit="mm"/>
     </physvol>
+      -->
       
-      
-    <!-- BGO --> 
+    <!-- Bgo --> 
+<!--
     <physvol>
-     <file name="./Geometry/BGO.gdml" />
+     <file name="./Geometry/Bgo.gdml" />
      <position name="bgo_pos" unit="mm" x="0" y="0" z="bgo_z_offset" />     
     </physvol>  
+    -->
     
-    
-    <!-- STK -->    
+    <!-- Stk -->    
+<!--
     <physvol>
-     <file name="./Geometry/STK.gdml" />
+     <file name="./Geometry/Stk.gdml" />
      <position name="stk_pos" unit="mm" x="0" y="0" z="stk_z_offset" />     
     </physvol>
+    -->
     
-    
-    <!-- PSD -->
+    <!-- Psd -->
+<!--
     <physvol>
-     <file name="./Geometry/PSD.gdml" />
+     <file name="./Geometry/Psd.gdml" />
      <position name="psd_pos" unit="mm" x="0" y="0" z="psd_z_offset" />     
     </physvol>
-    
+    -->
     
   </volume>
  </structure>

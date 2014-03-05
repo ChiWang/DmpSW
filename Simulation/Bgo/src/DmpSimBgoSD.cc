@@ -47,11 +47,9 @@ G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory *ROHist){
     aHit = (DmpEvtBgoHit*)fHitCollection->At(index);
   }
   double e = aStep->GetTotalEnergyDeposit()/MeV;    // use MeV
-// *  TODO: using GetDeltaPosition or GetPreStepPoint
-  double x = aStep->GetDeltaPosition().x();
-  double y = aStep->GetDeltaPosition().y();
-  double z = aStep->GetDeltaPosition().z();
-  aHit->UpdateThisHit(e,x,y,z);
+// *  TODO: using GetDeltaPosition(this is wrong) or GetPreStepPoint
+  G4ThreeVector position = aStep->GetPreStepPoint()->GetPosition();
+  aHit->AppendThisHit(e,position.x()/cm,position.y()/cm,position.z()/cm);
 }
 
 void DmpSimBgoSD::EndOfEvent(G4HCofThisEvent* HCE){

@@ -26,7 +26,7 @@ public:
   ~DmpEvtBgoHit();
   void  Reset();
   void  PrintHit() const;
-  void  UpdateThisHit(double e,double x,double y,double z);     // only for simulation, invoke from G4Step or Sensitive Detector
+  void  AppendThisHit(double e,double x,double y,double z);     // only for simulation, invoke from G4Step or Sensitive Detector
   int   GetUID() const      {return fUniqueID;}
   int   SetUID(int id)      {fUniqueID = id;}
   double GetEnergy() const  {return fEnergy;}

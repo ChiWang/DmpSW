@@ -1,14 +1,8 @@
-#=====================================================================
-#   File:   Evnet.scons
-#   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    24/07/2013
-#---------------------------------------------------------------------
-#   Description:
-#       This file is invoked by ../SConstruct
-#
-#---------------------------------------------------------------------
-#   History:
-#                           Last update:  22/01/2014   22:50:59
-#=====================================================================
+'''
+ *  $Id: Event.scons, 2014-03-05 10:25:04 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 24/07/2013
+'''
 
 import os
 Import("*")     # import all vars from SConstruct
@@ -19,7 +13,7 @@ target='DmpEvent'
 env = envBase.Clone()
 
 # include
-subDetectors.append('DmpEvent')
+env.Prepend(CPPPATH=target+'/include')
 for key in subDetectors:
     includeDir=key+'/include'
     env.Prepend(CPPPATH=[includeDir])
