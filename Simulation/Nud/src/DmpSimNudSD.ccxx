@@ -4,7 +4,7 @@
 // Author(s):
 //  - added by Tiekuang Dong 2012/12/23
 
-#include "DmpNudSensitiveDetector.h"
+#include "DmpSimNudSD.h"
 #include "DmpSimNudHit.h"
 #include "DmpDetectorConstruction.h"
 
@@ -16,7 +16,7 @@
 #include "G4SDManager.hh"
 #include "G4ios.hh"
 
-DmpNudSensitiveDetector::DmpNudSensitiveDetector(G4String name)
+DmpSimNudSD::DmpSimNudSD(G4String name)
 :G4VSensitiveDetector(name)
 {
   G4RunManager* runManager = G4RunManager::GetRunManager();
@@ -24,7 +24,6 @@ DmpNudSensitiveDetector::DmpNudSensitiveDetector(G4String name)
     (DmpDetectorConstruction*)(runManager->GetUserDetectorConstruction());
   
  // NbOfNUDStrips      =  (dmpDetector->GetNudDetectorDescription())->GetNbOfNUDStrips(); 
-
  // HitID = new G4int[NbOfNUDStrips];
  // collectionName.insert("NUDHitCollection");
 
@@ -44,35 +43,29 @@ DmpNudSensitiveDetector::DmpNudSensitiveDetector(G4String name)
  //EdepTime[NbOfNUDTimeIntervals]; 
 }
 
-DmpNudSensitiveDetector::~DmpNudSensitiveDetector()
+DmpSimNudSD::~DmpSimNudSD()
 {
  // delete [] HitID;
-
 delete [] HitID0;
 delete [] HitID1;
 delete [] HitID2;
 delete [] HitID3;
 }
 
-void DmpNudSensitiveDetector::Initialize(G4HCofThisEvent*)
+void DmpSimNudSD::Initialize(G4HCofThisEvent*)
 {
  // NUDHitCollection = new DmpSimNudHitsCollection
-  //  (SensitiveDetectorName,collectionName[0]);
- 
-
+  //  (SDName,collectionName[0]);
  NUDHitCollection0 = new DmpSimNudHitsCollection
-    (SensitiveDetectorName,collectionName[0]);
+    (SDName,collectionName[0]);
   
  NUDHitCollection1 = new DmpSimNudHitsCollection
-    (SensitiveDetectorName,collectionName[1]);
+    (SDName,collectionName[1]);
 
  NUDHitCollection2 = new DmpSimNudHitsCollection
-    (SensitiveDetectorName,collectionName[2]);
+    (SDName,collectionName[2]);
  NUDHitCollection3 = new DmpSimNudHitsCollection
-    (SensitiveDetectorName,collectionName[3]);
-
-
-
+    (SDName,collectionName[3]);
 /* 
  for (G4int j=0;j<NbOfNUDStrips;j++) 
     {
@@ -90,10 +83,8 @@ for (G4int j=0;j<NbOfNUDTimeIntervals;j++)
 
 }
 
-G4bool DmpNudSensitiveDetector::ProcessHits(G4Step* aStep, G4TouchableHistory*)
+G4bool DmpSimNudSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 { 
-  
-  
   //G4cout<< "NUD ProcessHits can be run " << G4endl; 
   G4double StepTime=aStep->GetTrack()->GetGlobalTime();
   G4double edep = aStep->GetTotalEnergyDeposit();
@@ -137,11 +128,8 @@ if (NUDName == "NUD0")
    
 	}
     }
-
 else if (NUDName == "NUD1" )
     {
- 
-
      // This is a new hit
       if (HitID1[i]==-1)
 	{       
@@ -159,8 +147,6 @@ else if (NUDName == "NUD1" )
        
 	}
     }
-
-
 else if (NUDName == "NUD2")
     {
       // This is a new hit
@@ -180,10 +166,8 @@ else if (NUDName == "NUD2")
   
 	}
     }
-
 else if (NUDName == "NUD3")
     {
-
      // This is a new hit
       if (HitID3[i]==-1)
 	{       
@@ -207,7 +191,7 @@ else if (NUDName == "NUD3")
   return true;
 }
 
-void DmpNudSensitiveDetector::EndOfEvent(G4HCofThisEvent* HCE)
+void DmpSimNudSD::EndOfEvent(G4HCofThisEvent* HCE)
 {
 static G4int HCID0 = -1;
 static G4int HCID1 = -1;
@@ -218,18 +202,14 @@ static G4int HCID3 = -1;
     { 
       HCID0 = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
     }
-
-
   if(HCID1<0)
     { 
       HCID1 = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[1]);
     }
-
   if(HCID2<0)
     { 
       HCID2 = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[2]);
     }
-
   if(HCID3<0)
     { 
       HCID3 = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[3]);
@@ -250,27 +230,4 @@ static G4int HCID3 = -1;
        HitID3[j] = -1;
     };
 }
-
-void DmpNudSensitiveDetector::clear()
-{} 
-
-void DmpNudSensitiveDetector::DrawAll()
-{} 
-
-void DmpNudSensitiveDetector::PrintAll()
-{} 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

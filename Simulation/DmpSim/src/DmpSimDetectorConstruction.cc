@@ -34,7 +34,7 @@ G4VPhysicalVolume* DmpSimDetectorConstruction::Construct(){
 #ifdef DmpDebug
   fParser->Read("../Geometry/DAMPE.gdml");
 #else
-  G4String file = (G4String)getenv("DMPSWSYS")+"/share/Geometry/DAMPE.gdml"
+  G4String file = (G4String)getenv("DMPSWSYS")+"/share/Geometry/DAMPE.gdml";
   fParser->Read(file);
 #endif
   fPhysiWorld = fParser->GetWorldVolume();

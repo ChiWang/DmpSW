@@ -36,7 +36,7 @@ G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory *ROHist){
   int index = -1;
   DmpEvtBgoHit *aHit = 0;
   for(int i=0;i<fHitCollection->GetEntriesFast();++i){
-    if(((DmpEvtBgoHit*)fHitCollection->At(i))->GetUID == barID){
+    if(((DmpEvtBgoHit*)fHitCollection->At(i))->GetUID() == barID){
       index = i;
     }
   }
@@ -46,8 +46,7 @@ G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory *ROHist){
   }else{
     aHit = (DmpEvtBgoHit*)fHitCollection->At(index);
   }
-  double e = aStep->GetTotalEnergyDeposit()/MeV;
-  // use MeV
+  double e = aStep->GetTotalEnergyDeposit()/MeV;    // use MeV
 // *  TODO: using GetDeltaPosition or GetPreStepPoint
   double x = aStep->GetDeltaPosition().x();
   double y = aStep->GetDeltaPosition().y();

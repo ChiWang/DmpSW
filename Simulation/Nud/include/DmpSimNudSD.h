@@ -1,5 +1,5 @@
-#ifndef DmpNudSensitiveDetector_h
-#define DmpNudSensitiveDetector_h 1
+#ifndef DmpSimNudSD_H
+#define DmpSimNudSD_H
 
 #include "G4VSensitiveDetector.hh"
 #include "globals.hh"
@@ -9,22 +9,16 @@ class G4HCofThisEvent;
 class G4Step;
 #include "DmpSimNudHit.h"
 
-class DmpNudSensitiveDetector : public G4VSensitiveDetector
-{
+class DmpSimNudSD : public G4VSensitiveDetector{
 public:
-  
-  DmpNudSensitiveDetector(G4String);
-  ~DmpNudSensitiveDetector();
+  DmpSimNudSD(G4String);
+  ~DmpSimNudSD();
   
   void Initialize(G4HCofThisEvent*);
   G4bool ProcessHits(G4Step* astep,G4TouchableHistory*);
   void EndOfEvent(G4HCofThisEvent*);
-  void clear();
-  void DrawAll();
-  void PrintAll();
-  
+
 private:
-  
 //  DmpSimNudHitsCollection*  NUDHitCollection;  
    DmpSimNudHitsCollection*  NUDHitCollection0;  
    DmpSimNudHitsCollection*  NUDHitCollection1;  
@@ -44,9 +38,5 @@ private:
 };
 
 #endif
-
-
-
-
 
 

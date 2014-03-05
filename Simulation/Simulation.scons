@@ -37,7 +37,7 @@ for key in subDetectors:
     includeDir=P2Path+"/"+key+'/include'
     env.Prepend(CPPPATH=[includeDir])
    
-env.Prepend(LIBS=['DmpCore','DmpEvent'])
+env.Prepend(LIBS=['DmpCore','DmpEvent','EG'])   # EG is for TParticle
 env.Prepend(LIBPATH=[P1Path,P2Path])
 
 
