@@ -358,14 +358,13 @@ These directories (or link) below are in "/prefix"
 
 1.  All personal test must in "test" directory, you can create "test" directory at wherever you need. Then other people will not waste their time on checking test.
 
-2.  We set macro definition of "Dmp_DEBUG" and "Dmp_RELEASE" in SCons, it will makes your code more flexible, for example:
+2.  We set macro definition of "DmpDebug" and "Dmp_RELEASE" in SCons, it will makes your code more flexible, for example:
 
-    #ifdef Dmp_DEBUG
+    #ifdef DmpDebug
       cout<<"some thing you want to check"<<endl;
       // or some thing you need for debug.
-    #endif
-    #ifdef Dmp_RELEASE
-      cout<<"This is release mode. I'm (this line) is useless"<<endl;
+    #else
+      cout<<"This is release mode. to get environment variable like $DMPSWSYS (exmaple: Simulation/DetectorConstruction::Construct())"<<endl;
       // or some thing for release.
     #endif
 
