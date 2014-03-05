@@ -7,6 +7,7 @@
 
 #include <stdlib.h>     // getenv() chdir()
 
+#include "G4LogicalVolume.hh"
 #include "G4GDMLParser.hh"
 #include "G4SDManager.hh"
 
@@ -46,6 +47,9 @@ G4VPhysicalVolume* DmpSimDetectorConstruction::Construct(){
 //  SDMan->AddNewDetector(new DmpSimPsdSD("/DmpDet/Psd"));
 //  SDMan->AddNewDetector(new DmpSimStkSD("/DmpDet/Stk"));
   SDMan->AddNewDetector(new DmpSimBgoSD("/DmpDet/Bgo"));
+ //*  TODO: add evry crystal as SD
+  //G4LogicalVolume *bgoCrystal = fParser->GetXXX()->GetLogicalVolume();
+  //bgoCrystal->SetSensitiveDetector(aTrackerSD);
 //  SDMan->AddNewDetector(new DmpSimNudSD("/DmpDet/Nud"));
 
   return fParser->GetWorldVolume();
