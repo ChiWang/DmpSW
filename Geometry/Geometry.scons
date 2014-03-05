@@ -15,6 +15,7 @@ for file in os.listdir('./'):
     if ".gdml" not in file and "GDML" not in file: continue
     Default(Command(prefix+'/share/Geometry/'+file,'./'+file,Copy("$TARGET","$SOURCE")))
 for directory in subDetectors:
+    if not os.path.exists(directory): continue
     for file in os.listdir(directory):
         if ".gdml" not in file and "GDML" not in file: continue
         Default(Command(prefix+'/share/Geometry/'+directory+"/"+file,'./'+directory+"/"+file,Copy("$TARGET","$SOURCE")))
