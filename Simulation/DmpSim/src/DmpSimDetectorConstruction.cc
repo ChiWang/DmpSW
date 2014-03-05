@@ -1,11 +1,11 @@
 /*
- *  $Id: DmpSimDetectorConstruction.cc, 2014-03-03 23:05:51 chi $
+ *  $Id: DmpSimDetectorConstruction.cc, 2014-03-05 16:37:19 chi $
  *  Author(s):
  *    Xin WU (Xin.Wu@cern.cn)   11/07/2013
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 26/02/2014
 */
 
-#include <stdlib.h>     // getenv()
+#include <stdlib.h>     // getenv() chdir()
 
 #include "G4GDMLParser.hh"
 #include "G4SDManager.hh"
@@ -19,10 +19,7 @@
 #include "DmpSimBgoSD.h"
 //#include "DmpSimNudSD.h"
 
-DmpSimDetectorConstruction::DmpSimDetectorConstruction()
-  :fPhysiWorld(0)
-{
-	// create commands for interactive definition of the payload
+DmpSimDetectorConstruction::DmpSimDetectorConstruction(){
   fParser = new G4GDMLParser();
 }
 
@@ -31,13 +28,15 @@ DmpSimDetectorConstruction::~DmpSimDetectorConstruction(){
 }
 
 G4VPhysicalVolume* DmpSimDetectorConstruction::Construct(){
+  char *dirTmp = getcwd(NULL,NULL);
 #ifdef DmpDebug
-  fParser->Read("../Geometry/DAMPE.gdml");
+  chdir("../Geometry");
 #else
-  G4String file = (G4String)getenv("DMPSWSYS")+"/share/Geometry/DAMPE.gdml";
-  fParser->Read(file);
+  chdir(getenv("DMPSWSYS"));
 #endif
-  fPhysiWorld = fParser->GetWorldVolume();
+ //*  TODO: add this for BT2012     chdir("BT2012");
+  fParser->Read("./DAMPE.gdml");
+  chdir(dirTmp);
 
 // *
 // *  TODO: set SD of SubDet at here
@@ -48,17 +47,6 @@ G4VPhysicalVolume* DmpSimDetectorConstruction::Construct(){
   SDMan->AddNewDetector(new DmpSimBgoSD("/DmpDet/Bgo"));
 //  SDMan->AddNewDetector(new DmpSimNudSD("/DmpDet/Nud"));
 
-  return fPhysiWorld;
+  return fParser->GetWorldVolume();
 }
-
-/*
-#include "G4RunManager.hh"
-#include "G4RegionStore.hh"
-void DmpSimDetectorConstruction::UpdateGeometry(){
-  //  delete payloadSD??
-  G4RunManager::GetRunManager()->DefineWorldVolume(Construct());
-  G4RunManager::GetRunManager()->PhysicsHasBeenModified();
-  G4RegionStore::GetInstance()->UpdateMaterialList(fPhysiWorld);
-}
-*/
 

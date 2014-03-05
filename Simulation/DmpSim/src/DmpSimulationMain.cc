@@ -5,6 +5,9 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/02/2014
 */
 
+#ifdef DmpDebug
+#include <iostream>
+#endif
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
 #include "G4PhysListFactory.hh"
@@ -24,16 +27,26 @@
 #include "DmpSimDataManager.h"
 
 int main(int argc, char* argv[]){
+        std::cout<<"in main"<<std::endl;
+#ifdef DmpDebug
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+#endif
   G4RunManager *runManager = new G4RunManager();
 
   // Detector
   runManager->SetUserInitialization(new DmpSimDetectorConstruction);
  
+#ifdef DmpDebug
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+#endif
   // Physics List
   G4PhysListFactory *physListFactory = new G4PhysListFactory();
   //G4VUserPhysicsList *physList = physListFactory->GetReferencePhysList("QGSP_BERT");
   G4VUserPhysicsList *physList = physListFactory->GetReferencePhysList("QGSP_BIC");
   runManager->SetUserInitialization(physList);
+#ifdef DmpDegub
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+#endif
 
   // Initialize() only used for Detector and Physics
   runManager->Initialize();

@@ -4,17 +4,14 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 04/03/2014
 */
 
-// *
-// *  TODO:  delete old useless codes from svn
-// *
 //#include <stdlib.h>
 #include "G4Run.hh"
-#include "G4Event.hh"
+//#include "G4Event.hh"
+//#include "G4ios.hh"
 #include "G4UImanager.hh"
 #include "G4VVisManager.hh"
 #include <time.h>
 #include "CLHEP/Random/Random.h"
-//#include "G4ios.hh"
 
 #include "DmpSimRunAction.h"
 #include "DmpSimDataManager.h"
@@ -33,10 +30,9 @@ void DmpSimRunAction::BeginOfRunAction(const G4Run *aRun){
   std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"Run ID = "<<aRun->GetRunID()<<std::endl;
 #endif
   fDataMan->BookFile(aRun); 
-  //Random Engine
-// *
 // *  TODO: engine not works...
 /*
+  //Random Engine
   CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);
   G4long seed = time((time_t*)NULL);
   CLHEP::HepRandom::setTheSeed(seed);
@@ -45,8 +41,8 @@ void DmpSimRunAction::BeginOfRunAction(const G4Run *aRun){
 
 #ifdef G4VIS_USE
   if(G4VVisManager::GetConcreteInstance()){
-    G4UImanager* UIManager = G4UImanager::GetUIpointer();
-    UIManager->ApplyCommand("vis/clear/view");
+    G4UImanager *uiManager = G4UImanager::GetUIpointer();
+    uiManager->ApplyCommand("vis/clear/view");
   }
 #endif
 }

@@ -8,7 +8,6 @@
 
 #include "DmpSimPrimaryGeneratorAction.h"
 #include "DmpSimDataManager.h"
-#include "DmpEvtSimPrimaryParticle.h"
 
 DmpSimPrimaryGeneratorAction::DmpSimPrimaryGeneratorAction()
  :fGPS(0)
@@ -22,12 +21,8 @@ DmpSimPrimaryGeneratorAction::~DmpSimPrimaryGeneratorAction(){
   delete fGPS;
 }
 
-void DmpSimPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
+void DmpSimPrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent){
   fGPS->GeneratePrimaryVertex(anEvent);
-// *
-// *  TODO: Use DataManager to save informations of parimary particle
-// *
-  DmpEvtSimPrimaryParticle *primaryParticle = DmpSimDataManager::GetInstance()->GetPrimaryParticle();
-  //primaryParticle->SetXXX();
+  DmpSimDataManager::GetInstance()->UpdatePrimaryParticleInformation(anEvent);
 }
 

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimTrackingAction.cc, 2014-03-04 17:46:55 chi $
+ *  $Id: DmpSimTrackingAction.cc, 2014-03-05 16:34:46 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 04/03/2014
 */
@@ -10,15 +10,11 @@
 #include "DmpSimTrackingAction.h"
 
 void DmpSimTrackingAction::PreUserTrackingAction(const G4Track* aTrack){
-  // Create trajectory only for primaries
-  if(aTrack->GetParentID()==0) {
-    fpTrackingManager->SetStoreTrajectory(true);
-  }
-  // also e+ and e- from primary photon conversion
-  else if(aTrack->GetParentID()==1 && aTrack->GetDefinition()->GetPDGCharge() != 0.) { 
+  if(aTrack->GetParentID()==0) {        // Create trajectory only for primaries
+    fpTrackingManager->SetStoreTrajectory(true);        // then will affect what??
+  }else if(aTrack->GetParentID()==1 && aTrack->GetDefinition()->GetPDGCharge() != 0.) { // also e+ and e- from primary photon conversion
     fpTrackingManager->SetStoreTrajectory(true); 
-  }
-  else { 
+  }else {
     fpTrackingManager->SetStoreTrajectory(false); 
   }
 }

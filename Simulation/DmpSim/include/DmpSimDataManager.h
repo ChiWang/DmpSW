@@ -26,14 +26,17 @@ public:
   static DmpSimDataManager* GetInstance();
   static void Vanish();
   ~DmpSimDataManager();
+public:
   void BookFile(const G4Run*);      // invoked from BeginOfRunAcction()
   void SaveFile();                  // invoked from EndOgRunAction()
-  void UpdateEventHeader(const G4Event*); // invoked from BeginOfEventAction
+  void UpdatePrimaryParticleInformation(const G4Event*);    // invoked from GeneratePrimaries()
+  void UpdateEventHeader(const G4Event*); // invoked from BeginOfEventAction()
   void Digitize();                  // invoked from EndOfEventAction(), before FillEvent()
   void FillEvent();                 // invoked from EndOfEventAction()
-  DmpEvtSimPrimaryParticle* GetPrimaryParticle() const {return fPrimaryParticle;}
+public:
   DmpEvtHeader* GetEventHeader() const;     // DmpSimDataManager is a friend class of DmpEventRaw
   TClonesArray* GetHitCollection(DmpParameters::DmpSubDetectors SubDet_ID) const;
+  DmpEvtSimPrimaryParticle* GetPrimaryParticle() const {return fPrimaryParticle;}
  
 private:
   DmpSimDataManager();

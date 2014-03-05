@@ -8,7 +8,7 @@
 #define DmpSimEventAction_H
 
 #include "G4UserEventAction.hh"
-#include "globals.hh"
+//#include "globals.hh"
 
 class DmpSimDataManager;
 class DmpSimEventAction : public G4UserEventAction{
@@ -20,11 +20,7 @@ public:
   
 private:
   DmpSimDataManager     *fDataMan;
-  /*
-  G4int       stkHitCollID;                
-  G4int       bgoHitCollID;                
-  G4int       psdHitCollID;                
-  */
+
 };
 
 #endif

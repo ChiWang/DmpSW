@@ -76,9 +76,16 @@ void DmpSimDataManager::SaveFile(){
   delete aFile;
 }
 
-void DmpSimDataManager::UpdateEventHeader(const G4Event *aEvent){
-  fEvtRaw->fEvtHeader->SetEventID(aEvent->GetEventID());
-  int pdgCode = aEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode();
+void DmpSimDataManager::UpdatePrimaryParticleInformation(const G4Event *anEvent){
+// *
+// *  TODO: Use DataManager to save informations of parimary particle
+// *
+//  fPrimaryParticle->SetXXX();
+}
+
+void DmpSimDataManager::UpdateEventHeader(const G4Event *anEvent){
+  fEvtRaw->fEvtHeader->SetEventID(anEvent->GetEventID());
+  int pdgCode = anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode();
   fEvtRaw->fEvtHeader->SetParticlePdgCode(pdgCode);
 }
 
@@ -86,6 +93,21 @@ void DmpSimDataManager::Digitize(){
 // *
 // *  TODO: call this function before FillEvent() 
 // *
+/* old digitize, were in EndOfEventAction()
+  G4DigiManager *fDM = G4DigiManager::GetDMpointer();
+  G4HCofThisEvent* HCE = anEvent->GetHCofThisEvent();
+  DmpSimStkHitsCollection *THC = 0;
+  if(HCE){
+    THC = (DmpSimStkHitsCollection*)(HCE->GetHC(stkHitCollID));
+    //if (THC){
+	//int n_hit = THC->entries();
+	//G4cout <<G4endl;
+	//G4cout << "Number of tracker hits in this event =  " << n_hit << G4endl;
+	//}
+    DmpSimDigitization * myDM = (DmpSimDigitization*)fDM->FindDigitizerModule( "DmpSimDigitization" );
+    myDM->Digitize();
+  }
+  */
 }
 
 void DmpSimDataManager::FillEvent(){

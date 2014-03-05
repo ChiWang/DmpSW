@@ -18,7 +18,7 @@ public:
   void GeneratePrimaries(G4Event*);
 
 private:
-  G4GeneralParticleSource*       fGPS;
+  G4GeneralParticleSource       *fGPS;
 
 };
 
