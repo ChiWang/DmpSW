@@ -33,6 +33,7 @@ G4VPhysicalVolume* DmpSimDetectorConstruction::Construct(){
   chdir("../Geometry");
 #else
   chdir(getenv("DMPSWSYS"));
+  chdir("./share/Geometry");
 #endif
  //*  TODO: add this for BT2012     chdir("BT2012");
   fParser->Read("./DAMPE.gdml");

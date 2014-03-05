@@ -45,7 +45,7 @@ env.Prepend(LIBPATH=[P1Path,P2Path])
 #--------------------------------------------------------------------
 for file in os.listdir('./share'):
     if ".mac" in file:
-        Default(Command(prefix+'/share/TestRelease/'+file,'./share/'+file,Copy("$TARGET","$SOURCE")))
+        Default(Command(prefix+'/share/TestRelease/Simulation/'+file,'./share/'+file,Copy("$TARGET","$SOURCE")))
 
 # main build
 #--------------------------------------------------------------------

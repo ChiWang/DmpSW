@@ -8,6 +8,7 @@
 #ifdef DmpDebug
 #include <iostream>
 #endif
+#include <stdlib.h>     // getenv() chdir()
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
 #include "G4PhysListFactory.hh"
@@ -27,7 +28,6 @@
 #include "DmpSimDataManager.h"
 
 int main(int argc, char* argv[]){
-        std::cout<<"in main"<<std::endl;
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
@@ -44,18 +44,25 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
   //G4VUserPhysicsList *physList = physListFactory->GetReferencePhysList("QGSP_BERT");
   G4VUserPhysicsList *physList = physListFactory->GetReferencePhysList("QGSP_BIC");
   runManager->SetUserInitialization(physList);
-#ifdef DmpDegub
+#ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
 
   // Initialize() only used for Detector and Physics
   runManager->Initialize();
+
+#ifdef DmpDebug
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+#endif
   
   // Set user action classes
   runManager->SetUserAction(new DmpSimPrimaryGeneratorAction);      // only Primary Generator is mandatory
   runManager->SetUserAction(new DmpSimRunAction);
   runManager->SetUserAction(new DmpSimEventAction);
   runManager->SetUserAction(new DmpSimTrackingAction);
+#ifdef DmpDebug
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+#endif
 
 #ifdef G4VIS_USE
   // Visualization manager
@@ -70,6 +77,13 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
     UImanager->ApplyCommand("/control/execute" + fileName);
   }else{   // interactive mode : define UI session
 #ifdef G4UI_USE
+    char *dirTmp = getcwd(NULL,NULL);
+#ifdef DmpDebug
+    chdir("./share");
+#else
+    chdir(getenv("DMPSWSYS"));
+    chdir("./share/TestRelease/Simulation");
+#endif
     G4UIExecutive *ui = new G4UIExecutive(argc, argv);
 #ifdef G4VIS_USE
     UImanager->ApplyCommand("/control/execute vis.mac");
@@ -79,6 +93,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
     }
     ui->SessionStart();
     delete ui;
+    chdir(dirTmp);
 #endif
   }
 
