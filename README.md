@@ -358,7 +358,7 @@ These directories (or link) below are in "/prefix"
 
 1.  All personal test must in "test" directory, you can create "test" directory at wherever you need. Then other people will not waste their time on checking test.
 
-2.  We set macro definition of "DmpDebug" and "Dmp_RELEASE" in SCons, it will makes your code more flexible, for example:
+2.  We set macro definition of "DmpDebug" in SConstruct, it will makes your code more flexible, for example:
 
     #ifdef DmpDebug
       cout<<"some thing you want to check"<<endl;
