@@ -33,14 +33,18 @@ void DmpSimDataManager::Vanish(){
   }
 }
 
-void DmpSimDataManager::SetOutDataName(std::string name){
-  time_t now;
-  struct tm *p;
-  time(&now);
-  p = localtime(&now);
-  strftime(fOutDataName,99,"DmpSim_%Y%m%d%H%M%S.root",p);
-  //strftime(fOutDataName.c_str(),99,"DmpSim_%Y%m%d%H%M%S.root",p);
-  //fOutDataName = name;
+void DmpSimDataManager::SetOutDataName(std::string outDataName){
+  if(outDataName == "default"){
+    time_t now;
+    struct tm *p;
+    time(&now);
+    p = localtime(&now);
+    char name[100];
+    strftime(name,99,"DmpSim_%Y%m%d%H%M%S.root",p);
+    fOutDataName = name;
+  }else{
+    fOutDataName = outDataName;
+  }
 }
 
 void DmpSimDataManager::BookBranch(){
@@ -54,7 +58,7 @@ DmpSimDataManager::DmpSimDataManager()
  :fPrimaryParticle(0),
   fEvtRaw(0)
 {
-  fOutDataTree->SetNameTitle("DAMPE_Raw","Raw Event");
+  fOutDataTree->SetNameTitle("DAMPE_Raw","Simulation");
   fPrimaryParticle = new DmpEvtSimPrimaryParticle();
   fEvtRaw = new DmpEventRaw();
 }

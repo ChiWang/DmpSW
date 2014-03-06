@@ -14,7 +14,7 @@ ClassImp(DmpEvtBgoHit)
 
 //------------------------------------------------------------------------------
 DmpEvtBgoHit::DmpEvtBgoHit()
- :fUniqueSDID(0),
+ :fSDID(0),
   fEnergy(0),
   fUsedSide(0),
   fPMT0(0),

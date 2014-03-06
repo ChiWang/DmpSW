@@ -37,7 +37,7 @@ G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory *ROHist){
   int barID = (ROHist->GetVolume(1)->GetCopyNo())*100 + ROHist->GetVolume(0)->GetCopyNo();
   int index = -1;
   for(int i=0;i<fHitCollection->GetEntriesFast();++i){
-    if(((DmpEvtBgoHit*)fHitCollection->At(i))->GetUID() == barID){
+    if(((DmpEvtBgoHit*)fHitCollection->At(i))->GetSDID() == barID){
       index = i;
     }
   }
@@ -46,7 +46,7 @@ G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory *ROHist){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"add new hit barID = "<<barID<<std::endl;
     index = fHitCollection->GetEntriesFast();
     aHit = (DmpEvtBgoHit*)fHitCollection->ConstructedAt(index);
-    aHit->SetUID(barID);
+    aHit->SetSDID(barID);
   }else{
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"old hit barID = "<<barID<<std::endl;
     aHit = (DmpEvtBgoHit*)fHitCollection->At(index);
