@@ -19,10 +19,10 @@ ClassImp(DmpEventRaw)
 
 DmpEventRaw::DmpEventRaw()
  :fEvtHeader(0),
-  fPsdHits(0),
-  fStkHits(0),
-  fBgoHits(0),
-  fNudHits(0)
+  //fPsdHits(0),
+  //fStkHits(0),
+  fBgoHits(0)
+  //fNudHits(0)
 {
   fEvtHeader = new DmpEvtHeader();
   fBgoHits = new TClonesArray("DmpEvtBgoHit",300);

@@ -53,6 +53,7 @@ DmpSimDataManager::~DmpSimDataManager(){
 
 //-------------------------------------------------------------------
 void DmpSimDataManager::BookFile(const G4Run *aRun){
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
   fTree->Branch("EventSource","DmpEvtSimPrimaryParticle",&fPrimaryParticle,32000,2);
   fTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
   fEvtRaw->fEvtHeader->SetRunID(aRun->GetRunID());
@@ -62,13 +63,14 @@ void DmpSimDataManager::BookFile(const G4Run *aRun){
 }
 
 void DmpSimDataManager::SaveFile(){
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
   char name[100];
   {
   time_t now;
   struct tm *p;
   time(&now);
   p = localtime(&now);
-  strftime(name,99,"DmpSim_%Y%m%d%H%M%S",p);
+  strftime(name,99,"./DmpSim_%Y%m%d%H%M%S.root",p);
   }
   TFile *aFile = new TFile(name,"recreate");
   fTree->Write();
@@ -111,6 +113,7 @@ void DmpSimDataManager::Digitize(){
 }
 
 void DmpSimDataManager::FillEvent(){
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
   fTree->Fill();
 }
 
@@ -120,14 +123,15 @@ DmpEvtHeader* DmpSimDataManager::GetEventHeader() const{
 
 TClonesArray* DmpSimDataManager::GetHitCollection(DmpParameters::DmpSubDetectors id) const{
   TClonesArray  *subDet=0;
+ //*  TODO:  add hits in EvtRaw
   if(id == DmpParameters::kPsd){
-    subDet = fEvtRaw->fPsdHits;
+    //subDet = fEvtRaw->fPsdHits;
   }else if(id == DmpParameters::kStk){
-    subDet = fEvtRaw->fStkHits;
+    //subDet = fEvtRaw->fStkHits;
   }else if(id == DmpParameters::kBgo){
     subDet = fEvtRaw->fBgoHits;
   }else if(id == DmpParameters::kNud){
-    subDet = fEvtRaw->fNudHits;
+    //subDet = fEvtRaw->fNudHits;
   }
   return subDet;
 }

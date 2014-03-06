@@ -28,10 +28,11 @@ public:
 
 private:
   DmpEvtHeader      *fEvtHeader;
-  TClonesArray      *fPsdHits;  //->
-  TClonesArray      *fStkHits;  //->
+//*  TODO: add hits of Psd, Stk and Nud
+  //TClonesArray      *fPsdHits;  //->
+  //TClonesArray      *fStkHits;  //->
   TClonesArray      *fBgoHits;  //->
-  TClonesArray      *fNudHits;  //->
+  //TClonesArray      *fNudHits;  //->
 
   ClassDef(DmpEventRaw,1)
 };

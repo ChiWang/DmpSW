@@ -44,6 +44,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
   //G4VUserPhysicsList *physList = physListFactory->GetReferencePhysList("QGSP_BERT");
   G4VUserPhysicsList *physList = physListFactory->GetReferencePhysList("QGSP_BIC");
   runManager->SetUserInitialization(physList);
+
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
@@ -75,6 +76,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
   if (argc!=1){   // batch mode
     G4String fileName = argv[1];
     UImanager->ApplyCommand("/control/execute" + fileName);
+    std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tpath = "<<getcwd(NULL,NULL)<<std::endl;
   }else{   // interactive mode : define UI session
 #ifdef G4UI_USE
     char *dirTmp = getcwd(NULL,NULL);

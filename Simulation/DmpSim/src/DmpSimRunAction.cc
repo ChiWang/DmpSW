@@ -19,16 +19,16 @@
 DmpSimRunAction::DmpSimRunAction()
  :fDataMan(0)
 {
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
   fDataMan = DmpSimDataManager::GetInstance();
 }
 
 DmpSimRunAction::~DmpSimRunAction(){
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 }
 
 void DmpSimRunAction::BeginOfRunAction(const G4Run *aRun){
-#ifdef DmpDebug
-  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"Run ID = "<<aRun->GetRunID()<<std::endl;
-#endif
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"Run ID = "<<aRun->GetRunID()<<std::endl;
   fDataMan->BookFile(aRun); 
 // *  TODO: engine not works...
 /*
