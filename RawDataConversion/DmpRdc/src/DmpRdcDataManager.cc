@@ -12,12 +12,13 @@
 #include "TFile.h"
 #include "TTree.h"
 
+#include "DmpEventRaw.h"
 #include "DmpRdcDataManager.h"
-#include "DmpEvtHeader.h"
-#include "DmpEvtPsdHit.h"
-#include "DmpEvtStkHit.h"
-#include "DmpEvtBgoHit.h"
-#include "DmpEvtNudHit.h"
+//#include "DmpEvtHeader.h"
+//#include "DmpEvtPsdHit.h"
+//#include "DmpEvtStkHit.h"
+//#include "DmpEvtBgoHit.h"
+//#include "DmpEvtNudHit.h"
 #include "DmpSubDetectors.h"
 
 //------------------------------------------------------------------------------
@@ -107,12 +108,15 @@ DmpRdcDataManager::DmpRdcDataManager()
  :fHexData(0),
   fTree(0)
 {
+  fTree = new TTree("DAMPE_Raw","Raw Event");
+  fTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
   fTrigger.resize(DmpParameters::kSubDetNo + 1);
   for(short i = 0;i<fTrigger.size();++i) fTrigger[i] = 0;
 }
 
 //------------------------------------------------------------------------------
 DmpRdcDataManager::~DmpRdcDataManager(){
+  delete fTree;
   delete fPsd;
   delete fStk;
   delete fBgo;

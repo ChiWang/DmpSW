@@ -15,8 +15,7 @@ ClassImp(DmpEvtHeader)
 
 //-------------------------------------------------------------------
 DmpEvtHeader::DmpEvtHeader()
- :fRunID(-1),
-  fEventID(-1),
+ :fEventID(-1),
   fTime(0),
   fParticle(0)
 {

@@ -4,33 +4,30 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
-#ifdef DmpDegub
+#ifdef DmpDebug
 #include <iostream>
 #endif
-#include "DmpEventRaw.h"
+
+#include "TTree.h"
+
 #include "DmpVDataManager.h"
 
-using namespace std;
 //------------------------------------------------------------------------------
 DmpVDataManager::DmpVDataManager()
  :fInDataPath("./"),
   fOutDataPath("./"),
-  fDataName(""),
-  fEvtRaw(0)
+  fOutDataName(""),
+  fOutDataTree(0)
 {
-  fEvtRaw = new DmpEventRaw();
+  fOutDataTree = new TTree("DAMPE","DAMPE");    // should rename in concrete class
 }
 
-//------------------------------------------------------------------------------
 DmpVDataManager::~DmpVDataManager(){
-  if(fEvtRaw != 0 ){
-    delete fEvtRaw;
-    fEvtRaw = 0;
-  }
+  delete fOutDataTree;
 }
 
 //------------------------------------------------------------------------------
-void DmpVDataManager::SetInDataPath(string path){
+void DmpVDataManager::SetInDataPath(std::string path){
   if (path.[path.length()-1] == '/') {
     fInDataPath = path;
   } else {
@@ -40,12 +37,24 @@ void DmpVDataManager::SetInDataPath(string path){
 
 //------------------------------------------------------------------------------
 #include <sys/stat.h>       // mkdir()
-void DmpVDataManager::SetOutDataPath(string path){
+void DmpVDataManager::SetOutDataPath(std::string path){
   if (path.[path.length()-1] == '/') {
     fOutDataPath = path;
   } else {
     fOutDataPath = path + "/";
   }
   mkdir(fOutDataPath,0755);
+}
+
+//-------------------------------------------------------------------
+#include "TFile.h"
+void DmpVDataManager::SaveOutput(){
+#ifdef DmpDebug
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+#endif
+  TFile *aFile = new TFile((TString)fOutDataName,"recreate");
+  fOutDataTree->Write();
+  aFile->Close();
+  delete aFile;
 }
 

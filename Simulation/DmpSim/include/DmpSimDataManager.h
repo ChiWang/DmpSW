@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimDataManager.h, 2014-03-06 20:27:46 chi $
+ *  $Id: DmpSimDataManager.h, 2014-03-07 00:00:48 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/02/2014
 */
@@ -9,34 +9,35 @@
 
 #include "DmpVDataManager.h"
 
-class TTree;
 class G4Run;
 class G4Event;
 class G4TouchableHistory;
 class DmpEvtSimPrimaryParticle;
+class DmpEventRaw;
 
 class DmpSimDataManager : public DmpVDataManager{
 public:
   static DmpSimDataManager* GetInstance();
   static void Vanish();
-
-public:
-  DmpEvtSimPrimaryParticle* GetPrimaryParticle() const {return fPrimaryParticle;}
-  void BookFile(const G4Run*);      // invoked from BeginOfRunAcction()
-  void SaveFile();                  // invoked from EndOgRunAction()
-  void UpdatePrimaryParticleInformation(const G4Event*);    // invoked from GeneratePrimaries()
-  void UpdateEventHeader(const G4Event*); // invoked from BeginOfEventAction()
-  void Digitize();                  // invoked from EndOfEventAction(), before FillEvent()
-  void FillEvent();                 // invoked from EndOfEventAction()
+  void SetOutDataName(std::string);
+  void BookBranch();    // invoked from BeginOfRunAction()
 
 private:
   DmpSimDataManager();
   ~DmpSimDataManager();
   static DmpSimDataManager  *fInstance;  //!
 
+public:
+  DmpEvtSimPrimaryParticle* GetPrimaryParticle() const {return fPrimaryParticle;}
+  DmpEventRaw*  GetRawEvent() const     {return fEvtRaw;}
+  void UpdatePrimaryParticleInformation(const G4Event*);    // invoked from GeneratePrimaries()
+  void UpdateEventHeader(const G4Event*); // invoked from BeginOfEventAction()
+  void Digitize();                  // invoked from EndOfEventAction(), before FillEvent()
+  void FillEvent();                 // invoked from EndOfEventAction()
+
 private:
-  TTree                     *fTree;
   DmpEvtSimPrimaryParticle  *fPrimaryParticle;
+  DmpEventRaw   *fEvtRaw;
 
 };
 

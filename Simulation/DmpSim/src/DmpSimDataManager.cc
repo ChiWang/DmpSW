@@ -6,15 +6,14 @@
 
 #include <time.h>
 
-#include "TFile.h"
 #include "TTree.h"
 
 #include "G4Run.hh"
 #include "G4Event.hh"
 
+#include "DmpEvtSimPrimaryParticle.h"
 #include "DmpEvtHeader.h"
 #include "DmpEventRaw.h"
-#include "DmpEvtSimPrimaryParticle.h"
 #include "DmpSimDataManager.h"
 
 DmpSimDataManager* DmpSimDataManager::fInstance = 0;
@@ -34,47 +33,37 @@ void DmpSimDataManager::Vanish(){
   }
 }
 
-//-------------------------------------------------------------------
-DmpSimDataManager::DmpSimDataManager()
- :fTree(0),
-  fPrimaryParticle(0)
-{
-  fTree = new TTree("Simulation","Simulation");
-  fPrimaryParticle = new DmpEvtSimPrimaryParticle();
-}
-
-DmpSimDataManager::~DmpSimDataManager(){
-  delete fTree;     // need??
-  delete fPrimaryParticle;
-}
-
-//-------------------------------------------------------------------
-void DmpSimDataManager::BookFile(const G4Run *aRun){
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-  fTree->Branch("PrimaryParticle","DmpEvtSimPrimaryParticle",&fPrimaryParticle,32000,2);
-  fTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
-  fEvtRaw->GetEventHeader()->SetRunID(aRun->GetRunID());
-// *
-// *  TODO: set RunMode in EventHeader
-// *
-}
-
-void DmpSimDataManager::SaveFile(){
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-  char name[100];{
+void DmpSimDataManager::SetOutDataName(std::string name){
   time_t now;
   struct tm *p;
   time(&now);
   p = localtime(&now);
-// *  TODO:  how to save file at where execute dmpSim?
-  strftime(name,99,"DmpSim_%Y%m%d%H%M%S.root",p);
-  }
-  TFile *aFile = new TFile(name,"recreate");
-  fTree->Write();
-  aFile->Close();
-  delete aFile;
+  strftime(fOutDataName,99,"DmpSim_%Y%m%d%H%M%S.root",p);
 }
 
+void DmpSimDataManager::BookBranch(){
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+  fOutDataTree->Branch("PrimaryParticle","DmpEvtSimPrimaryParticle",&fPrimaryParticle,32000,2);
+  fOutDataTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
+}
+
+//-------------------------------------------------------------------
+DmpSimDataManager::DmpSimDataManager()
+ :fPrimaryParticle(0),
+  fEvtRaw(0)
+{
+  fOutDataTree->SetNameTitle("DAMPE_Raw","Raw Event");
+  fPrimaryParticle = new DmpEvtSimPrimaryParticle();
+  fEvtRaw = new DmpEventRaw();
+}
+
+DmpSimDataManager::~DmpSimDataManager(){
+  delete fPrimaryParticle;
+  delete fEvtRaw;
+}
+
+
+//-------------------------------------------------------------------
 void DmpSimDataManager::UpdatePrimaryParticleInformation(const G4Event *anEvent){
 // *
 // *  TODO: Use DataManager to save informations of parimary particle
@@ -82,12 +71,14 @@ void DmpSimDataManager::UpdatePrimaryParticleInformation(const G4Event *anEvent)
 //  fPrimaryParticle->SetXXX();
 }
 
+//-------------------------------------------------------------------
 void DmpSimDataManager::UpdateEventHeader(const G4Event *anEvent){
   fEvtRaw->GetEventHeader()->SetEventID(anEvent->GetEventID());
   int pdgCode = anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode();
   fEvtRaw->GetEventHeader()->SetParticlePdgCode(pdgCode);
 }
 
+//-------------------------------------------------------------------
 void DmpSimDataManager::Digitize(){
 // *
 // *  TODO: call this function before FillEvent() 
@@ -109,8 +100,9 @@ void DmpSimDataManager::Digitize(){
   */
 }
 
+//-------------------------------------------------------------------
 void DmpSimDataManager::FillEvent(){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-  fTree->Fill();
+  fOutDataTree->Fill();
 }
 

@@ -30,8 +30,6 @@ public:
   DmpEvtHeader();
   ~DmpEvtHeader();
 
-  void  SetRunID(int id)        {fEventID = id;}
-  int   GetRunID() const        {return fEventID;}
   void  SetEventID(long id)     {fEventID = id;}
   long  GetEventID() const      {return fEventID;}
   void  SetTime(long time)      {fTime = time;}
@@ -42,7 +40,6 @@ public:
   DmpRunMode GetRunMode(short SubDet_ID) const {return fRunModes[SubDet_ID];}
 
 private:
-  int       fRunID;                 // Run ID
   long      fEventID;               // valid event count
   long      fTime;                  // Unit msec
   TParticle *fParticle;             // this particle

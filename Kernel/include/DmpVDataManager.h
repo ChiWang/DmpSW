@@ -9,7 +9,7 @@
 
 #include <string>
 
-class DmpEventRaw;
+class TTree;
 
 class DmpVDataManager{
 /*
@@ -21,16 +21,18 @@ class DmpVDataManager{
   DmpVDataManager();
   virtual ~DmpVDataManager();
 
+  virtual void  SetOutDataName(std::string)=0;
+  virtual void  BookBranch()=0;
   void  SetInDataPath(std::string);
   void  SetOutDataPath(std::string);
-  void  SetDataName(std::string name)   {fDataName = name;}
-  DmpEventRaw*  GetRawEvent() const     {return fEvtRaw;}
+  void  SaveOutput();
 
 protected:
-  std::string   fInDataPath;
-  std::string   fOutDataPath;
-  std::string   fDataName;
-  DmpEventRaw   *fEvtRaw;
+  std::string   fInDataPath;    //
+  std::string   fOutDataPath;   //
+  std::string   fOutDataName;   //
+  TTree         *fOutDataTree;  //
+
 };
 
 #endif
