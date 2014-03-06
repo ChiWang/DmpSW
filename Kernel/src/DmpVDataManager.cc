@@ -28,7 +28,7 @@ DmpVDataManager::~DmpVDataManager(){
 
 //------------------------------------------------------------------------------
 void DmpVDataManager::SetInDataPath(std::string path){
-  if (path.[path.length()-1] == '/') {
+  if (path[path.length()-1] == '/') {
     fInDataPath = path;
   } else {
     fInDataPath = path + "/";
@@ -38,12 +38,12 @@ void DmpVDataManager::SetInDataPath(std::string path){
 //------------------------------------------------------------------------------
 #include <sys/stat.h>       // mkdir()
 void DmpVDataManager::SetOutDataPath(std::string path){
-  if (path.[path.length()-1] == '/') {
+  if (path[path.length()-1] == '/') {
     fOutDataPath = path;
   } else {
     fOutDataPath = path + "/";
   }
-  mkdir(fOutDataPath,0755);
+  mkdir(fOutDataPath.c_str(),0755);
 }
 
 //-------------------------------------------------------------------

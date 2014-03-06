@@ -39,6 +39,8 @@ void DmpSimDataManager::SetOutDataName(std::string name){
   time(&now);
   p = localtime(&now);
   strftime(fOutDataName,99,"DmpSim_%Y%m%d%H%M%S.root",p);
+  //strftime(fOutDataName.c_str(),99,"DmpSim_%Y%m%d%H%M%S.root",p);
+  //fOutDataName = name;
 }
 
 void DmpSimDataManager::BookBranch(){
