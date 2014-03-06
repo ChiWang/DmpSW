@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpVDataManager.h, 2014-03-06 17:19:31 chi $
+ *  $Id: DmpVDataManager.h, 2014-03-06 21:45:45 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -7,7 +7,7 @@
 #ifndef DmpVDataManager_H
 #define DmpVDataManager_H
 
-#include "TString.h"
+#include <string>
 
 class DmpEventRaw;
 
@@ -15,24 +15,21 @@ class DmpVDataManager{
 /*
  *  DmpVDataManager
  *
- *
+ *  All DataManager class inherite from this class
 */
  public:
   DmpVDataManager();
   virtual ~DmpVDataManager();
-  //virtual Bool_t Core()=0;
 
-  void  SetInDataPath(TString);
-  void  SetOutDataPath(TString);
-  void  SetDataName(TString name)   {fDataName = name;}
-  DmpEventRaw*  GetRawEvent() const {return fEvtRaw;}
-  //TString GetInDataPath() const     {return fInDataPath;}
-  //TString GetOutDataPath() const    {return fOutDataPath;}
+  void  SetInDataPath(std::string);
+  void  SetOutDataPath(std::string);
+  void  SetDataName(std::string name)   {fDataName = name;}
+  DmpEventRaw*  GetRawEvent() const     {return fEvtRaw;}
 
- protected:
-  TString       fInDataPath;
-  TString       fOutDataPath;
-  TString       fDataName;
+protected:
+  std::string   fInDataPath;
+  std::string   fOutDataPath;
+  std::string   fDataName;
   DmpEventRaw   *fEvtRaw;
 };
 

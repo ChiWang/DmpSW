@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimDataManager.h, 2014-03-06 17:03:59 chi $
+ *  $Id: DmpSimDataManager.h, 2014-03-06 20:27:46 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/02/2014
 */
@@ -19,7 +19,7 @@ class DmpSimDataManager : public DmpVDataManager{
 public:
   static DmpSimDataManager* GetInstance();
   static void Vanish();
-  ~DmpSimDataManager();
+
 public:
   DmpEvtSimPrimaryParticle* GetPrimaryParticle() const {return fPrimaryParticle;}
   void BookFile(const G4Run*);      // invoked from BeginOfRunAcction()
@@ -31,6 +31,7 @@ public:
 
 private:
   DmpSimDataManager();
+  ~DmpSimDataManager();
   static DmpSimDataManager  *fInstance;  //!
 
 private:

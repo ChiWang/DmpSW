@@ -1,13 +1,8 @@
-/*=====================================================================
- *   File:   DmpRdcManager.cc
- *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
- *---------------------------------------------------------------------
- *   Description:
- *
- *---------------------------------------------------------------------
- *   History:
- *                           Last update:  15/12/2013   21:38:13
-=====================================================================*/
+/*
+ *  $Id: DmpRdcDataManager.cc, 2014-03-06 21:43:54 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
+*/
 
 #include <iostream>
 #ifdef Dmp_RELEASE
@@ -17,42 +12,42 @@
 #include "TFile.h"
 #include "TTree.h"
 
-#include "DmpRdcManager.h"
+#include "DmpRdcDataManager.h"
 #include "DmpEvtHeader.h"
 #include "DmpEvtPsdHit.h"
 #include "DmpEvtStkHit.h"
 #include "DmpEvtBgoHit.h"
 #include "DmpEvtNudHit.h"
+#include "DmpSubDetectors.h"
 
 //------------------------------------------------------------------------------
-DmpRdcManager* DmpRdcManager::fInstance = 0;
+DmpRdcDataManager* DmpRdcDataManager::fInstance = 0;
 //------------------------------------------------------------------------------
 #ifdef Dmp_DEBUG
-TString DmpRdcManager::fConnectorPath="./share/Connector";
+std::string DmpRdcDataManager::fConnectorPath="./share/Connector";
 #endif
 #ifdef Dmp_RELEASE
-TString DmpRdcManager::fConnectorPath=(TString)getenv("DMPSWSYS")+"/share/Connector";
+std::string DmpRdcDataManager::fConnectorPath=(std::string)getenv("DMPSWSYS")+"/share/Connector";
 #endif
 
 //------------------------------------------------------------------------------
-DmpRdcManager* DmpRdcManager::GetInstance(){
+DmpRdcDataManager* DmpRdcDataManager::GetInstance(){
   if (fInstance == 0 ){
-    fInstance = new DmpRdcManager();
+    fInstance = new DmpRdcDataManager();
   }
   return fInstance;
 }
 
 //------------------------------------------------------------------------------
-void DmpRdcManager::Clear(){
+void DmpRdcDataManager::Vanish(){
   if (fInstance != 0 ){
     delete fInstance;
     fInstance = 0;
   }
-  std::cout<<"\nDelete DmpRdcManager Manager"<<std::endl;
 }
 
 //------------------------------------------------------------------------------
-Bool_t DmpRdcManager::Core(){
+bool DmpRdcDataManager::Core(){
 
   fHexData = new ifstream(fInDataPath+fDataName,std::ios::in|std::ios::binary);
   if (!fHexData->good()) {
@@ -108,21 +103,16 @@ if (nEvt%1000==0) std::cout<<"\tFill event "<<std::dec<<fHeader->GetEventID()<<s
 }
 
 //------------------------------------------------------------------------------
-DmpRdcManager::DmpRdcManager()
+DmpRdcDataManager::DmpRdcDataManager()
+ :fHexData(0),
+  fTree(0)
 {
-  fPsd = new DmpEvtPsdHit();
-  fStk = new DmpEvtStkHit();
-  fBgo = new DmpEvtBgoHit();
-  fNud = new DmpEvtNudHit();
-  fTrigger.insert(std::make_pair("Header",0));
-  fTrigger.insert(std::make_pair("Psd",0));
-  fTrigger.insert(std::make_pair("Stk",0));
-  fTrigger.insert(std::make_pair("Bgo",0));
-  fTrigger.insert(std::make_pair("Nud",0));
+  fTrigger.resize(DmpParameters::kSubDetNo + 1);
+  for(short i = 0;i<fTrigger.size();++i) fTrigger[i] = 0;
 }
 
 //------------------------------------------------------------------------------
-DmpRdcManager::~DmpRdcManager(){
+DmpRdcDataManager::~DmpRdcDataManager(){
   delete fPsd;
   delete fStk;
   delete fBgo;
@@ -130,7 +120,7 @@ DmpRdcManager::~DmpRdcManager(){
 }
 
 //------------------------------------------------------------------------------
-Bool_t DmpRdcManager::TriggerMatch() {
+bool DmpRdcDataManager::TriggerMatch() {
   if (fTrigger["Bgo"] == fTrigger["Psd"] && fTrigger["Bgo"] == fTrigger["Stk"] && fTrigger["Bgo"] == fTrigger["Nud"] && fTrigger["Bgo"] == fTrigger["Header"]) {
   return true;
   } else {
@@ -141,11 +131,11 @@ Bool_t DmpRdcManager::TriggerMatch() {
 }
 
 //------------------------------------------------------------------------------
-Bool_t DmpRdcManager::ConversionHeader(){
+bool DmpRdcDataManager::ConversionHeader(){
 #ifdef Dmp_DEBUG
 std::cerr<<"\n\tBegin Conversion:\n\t\t-->Header from "<<std::dec<<fHexData->tellg();
 #endif
-  static Short_t tmp=0;
+  static short tmp=0;
   fHexData->read((char*)(&tmp),1);
   if (tmp!=0xe2)    return false;
   fHexData->read((char*)(&tmp),1);
@@ -164,7 +154,7 @@ std::cerr<<"\n\tBegin Conversion:\n\t\t-->Header from "<<std::dec<<fHexData->tel
   fHexData->read((char*)(&tmp),1);      //Datalength
   fHexData->read((char*)(&tmp),1);      //Datalength
 
-  static Short_t time[8], i;            // 8 bytes for time
+  static short time[8], i;            // 8 bytes for time
   for (i=0;i<8;++i) {
     time[i]=0;
     fHexData->read((char*)(&time[i]),1);

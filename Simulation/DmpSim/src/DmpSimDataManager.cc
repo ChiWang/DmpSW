@@ -13,9 +13,9 @@
 #include "G4Event.hh"
 
 #include "DmpEvtHeader.h"
-#include "DmpSimDataManager.h"
 #include "DmpEventRaw.h"
 #include "DmpEvtSimPrimaryParticle.h"
+#include "DmpSimDataManager.h"
 
 DmpSimDataManager* DmpSimDataManager::fInstance = 0;
 //-------------------------------------------------------------------

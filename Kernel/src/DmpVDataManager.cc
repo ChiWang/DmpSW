@@ -1,15 +1,16 @@
 /*
- *  $Id: DmpVDataManager.cc, 2014-03-06 16:33:37 chi $
+ *  $Id: DmpVDataManager.cc, 2014-03-06 21:43:29 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
+#ifdef DmpDegub
 #include <iostream>
-#include "TSystem.h"
-
+#endif
 #include "DmpEventRaw.h"
 #include "DmpVDataManager.h"
 
+using namespace std;
 //------------------------------------------------------------------------------
 DmpVDataManager::DmpVDataManager()
  :fInDataPath("./"),
@@ -29,8 +30,8 @@ DmpVDataManager::~DmpVDataManager(){
 }
 
 //------------------------------------------------------------------------------
-void DmpVDataManager::SetInDataPath(TString path){
-  if (path.EndsWith("/")) {
+void DmpVDataManager::SetInDataPath(string path){
+  if (path.[path.length()-1] == '/') {
     fInDataPath = path;
   } else {
     fInDataPath = path + "/";
@@ -38,12 +39,13 @@ void DmpVDataManager::SetInDataPath(TString path){
 }
 
 //------------------------------------------------------------------------------
-void DmpVDataManager::SetOutDataPath(TString path){
-  if (path.EndsWith("/")) {
+#include <sys/stat.h>       // mkdir()
+void DmpVDataManager::SetOutDataPath(string path){
+  if (path.[path.length()-1] == '/') {
     fOutDataPath = path;
   } else {
     fOutDataPath = path + "/";
   }
-  gSystem->MakeDirectory(fOutDataPath);
+  mkdir(fOutDataPath,0755);
 }
 

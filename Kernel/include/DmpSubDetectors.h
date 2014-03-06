@@ -9,7 +9,7 @@
 
 namespace DmpParameters{
   const short kSubDetNo=4;
-  enum DmpSubDetectors{kPsd,kStk,kBgo,kNud,};
+  enum DmpSubDetectors{kPsd,kStk,kBgo,kNud,kWhole};
 }
 
 #endif
