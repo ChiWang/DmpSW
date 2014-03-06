@@ -5,7 +5,6 @@
 */
 
 #include "TClonesArray.h"
-#include "TRandom.h"    // test, not need indeed
 
 #include "G4Step.hh"
 #include "G4TouchableHistory.hh"
@@ -27,22 +26,21 @@ void DmpSimBgoSD::Initialize(G4HCofThisEvent*){
 // *
 // *  TODO: check right? delete elements in TClonesArray of Bgo Hits
 // *
+  fHitCollection->Delete();
   fHitCollection->Clear(); // delete all Hits in collection
 }
 
 G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory *ROHist){
 // *  TODO: check barID is right?
 #pragma message("TODO ----> check barID is right?")
-  //int barID = (ROHist->GetVolume(1)->GetCopyNo())*100 + ROHist->GetVolume(0)->GetCopyNo();
-  int barID;
-  { barID = (int)gRandom->Uniform(13)*100 + (int)gRandom->Uniform(21);} // test
+  int barID = (ROHist->GetVolume(1)->GetCopyNo())*100 + ROHist->GetVolume(0)->GetCopyNo();
   int index = -1;
-  DmpEvtBgoHit *aHit = 0;
   for(int i=0;i<fHitCollection->GetEntriesFast();++i){
     if(((DmpEvtBgoHit*)fHitCollection->At(i))->GetUID() == barID){
       index = i;
     }
   }
+  DmpEvtBgoHit *aHit = 0;
   if(index < 0){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"add new hit barID = "<<barID<<std::endl;
     index = fHitCollection->GetEntriesFast();
@@ -53,10 +51,9 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"o
     aHit = (DmpEvtBgoHit*)fHitCollection->At(index);
   }
 // *  TODO: use real data from G4Step
-  //double e = aStep->GetTotalEnergyDeposit()/MeV;    // use MeV
-  //G4ThreeVector position = aStep->GetPreStepPoint()->GetPosition();
-  //aHit->AppendThisHit(e,position.x()/cm,position.y()/cm,position.z()/cm);
-  aHit->AppendThisHit(gRandom->Gaus(200,10),gRandom->Gaus(10,4),gRandom->Gaus(5,9),gRandom->Gaus(5,10));
+  double e = aStep->GetTotalEnergyDeposit()/MeV;    // use MeV
+  G4ThreeVector position = aStep->GetPreStepPoint()->GetPosition();
+  aHit->AppendThisHit(e,position.x()/cm,position.y()/cm,position.z()/cm);
 }
 
 void DmpSimBgoSD::EndOfEvent(G4HCofThisEvent* HCE){

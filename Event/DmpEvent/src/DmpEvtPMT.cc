@@ -8,11 +8,18 @@
 
 ClassImp(DmpEvtPMT)
 
-DmpEvtPMT::DmpEvtPMT(short size)
+DmpEvtPMT::DmpEvtPMT()
  :fEnergy(0),
   fUsedDy(0)
 {
-  fADCDynode.resize(size);
+  for (int i=0;i<2;++i) fADCDynode.push_back(i*10);
+}
+
+DmpEvtPMT::DmpEvtPMT(short size)
+ :fEnergy(2120),
+  fUsedDy(0)
+{
+  for (int i=0;i<size;++i) fADCDynode.push_back(i*10);
 }
 
 DmpEvtPMT::~DmpEvtPMT(){

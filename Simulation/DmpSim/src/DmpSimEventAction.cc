@@ -44,9 +44,8 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 }
 
 void DmpSimEventAction::BeginOfEventAction(const G4Event *aEvent){
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #ifdef DmpDebug
-  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"Event ID = "<<aEvent->GetEventID()<<std::endl;
+  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tEvent ID = "<<aEvent->GetEventID()<<std::endl;
 #endif
   fDataMan->UpdateEventHeader(aEvent);
 }

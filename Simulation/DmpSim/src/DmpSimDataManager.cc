@@ -54,7 +54,7 @@ DmpSimDataManager::~DmpSimDataManager(){
 //-------------------------------------------------------------------
 void DmpSimDataManager::BookFile(const G4Run *aRun){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-  fTree->Branch("EventSource","DmpEvtSimPrimaryParticle",&fPrimaryParticle,32000,2);
+  fTree->Branch("PrimaryParticle","DmpEvtSimPrimaryParticle",&fPrimaryParticle,32000,2);
   fTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
   fEvtRaw->fEvtHeader->SetRunID(aRun->GetRunID());
 // *
@@ -64,13 +64,13 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 
 void DmpSimDataManager::SaveFile(){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-  char name[100];
-  {
+  char name[100];{
   time_t now;
   struct tm *p;
   time(&now);
   p = localtime(&now);
-  strftime(name,99,"./DmpSim_%Y%m%d%H%M%S.root",p);
+// *  TODO:  how to save file at where execute dmpSim?
+  strftime(name,99,"DmpSim_%Y%m%d%H%M%S.root",p);
   }
   TFile *aFile = new TFile(name,"recreate");
   fTree->Write();

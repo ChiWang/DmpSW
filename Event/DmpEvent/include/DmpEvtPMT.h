@@ -16,6 +16,7 @@ class DmpEvtPMT : public TObject{
  *
  */
 public:
+  DmpEvtPMT();
   DmpEvtPMT(short vectorSize);
   ~DmpEvtPMT();
   void Reset();
@@ -23,7 +24,11 @@ public:
 private:
   double    fEnergy;        // unit MeV
   short     fUsedDy;        // used which dynode
-  std::vector<float>    fADCDynode;        // ADC channels of dynodes
+// *
+// *  TODO: why can not save all values in this vetor into root file???
+// *
+#pragma message("TODO ----> why can not save all values in this vetor into root file???")
+  std::vector<double>    fADCDynode;        // ADC channels of dynodes
 
   ClassDef(DmpEvtPMT,1)
 };

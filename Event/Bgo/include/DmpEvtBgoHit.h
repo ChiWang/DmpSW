@@ -27,8 +27,8 @@ public:
   void  Reset();
   void  PrintHit() const;
   void  AppendThisHit(double e,double x,double y,double z);     // only for simulation, invoke from G4Step or Sensitive Detector
-  int   GetUID() const      {return fUniqueID;}
-  int   SetUID(int id)      {fUniqueID = id;}
+  int   GetUID() const      {return fUniqueSDID;}
+  int   SetUID(int id)      {fUniqueSDID = id;}
   double GetEnergy() const  {return fEnergy;}
   void  SetEnergy(double e) {fEnergy = e;}
   short GetUsedSide() const {return fUsedSide;}
@@ -38,12 +38,12 @@ public:
   DmpEvtPMT* GetPMT(short id=0) {return id==0 ? fPMT0 : fPMT1;}
 
 private:
-  int       fUniqueID;      // for Bgo Bar(minimum detector unit). fUniqueID =  layerID*100 + barID
+  int       fUniqueSDID;    // unique sensitive detector(minimum detector unit) ID. Bgo bar ID. fUniqueSDID =  layerID*100 + barID
   double    fEnergy;        // unit MeV
   short     fUsedSide;      // used which side for fEnergy
   double    fPosition[3];   // unit cm
-  DmpEvtPMT  *fPMT0;     // side 0
-  DmpEvtPMT  *fPMT1;     // side 1
+  DmpEvtPMT  *fPMT0;        // side 0
+  DmpEvtPMT  *fPMT1;        // side 1
 
   ClassDef(DmpEvtBgoHit,1)
 

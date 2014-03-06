@@ -46,6 +46,9 @@ private:
   long      fEventID;               // valid event count
   long      fTime;                  // Unit msec
   TParticle *fParticle;             // this particle
+// *
+// *  TODO: just save one value of Run Mode, why ??
+// *
   std::vector<DmpRunMode>   fRunModes;
 
   ClassDef(DmpEvtHeader,1)

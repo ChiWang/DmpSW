@@ -8,7 +8,7 @@
 #ifdef DmpDebug
 #include <iostream>
 #endif
-#include <stdlib.h>     // getenv() chdir()
+#include <stdlib.h>     // getenv()
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
 #include "G4PhysListFactory.hh"
@@ -75,27 +75,23 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
   G4UImanager *UImanager = G4UImanager::GetUIpointer();
   if (argc!=1){   // batch mode
     G4String fileName = argv[1];
-    UImanager->ApplyCommand("/control/execute" + fileName);
-    std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tpath = "<<getcwd(NULL,NULL)<<std::endl;
+    UImanager->ApplyCommand("/control/execute " + fileName);
   }else{   // interactive mode : define UI session
 #ifdef G4UI_USE
-    char *dirTmp = getcwd(NULL,NULL);
 #ifdef DmpDebug
-    chdir("./share");
+    G4String prefix = "./share";
 #else
-    chdir(getenv("DMPSWSYS"));
-    chdir("./share/TestRelease/Simulation");
+    G4String prefix = (G4String)getenv("DMPSWSYS")+"/share/TestRelease/Simulation";
 #endif
     G4UIExecutive *ui = new G4UIExecutive(argc, argv);
 #ifdef G4VIS_USE
-    UImanager->ApplyCommand("/control/execute vis.mac");
+    UImanager->ApplyCommand("/control/execute "+prefix+"/vis.mac");
 #endif
     if (ui->IsGUI()){
-      UImanager->ApplyCommand("/control/execute gui.mac");
+      UImanager->ApplyCommand("/control/execute "+prefix+"/gui.mac");
     }
     ui->SessionStart();
     delete ui;
-    chdir(dirTmp);
 #endif
   }
 
