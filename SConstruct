@@ -40,7 +40,8 @@ if os.environ.has_key('DMPSWSYS'):
     prefix=os.environ['DMPSWSYS']
 else:
     UsrPrefix=raw_input('Where to install DMPSW (press Enter to use default "%s"):'%prefix)
-    if UsrPrefix is not None:
+    UsrPrefix=UsrPrefix.strip()
+    if UsrPrefix:
         prefix=UsrPrefix
 prefix=os.path.abspath(prefix)
 print "install DMPSW into: ",prefix
