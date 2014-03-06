@@ -1,13 +1,8 @@
-/*=====================================================================
- *   File:   DmpRdcManager.h
- *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
- *---------------------------------------------------------------------
- *   Description:
- *
- *---------------------------------------------------------------------
- *   History:
- *                           Last update:  13/12/2013   15:20:26
-=====================================================================*/
+/*
+ *  $Id: DmpRdcDataManager.h, 2014-03-06 17:34:35 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
+*/
 
 #ifndef DmpRdcManager_H
 #define DmpRdcManager_H
@@ -17,10 +12,10 @@
 
 #include "DmpVManager.h"
 
-class DmpEvtPsdRaw;
-class DmpEvtStkRaw;
-class DmpEvtBgoRaw;
-class DmpEvtNudRaw;
+class DmpEvtPsdHit;
+class DmpEvtStkHit;
+class DmpEvtBgoHit;
+class DmpEvtNudHit;
 
 class DmpRdcManager : public DmpVManager{
 /*
@@ -72,10 +67,10 @@ class DmpRdcManager : public DmpVManager{
   Bool_t    ConversionBgo_Final(){return true;}
 
  private:
-  DmpEvtPsdRaw  *fPsd;
-  DmpEvtStkRaw  *fStk;
-  DmpEvtBgoRaw  *fBgo;
-  DmpEvtNudRaw  *fNud;
+  DmpEvtPsdHit  *fPsd;
+  DmpEvtStkHit  *fStk;
+  DmpEvtBgoHit  *fBgo;
+  DmpEvtNudHit  *fNud;
   std::map<Int_t, Int_t>  ConnectorPsd;
   std::map<Int_t, Int_t>  ConnectorStk;
   std::map<Int_t, Int_t>  ConnectorBgo;     // FEE 2 Detector

@@ -19,10 +19,10 @@
 
 #include "DmpRdcManager.h"
 #include "DmpEvtHeader.h"
-#include "DmpEvtPsdRaw.h"
-#include "DmpEvtStkRaw.h"
-#include "DmpEvtBgoRaw.h"
-#include "DmpEvtNudRaw.h"
+#include "DmpEvtPsdHit.h"
+#include "DmpEvtStkHit.h"
+#include "DmpEvtBgoHit.h"
+#include "DmpEvtNudHit.h"
 
 //------------------------------------------------------------------------------
 DmpRdcManager* DmpRdcManager::fInstance = 0;
@@ -64,10 +64,10 @@ Bool_t DmpRdcManager::Core(){
 
   TTree *outTree = new TTree("DAMPE_raw","raw data");
   outTree->Branch("Header","DmpEvtHeader",&fHeader);
-  outTree->Branch("Psd","DmpEvtPsdRaw",&fPsd);
-//  outTree->Branch("Stk","DmpEvtStkRaw",&fStk);
-  outTree->Branch("Bgo","DmpEvtBgoRaw",&fBgo);
-  outTree->Branch("Nud","DmpEvtNudRaw",&fNud);
+  outTree->Branch("Psd","DmpEvtPsdHit",&fPsd);
+//  outTree->Branch("Stk","DmpEvtStkHit",&fStk);
+  outTree->Branch("Bgo","DmpEvtBgoHit",&fBgo);
+  outTree->Branch("Nud","DmpEvtNudHit",&fNud);
 
   //loop of event package. set the order of sub-detector as the order of FEE in fDataName
   for (Long64_t nEvt=0;!fHexData->eof();++nEvt) {
@@ -110,10 +110,10 @@ if (nEvt%1000==0) std::cout<<"\tFill event "<<std::dec<<fHeader->GetEventID()<<s
 //------------------------------------------------------------------------------
 DmpRdcManager::DmpRdcManager()
 {
-  fPsd = new DmpEvtPsdRaw();
-  fStk = new DmpEvtStkRaw();
-  fBgo = new DmpEvtBgoRaw();
-  fNud = new DmpEvtNudRaw();
+  fPsd = new DmpEvtPsdHit();
+  fStk = new DmpEvtStkHit();
+  fBgo = new DmpEvtBgoHit();
+  fNud = new DmpEvtNudHit();
   fTrigger.insert(std::make_pair("Header",0));
   fTrigger.insert(std::make_pair("Psd",0));
   fTrigger.insert(std::make_pair("Stk",0));

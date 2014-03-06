@@ -7,13 +7,13 @@
 #include "TClonesArray.h"
 #include "DmpEventRaw.h"
 #include "DmpEvtHeader.h"
+// *
+// *  TODO: add hits collection of Psd, Stk and Nud
+// *
 //#include "DmpEvtPsdHit.h"
 //#include "DmpEvtStkHit.h"
 #include "DmpEvtBgoHit.h"
 //#include "DmpEvtNudHit.h"
-// *
-// *  TODO: add hits collection of Psd, Stk and Nud
-// *
 
 ClassImp(DmpEventRaw)
 
@@ -42,6 +42,17 @@ DmpEventRaw::~DmpEventRaw(){
 // *
 // *  TODO: add hits collection of Psd, Stk and Nud
 // *
+/*
+  fPsdHits->Delete();
+  fPsdHits->Clear();
+  delete fPsdHits;
+  fStkHits->Delete();
+  fStkHits->Clear();
+  delete fStkHits;
+  fNudHits->Delete();
+  fNudHits->Clear();
+  delete fNudHits;
+  */
 }
 
 

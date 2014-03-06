@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEventRaw.h, 2014-03-04 10:39:09 chi $
+ *  $Id: DmpEventRaw.h, 2014-03-06 16:46:54 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/02/2014
 */
@@ -7,7 +7,6 @@
 #include "TObject.h"
 
 class TClonesArray;
-class DmpSimDataManager;
 class DmpEvtHeader;
 
 class DmpEventRaw : public TObject{
@@ -21,14 +20,20 @@ class DmpEventRaw : public TObject{
  *  Simulation will also use this class to book the branch, and the output of Simulation has the information of Hits
  *
  */
-  friend class DmpSimDataManager;  //! let Manager control all data members here 
 public:
   DmpEventRaw();
   ~DmpEventRaw();
+  DmpEvtHeader* GetEventHeader() const {return fEvtHeader;};
+  //TClonesArray* GetHitCollectionPsd() const {return fPsdHits;};
+  //TClonesArray* GetHitCollectionStk() const {return fStkHits;};
+  TClonesArray* GetHitCollectionBgo() const {return fBgoHits;};
+  //TClonesArray* GetHitCollectionNud() const {return fNudHits;};
 
 private:
   DmpEvtHeader      *fEvtHeader;
-//*  TODO: add hits of Psd, Stk and Nud
+// *
+// *  TODO: add hits collection of Psd, Stk and Nud
+// *
   //TClonesArray      *fPsdHits;  //->
   //TClonesArray      *fStkHits;  //->
   TClonesArray      *fBgoHits;  //->

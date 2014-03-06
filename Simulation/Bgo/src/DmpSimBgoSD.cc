@@ -9,14 +9,15 @@
 #include "G4Step.hh"
 #include "G4TouchableHistory.hh"
 
-#include "DmpEvtBgoHit.h"
 #include "DmpSimBgoSD.h"
+#include "DmpEventRaw.h"
+#include "DmpEvtBgoHit.h"
 #include "DmpSimDataManager.h"
 
 DmpSimBgoSD::DmpSimBgoSD(G4String name)
  :G4VSensitiveDetector(name)
 {
-  fHitCollection = DmpSimDataManager::GetInstance()->GetHitCollection(DmpParameters::kBgo);
+  fHitCollection = DmpSimDataManager::GetInstance()->GetRawEvent()->GetHitCollectionBgo();
 }
 
 DmpSimBgoSD::~DmpSimBgoSD(){

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimDataManager.cc, 2014-03-04 10:41:09 chi $
+ *  $Id: DmpSimDataManager.cc, 2014-03-06 16:27:45 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/02/2014
 */
@@ -12,8 +12,8 @@
 #include "G4Run.hh"
 #include "G4Event.hh"
 
-#include "DmpSimDataManager.h"
 #include "DmpEvtHeader.h"
+#include "DmpSimDataManager.h"
 #include "DmpEventRaw.h"
 #include "DmpEvtSimPrimaryParticle.h"
 
@@ -37,18 +37,15 @@ void DmpSimDataManager::Vanish(){
 //-------------------------------------------------------------------
 DmpSimDataManager::DmpSimDataManager()
  :fTree(0),
-  fEvtRaw(0),
   fPrimaryParticle(0)
 {
   fTree = new TTree("Simulation","Simulation");
   fPrimaryParticle = new DmpEvtSimPrimaryParticle();
-  fEvtRaw = new DmpEventRaw();
 }
 
 DmpSimDataManager::~DmpSimDataManager(){
   delete fTree;     // need??
   delete fPrimaryParticle;
-  delete fEvtRaw;
 }
 
 //-------------------------------------------------------------------
@@ -56,9 +53,9 @@ void DmpSimDataManager::BookFile(const G4Run *aRun){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
   fTree->Branch("PrimaryParticle","DmpEvtSimPrimaryParticle",&fPrimaryParticle,32000,2);
   fTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
-  fEvtRaw->fEvtHeader->SetRunID(aRun->GetRunID());
+  fEvtRaw->GetEventHeader()->SetRunID(aRun->GetRunID());
 // *
-// *  TODO: set RunMode in fEvtHeader
+// *  TODO: set RunMode in EventHeader
 // *
 }
 
@@ -86,9 +83,9 @@ void DmpSimDataManager::UpdatePrimaryParticleInformation(const G4Event *anEvent)
 }
 
 void DmpSimDataManager::UpdateEventHeader(const G4Event *anEvent){
-  fEvtRaw->fEvtHeader->SetEventID(anEvent->GetEventID());
+  fEvtRaw->GetEventHeader()->SetEventID(anEvent->GetEventID());
   int pdgCode = anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode();
-  fEvtRaw->fEvtHeader->SetParticlePdgCode(pdgCode);
+  fEvtRaw->GetEventHeader()->SetParticlePdgCode(pdgCode);
 }
 
 void DmpSimDataManager::Digitize(){
@@ -115,24 +112,5 @@ void DmpSimDataManager::Digitize(){
 void DmpSimDataManager::FillEvent(){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
   fTree->Fill();
-}
-
-DmpEvtHeader* DmpSimDataManager::GetEventHeader() const{
-  return fEvtRaw->fEvtHeader;
-}
-
-TClonesArray* DmpSimDataManager::GetHitCollection(DmpParameters::DmpSubDetectors id) const{
-  TClonesArray  *subDet=0;
- //*  TODO:  add hits in EvtRaw
-  if(id == DmpParameters::kPsd){
-    //subDet = fEvtRaw->fPsdHits;
-  }else if(id == DmpParameters::kStk){
-    //subDet = fEvtRaw->fStkHits;
-  }else if(id == DmpParameters::kBgo){
-    subDet = fEvtRaw->fBgoHits;
-  }else if(id == DmpParameters::kNud){
-    //subDet = fEvtRaw->fNudHits;
-  }
-  return subDet;
 }
 
