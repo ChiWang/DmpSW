@@ -7,14 +7,29 @@
 #ifndef DmpCore_H
 #define DmpCore_H
 
-/*
- *  binding all functions in DmpCore into boost python (in file ../src/DmpCoreBinding.cc)
- *
- */
-
+// *
+// *  TODO: binding S(G)etPhase to boost python, and set it at the begining to run jobs in python script
+// *
 namespace DmpCore{
-//  void EntranceRawDataConversion();     // Rdc main
-//  void EntranceSimulation();            // simulation main
+  // for phase
+  enum DmpPhase{
+    kBT2012,
+    kCT2013,
+    kFinal,
+  };
+  extern DmpPhase gPhase;
+  void SetPhase(DmpPhase);
+  DmpPhase GetPhase();
+
+  //  for detector
+  const short kSubDetNo=4;
+  enum DmpDetectorID{
+    kWhole,
+    kPsd,
+    kStk,
+    kBgo,
+    kNud
+  };
 }
 
 #endif

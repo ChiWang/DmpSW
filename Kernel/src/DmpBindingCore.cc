@@ -5,11 +5,26 @@
 */
 
 #include <boost/python.hpp>
+
+#include "DmpCore.h"
 #include "DmpVDataManager.h"
 
 BOOST_PYTHON_MODULE(libDmpCore){
   using namespace boost::python;
+  using namespace DmpCore;
+  enum_<DmpPhase>("DmpPhase")
+    .value("kBT2012",kBT2012)
+    .value("kCT2013",kCT2013)
+    .value("kFinal",kFinal)
+  ;
+  //scope().attr("gPhase")=gPhase;
+  def("SetPhase",SetPhase);
+  def("GetPhase",GetPhase);
 
+
+// *
+// *  TODO: add get functions for DmpVDataManager
+// *
   class_<DmpVDataManager,boost::noncopyable>("PathManager",no_init)
     .def("SetInDataPath",&DmpVDataManager::SetInDataPath)
     .staticmethod("SetInDataPath")
