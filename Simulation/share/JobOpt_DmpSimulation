@@ -1,0 +1,29 @@
+#! /usr/bin/python
+'''
+ *  $Id: JobOpt_DmpSimulation, 2014-03-07 19:41:50 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
+ *-----------------------------------------------------
+ *  This is an example how to run simulation of DAMPE
+ *-----------------------------------------------------
+'''
+
+# add the path of DAMPE lib to python
+import os
+import sys
+if os.environ['DMPSWSYS'] not in sys.path:
+    sys.path.append(os.getenv('DMPSWSYS')+'/lib')
+
+# set output file path. Use "./" as default path if NOT set at here
+import libDmpCore as DmpCore
+DmpCore.PathManager.SetOutDataPath("./test")
+
+# RUN simulation
+import libDmpSimulation as DmpSimulation
+
+DmpSimulation.Initialize()
+#DmpSimulation.Execute("default")   # visual mode
+DmpSimulation.Execute("share/electron.mac")
+#DmpSimulation.Execute("share/proton.mac")  # keep detector and all user action, and run next macro file
+DmpSimulation.Clear()
+

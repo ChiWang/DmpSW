@@ -1,52 +1,18 @@
 
-
 ##  To Do List
 
-    1.  modify names as our name conention (http://dpnc.unige.ch/dampe/dokuwiki/doku.php?id=dampesoftware:namingconvention)
-    2.  split event classes into Event module
+    1.  binding more functions into python, like phase
 
 
 #   Simulation  Module of Dampe software
 
     *Goal
-        create one commond "dmpSim"
-
-    *Object
-        whole detector
+        create one shared library.
 
     *Usage
-        1. dmpSim                               // read DmpSimInput.infor at where execute the command
-        2. dmpSim /path/DmpSimInput_XXXX.infor  // read pointed DmpSimInput_XXX.infor
+        use python script to control simulation, see example in ./share/JobOpt_DmpSimulation
 
-    *Input
-        *   DmpSimInput.infor                   // output of dmpGenertor
-        *   /trunk/Geometry/*gdml               // GDML files
-
-    *Output (root file of whole detector, with 5 treees. same as reconstruction/rawDataName-rec0.root)
-        *   rawDataName-rec0-sim.root
-
-##  Structure
-
-    *   DmpSim
-
-    *   Header
-
-    *   Psd
-
-    *   Stk
-
-    *   Bgo
-
-    *   Nud
-
-    *   share       // example of DmpSimInput.infor
-
-##  Development
-
-    1.  to go where there is a file named "SConstruct" in this package
-    2.  scons                   // create commond at $DMPSWWORK/bin (or /$prefix/bin)
-    3.  scons -c                // clean up
-
+    *Output (root file of whole detector, which has the same structure as the output file of Rdc)
 
 ##  Note
 

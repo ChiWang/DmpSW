@@ -16,8 +16,8 @@ useGeant4(env)
 env.Prepend(CPPFLAGS = '-DG4VIS_USE')
 env.Append(CPPFLAGS = ' -DG4UI_USE')
 env.Append(CPPFLAGS = ' -DG4VIS_USE_OPENGLX')
-#useCLHEP(env)
 useBoostPython(env)
+#useCLHEP(env)
 #useOpenMP(env)
 
 # include
@@ -44,7 +44,7 @@ env.Prepend(LIBPATH=[P1Path,P2Path])
 # install share
 #--------------------------------------------------------------------
 for file in os.listdir('./share'):
-    if ".mac" in file:
+    if "." not in file[0] and (".mac" in file or "JobOpt" in file):
         Default(Command(prefix+'/share/TestRelease/Simulation/'+file,'./share/'+file,Copy("$TARGET","$SOURCE")))
 
 # main build

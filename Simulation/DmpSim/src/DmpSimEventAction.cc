@@ -28,7 +28,9 @@
 DmpSimEventAction::DmpSimEventAction()
  :fDataMan(0)
 {
-        std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+#ifdef DmpDebug
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+#endif
   fDataMan = DmpSimDataManager::GetInstance();
 // *
 // *  TODO: add digitizer here
@@ -40,7 +42,9 @@ DmpSimEventAction::DmpSimEventAction()
 }
 
 DmpSimEventAction::~DmpSimEventAction(){
+#ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+#endif
 }
 
 void DmpSimEventAction::BeginOfEventAction(const G4Event *aEvent){

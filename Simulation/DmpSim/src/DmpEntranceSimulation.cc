@@ -69,13 +69,11 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 #ifdef G4VIS_USE
   // Visualization manager
   visManager = new G4VisExecutive;
+  visManager->Initialize();
 #endif
 }
 
 void DmpCore::SimulationExecute(std::string argv){
-#ifdef G4VIS_USE
-  visManager->Initialize();
-#endif  
   // UI interface manager
   G4UImanager *UImanager = G4UImanager::GetUIpointer();
   if (argv == "default"){
