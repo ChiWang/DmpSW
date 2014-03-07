@@ -1,14 +1,14 @@
 /*
- *  $Id: DmpEvtBgoHit.cc, 2014-03-02 22:42:19 chi $
+ *  $Id: DmpEvtBgoHit.cc, 2014-03-07 16:10:45 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
 
 #include "DmpEvtPMT.h"
 #include "DmpEvtBgoHit.h"
-#include "DmpParametersBgo.h"
+#include "DmpParameterBgo.h"
 
-using namespace DmpParameters::Bgo;
+using namespace DmpParameter::DmpDetector;
 
 ClassImp(DmpEvtBgoHit)
 
@@ -21,8 +21,8 @@ DmpEvtBgoHit::DmpEvtBgoHit()
   fPMT1(0)
 {
   for (int i=0;i<3;++i) fPosition[i]=0;
-  fPMT0 = new DmpEvtPMT(kDyNo);
-  fPMT1 = new DmpEvtPMT(kDyNo);
+  fPMT0 = new DmpEvtPMT(Bgo::kDyNo);
+  fPMT1 = new DmpEvtPMT(Bgo::kDyNo);
 }
 
 //------------------------------------------------------------------------------

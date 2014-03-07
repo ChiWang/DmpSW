@@ -33,6 +33,14 @@ void DmpSimDataManager::Vanish(){
   }
 }
 
+void DmpSimDataManager::BookBranch(){
+#ifdef DmpDebug
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+#endif
+  fOutDataTree->Branch("PrimaryParticle","DmpEvtSimPrimaryParticle",&fPrimaryParticle,32000,2);
+  fOutDataTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
+}
+
 void DmpSimDataManager::SetOutDataName(std::string outDataName){
   if(outDataName == "default"){
     time_t now;
@@ -45,12 +53,6 @@ void DmpSimDataManager::SetOutDataName(std::string outDataName){
   }else{
     fOutDataName = outDataName;
   }
-}
-
-void DmpSimDataManager::BookBranch(){
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-  fOutDataTree->Branch("PrimaryParticle","DmpEvtSimPrimaryParticle",&fPrimaryParticle,32000,2);
-  fOutDataTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
 }
 
 //-------------------------------------------------------------------
@@ -67,7 +69,6 @@ DmpSimDataManager::~DmpSimDataManager(){
   delete fPrimaryParticle;
   delete fEvtRaw;
 }
-
 
 //-------------------------------------------------------------------
 void DmpSimDataManager::UpdatePrimaryParticleInformation(const G4Event *anEvent){
@@ -104,11 +105,5 @@ void DmpSimDataManager::Digitize(){
     myDM->Digitize();
   }
   */
-}
-
-//-------------------------------------------------------------------
-void DmpSimDataManager::FillEvent(){
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-  fOutDataTree->Fill();
 }
 

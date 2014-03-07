@@ -9,7 +9,8 @@
 #endif
 #include "TParticle.h"
 #include "DmpEvtHeader.h"
-#include "DmpSubDetectors.h"
+#include "DmpParameterSubDetector.h"
+using namespace DmpParameter;
 
 ClassImp(DmpEvtHeader)
 
@@ -23,7 +24,7 @@ DmpEvtHeader::DmpEvtHeader()
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
   fParticle = new TParticle();
-  fRunModes.resize(DmpParameters::kSubDetNo);
+  fRunModes.resize(DmpDetector::kSubDetNo);
 }
 
 DmpEvtHeader::~DmpEvtHeader(){

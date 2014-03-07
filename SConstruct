@@ -1,5 +1,5 @@
 '''
- *  $Id: SConstruct, 2014-02-24 14:06:12 chi $
+ *  $Id: SConstruct, 2014-03-07 15:22:10 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 24/02/2014
  *---------------------------------------------------
@@ -14,22 +14,43 @@
  *      prefix/include
  *      prefix/lib
  *      prefix/share
+ *----------------------------------------------------------
 '''
 
 import os
 
+# functions
+#--------------------------------------------------------------------
+def checkSysEnv(var):
+    if not os.environ.has_key(var):
+        print "\tERROR:\tNot has environment variable: %s" % var
+        Exit(1)
+
+def useCLHEP(aEnv):
+    aEnv.ParseConfig("clhep-config --include --libs")
+
+def useRoot(aEnv):
+    checkSysEnv('ROOTSYS')
+    aEnv.ParseConfig("root-config --cflags --libs")
+    #aEnv.Append(LIBS=['RooFitCore','RooFit'])
+
+def useGeant4(aEnv):
+    checkSysEnv('G4INSTALL')
+    g4sys=os.environ['G4INSTALL']
+    aEnv.PrependENVPath('PATH', g4sys+'/../../../bin')
+    aEnv.ParseConfig("geant4-config --cflags --libs")
+
+def useBoostPython(aEnv):
+    aEnv.ParseConfig("python-config --include --libs")
+    aEnv.Append(LIBS=['boost_python'])
+    #aEnv.Append(LIBS=['boost_program_options-mt'])
+
+def useOpenMP(aEnv):
+    aEnv.MergeFlags('-fopenmp')
+
 # set basical environment
 #--------------------------------------------------------------------
 envBase = Environment(ENV = os.environ)
-    # set Geant4 environment
-g4sys=os.environ['G4INSTALL']
-envBase.PrependENVPath('PATH', g4sys+'/../../../bin')
-envBase.ParseConfig("geant4-config --cflags --libs")
-envBase.Prepend(CPPFLAGS = '-DG4VIS_USE')       # set our -DRelease or -DDebug
-envBase.Append(CPPFLAGS = ' -DG4UI_USE')
-envBase.Append(CPPFLAGS = ' -DG4VIS_USE_OPENGLX')
-    # set Root environment
-envBase.ParseConfig("root-config --cflags --libs")
 
 # set general variables
 #--------------------------------------------------------------------
@@ -63,5 +84,5 @@ subScript=[]
 for key in pkgList:
     subScript=subScript+[key+'/'+key+'.scons']
 
-SConscript(subScript,exports=['envBase','version','prefix','subDetectors'])
+SConscript(subScript,exports=['prefix','version','envBase','subDetectors','useRoot','useGeant4','useBoostPython','useCLHEP','useOpenMP'])
 

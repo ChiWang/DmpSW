@@ -12,11 +12,12 @@
 
 #include "DmpVDataManager.h"
 
+std::string DmpVDataManager::fInDataPath = "./";
+std::string DmpVDataManager::fOutDataPath = "./";
 //------------------------------------------------------------------------------
+
 DmpVDataManager::DmpVDataManager()
- :fInDataPath("./"),
-  fOutDataPath("./"),
-  fOutDataName(""),
+ :fOutDataName(""),
   fOutDataTree(0)
 {
   fOutDataTree = new TTree("DAMPE","DAMPE");    // should rename in concrete class
@@ -52,9 +53,16 @@ void DmpVDataManager::SaveOutput(){
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
-  TFile *aFile = new TFile((TString)fOutDataName,"recreate");
+  TFile *aFile = new TFile((TString)(fOutDataPath+fOutDataName),"recreate");
   fOutDataTree->Write();
   aFile->Close();
   delete aFile;
+}
+
+void DmpVDataManager::FillEvent(){
+#ifdef DmpDebug
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+#endif
+  fOutDataTree->Fill();
 }
 

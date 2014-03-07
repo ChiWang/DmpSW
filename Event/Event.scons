@@ -1,5 +1,5 @@
 '''
- *  $Id: Event.scons, 2014-03-05 10:25:04 chi $
+ *  $Id: Event.scons, 2014-03-07 15:26:06 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 24/07/2013
 '''
@@ -11,6 +11,10 @@ print "\t\t\t invoke %s\n" % os.path.abspath("./")
 
 target='DmpEvent'
 env = envBase.Clone()
+useRoot(env)
+#useCLHEP(env)
+#useBoostPython(env)
+#useOpenMP(env)
 
 # include
 env.Prepend(CPPPATH=target+'/include')

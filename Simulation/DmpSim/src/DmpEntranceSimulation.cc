@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimulationMain.cc, 2014-03-03 21:18:50 chi $
+ *  $Id: DmpEntranceSimulation.cc, 2014-03-07 18:50:33 chi $
  *  Author(s):
  *    X.Wu () 09/07/2013
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/02/2014
@@ -24,15 +24,17 @@
 #include "DmpSimRunAction.h"
 #include "DmpSimEventAction.h"
 #include "DmpSimTrackingAction.h"
-
 #include "DmpSimDataManager.h"
+#include "DmpEntranceSimulation.h"
 
-int main(int argc, char* argv[]){
+G4RunManager *runManager = 0;
+G4VisManager *visManager = 0;
+
+void DmpCore::SimulationInitialize(){
+  runManager = new G4RunManager();
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
-  G4RunManager *runManager = new G4RunManager();
-
   // Detector
   runManager->SetUserInitialization(new DmpSimDetectorConstruction);
  
@@ -64,43 +66,54 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
-
 #ifdef G4VIS_USE
   // Visualization manager
-  G4VisManager *visManager = new G4VisExecutive;
+  visManager = new G4VisExecutive;
+#endif
+}
+
+void DmpCore::SimulationExecute(std::string argv){
+#ifdef G4VIS_USE
   visManager->Initialize();
 #endif  
-
   // UI interface manager
   G4UImanager *UImanager = G4UImanager::GetUIpointer();
-  if (argc!=1){   // batch mode
-    G4String fileName = argv[1];
-    UImanager->ApplyCommand("/control/execute " + fileName);
-  }else{   // interactive mode : define UI session
+  if (argv == "default"){
+    // interactive mode : define UI session
 #ifdef G4UI_USE
 #ifdef DmpDebug
-    G4String prefix = "./share";
+    G4String prefix = "./share/";
 #else
-    G4String prefix = (G4String)getenv("DMPSWSYS")+"/share/TestRelease/Simulation";
+    G4String prefix = (G4String)getenv("DMPSWSYS")+"/share/TestRelease/Simulation/";
 #endif
-    G4UIExecutive *ui = new G4UIExecutive(argc, argv);
+    char *dummyargv[1] = {"dummyargv"};
+    G4UIExecutive *ui = new G4UIExecutive(1,dummyargv);
 #ifdef G4VIS_USE
-    UImanager->ApplyCommand("/control/execute "+prefix+"/vis.mac");
+    UImanager->ApplyCommand("/control/execute "+prefix+"vis.mac");
 #endif
     if (ui->IsGUI()){
-      UImanager->ApplyCommand("/control/execute "+prefix+"/gui.mac");
+      UImanager->ApplyCommand("/control/execute "+prefix+"gui.mac");
     }
     ui->SessionStart();
     delete ui;
 #endif
+  }else{
+    UImanager->ApplyCommand("/control/execute " + argv);        // batch mode
   }
+}
 
+void DmpCore::SimulationClear(){
 #ifdef G4VIS_USE
-  delete visManager;
+  if(visManager !=0 ){
+    delete visManager;
+    visManager = 0;
+  }
 #endif
-  delete runManager;
+  if(runManager !=0 ){
+    delete runManager;
+    runManager = 0;
+  }
   DmpSimDataManager::Vanish();  // remove instance of DmpSimDataManager
-  return 0;
 }
 
 

@@ -1,14 +1,8 @@
-#=====================================================================
-#   File:   Kernel.scons
-#   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    24/07/2013
-#---------------------------------------------------------------------
-#   Description:
-#       This file is invoked by ../SConstruct
-#
-#---------------------------------------------------------------------
-#   History:
-#                           Last update:  22/01/2014   22:43:01
-#=====================================================================
+'''
+ *  $Id: Kernel.scons, 2014-03-07 15:31:57 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 24/07/2013
+'''
 
 import os
 Import("*")     # import all vars from SConstruct
@@ -17,16 +11,14 @@ print "\t\t\t invoke %s\n" % os.path.abspath("./")
 
 target='DmpCore'
 env = envBase.Clone()
+useRoot(env)
+#useCLHEP(env)
+useBoostPython(env)
+#useOpenMP(env)
 
 # include
 includeDir='./include'
 env.Prepend(CPPPATH=[includeDir])
-
-# Use other top-1 package
-#--------------------------------------------------------------------
-    #+  Event
-P1Path='../Event/DmpEvent'
-env.Prepend(CPPPATH=[P1Path+'/include'])
 
 # install share
 #--------------------------------------------------------------------

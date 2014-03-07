@@ -6,9 +6,9 @@
 
 #include "DmpEvtPMT.h"
 #include "DmpEvtPsdHit.h"
-#include "DmpParametersPsd.h"
+#include "DmpParameterPsd.h"
 
-using namespace DmpParameters::Psd;
+using namespace DmpParameter::DmpDetector;
 
 ClassImp(DmpEvtPsdHit)
 
@@ -21,8 +21,8 @@ DmpEvtPsdHit::DmpEvtPsdHit()
   fPMT1(0)
 {
   for (int i=0;i<3;++i) fPosition[i]=0;
-  fPMT0 = new DmpEvtPMT(kDyNo);
-  fPMT1 = new DmpEvtPMT(kDyNo);
+  fPMT0 = new DmpEvtPMT(Psd::kDyNo);
+  fPMT1 = new DmpEvtPMT(Psd::kDyNo);
 }
 
 //------------------------------------------------------------------------------

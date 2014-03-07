@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpVDataManager.h, 2014-03-06 21:45:45 chi $
+ *  $Id: DmpVDataManager.h, 2014-03-07 15:32:14 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -12,24 +12,31 @@
 class TTree;
 
 class DmpVDataManager{
-/*
+/* 
  *  DmpVDataManager
  *
  *  All DataManager class inherite from this class
-*/
+ *  in order to control pathes in run script, binded static functions in this class into boost python (in file ../src/DmpCoreBinding.cc)
+ *
+ *  In concrete data manager, should define:
+ *      (1) input data name and pointer (Tree of fstream) to get input data
+ *      (2) event class(es) as data members, then use fOutTree to book them into branch
+ *
+ */
  public:
   DmpVDataManager();
   virtual ~DmpVDataManager();
 
-  virtual void  SetOutDataName(std::string)=0;
   virtual void  BookBranch()=0;
-  void  SetInDataPath(std::string);
-  void  SetOutDataPath(std::string);
+  virtual void  SetOutDataName(std::string)=0;
+  static void  SetInDataPath(std::string);
+  static void  SetOutDataPath(std::string);
   void  SaveOutput();
+  void  FillEvent();
 
 protected:
-  std::string   fInDataPath;    //
-  std::string   fOutDataPath;   //
+  static std::string   fInDataPath;    //
+  static std::string   fOutDataPath;   //
   std::string   fOutDataName;   //
   TTree         *fOutDataTree;  //
 

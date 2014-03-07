@@ -6,9 +6,9 @@
 
 #include "DmpEvtPMT.h"
 #include "DmpEvtNudHit.h"
-#include "DmpParametersNud.h"
+#include "DmpParameterNud.h"
 
-using namespace DmpParameters::Nud;
+using namespace DmpParameter::DmpDetector;
 
 ClassImp(DmpEvtNudHit)
 
@@ -21,8 +21,8 @@ DmpEvtNudHit::DmpEvtNudHit()
   fPMT1(0)
 {
   for (int i=0;i<3;++i) fPosition[i]=0;
-  fPMT0 = new DmpEvtPMT(kDyNo);
-  fPMT1 = new DmpEvtPMT(kDyNo);
+  fPMT0 = new DmpEvtPMT(Nud::kDyNo);
+  fPMT1 = new DmpEvtPMT(Nud::kDyNo);
 }
 
 //------------------------------------------------------------------------------

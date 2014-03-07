@@ -11,16 +11,20 @@
 
 class G4Run;
 class G4Event;
-class G4TouchableHistory;
 class DmpEvtSimPrimaryParticle;
 class DmpEventRaw;
 
 class DmpSimDataManager : public DmpVDataManager{
+/*
+ *  DmpSimDataManager
+ *
+ *  
+ */
 public:
   static DmpSimDataManager* GetInstance();
   static void Vanish();
-  void SetOutDataName(std::string name = "default"); // invoked from BeginOfRunAction()
   void BookBranch();    // invoked from BeginOfRunAction()
+  void SetOutDataName(std::string name = "default"); // invoked from BeginOfRunAction()
 
 private:
   DmpSimDataManager();
@@ -33,7 +37,6 @@ public:
   void UpdatePrimaryParticleInformation(const G4Event*);    // invoked from GeneratePrimaries()
   void UpdateEventHeader(const G4Event*); // invoked from BeginOfEventAction()
   void Digitize();                  // invoked from EndOfEventAction(), before FillEvent()
-  void FillEvent();                 // invoked from EndOfEventAction()
 
 private:
   DmpEvtSimPrimaryParticle  *fPrimaryParticle;
