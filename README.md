@@ -73,9 +73,7 @@ Installation
 
 Set Environment
 
-    1.  cd into /prefix
-    2.  source bin/thisdmpsw.(c)sh
-    then, if "echo $DMPSWSYS" is /prefix, Ok.
+    1.  source /prefix/bin/thisdmpsw.(c)sh (at anywhere is ok)
 
 ##  re-install DMPSW
 
