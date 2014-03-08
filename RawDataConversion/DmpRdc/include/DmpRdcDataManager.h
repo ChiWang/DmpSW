@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcDataManager.h, 2014-03-08 15:07:23 chi $
+ *  $Id: DmpRdcDataManager.h, 2014-03-08 21:20:04 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -13,6 +13,8 @@
 
 #include "DmpVDataManager.h"
 
+class DmpEventRaw;
+
 class DmpRdcDataManager : public DmpVDataManager{
 /*
  *  DmpRdcDataManager
@@ -24,20 +26,21 @@ class DmpRdcDataManager : public DmpVDataManager{
 public:
   static DmpRdcDataManager*     GetInstance();
   static void Vanish();
+  static bool SetConnectorPsd();
+  static bool SetConnectorStk();
+  static bool SetConnectorBgo();
+  static bool SetConnectorNud();
 
 private:
   DmpRdcDataManager();
   ~DmpRdcDataManager();
   static DmpRdcDataManager  *sInstance;
-
-public:
-  bool  SetConnectorPsd();
-  bool  SetConnectorStk();
-  bool  SetConnectorBgo();
-  bool  SetConnectorNud();
-  bool  SetConnectorBgo_BT2012();
-  bool  SetConnectorBgo_CT2013(){return true;}
-  bool  SetConnectorBgo_Final(){return true;}
+  static std::map<int,int>  sConnectorPsd;
+  static std::map<int,int>  sConnectorStk;
+  static std::map<int,int>  sConnectorBgo;     // FEE 2 Detector
+    // ConnectorBgo[FEEID*1000+ChannelID][LBSD_ID]
+    // LBSD_ID = Layer_id*10000+Bar_id*100+Side_id*10+Dy_id
+  static std::map<int,int>  sConnectorNud;
 
 public:
   bool OpenInputData(std::string);
@@ -46,27 +49,19 @@ public:
   bool Execute();
 
 private:
+  bool TriggerMatch();
   bool ConversionHeader();
   bool ConversionPsd();
   bool ConversionStk();
   bool ConversionBgo();
   bool ConversionNud();
-  bool TriggerMatch();
-  bool ConversionBgo_BT2012();
-  bool ConversionBgo_CT2013(){return true;}
-  bool ConversionBgo_Final(){return true;}
 
 private:
+  DmpEventRaw   *fEvtRaw;
   std::string   fConnectorPath;     // connection files of FEE to Detector. Top path, include all directories of subDet
   std::string   fInDataName;        // input raw data from detector(format binary)
   ifstream      *fHexData;          // pointer of input data
   std::vector<short>    fTrigger;      // size = number of SubDet + 1
-  std::map<int, int>    ConnectorPsd;
-  std::map<int, int>    ConnectorStk;
-  std::map<int, int>    ConnectorBgo;     // FEE 2 Detector
-    //ConnectorBgo[FEEID*1000+ChannelID][LBSD_ID]
-    //LBSD_ID = Layer_id*10000+Bar_id*100+Side_id*10+Dy_id
-  std::map<int, int>    ConnectorNud;
 };
 
 #endif

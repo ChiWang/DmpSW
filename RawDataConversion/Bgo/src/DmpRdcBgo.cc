@@ -1,23 +1,27 @@
-/*=====================================================================
- *   File:   DmpRdcBgo.cc
- *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
- *---------------------------------------------------------------------
- *   Description:
- *      implement member functions of class DmpRdcManager (Bgo part)
- *
- *---------------------------------------------------------------------
- *   History:
- *                           Last update:  15/12/2013   15:51:21
-=====================================================================*/
+/*
+ *  $Id: DmpRdcBgo.cc, 2014-03-08 21:34:16 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
+*/
 
-#include <iostream>
+//#include <iostream>
+
+//#include "DmpEvtHeader.h"
+//#include "DmpEvtBgoRaw.h"     // include DmpERunMode.h
+//#include "DmpParameterBgo.h"
 
 #include "DmpRdcManager.h"
-#include "DmpEvtHeader.h"
-#include "DmpEvtBgoRaw.h"     // include DmpERunMode.h
-#include "DmpParameterBgo.h"
 
-using namespace DmpParameter::Bgo;
+using namespace DmpParameter;//::Bgo;
+
+// *
+// *  TODO: define static map is right??
+// *
+std::map<int,int>   DmpRdcManager::sConnectorBgo = 0;
+
+bool DmpRdcManager::SetConnectorBgo(){
+  if (gPhase == DmpCore)
+}
 
 //------------------------------------------------------------------------------
 Bool_t DmpRdcManager::SetConnectorBgo(){

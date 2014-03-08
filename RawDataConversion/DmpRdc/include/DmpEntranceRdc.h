@@ -10,10 +10,10 @@
 #include <string>
 
 namespace DmpCore{
+  void RdcInitialize();           // set connector
   void RdcSetInDataPath(std::string);
   void RdcSetOutDataPath(std::string);
   std::string RdcGetOutDataPath();
-  void RdcInitialize();           // set connector
   void RdcSetOutDataName(std::string);    // just for the coming Execute()
   void RdcExecute(std::string);   // run a raw data
   void RdcClear();

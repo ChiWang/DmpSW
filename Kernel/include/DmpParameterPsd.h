@@ -8,8 +8,8 @@
 #define DmpParameterPsd_H
 
 namespace DmpParameter{
-  namespace DmpDetector{
-    namespace Psd{            //Sub-detector  Psd parameters                             
+  namespace Detector{
+    namespace Psd{            //Sub-detector  Psd parameters 
       const short kPlaneNo = 4;
       const short kBarNo   = 25;
       const short kRefBarNo= 2;

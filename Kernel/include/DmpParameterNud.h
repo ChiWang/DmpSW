@@ -8,7 +8,7 @@
 #define DmpParameterNud_H
 
 namespace DmpParameter{
-  namespace DmpDetector{
+  namespace Detector{
     namespace Nud{            //Sub-detector  Nud parameters                             
       const short kPlaneNo = 6;
       const short kBarNo   = 11;

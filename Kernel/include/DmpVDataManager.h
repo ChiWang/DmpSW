@@ -31,8 +31,8 @@ class DmpVDataManager{
   virtual void BookBranch()=0;
   virtual void CreateOutDataName()=0;           // this is for concrete class
   // control static functions in job option script
-  static void  SetPhase(DmpCore::DmpPhase);
-  static DmpCore::DmpPhase GetPhase();
+  static void  SetPhase(DmpEPhase);
+  static DmpEPhase GetPhase();
   void  SetInDataPath(std::string);
   void  SetOutDataPath(std::string);
   void  SetOutDataName(std::string n)   {fOutDataName = n;}
@@ -46,7 +46,7 @@ protected:
   bool IsDefaultName();
 
 protected:
-  static DmpCore::DmpPhase  sPhase;     // Phase of DAMPE
+  static DmpEPhase  gPhase;     // Phase of DAMPE
   std::string   fInDataPath;    //
   std::string   fOutDataPath;   //
   std::string   fOutDataName;   //

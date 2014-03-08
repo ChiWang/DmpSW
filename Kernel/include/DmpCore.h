@@ -8,22 +8,28 @@
 #define DmpCore_H
 
 namespace DmpCore{
-  // for phase
-  enum DmpPhase{
-    kBT2012,
-    kCT2013,
-    kFinal,
-  };
-
-  //  for detector
-  const short kSubDetNo=4;
-  enum DmpDetectorID{
-    kWhole,
-    kPsd,
-    kStk,
-    kBgo,
-    kNud
-  };
+  namespace Phase{
+    enum DmpPhase{
+      kBT2012,
+      kCT2013,
+      kFinal,
+    };
+  }
 }
+typedef DmpCore::Phase::DmpPhase DmpEPhase;
+
+namespace DmpParameter{
+  namespace Detector{
+    const short kSubDetNo=4;
+    enum DmpDetectorID{
+      kWhole,
+      kPsd,
+      kStk,
+      kBgo,
+      kNud
+    };
+  }
+}
+typedef DmpParameter::Detector::DmpDetectorID DmpEDetectorID;
 
 #endif

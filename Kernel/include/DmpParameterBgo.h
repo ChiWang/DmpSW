@@ -8,8 +8,8 @@
 #define DmpParameterBgo_H
 
 namespace DmpParameter{
-  namespace DmpDetector{
-    namespace Bgo{            //Sub-detector  Bgo parameters                             
+  namespace Detector{
+    namespace Bgo{            //Sub-detector  Bgo parameters
       const short kPlaneNo = 7;
       const short kBarNo   = 22;
       const short kRefBarNo= 2;

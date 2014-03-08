@@ -12,7 +12,7 @@
 
 #include "DmpVDataManager.h"
 
-DmpCore::DmpPhase  DmpVDataManager::sPhase = DmpCore::kFinal;
+DmpEPhase  DmpVDataManager::gPhase = DmpCore::DmpPhase::kFinal;
 //------------------------------------------------------------------------------
 
 DmpVDataManager::DmpVDataManager()
@@ -29,13 +29,13 @@ DmpVDataManager::~DmpVDataManager(){
 }
 
 //-------------------------------------------------------------------
-void DmpVDataManager::SetPhase(DmpCore::DmpPhase p){
-  sPhase = p;
+void DmpVDataManager::SetPhase(DmpEPhase p){
+  gPhase = p;
 }
 
 //-------------------------------------------------------------------
-DmpCore::DmpPhase  DmpVDataManager::GetPhase(){
-  return sPhase;
+DmpEPhase  DmpVDataManager::GetPhase(){
+  return gPhase;
 }
 
 //------------------------------------------------------------------------------

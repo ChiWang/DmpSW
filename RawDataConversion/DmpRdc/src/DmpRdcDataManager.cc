@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcDataManager.cc, 2014-03-06 21:43:54 chi $
+ *  $Id: DmpRdcDataManager.cc, 2014-03-08 20:49:05 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #endif
 
-#include "TFile.h"
 #include "TTree.h"
 
 //#include "DmpEvtHeader.h"
@@ -26,7 +25,7 @@ using namespace DmpParameter;
 DmpRdcDataManager* DmpRdcDataManager::sInstance = 0;
 //std::string DmpRdcDataManager::fConnectorPath=(std::string)getenv("DMPSWSYS")+"/share/Connector/";
 
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------
 DmpRdcDataManager* DmpRdcDataManager::GetInstance(){
   if (sInstance == 0 ){
     sInstance = new DmpRdcDataManager();
@@ -34,12 +33,60 @@ DmpRdcDataManager* DmpRdcDataManager::GetInstance(){
   return sInstance;
 }
 
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------
 void DmpRdcDataManager::Vanish(){
   if (sInstance != 0 ){
     delete sInstance;
     sInstance = 0;
   }
+}
+
+//-------------------------------------------------------------------
+DmpRdcDataManager::DmpRdcDataManager()
+ :fHexData(0)
+{
+  fEvtRaw = new DmpEventRaw();
+  std::cout<<"DAMPE software: Setup kernel of Raw Data Conversion"<<std::endl;
+// *
+// *  TODO: set path correspond to phase
+// *
+  /*
+  if (DmpPhase::gPhase == DmpPhase::kBT2012){
+     fConnectorPath += "BT2012/";
+  }else if(DmpPhase::gPhase == DmpPhase::kCT2013){
+     fConnectorPath += "CT2013/";
+  }
+  */
+  fOutDataTree->SetNameTitle("DAMPE_Raw","ADC");
+  fTrigger.resize(DmpDetector::kSubDetNo + 1);
+  for(short i = 0;i<fTrigger.size();++i) fTrigger[i] = 0;
+}
+
+//-------------------------------------------------------------------
+DmpRdcDataManager::~DmpRdcDataManager(){
+  if(fHexData != 0){
+    delete fHexData;
+    fHexData = 0;
+  }
+  delete fEvtRaw;
+}
+
+//-------------------------------------------------------------------
+bool DmpRdcDataManager::OpenInputData(std::string dataName){
+  fInDataName = dataName;
+  fHexData = new ifstream(fInDataPath+fInDataName,std::ios::in|std::ios::binary);
+  if (!fHexData->good()) {
+    std::cerr<<"\nwarning: open "<<fInDataPath+fInDataName<<" failed"<<std::endl;
+// *
+// *  TODO: does it right to delete fHexData
+// *
+    fHexData->close();  delete fHexData;    fHexData = 0;
+    return false;
+  }
+#ifdef DmpDebug
+  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\nReading "<<fInDataPath+fInDataName<<std::endl;
+#endif
+  return true;
 }
 
 //-------------------------------------------------------------------
@@ -57,33 +104,11 @@ void DmpRdcDataManager::CreateOutDataName(){
   }
 }
 
-//------------------------------------------------------------------------------
-DmpRdcDataManager::DmpRdcDataManager()
- :fHexData(0)
-{
-  std::cout<<"DAMPE software: Setup kernel of Raw Data Conversion"<<std::endl;
-  /*
-  if (DmpPhase::gPhase == DmpPhase::kBT2012){
-     fConnectorPath += "BT2012/";
-  }else if(DmpPhase::gPhase == DmpPhase::kCT2013){
-     fConnectorPath += "CT2013/";
-  }
-  */
-  fOutDataTree->SetNameTitle("DAMPE_Raw","ADC");
-  fTrigger.resize(DmpDetector::kSubDetNo + 1);
-  for(short i = 0;i<fTrigger.size();++i) fTrigger[i] = 0;
-}
-
-//------------------------------------------------------------------------------
-DmpRdcDataManager::~DmpRdcDataManager(){
-  if(fHexData != 0){
-    delete fHexData;
-    fHexData = 0;
-  }
-}
-
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------
 bool DmpRdcDataManager::Execute(){
+// *
+// *  TODO: not finish
+// *
   for (long nEvt=0;!fHexData->eof();++nEvt){
 //if (nEvt > 5) break;
     if ( !ConversionHeader() ) continue;
@@ -114,25 +139,10 @@ if (nEvt%1000==0) std::cout<<"\tFill event "<<std::dec<<fHeader->GetEventID()<<s
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcDataManager::OpenInputData(std::string dataName){
-  fInDataName = dataName;
-  fHexData = new ifstream(fInDataPath+fInDataName,std::ios::in|std::ios::binary);
-  if (!fHexData->good()) {
-    std::cerr<<"\nwarning: open "<<fInDataPath+fInDataName<<" failed"<<std::endl;
-// *
-// *  TODO: does it right to delete fHexData
-// *
-    fHexData->close();  delete fHexData;    fHexData = 0;
-    return false;
-  }
-#ifdef DmpDebug
-  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\nReading "<<fInDataPath+fInDataName<<std::endl;
-#endif
-  return true;
-}
-
-//------------------------------------------------------------------------------
 bool DmpRdcDataManager::TriggerMatch() {
+// *
+// *  TODO: trigger
+// *
   if (fTrigger["Bgo"] == fTrigger["Psd"] && fTrigger["Bgo"] == fTrigger["Stk"] && fTrigger["Bgo"] == fTrigger["Nud"] && fTrigger["Bgo"] == fTrigger["Header"]) {
   return true;
   } else {
@@ -142,7 +152,7 @@ bool DmpRdcDataManager::TriggerMatch() {
   return true;
 }
 
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------
 bool DmpRdcDataManager::ConversionHeader(){
 #ifdef DmpDebug
 std::cerr<<"\n\tBegin Conversion:\n\t\t-->Header from "<<std::dec<<fHexData->tellg();

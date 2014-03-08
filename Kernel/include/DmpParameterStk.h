@@ -8,8 +8,8 @@
 #define DmpParameterStk_H
 
 namespace DmpParameter{
-  namespace DmpDetector{
-    namespace Stk{            //Sub-detector  Stk parameters                             
+  namespace Detector{
+    namespace Stk{            //Sub-detector  Stk parameters 
       const short kPlaneNo = 6;
       const short kBarNo   = 11;
       const short kRefBarNo= 2;
