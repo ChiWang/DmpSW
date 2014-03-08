@@ -27,6 +27,18 @@
 #include "DmpSimDataManager.h"
 #include "DmpEntranceSimulation.h"
 
+void DmpCore::SimulationSetInDataPath(std::string p){
+  DmpSimDataManager::GetInstance()->SetInDataPath(p);
+}
+
+void DmpCore::SimulationSetOutDataPath(std::string p){
+  DmpSimDataManager::GetInstance()->SetOutDataPath(p);
+}
+
+void DmpCore::SimulationSetOutDataName(std::string n){
+  DmpSimDataManager::GetInstance()->SetOutDataName(n);
+}
+
 G4RunManager *runManager = 0;
 G4VisManager *visManager = 0;
 
@@ -92,7 +104,7 @@ void DmpCore::SimulationExecute(std::string argv){
     delete ui;
 #endif
   }else{
-    UImanager->ApplyCommand("/control/execute " + argv);        // batch mode
+    UImanager->ApplyCommand("/control/execute " + DmpSimDataManager::GetInstance()->GetInDataPath() + argv);        // batch mode
   }
 }
 

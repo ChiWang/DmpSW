@@ -6,6 +6,8 @@
 
 ##  To Do List
 
+    1.  gdml for kBT2012
+    2.  use DmpPhase to choose run
     1.  binding more functions into python, like phase
 
 

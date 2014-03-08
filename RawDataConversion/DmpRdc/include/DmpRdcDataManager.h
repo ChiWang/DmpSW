@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcDataManager.h, 2014-03-07 09:43:19 chi $
+ *  $Id: DmpRdcDataManager.h, 2014-03-08 15:07:23 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -24,40 +24,40 @@ class DmpRdcDataManager : public DmpVDataManager{
 public:
   static DmpRdcDataManager*     GetInstance();
   static void Vanish();
-  void BookBranch();
-  void SetOutDataName(std::string name = "default");
 
 private:
   DmpRdcDataManager();
   ~DmpRdcDataManager();
-  static DmpRdcDataManager  *fInstance;         // singleton
+  static DmpRdcDataManager  *sInstance;
 
 public:
-  bool  OpenInputData(std::string);
   bool  SetConnectorPsd();
   bool  SetConnectorStk();
   bool  SetConnectorBgo();
   bool  SetConnectorNud();
-  bool  Execute();
-
-private:
-  bool  ConversionHeader();
-  bool  ConversionPsd();
-  bool  ConversionStk();
-  bool  ConversionBgo();
-  bool  ConversionNud();
-
-private:
-  bool  TriggerMatch();
   bool  SetConnectorBgo_BT2012();
-  bool  ConversionBgo_BT2012();
   bool  SetConnectorBgo_CT2013(){return true;}
-  bool  ConversionBgo_CT2013(){return true;}
   bool  SetConnectorBgo_Final(){return true;}
-  bool  ConversionBgo_Final(){return true;}
+
+public:
+  bool OpenInputData(std::string);
+  void BookBranch();
+  void CreateOutDataName();
+  bool Execute();
 
 private:
-  static std::string   fConnectorPath;     // connection files of FEE to Detector. Top path, include all directories of subDet
+  bool ConversionHeader();
+  bool ConversionPsd();
+  bool ConversionStk();
+  bool ConversionBgo();
+  bool ConversionNud();
+  bool TriggerMatch();
+  bool ConversionBgo_BT2012();
+  bool ConversionBgo_CT2013(){return true;}
+  bool ConversionBgo_Final(){return true;}
+
+private:
+  std::string   fConnectorPath;     // connection files of FEE to Detector. Top path, include all directories of subDet
   std::string   fInDataName;        // input raw data from detector(format binary)
   ifstream      *fHexData;          // pointer of input data
   std::vector<short>    fTrigger;      // size = number of SubDet + 1

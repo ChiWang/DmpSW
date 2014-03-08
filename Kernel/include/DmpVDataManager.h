@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpVDataManager.h, 2014-03-08 10:25:14 chi $
+ *  $Id: DmpVDataManager.h, 2014-03-08 16:44:08 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -8,6 +8,7 @@
 #define DmpVDataManager_H
 
 #include <string>
+#include "DmpCore.h"
 
 class TTree;
 
@@ -28,20 +29,27 @@ class DmpVDataManager{
   virtual ~DmpVDataManager();
 
   virtual void BookBranch()=0;
-  virtual void UseDefaultDataName()=0;        // this is for concrete class
-  static void  SetInDataPath(std::string);
-  static void  SetOutDataPath(std::string);
-  static void  SetOutDataName(std::string); // control name in job option script
+  virtual void CreateOutDataName()=0;           // this is for concrete class
+  // control static functions in job option script
+  static void  SetPhase(DmpCore::DmpPhase);
+  static DmpCore::DmpPhase GetPhase();
+  void  SetInDataPath(std::string);
+  void  SetOutDataPath(std::string);
+  void  SetOutDataName(std::string n)   {fOutDataName = n;}
+  std::string GetInDataPath() const     {return fInDataPath;}
+  std::string GetOutDataPath() const    {return fOutDataPath;}
+  std::string GetOutDataName() const    {return fOutDataName;}
   void  SaveOutput();
   void  FillEvent();
 
 protected:
-  bool CreateDefaultName();
+  bool IsDefaultName();
 
 protected:
-  static std::string   fInDataPath;    //
-  static std::string   fOutDataPath;   //
-  static std::string   fOutDataName;   //
+  static DmpCore::DmpPhase  sPhase;     // Phase of DAMPE
+  std::string   fInDataPath;    //
+  std::string   fOutDataPath;   //
+  std::string   fOutDataName;   //
   TTree         *fOutDataTree;  //
 
 };

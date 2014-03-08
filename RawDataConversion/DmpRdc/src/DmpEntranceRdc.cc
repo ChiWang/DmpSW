@@ -17,16 +17,24 @@ void Usage(){
   return 0;
 }
 
-//------------------------------------------------------------------------------
-void DmpCore::EntranceRawDataConversion(int argc, char* argv[]){
-  if(argc != 2) Usage();
-  DmpRdcDataManager *RdcMan = GetInstance();
-  if(not RdcMan->OpenInputData(argv[1]))  return -1;
+DmpRdcDataManager *RdcMan = 0;
+
+//-------------------------------------------------------------------
+void DmpCore::RawDataConversionInitialize(){
+  RdcMan = DmpRdcDataManager::GetInstance();
 
   if ( ! RdcMan->SetConnectorPsd() ) return -2;
   if ( ! RdcMan->SetConnectorStk() ) return -2;
   if ( ! RdcMan->SetConnectorBgo() ) return -2;
   if ( ! RdcMan->SetConnectorNud() ) return -2;
+}
+
+//------------------------------------------------------------------------------
+void DmpCore::RawDataConversionExecute(std::string dataName){
+  if(not RdcMan->OpenInputData(dataName))  return;
+  RdcMan->BookBranch();
+  RdcMan->CreateOutDataName();
+  RdcMan->
 
   string note;
   if (inFileName.Contains(".dat")) {
@@ -57,14 +65,12 @@ void DmpCore::EntranceRawDataConversion(int argc, char* argv[]){
     }
     BatchInfor->close();
     delete BatchInfor;
-  } else {
-    Usage();
-    return 1;
   }
-
-  DmpRdcDataManager::Vanish();
+  RdcMan->SaveOutput();
 }
 
 //------------------------------------------------------------------------------
-
+void DmpCore::RawDataConversionClear(){
+  DmpRdcDataManager::Vanish();
+}
 

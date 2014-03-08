@@ -25,6 +25,6 @@
 #/payload/update
 
 # run 10 events
-/run/beamOn 1000
+/run/beamOn 10
 
 

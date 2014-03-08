@@ -23,13 +23,13 @@ class DmpSimDataManager : public DmpVDataManager{
 public:
   static DmpSimDataManager* GetInstance();
   static void Vanish();
-  void BookBranch();    // invoked from BeginOfRunAction()
-  void UseDefaultDataName();    // invoked from BeginOfRunAction()
+  void BookBranch();            // invoked from BeginOfRunAction()
+  void CreateOutDataName();     // invoked from BeginOfRunAction()
 
 private:
   DmpSimDataManager();
   ~DmpSimDataManager();
-  static DmpSimDataManager  *fInstance;  //!
+  static DmpSimDataManager  *sInstance;  //!
 
 public:
   DmpEvtSimPrimaryParticle* GetPrimaryParticle() const {return fPrimaryParticle;}

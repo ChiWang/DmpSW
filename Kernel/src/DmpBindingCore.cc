@@ -18,15 +18,16 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .value("kFinal",kFinal)
   ;
 
-// *
-// *  TODO: add get functions for DmpVDataManager
-// *
-  class_<DmpVDataManager,boost::noncopyable>("DataManager",no_init)
-    .def("SetInDataPath",&DmpVDataManager::SetInDataPath)
-    .staticmethod("SetInDataPath")
-    .def("SetOutDataPath",&DmpVDataManager::SetOutDataPath)
-    .staticmethod("SetOutDataPath")
-    .def("SetOutDataName",&DmpVDataManager::SetOutDataName)
-    .staticmethod("SetOutDataName")
+  class_<DmpVDataManager,boost::noncopyable>("PhaseManager",no_init)
+    .def("SetPhase",&DmpVDataManager::SetPhase)
+    .staticmethod("SetPhase")
+    .def("GetPhase",&DmpVDataManager::GetPhase)
+    .staticmethod("GetPhase")
+//    .def("SetInDataPath",&DmpVDataManager::SetInDataPath)
+//    .staticmethod("SetInDataPath")
+//    .def("SetOutDataPath",&DmpVDataManager::SetOutDataPath)
+//    .staticmethod("SetOutDataPath")
+//    .def("SetOutDataName",&DmpVDataManager::SetOutDataName)
+//    .staticmethod("SetOutDataName")
   ;
 }

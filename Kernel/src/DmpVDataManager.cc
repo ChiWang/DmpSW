@@ -12,19 +12,30 @@
 
 #include "DmpVDataManager.h"
 
-std::string DmpVDataManager::fInDataPath = "./";
-std::string DmpVDataManager::fOutDataPath = "./";
-std::string DmpVDataManager::fOutDataName = "default";      // "default" used in CreateDefaultName(). Do NOT change this value.
+DmpCore::DmpPhase  DmpVDataManager::sPhase = DmpCore::kFinal;
 //------------------------------------------------------------------------------
 
 DmpVDataManager::DmpVDataManager()
- :fOutDataTree(0)
+ :fInDataPath("./"),
+  fOutDataPath("./"),
+  fOutDataName("default"),
+  fOutDataTree(0)
 {
   fOutDataTree = new TTree("DAMPE","DAMPE");    // should rename in concrete class
 }
 
 DmpVDataManager::~DmpVDataManager(){
   delete fOutDataTree;
+}
+
+//-------------------------------------------------------------------
+void DmpVDataManager::SetPhase(DmpCore::DmpPhase p){
+  sPhase = p;
+}
+
+//-------------------------------------------------------------------
+DmpCore::DmpPhase  DmpVDataManager::GetPhase(){
+  return sPhase;
 }
 
 //------------------------------------------------------------------------------
@@ -48,11 +59,6 @@ void DmpVDataManager::SetOutDataPath(std::string path){
 }
 
 //-------------------------------------------------------------------
-void DmpVDataManager::SetOutDataName(std::string name){
-  fOutDataName = name;
-}
-
-//-------------------------------------------------------------------
 #include "TFile.h"
 void DmpVDataManager::SaveOutput(){
   TFile *aFile = new TFile((TString)(fOutDataPath+fOutDataName),"recreate");
@@ -63,6 +69,7 @@ void DmpVDataManager::SaveOutput(){
   fOutDataName = "default";
 }
 
+//-------------------------------------------------------------------
 void DmpVDataManager::FillEvent(){
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
@@ -72,7 +79,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 
 //-------------------------------------------------------------------
 #include <time.h>
-bool DmpVDataManager::CreateDefaultName(){ // define fOutDataName
+bool DmpVDataManager::IsDefaultName(){ // define fOutDataName
   if(fOutDataName != "default") return false;
   time_t now;
   struct tm *p;
@@ -80,7 +87,7 @@ bool DmpVDataManager::CreateDefaultName(){ // define fOutDataName
   p = localtime(&now);
   char name[20];
   strftime(name,99,"%Y%m%d%H%M%S.root",p);
-  fOutDataName = name;  // add tag in UseDefaultDataName in concrete class
+  fOutDataName = name;  // add tag in CreateOutDataName in concrete class
   return true;
 }
 

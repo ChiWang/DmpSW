@@ -4,9 +4,7 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
-#ifdef DmpDebug
 #include <iostream>
-#endif
 #ifndef DmpDebug
 #include <stdlib.h>
 #endif
@@ -25,29 +23,22 @@
 #include "DmpParameterPhase.h"
 using namespace DmpParameter;
 
-DmpRdcDataManager* DmpRdcDataManager::fInstance = 0;
-//------------------------------------------------------------------------------
-
-#ifdef DmpDebug
-std::string DmpRdcDataManager::fConnectorPath="./share/Connector/";
-#else
-std::string DmpRdcDataManager::fConnectorPath=(std::string)getenv("DMPSWSYS")+"/share/Connector/";
-#endif
-//------------------------------------------------------------------------------
+DmpRdcDataManager* DmpRdcDataManager::sInstance = 0;
+//std::string DmpRdcDataManager::fConnectorPath=(std::string)getenv("DMPSWSYS")+"/share/Connector/";
 
 //------------------------------------------------------------------------------
 DmpRdcDataManager* DmpRdcDataManager::GetInstance(){
-  if (fInstance == 0 ){
-    fInstance = new DmpRdcDataManager();
+  if (sInstance == 0 ){
+    sInstance = new DmpRdcDataManager();
   }
-  return fInstance;
+  return sInstance;
 }
 
 //------------------------------------------------------------------------------
 void DmpRdcDataManager::Vanish(){
-  if (fInstance != 0 ){
-    delete fInstance;
-    fInstance = 0;
+  if (sInstance != 0 ){
+    delete sInstance;
+    sInstance = 0;
   }
 }
 
@@ -60,34 +51,24 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 }
 
 //-------------------------------------------------------------------
-void DmpRdcDataManager::SetOutDataName(std::string outDataName){
-// *
-// *  TODO: rewrite this
-  fOutDataName.replace(fInDataName.end()-4,fOutDataName.end(),"_raw.root");
-/*
-  if(outDataName == "default"){
-    time_t now;
-    struct tm *p;
-    time(&now);
-    p = localtime(&now);
-    char name[100];
-    strftime(name,99,"DmpSim_%Y%m%d%H%M%S.root",p);
-    fOutDataName = name;
-  }else{
-    fOutDataName = outDataName;
+void DmpRdcDataManager::CreateOutDataName(){
+  if(fOutDataName == "default"){
+    fOutDataName.replace(fInDataName.end()-4,fOutDataName.end(),"_raw.root");
   }
-  */
 }
 
 //------------------------------------------------------------------------------
 DmpRdcDataManager::DmpRdcDataManager()
  :fHexData(0)
 {
+  std::cout<<"DAMPE software: Setup kernel of Raw Data Conversion"<<std::endl;
+  /*
   if (DmpPhase::gPhase == DmpPhase::kBT2012){
      fConnectorPath += "BT2012/";
   }else if(DmpPhase::gPhase == DmpPhase::kCT2013){
      fConnectorPath += "CT2013/";
   }
+  */
   fOutDataTree->SetNameTitle("DAMPE_Raw","ADC");
   fTrigger.resize(DmpDetector::kSubDetNo + 1);
   for(short i = 0;i<fTrigger.size();++i) fTrigger[i] = 0;
@@ -117,7 +98,7 @@ bool DmpRdcDataManager::Execute(){
 
     if (TriggerMatch()) {
       fHeader->CountEvent();
-      outTree->Fill();
+      FillEvent();
 #ifdef DmpDebug
 if (nEvt%1000==0) std::cout<<"\tFill event "<<std::dec<<fHeader->GetEventID()<<std::endl;
 #endif
@@ -126,12 +107,6 @@ if (nEvt%1000==0) std::cout<<"\tFill event "<<std::dec<<fHeader->GetEventID()<<s
     }
   }
 
-  fDataName.ReplaceAll(".dat","_raw.root");
-  TFile *outRootFile = new TFile(fOutDataPath+fDataName,"RECREATE");
-  outTree->Write();
-  outRootFile->Close();
-  delete outRootFile;
-  delete outTree;
   fHeader->Reset();      // reset event ID, waiting next input data file
   fHexData->close();
   delete fHexData;
@@ -139,11 +114,15 @@ if (nEvt%1000==0) std::cout<<"\tFill event "<<std::dec<<fHeader->GetEventID()<<s
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcDataManager::OpenInputData(char *dataName){
+bool DmpRdcDataManager::OpenInputData(std::string dataName){
   fInDataName = dataName;
   fHexData = new ifstream(fInDataPath+fInDataName,std::ios::in|std::ios::binary);
   if (!fHexData->good()) {
-    std::cerr<<"\nWarning: open "<<fInDataPath+fInDataName<<" failed"<<std::endl;
+    std::cerr<<"\nwarning: open "<<fInDataPath+fInDataName<<" failed"<<std::endl;
+// *
+// *  TODO: does it right to delete fHexData
+// *
+    fHexData->close();  delete fHexData;    fHexData = 0;
     return false;
   }
 #ifdef DmpDebug

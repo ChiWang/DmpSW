@@ -14,20 +14,20 @@
 #include "DmpEventRaw.h"
 #include "DmpSimDataManager.h"
 
-DmpSimDataManager* DmpSimDataManager::fInstance = 0;
+DmpSimDataManager* DmpSimDataManager::sInstance = 0;
 //-------------------------------------------------------------------
 
 DmpSimDataManager* DmpSimDataManager::GetInstance(){
-  if (fInstance == 0){
-    fInstance = new DmpSimDataManager();
+  if (sInstance == 0){
+    sInstance = new DmpSimDataManager();
   }
-  return fInstance;
+  return sInstance;
 }
 
 void DmpSimDataManager::Vanish(){
-  if(fInstance != 0){
-    delete fInstance;
-    fInstance = 0;
+  if(sInstance != 0){
+    delete sInstance;
+    sInstance = 0;
   }
 }
 
@@ -39,8 +39,8 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
   fOutDataTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
 }
 
-void DmpSimDataManager::UseDefaultDataName(){
-  if(CreateDefaultName())   fOutDataName = "DmpSim_"+fOutDataName;
+void DmpSimDataManager::CreateOutDataName(){
+  if(IsDefaultName())   fOutDataName = "DmpSim_"+fOutDataName;
 }
 
 //-------------------------------------------------------------------
