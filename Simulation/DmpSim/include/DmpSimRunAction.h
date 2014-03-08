@@ -7,7 +7,6 @@
 #ifndef DmpSimRunAction_H
 #define DmpSimRunAction_H
 
-//#include "globals.hh"
 #include "G4UserRunAction.hh"
 
 class DmpSimDataManager;

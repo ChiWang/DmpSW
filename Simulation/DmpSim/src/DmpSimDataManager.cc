@@ -4,8 +4,6 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/02/2014
 */
 
-#include <time.h>
-
 #include "TTree.h"
 
 #include "G4Run.hh"
@@ -41,18 +39,8 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
   fOutDataTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
 }
 
-void DmpSimDataManager::SetOutDataName(std::string outDataName){
-  if(outDataName == "default"){
-    time_t now;
-    struct tm *p;
-    time(&now);
-    p = localtime(&now);
-    char name[100];
-    strftime(name,99,"DmpSim_%Y%m%d%H%M%S.root",p);
-    fOutDataName = name;
-  }else{
-    fOutDataName = outDataName;
-  }
+void DmpSimDataManager::UseDefaultDataName(){
+  if(CreateDefaultName())   fOutDataName = "DmpSim_"+fOutDataName;
 }
 
 //-------------------------------------------------------------------

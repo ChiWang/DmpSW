@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpVDataManager.h, 2014-03-07 15:32:14 chi $
+ *  $Id: DmpVDataManager.h, 2014-03-08 10:25:14 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -27,17 +27,21 @@ class DmpVDataManager{
   DmpVDataManager();
   virtual ~DmpVDataManager();
 
-  virtual void  BookBranch()=0;
-  virtual void  SetOutDataName(std::string)=0;
+  virtual void BookBranch()=0;
+  virtual void UseDefaultDataName()=0;        // this is for concrete class
   static void  SetInDataPath(std::string);
   static void  SetOutDataPath(std::string);
+  static void  SetOutDataName(std::string); // control name in job option script
   void  SaveOutput();
   void  FillEvent();
 
 protected:
+  bool CreateDefaultName();
+
+protected:
   static std::string   fInDataPath;    //
   static std::string   fOutDataPath;   //
-  std::string   fOutDataName;   //
+  static std::string   fOutDataName;   //
   TTree         *fOutDataTree;  //
 
 };

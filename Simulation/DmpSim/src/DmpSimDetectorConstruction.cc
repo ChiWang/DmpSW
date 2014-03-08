@@ -30,14 +30,9 @@ DmpSimDetectorConstruction::~DmpSimDetectorConstruction(){
 
 G4VPhysicalVolume* DmpSimDetectorConstruction::Construct(){
   char *dirTmp = getcwd(NULL,NULL);
-#ifdef DmpDebug
-  chdir("../Geometry");
-#else
-  chdir(getenv("DMPSWSYS"));
-  chdir("./share/Geometry");
-#endif
+  chdir(getenv("DMPSWSYS"));    chdir("./share/Geometry");
  //*  TODO: add this for BT2012     chdir("BT2012");
-  fParser->Read("./DAMPE.gdml");
+  fParser->Read("DAMPE.gdml");
   chdir(dirTmp);
 
 // *

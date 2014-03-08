@@ -7,9 +7,6 @@
 #ifndef DmpCore_H
 #define DmpCore_H
 
-// *
-// *  TODO: binding S(G)etPhase to boost python, and set it at the begining to run jobs in python script
-// *
 namespace DmpCore{
   // for phase
   enum DmpPhase{
@@ -17,9 +14,6 @@ namespace DmpCore{
     kCT2013,
     kFinal,
   };
-  extern DmpPhase gPhase;
-  void SetPhase(DmpPhase);
-  DmpPhase GetPhase();
 
   //  for detector
   const short kSubDetNo=4;

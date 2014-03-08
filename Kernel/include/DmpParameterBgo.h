@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpParameterBgo.h, 2014-03-07 10:33:05 chi $
+ *  $Id: DmpParameterBgo.h, 2014-03-08 10:24:11 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 06/08/2013
 */

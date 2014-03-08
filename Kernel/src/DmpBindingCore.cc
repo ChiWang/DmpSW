@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpBindingCore.cc, 2014-03-07 15:52:18 chi $
+ *  $Id: DmpBindingCore.cc, 2014-03-08 10:22:07 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
@@ -17,18 +17,16 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .value("kCT2013",kCT2013)
     .value("kFinal",kFinal)
   ;
-  //scope().attr("gPhase")=gPhase;
-  def("SetPhase",SetPhase);
-  def("GetPhase",GetPhase);
-
 
 // *
 // *  TODO: add get functions for DmpVDataManager
 // *
-  class_<DmpVDataManager,boost::noncopyable>("PathManager",no_init)
+  class_<DmpVDataManager,boost::noncopyable>("DataManager",no_init)
     .def("SetInDataPath",&DmpVDataManager::SetInDataPath)
     .staticmethod("SetInDataPath")
     .def("SetOutDataPath",&DmpVDataManager::SetOutDataPath)
     .staticmethod("SetOutDataPath")
-    ;
+    .def("SetOutDataName",&DmpVDataManager::SetOutDataName)
+    .staticmethod("SetOutDataName")
+  ;
 }

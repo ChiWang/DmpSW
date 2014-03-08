@@ -79,13 +79,9 @@ void DmpCore::SimulationExecute(std::string argv){
   if (argv == "default"){
     // interactive mode : define UI session
 #ifdef G4UI_USE
-#ifdef DmpDebug
-    G4String prefix = "./share/";
-#else
-    G4String prefix = (G4String)getenv("DMPSWSYS")+"/share/TestRelease/Simulation/";
-#endif
-    char *dummyargv[1] = {"dummyargv"};
+    char *dummyargv[1];
     G4UIExecutive *ui = new G4UIExecutive(1,dummyargv);
+    G4String prefix = (G4String)getenv("DMPSWSYS")+"/share/TestRelease/Simulation/";
 #ifdef G4VIS_USE
     UImanager->ApplyCommand("/control/execute "+prefix+"vis.mac");
 #endif

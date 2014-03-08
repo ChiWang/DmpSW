@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpVDataManager.cc, 2014-03-06 21:43:29 chi $
+ *  $Id: DmpVDataManager.cc, 2014-03-08 10:25:06 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -14,11 +14,11 @@
 
 std::string DmpVDataManager::fInDataPath = "./";
 std::string DmpVDataManager::fOutDataPath = "./";
+std::string DmpVDataManager::fOutDataName = "default";      // "default" used in CreateDefaultName(). Do NOT change this value.
 //------------------------------------------------------------------------------
 
 DmpVDataManager::DmpVDataManager()
- :fOutDataName(""),
-  fOutDataTree(0)
+ :fOutDataTree(0)
 {
   fOutDataTree = new TTree("DAMPE","DAMPE");    // should rename in concrete class
 }
@@ -48,15 +48,19 @@ void DmpVDataManager::SetOutDataPath(std::string path){
 }
 
 //-------------------------------------------------------------------
+void DmpVDataManager::SetOutDataName(std::string name){
+  fOutDataName = name;
+}
+
+//-------------------------------------------------------------------
 #include "TFile.h"
 void DmpVDataManager::SaveOutput(){
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-#endif
   TFile *aFile = new TFile((TString)(fOutDataPath+fOutDataName),"recreate");
   fOutDataTree->Write();
   aFile->Close();
   delete aFile;
+  std::cout<<"Output : "<<fOutDataPath+fOutDataName<<std::endl;
+  fOutDataName = "default";
 }
 
 void DmpVDataManager::FillEvent(){
@@ -64,5 +68,19 @@ void DmpVDataManager::FillEvent(){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
   fOutDataTree->Fill();
+}
+
+//-------------------------------------------------------------------
+#include <time.h>
+bool DmpVDataManager::CreateDefaultName(){ // define fOutDataName
+  if(fOutDataName != "default") return false;
+  time_t now;
+  struct tm *p;
+  time(&now);
+  p = localtime(&now);
+  char name[20];
+  strftime(name,99,"%Y%m%d%H%M%S.root",p);
+  fOutDataName = name;  // add tag in UseDefaultDataName in concrete class
+  return true;
 }
 

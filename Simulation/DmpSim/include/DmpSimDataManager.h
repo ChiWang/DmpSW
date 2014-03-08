@@ -24,7 +24,7 @@ public:
   static DmpSimDataManager* GetInstance();
   static void Vanish();
   void BookBranch();    // invoked from BeginOfRunAction()
-  void SetOutDataName(std::string name = "default"); // invoked from BeginOfRunAction()
+  void UseDefaultDataName();    // invoked from BeginOfRunAction()
 
 private:
   DmpSimDataManager();
