@@ -1,0 +1,22 @@
+#+
+#+  $Id: DmpSimGUI.mac, 2014-03-08 14:34:51 chi $
+#+  Author(s):
+#+    Chi WANG (chiwang@mail.ustc.edu.cn) 08/03/2014
+#-------------------------------------------------------
+#       Must use the name DmpSimGUI.mac
+#-------------------------------------------------------
+#+
+
+#
+# Sets some default verbose
+# and initializes the graphic.
+#
+/control/verbose 2
+/control/saveHistory
+/run/verbose 1
+/tracking/storeTrajectory 2
+#/tracking/verbose 1
+
+#/gun/sourceGen true
+/run/initialize
+

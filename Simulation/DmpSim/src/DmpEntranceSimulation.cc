@@ -81,12 +81,12 @@ void DmpCore::SimulationExecute(std::string argv){
 #ifdef G4UI_USE
     char *dummyargv[1];
     G4UIExecutive *ui = new G4UIExecutive(1,dummyargv);
-    G4String prefix = (G4String)getenv("DMPSWSYS")+"/share/TestRelease/Simulation/";
+    G4String prefix = (G4String)getenv("DMPSWSYS")+"/share/Simulation/";
 #ifdef G4VIS_USE
-    UImanager->ApplyCommand("/control/execute "+prefix+"vis.mac");
+    UImanager->ApplyCommand("/control/execute "+prefix+"DmpSimVis.mac");
 #endif
     if (ui->IsGUI()){
-      UImanager->ApplyCommand("/control/execute "+prefix+"gui.mac");
+      UImanager->ApplyCommand("/control/execute "+prefix+"DmpSimGUI.mac");
     }
     ui->SessionStart();
     delete ui;

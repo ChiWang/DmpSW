@@ -1,6 +1,12 @@
-# Macro file for the visualization setting for the initialization phase 
-# of the B4 example when running in interactive mode
-#
+#+
+#+  $Id: DmpSimVis.mac, 2014-03-08 14:36:16 chi $
+#+  Author(s):
+#+    Chi WANG (chiwang@mail.ustc.edu.cn) 08/03/2014
+#-------------------------------------------------------
+#       Must use the name DmpSimVis.mac
+#-------------------------------------------------------
+#+
+
 
 # Use these open statements to open selected visualization
 #

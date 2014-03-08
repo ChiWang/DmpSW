@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpSimulation, 2014-03-08 13:08:19 chi $
+ *  $Id: JobOpt_DmpSimulation, 2014-03-08 14:52:49 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
  *-----------------------------------------------------
@@ -23,10 +23,10 @@ DmpCore.DataManager.SetOutDataPath("./test")    # Use "./" as default path if NO
 
 # RUN simulation
 DmpSimulation.Initialize()
-#DmpSimulation.Execute("default")   # visual mode
-DmpSimulation.Execute("electron.mac")
-DmpCore.DataManager.SetOutDataName("electron.root") # set the name of outdata (*.root) for the next Execute() instead of using the default name(time related)
-DmpSimulation.Execute("electron.mac")
-DmpSimulation.Execute("proton.mac")  # keep detector and all user action, and run next macro file
+#DmpSimulation.Execute("default")       # default is visual mode, if you want to use batch mode, set a macro file
+DmpCore.DataManager.SetOutDataName("electron.root") # set output data name(*.root) for the next Execute()
+DmpSimulation.Execute(os.getenv('DMPSWSYS')+"/share/Simulation/DmpSim_electron.mac")
+# keep detector and all user action, and run next macro file. NOT set output data name for the next Execute(), then will use the default name(time related)
+DmpSimulation.Execute(os.getenv('DMPSWSYS')+"/share/Simulation/DmpSim_proton.mac")
 DmpSimulation.Clear()
 

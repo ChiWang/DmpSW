@@ -13,7 +13,8 @@ target='DmpRawDataConversion'
 env = envBase.Clone()
 useRoot(env)
 #useCLHEP(env)
-#useBoostPython(env)
+#useGeant4(env)
+useBoostPython(env)
 #useOpenMP(env)
 
 # include
