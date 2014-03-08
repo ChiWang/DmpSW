@@ -27,22 +27,13 @@
 #include "DmpSimDataManager.h"
 #include "DmpEntranceSimulation.h"
 
-void DmpCore::SimulationSetInDataPath(std::string p){
-  DmpSimDataManager::GetInstance()->SetInDataPath(p);
-}
-
-void DmpCore::SimulationSetOutDataPath(std::string p){
-  DmpSimDataManager::GetInstance()->SetOutDataPath(p);
-}
-
-void DmpCore::SimulationSetOutDataName(std::string n){
-  DmpSimDataManager::GetInstance()->SetOutDataName(n);
-}
 
 G4RunManager *runManager = 0;
 G4VisManager *visManager = 0;
+DmpSimDataManager *dataManager = 0;
 
 void DmpCore::SimulationInitialize(){
+  dataManager = DmpSimDataManager::GetInstance();
   runManager = new G4RunManager();
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
@@ -85,6 +76,18 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 #endif
 }
 
+void DmpCore::SimulationSetInDataPath(std::string p){
+  dataManager->SetInDataPath(p);
+}
+
+void DmpCore::SimulationSetOutDataPath(std::string p){
+  dataManager->SetOutDataPath(p);
+}
+
+void DmpCore::SimulationSetOutDataName(std::string n){
+  dataManager->SetOutDataName(n);
+}
+
 void DmpCore::SimulationExecute(std::string argv){
   // UI interface manager
   G4UImanager *UImanager = G4UImanager::GetUIpointer();
@@ -104,7 +107,7 @@ void DmpCore::SimulationExecute(std::string argv){
     delete ui;
 #endif
   }else{
-    UImanager->ApplyCommand("/control/execute " + DmpSimDataManager::GetInstance()->GetInDataPath() + argv);        // batch mode
+    UImanager->ApplyCommand("/control/execute " + dataManager->GetInDataPath() + argv);        // batch mode
   }
 }
 

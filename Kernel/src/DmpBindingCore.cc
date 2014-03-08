@@ -23,11 +23,5 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .staticmethod("SetPhase")
     .def("GetPhase",&DmpVDataManager::GetPhase)
     .staticmethod("GetPhase")
-//    .def("SetInDataPath",&DmpVDataManager::SetInDataPath)
-//    .staticmethod("SetInDataPath")
-//    .def("SetOutDataPath",&DmpVDataManager::SetOutDataPath)
-//    .staticmethod("SetOutDataPath")
-//    .def("SetOutDataName",&DmpVDataManager::SetOutDataName)
-//    .staticmethod("SetOutDataName")
   ;
 }

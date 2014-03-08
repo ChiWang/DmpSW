@@ -1,26 +1,36 @@
 /*
- *  $Id: DmpEntranceRdc.cc, 2014-03-07 15:59:55 chi $
+ *  $Id: DmpEntranceRdc.cc, 2014-03-08 20:06:58 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
-#include <iostream>
+//#include <iostream>
 
 #include "DmpRdcDataManager.h"
 #include "DmpEntranceRdc.h"
 
-using namespace std;
-
-//------------------------------------------------------------------------------
-void Usage(){
-  cerr<<"Error:\tno input dataName"<<endl;
-  return 0;
+//-------------------------------------------------------------------
+void DmpCore::RdcSetInDataPath(std::string p){
+  DmpRdcDataManager::GetInstance()->SetInDataPath(p);
 }
 
-DmpRdcDataManager *RdcMan = 0;
+//-------------------------------------------------------------------
+void DmpCore::RdcSetOutDataPath(std::string p){
+  DmpRdcDataManager::GetInstance()->SetOutDataPath(p);
+}
 
 //-------------------------------------------------------------------
-void DmpCore::RawDataConversionInitialize(){
+std::string DmpCore::RdcGetOutDataPath(){
+  DmpRdcDataManager::GetInstance()->GetOutDataPath();
+}
+
+//-------------------------------------------------------------------
+void DmpCore::RdcSetOutDataName(std::string n){
+  DmpRdcDataManager::GetInstance()->SetOutDataName();
+}
+
+//-------------------------------------------------------------------
+void DmpCore::RdcInitialize(){
   RdcMan = DmpRdcDataManager::GetInstance();
 
   if ( ! RdcMan->SetConnectorPsd() ) return -2;
@@ -29,8 +39,8 @@ void DmpCore::RawDataConversionInitialize(){
   if ( ! RdcMan->SetConnectorNud() ) return -2;
 }
 
-//------------------------------------------------------------------------------
-void DmpCore::RawDataConversionExecute(std::string dataName){
+//-------------------------------------------------------------------
+void DmpCore::RdcExecute(std::string dataName){
   if(not RdcMan->OpenInputData(dataName))  return;
   RdcMan->BookBranch();
   RdcMan->CreateOutDataName();
@@ -47,7 +57,6 @@ void DmpCore::RawDataConversionExecute(std::string dataName){
     ifstream* BatchInfor = new ifstream (inFileName,ios::in);
     if (!BatchInfor->good()) {
       cerr<<"Error: There's not a file named "<<inFileName<<" as batch mode input"<<endl;
-      Usage();
       return 1;
     }
     getline(*BatchInfor,note);    // reserved 1 line for note
@@ -69,8 +78,8 @@ void DmpCore::RawDataConversionExecute(std::string dataName){
   RdcMan->SaveOutput();
 }
 
-//------------------------------------------------------------------------------
-void DmpCore::RawDataConversionClear(){
+//-------------------------------------------------------------------
+void DmpCore::RdcClear(){
   DmpRdcDataManager::Vanish();
 }
 

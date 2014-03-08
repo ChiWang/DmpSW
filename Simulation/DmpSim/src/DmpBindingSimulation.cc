@@ -6,7 +6,6 @@
 
 #include <boost/python.hpp>
 
-#include "DmpSimDataManager.h"
 #include "DmpEntranceSimulation.h"
 
 BOOST_PYTHON_MODULE(libDmpSimulation){
@@ -19,5 +18,4 @@ BOOST_PYTHON_MODULE(libDmpSimulation){
   def("SetOutDataName",SimulationSetOutDataName);
   def("Execute",SimulationExecute);
   def("Clear",SimulationClear);
-  ;
 }

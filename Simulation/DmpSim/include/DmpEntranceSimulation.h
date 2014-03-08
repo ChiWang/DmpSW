@@ -10,9 +10,9 @@
 #include <string>
 
 namespace DmpCore{
+  void SimulationInitialize();          // set physics list, detector, user actions and visualization.
   void SimulationSetInDataPath(std::string);
   void SimulationSetOutDataPath(std::string);
-  void SimulationInitialize();          // set physics list, detector, user actions and visualization.
   void SimulationSetOutDataName(std::string);       // just for the next Execute()
   void SimulationExecute(std::string);  // run a macro file and save result into root file
   void SimulationClear();
