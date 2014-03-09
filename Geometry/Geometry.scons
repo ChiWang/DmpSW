@@ -1,5 +1,5 @@
 '''
- *  $Id: Geometry.scons, 2014-03-08 23:02:46 chi $
+ *  $Id: Geometry.scons, 2014-03-09 11:36:56 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 23/01/2014
 '''
@@ -9,20 +9,15 @@ Import("*")     # import all vars from SConstruct
 print "\t\t\t invoke %s\n" % os.path.abspath("./")
 #--------------------------------------------------------------------
 
-# *
-# *  TODO: rewrite install method to copy all files(include Readme.md, except ".*") into prefix/share/Geometry
-# *
-# * def function ToDeep...
-# *
 
-# install Geometry
-#--------------------------------------------------------------------
-for file in os.listdir('./'):
-    if ".gdml" not in file and "GDML" not in file: continue
-    Default(Command(prefix+'/share/Geometry/'+file,'./'+file,Copy("$TARGET","$SOURCE")))
-for directory in subDetectors:
-    if not os.path.exists(directory): continue
-    for file in os.listdir(directory):
-        if ".gdml" not in file and "GDML" not in file: continue
-        Default(Command(prefix+'/share/Geometry/'+directory+"/"+file,'./'+directory+"/"+file,Copy("$TARGET","$SOURCE")))
- 
+## install Geometry
+    # (copy all files(include Readme.md, except ".*" and *.scons) into prefix/share/Geometry)
+##--------------------------------------------------------------------
+def ProcessThisDir(var):
+    for tmp in os.listdir(var):
+        if "." in tmp[0] or "scons" in tmp:   continue
+        if os.path.isdir(var+tmp):  ProcessThisDir(var+tmp)
+        else: Default(Command(prefix+'/share/Geometry/'+var+'/'+tmp,var+'/'+tmp,Copy("$TARGET","$SOURCE")))
+
+ProcessThisDir("./")
+

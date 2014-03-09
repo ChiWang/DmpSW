@@ -18,7 +18,7 @@ import libDmpCore as DmpCore
 import libDmpSimulation as DmpSimulation
 
 # set output file path. 
-DmpCore.PhaseManager.SetPhase(DmpCore.DmpEPhase.kQuarter)  # default is kProduct, if NOT set
+#DmpCore.PhaseManager.SetPhase(DmpCore.DmpEPhase.kQuarter)  # default is kProduct, if NOT set
 
 # RUN simulation
 DmpSimulation.Initialize()

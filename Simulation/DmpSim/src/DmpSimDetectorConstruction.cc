@@ -28,9 +28,17 @@ DmpSimDetectorConstruction::~DmpSimDetectorConstruction(){
   delete fParser;
 }
 
+#include "DmpSimDataManager.h"
 G4VPhysicalVolume* DmpSimDetectorConstruction::Construct(){
   char *dirTmp = getcwd(NULL,NULL);
   chdir(getenv("DMPSWSYS"));    chdir("./share/Geometry");
+  if(DmpSimDataManager::GetPhase() == DmpCore::Phase::kQuarter){
+    chdir("./Quarter"); 
+  }else if(DmpSimDataManager::GetPhase() == DmpCore::Phase::kPrototype){
+    chdir("./Prototype"); 
+  }else{
+    chdir("./Product"); 
+  }
  //*  TODO: add this for BT2012     chdir("BT2012");
   fParser->Read("DAMPE.gdml");
   chdir(dirTmp);

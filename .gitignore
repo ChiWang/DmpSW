@@ -29,6 +29,7 @@ Dictionary_*
 *test*
 !OrbitSimulation/test
 *Test*
+!TestRelease
 
 # vim .swp; emacs
 *.swp

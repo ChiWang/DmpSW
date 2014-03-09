@@ -1,15 +1,19 @@
 
-#   Schema
+#   Geometry package of DAMPE offline software
+
+##   Schema
 
     all gdml files will read it
 
-#   Quarter
+##   Quarter
 
     gdml files for Beam Test 2012
 
-#   Prototype
+##   Prototype
 
     gdml files for Beam Test 2014
 
-#   The rested gdml files and direcotres are for the final Product
+##   Product
+
+    gdml files for the final Product
 

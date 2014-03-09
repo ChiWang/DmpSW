@@ -10,16 +10,16 @@
 // *
 // *  TODO: Geometry
 //
-//      1.  Scons file
-//      2.  schema files
+//      (X) 1.  Scons file
+//      (X) 2.  schema files
 //      3.  all phase gdml file
 // *
 
 // *
 // *  TODO: Simulation
 //
-//      (X)1.  check run script
-//      2.  add phase monitor, and then read gdml files automaticaly
+//      (X) 1.  check run script
+//      (X) 2.  add phase monitor, and then read gdml files automaticaly
 // *
 
 

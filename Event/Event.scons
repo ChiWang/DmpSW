@@ -13,6 +13,7 @@ target='DmpEvent'
 env = envBase.Clone()
 useRoot(env)
 #useCLHEP(env)
+#useGeant4(env)
 #useBoostPython(env)
 #useOpenMP(env)
 
