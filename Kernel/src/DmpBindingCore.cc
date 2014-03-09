@@ -12,14 +12,21 @@
 BOOST_PYTHON_MODULE(libDmpCore){
   using namespace boost::python;
   using namespace DmpCore::Phase;
-  enum_<DmpPhase>("DmpPhase")
-    .value("kBT2012",kBT2012)
-    .value("kCT2013",kCT2013)
-    .value("kFinal",kFinal)
+  using namespace DmpCore::RunMode;
+  enum_<DmpPhase>("DmpEPhase")
+    .value("kQuarter",kQuarter)
+    .value("kPrototype",kPrototype)
+    .value("kProduct",kProduct)
+  ;
+  enum_<DmpRunMode>("DmpERunMode")
+    .value("kUnknow",kUnknow)
+    .value("kCompress",kCompress)
+    .value("kCalPed",kCalPed)
+    .value("kCalADC",kCalADC)
   ;
 
   using namespace DmpParameter::Detector;
-  enum_<DmpDetectorID>("DmpDetectorID")
+  enum_<DmpDetectorID>("DmpEDetectorID")
     .value("kWhole",kWhole)
     .value("kPsd",kPsd)
     .value("kStk",kStk)
@@ -34,3 +41,5 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .staticmethod("GetPhase")
   ;
 }
+
+

@@ -14,8 +14,10 @@ BOOST_PYTHON_MODULE(libDmpSimulation){
 
   def("SetInDataPath",SimulationSetInDataPath);
   def("SetOutDataPath",SimulationSetOutDataPath);
+  def("GetOutDataPath",SimulationGetOutDataPath);
   def("Initialize",SimulationInitialize);
   def("SetOutDataName",SimulationSetOutDataName);
   def("Execute",SimulationExecute);
   def("Clear",SimulationClear);
 }
+

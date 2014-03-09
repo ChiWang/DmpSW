@@ -1,29 +1,18 @@
 /*
- *  $Id: DmpRdcDataManager.cc, 2014-03-08 20:49:05 chi $
+ *  $Id: DmpRdcDataManager.cc, 2014-03-09 01:57:56 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
 #include <iostream>
-#ifndef DmpDebug
-#include <stdlib.h>
-#endif
 
 #include "TTree.h"
 
-//#include "DmpEvtHeader.h"
-//#include "DmpEvtPsdHit.h"
-//#include "DmpEvtStkHit.h"
-//#include "DmpEvtBgoHit.h"
-//#include "DmpEvtNudHit.h"
+#include "DmpEvtHeader.h"
 #include "DmpEventRaw.h"
 #include "DmpRdcDataManager.h"
-#include "DmpParameterSubDetector.h"
-#include "DmpParameterPhase.h"
-using namespace DmpParameter;
 
 DmpRdcDataManager* DmpRdcDataManager::sInstance = 0;
-//std::string DmpRdcDataManager::fConnectorPath=(std::string)getenv("DMPSWSYS")+"/share/Connector/";
 
 //-------------------------------------------------------------------
 DmpRdcDataManager* DmpRdcDataManager::GetInstance(){
@@ -41,32 +30,38 @@ void DmpRdcDataManager::Vanish(){
   }
 }
 
+#include <stdlib.h>     // getenv()
 //-------------------------------------------------------------------
 DmpRdcDataManager::DmpRdcDataManager()
- :fHexData(0)
+ :fConnectorPath("./"),
+  fInDataName("no"),
+  fInputData(0),
+  fEvtRaw(0)
 {
-  fEvtRaw = new DmpEventRaw();
   std::cout<<"DAMPE software: Setup kernel of Raw Data Conversion"<<std::endl;
-// *
-// *  TODO: set path correspond to phase
-// *
-  /*
-  if (DmpPhase::gPhase == DmpPhase::kBT2012){
-     fConnectorPath += "BT2012/";
-  }else if(DmpPhase::gPhase == DmpPhase::kCT2013){
-     fConnectorPath += "CT2013/";
+  fOutDataTree->SetName("DAMPE_Raw");
+  fConnectorPath=(std::string)getenv("DMPSWSYS")+"/share/Connector/";
+  if(gPhase == DmpCore::Phase::kQuarter){
+    fConnectorPath = fConnectorPath + "Quarter/";
+    fOutDataTree->SetTitle("ADC_Quarter");
+  }else if(gPhase == DmpCore::Phase::kPrototype){
+    fOutDataTree->SetTitle("ADC_Prototype");
+  }else{
+    fOutDataTree->SetTitle("ADC");
   }
-  */
-  fOutDataTree->SetNameTitle("DAMPE_Raw","ADC");
-  fTrigger.resize(DmpDetector::kSubDetNo + 1);
+  fEvtRaw = new DmpEventRaw();
+// *
+// *  TODO: create fTrigger right?
+// *
+  fTrigger.resize(DmpParameter::Detector::kSubDetNo + 1);
   for(short i = 0;i<fTrigger.size();++i) fTrigger[i] = 0;
 }
 
 //-------------------------------------------------------------------
 DmpRdcDataManager::~DmpRdcDataManager(){
-  if(fHexData != 0){
-    delete fHexData;
-    fHexData = 0;
+  if(fInputData != 0){
+    delete fInputData;
+    fInputData = 0;
   }
   delete fEvtRaw;
 }
@@ -74,13 +69,13 @@ DmpRdcDataManager::~DmpRdcDataManager(){
 //-------------------------------------------------------------------
 bool DmpRdcDataManager::OpenInputData(std::string dataName){
   fInDataName = dataName;
-  fHexData = new ifstream(fInDataPath+fInDataName,std::ios::in|std::ios::binary);
-  if (!fHexData->good()) {
+  fInputData = new ifstream(fInDataPath+fInDataName,std::ios::in|std::ios::binary);
+  if (!fInputData->good()) {
     std::cerr<<"\nwarning: open "<<fInDataPath+fInDataName<<" failed"<<std::endl;
 // *
-// *  TODO: does it right to delete fHexData
+// *  TODO: does it right to delete fInputData at here
 // *
-    fHexData->close();  delete fHexData;    fHexData = 0;
+    fInputData->close();  delete fInputData;
     return false;
   }
 #ifdef DmpDebug
@@ -105,86 +100,86 @@ void DmpRdcDataManager::CreateOutDataName(){
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcDataManager::Execute(){
-// *
-// *  TODO: not finish
-// *
-  for (long nEvt=0;!fHexData->eof();++nEvt){
-//if (nEvt > 5) break;
-    if ( !ConversionHeader() ) continue;
-    if ( !ConversionPsd() ) continue;
-    if ( !ConversionStk() ) continue;
-    if ( !ConversionBgo() ) continue;
-    if ( !ConversionNud() ) continue;
-
-#ifdef DmpDebug
-//if (nEvt == 0) fHeader->ShowTime(0);
-#endif
-
-    if (TriggerMatch()) {
-      fHeader->CountEvent();
-      FillEvent();
-#ifdef DmpDebug
-if (nEvt%1000==0) std::cout<<"\tFill event "<<std::dec<<fHeader->GetEventID()<<std::endl;
-#endif
-    } else {
+void DmpRdcDataManager::Convert(){
+  for (long nEvt=0;!fInputData->eof();){
+    if(ConvertEventHeader()){
+      ++nEvt;
+      fEvtRaw->GetEventHeader()->SetEventID(nEvt);
+    }else{
       continue;
     }
+#ifdef DmpDebug
+if (nEvt > 5000) break;
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<" only Convert 5000 Event to test RDC"<<std::endl;
+#endif
+    if(not ConvertPsdEvent())   continue;
+    if(not ConvertStkEvent())   continue;
+    if(not ConvertBgoEvent())   continue;
+    if(not ConvertNudEvent())   continue;
+
+    if(not TriggerMatch()) continue;
+
+#ifdef DmpDebug
+if (nEvt%1000==0)   std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+#endif
+
+    FillEvent();
   }
 
-  fHeader->Reset();      // reset event ID, waiting next input data file
-  fHexData->close();
-  delete fHexData;
-  return true;
+  fInputData->close();  delete fInputData;
+  for(short i=0;i<fTrigger.size();++i)  fTrigger[i]=0;
 }
 
 //-------------------------------------------------------------------
 bool DmpRdcDataManager::TriggerMatch() {
-// *
-// *  TODO: trigger
-// *
-  if (fTrigger["Bgo"] == fTrigger["Psd"] && fTrigger["Bgo"] == fTrigger["Stk"] && fTrigger["Bgo"] == fTrigger["Nud"] && fTrigger["Bgo"] == fTrigger["Header"]) {
-  return true;
-  } else {
-    std::cerr<<"Error: Triggers of Sub-detectors not match\n";
-    std::cerr<<std::hex<<"\tHeader = "<<fTrigger["Header"]<<"\tPsd = "<<fTrigger["Psd"]<<"\tStk = "<<fTrigger["Stk"]<<"\tBgo = "<<fTrigger["Bgo"]<<"\tNud = "<<fTrigger["Nud"]<<std::endl;
+  for(short i=1;i<fTrigger.size();++i){
+    if(fTrigger[0] != fTrigger[i]){
+      std::cerr<<"warning:\ttriggers are not match:";
+      for(i=0;i<fTrigger.size();++i){
+        std::cerr<<"  "<<fTrigger[i]<<std::endl;
+      }
+      return false;
+    }
   }
   return true;
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcDataManager::ConversionHeader(){
+bool DmpRdcDataManager::ConvertEventHeader(){
+// *
+// *  TODO: 
+// *
 #ifdef DmpDebug
-std::cerr<<"\n\tBegin Conversion:\n\t\t-->Header from "<<std::dec<<fHexData->tellg();
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::dec<<fInputData->tellg();
 #endif
   static short tmp=0;
-  fHexData->read((char*)(&tmp),1);
+  fInputData->read((char*)(&tmp),1);
   if (tmp!=0xe2)    return false;
-  fHexData->read((char*)(&tmp),1);
+  fInputData->read((char*)(&tmp),1);
   if (tmp!=0x25)    return false;
-  fHexData->read((char*)(&tmp),1);
+  fInputData->read((char*)(&tmp),1);
   if (tmp!=0x08)    return false;
-  fHexData->read((char*)(&tmp),1);
+  fInputData->read((char*)(&tmp),1);
   if (tmp!=0x13) {
     std::cout<<"\t\t\t\t----> Searching 0xe225 0813"<<std::endl;
     return false;
   } else {
     fHeader->CountPackage();
   }
-  fHexData->read((char*)(&tmp),1);      //this needed
-  fHexData->read((char*)(&fTrigger["Header"]),1);
-  fHexData->read((char*)(&tmp),1);      //Datalength
-  fHexData->read((char*)(&tmp),1);      //Datalength
+  fInputData->read((char*)(&tmp),1);      //this needed
+  fInputData->read((char*)(&fTrigger["Header"]),1);
+  fInputData->read((char*)(&tmp),1);      //Datalength
+  fInputData->read((char*)(&tmp),1);      //Datalength
 
   static short time[8], i;            // 8 bytes for time
   for (i=0;i<8;++i) {
     time[i]=0;
-    fHexData->read((char*)(&time[i]),1);
+    fInputData->read((char*)(&time[i]),1);
   }
 
   fHeader->SetTime(time,8);
 #ifdef DmpDebug
-std::cerr<<"\tto "<<std::dec<<fHexData->tellg()<<std::endl;
+std::cerr<<"\tto "<<std::dec<<fInputData->tellg()<<std::endl;
 //std::cout<<"\t\ttrigger = "<<fTrigger["Header"]<<"\tPackage ID = "<<fHeader->GetPackageID()<<std::endl;
 #endif
 

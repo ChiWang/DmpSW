@@ -8,7 +8,7 @@
 #include "DmpEvtPsdHit.h"
 #include "DmpParameterPsd.h"
 
-using namespace DmpParameter::DmpDetector;
+using namespace DmpParameter::Detector;
 
 ClassImp(DmpEvtPsdHit)
 

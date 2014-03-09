@@ -1,15 +1,14 @@
 /*
- *  $Id: DmpRdcBgo.cc, 2014-03-08 21:34:16 chi $
+ *  $Id: DmpRdcBgo.cc, 2014-03-09 02:03:20 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
 //#include <iostream>
 
-//#include "DmpEvtHeader.h"
-//#include "DmpEvtBgoRaw.h"     // include DmpERunMode.h
-//#include "DmpParameterBgo.h"
 
+#include "DmpEvtHeader.h"
+#include "DmpEvtBgoHit.h"
 #include "DmpRdcManager.h"
 
 using namespace DmpParameter;//::Bgo;
@@ -20,7 +19,9 @@ using namespace DmpParameter;//::Bgo;
 std::map<int,int>   DmpRdcManager::sConnectorBgo = 0;
 
 bool DmpRdcManager::SetConnectorBgo(){
-  if (gPhase == DmpCore)
+  if (gPhase == DmpCore::Phase::kQuarter){
+  }else if(){
+  }
 }
 
 //------------------------------------------------------------------------------

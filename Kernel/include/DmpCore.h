@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpCore.h, 2014-03-07 15:50:33 chi $
+ *  $Id: DmpCore.h, 2014-03-09 00:39:47 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
@@ -10,13 +10,24 @@
 namespace DmpCore{
   namespace Phase{
     enum DmpPhase{
-      kBT2012,
-      kCT2013,
-      kFinal,
+      kQuarter,     // 1/4 prototype, contains Psd, Bgo, Nud.       >>>> Since 2012 <<<<
+                    // (0)  Beam test at SPS, include Si and MecMegas       2012/10
+      kPrototype,   // whole DAMPE payload, Stk, Psd, Bgo, Nud.     >>>> Since 2014 <<<<
+                    // (0)  Beam test at ??
+      kProduct,     // the final one which send into outspace.      >>>> Since 2015 <<<<
+    };
+  }
+  namespace RunMode{
+    enum DmpRunMode{
+      kUnknow = -1,
+      kCompress = 5,
+      kCalPed = 6,
+      kCalADC = 7,
     };
   }
 }
-typedef DmpCore::Phase::DmpPhase DmpEPhase;
+typedef DmpCore::Phase::DmpPhase        DmpEPhase;
+typedef DmpCore::RunMode::DmpRunMode    DmpERunMode;
 
 namespace DmpParameter{
   namespace Detector{
@@ -33,3 +44,5 @@ namespace DmpParameter{
 typedef DmpParameter::Detector::DmpDetectorID DmpEDetectorID;
 
 #endif
+
+

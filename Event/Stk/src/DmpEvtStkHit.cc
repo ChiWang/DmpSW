@@ -8,7 +8,7 @@
 #include "DmpEvtStkHit.h"
 #include "DmpParameterStk.h"
 
-using namespace DmpParameter::DmpDetector;
+using namespace DmpParameter::Detector;
 
 ClassImp(DmpEvtStkHit)
 

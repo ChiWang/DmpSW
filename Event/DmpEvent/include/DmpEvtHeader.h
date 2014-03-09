@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEvtHeader.h, 2014-03-02 22:20:49 chi $
+ *  $Id: DmpEvtHeader.h, 2014-03-09 02:01:25 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -10,6 +10,8 @@
 #include <vector>
 #include "TObject.h"
 
+#include "DmpCore.h"
+
 class TParticle;
 class DmpEvtHeader : public TObject{
 /*
@@ -18,14 +20,6 @@ class DmpEvtHeader : public TObject{
  * Anywhere could use this singleton
  *
 */
-public:
-  enum DmpRunMode{
-    kUnknow = -1,
-    kCompress = 5,
-    kCalPed = 6,
-    kCalADC = 7,
-  };
-
 public:
   DmpEvtHeader();
   ~DmpEvtHeader();
@@ -36,8 +30,8 @@ public:
   long  GetTime() const         {return fTime;}
   void  SetParticlePdgCode(int);
   TParticle* GetParticle() const {return fParticle;}
-  void SetRunMode(short SubDet_ID, DmpRunMode mode) {fRunModes[SubDet_ID] = mode;}
-  DmpRunMode GetRunMode(short SubDet_ID) const {return fRunModes[SubDet_ID];}
+  void SetRunMode(DmpEDetectorID id, DmpERunMode mode) {fRunModes[int(id)] = mode;}
+  DmpERunMode GetRunMode(DmpEDetectorID id) const {return fRunModes[int(id)];}
 
 private:
   long      fEventID;               // valid event count
@@ -46,7 +40,7 @@ private:
 // *
 // *  TODO: just save one value of Run Mode, why ??
 // *
-  std::vector<DmpRunMode>   fRunModes;
+  std::vector<DmpERunMode>  fRunModes;
 
   ClassDef(DmpEvtHeader,1)
 };

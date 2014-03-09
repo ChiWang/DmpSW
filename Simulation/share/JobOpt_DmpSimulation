@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpSimulation, 2014-03-08 20:23:00 chi $
+ *  $Id: JobOpt_DmpSimulation, 2014-03-08 23:35:49 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
  *-----------------------------------------------------
@@ -18,15 +18,15 @@ import libDmpCore as DmpCore
 import libDmpSimulation as DmpSimulation
 
 # set output file path. 
-DmpCore.PhaseManager.SetPhase(DmpCore.DmpPhase.kBT2012)  # default is kFinal, if NOT set
+DmpCore.PhaseManager.SetPhase(DmpCore.DmpEPhase.kQuarter)  # default is kProduct, if NOT set
 
 # RUN simulation
 DmpSimulation.Initialize()
-DmpSimulation.SetInDataPath(os.getenv('DMPSWSYS')+"/share/Simulation")      # where to find macro file in Execute(), if NOT set will use "./"
+DmpSimulation.SetInDataPath(os.getenv('DMPSWSYS')+"/share/Simulation")      # where to find the macro file which is a argument of Execute(). If NOT set will use "./"
 DmpSimulation.SetOutDataPath("./test")          # where to save output. If NOT set at here will use "./"
-#DmpSimulation.Execute("default")               # default is visual mode, if you want to use batch mode, set a macro file
-DmpSimulation.SetOutDataName("electron.root")   # set output data name(*.root) for the next Execute(), if NOT set will use the default name(time related)
+#DmpSimulation.Execute("visual")                # open visual mode. If you want to use batch mode without visualization, input a macro file name
+DmpSimulation.SetOutDataName("electron.root")   # set output data name(*.root) for the next Execute(). If NOT set will use the default name(time stamp)
 DmpSimulation.Execute("DmpSim_electron.mac")
-DmpSimulation.Execute("DmpSim_proton.mac")      # keep detector and all user action, and start another run.
+DmpSimulation.Execute("DmpSim_proton.mac")      # start a new run, without delete physics list, detector construction and all user actions.
 DmpSimulation.Clear()
 

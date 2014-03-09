@@ -84,6 +84,10 @@ void DmpCore::SimulationSetOutDataPath(std::string p){
   dataManager->SetOutDataPath(p);
 }
 
+std::string DmpCore::SimulationGetOutDataPath(){
+  dataManager->GetOutDataPath();
+}
+
 void DmpCore::SimulationSetOutDataName(std::string n){
   dataManager->SetOutDataName(n);
 }
@@ -91,7 +95,7 @@ void DmpCore::SimulationSetOutDataName(std::string n){
 void DmpCore::SimulationExecute(std::string argv){
   // UI interface manager
   G4UImanager *UImanager = G4UImanager::GetUIpointer();
-  if (argv == "default"){
+  if (argv == "visual"){
     // interactive mode : define UI session
 #ifdef G4UI_USE
     char *dummyargv[1];

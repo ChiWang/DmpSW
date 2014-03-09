@@ -4,17 +4,15 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
-#ifdef DmpDebug
 #include <iostream>
-#endif
 
 #include "TTree.h"
 
 #include "DmpVDataManager.h"
 
-DmpEPhase  DmpVDataManager::gPhase = DmpCore::DmpPhase::kFinal;
-//------------------------------------------------------------------------------
+DmpEPhase  DmpVDataManager::gPhase = DmpCore::Phase::kProduct;
 
+//-------------------------------------------------------------------
 DmpVDataManager::DmpVDataManager()
  :fInDataPath("./"),
   fOutDataPath("./"),
@@ -24,6 +22,7 @@ DmpVDataManager::DmpVDataManager()
   fOutDataTree = new TTree("DAMPE","DAMPE");    // should rename in concrete class
 }
 
+//-------------------------------------------------------------------
 DmpVDataManager::~DmpVDataManager(){
   delete fOutDataTree;
 }
@@ -38,7 +37,7 @@ DmpEPhase  DmpVDataManager::GetPhase(){
   return gPhase;
 }
 
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------
 void DmpVDataManager::SetInDataPath(std::string path){
   if (path[path.length()-1] == '/') {
     fInDataPath = path;
@@ -47,7 +46,7 @@ void DmpVDataManager::SetInDataPath(std::string path){
   }
 }
 
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------
 #include <sys/stat.h>       // mkdir()
 void DmpVDataManager::SetOutDataPath(std::string path){
   if (path[path.length()-1] == '/') {
@@ -65,7 +64,7 @@ void DmpVDataManager::SaveOutput(){
   fOutDataTree->Write();
   aFile->Close();
   delete aFile;
-  std::cout<<"Output : "<<fOutDataPath+fOutDataName<<std::endl;
+  std::cout<<"Result in : "<<fOutDataPath+fOutDataName<<std::endl;
   fOutDataName = "default";
 }
 

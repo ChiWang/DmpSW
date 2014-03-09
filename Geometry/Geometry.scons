@@ -1,5 +1,5 @@
 '''
- *  $Id: Geometry.scons, 2014-03-07 15:26:07 chi $
+ *  $Id: Geometry.scons, 2014-03-08 23:02:46 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 23/01/2014
 '''
@@ -8,6 +8,12 @@ import os
 Import("*")     # import all vars from SConstruct
 print "\t\t\t invoke %s\n" % os.path.abspath("./")
 #--------------------------------------------------------------------
+
+# *
+# *  TODO: rewrite install method to copy all files(include Readme.md, except ".*") into prefix/share/Geometry
+# *
+# * def function ToDeep...
+# *
 
 # install Geometry
 #--------------------------------------------------------------------

@@ -2,14 +2,21 @@
 #   Kernel of DAMPE offline software
 
 ##  What are in here:
-    1.  common abstract classes
-        If only one package will use an abstract class, just put it in the certain package instead of in here.
-    2.  Parameters of sub-detector
-        we summarize of parameters in the namespace DmpParameter.
+
+    1.  parameters and enum type for whole detector
+
+    2.  common abstract classes
+        *   DmpVDataManager
+
+    3.  scripts to set environment
 
 ##  Usage:
-    1.  cd into trunk, where has the SConstruct file
-    2.  execute "scons package=Kernel" to create shared library of Kernel package
 
-    this package will create a shared library, other packages which want to use it, just link the created library and include header files
+    1.  compile in top directory (execute "scons package=Kernel")
 
+    2.  other packages will use the created library libDmpCore.so, in their job option scripts.
+
+    3.  you can use it in python:
+        *   python
+        *   import libDmpCore
+        *   library.<Tab>

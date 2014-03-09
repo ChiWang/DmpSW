@@ -8,7 +8,7 @@
 #include "DmpEvtNudHit.h"
 #include "DmpParameterNud.h"
 
-using namespace DmpParameter::DmpDetector;
+using namespace DmpParameter::Detector;
 
 ClassImp(DmpEvtNudHit)
 

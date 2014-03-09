@@ -8,7 +8,7 @@
 #include "DmpEvtBgoHit.h"
 #include "DmpParameterBgo.h"
 
-using namespace DmpParameter::DmpDetector;
+using namespace DmpParameter::Detector;
 
 ClassImp(DmpEvtBgoHit)
 

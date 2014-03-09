@@ -35,33 +35,33 @@ private:
   DmpRdcDataManager();
   ~DmpRdcDataManager();
   static DmpRdcDataManager  *sInstance;
+  // Connector: FEE channel <----> Detector
   static std::map<int,int>  sConnectorPsd;
   static std::map<int,int>  sConnectorStk;
-  static std::map<int,int>  sConnectorBgo;     // FEE 2 Detector
-    // ConnectorBgo[FEEID*1000+ChannelID][LBSD_ID]
-    // LBSD_ID = Layer_id*10000+Bar_id*100+Side_id*10+Dy_id
+  static std::map<int,int>  sConnectorBgo;      // sConnectorBgo[FEEID*1000+ChannelID][LBSD_ID].    LBSD_ID = Layer_id*10000+Bar_id*100+Side_id*10+Dy_id
   static std::map<int,int>  sConnectorNud;
 
 public:
   bool OpenInputData(std::string);
   void BookBranch();
   void CreateOutDataName();
-  bool Execute();
+  void Convert();
 
 private:
+  bool ConvertEventHeader();
+  bool ConvertPsdEvent();
+  bool ConvertStkEvent();
+  bool ConvertBgoEvent();
+  bool ConvertNudEvent();
   bool TriggerMatch();
-  bool ConversionHeader();
-  bool ConversionPsd();
-  bool ConversionStk();
-  bool ConversionBgo();
-  bool ConversionNud();
+  std::vector<short>    fTrigger;   // size = number of SubDet + 1
 
 private:
+  std::string   fConnectorPath;     // default is prefix/share/Connector
+  std::string   fInDataName;        // raw data from detector(format binary)
+  ifstream      *fInputData;        // pointer of input data
   DmpEventRaw   *fEvtRaw;
-  std::string   fConnectorPath;     // connection files of FEE to Detector. Top path, include all directories of subDet
-  std::string   fInDataName;        // input raw data from detector(format binary)
-  ifstream      *fHexData;          // pointer of input data
-  std::vector<short>    fTrigger;      // size = number of SubDet + 1
+
 };
 
 #endif
