@@ -75,8 +75,7 @@ if int(ARGUMENTS.get('debug',1)):
 
 # invoke *.scons file of top-1 packages
 #--------------------------------------------------------------------
-pkgList='TestRelease,Kernel,Event,Geometry,Simulation'
-#,RawDataConversion'
+pkgList='TestRelease,Kernel,Event,Geometry,Simulation,RawDataConversion'
 #,Analysis,Calibration,Generation,Reconstruction,Visualization'
 pkgList=ARGUMENTS.get('package',pkgList)
 pkgList=pkgList.split(',')

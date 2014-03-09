@@ -26,10 +26,12 @@
 // *
 // *  TODO: Rdc
 //
+//      0.  split RdcManager to RdcManager and RdcAlgorithm
+//      0.1 implement Rdc algorithm in sebDet
 //      1.  JobOpt file
 //      2.  Bgo part Conversion
 //      3.  ConvertEventHeader()
-//      4.  does it necessary to SetConnector Path in python ??
+//      4.  does it necessary to SetConnector Path in python ?? (no)
 // *
 
 

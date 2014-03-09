@@ -1,22 +1,26 @@
 /*
- *  $Id: DmpEntranceRdc.cc, 2014-03-08 20:06:58 chi $
+ *  $Id: DmpEntranceRdc.cc, 2014-03-09 21:37:37 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
-//#include <iostream>
+#include <iostream>
 
+#include "DmpRdcAlgorithm.h"
 #include "DmpRdcDataManager.h"
 #include "DmpEntranceRdc.h"
 
-DmpRdcDataManager *dataManager = 0;
+DmpRdcAlgorithm     *algorithm = 0;
+DmpRdcDataManager   *dataManager = 0;
 
 //-------------------------------------------------------------------
 bool DmpCore::RdcInitialize(){
-  if (not DmpRdcManager::SetConnectorPsd()) return false;
-  if (not DmpRdcManager::SetConnectorStk()) return false;
-  if (not DmpRdcManager::SetConnectorBgo()) return false;
-  if (not DmpRdcManager::SetConnectorNud()) return false;
+  std::cout<<"DAMPE software: Setup kernel of Raw Data Conversion"<<std::endl;
+  algorithm = DmpRdcAlgorithm::GetInstance();
+  if (not algorithm->SetConnectorPsd()) return false;
+  if (not algorithm->SetConnectorStk()) return false;
+  if (not algorithm->SetConnectorBgo()) return false;
+  if (not algorithm->SetConnectorNud()) return false;
   dataManager = DmpRdcDataManager::GetInstance();
 }
 
@@ -42,18 +46,52 @@ void DmpCore::RdcSetOutDataName(std::string n){
 
 //-------------------------------------------------------------------
 void DmpCore::RdcExecute(std::string dataName){
-  if(not dataManager->OpenInputData(dataName))  return;
+  ifstream *indata = new ifstream(dataManager->GetInDataPath()+dataName,std::ios::in|std::ios::binary);
+  if (!indata->good()) {
+    std::cerr<<"\nwarning: open "<<dataManager->GetInDataPath()+dataName<<" failed"<<std::endl;
+    indata->close();
+    delete indata;
+    return;
+  }else{
+    algorithm->SetInputData(indata);
+    std::cout<<"\n open "<<dataManager->GetInDataPath()+dataName<<std::endl;
+  }
+
   dataManager->BookBranch();
-  dataManager->CreateOutDataName();
-  dataManager->Convert();
-// *
-// *  TODO:   for the next raw data, what's in fOutDataTree before next BookBranch() ??
-// *
+  dataManager->CreateOutDataName(dataName);
+  for (long nEvt=0;!inData->eof();){
+    if(algorithm->ConvertEventHeader()){
+      ++nEvt;
+      fEvtRaw->GetEventHeader()->SetEventID(nEvt);
+    }else{
+      continue;
+    }
+#ifdef DmpDebug
+if (nEvt < 5000){
+  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"nEvt = "<<nEvt<<std::endl;
+}else{
+  break;
+}
+#endif
+    if(not algorithm->ConvertEventPsd())   continue;
+    if(not algorithm->ConvertEventStk())   continue;
+    if(not algorithm->ConvertEventBgo())   continue;
+    if(not algorithm->ConvertEventNud())   continue;
+    if(not TriggerMatch()) continue;
+
+    dataManager->FillEvent();
+  }
   dataManager->SaveOutput();
+
+  indata->close();
+  delete indata;
+  for(short i=0;i<fTrigger.size();++i)  fTrigger[i]=0;
 }
 
 //-------------------------------------------------------------------
 void DmpCore::RdcClear(){
   DmpRdcDataManager::Vanish();
+  DmpRdcAlgorithm::Vanish();
 }
+
 

@@ -11,10 +11,10 @@ BOOST_PYTHON_MODULE(libDmpRdc){
   using namespace boost::python;
   using namespace DmpCore;
 
+  def("Initialize",RdcInitialize);
   def("SetInDataPath",RdcSetInDataPath);
   def("SetOutDataPath",RdcSetOutDataPath);
   def("GetOutDataPath",RdcGetOutDataPath);
-  def("Initialize",RdcInitialize);
   def("SetOutDataName",RdcSetOutDataName);
   def("Execute",RdcExecute);
   def("Clear",RdcClear);

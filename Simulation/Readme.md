@@ -14,7 +14,7 @@
 
     1.  install DMPSW firstly (refer to: ../README.md/{How to install DMPSW})
 
-    2.  copy $DMPSWSYS/TestRelease/JobOpt_DmpSimulation to anywhere and execute it.
+    2.  cd to TestRelease, and run JobOpt_DmpSimulation (or, copy job option to anywhere and execute at there)
 
     3.  *Output (root file of whole detector, which has the same structure as the output file of Rdc)
 

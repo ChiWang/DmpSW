@@ -28,7 +28,6 @@ class DmpVDataManager{
   DmpVDataManager();
   virtual ~DmpVDataManager();
 
-  virtual bool OpenInputData(){}
   virtual void BookBranch()=0;
   virtual void CreateOutDataName()=0;           // this is for concrete class
   // control static functions in job option script

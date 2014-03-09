@@ -1,22 +1,18 @@
 
 #include <iostream>
 
-#include "DmpRdcManager.h"
-#include "DmpEvtPsdRaw.h"
-#include "DmpParameterPsd.h"
-
+#include "DmpRdcDataManager.h"
+#include "DmpEvtPsdHit.h"
 using namespace DmpParameter::Psd;
 
 //------------------------------------------------------------------------------
-Bool_t DmpRdcManager::SetConnectorPsd(){
-  std::cout<<"\nSetup connector:\tPsd"<<std::endl;
-  std::cout<<"-----------------------"<<std::endl;
-  std::cout<<"\t\tSuccessful"<<std::endl;
+bool DmpRdcDataManager::SetConnectorPsd(){
+  std::cout<<"\nSetup connector:\tPsd"<<"\t\tSuccess"<<std::endl;
   return true;
 }
 
 //------------------------------------------------------------------------------
-Bool_t DmpRdcManager::ConversionPsd(){
+bool DmpRdcDataManager::ConversionPsd(){
 #ifdef Dmp_DEBUG
 std::cerr<<"\t\t-->Psd from "<<std::dec<<fHexData->tellg();
 #endif

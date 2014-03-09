@@ -43,9 +43,9 @@ env.Prepend(LIBPATH=[P1Path,P2Path])
 
 # install share
 #--------------------------------------------------------------------
-for file in os.listdir('./share'):
-    if "." not in file[0] and ".mac" in file and "DmpSim" in file:
-        Default(Command(prefix+'/share/Simulation/'+file,'./share/'+file,Copy("$TARGET","$SOURCE")))
+for tmp in os.listdir('./share'):
+    if "." not in tmp[0] and ".mac" in tmp and "DmpSim" in tmp:
+        Default(Command(prefix+'/share/Simulation/'+tmp,'./share/'+tmp,Copy("$TARGET","$SOURCE")))
 
 # main build
 #--------------------------------------------------------------------

@@ -1,5 +1,5 @@
 '''
- *  $Id: RawDataConversion.scons, 2014-03-07 15:26:28 chi $
+ *  $Id: RawDataConversion.scons, 2014-03-09 14:12:47 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 '''
@@ -40,11 +40,13 @@ env.Prepend(LIBPATH=[P1Path,P2Path])
 
 # install share
 #--------------------------------------------------------------------
-Default(Command(prefix+'/share/TestRelease/DmpRdcInput.infor','./share/DmpRdcInput.infor',Copy("$TARGET","$SOURCE")))
-shareDir=prefix+"/share/Connector"
-if not os.path.exists(shareDir):
-    import shutil
-    shutil.copytree("./share/Connector",shareDir)
+def ProcessThisDir(var):
+    for tmp in os.listdir(var):
+        if "." in tmp[0] or "scons" in tmp or "test" in tmp:   continue
+        if os.path.isdir(var+tmp):  ProcessThisDir(var+tmp)
+        else: Default(Command(prefix+var+'/'+tmp,var+'/'+tmp,Copy("$TARGET","$SOURCE")))
+
+ProcessThisDir("./share/Connector/")
 
 # main build
 #--------------------------------------------------------------------
