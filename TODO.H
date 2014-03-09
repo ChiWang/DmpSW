@@ -18,13 +18,14 @@
 // *
 // *  TODO: Simulation
 //
-//      1.  check run script
+//      (X)1.  check run script
 //      2.  add phase monitor, and then read gdml files automaticaly
 // *
 
 
 // *
 // *  TODO: Rdc
+//
 //      1.  JobOpt file
 //      2.  Bgo part Conversion
 //      3.  ConvertEventHeader()
