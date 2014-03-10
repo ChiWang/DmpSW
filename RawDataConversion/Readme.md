@@ -5,5 +5,5 @@
 
     1.  install DMPSW firstly (refer to: ../README.md/{How to install DMPSW})
 
-    2.  cd to TestRelease, and run JobOpt_DmpRdc (or, copy job option to anywhere and execute at there)
+    2.  cd to TestRelease, and run JobOpt_DmpRdc (or, copy job option to anywhere and execute it at there)
 
