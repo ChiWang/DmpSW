@@ -44,6 +44,9 @@ void DmpVDataManager::SetInDataPath(std::string path){
   } else {
     fInDataPath = path + "/";
   }
+// *
+// *  TODO: check directory exist?
+// *
 }
 
 //-------------------------------------------------------------------

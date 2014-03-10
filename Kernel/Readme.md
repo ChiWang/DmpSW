@@ -5,12 +5,10 @@
 
     1.  parameters and enum type for whole detector
 
-    2.  common abstract classes
-        *   DmpVDataManager
+    2.  use boost python (in DmpBindingCore.cc) bind interface to control static data member gPhase in common abstract class DmpVDataManager
 
     3.  scripts to set environment
 
-    4.  boost python interface (DmpBindingCore.cc)
 
 ##  Usage:
 

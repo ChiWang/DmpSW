@@ -8,15 +8,15 @@
 
 #include "DmpEntranceSimulation.h"
 
-BOOST_PYTHON_MODULE(libDmpSimulation){
+BOOST_PYTHON_MODULE(libDmpSim){
   using namespace boost::python;
   using namespace DmpCore;
 
   def("SetInDataPath",SimulationSetInDataPath);
   def("SetOutDataPath",SimulationSetOutDataPath);
   def("GetOutDataPath",SimulationGetOutDataPath);
-  def("Initialize",SimulationInitialize);
   def("SetOutDataName",SimulationSetOutDataName);
+  def("Initialize",SimulationInitialize);
   def("Execute",SimulationExecute);
   def("Clear",SimulationClear);
 }

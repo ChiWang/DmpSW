@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcBgo.cc, 2014-03-09 22:01:16 chi $
+ *  $Id: DmpRdcBgo.cc, 2014-03-10 01:28:43 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */

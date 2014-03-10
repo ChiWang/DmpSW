@@ -1,5 +1,13 @@
 
 // *
+// *  TODO: Kernel
+//
+//      1.  SetInDataPath()  check directory exist?
+//      2.  SetOutDataName(std::string), createOutDataName(std::string), merge them
+// *
+
+
+// *
 // *  TODO: Event
 //
 //      1.  save vector(fRunMode) wrong, fix it
@@ -28,6 +36,7 @@
 //
 //      0.  split RdcManager to RdcManager and RdcAlgorithm
 //      0.1 implement Rdc algorithm in sebDet
+//      0.2 how to choose different algorithm in run time python script ??!!
 //      1.  JobOpt file
 //      2.  Bgo part Conversion
 //      3.  ConvertEventHeader()

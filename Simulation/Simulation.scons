@@ -9,7 +9,7 @@ Import("*")
 print "\t\t\t invoke %s\n" % os.path.abspath("./")
 #--------------------------------------------------------------------
 
-target='DmpSimulation'
+target='DmpSim'
 env = envBase.Clone()
 useRoot(env)
 useGeant4(env)
@@ -44,9 +44,9 @@ env.Prepend(LIBPATH=[P1Path,P2Path])
 # install share
 #--------------------------------------------------------------------
 for tmp in os.listdir('./share'):
-    if "." not in tmp[0] and ".mac" in tmp and "DmpSim" in tmp:
+    Default(Command(prefix+'/share/Simulation/Readme.md','./share/Readme.md',Copy("$TARGET","$SOURCE")))
+    if "." not in tmp[0] and "DmpSim" in tmp and ".mac"  in tmp:
         Default(Command(prefix+'/share/Simulation/'+tmp,'./share/'+tmp,Copy("$TARGET","$SOURCE")))
-
 # main build
 #--------------------------------------------------------------------
 #goal=env.Program(target,Glob('./*/src/*.cc'))

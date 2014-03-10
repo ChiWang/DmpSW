@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpSimulation, 2014-03-08 23:35:49 chi $
+ *  $Id: JobOpt_DmpSimulation, 2014-03-10 10:19:48 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
  *-----------------------------------------------------
@@ -15,18 +15,20 @@ if os.environ['DMPSWSYS'] not in sys.path:
     sys.path.append(os.getenv('DMPSWSYS')+'/lib')
 
 import libDmpCore as DmpCore
-import libDmpSimulation as DmpSimulation
+import libDmpSim as  DmpSim
 
 # set output file path. 
 #DmpCore.PhaseManager.SetPhase(DmpCore.DmpEPhase.kQuarter)  # default is kProduct, if NOT set
 
 # RUN simulation
-DmpSimulation.Initialize()
-DmpSimulation.SetInDataPath(os.getenv('DMPSWSYS')+"/share/Simulation")      # where to find the macro file which is a argument of Execute(). If NOT set will use "./"
-DmpSimulation.SetOutDataPath("./test")          # where to save output. If NOT set at here will use "./"
-#DmpSimulation.Execute("visual")                # open visual mode. If you want to use batch mode without visualization, input a macro file name
-DmpSimulation.SetOutDataName("electron.root")   # set output data name(*.root) for the next Execute(). If NOT set will use the default name(time stamp)
-DmpSimulation.Execute("DmpSim_electron.mac")
-DmpSimulation.Execute("DmpSim_proton.mac")      # start a new run, without delete physics list, detector construction and all user actions.
-DmpSimulation.Clear()
+DmpSim.SetInDataPath(os.getenv('DMPSWSYS')+"/share/Simulation")      # where to find the macro file which is a argument of Execute(). If NOT set will use "./"
+DmpSim.SetOutDataPath("./test")          # where to save output. If NOT set at here will use "./"
+#DmpSim.Execute("visual")                # open visual mode. If you want to use batch mode without visualization, input a macro file name
+DmpSim.SetOutDataName("electron.root")   # set output data name(*.root) for the next Execute(). If NOT set will use the default name(time stamp)
+DmpSim.Initialize()      # setup detector, user actions
+DmpSim.Execute("DmpSim_electron.mac")
+DmpSim.Execute("DmpSim_proton.mac")      # start a new run, without delete physics list, detector construction and all user actions.
+DmpSim.Clear()
+
+
 
