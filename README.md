@@ -2,7 +2,7 @@
 DMPSW
 =====
 > *
-> *  TODO: update readme
+> *  TODO: update readme.   (marked by TODO)
 > *
 
 DAMPE Offline Software
@@ -69,7 +69,7 @@ Installation
 
     2.  install whole DMPSW,
         execute "scons" at where the mother SConstruct file is(where has all packages)
-        Then, DMPSW will ask you where to install it, the default prefix=/usr/local
+        Then, DMPSW will ask you where to install it, the default prefix=./Install
 
 Set Environment
 
@@ -77,10 +77,13 @@ Set Environment
 
 ##  re-install DMPSW
 
-    If you want to re-install some certain packges after you update some codes,
-        execute "scons package=package_1,package_2,package_3" at where the mother SConstruct file is(where has all packages)
+    If you update some codes(modified locally, or update from git(or svn) server)
+        just execute "scons" at top directory
 
-##  Development guide
+    If you want to re-install some certain packges
+        execute "scons package=package_name_1,name_2,name_3" at top directory
+
+##  Development guide (TODO)
 
     Fisrt of all, you should install it as last section (How to install DMPSW) stated.
 
@@ -114,53 +117,46 @@ These directories (or link) below are in "/prefix"
 *   lib
 *   include
 *   share
-
-    Connector
-    Geometry
-    TestRelease
-        RawDataConversion
-        Simulation
-    Analysis
-
-*   log
+*   log ??
 
 1.  bin (executable files)
 
-        thisdmpsw.sh        // shell environment
+        thisdmpsw.(c)sh     // shell environment
         dmpsw-config        // compilation options
-        dmpSim              // Simulation of DAMPE
-        dmpRdc              // Reconstruction Level-0:  Raw Data Conversion
-        dmpPed              // Calibration Level-0: find pedestal
-        dmpRecL1            // Reconstruction Level-1:  cal. data without pedestal
-        dmpBgoMip           // Calibration Level-0-Special-Bgo: find Mip
-        dmpBgoRel           // Calibration Level-0-Special-Bgo: find Relation
-        dmpCalL0SPsdX       // Calibration Level-0-Special-Psd: XXXXX
-        dmpCalL0SStkX       // Calibration Level-0-Special-Stk: XXXXX
-        dmpCalL0SNudX       // Calibration Level-0-Special-Nud: XXXXX
-        dmpCalL1            // Calibration Level-0: find XXXXX
-        dmpRecL2            // Reconstruction Level-2:  ..... waiting to add
+        >dmpSim              // Simulation of DAMPE
+        >dmpRdc              // Reconstruction Level-0:  Raw Data Conversion
+        >dmpPed              // Calibration Level-0: find pedestal
+        >dmpRecL1            // Reconstruction Level-1:  cal. data without pedestal
+        >dmpBgoMip           // Calibration Level-0-Special-Bgo: find Mip
+        >dmpBgoRel           // Calibration Level-0-Special-Bgo: find Relation
+        >dmpCalL0SPsdX       // Calibration Level-0-Special-Psd: XXXXX
+        >dmpCalL0SStkX       // Calibration Level-0-Special-Stk: XXXXX
+        >dmpCalL0SNudX       // Calibration Level-0-Special-Nud: XXXXX
+        >dmpCalL1            // Calibration Level-0: find XXXXX
+        >dmpRecL2            // Reconstruction Level-2:  ..... waiting to add
 
 2.  lib (shared libraries)
 
         libDmpCore.so
         libDmpEvent.so
+        libDmpSim.so
+        libDmpRdc.so
         libDmpAnalysis.so
 
 3.  include (needed header files while using libraries)
 
 4.  share (common files)
 
-        geometry                        // a directory store all GDML files
-        connector                       // FEE <--> Detector connection files
-        example/DmpRdcInput.infor       // example of the input file for bantch mode of dmpRdc
-        example/analysis                // analysis example. How to use distribuition data to analysis
+        Geometry            // all GDML files
+        Connector           // FEE <--> Detector connection files
+        Simulation          // macro files for default visual mode
+        TestRelease         // all JobOpt_* files
 
 5.  log ( records of error information and request infor.)
 
         *   dmpPed_request.log
                 request_time    dmpPed_version  hexDataName_raw.root
         *   bgo_ped_error-requestTime-verison-hexDataName.log    warning information
-
 
 ## Convention
 
@@ -201,7 +197,7 @@ These directories (or link) below are in "/prefix"
             whole detector: no;
             sub-detector:   Psd, Stk, Bgo, Nud
 
-4.  command ( format: dmp{AP}{Level}{Detector}. example: dmpSim)
+4.  command ( format: dmp{AP}{Level}{Detector}. example: dmpSim) (TODO)
 
         * dmp
             Prefix of command
@@ -238,22 +234,15 @@ These directories (or link) below are in "/prefix"
 
         compilation files which will be used by build tool "SCons".
 
-        Two kinds layout:
-        * a CMD for certain sub-detector
-            will not invoke other sub-detectors
-        * a CMD for whole detector
-            will invoke all sub-detectors
+    5.4  JobOpt_* file
 
-    5.4  input file as interface of command (batch mode)
+        running time script. For example: JobOpt_DmpSimulation is used to run simulation
 
-            dmp{AP} *{AP}Input.infor
-            for example:    dmpRdc  *RdcInput.infor
-    
     5.5  FileName.cnct
 
         dectector <-> FEE, connection information.
 
-##  Data names
+##  Data names (TODO)
 
 1   raw data(binary file, all DAMPE scientific data)
 
@@ -359,16 +348,11 @@ These directories (or link) below are in "/prefix"
 
 1.  All personal test must in "test" directory, you can create "test" directory at wherever you need. Then other people will not waste their time on checking test.
 
-2.  We set macro definition of "DmpDebug" in SConstruct, it will makes your code more flexible, for example:
+2.  We set define macro "DmpDebug" in SConstruct, in order to help debug. For instance, add the 3 lines below in your code:
 
     #ifdef DmpDebug
-      cout<<"some thing you want to check"<<endl;
-      // or some thing you need for debug.
-    #else
-      cout<<"This is release mode. to get environment variable like $DMPSWSYS (exmaple: Simulation/DetectorConstruction::Construct())"<<endl;
-      // or some thing for release.
+        std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
     #endif
-
 
 
 
