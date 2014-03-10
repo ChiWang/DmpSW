@@ -17,7 +17,7 @@ if os.environ['DMPSWSYS'] not in sys.path:
 import libDmpCore as DmpCore
 import libDmpSim as  DmpSim
 
-# set output file path. 
+# set phase
 #DmpCore.PhaseManager.SetPhase(DmpCore.DmpEPhase.kQuarter)  # default is kProduct, if NOT set
 
 # RUN simulation
