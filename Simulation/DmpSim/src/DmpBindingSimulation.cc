@@ -12,7 +12,6 @@ BOOST_PYTHON_MODULE(libDmpSim){
   using namespace boost::python;
   using namespace DmpCore;
 
-  def("SetInDataPath",SimulationSetInDataPath);
   def("SetOutDataPath",SimulationSetOutDataPath);
   def("GetOutDataPath",SimulationGetOutDataPath);
   def("SetOutDataName",SimulationSetOutDataName);

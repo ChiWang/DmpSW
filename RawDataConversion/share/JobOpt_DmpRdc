@@ -17,19 +17,25 @@ if os.environ['DMPSWSYS'] not in sys.path:
 import libDmpCore as DmpCore
 import libDmpRdc as DmpRdc
 
-# set output file path. 
+# set phase
 #DmpCore.PhaseManager.SetPhase(DmpCore.DmpEPhase.kQuarter)  # default is kProduct, if NOT set
 
-# RUN simulation
-DmpRdc.SetConnectorPsd("")
-DmpRdc.SetConnectorStk("")
-DmpRdc.SetConnectorBgo("")
-DmpRdc.SetConnectorNud("")
-DmpRdc.SetInDataPath("./share/testData")      # where to find the macro file which is a argument of Execute(). If NOT set will use "./"
-DmpRdc.SetOutDataPath("./test")          # where to save output. If NOT set at here will use "./"
-DmpRdc.Initialize()
+    ##  where to find the macro file which is a argument of Execute(). If NOT set will use "./"
+inDataPath="./"        # the test macro file DmpSim_electron(proton).mac installed in there
+if not DmpRdc.SetInDataPath(inDataPath):
+    print "Error: input data path not exist. %s" % inDataPath
+    exit()
+
+    ##  where to save the output. If NOT set at here will use "./"
+DmpRdc.SetOutDataPath("./test")
+    ##  where to find connector (cnct files)
+DmpRdc.SetConnectorPath(DmpCore.DmpEDetectorID.kWhole,"")       # for whole dampe, there must has sub-directories Psd, Stk, Bgo, Nud under this path. If NOT set, will use /prefix/share/Connector/Product defaultly
+#DmpRdc.SetConnectorPath(DmpCore.DmpEDetectorID.kPsd,"")       # special path for subDet
+
+    ##  Start Rdc
+DmpRdc.Initialize()     # load connectors, from connectors' path
 DmpRdc.SetOutDataName("electronRDC.root")   # set output data name(*.root) for the next Execute(). If NOT set will use the default name(time stamp)
 DmpRdc.Execute("BGO_ScienceData_20121003012321.dat")
-DmpRdc.Execute("BGO_ScienceData_20121003012000.dat")      # start a new run, without delete physics list, detector construction and all user actions.
+DmpRdc.Execute("BGO_ScienceData_20121003012000.dat")      # convert another data, without delete the older connectors
 DmpRdc.Clear()
 

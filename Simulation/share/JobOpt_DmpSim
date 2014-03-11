@@ -22,19 +22,16 @@ import libDmpSim as  DmpSim
 
 # RUN simulation
     ##  where to find the macro file which is a argument of Execute(). If NOT set will use "./"
-inDataPath=os.getenv('DMPSWSYS')+"/share/Simulation"        # the test macro file DmpSim_electron(proton).mac installed in there
-if not DmpSim.SetInDataPath(inDataPath):
-    print "Error: input data path not exist. %s" % inDataPath
-    exit()
+inMacPath=os.getenv('DMPSWSYS')+"/share/Simulation/"        # the test macro file DmpSim_electron(proton).mac installed in there
 
-    ##  where to save output. If NOT set at here will use "./"
+    ##  where to save the output. If NOT set at here will use "./"
 DmpSim.SetOutDataPath("./test")
 
     ##  Start simulation. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SsetIn(Out)DataPath() between different Execute()
 DmpSim.Initialize()      # setup detector, user actions
 DmpSim.SetOutDataName("electron.root")  # set output data name(*.root) for the next Execute(). If NOT set will use the default name(time stamp)
-DmpSim.Execute("DmpSim_electron.mac")
-DmpSim.Execute("DmpSim_proton.mac")     # start a new run, without delete physics list, detector construction and all user actions.
+DmpSim.Execute(inMacPath+"DmpSim_electron.mac")
+DmpSim.Execute(inMacPath+"DmpSim_proton.mac")     # start a new run, without delete physics list, detector construction and all user actions.
 #DmpSim.Execute("visual")                # open visual mode, if you don't want to use batch mode as above(input a macro file name in Execute()).
 DmpSim.Clear()
 

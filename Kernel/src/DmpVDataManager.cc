@@ -14,8 +14,7 @@ DmpEPhase  DmpVDataManager::gPhase = DmpCore::Phase::kProduct;
 
 //-------------------------------------------------------------------
 DmpVDataManager::DmpVDataManager()
- :fInDataPath("./"),
-  fOutDataPath("./"),
+ :fOutDataPath("./"),
   fOutDataName("default"),
   fOutDataTree(0)
 {
@@ -38,21 +37,6 @@ DmpEPhase  DmpVDataManager::GetPhase(){
 }
 
 #include <sys/stat.h>       // mkdir()
-//-------------------------------------------------------------------
-bool DmpVDataManager::SetInDataPath(std::string path){
-  if (path[path.length()-1] == '/') {
-    fInDataPath = path;
-  } else {
-    fInDataPath = path + "/";
-  }
-// *
-// *  TODO: check directory exist?
-// *
-  struct stat inPathStat;
-  stat(fInDataPath.c_str(),&inPathStat);
-  return S_ISDIR(inPathStat.st_mode);
-}
-
 //-------------------------------------------------------------------
 void DmpVDataManager::SetOutDataPath(std::string path){
   if (path[path.length()-1] == '/') {

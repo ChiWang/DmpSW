@@ -35,7 +35,6 @@ class DmpVDataManager{
   static DmpEPhase GetPhase();
   bool  SetInDataPath(std::string);
   void  SetOutDataPath(std::string);
-  std::string GetInDataPath() const     {return fInDataPath;}
   std::string GetOutDataPath() const    {return fOutDataPath;}
   std::string GetOutDataName() const    {return fOutDataName;}
   void  SaveOutput();
@@ -46,7 +45,6 @@ protected:
 
 protected:
   static DmpEPhase  gPhase;     // Phase of DAMPE
-  std::string   fInDataPath;    //
   std::string   fOutDataPath;   //
   std::string   fOutDataName;   //
   TTree         *fOutDataTree;  //

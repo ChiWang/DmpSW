@@ -2,9 +2,9 @@
 // *
 // *  TODO: Kernel
 //
-//      (X) 1.  SetInDataPath()  check directory exist?
-//      (X) 2.  SetOutDataName(std::string), createOutDataName(std::string), merge them
-//      (X) 3.  add TimpStamp() for default output data name
+//      11/03/2014 1.  delete fInDataPath in DmpVDataManager 
+//      11/03/2014 2.  SetOutDataName(std::string), createOutDataName(std::string), merge them
+//      11/03/2014 3.  add TimpStamp() for default output data name
 // *
 
 

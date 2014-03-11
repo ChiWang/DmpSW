@@ -28,11 +28,6 @@
 #include "DmpEntranceSimulation.h"
 
 //-------------------------------------------------------------------
-bool DmpCore::SimulationSetInDataPath(std::string p){
-  return DmpSimDataManager::GetInstance()->SetInDataPath(p);
-}
-
-//-------------------------------------------------------------------
 void DmpCore::SimulationSetOutDataPath(std::string p){
   DmpSimDataManager::GetInstance()->SetOutDataPath(p);
 }
@@ -113,7 +108,7 @@ void DmpCore::SimulationExecute(std::string argv){
     delete ui;
 #endif
   }else{
-    UImanager->ApplyCommand("/control/execute " + DmpSimDataManager::GetInstance()->GetInDataPath() + argv);        // batch mode
+    UImanager->ApplyCommand("/control/execute " + argv);        // batch mode
   }
 }
 
