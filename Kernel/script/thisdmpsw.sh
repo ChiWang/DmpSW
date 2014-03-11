@@ -11,7 +11,11 @@ EOF
 #+  Set installation environment of DAMPE offline software 
 
 if [ ! $DMPSWSYS ];then
-  export DMPSWSYS=$(cd `dirname $0`/..;pwd)
+  if [[ $0 == "*bash" ]];then
+    export DMPSWSYS=$(cd `dirname $BASH_SOURCE`/..;pwd)
+  else
+    export DMPSWSYS=$(cd `dirname $0`/..;pwd)
+  fi
   export PATH=$DMPSWSYS/bin:$PATH
   if [ $LD_LIBRARY_PATH ];then
     export LD_LIBRARY_PATH=$DMPSWSYS/lib:$LD_LIBRARY_PATH
