@@ -21,7 +21,7 @@ public:
   static DmpRdcDataManager*     GetInstance();
   static void Vanish();
   void BookBranch();
-  void CreateOutDataName(std::string);
+  void SetOutDataName(std::string name="stamp");
 
 private:
   DmpRdcDataManager();
