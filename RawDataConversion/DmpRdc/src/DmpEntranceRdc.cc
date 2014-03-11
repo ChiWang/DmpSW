@@ -1,46 +1,78 @@
 /*
- *  $Id: DmpEntranceRdcDataManager.cc, 2014-03-09 23:46:55 chi $
+ *  $Id: DmpEntranceRdc.cc, 2014-03-11 16:55:59 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
 #include <iostream>
+#include <stdlib.h>     // getenv() chdir()
 
+#include "DmpCore.h"
+#include "DmpEntranceRdc.h"
 #include "DmpRdcAlgorithm.h"
 #include "DmpRdcDataManager.h"
-#include "DmpEntranceRdc.h"
 
 using namespace DmpRdcAlg;
 
-DmpRdcDataManager *dataMan = 0;
-//-------------------------------------------------------------------
-void DmpCore::RdcInitialize(){
-  std::cout<<"DAMPE software: Setup kernel of Raw Data Conversion"<<std::endl;
-  dataMan = DmpRdcDataManager::GetInstance();
-}
-
-//-------------------------------------------------------------------
-bool DmpCore::RdcSetInDataPath(std::string p){
-  return dataMan->SetInDataPath(p);
+bool DmpCore::RdcSetConnector(DmpEDetectorID id,std::string p){
+  short st[DmpParameter::Detector::kSubDetNo]={0};
+  if(p=="default"){
+    p = (std::strin)getenv("DMPSWSYS") + "/share/Connector/";
+  }else if(p[p.length()-1] != '/'){
+    p=p+'/';
+  }
+  if(id = DmpParameter::Detector::kWhole){
+    if(not st[DmpEDetectorID::kPsd]){
+      if(not Psd::SetConnector(p+"Psd/"))  return false;
+    }
+    if(not st[DmpEDetectorID::kStk]){
+      if(not Stk::SetConnector(p+"Stk/"))  return false;
+    }
+    if(not st[DmpEDetectorID::kBgo]){
+      if(not Bgo::SetConnector(p+"Bgo/"))  return false;
+    }
+    if(not st[DmpEDetectorID::kNud]){
+      if(not Nud::SetConnector(p+"Nud/"))  return false;
+    }
+  }else if(id = DmpParameter::Detector::kPsd){
+    if(Psd::SetConnector(p)) st[DmpEDetectorID::kPsd]=1;
+    else return false;
+  }else if(id = DmpParameter::Detector::kStk){
+    if(Stk::SetConnector(p)) st[DmpEDetectorID::kStk]=1;
+    else return false;
+  }else if(id = DmpParameter::Detector::kBgo){
+    if(Bgo::SetConnector(p)) st[DmpEDetectorID::kBgo]=1;
+    else return false;
+  }else if(id = DmpParameter::Detector::kNud){
+    if(Nud::SetConnector(p)) st[DmpEDetectorID::kNud]=1;
+    else return false;
+  }
+  return true;
 }
 
 //-------------------------------------------------------------------
 void DmpCore::RdcSetOutDataPath(std::string p){
-  dataMan->SetOutDataPath(p);
+  DmpRdcDataManager::GetInstance()->SetOutDataPath(p);
 }
 
 //-------------------------------------------------------------------
 std::string DmpCore::RdcGetOutDataPath(){
-  dataMan->GetOutDataPath();
+  DmpRdcDataManager::GetInstance()->GetOutDataPath();
 }
 
 //-------------------------------------------------------------------
 void DmpCore::RdcSetOutDataName(std::string n){
-  dataMan->SetOutDataName();
+  DmpRdcDataManager::GetInstance()->SetOutDataName();
+}
+
+//-------------------------------------------------------------------
+bool DmpCore::RdcInitialize(){
+  std::cout<<"DAMPE software: Setup kernel of Raw Data Conversion"<<std::endl;
 }
 
 //-------------------------------------------------------------------
 void DmpCore::RdcExecute(std::string dataName){
+  DmpRdcDataManager *dataMan = DmpRdcDataManager::GetInstance();
   gInputData = new ifstream(dataMan->GetInDataPath()+dataName,std::ios::in|std::ios::binary);
   if (!gInputData->good()) {
     std::cerr<<"\nwarning: open "<<dataMan->GetInDataPath()+dataName<<" failed"<<std::endl;

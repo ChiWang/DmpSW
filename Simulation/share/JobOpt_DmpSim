@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpSimulation, 2014-03-10 10:19:48 chi $
+ *  $Id: JobOpt_DmpSim, 2014-03-11 16:36:11 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
  *-----------------------------------------------------
@@ -21,13 +21,11 @@ import libDmpSim as  DmpSim
 #DmpCore.PhaseManager.SetPhase(DmpCore.DmpEPhase.kQuarter)  # default is kProduct, if NOT set
 
 # RUN simulation
-    ##  where to find the macro file which is a argument of Execute(). If NOT set will use "./"
-inMacPath=os.getenv('DMPSWSYS')+"/share/Simulation/"        # the test macro file DmpSim_electron(proton).mac installed in there
-
     ##  where to save the output. If NOT set at here will use "./"
 DmpSim.SetOutDataPath("./test")
 
     ##  Start simulation. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SsetIn(Out)DataPath() between different Execute()
+inMacPath=os.getenv('DMPSWSYS')+"/share/Simulation/"
 DmpSim.Initialize()      # setup detector, user actions
 DmpSim.SetOutDataName("electron.root")  # set output data name(*.root) for the next Execute(). If NOT set will use the default name(time stamp)
 DmpSim.Execute(inMacPath+"DmpSim_electron.mac")

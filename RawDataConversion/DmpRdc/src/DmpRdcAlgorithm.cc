@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgorithm.cc, 2014-03-10 00:54:59 chi $
+ *  $Id: DmpRdcAlgorithm.cc, 2014-03-11 17:12:10 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */

@@ -11,12 +11,8 @@ BOOST_PYTHON_MODULE(libDmpRdc){
   using namespace boost::python;
   using namespace DmpCore;
 
-  def("SetConnectorPSd",SetConnectorPsd);
-  def("SetConnectorStk",SetConnectorStk);
-  def("SetConnectorBgo",SetConnectorBgo);
-  def("SetConnectorNud",SetConnectorNud);
+  def("SetConnectorNud",RdcSetConnector);
 
-  def("SetInDataPath",RdcSetInDataPath);
   def("SetOutDataPath",RdcSetOutDataPath);
   def("GetOutDataPath",RdcGetOutDataPath);
   def("SetOutDataName",RdcSetOutDataName);

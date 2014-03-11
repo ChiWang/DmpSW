@@ -32,9 +32,9 @@ DmpSimDetectorConstruction::~DmpSimDetectorConstruction(){
 G4VPhysicalVolume* DmpSimDetectorConstruction::Construct(){
   char *dirTmp = getcwd(NULL,NULL);
   chdir(getenv("DMPSWSYS"));    chdir("./share/Geometry");
-  if(DmpSimDataManager::GetPhase() == DmpCore::Phase::kQuarter){
+  if(DmpSimDataManager::GetPhase() == DmpCore::kQuarter){
     chdir("./Quarter"); 
-  }else if(DmpSimDataManager::GetPhase() == DmpCore::Phase::kPrototype){
+  }else if(DmpSimDataManager::GetPhase() == DmpCore::kPrototype){
     chdir("./Prototype"); 
   }else{
     chdir("./Product"); 

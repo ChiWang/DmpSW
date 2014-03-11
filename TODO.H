@@ -2,9 +2,11 @@
 // *
 // *  TODO: Kernel
 //
-//      11/03/2014 1.  delete fInDataPath in DmpVDataManager 
-//      11/03/2014 2.  SetOutDataName(std::string), createOutDataName(std::string), merge them
-//      11/03/2014 3.  add TimpStamp() for default output data name
+//      >>  delete DmpCore::EPhase, add DmpDetector::SubDet*::EPhase, and create a global variable to store phase, bind Get(Set)SubDet*Phase(), too
+//      >>>     ERROR: can bind the function DmpDetector::Bgo::SetPhase()?? Why?
+//      11/03/2014 >>>  delete fInDataPath in DmpVDataManager 
+//      11/03/2014 >>>  SetOutDataName(std::string), createOutDataName(std::string), merge them
+//      11/03/2014 >>>  add TimpStamp() for default output data name
 // *
 
 

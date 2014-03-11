@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpVDataManager.cc, 2014-03-08 10:25:06 chi $
+ *  $Id: DmpVOutDataManager.cc, 2014-03-11 19:50:31 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -8,12 +8,10 @@
 
 #include "TTree.h"
 
-#include "DmpVDataManager.h"
-
-DmpEPhase  DmpVDataManager::gPhase = DmpCore::Phase::kProduct;
+#include "DmpVOutDataManager.h"
 
 //-------------------------------------------------------------------
-DmpVDataManager::DmpVDataManager()
+DmpVOutDataManager::DmpVOutDataManager()
  :fOutDataPath("./"),
   fOutDataName("default"),
   fOutDataTree(0)
@@ -22,23 +20,13 @@ DmpVDataManager::DmpVDataManager()
 }
 
 //-------------------------------------------------------------------
-DmpVDataManager::~DmpVDataManager(){
+DmpVOutDataManager::~DmpVOutDataManager(){
   delete fOutDataTree;
-}
-
-//-------------------------------------------------------------------
-void DmpVDataManager::SetPhase(DmpEPhase p){
-  gPhase = p;
-}
-
-//-------------------------------------------------------------------
-DmpEPhase  DmpVDataManager::GetPhase(){
-  return gPhase;
 }
 
 #include <sys/stat.h>       // mkdir()
 //-------------------------------------------------------------------
-void DmpVDataManager::SetOutDataPath(std::string path){
+void DmpVOutDataManager::SetOutDataPath(std::string path){
   if (path[path.length()-1] == '/') {
     fOutDataPath = path;
   } else {
@@ -49,7 +37,7 @@ void DmpVDataManager::SetOutDataPath(std::string path){
 
 //-------------------------------------------------------------------
 #include "TFile.h"
-void DmpVDataManager::SaveOutput(){
+void DmpVOutDataManager::SaveOutput(){
   TFile *aFile = new TFile((TString)(fOutDataPath+fOutDataName),"recreate");
   fOutDataTree->Write();
   aFile->Close();
@@ -59,7 +47,7 @@ void DmpVDataManager::SaveOutput(){
 }
 
 //-------------------------------------------------------------------
-void DmpVDataManager::FillEvent(){
+void DmpVOutDataManager::FillEvent(){
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
@@ -68,7 +56,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 
 //-------------------------------------------------------------------
 #include <time.h>
-std::string DmpVDataManager::TimeStamp(){
+std::string DmpVOutDataManager::TimeStamp(){
   time_t now;
   struct tm *p;
   time(&now);

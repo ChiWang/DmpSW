@@ -28,24 +28,24 @@
 #include "DmpEntranceSimulation.h"
 
 //-------------------------------------------------------------------
-void DmpCore::SimulationSetOutDataPath(std::string p){
+void DmpCore::SimSetOutDataPath(std::string p){
   DmpSimDataManager::GetInstance()->SetOutDataPath(p);
 }
 
 //-------------------------------------------------------------------
-std::string DmpCore::SimulationGetOutDataPath(){
+std::string DmpCore::SimGetOutDataPath(){
   DmpSimDataManager::GetInstance()->GetOutDataPath();
 }
 
 //-------------------------------------------------------------------
-void DmpCore::SimulationSetOutDataName(std::string n){
+void DmpCore::SimSetOutDataName(std::string n){
   DmpSimDataManager::GetInstance()->SetOutDataName(n);
 }
 
 G4RunManager *runManager = 0;
 G4VisManager *visManager = 0;
 //-------------------------------------------------------------------
-void DmpCore::SimulationInitialize(){
+void DmpCore::SimInitialize(){
   runManager = new G4RunManager();
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
@@ -89,7 +89,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 }
 
 //-------------------------------------------------------------------
-void DmpCore::SimulationExecute(std::string argv){
+void DmpCore::SimExecute(std::string argv){
   // UI interface manager
   G4UImanager *UImanager = G4UImanager::GetUIpointer();
   if (argv == "visual"){
@@ -113,7 +113,7 @@ void DmpCore::SimulationExecute(std::string argv){
 }
 
 //-------------------------------------------------------------------
-void DmpCore::SimulationClear(){
+void DmpCore::SimClear(){
 #ifdef G4VIS_USE
   if(visManager !=0 ){
     delete visManager;

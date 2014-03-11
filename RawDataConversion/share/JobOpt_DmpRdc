@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpRdc, 2014-03-09 14:55:50 chi $
+ *  $Id: JobOpt_DmpRdc, 2014-03-11 16:36:14 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
  *-----------------------------------------------------
@@ -20,22 +20,18 @@ import libDmpRdc as DmpRdc
 # set phase
 #DmpCore.PhaseManager.SetPhase(DmpCore.DmpEPhase.kQuarter)  # default is kProduct, if NOT set
 
-    ##  where to find the macro file which is a argument of Execute(). If NOT set will use "./"
-inDataPath="./"        # the test macro file DmpSim_electron(proton).mac installed in there
-if not DmpRdc.SetInDataPath(inDataPath):
-    print "Error: input data path not exist. %s" % inDataPath
-    exit()
-
+# RUN Rdc
     ##  where to save the output. If NOT set at here will use "./"
 DmpRdc.SetOutDataPath("./test")
-    ##  where to find connector (cnct files)
-DmpRdc.SetConnectorPath(DmpCore.DmpEDetectorID.kWhole,"")       # for whole dampe, there must has sub-directories Psd, Stk, Bgo, Nud under this path. If NOT set, will use /prefix/share/Connector/Product defaultly
-#DmpRdc.SetConnectorPath(DmpCore.DmpEDetectorID.kPsd,"")       # special path for subDet
+    ##  Setup connectors, if you want seta special path for one subDet, must set it before the rest
+#DmpRdc.SetConnector(DmpCore.DmpEDetectorID.kPsd,"")       # speical for kPsd, before kWhole
+DmpRdc.SetConnector(DmpCore.DmpEDetectorID.kWhole,"default")       # for whole dampe, there must has sub-directories Psd, Stk, Bgo, Nud under this path. If set the second argument as "default", will use /prefix/share/Connector/Product defaultly
 
     ##  Start Rdc
+inRdcPath="./"
 DmpRdc.Initialize()     # load connectors, from connectors' path
 DmpRdc.SetOutDataName("electronRDC.root")   # set output data name(*.root) for the next Execute(). If NOT set will use the default name(time stamp)
-DmpRdc.Execute("BGO_ScienceData_20121003012321.dat")
-DmpRdc.Execute("BGO_ScienceData_20121003012000.dat")      # convert another data, without delete the older connectors
+DmpRdc.Execute(inRdcPath+"BGO_ScienceData_20121003012321.dat")
+DmpRdc.Execute(inRdcPath+"BGO_ScienceData_20121003012000.dat")      # convert another data, without delete the older connectors
 DmpRdc.Clear()
 

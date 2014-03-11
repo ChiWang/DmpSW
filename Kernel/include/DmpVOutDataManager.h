@@ -1,20 +1,19 @@
 /*
- *  $Id: DmpVDataManager.h, 2014-03-08 16:44:08 chi $
+ *  $Id: DmpVOutDataManager.h, 2014-03-11 19:50:34 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
-#ifndef DmpVDataManager_H
-#define DmpVDataManager_H
+#ifndef DmpVOutDataManager_H
+#define DmpVOutDataManager_H
 
 #include <string>
-#include "DmpCore.h"
 
 class TTree;
 
-class DmpVDataManager{
+class DmpVOutDataManager{
 /* 
- *  DmpVDataManager
+ *  DmpVOutDataManager
  *
  *  All DataManager class inherite from this class
  *  in order to control pathes in run script, binded static functions in this class into boost python (in file ../src/DmpCoreBinding.cc)
@@ -25,15 +24,12 @@ class DmpVDataManager{
  *
  */
  public:
-  DmpVDataManager();
-  virtual ~DmpVDataManager();
+  DmpVOutDataManager();
+  virtual ~DmpVOutDataManager();
 
   virtual void BookBranch()=0;
   virtual void  SetOutDataName(std::string n)   {fOutDataName = n;}
   // control static functions in job option script
-  static void  SetPhase(DmpEPhase);
-  static DmpEPhase GetPhase();
-  bool  SetInDataPath(std::string);
   void  SetOutDataPath(std::string);
   std::string GetOutDataPath() const    {return fOutDataPath;}
   std::string GetOutDataName() const    {return fOutDataName;}
@@ -44,7 +40,6 @@ protected:
   std::string TimeStamp();
 
 protected:
-  static DmpEPhase  gPhase;     // Phase of DAMPE
   std::string   fOutDataPath;   //
   std::string   fOutDataName;   //
   TTree         *fOutDataTree;  //

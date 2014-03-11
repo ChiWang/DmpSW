@@ -9,11 +9,13 @@
 
 #include <map>
 #include <fstream>      // ifstream*
+#include <string>
 
 /*
  *  DmpRdcAlgorithm
  *
 */
+
 namespace DmpAlgorithm{
 namespace Rdc{
   extern ifstream  *gInputData;    // pointer of input data

@@ -1,14 +1,12 @@
 /*
- *  $Id: DmpEvtNudHit.cc, 2014-03-03 21:05:40 chi $
+ *  $Id: DmpEvtNudHit.cc, 2014-03-11 18:52:38 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
 
 #include "DmpEvtPMT.h"
 #include "DmpEvtNudHit.h"
-#include "DmpParameterNud.h"
-
-using namespace DmpParameter::Detector;
+#include "DmpDetectorNud.h"
 
 ClassImp(DmpEvtNudHit)
 
@@ -21,8 +19,8 @@ DmpEvtNudHit::DmpEvtNudHit()
   fPMT1(0)
 {
   for (int i=0;i<3;++i) fPosition[i]=0;
-  fPMT0 = new DmpEvtPMT(Nud::kDyNo);
-  fPMT1 = new DmpEvtPMT(Nud::kDyNo);
+  fPMT0 = new DmpEvtPMT(DmpDetector::Nud::kDyNo);
+  fPMT1 = new DmpEvtPMT(DmpDetector::Nud::kDyNo);
 }
 
 //------------------------------------------------------------------------------
