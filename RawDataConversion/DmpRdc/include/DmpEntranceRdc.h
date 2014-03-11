@@ -15,7 +15,7 @@ namespace DmpCore{
   void RdcSetConnectorBgo(std::string);
   void RdcSetConnectorNud(std::string);
 
-  void RdcSetInDataPath(std::string);
+  bool RdcSetInDataPath(std::string);
   void RdcSetOutDataPath(std::string);  std::string RdcGetOutDataPath();
   void RdcSetOutDataName(std::string);    // just for the coming Execute()
   void RdcInitialize();           // set connector

@@ -2,7 +2,7 @@
 // *
 // *  TODO: Kernel
 //
-//      1.  SetInDataPath()  check directory exist?
+//      (X) 1.  SetInDataPath()  check directory exist?
 //      2.  SetOutDataName(std::string), createOutDataName(std::string), merge them
 // *
 

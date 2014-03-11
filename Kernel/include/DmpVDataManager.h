@@ -33,7 +33,7 @@ class DmpVDataManager{
   // control static functions in job option script
   static void  SetPhase(DmpEPhase);
   static DmpEPhase GetPhase();
-  void  SetInDataPath(std::string);
+  bool  SetInDataPath(std::string);
   void  SetOutDataPath(std::string);
   void  SetOutDataName(std::string n)   {fOutDataName = n;}
   std::string GetInDataPath() const     {return fInDataPath;}

@@ -20,8 +20,8 @@ void DmpCore::RdcInitialize(){
 }
 
 //-------------------------------------------------------------------
-void DmpCore::RdcSetInDataPath(std::string p){
-  dataMan->SetInDataPath(p);
+bool DmpCore::RdcSetInDataPath(std::string p){
+  return dataMan->SetInDataPath(p);
 }
 
 //-------------------------------------------------------------------

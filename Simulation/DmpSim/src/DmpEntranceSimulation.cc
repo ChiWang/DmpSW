@@ -28,8 +28,8 @@
 #include "DmpEntranceSimulation.h"
 
 //-------------------------------------------------------------------
-void DmpCore::SimulationSetInDataPath(std::string p){
-  DmpSimDataManager::GetInstance()->SetInDataPath(p);
+bool DmpCore::SimulationSetInDataPath(std::string p){
+  return DmpSimDataManager::GetInstance()->SetInDataPath(p);
 }
 
 //-------------------------------------------------------------------
@@ -100,7 +100,7 @@ void DmpCore::SimulationExecute(std::string argv){
   if (argv == "visual"){
     // interactive mode : define UI session
 #ifdef G4UI_USE
-    char *dummyargv[1];
+    char *dummyargv[20]={"visual"};
     G4UIExecutive *ui = new G4UIExecutive(1,dummyargv);
     G4String prefix = (G4String)getenv("DMPSWSYS")+"/share/Simulation/";
 #ifdef G4VIS_USE

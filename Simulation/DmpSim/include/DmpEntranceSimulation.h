@@ -10,7 +10,7 @@
 #include <string>
 
 namespace DmpCore{
-  void SimulationSetInDataPath(std::string);
+  bool SimulationSetInDataPath(std::string);
   void SimulationSetOutDataPath(std::string);   std::string SimulationGetOutDataPath();
   void SimulationSetOutDataName(std::string);       // just for the next Execute()
 

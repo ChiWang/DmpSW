@@ -37,8 +37,9 @@ DmpEPhase  DmpVDataManager::GetPhase(){
   return gPhase;
 }
 
+#include <sys/stat.h>       // mkdir()
 //-------------------------------------------------------------------
-void DmpVDataManager::SetInDataPath(std::string path){
+bool DmpVDataManager::SetInDataPath(std::string path){
   if (path[path.length()-1] == '/') {
     fInDataPath = path;
   } else {
@@ -47,10 +48,12 @@ void DmpVDataManager::SetInDataPath(std::string path){
 // *
 // *  TODO: check directory exist?
 // *
+  struct stat inPathStat;
+  stat(fInDataPath.c_str(),&inPathStat);
+  return S_ISDIR(inPathStat.st_mode);
 }
 
 //-------------------------------------------------------------------
-#include <sys/stat.h>       // mkdir()
 void DmpVDataManager::SetOutDataPath(std::string path){
   if (path[path.length()-1] == '/') {
     fOutDataPath = path;
