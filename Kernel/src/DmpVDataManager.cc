@@ -84,15 +84,13 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 
 //-------------------------------------------------------------------
 #include <time.h>
-bool DmpVDataManager::IsDefaultName(){ // define fOutDataName
-  if(fOutDataName != "default") return false;
+std::string DmpVDataManager::TimeStamp(){
   time_t now;
   struct tm *p;
   time(&now);
   p = localtime(&now);
-  char name[20];
-  strftime(name,99,"%Y%m%d%H%M%S.root",p);
-  fOutDataName = name;  // add tag in CreateOutDataName in concrete class
-  return true;
+  char timeStamp[20];
+  strftime(timeStamp,99,"%Y%m%d%H%M%S.root",p);
+  return timeStamp;
 }
 

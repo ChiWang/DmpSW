@@ -29,13 +29,12 @@ class DmpVDataManager{
   virtual ~DmpVDataManager();
 
   virtual void BookBranch()=0;
-  virtual void CreateOutDataName()=0;           // this is for concrete class
+  virtual void  SetOutDataName(std::string n)   {fOutDataName = n;}
   // control static functions in job option script
   static void  SetPhase(DmpEPhase);
   static DmpEPhase GetPhase();
   bool  SetInDataPath(std::string);
   void  SetOutDataPath(std::string);
-  void  SetOutDataName(std::string n)   {fOutDataName = n;}
   std::string GetInDataPath() const     {return fInDataPath;}
   std::string GetOutDataPath() const    {return fOutDataPath;}
   std::string GetOutDataName() const    {return fOutDataName;}
@@ -43,7 +42,7 @@ class DmpVDataManager{
   void  FillEvent();
 
 protected:
-  bool IsDefaultName();
+  std::string TimeStamp();
 
 protected:
   static DmpEPhase  gPhase;     // Phase of DAMPE

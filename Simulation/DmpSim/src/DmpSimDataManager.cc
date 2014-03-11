@@ -39,8 +39,12 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
   fOutDataTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
 }
 
-void DmpSimDataManager::CreateOutDataName(){
-  if(IsDefaultName())   fOutDataName = "DmpSim_"+fOutDataName;
+void DmpSimDataManager::SetOutDataName(std::string name){
+  if(name != "stamp"){
+    fOutDataName = name;
+  }else if(name == "stamp" && fOutDataName == "default"){
+    fOutDataName = "DmpSim_"+TimeStamp()+".root";
+  }
 }
 
 //-------------------------------------------------------------------

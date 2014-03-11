@@ -3,7 +3,8 @@
 // *  TODO: Kernel
 //
 //      (X) 1.  SetInDataPath()  check directory exist?
-//      2.  SetOutDataName(std::string), createOutDataName(std::string), merge them
+//      (X) 2.  SetOutDataName(std::string), createOutDataName(std::string), merge them
+//      (X) 3.  add TimpStamp() for default output data name
 // *
 
 
