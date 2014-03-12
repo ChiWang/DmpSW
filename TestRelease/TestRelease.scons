@@ -1,0 +1,28 @@
+'''
+ *  $Id: TestRelease.scons, 2014-03-12 15:15:21 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 23/01/2014
+'''
+
+import os
+Import("*")     # import all vars from SConstruct
+print "\t\t\t invoke %s\n" % os.path.abspath("./")
+#--------------------------------------------------------------------
+
+
+## install Geometry
+    # (copy all files(include Readme.md, except ".*" and *.scons) into prefix/share/Geometry)
+##--------------------------------------------------------------------
+def ProcessThisDir(var):
+    for tmp in os.listdir(var):
+        if "." in tmp[0] or "scons" in tmp:   continue
+        if os.path.isdir(var+tmp):  ProcessThisDir(var+tmp)
+        else: Default(Command(prefix+'/share/Geometry/'+var+'/'+tmp,var+'/'+tmp,Copy("$TARGET","$SOURCE")))
+
+#ProcessThisDir("./")
+
+for tmp in os.listdir("./"):
+    if "." not in tmp[0] and "JobOpt" in tmp:
+        Default(Command(prefix+'/share/TestRelease/'+tmp,tmp,Copy("$TARGET","$SOURCE")))
+
+

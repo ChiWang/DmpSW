@@ -30,8 +30,8 @@ public:
   long  GetTime() const         {return fTime;}
   void  SetParticlePdgCode(int);
   TParticle* GetParticle() const {return fParticle;}
-  void SetRunMode(DmpEDetectorID id, DmpERunMode mode) {fRunModes[int(id)] = mode;}
-  DmpERunMode GetRunMode(DmpEDetectorID id) const {return fRunModes[int(id)];}
+  void SetRunMode(DmpCore::DmpEDetectorID id, DmpCore::DmpERunMode mode) {fRunModes[int(id)] = mode;}
+  DmpCore::DmpERunMode GetRunMode(DmpCore::DmpEDetectorID id) const {return fRunModes[int(id)];}
 
 private:
   long      fEventID;               // valid event count
@@ -40,7 +40,7 @@ private:
 // *
 // *  TODO: just save one value of Run Mode, why ??
 // *
-  std::vector<DmpERunMode>  fRunModes;
+  std::vector<DmpCore::DmpERunMode>  fRunModes;
 
   ClassDef(DmpEvtHeader,1)
 };

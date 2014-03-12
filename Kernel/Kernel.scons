@@ -23,11 +23,12 @@ env.Prepend(CPPPATH=[includeDir])
 
 # install share
 #--------------------------------------------------------------------
-for file in os.listdir(includeDir):
-    Default(Command(prefix+'/include/'+file,includeDir+'/'+file,Copy("$TARGET","$SOURCE")))
-for file in os.listdir('./script'):
-    if "." not in file[0] and "Readme" not in file:
-        Default(Command(prefix+'/bin/'+file,'./script/'+file,Copy("$TARGET","$SOURCE")))
+for tmp in os.listdir(includeDir):
+    if "./" not in tmp[0]:
+        Default(Command(prefix+'/include/'+tmp,includeDir+'/'+tmp,Copy("$TARGET","$SOURCE")))
+for tmp in os.listdir('./script'):
+    if "." not in tmp[0] and "Readme" not in tmp:
+        Default(Command(prefix+'/bin/'+tmp,'./script/'+tmp,Copy("$TARGET","$SOURCE")))
 
 # main build
 #--------------------------------------------------------------------

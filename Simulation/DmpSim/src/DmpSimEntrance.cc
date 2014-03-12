@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEntranceSimulation.cc, 2014-03-09 23:37:19 chi $
+ *  $Id: DmpSimEntrance.cc, 2014-03-12 15:00:40 chi $
  *  Author(s):
  *    X.Wu () 09/07/2013
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/02/2014
@@ -25,7 +25,25 @@
 #include "DmpSimEventAction.h"
 #include "DmpSimTrackingAction.h"
 #include "DmpSimDataManager.h"
-#include "DmpEntranceSimulation.h"
+#include "DmpSimEntrance.h"
+
+void DmpCore::SimSetGdmlPath(DmpCore::DmpEDetectorID id,std::string p){
+  if(p=="default"){
+    p = (std::string)getenv("DMPSWSYS") + "/share/Geometry/Product/";
+  }else if(p[p.length()-1] != '/'){
+    p=p+'/';
+  }
+  if(id ==DmpCore::kWhole){
+    DmpSimDetectorConstruction::SetGdmlPath(id,p+"SubDet_i/");
+  }else{
+    DmpSimDetectorConstruction::SetGdmlPath(id,p);
+  }
+} 
+
+//-------------------------------------------------------------------
+void DmpCore::SimGetGdmlPath(DmpCore::DmpEDetectorID id){
+  DmpSimDetectorConstruction::GetGdmlPath(id);
+}
 
 //-------------------------------------------------------------------
 void DmpCore::SimSetOutDataPath(std::string p){

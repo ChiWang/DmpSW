@@ -20,6 +20,8 @@
 #include "DmpSimBgoSD.h"
 //#include "DmpSimNudSD.h"
 
+std::string DmpSimDetectorConstruction::sGdmlPath[DmpCore::gSubDetNo]={"default"};
+
 DmpSimDetectorConstruction::DmpSimDetectorConstruction(){
   fParser = new G4GDMLParser();
 }
@@ -31,17 +33,24 @@ DmpSimDetectorConstruction::~DmpSimDetectorConstruction(){
 #include "DmpSimDataManager.h"
 G4VPhysicalVolume* DmpSimDetectorConstruction::Construct(){
   char *dirTmp = getcwd(NULL,NULL);
-  chdir(getenv("DMPSWSYS"));    chdir("./share/Geometry");
-  if(DmpSimDataManager::GetPhase() == DmpCore::kQuarter){
-    chdir("./Quarter"); 
-  }else if(DmpSimDataManager::GetPhase() == DmpCore::kPrototype){
-    chdir("./Prototype"); 
-  }else{
-    chdir("./Product"); 
-  }
+  chdir(getenv("DMPSWSYS"));    chdir("./share/Geometry/Product");
  //*  TODO: add this for BT2012     chdir("BT2012");
   fParser->Read("DAMPE.gdml");
   chdir(dirTmp);
+  /*
+// *  TODO:  if could read gdml file of subDetector respectively. use me
+// *
+  {
+  chdir(getenv("DMPSWSYS"));
+  chdir("./share/Geometry");
+  fParser->Read("/DAMPE.gdml");
+  for (short i=0;i<DmpCore::gSubDetNo;++i){
+    chdir(sGdmlPath[i]);
+    fParser->Read("SubDet_i.gdml");
+  }
+  chdir(dirTmp);
+  }
+  */
 
 // *
 // *  TODO: set SD of SubDet at here
@@ -57,4 +66,15 @@ G4VPhysicalVolume* DmpSimDetectorConstruction::Construct(){
 
   return fParser->GetWorldVolume();
 }
+
+//-------------------------------------------------------------------
+void DmpSimDetectorConstruction::SetGdmlPath(DmpCore::DmpEDetectorID id, std::string p){
+  sGdmlPath[id] = p;
+}
+
+//-------------------------------------------------------------------
+std::string DmpSimDetectorConstruction::GetGdmlPath(DmpCore::DmpEDetectorID id){
+  return sGdmlPath[id];
+}
+
 

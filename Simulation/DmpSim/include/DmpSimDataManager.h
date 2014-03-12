@@ -7,14 +7,14 @@
 #ifndef DmpSimDataManager_H
 #define DmpSimDataManager_H
 
-#include "DmpVDataManager.h"
+#include "DmpVOutDataManager.h"
 
 class G4Run;
 class G4Event;
 class DmpEvtSimPrimaryParticle;
 class DmpEventRaw;
 
-class DmpSimDataManager : public DmpVDataManager{
+class DmpSimDataManager : public DmpVOutDataManager{
 /*
  *  DmpSimDataManager
  *

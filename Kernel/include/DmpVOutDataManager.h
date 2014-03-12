@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpVOutDataManager.h, 2014-03-11 19:50:34 chi $
+ *  $Id: DmpVOutDataManager.h, 2014-03-11 23:32:46 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -16,20 +16,20 @@ class DmpVOutDataManager{
  *  DmpVOutDataManager
  *
  *  All DataManager class inherite from this class
- *  in order to control pathes in run script, binded static functions in this class into boost python (in file ../src/DmpCoreBinding.cc)
  *
  *  In concrete data manager, should define:
  *      (1) input data name and pointer (Tree of fstream) to get input data
- *      (2) event class(es) as data members, then use fOutTree to book them into branch
+ *      (2) event class(es) as data member, then use fOutTree to book them into branch
+ *
+ *  Example: DmpRdcDataManger.h or DmpSimDataManager.h
  *
  */
- public:
+public:
   DmpVOutDataManager();
   virtual ~DmpVOutDataManager();
 
   virtual void BookBranch()=0;
-  virtual void  SetOutDataName(std::string n)   {fOutDataName = n;}
-  // control static functions in job option script
+  virtual void SetOutDataName(const std::string &n)   {fOutDataName = n;}
   void  SetOutDataPath(std::string);
   std::string GetOutDataPath() const    {return fOutDataPath;}
   std::string GetOutDataName() const    {return fOutDataName;}

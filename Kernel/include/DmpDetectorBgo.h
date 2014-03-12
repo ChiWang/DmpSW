@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpDetectorBgo.h, 2014-03-11 19:33:07 chi $
+ *  $Id: DmpDetectorBgo.h, 2014-03-12 11:22:43 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 06/08/2013
 */
@@ -12,17 +12,22 @@
  *
  *  and set the unstable variables into your phase.
  *
+ *  If you want to use anything in run time job option files,
+ *  bind them in the DmpDetectorSubDetID.cc file
+ *
  */
 namespace DmpDetector{
   namespace Bgo{
-    enum EPhase{
+    enum DmpEBgoPhase{
       kQuarter,     // 1/4 prototype    >>>> Since 2012 <<<<
                     // (0)  Beam test at SPS. 2012
       kPrototype,   // full size        >>>> Since 2014 <<<<
                     // (0)  Beam test at ??
       kProduct,     // full size        >>>> Since 2015 <<<<
     };
-    extern EPhase gPhase;  void SetPhase(EPhase);   EPhase GetPhase();
+    extern DmpEBgoPhase gPhase;
+    void SetPhase(DmpEBgoPhase);
+    DmpEBgoPhase GetPhase();
     const short kRefBarNo= 2;
     const short kDyNo    = 3;
     namespace Quarter{
@@ -42,8 +47,6 @@ namespace DmpDetector{
     }
   }
 }
-
-typedef DmpDetector::Bgo::EPhase    DmpEBgoPhase;
 
 #endif
 

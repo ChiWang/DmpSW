@@ -30,6 +30,7 @@ Dictionary_*
 !OrbitSimulation/test
 *Test*
 !TestRelease
+!*.scons
 
 # vim .swp; emacs
 *.swp

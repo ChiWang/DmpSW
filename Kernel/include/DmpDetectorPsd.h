@@ -15,14 +15,14 @@
  */
 namespace DmpDetector{
   namespace Psd{
-    enum EPhase{
+    enum DmpEPsdPhase{
       kQuarter,     // 1/4 prototype    >>>> Since 2012 <<<<
                     // (0)  Beam test at SPS. 2012
       kPrototype,   // full size        >>>> Since 2014 <<<<
                     // (0)  Beam test at ??
       kProduct,     // full size        >>>> Since 2015 <<<<
     };
-    extern EPhase gPhase; void SetPhase(EPhase);   EPhase GetPhase();
+    extern DmpEPsdPhase gPhase; void SetPhase(DmpEPsdPhase);   DmpEPsdPhase GetPhase();
     const short kPlaneNo = 4;
     const short kRefBarNo= 2;
     const short kSideNo  = 2;
@@ -41,8 +41,6 @@ namespace DmpDetector{
     }
   }
 }
-
-typedef DmpDetector::Psd::EPhase    DmpEPsdPhase;
 
 #endif
 

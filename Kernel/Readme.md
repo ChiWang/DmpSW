@@ -5,18 +5,20 @@
 
     1.  parameters and enum type for whole detector
 
-    2.  use boost python (in DmpBindingCore.cc) bind interface to control static data member gPhase in common abstract class DmpVDataManager
+    2.  bind interface to python (in DmpBindingCore.cc)
 
-    3.  scripts to set environment
+    3.  scripts to set environment (./script)
 
 
 ##  Usage:
 
-    1.  compile in top directory (execute "scons package=Kernel")
+    1.  install DMPSW firstly (refer to: ../README.md/{How to install DMPSW})
 
     2.  other packages which want to use the created library libDmpCore.so, in their job option scripts.
 
     3.  you can use it in python:
-        *   python
-        *   import libDmpCore
-        *   library.<Tab>
+        $   python
+        >   import libDmpCore
+        >   library.<Tab>
+
+

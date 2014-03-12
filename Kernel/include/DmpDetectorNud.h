@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpDetectorNud.h, 2014-03-11 18:46:33 chi $
+ *  $Id: DmpDetectorNud.h, 2014-03-12 11:25:35 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */

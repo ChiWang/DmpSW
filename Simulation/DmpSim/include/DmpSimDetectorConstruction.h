@@ -8,6 +8,9 @@
 #define DmpSimDetectorConstruction_H
 
 #include "G4VUserDetectorConstruction.hh"
+
+#include "DmpCore.h"
+
 // *
 // *  TODO: binding set functions into python and control in python script, instead of using meseengers
 // *
@@ -20,7 +23,14 @@ public:
   G4VPhysicalVolume* Construct();
 
 private:
-  G4GDMLParser              *fParser;
+  G4GDMLParser      *fParser;
+
+public:
+  static void SetGdmlPath(DmpCore::DmpEDetectorID,std::string);
+  static std::string GetGdmlPath(DmpCore::DmpEDetectorID);
+
+private:
+  static std::string    sGdmlPath[DmpCore::gSubDetNo];
 };
 
 #endif
