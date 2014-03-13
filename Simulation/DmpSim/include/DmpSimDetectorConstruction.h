@@ -27,7 +27,7 @@ private:
 
 public:
   static void SetGdmlPath(DmpCore::DmpEDetectorID,std::string);
-  static std::string GetGdmlPath(DmpCore::DmpEDetectorID);
+  static std::string GetGdmlPath(const DmpCore::DmpEDetectorID&);
 
 private:
   static std::string    sGdmlPath[DmpCore::gSubDetNo];

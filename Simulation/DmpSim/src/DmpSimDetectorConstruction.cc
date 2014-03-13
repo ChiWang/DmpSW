@@ -73,7 +73,7 @@ void DmpSimDetectorConstruction::SetGdmlPath(DmpCore::DmpEDetectorID id, std::st
 }
 
 //-------------------------------------------------------------------
-std::string DmpSimDetectorConstruction::GetGdmlPath(DmpCore::DmpEDetectorID id){
+std::string DmpSimDetectorConstruction::GetGdmlPath(const DmpCore::DmpEDetectorID &id){
   return sGdmlPath[id];
 }
 
