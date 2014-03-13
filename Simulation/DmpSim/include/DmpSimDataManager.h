@@ -22,14 +22,12 @@ class DmpSimDataManager : public DmpVOutDataManager{
  */
 public:
   static DmpSimDataManager* GetInstance();
-  static void Vanish();
   void BookBranch();            // invoked from BeginOfRunAction()
   void SetOutDataName(std::string name="stamp");     // invoked from BeginOfRunAction()
 
 private:
   DmpSimDataManager();
   ~DmpSimDataManager();
-  static DmpSimDataManager  *sInstance;  //!
 
 public:
   DmpEvtSimPrimaryParticle* GetPrimaryParticle() const {return fPrimaryParticle;}

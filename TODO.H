@@ -2,7 +2,6 @@
 // *
 // *  TODO: Kernel
 //
-//      >>  delete static data member to create singleton, only use static function and a static object in stack in this function
 //      12/03/2014 >>  delete DmpCore::EPhase, add DmpDetector::SubDet*::DmpESubDet*Phase, and create a global variable to store phase, bind Get(Set)SubDet*Phase(), too
 //      12/03/2014 >>>     ERROR: can bind the function DmpDetector::Bgo::SetPhase()?? Why(missing variable type...)
 //      11/03/2014 >>>  delete fInDataPath in DmpVDataManager 
@@ -31,6 +30,7 @@
 // *  TODO: Simulation
 //
 //      >>  fParser->Read(subDet*.gdml) respectively??
+//      12/03/2014 >>  delete static data member to create singleton, only use static function and a static object in stack in this function
 //      12/03/2014 >>  ?? Simulation/DmpSim/src/DmpEntranceSimulation.cc:37: error: ‘DmpEDetectorID’ is not a class or namespace (missing namespace)
 //      (X) 1.  check run script
 //      (X) 2.  add phase monitor, and then read gdml files automaticaly

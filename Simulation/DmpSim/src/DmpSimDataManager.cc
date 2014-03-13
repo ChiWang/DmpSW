@@ -14,21 +14,10 @@
 #include "DmpEventRaw.h"
 #include "DmpSimDataManager.h"
 
-DmpSimDataManager* DmpSimDataManager::sInstance = 0;
-//-------------------------------------------------------------------
 
 DmpSimDataManager* DmpSimDataManager::GetInstance(){
-  if (sInstance == 0){
-    sInstance = new DmpSimDataManager();
-  }
-  return sInstance;
-}
-
-void DmpSimDataManager::Vanish(){
-  if(sInstance != 0){
-    delete sInstance;
-    sInstance = 0;
-  }
+  static DmpSimDataManager instance;
+  return &instance;
 }
 
 void DmpSimDataManager::BookBranch(){

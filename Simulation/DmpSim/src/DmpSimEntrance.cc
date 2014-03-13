@@ -142,7 +142,6 @@ void DmpCore::SimClear(){
     delete runManager;
     runManager = 0;
   }
-  DmpSimDataManager::Vanish();  // remove instance of DmpSimDataManager
 }
 
 
