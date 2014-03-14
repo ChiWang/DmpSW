@@ -19,14 +19,12 @@ class DmpRdcDataManager : public DmpVDataManager{
 */
 public:
   static DmpRdcDataManager*     GetInstance();
-  static void Vanish();
   void BookBranch();
   void SetOutDataName(std::string name="stamp");
 
 private:
   DmpRdcDataManager();
   ~DmpRdcDataManager();
-  static DmpRdcDataManager  *sInstance;
 
 public:
   DmpEventRaw*  GetRawEvent() const     {return fEvtRaw;}

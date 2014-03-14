@@ -1,11 +1,11 @@
 /*
- *  $Id: DmpBindingRdc.cc, 2014-03-09 23:44:57 chi $
+ *  $Id: DmpBindingRdc.cc, 2014-03-14 11:16:57 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
 
 #include <boost/python.hpp>
-#include "DmpEntranceRdc.h"
+#include "DmpRdcEntrance.h"
 
 BOOST_PYTHON_MODULE(libDmpRdc){
   using namespace boost::python;

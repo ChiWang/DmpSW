@@ -13,22 +13,10 @@
 #include "DmpEventRaw.h"
 #include "DmpRdcDataManager.h"
 
-DmpRdcDataManager* DmpRdcDataManager::sInstance = 0;
 
-//-------------------------------------------------------------------
 DmpRdcDataManager* DmpRdcDataManager::GetInstance(){
-  if (sInstance == 0 ){
-    sInstance = new DmpRdcDataManager();
-  }
-  return sInstance;
-}
-
-//-------------------------------------------------------------------
-void DmpRdcDataManager::Vanish(){
-  if (sInstance != 0 ){
-    delete sInstance;
-    sInstance = 0;
-  }
+  static DmpRdcDataManager instance;
+  return &instance;
 }
 
 //-------------------------------------------------------------------

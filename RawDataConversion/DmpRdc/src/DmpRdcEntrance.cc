@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEntranceRdc.cc, 2014-03-11 16:55:59 chi $
+ *  $Id: DmpRdcEntrance.cc, 2014-03-14 11:15:59 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -8,7 +8,7 @@
 #include <stdlib.h>     // getenv() chdir()
 
 #include "DmpCore.h"
-#include "DmpEntranceRdc.h"
+#include "DmpRdcEntrance.h"
 #include "DmpRdcAlgorithm.h"
 #include "DmpRdcDataManager.h"
 

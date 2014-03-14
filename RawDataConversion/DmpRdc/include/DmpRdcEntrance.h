@@ -1,11 +1,11 @@
 /*
- *  $Id: DmpEntranceRdc.h, 2014-03-11 16:44:12 chi $
+ *  $Id: DmpRdcEntrance.h, 2014-03-14 11:15:54 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
 
-#ifndef DmpEntranceRdc_H
-#define DmpEntranceRdc_H
+#ifndef DmpRdcEntrance_H
+#define DmpRdcEntrance_H
 
 #include <string>
 
