@@ -26,8 +26,6 @@ namespace DmpDetector{
       kProduct,     // full size        >>>> Since 2015 <<<<
     };
     extern DmpEBgoPhase gPhase;
-    void SetPhase(DmpEBgoPhase);
-    DmpEBgoPhase GetPhase();
     const short kRefBarNo= 2;
     const short kDyNo    = 3;
     namespace Quarter{

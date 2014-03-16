@@ -22,7 +22,7 @@ namespace DmpDetector{
                     // (0)  Beam test at ??
       kProduct,     // full size        >>>> Since 2015 <<<<
     };
-    extern DmpEPsdPhase gPhase; void SetPhase(DmpEPsdPhase);   DmpEPsdPhase GetPhase();
+    extern DmpEPsdPhase gPhase;
     const short kPlaneNo = 4;
     const short kRefBarNo= 2;
     const short kSideNo  = 2;

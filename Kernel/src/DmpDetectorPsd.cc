@@ -1,27 +1,19 @@
 /*
- *  $Id: DmpDetectorPsd.cc, 2014-03-12 11:29:29 chi $
+ *  $Id: DmpDetectorPsd.cc, 2014-03-16 16:02:37 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 11/03/2014
 */
 
+#include <boost/python.hpp>
+
 #include "DmpDetectorPsd.h"
+#include "DmpBindingCore.h"
 
 using namespace DmpDetector;
 
 //-------------------------------------------------------------------
 Psd::DmpEPsdPhase Psd::gPhase = Psd::kProduct;
 
-void Psd::SetPhase(Psd::DmpEPsdPhase p){
-  Psd::gPhase = p;
-}
-
-Psd::DmpEPsdPhase Psd::GetPhase(){
-  return Psd::gPhase;
-}
-
-
-#include <boost/python.hpp>
-#include "DmpBindingCore.h"
 //-------------------------------------------------------------------
 void DmpBindingEntrance::Core::Psd(){
   using namespace boost::python;
@@ -31,8 +23,7 @@ void DmpBindingEntrance::Core::Psd(){
     .value("kPrototype",Psd::kPrototype)
     .value("kProduct",  Psd::kProduct)
   ;
-  def("SetPsdPhase",Psd::SetPhase);
-  def("GetPsdPhase",Psd::GetPhase);
+  scope().attr("gPhasePsd")=Psd::gPhase;
 }
 
 
