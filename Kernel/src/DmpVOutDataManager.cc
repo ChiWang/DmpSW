@@ -13,7 +13,7 @@
 //-------------------------------------------------------------------
 DmpVOutDataManager::DmpVOutDataManager()
  :fOutDataPath("./"),
-  fOutDataName("default"),
+  fOutDataName("no"),
   fOutDataTree(0)
 {
   fOutDataTree = new TTree("DAMPE","DAMPE");    // should rename in concrete class
@@ -43,7 +43,7 @@ void DmpVOutDataManager::SaveOutput(){
   aFile->Close();
   delete aFile;
   std::cout<<"Result in : "<<fOutDataPath+fOutDataName<<std::endl;
-  fOutDataName = "default";
+  fOutDataName = "no";
 }
 
 //-------------------------------------------------------------------

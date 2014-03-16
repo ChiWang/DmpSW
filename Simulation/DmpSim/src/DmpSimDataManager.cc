@@ -29,10 +29,10 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 }
 
 void DmpSimDataManager::SetOutDataName(std::string name){
-  if(name != "stamp"){
+  if(name != "default"){
     fOutDataName = name;
-  }else if(name == "stamp" && fOutDataName == "default"){
-    fOutDataName = "DmpSim_"+TimeStamp()+".root";
+  }else if(name == "default" && fOutDataName == "no"){
+    fOutDataName = "DmpSim_"+TimeStamp();
   }
 }
 
