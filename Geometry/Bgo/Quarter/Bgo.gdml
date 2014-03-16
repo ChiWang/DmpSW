@@ -1,0 +1,856 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE gdml[<!ENTITY parameter SYSTEM "bgo_parameter.xml">]>
+
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
+
+  &parameter;
+
+  <solids>
+
+   <box lunit="mm" name="Bgo_detector_box" x="BgodetectorX" y="BgodetectorY" z="BgodetectorZ" />
+   <box lunit="mm" name="Bgo_bar_box" x="BgobarX" y="BgobarY" z="BgobarZ" />
+   <box lunit="mm" name="Bgo_with_Gap_box" x="BgowithgapX" y="BgowithgapY" z="BgowithgapZ" />
+   <box lunit="mm" name="Bgo_layer_box" x="11*BgowithgapX+10*Bgo_CALBarsSeparation" y="BgowithgapY" z="BgowithgapZ" />
+   <box lunit="mm" name="Bgo_plane_box" x="11*BgowithgapX+10*Bgo_CALBarsSeparation" y="11*BgowithgapX+10*Bgo_CALBarsSeparation" z="2*BgowithgapZ+Bgo_CALLayerSeparation" />
+  </solids>
+
+  <structure>
+   <!--Bgo bar-->
+ 
+   <volume name="Bgo_bar_vol" >
+    <materialref ref="Bgo" />
+    <solidref ref="Bgo_bar_box" />
+   </volume>
+
+   <!--Bgo with Gap-->
+   <volume name="Bgo_with_Gap_vol" >
+    <materialref ref="Vacuum" />
+    <solidref ref="Bgo_with_Gap_box" />
+     <physvol>
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="Bgo_bar_Pos" unit="mm" x="0" y="0" z="0" />
+     </physvol>
+   </volume>
+
+   <!--Bgo Layer-->
+   <volume name="Bgo_layer_vol">
+    <materialref ref="Vacuum" />
+    <solidref ref="Bgo_layer_box" />
+
+     <replicavol number="11" >
+      <volumeref ref="Bgo_with_Gap_vol" />
+      <replicate_along_axis>
+       <direction x="1" />
+       <width value="Bgo_CALBarsSeparation+BgowithgapX" unit="mm" />
+       <offset value="0" unit="mm"/>
+      </replicate_along_axis>
+     </replicavol>
+
+   </volume>
+
+   <!--Bgo plane-->
+   <volume name="Bgo_plane_vol">
+    <materialref ref="Vacuum" />
+    <solidref ref="Bgo_plane_box" />
+     <physvol name="Bgo_layer_X" >
+      <volumeref ref="Bgo_layer_vol" />
+      <position name="Bgo_layerPos_1" unit="mm" x="0" y="0" z="(BgowithgapZ+Bgo_CALLayerSeparation)/2" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+     <physvol name="Bgo_layer_Y" >
+      <volumeref ref="Bgo_layer_vol" />
+      <position name="Bgo_layerPos_2" unit="mm" x="0" y="0" z="-(BgowithgapZ+Bgo_CALLayerSeparation)/2" />
+     </physvol>
+   </volume>
+
+
+   <volume name="Bgo_detector_vol" >
+    <materialref ref="Vacuum" />
+    <solidref ref="Bgo_detector_box" />
+
+     <physvol name="bgo_cfrp">
+      <file name="bgo_cfrp.gdml" />
+      <positionref ref="bgoCAD_pos" />
+      <rotationref ref="bgoCAD_Rot" />
+     </physvol>
+
+     <physvol name="bgo_Al_ss">
+      <file name="bgo_Al.gdml" />
+      <positionref ref="bgoCAD_pos" />
+      <rotationref ref="bgoCAD_Rot" /> 
+     </physvol>
+
+     <physvol name="bgo_rubber">
+      <file name="bgo_rubber.gdml" />
+      <positionref ref="bgoCAD_pos" />
+      <rotationref ref="bgoCAD_Rot" /> 
+     </physvol>
+
+     <physvol name="bgo_pmt">
+      <file name="bgo_pmt.gdml" />
+      <positionref ref="bgoCAD_pos" />
+      <rotationref ref="bgoCAD_Rot" /> 
+     </physvol>
+
+
+     <!--bgo bar array-->
+     <!--layer1-->
+     <physvol name="Bgo_bar_90101" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0101" unit="mm" x="0" y="-137.5+0*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*0+7*0" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90102" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0102" unit="mm" x="0" y="-137.5+1*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*0+7*0" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90103" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0103" unit="mm" x="0" y="-137.5+2*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*0+7*0" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90104" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0104" unit="mm" x="0" y="-137.5+3*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*0+7*0" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90105" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0105" unit="mm" x="0" y="-137.5+4*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*0+7*0" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90106" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0106" unit="mm" x="0" y="-137.5+5*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*0+7*0" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90107" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0107" unit="mm" x="0" y="-137.5+6*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*0+7*0" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90108" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0108" unit="mm" x="0" y="-137.5+7*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*0+7*0" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90109" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0109" unit="mm" x="0" y="-137.5+8*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*0+7*0" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90110" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0110" unit="mm" x="0" y="-137.5+9*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*0+7*0" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90111" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0111" unit="mm" x="0" y="-137.5+10*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*0+7*0" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <!--layer2-->
+     <physvol name="Bgo_bar_90201" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0201" unit="mm" y="0" x="-137.5+0*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*0+BgobarZ*1" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90202" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0202" unit="mm" y="0" x="-137.5+1*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*0+BgobarZ*1" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90203" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0203" unit="mm" y="0" x="-137.5+2*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*0+BgobarZ*1" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90204" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0204" unit="mm" y="0" x="-137.5+3*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*0+BgobarZ*1" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90205" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0205" unit="mm" y="0" x="-137.5+4*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*0+BgobarZ*1" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90206" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0206" unit="mm" y="0" x="-137.5+5*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*0+BgobarZ*1" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90207" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0207" unit="mm" y="0" x="-137.5+6*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*0+BgobarZ*1" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90208" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0208" unit="mm" y="0" x="-137.5+7*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*0+BgobarZ*1" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90209" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0209" unit="mm" y="0" x="-137.5+8*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*0+BgobarZ*1" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90210" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0210" unit="mm" y="0" x="-137.5+9*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*0+BgobarZ*1" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90211" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0211" unit="mm" y="0" x="-137.5+10*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*0+BgobarZ*1" />
+     </physvol>
+
+     <!--layer3-->
+     <physvol name="Bgo_bar_90301" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0301" unit="mm" x="0" y="-137.5+0*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*1+BgobarZ*2" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90302" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0302" unit="mm" x="0" y="-137.5+1*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*1+BgobarZ*2" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90303" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0303" unit="mm" x="0" y="-137.5+2*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*1+BgobarZ*2" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90304" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0304" unit="mm" x="0" y="-137.5+3*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*1+BgobarZ*2" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90305" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0305" unit="mm" x="0" y="-137.5+4*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*1+BgobarZ*2" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90306" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0306" unit="mm" x="0" y="-137.5+5*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*1+BgobarZ*2" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90307" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0307" unit="mm" x="0" y="-137.5+6*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*1+BgobarZ*2" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90308" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0308" unit="mm" x="0" y="-137.5+7*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*1+BgobarZ*2" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90309" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0309" unit="mm" x="0" y="-137.5+8*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*1+BgobarZ*2" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90310" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0310" unit="mm" x="0" y="-137.5+9*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*1+BgobarZ*2" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90311" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0311" unit="mm" x="0" y="-137.5+10*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*1+7*1+BgobarZ*2" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <!--layer4-->
+     <physvol name="Bgo_bar_90401" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0401" unit="mm" y="0" x="-137.5+0*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*1+BgobarZ*3" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90402" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0402" unit="mm" y="0" x="-137.5+1*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*1+BgobarZ*3" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90403" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0403" unit="mm" y="0" x="-137.5+2*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*1+BgobarZ*3" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90404" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0404" unit="mm" y="0" x="-137.5+3*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*1+BgobarZ*3" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90405" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0405" unit="mm" y="0" x="-137.5+4*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*1+BgobarZ*3" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90406" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0406" unit="mm" y="0" x="-137.5+5*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*1+BgobarZ*3" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90407" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0407" unit="mm" y="0" x="-137.5+6*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*1+BgobarZ*3" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90408" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0408" unit="mm" y="0" x="-137.5+7*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*1+BgobarZ*3" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90409" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0409" unit="mm" y="0" x="-137.5+8*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*1+BgobarZ*3" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90410" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0410" unit="mm" y="0" x="-137.5+9*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*1+BgobarZ*3" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90411" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0411" unit="mm" y="0" x="-137.5+10*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*1+BgobarZ*3" />
+     </physvol>
+
+     <!--layer5-->
+     <physvol name="Bgo_bar_90501" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0501" unit="mm" x="0" y="-137.5+0*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*2+BgobarZ*4" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90502" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0502" unit="mm" x="0" y="-137.5+1*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*2+BgobarZ*4" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90503" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0503" unit="mm" x="0" y="-137.5+2*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*2+BgobarZ*4" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90504" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0504" unit="mm" x="0" y="-137.5+3*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*2+BgobarZ*4" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90505" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0505" unit="mm" x="0" y="-137.5+4*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*2+BgobarZ*4" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90506" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0506" unit="mm" x="0" y="-137.5+5*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*2+BgobarZ*4" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90507" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0507" unit="mm" x="0" y="-137.5+6*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*2+BgobarZ*4" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90508" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0508" unit="mm" x="0" y="-137.5+7*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*2+BgobarZ*4" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90509" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0509" unit="mm" x="0" y="-137.5+8*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*2+BgobarZ*4" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90510" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0510" unit="mm" x="0" y="-137.5+9*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*2+BgobarZ*4" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90511" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0511" unit="mm" x="0" y="-137.5+10*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*2+7*2+BgobarZ*4" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <!--layer6-->
+     <physvol name="Bgo_bar_90601" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0601" unit="mm" y="0" x="-137.5+0*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*2+BgobarZ*5" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90602" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0602" unit="mm" y="0" x="-137.5+1*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*2+BgobarZ*5" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90603" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0603" unit="mm" y="0" x="-137.5+2*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*2+BgobarZ*5" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90604" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0604" unit="mm" y="0" x="-137.5+3*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*2+BgobarZ*5" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90605" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0605" unit="mm" y="0" x="-137.5+4*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*2+BgobarZ*5" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90606" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0606" unit="mm" y="0" x="-137.5+5*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*2+BgobarZ*5" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90607" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0607" unit="mm" y="0" x="-137.5+6*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*2+BgobarZ*5" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90608" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0608" unit="mm" y="0" x="-137.5+7*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*2+BgobarZ*5" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90609" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0609" unit="mm" y="0" x="-137.5+8*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*2+BgobarZ*5" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90610" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0610" unit="mm" y="0" x="-137.5+9*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*2+BgobarZ*5" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90611" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0611" unit="mm" y="0" x="-137.5+10*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*2+BgobarZ*5" />
+     </physvol>
+
+     <!--layer7-->
+     <physvol name="Bgo_bar_90701" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0701" unit="mm" x="0" y="-137.5+0*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*3+BgobarZ*6" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90702" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0702" unit="mm" x="0" y="-137.5+1*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*3+BgobarZ*6" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90703" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0703" unit="mm" x="0" y="-137.5+2*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*3+BgobarZ*6" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90704" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0704" unit="mm" x="0" y="-137.5+3*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*3+BgobarZ*6" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90705" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0705" unit="mm" x="0" y="-137.5+4*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*3+BgobarZ*6" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90706" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0706" unit="mm" x="0" y="-137.5+5*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*3+BgobarZ*6" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90707" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0707" unit="mm" x="0" y="-137.5+6*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*3+BgobarZ*6" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90708" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0708" unit="mm" x="0" y="-137.5+7*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*3+BgobarZ*6" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90709" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0709" unit="mm" x="0" y="-137.5+8*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*3+BgobarZ*6" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90710" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0710" unit="mm" x="0" y="-137.5+9*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*3+BgobarZ*6" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90711" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0711" unit="mm" x="0" y="-137.5+10*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*3+7*3+BgobarZ*6" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <!--layer8-->
+     <physvol name="Bgo_bar_90801" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0801" unit="mm" y="0" x="-137.5+0*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*3+BgobarZ*7" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90802" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0802" unit="mm" y="0" x="-137.5+1*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*3+BgobarZ*7" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90803" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0803" unit="mm" y="0" x="-137.5+2*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*3+BgobarZ*7" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90804" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0804" unit="mm" y="0" x="-137.5+3*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*3+BgobarZ*7" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90805" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0805" unit="mm" y="0" x="-137.5+4*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*3+BgobarZ*7" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90806" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0806" unit="mm" y="0" x="-137.5+5*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*3+BgobarZ*7" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90807" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0807" unit="mm" y="0" x="-137.5+6*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*3+BgobarZ*7" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90808" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0808" unit="mm" y="0" x="-137.5+7*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*3+BgobarZ*7" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90809" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0809" unit="mm" y="0" x="-137.5+8*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*3+BgobarZ*7" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90810" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0810" unit="mm" y="0" x="-137.5+9*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*3+BgobarZ*7" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90811" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0811" unit="mm" y="0" x="-137.5+10*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*3+BgobarZ*7" />
+     </physvol>
+
+     <!--layer9-->
+     <physvol name="Bgo_bar_90901" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0901" unit="mm" x="0" y="-137.5+0*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*4+BgobarZ*8" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90902" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0902" unit="mm" x="0" y="-137.5+1*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*4+BgobarZ*8" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90903" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0903" unit="mm" x="0" y="-137.5+2*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*4+BgobarZ*8" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90904" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0904" unit="mm" x="0" y="-137.5+3*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*4+BgobarZ*8" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90905" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0905" unit="mm" x="0" y="-137.5+4*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*4+BgobarZ*8" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90906" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0906" unit="mm" x="0" y="-137.5+5*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*4+BgobarZ*8" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90907" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0907" unit="mm" x="0" y="-137.5+6*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*4+BgobarZ*8" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90908" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0908" unit="mm" x="0" y="-137.5+7*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*4+BgobarZ*8" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90909" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0909" unit="mm" x="0" y="-137.5+8*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*4+BgobarZ*8" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90910" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0910" unit="mm" x="0" y="-137.5+9*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*4+BgobarZ*8" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_90911" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_0911" unit="mm" x="0" y="-137.5+10*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*4+7*4+BgobarZ*8" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <!--layer10-->
+     <physvol name="Bgo_bar_91001" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1001" unit="mm" y="0" x="-137.5+0*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*4+BgobarZ*9" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91002" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1002" unit="mm" y="0" x="-137.5+1*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*4+BgobarZ*9" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91003" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1003" unit="mm" y="0" x="-137.5+2*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*4+BgobarZ*9" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91004" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1004" unit="mm" y="0" x="-137.5+3*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*4+BgobarZ*9" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91005" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1005" unit="mm" y="0" x="-137.5+4*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*4+BgobarZ*9" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91006" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1006" unit="mm" y="0" x="-137.5+5*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*4+BgobarZ*9" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91007" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1007" unit="mm" y="0" x="-137.5+6*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*4+BgobarZ*9" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91008" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1008" unit="mm" y="0" x="-137.5+7*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*4+BgobarZ*9" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91009" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1009" unit="mm" y="0" x="-137.5+8*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*4+BgobarZ*9" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91010" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1010" unit="mm" y="0" x="-137.5+9*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*4+BgobarZ*9" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91011" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1011" unit="mm" y="0" x="-137.5+10*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*4+BgobarZ*9" />
+     </physvol>
+
+     <!--layer11-->
+     <physvol name="Bgo_bar_91101" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1101" unit="mm" x="0" y="-137.5+0*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*5+BgobarZ*10" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91102" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1102" unit="mm" x="0" y="-137.5+1*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*5+BgobarZ*10" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91103" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1103" unit="mm" x="0" y="-137.5+2*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*5+BgobarZ*10" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91104" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1104" unit="mm" x="0" y="-137.5+3*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*5+BgobarZ*10" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91105" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1105" unit="mm" x="0" y="-137.5+4*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*5+BgobarZ*10" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91106" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1106" unit="mm" x="0" y="-137.5+5*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*5+BgobarZ*10" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91107" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1107" unit="mm" x="0" y="-137.5+6*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*5+BgobarZ*10" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91108" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1108" unit="mm" x="0" y="-137.5+7*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*5+BgobarZ*10" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91109" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1109" unit="mm" x="0" y="-137.5+8*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*5+BgobarZ*10" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91110" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1110" unit="mm" x="0" y="-137.5+9*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*5+BgobarZ*10" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91111" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1111" unit="mm" x="0" y="-137.5+10*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*5+7*5+BgobarZ*10" />
+      <rotationref ref="Bgobar_Rot" />
+     </physvol>
+
+     <!--layer12-->
+     <physvol name="Bgo_bar_91201" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1201" unit="mm" y="0" x="-137.5+0*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*6+7*5+BgobarZ*11" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91202" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1202" unit="mm" y="0" x="-137.5+1*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*6+7*5+BgobarZ*11" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91203" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1203" unit="mm" y="0" x="-137.5+2*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*6+7*5+BgobarZ*11" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91204" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1204" unit="mm" y="0" x="-137.5+3*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*6+7*5+BgobarZ*11" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91205" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1205" unit="mm" y="0" x="-137.5+4*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*6+7*5+BgobarZ*11" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91206" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1206" unit="mm" y="0" x="-137.5+5*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*6+7*5+BgobarZ*11" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91207" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1207" unit="mm" y="0" x="-137.5+6*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*6+7*5+BgobarZ*11" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91208" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1208" unit="mm" y="0" x="-137.5+7*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*6+7*5+BgobarZ*11" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91209" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1209" unit="mm" y="0" x="-137.5+8*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*6+7*5+BgobarZ*11" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91210" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1210" unit="mm" y="0" x="-137.5+9*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*6+7*5+BgobarZ*11" />
+     </physvol>
+
+     <physvol name="Bgo_bar_91211" >
+      <volumeref ref="Bgo_bar_vol" />
+      <position name="barPos_1211" unit="mm" y="0" x="-137.5+10*(BgobarX+Bgo_CALBarsSeparation)" z="-167+4*6+7*5+BgobarZ*11" />
+     </physvol>
+
+
+<!--
+     <replicavol number="6" >
+      <volumeref ref="Bgo_plane_vol" />
+      <replicate_along_axis>
+       <direction z="1" />
+       <width value="2*(Bgo_CALLayerSeparation+BgowithgapZ)" unit="mm" />
+       <offset value="0" unit="mm" />
+      </replicate_along_axis>
+     </replicavol>
+-->
+
+   </volume>
+
+  </structure>
+
+  <setup name="Default" version="1.0" >
+   <world ref="Bgo_detector_vol" />
+  </setup>
+
+
+</gdml>

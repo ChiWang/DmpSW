@@ -8,6 +8,7 @@
 
 #include "DmpCore.h"
 #include "DmpBindingCore.h"
+#include "DmpServiceManager.h"
 
 //-------------------------------------------------------------------
 BOOST_PYTHON_MODULE(libDmpCore){
@@ -40,6 +41,13 @@ BOOST_PYTHON_MODULE(libDmpCore){
   DmpBindingEntrance::Core::Stk();
   DmpBindingEntrance::Core::Bgo();
   DmpBindingEntrance::Core::Nud();
+
+  // DmpServiceManager
+  class_<DmpServiceManager,boost::noncopyable>("DmpServiceManager",no_init)
+    .def("GetInstance",&DmpServiceManager::GetInstance,return_value_policy<reference_existing_object>())
+    .staticmethod("GetInstance")
+    .def("ListAllService",&DmpServiceManager::ListAllService)
+    ;
 
 }
 

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE gdml[<!ENTITY parameter SYSTEM "./Schema/parameter_Quarter.xml">]>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./Schema/gdml.xsd">
+  &parameter;
+
+  <solids>
+   <box lunit="mm" name="World_box" x="world_size" y="world_size" z="world_size" />
+  </solids>
+
+  <structure>
+   <volume name="World" >
+    <materialref ref="Vacuum" />
+    <solidref ref="World_box" />
+    <!--
+     <physvol>
+      <file name="../Geometry/Bgo.gdml" />
+      <positionref ref="Bgo_offset" />
+      <rotationref ref="Bgo_rot" />
+     </physvol>
+-->
+<!--
+     <physvol>
+      <file name="../Geometry/Psd.gdml" />
+      <positionref ref="Psd_offset" />
+      <rotationref ref="Psd_rot" />
+     </physvol>
+-->
+   </volume>
+  </structure>
+
+  <setup name="Default" version="1.0" >
+   <world ref="World" />
+  </setup>
+
+</gdml>
+
+
