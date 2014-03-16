@@ -1,0 +1,24 @@
+<!--Parameters for DAMPE. >>> Beam Test 2012 <<< -->
+
+  <define>
+   <!--world-->
+   <constant name="world_size" value="4000" />
+
+   <position name="Bgo_offset" unit="mm" x="0" y="0" z="200" />
+   <position name="Psd_offset" unit="mm" x="0" y="0" z="-33.4" />
+   <rotation name="Bgo_rot" unit="deg" x="0" y="0" z="0" />
+   <rotation name="Psd_rot" unit="deg" x="0" y="0" z="0" />
+  </define>
+
+
+  <materials>
+  <!--Vacuum-->
+    <element name="videRef" formula="VACUUM" Z="1">
+     <atom value="1."/>
+    </element>
+    <material formula=" " name="Vacuum">
+     <D value="1.e-25" unit="g/cm3" />
+     <fraction n="1.0" ref="videRef" />
+    </material>
+  </materials>
+

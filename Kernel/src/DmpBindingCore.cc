@@ -9,6 +9,7 @@
 #include "DmpCore.h"
 #include "DmpBindingCore.h"
 #include "DmpVOutDataManager.h"
+#include "DmpServiceManager.h"
 
 //-------------------------------------------------------------------
 // wrapper for DmpVOutDataManger
@@ -67,5 +68,11 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .def("GetOutDataName",&DmpVOutDataManager::GetOutDataName)
   ;
 
+  // DmpServiceManager
+  class_<DmpServiceManager,boost::noncopyable>("DmpServiceManager",no_init)
+    .def("GetInstance",&DmpServiceManager::GetInstance,return_value_policy<reference_existing_object>())
+    .staticmethod("GetInstance")
+    .def("ListAllService",&DmpServiceManager::ListAllService)
+  ;
 }
 
