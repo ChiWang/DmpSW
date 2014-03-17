@@ -1,0 +1,49 @@
+<!--Beam Test 2012 parameters-->
+
+  <materials>
+  <!--Vacuum-->
+    <element name="videRef" formula="VACUUM" Z="1">
+     <atom value="1."/>
+    </element>
+    <material formula=" " name="Vacuum">
+     <D value="1.e-25" unit="g/cm3" />
+     <fraction n="1.0" ref="videRef" />
+    </material>
+
+    <!--define element-->
+    <element Z="32" formula="Ge" name="Ge" >
+     <atom value="72.63" />
+    </element>
+
+    <element Z="8" formula="O" name="O" >
+     <atom value="15.999" />
+    </element>
+
+    <element Z="83" formula="Bi" name="Bi" >
+     <atom value="208.980" />
+    </element>
+
+    <element Z="6" formula="C" name="C" >
+     <atom value="12.011" />
+    </element>
+
+    <element Z="1" formula="H" name="H" >
+     <atom value="1.008" />
+    </element>
+
+    <element Z="14" formula="Si" name="Si" >
+     <atom value="28.085" />
+    </element>
+
+    <!--define material-->
+    <!--BGO-->
+    <material name="BGO" formula="Bi4Ge3O12" >
+     <D value="7.13" unit="g/cm3" />
+     <composite n="4" ref="Bi" />
+     <composite n="3" ref="Ge" />
+     <composite n="12" ref="O" />
+    </material>
+
+  </materials>
+
+

@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE gdml[<!ENTITY parameter SYSTEM "parameter.xml">]>
+<!DOCTYPE gdml[
+<!ENTITY parameter SYSTEM "parameter.xml">
+<!ENTITY materials SYSTEM "../../Schema/materials.xml">
+]>
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
 
   &parameter;
+  &materials;
 
   <solids>
 
-   <box lunit="mm" name="BGO_detector_box" x="BGOdetectorX" y="BGOdetectorY" z="BGOdetectorZ" />
+   <box lunit="mm" name="detector_box" x="BGOdetectorX" y="BGOdetectorY" z="BGOdetectorZ" />
    <box lunit="mm" name="BGO_bar_box" x="BGObarX" y="BGObarY" z="BGObarZ" />
    <box lunit="mm" name="BGO_with_Gap_box" x="BGOwithgapX" y="BGOwithgapY" z="BGOwithgapZ" />
    <box lunit="mm" name="BGO_layer_box" x="11*BGOwithgapX+10*BGO_CALBarsSeparation" y="BGOwithgapY" z="BGOwithgapZ" />
@@ -64,9 +68,9 @@
    </volume>
 
 
-   <volume name="BGO_detector_vol" >
+   <volume name="Bgo_detector_vol" >
     <materialref ref="Vacuum" />
-    <solidref ref="BGO_detector_box" />
+    <solidref ref="detector_box" />
 
      <physvol name="bgo_cfrp">
       <file name="bgo_cfrp.gdml" />
@@ -849,7 +853,7 @@
   </structure>
 
   <setup name="Default" version="1.0" >
-   <world ref="BGO_detector_vol" />
+   <world ref="Bgo_detector_vol" />
   </setup>
 
 

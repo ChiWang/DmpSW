@@ -13,7 +13,7 @@
    <volume name="World" >
     <materialref ref="Vacuum" />
     <solidref ref="World_box" />
-
+<!--
      <physvol>
       <file name="./Bgo/Quarter/Bgo.gdml" />
       <positionref ref="BGO_offset" />
@@ -25,7 +25,7 @@
       <positionref ref="PSD_offset" />
       <rotationref ref="PSD_rot" />
      </physvol>
-
+-->
    </volume>
   </structure>
 

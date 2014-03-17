@@ -34,7 +34,7 @@ void DmpSimBgoSD::Initialize(G4HCofThisEvent*){
 G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory *ROHist){
 // *  TODO: check barID is right?
 #pragma message("TODO ----> check barID is right?")
-  int barID = (ROHist->GetVolume(1)->GetCopyNo())*100 + ROHist->GetVolume(0)->GetCopyNo();
+  int barID = 333;//(ROHist->GetVolume(1)->GetCopyNo())*100 + ROHist->GetVolume(0)->GetCopyNo();
   int index = -1;
   for(int i=0;i<fHitCollection->GetEntriesFast();++i){
     if(((DmpEvtBgoHit*)fHitCollection->At(i))->GetSDID() == barID){

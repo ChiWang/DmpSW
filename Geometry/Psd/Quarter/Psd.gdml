@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE gdml[<!ENTITY parameter SYSTEM "parameter.xml">]>
+<!DOCTYPE gdml[
+<!ENTITY parameter SYSTEM "parameter.xml">
+<!ENTITY materials SYSTEM "../../Schema/materials.xml">
+]>
+
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
 
   &parameter;
+  &materials;
 
   <solids>
-   <box lunit="mm" name="PSD_detector_box" x="PSDdetectorX" y="PSDdetectorY" z="PSDdetectorZ" />
+   <box lunit="mm" name="Psd_detector_box" x="PSDdetectorX" y="PSDdetectorY" z="PSDdetectorZ" />
   </solids>
 
   <structure>
    
-   <volume name="PSD_detector_vol" >
+   <volume name="Psd_detector_vol" >
     <materialref ref="Vacuum" />
-    <solidref ref="PSD_detector_box" />
+    <solidref ref="Psd_detector_box" />
 
      <physvol name="psd_cfrp">
       <file name="psd_cfrp.gdml" />
@@ -224,7 +229,7 @@
   </structure>
 
   <setup name="Default" version="1.0" >
-   <world ref="PSD_detector_vol" />
+   <world ref="Psd_detector_vol" />
   </setup>
 
 </gdml>

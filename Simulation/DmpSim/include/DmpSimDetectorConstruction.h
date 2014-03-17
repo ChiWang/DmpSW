@@ -11,9 +11,6 @@
 
 #include "DmpCore.h"
 
-// *
-// *  TODO: binding set functions into python and control in python script, instead of using meseengers
-// *
 class G4GDMLParser;
 
 class DmpSimDetectorConstruction : public G4VUserDetectorConstruction{
@@ -31,6 +28,13 @@ public:
 
 private:
   static std::string    sGdmlPath[DmpCore::gSubDetNo + 1];
+
+private:
+// *
+// *  TODO: binding set functions into python and control in python script
+// *
+  float fOffset[DmpCore::gSubDetNo];        // sudDet center --> Sat center
+
 };
 
 #endif
