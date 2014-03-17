@@ -18,6 +18,7 @@
 #/tracking/verbose 1
 
 /gps/particle e- 
+#/gps/pos/centre 0.0 0.0 0.0 mm
 /gps/ene/type Mono
 /gps/ene/mono 100 GeV
 
