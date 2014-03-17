@@ -17,9 +17,22 @@
 /tracking/storeTrajectory 2
 #/tracking/verbose 1
 
+/gps/source/clear
 /gps/particle proton
-/gps/ene/type Mono
-/gps/ene/mono 100 GeV
+#/gps/ene/type Mono
+/gps/pos/type Plane
+/gps/pos/shape Square
+/gps/pos/centre 5. 5. -52.5001 cm
+/gps/pos/halfx 0.02475 mm
+/gps/pos/halfy 0.02475 mm
+/gps/ang/type cos
+/gps/ang/mintheta 0.00 deg
+/gps/ang/maxtheta 0.0010 deg
+/gps/ene/min 300. Ge
+/gps/ene/max 300.00000001 GeV
+/gps/ene/gradient 0.
+/gps/ene/intercept 1.
+#/gps/ene/mono 100 GeV
 
 #/stk/thicknessThickW 1 mm
 #/payload/update
