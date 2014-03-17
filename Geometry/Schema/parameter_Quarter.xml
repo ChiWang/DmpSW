@@ -1,13 +1,47 @@
-<!--Parameters for DAMPE. >>> Beam Test 2012 <<< -->
+<!--Beam Test 2012 parameters-->
 
   <define>
    <!--world-->
    <constant name="world_size" value="4000" />
 
-   <position name="Bgo_offset" unit="mm" x="0" y="0" z="200" />
-   <position name="Psd_offset" unit="mm" x="0" y="0" z="-33.4" />
-   <rotation name="Bgo_rot" unit="deg" x="0" y="0" z="0" />
-   <rotation name="Psd_rot" unit="deg" x="0" y="0" z="0" />
+   <position name="BGO_offset" unit="mm" x="0" y="0" z="200" />
+   <position name="PSD_offset" unit="mm" x="0" y="0" z="-33.4" />
+   <rotation name="BGO_rot" unit="deg" x="0" y="0" z="0" />
+   <rotation name="PSD_rot" unit="deg" x="0" y="0" z="0" />
+
+   <!--BGO parameter-->
+   <constant name="BGOdetectorX" value="536"/>
+   <constant name="BGOdetectorY" value="536"/>
+   <constant name="BGOdetectorZ" value="400"/>
+   <constant name="BGObarX" value="25"/>
+   <constant name="BGObarY" value="300"/>
+   <constant name="BGObarZ" value="25"/>
+   <constant name="BGOwithgapX" value="26"/>
+   <constant name="BGOwithgapY" value="300"/>
+   <constant name="BGOwithgapZ" value="26"/>
+
+   <constant name="BGO_NbOfCALLayers" value="12"/>
+   <constant name="BGO_NbOfCALLayerBars" value="11"/>
+   <constant name="BGO_NbOfCALBars" value="132"/>
+   <constant name="BGO_CALBarsSeparation" value="2.5"/>
+   <constant name="BGO_CALLayerSeparation" value="4"/>
+
+   <rotation name="BGObar_Rot" unit="deg" x="0" y="0" z="-90"/>
+
+   <position name="bgoCAD_pos" unit="mm" x="0" y="0" z="200" />
+   <rotation name="bgoCAD_Rot" unit="deg" x="90" y="0" z="0"/>
+
+
+   <!--PSD parameter-->
+   <constant name="PSDdetectorX" value="646"/>
+   <constant name="PSDdetectorY" value="646"/>
+   <constant name="PSDdetectorZ" value="50"/>
+
+   <constant name="PSDbarX" value="20"/>
+
+   <position name="psdCAD_pos" unit="mm" x="0" y="0" z="-33.4" />
+   <rotation name="psdCAD_Rot" unit="deg" x="90" y="0" z="0"/>
+
   </define>
 
 
@@ -20,5 +54,39 @@
      <D value="1.e-25" unit="g/cm3" />
      <fraction n="1.0" ref="videRef" />
     </material>
-  </materials>
 
+    <!--define element-->
+    <element Z="32" formula="Ge" name="Ge" >
+     <atom value="72.63" />
+    </element>
+
+    <element Z="8" formula="O" name="O" >
+     <atom value="15.999" />
+    </element>
+
+    <element Z="83" formula="Bi" name="Bi" >
+     <atom value="208.980" />
+    </element>
+
+    <element Z="6" formula="C" name="C" >
+     <atom value="12.011" />
+    </element>
+
+    <element Z="1" formula="H" name="H" >
+     <atom value="1.008" />
+    </element>
+
+    <element Z="14" formula="Si" name="Si" >
+     <atom value="28.085" />
+    </element>
+
+    <!--define material-->
+    <!--BGO-->
+    <material name="BGO" formula="Bi4Ge3O12" >
+     <D value="7.13" unit="g/cm3" />
+     <composite n="4" ref="Bi" />
+     <composite n="3" ref="Ge" />
+     <composite n="12" ref="O" />
+    </material>
+
+  </materials>
