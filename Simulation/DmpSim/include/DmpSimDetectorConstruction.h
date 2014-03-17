@@ -12,6 +12,7 @@
 #include "DmpCore.h"
 
 class G4GDMLParser;
+class DmpSimDetectorInterface;
 
 class DmpSimDetectorConstruction : public G4VUserDetectorConstruction{
 public:
@@ -20,15 +21,9 @@ public:
   G4VPhysicalVolume* Construct();
 
 private:
-  G4GDMLParser      *fParser[DmpCore::gSubDetNo + 1];
-  G4VPhysicalVolume *fPhysiVol[DmpCore::gSubDetNo + 1];
-
-public:
-  static void SetGdmlPath(DmpCore::DmpEDetectorID,const std::string&,float);
-
-private:
-  static std::string    sGdmlPath[DmpCore::gSubDetNo + 1];
-  static float sOffset[DmpCore::gSubDetNo + 1];        // sudDet center --> Sat center
+  G4GDMLParser              *fParser[DmpCore::gSubDetNo + 1];
+  G4VPhysicalVolume         *fPhysiVol[DmpCore::gSubDetNo + 1];
+  DmpSimDetectorInterface   *fDetInterface;
 
 };
 

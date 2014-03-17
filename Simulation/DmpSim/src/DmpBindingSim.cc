@@ -7,6 +7,7 @@
 #include <boost/python.hpp>
 
 #include "DmpSimDataManager.h"
+#include "DmpSimDetectorInterface.h"
 #include "DmpSimEntrance.h"
 
 BOOST_PYTHON_MODULE(libDmpSim){
@@ -18,11 +19,19 @@ BOOST_PYTHON_MODULE(libDmpSim){
     .def("SetOutDataName",&DmpSimDataManager::SetOutDataName)
   ;
 
+  // DmpSimDetectorInterface
+  class_<DmpSimDetectorInterface,boost::noncopyable>("DmpSimDetectorInterface",no_init)
+    .def("GetInstance",&DmpSimDetectorInterface::GetInstance,return_value_policy<reference_existing_object>())
+    .staticmethod("GetInstance")
+    .def("SetGdmlPath",&DmpSimDetectorInterface::SetGdmlPath)
+    .def("SetOffset",&DmpSimDetectorInterface::SetOffset)
+  ;
+
   // DmpSimEntrance
-  def("SetGdmlPath",    DmpCore::SimSetGdmlPath);
   def("Initialize",     DmpCore::SimInitialize);
   def("Execute",        DmpCore::SimExecute);
   def("Clear",          DmpCore::SimClear);
 
 }
+
 
