@@ -5,9 +5,8 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 26/02/2014
 */
 
-#include <stdlib.h>     // getenv() chdir()
-
 #include "G4LogicalVolume.hh"
+#include "G4PVPlacement.hh"
 #include "G4GDMLParser.hh"
 #include "G4SDManager.hh"
 
@@ -20,61 +19,58 @@
 #include "DmpSimBgoSD.h"
 //#include "DmpSimNudSD.h"
 
-std::string DmpSimDetectorConstruction::sGdmlPath[DmpCore::gSubDetNo]={"default"};
+std::string DmpSimDetectorConstruction::sGdmlPath[DmpCore::gSubDetNo+1]={"default"};
 
 DmpSimDetectorConstruction::DmpSimDetectorConstruction(){
-  fParser = new G4GDMLParser();
+  for (short i=0;i<DmpCore::gSubDetNo+1;++i){
+    fParser[i] = new G4GDMLParser();
+  }
 }
 
 DmpSimDetectorConstruction::~DmpSimDetectorConstruction(){
-  delete fParser;
+  for (short i=0;i<DmpCore::gSubDetNo+1;++i){
+    delete fParser[i];
+  }
 }
 
-#include "DmpSimDataManager.h"
+//#include "DmpSimDataManager.h"
 G4VPhysicalVolume* DmpSimDetectorConstruction::Construct(){
   char *dirTmp = getcwd(NULL,NULL);
-  chdir(getenv("DMPSWSYS"));    chdir("./share/Geometry/Product");
- //*  TODO: add this for BT2012     chdir("BT2012");
-  fParser->Read("DAMPE.gdml");
-  chdir(dirTmp);
-  /*
+// *
 // *  TODO:  if could read gdml file of subDetector respectively. use me
 // *
-  {
-  chdir(getenv("DMPSWSYS"));
-  chdir("./share/Geometry");
-  fParser->Read("/DAMPE.gdml");
-  for (short i=0;i<DmpCore::gSubDetNo;++i){
-    chdir(sGdmlPath[i]);
-    fParser->Read("SubDet_i.gdml");
-  }
+  chdir(sGdmlPath[DmpCore::kWhole].c_str());  fParser[DmpCore::kWhole]->Read("Sat.gdml");
+  //chdir(sGdmlPath[DmpCore::kPsd]);  fParser[DmpCore::kPsd]->Read("Psd.gdml");
+  //chdir(sGdmlPath[DmpCore::kStk]);  fParser[DmpCore::kStk]->Read("Stk.gdml");
+  chdir(sGdmlPath[DmpCore::kBgo].c_str());  fParser[DmpCore::kBgo]->Read("Bgo.gdml");
+  //chdir(sGdmlPath[DmpCore::kNud]);  fParser[DmpCore::kNud]->Read("Nud.gdml");
   chdir(dirTmp);
-  }
-  */
+
+// *
+// *  TODO: place subDet into satellite
+// *
+  fPhysiVol[DmpCore::kWhole] = fParser[DmpCore::kWhole]->GetWorldVolume();
+  fPhysiVol[DmpCore::kBgo] = new G4PVPlacement(0,
+                  G4ThreeVector(),
+                  "Bgo",
+                  fParser[DmpCore::kBgo]->GetVolume("BGO_detector_vol"),
+                  fPhysiVol[DmpCore::kWhole],
+                  false,
+                  0);
 
 // *
 // *  TODO: set SD of SubDet at here
 // *
-  G4SDManager *SDMan = G4SDManager::GetSDMpointer();
-//  SDMan->AddNewDetector(new DmpSimPsdSD("/DmpDet/Psd"));
-//  SDMan->AddNewDetector(new DmpSimStkSD("/DmpDet/Stk"));
-  SDMan->AddNewDetector(new DmpSimBgoSD("/DmpDet/Bgo"));
- //*  TODO: add evry crystal as SD
-  //G4LogicalVolume *bgoCrystal = fParser->GetXXX()->GetLogicalVolume();
-  //bgoCrystal->SetSensitiveDetector(aTrackerSD);
-//  SDMan->AddNewDetector(new DmpSimNudSD("/DmpDet/Nud"));
+  G4SDManager *MgrSD = G4SDManager::GetSDMpointer();
+  DmpSimBgoSD *bgoSD = new DmpSimBgoSD("BgoSD");
+  MgrSD->AddNewDetector(bgoSD);
+  fParser[DmpCore::kBgo]->GetVolume("BGO_bar_vol")->SetSensitiveDetector(bgoSD);
 
-  return fParser->GetWorldVolume();
+  return fPhysiVol[DmpCore::kWhole];
 }
 
 //-------------------------------------------------------------------
 void DmpSimDetectorConstruction::SetGdmlPath(DmpCore::DmpEDetectorID id, std::string p){
   sGdmlPath[id] = p;
 }
-
-//-------------------------------------------------------------------
-std::string DmpSimDetectorConstruction::GetGdmlPath(const DmpCore::DmpEDetectorID &id){
-  return sGdmlPath[id];
-}
-
 

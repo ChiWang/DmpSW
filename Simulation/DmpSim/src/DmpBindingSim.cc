@@ -20,7 +20,6 @@ BOOST_PYTHON_MODULE(libDmpSim){
 
   // DmpSimEntrance
   def("SetGdmlPath",    DmpCore::SimSetGdmlPath);
-  def("GetGdmlPath",    DmpCore::SimGetGdmlPath);
   def("Initialize",     DmpCore::SimInitialize);
   def("Execute",        DmpCore::SimExecute);
   def("Clear",          DmpCore::SimClear);

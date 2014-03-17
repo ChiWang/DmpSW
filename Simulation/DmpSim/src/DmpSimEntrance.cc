@@ -27,22 +27,8 @@
 #include "DmpSimEntrance.h"
 
 void DmpCore::SimSetGdmlPath(DmpCore::DmpEDetectorID id,std::string p){
-  if(p=="default"){
-    p = (std::string)getenv("DMPSWSYS") + "/share/Geometry/Product/";
-  }else if(p[p.length()-1] != '/'){
-    p=p+'/';
-  }
-  if(id ==DmpCore::kWhole){
-    DmpSimDetectorConstruction::SetGdmlPath(id,p+"SubDet_i/");
-  }else{
-    DmpSimDetectorConstruction::SetGdmlPath(id,p);
-  }
+  DmpSimDetectorConstruction::SetGdmlPath(id,p);
 } 
-
-//-------------------------------------------------------------------
-void DmpCore::SimGetGdmlPath(DmpCore::DmpEDetectorID id){
-  DmpSimDetectorConstruction::GetGdmlPath(id);
-}
 
 G4RunManager *runManager = 0;
 G4VisManager *visManager = 0;

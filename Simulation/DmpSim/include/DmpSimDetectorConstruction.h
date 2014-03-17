@@ -23,14 +23,14 @@ public:
   G4VPhysicalVolume* Construct();
 
 private:
-  G4GDMLParser      *fParser;
+  G4GDMLParser      *fParser[DmpCore::gSubDetNo + 1];
+  G4VPhysicalVolume *fPhysiVol[DmpCore::gSubDetNo + 1];
 
 public:
   static void SetGdmlPath(DmpCore::DmpEDetectorID,std::string);
-  static std::string GetGdmlPath(const DmpCore::DmpEDetectorID&);
 
 private:
-  static std::string    sGdmlPath[DmpCore::gSubDetNo];
+  static std::string    sGdmlPath[DmpCore::gSubDetNo + 1];
 };
 
 #endif

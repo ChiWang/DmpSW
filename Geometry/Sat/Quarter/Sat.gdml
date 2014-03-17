@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<!DOCTYPE gdml[<!ENTITY parameter SYSTEM "./Schema/parameter_Quarter.xml">]>
-<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./Schema/gdml.xsd">
+<!DOCTYPE gdml[<!ENTITY parameter SYSTEM "parameter.xml">]>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
 
   &parameter;
 
