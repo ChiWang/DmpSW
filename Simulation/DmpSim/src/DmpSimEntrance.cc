@@ -26,8 +26,8 @@
 #include "DmpSimTrackingAction.h"
 #include "DmpSimEntrance.h"
 
-void DmpCore::SimSetGdmlPath(DmpCore::DmpEDetectorID id,std::string p){
-  DmpSimDetectorConstruction::SetGdmlPath(id,p);
+void DmpCore::SimSetGdmlPath(DmpCore::DmpEDetectorID id,const std::string &p,float i){
+  DmpSimDetectorConstruction::SetGdmlPath(id,p,i);
 } 
 
 G4RunManager *runManager = 0;

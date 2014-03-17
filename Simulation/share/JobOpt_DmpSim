@@ -27,9 +27,11 @@ simDataMgr.SetOutDataPath("./test")
 
     ##  Start simulation. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SsetIn(Out)DataPath() between different Execute()
 inMacPath=os.getenv('DMPSWSYS')+"/share/"
-DmpSim.SetGdmlPath(DmpCore.DmpEDetectorID.kWhole,inMacPath+"Geometry/Sat/Quarter")
-DmpSim.SetGdmlPath(DmpCore.DmpEDetectorID.kPsd,inMacPath+"Geometry/Psd/Quarter")
-DmpSim.SetGdmlPath(DmpCore.DmpEDetectorID.kBgo,inMacPath+"Geometry/Bgo/Quarter")
+DmpSim.SetGdmlPath(DmpCore.DmpEDetectorID.kWhole,inMacPath+"Geometry/Sat/Quarter",0)      # must add satellite gdml files. last argument is offset to center
+DmpSim.SetGdmlPath(DmpCore.DmpEDetectorID.kPsd,inMacPath+"Geometry/Psd/Quarter",-33.4)
+#DmpSim.SetGdmlPath(DmpCore.DmpEDetectorID.kStk,inMacPath+"Geometry/Stk/Quarter")       # if not set, will not construct this subDet
+DmpSim.SetGdmlPath(DmpCore.DmpEDetectorID.kBgo,inMacPath+"Geometry/Bgo/Quarter",300)
+#DmpSim.SetGdmlPath(DmpCore.DmpEDetectorID.kNud,inMacPath+"Geometry/Nud/Quarter")
 DmpSim.Initialize()      # setup detector, user actions
 #simDataMgr.SetOutDataName("electron.root")  # set output data name(*.root) for the next Execute(). If NOT set will use the default name(time stamp)
 #DmpSim.Execute(inMacPath+"Simulation/DmpSim_electron.mac")

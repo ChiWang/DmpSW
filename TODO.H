@@ -33,8 +33,7 @@
 // *  TODO: Simulation
 //
 //      16/03/2014 >>  expose SimDataMgr to python instead of exposing set method 
-//      >>  use DmpSvcManager to read gdml files for 4 subDet, respectively
-//      >>  fParser->Read(subDet*.gdml) respectively??
+//      17/03/2014 >>  fParser->Read(subDet*.gdml) respectively??
 //      12/03/2014 >>  delete static data member to create singleton, only use static function and a static object in stack in this function
 //      12/03/2014 >>  ?? Simulation/DmpSim/src/DmpEntranceSimulation.cc:37: error: ‘DmpEDetectorID’ is not a class or namespace (missing namespace)
 //      (X) 1.  check run script

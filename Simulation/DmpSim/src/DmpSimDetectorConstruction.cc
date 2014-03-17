@@ -23,72 +23,105 @@
 #include "DmpSimBgoSD.h"
 //#include "DmpSimNudSD.h"
 
-std::string DmpSimDetectorConstruction::sGdmlPath[DmpCore::gSubDetNo+1]={"default"};
+std::string DmpSimDetectorConstruction::sGdmlPath[DmpCore::gSubDetNo+1]={"default","default","default","default","default"};
+float DmpSimDetectorConstruction::sOffset[DmpCore::gSubDetNo+1] = {-33.4, 0, 200, 0, 0};
 
 DmpSimDetectorConstruction::DmpSimDetectorConstruction(){
   for (short i=0;i<DmpCore::gSubDetNo+1;++i){
-    fParser[i] = new G4GDMLParser();
+    fParser[i] = 0;
+    new G4GDMLParser();
   }
-  fOffset[DmpCore::kPsd] = -33.4;
-  fOffset[DmpCore::kStk] = 0;
-  fOffset[DmpCore::kBgo] = 200;
-  fOffset[DmpCore::kNud] = 0;
 }
 
 DmpSimDetectorConstruction::~DmpSimDetectorConstruction(){
   for (short i=0;i<DmpCore::gSubDetNo+1;++i){
-    delete fParser[i];
+    if(fParser[i] != 0){
+      delete fParser[i];
+    }
   }
 }
 
-//#include "DmpSimDataManager.h"
 G4VPhysicalVolume* DmpSimDetectorConstruction::Construct(){
+  //G4PhysicalVolumeStore::GetInstance()->Clean();
+  //G4LogicalVolumeStore::GetInstance()->Clean();
   char *dirTmp = getcwd(NULL,NULL);
-// *
-// *  TODO:  if could read gdml file of subDetector respectively. use me
-// *
-  chdir(sGdmlPath[DmpCore::kWhole].c_str());  fParser[DmpCore::kWhole]->Read("Sat.gdml");
-  chdir(sGdmlPath[DmpCore::kPsd].c_str());  fParser[DmpCore::kPsd]->Read("Psd.gdml");
-  //chdir(sGdmlPath[DmpCore::kStk].c_str());  fParser[DmpCore::kStk]->Read("Stk.gdml");
-  chdir(sGdmlPath[DmpCore::kBgo].c_str());  fParser[DmpCore::kBgo]->Read("Bgo.gdml");
-  //chdir(sGdmlPath[DmpCore::kNud].c_str());  fParser[DmpCore::kNud]->Read("Nud.gdml");
-  chdir(dirTmp);
-
-// *
-// *  TODO: place subDet into satellite
-// *
+  if(sGdmlPath[DmpCore::kWhole] == "default"){
+    G4cout<<"Error: must setup detector in job option file. DmpSim.SetGdmlPath(DmpCore.DmpEDetectorID.WhichID,GdmlFilePath)"<<G4endl;
+  }else{
+    chdir(sGdmlPath[DmpCore::kWhole].c_str());
+    fParser[DmpCore::kWhole] = new G4GDMLParser();
+    fParser[DmpCore::kWhole]->Read("Sat.gdml");
+  }
   fPhysiVol[DmpCore::kWhole] = fParser[DmpCore::kWhole]->GetWorldVolume();
-  fPhysiVol[DmpCore::kPsd] = new G4PVPlacement(0,
-                  G4ThreeVector(0,0,fOffset[DmpCore::kPsd]),
-                  "Psd",
-                  fParser[DmpCore::kPsd]->GetVolume("Psd_detector_vol"),
-                  fPhysiVol[DmpCore::kWhole],
-                  false,
-                  0);
-  fPhysiVol[DmpCore::kBgo] = new G4PVPlacement(0,
-                  G4ThreeVector(0,0,fOffset[DmpCore::kBgo]),
-                  "Bgo",
-                  fParser[DmpCore::kBgo]->GetVolume("Bgo_detector_vol"),
-                  fPhysiVol[DmpCore::kWhole],
-                  false,
-                  0);
+  if(sGdmlPath[DmpCore::kPsd] != "default"){
+    chdir(sGdmlPath[DmpCore::kPsd].c_str());
+    fParser[DmpCore::kPsd] = new G4GDMLParser();
+    fParser[DmpCore::kPsd]->Read("Psd.gdml");
+    fPhysiVol[DmpCore::kPsd] = new G4PVPlacement(0,
+                    G4ThreeVector(0,0,sOffset[DmpCore::kPsd]),
+                    "Psd",
+                    fParser[DmpCore::kPsd]->GetVolume("Psd_detector_vol"),
+                    fPhysiVol[DmpCore::kWhole],
+                    false,
+                    0);
+  }
+  if(sGdmlPath[DmpCore::kStk] != "default"){
+    chdir(sGdmlPath[DmpCore::kStk].c_str());
+    fParser[DmpCore::kStk] = new G4GDMLParser();
+    fParser[DmpCore::kStk]->Read("Stk.gdml");
+    fPhysiVol[DmpCore::kStk] = new G4PVPlacement(0,
+                    G4ThreeVector(0,0,sOffset[DmpCore::kStk]),
+                    "Stk",
+                    fParser[DmpCore::kStk]->GetVolume("Stk_detector_vol"),
+                    fPhysiVol[DmpCore::kWhole],
+                    false,
+                    0);
+  }
+  if(sGdmlPath[DmpCore::kBgo] != "default"){
+    chdir(sGdmlPath[DmpCore::kBgo].c_str());
+    fParser[DmpCore::kBgo] = new G4GDMLParser();
+    fParser[DmpCore::kBgo]->Read("Bgo.gdml");
+    fPhysiVol[DmpCore::kBgo] = new G4PVPlacement(0,
+                    G4ThreeVector(0,0,sOffset[DmpCore::kBgo]),
+                    "Bgo",
+                    fParser[DmpCore::kBgo]->GetVolume("Bgo_detector_vol"),
+                    fPhysiVol[DmpCore::kWhole],
+                    false,
+                    0);
+  }
+  if(sGdmlPath[DmpCore::kNud] != "default"){
+    chdir(sGdmlPath[DmpCore::kNud].c_str());
+    fParser[DmpCore::kNud] = new G4GDMLParser();
+    fParser[DmpCore::kNud]->Read("Nud.gdml");
+    fPhysiVol[DmpCore::kNud] = new G4PVPlacement(0,
+                    G4ThreeVector(0,0,sOffset[DmpCore::kNud]),
+                    "Nud",
+                    fParser[DmpCore::kNud]->GetVolume("Nud_detector_vol"),
+                    fPhysiVol[DmpCore::kWhole],
+                    false,
+                    0);
+  }
+  chdir(dirTmp);
 
 // *
 // *  TODO: set SD of SubDet at here
 // *
-  G4SDManager *MgrSD = G4SDManager::GetSDMpointer();
-  DmpSimBgoSD *bgoSD = new DmpSimBgoSD("BgoSD");
-  MgrSD->AddNewDetector(bgoSD);
-  fParser[DmpCore::kBgo]->GetVolume("BGO_bar_vol")->SetSensitiveDetector(bgoSD);
+  G4SDManager *mgrSD = G4SDManager::GetSDMpointer();
+  if(fParser[DmpCore::kBgo]){
+    DmpSimBgoSD *bgoSD = new DmpSimBgoSD("BgoSD");
+    mgrSD->AddNewDetector(bgoSD);
+    fParser[DmpCore::kBgo]->GetVolume("BGO_bar_vol")->SetSensitiveDetector(bgoSD);
+  }
 
   return fPhysiVol[DmpCore::kWhole];
 }
 
 //-------------------------------------------------------------------
-void DmpSimDetectorConstruction::SetGdmlPath(DmpCore::DmpEDetectorID id, std::string p){
+void DmpSimDetectorConstruction::SetGdmlPath(DmpCore::DmpEDetectorID id, const std::string &p, float off){
 #ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\t ID = "<<id<<"size = "<<std::endl;
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\t ID = "<<id<<std::endl;
 #endif
   sGdmlPath[id] = p;
+  sOffset[id] = off;
 }
 

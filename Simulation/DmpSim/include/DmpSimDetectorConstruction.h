@@ -24,16 +24,11 @@ private:
   G4VPhysicalVolume *fPhysiVol[DmpCore::gSubDetNo + 1];
 
 public:
-  static void SetGdmlPath(DmpCore::DmpEDetectorID,std::string);
+  static void SetGdmlPath(DmpCore::DmpEDetectorID,const std::string&,float);
 
 private:
   static std::string    sGdmlPath[DmpCore::gSubDetNo + 1];
-
-private:
-// *
-// *  TODO: binding set functions into python and control in python script
-// *
-  float fOffset[DmpCore::gSubDetNo];        // sudDet center --> Sat center
+  static float sOffset[DmpCore::gSubDetNo + 1];        // sudDet center --> Sat center
 
 };
 
