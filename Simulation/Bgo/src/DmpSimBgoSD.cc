@@ -32,6 +32,9 @@ void DmpSimBgoSD::Initialize(G4HCofThisEvent*){
 }
 
 G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory *ROHist){
+//#ifdef DmpDebug
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+//#endif
 // *  TODO: check barID is right?
 #pragma message("TODO ----> check barID is right?")
   int barID = 333;//(ROHist->GetVolume(1)->GetCopyNo())*100 + ROHist->GetVolume(0)->GetCopyNo();
@@ -54,7 +57,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"o
 // *  TODO: use real data from G4Step
   double e = aStep->GetTotalEnergyDeposit()/MeV;    // use MeV
   G4ThreeVector position = aStep->GetPreStepPoint()->GetPosition();
-  aHit->AppendThisHit(e,position.x()/cm,position.y()/cm,position.z()/cm);
+  aHit->AddThisHit(e,position.x()/cm,position.y()/cm,position.z()/cm);
 }
 
 void DmpSimBgoSD::EndOfEvent(G4HCofThisEvent* HCE){

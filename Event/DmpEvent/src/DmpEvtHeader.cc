@@ -23,7 +23,6 @@ DmpEvtHeader::DmpEvtHeader()
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
   fParticle = new TParticle();
-  fRunModes.resize(DmpCore::gSubDetNo);
 }
 
 DmpEvtHeader::~DmpEvtHeader(){

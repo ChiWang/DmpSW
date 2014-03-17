@@ -28,7 +28,7 @@ simDataMgr.SetOutDataPath("./test")
 inMacPath=os.getenv('DMPSWSYS')+"/share/"
 simDetPar = DmpSim.DmpSimDetectorInterface.GetInstance()
 simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kWhole,inMacPath+"Geometry/Sat/Quarter")      # must add satellite gdml files
-simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kPsd,inMacPath+"Geometry/Psd/Quarter")
+#simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kPsd,inMacPath+"Geometry/Psd/Quarter")
 #simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kStk,inMacPath+"Geometry/Stk/Quarter")       # if not set, will not construct this subDet
 simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kBgo,inMacPath+"Geometry/Bgo/Quarter")
 #simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kNud,inMacPath+"Geometry/Nud/Quarter")
@@ -38,8 +38,8 @@ simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kBgo,inMacPath+"Geometry/Bgo/Quarte
 DmpSim.Initialize()      # setup detector, user actions
 #simDataMgr.SetOutDataName("electron.root")  # set output data name(*.root) for the next Execute(). If NOT set will use the default name(time stamp)
 #DmpSim.Execute(inMacPath+"Simulation/DmpSim_electron.mac")
-#DmpSim.Execute(inMacPath+"Simulation/DmpSim_proton.mac")     # start a new run, without delete physics list, detector construction and all user actions.
-DmpSim.Execute("visual")                # open visual mode, if you don't want to use batch mode as above(input a macro file name in Execute()).
+DmpSim.Execute(inMacPath+"Simulation/DmpSim_proton.mac")     # start a new run, without delete physics list, detector construction and all user actions.
+#DmpSim.Execute("visual")                # open visual mode, if you don't want to use batch mode as above(input a macro file name in Execute()).
 DmpSim.Clear()
 
 

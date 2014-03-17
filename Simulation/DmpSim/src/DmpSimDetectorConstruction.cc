@@ -107,6 +107,9 @@ G4VPhysicalVolume* DmpSimDetectorConstruction::Construct(){
 // *
   G4SDManager *mgrSD = G4SDManager::GetSDMpointer();
   if(fParser[DmpCore::kBgo]){
+#ifdef DmpDebug
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__FUNCTION__<<"\tadd SD"<<std::endl;
+#endif
     DmpSimBgoSD *bgoSD = new DmpSimBgoSD("BgoSD");
     mgrSD->AddNewDetector(bgoSD);
     fParser[DmpCore::kBgo]->GetVolume("BGO_bar_vol")->SetSensitiveDetector(bgoSD);

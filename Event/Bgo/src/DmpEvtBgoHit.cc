@@ -38,7 +38,7 @@ void DmpEvtBgoHit::Reset(){
 void DmpEvtBgoHit::PrintHit() const{
 }
 
-void DmpEvtBgoHit::AppendThisHit(double e, double x, double y, double z){
+void DmpEvtBgoHit::AddThisHit(double e, double x, double y, double z){
   double totE = e + fEnergy;
   double nX = (e*x + fEnergy*fPosition[0])/totE;
   double nY = (e*y + fEnergy*fPosition[1])/totE;
