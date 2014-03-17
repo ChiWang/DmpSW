@@ -11,15 +11,3 @@
   </define>
 
 
-  <materials>
-  <!--Vacuum-->
-    <element name="videRef" formula="VACUUM" Z="1">
-     <atom value="1."/>
-    </element>
-    <material formula=" " name="Vacuum">
-     <D value="1.e-25" unit="g/cm3" />
-     <fraction n="1.0" ref="videRef" />
-    </material>
-  </materials>
-
-

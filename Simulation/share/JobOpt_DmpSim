@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpSim, 2014-03-17 18:00:07 chi $
+ *  $Id: JobOpt_DmpSim, 2014-03-17 18:42:24 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
  *-----------------------------------------------------
@@ -24,15 +24,15 @@ import libDmpSim as  DmpSim
     ##  where to save the output. If NOT set at here will use "./"
 simDataMgr = DmpSim.DmpSimDataManager.GetInstance()
 simDataMgr.SetOutDataPath("./test")
-    ##  where to read gdml files for different subDet. reset offset if you like
+    ##  where to read gdml files for different subDet, if NOT set will ignore this subDet.
 inMacPath=os.getenv('DMPSWSYS')+"/share/"
 simDetPar = DmpSim.DmpSimDetectorInterface.GetInstance()
 simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kWhole,inMacPath+"Geometry/Sat/Quarter")      # must add satellite gdml files
 simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kPsd,inMacPath+"Geometry/Psd/Quarter")
-simDetPar.SetOffset(DmpCore.DmpEDetectorID.kPsd,-50)
 #simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kStk,inMacPath+"Geometry/Stk/Quarter")       # if not set, will not construct this subDet
 simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kBgo,inMacPath+"Geometry/Bgo/Quarter")
 #simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kNud,inMacPath+"Geometry/Nud/Quarter")
+#simDetPar.SetOffset(DmpCore.DmpEDetectorID.kPsd,-80)            # Reset offset if you like
 
     ##  Start simulation. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SsetIn(Out)DataPath() between different Execute()
 DmpSim.Initialize()      # setup detector, user actions
