@@ -44,6 +44,7 @@ void DmpVOutDataManager::SaveOutput(){
   delete aFile;
   std::cout<<"Result in : "<<fOutDataPath+fOutDataName<<std::endl;
   fOutDataName = "no";
+  fOutDataTree->Reset();       // delete this tree from memory
 }
 
 //-------------------------------------------------------------------
