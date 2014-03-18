@@ -32,12 +32,11 @@ void DmpSimBgoSD::Initialize(G4HCofThisEvent*){
 }
 
 G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory *ROHist){
-//#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-//#endif
+// *
 // *  TODO: check barID is right?
-#pragma message("TODO ----> check barID is right?")
+// *
   int barID = 333;//(ROHist->GetVolume(1)->GetCopyNo())*100 + ROHist->GetVolume(0)->GetCopyNo();
+  //int barID = (ROHist->GetVolume(1)->GetCopyNo())*100 + ROHist->GetVolume(0)->GetCopyNo();
   int index = -1;
   for(int i=0;i<fHitCollection->GetEntriesFast();++i){
     if(((DmpEvtBgoHit*)fHitCollection->At(i))->GetSDID() == barID){
@@ -46,12 +45,16 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
   }
   DmpEvtBgoHit *aHit = 0;
   if(index < 0){
+#ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"add new hit barID = "<<barID<<std::endl;
+#endif
     index = fHitCollection->GetEntriesFast();
     aHit = (DmpEvtBgoHit*)fHitCollection->ConstructedAt(index);
     aHit->SetSDID(barID);
   }else{
+#ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"old hit barID = "<<barID<<std::endl;
+#endif
     aHit = (DmpEvtBgoHit*)fHitCollection->At(index);
   }
 // *  TODO: use real data from G4Step

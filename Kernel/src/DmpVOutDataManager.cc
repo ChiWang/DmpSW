@@ -63,7 +63,7 @@ std::string DmpVOutDataManager::TimeStamp(){
   time(&now);
   p = localtime(&now);
   char timeStamp[20];
-  strftime(timeStamp,99,"%Y%m%d%H%M%S.root",p);
+  strftime(timeStamp,99,"%Y%m%d%H%M%S",p);
   return timeStamp;
 }
 

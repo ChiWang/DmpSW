@@ -28,11 +28,14 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
   fOutDataTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
 }
 
-void DmpSimDataManager::SetOutDataName(std::string name){
-  if(name != "default"){
-    fOutDataName = name;
-  }else if(name == "default" && fOutDataName == "no"){
-    fOutDataName = "DmpSim_"+TimeStamp();
+#include <boost/lexical_cast.hpp>
+void DmpSimDataManager::SetOutDataName(std::string tag){
+  static int runID=0;
+  ++runID;
+  if(tag != "default"){
+    fOutDataName = "DmpSim_run"+boost::lexical_cast<std::string>(runID)+"_"+TimeStamp()+"_"+tag+".root";
+  }else if(tag == "default" && fOutDataName == "no"){
+    fOutDataName = "DmpSim_run"+boost::lexical_cast<std::string>(runID)+"_"+TimeStamp()+".root";
   }
 }
 

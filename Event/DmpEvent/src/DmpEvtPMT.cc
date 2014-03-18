@@ -16,7 +16,7 @@ DmpEvtPMT::DmpEvtPMT()
 }
 
 DmpEvtPMT::DmpEvtPMT(short size)
- :fEnergy(2120),
+ :fEnergy(0),
   fUsedDy(0)
 {
   for (int i=0;i<size;++i) fADCDynode.push_back(i*10);

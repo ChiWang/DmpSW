@@ -29,7 +29,7 @@ public:
   virtual ~DmpVOutDataManager();
 
   virtual void BookBranch()=0;
-  virtual void SetOutDataName(const std::string &n)   {fOutDataName = n;}   // binding me
+  virtual void SetOutDataName(const std::string &n)   {fOutDataName = n+".root";}   // binding me
   void  SetOutDataPath(std::string);        // binding me
   std::string GetOutDataPath() const    {return fOutDataPath;}  // binding me
   std::string GetOutDataName() const    {return fOutDataName;}  // binding me
