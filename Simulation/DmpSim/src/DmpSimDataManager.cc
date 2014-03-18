@@ -70,8 +70,7 @@ void DmpSimDataManager::UpdateEventHeader(const G4Event *anEvent){
   eventHeader->SetRunMode(DmpCore::kStk,DmpCore::kCompress);
   eventHeader->SetRunMode(DmpCore::kBgo,DmpCore::kCompress);
   eventHeader->SetRunMode(DmpCore::kNud,DmpCore::kCompress);
-  int pdgCode = anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode();
-  eventHeader->SetParticlePdgCode(pdgCode);
+  eventHeader->SetParticlePdgCode(anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode());
 }
 
 //-------------------------------------------------------------------

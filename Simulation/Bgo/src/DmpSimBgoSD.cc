@@ -24,9 +24,6 @@ DmpSimBgoSD::~DmpSimBgoSD(){
 }
 
 void DmpSimBgoSD::Initialize(G4HCofThisEvent*){
-// *
-// *  TODO: check right? delete elements in TClonesArray of Bgo Hits
-// *
   fHitCollection->Delete();
   fHitCollection->Clear(); // delete all Hits in collection
 }
@@ -34,15 +31,14 @@ void DmpSimBgoSD::Initialize(G4HCofThisEvent*){
 #include <boost/lexical_cast.hpp>
 G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
 // *
-// *  TODO: check barID is right?
+// *  TODO: update the method to get barID
 // *
-  //int barID = 333;
-  //int barID = (ROHist->GetVolume(2)->GetCopyNo())*100 + ROHist->GetVolume(1)->GetCopyNo();
-  //int barID = (theTouchable->GetVolume(1)->GetCopyNo())*100 + theTouchable->GetVolume()->GetCopyNo();
   G4TouchableHistory *theTouchable = (G4TouchableHistory*)(aStep->GetPreStepPoint()->GetTouchable());
   std::string barName = theTouchable->GetVolume()->GetName();
   barName.assign(barName.end()-4,barName.end());        // get ID
   int barID = boost::lexical_cast<int>(barName);
+  //int barID = 333;
+  //int barID = (theTouchable->GetVolume(1)->GetCopyNo())*100 + theTouchable->GetVolume()->GetCopyNo();
   int index = -1;
   for(int i=0;i<fHitCollection->GetEntriesFast();++i){
     if(((DmpEvtBgoHit*)fHitCollection->At(i))->GetSDID() == barID){
@@ -52,7 +48,7 @@ G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
   DmpEvtBgoHit *aHit = 0;
   if(index < 0){
 #ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"add new hit barID = "<<barID<<std::endl;
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tnew bar has hits = "<<barID<<std::endl;
 #endif
     index = fHitCollection->GetEntriesFast();
     aHit = (DmpEvtBgoHit*)fHitCollection->ConstructedAt(index);
@@ -60,10 +56,8 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"a
   }else{
     aHit = (DmpEvtBgoHit*)fHitCollection->At(index);
   }
-// *  TODO: use real data from G4Step
-  double e = aStep->GetTotalEnergyDeposit()/MeV;    // use MeV
   G4ThreeVector position = aStep->GetPreStepPoint()->GetPosition();
-  aHit->AddThisHit(e,position.x()/cm,position.y()/cm,position.z()/cm);
+  aHit->AddThisHit(aStep->GetTotalEnergyDeposit()/MeV,position.x()/cm,position.y()/cm,position.z()/cm);
 }
 
 void DmpSimBgoSD::EndOfEvent(G4HCofThisEvent* HCE){
