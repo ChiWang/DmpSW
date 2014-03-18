@@ -11,35 +11,32 @@
 # load lib. of DAMPE software
 import os
 import sys
+prefix=os.getenv('DMPSWSYS')
 if os.environ['DMPSWSYS'] not in sys.path:
-    sys.path.append(os.getenv('DMPSWSYS')+'/lib')
+    sys.path.append(prefix+'/lib')
 
 import libDmpCore as DmpCore
 import libDmpSim as  DmpSim
 
-# set phase
-#DmpCore.PhaseManager.SetPhase(DmpCore.DmpEPhase.kQuarter)  # default is kProduct, if NOT set
-
 # RUN simulation
-    ##  where to save the output. If NOT set at here will use "./"
+    ##  where to save the output. If NOT set will use "./" by defualt
 simDataMgr = DmpSim.DmpSimDataManager.GetInstance()
 simDataMgr.SetOutDataPath("./test")
     ##  where to read gdml files for different subDet, if NOT set will ignore this subDet.
-inMacPath=os.getenv('DMPSWSYS')+"/share/"
 simDetPar = DmpSim.DmpSimDetectorInterface.GetInstance()
-simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kWhole,inMacPath+"Geometry/Sat/Quarter")      # must add satellite gdml files
-#simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kPsd,inMacPath+"Geometry/Psd/Quarter")
-#simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kStk,inMacPath+"Geometry/Stk/Quarter")       # if NOT set, will not construct this subDet
-simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kBgo,inMacPath+"Geometry/Bgo/Quarter")
-#simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kNud,inMacPath+"Geometry/Nud/Quarter")
+simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kWhole,prefix+"/share/Geometry/Sat/Quarter")      # must add satellite gdml files
+#simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kPsd,prefix+"/share/Geometry/Psd/Quarter")
+#simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kStk,prefix+"/share/Geometry/Stk/Quarter")       # if NOT set, will not construct this subDet
+simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kBgo,prefix+"/share/Geometry/Bgo/Quarter")
+#simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kNud,prefix+"/share/Geometry/Nud/Quarter")
 #simDetPar.SetOffset(DmpCore.DmpEDetectorID.kPsd,-80)            # Reset offset if you like
 
     ##  Start simulation. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SsetIn(Out)DataPath() between different Execute()
 DmpSim.Initialize()      # setup detector, user actions
-simDataMgr.SetOutDataName("electron")        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay
-#DmpSim.Execute(inMacPath+"Simulation/DmpSim_electron.mac")
-DmpSim.Execute(inMacPath+"Simulation/DmpSim_proton.mac")     # start a new run, without delete physics list, detector construction and all user actions.
-#DmpSim.Execute(inMacPath+"Simulation/DmpSim_proton.mac")     # start a new run, without delete physics list, detector construction and all user actions.
+simDataMgr.SetOutDataName("electronTest")        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay
+DmpSim.Execute(prefix+"/share/Simulation/DmpSim_electron.mac")
+simDataMgr.SetOutDataName("protonTest")        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay
+DmpSim.Execute(prefix+"/share/Simulation/DmpSim_proton.mac")     # start a new run, without delete physics list, detector construction and all user actions.
 #DmpSim.Execute("visual")                # open visual mode, if you don't want to use batch mode as above(input a macro file name in Execute()).
 DmpSim.Clear()
 

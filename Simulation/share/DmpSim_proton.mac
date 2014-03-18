@@ -1,8 +1,8 @@
 /gps/source/clear 
 
 /gps/source/add 1  
-/gps/particle e- 
-#/gps/particle proton
+#/gps/particle e- 
+/gps/particle proton
 /gps/pos/type Plane 
 /gps/pos/shape Square
 /gps/pos/centre 0. 0. -5.5001 mm
@@ -12,10 +12,10 @@
 /gps/ang/mintheta 0.00 deg 
 /gps/ang/maxtheta 0.0010 deg
 /gps/ene/type Lin 
-/gps/ene/min 90. MeV 
-/gps/ene/max 90.00000001 MeV 
+/gps/ene/min 150. MeV 
+/gps/ene/max 150.00000001 MeV 
 /gps/ene/gradient 0. 
 /gps/ene/intercept 1.
 
-/run/beamOn 1000
+/run/beamOn 10000
 

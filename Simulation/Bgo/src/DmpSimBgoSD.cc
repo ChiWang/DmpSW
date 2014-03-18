@@ -31,15 +31,18 @@ void DmpSimBgoSD::Initialize(G4HCofThisEvent*){
   fHitCollection->Clear(); // delete all Hits in collection
 }
 
-G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory *ROHist){
+#include <boost/lexical_cast.hpp>
+G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
 // *
 // *  TODO: check barID is right?
 // *
-  //int barID = 333;//(ROHist->GetVolume(1)->GetCopyNo())*100 + ROHist->GetVolume(0)->GetCopyNo();
+  //int barID = 333;
   //int barID = (ROHist->GetVolume(2)->GetCopyNo())*100 + ROHist->GetVolume(1)->GetCopyNo();
-  G4TouchableHistory* theTouchable = (G4TouchableHistory*)(aStep->GetPreStepPoint()->GetTouchable());
-  int barID = (theTouchable->GetVolume(1)->GetCopyNo())*100 + theTouchable->GetVolume()->GetCopyNo();
-
+  //int barID = (theTouchable->GetVolume(1)->GetCopyNo())*100 + theTouchable->GetVolume()->GetCopyNo();
+  G4TouchableHistory *theTouchable = (G4TouchableHistory*)(aStep->GetPreStepPoint()->GetTouchable());
+  std::string barName = theTouchable->GetVolume()->GetName();
+  barName.assign(barName.end()-4,barName.end());        // get ID
+  int barID = boost::lexical_cast<int>(barName);
   int index = -1;
   for(int i=0;i<fHitCollection->GetEntriesFast();++i){
     if(((DmpEvtBgoHit*)fHitCollection->At(i))->GetSDID() == barID){
@@ -55,9 +58,6 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"a
     aHit = (DmpEvtBgoHit*)fHitCollection->ConstructedAt(index);
     aHit->SetSDID(barID);
   }else{
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"old hit barID = "<<barID<<std::endl;
-#endif
     aHit = (DmpEvtBgoHit*)fHitCollection->At(index);
   }
 // *  TODO: use real data from G4Step

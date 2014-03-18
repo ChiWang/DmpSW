@@ -1,31 +1,21 @@
-# ----------------------------------------------
-# Example macro file for the DmpSimu
-# ----------------------------------------------
-# Author(s): Xin Wu 
-# Revised: Fan Rui Rui	2013-8-14
-# Revised: Xin Wu	2013-9-24
-#   - set ouput file name
-#   - switch to use Fabio's generator by setting /gun/sourceGen 1 
-# ----------------------------------------------
+/gps/source/clear 
 
-#
-# Sets some default verbose
-#
-/control/verbose 2
-/control/saveHistory
-/run/verbose 1
-/tracking/storeTrajectory 2
-#/tracking/verbose 1
-
+/gps/source/add 1  
 /gps/particle e- 
-#/gps/pos/centre 0.0 0.0 0.0 mm
-/gps/ene/type Mono
-/gps/ene/mono 100 GeV
+#/gps/particle proton
+/gps/pos/type Plane 
+/gps/pos/shape Square
+/gps/pos/centre 0. 0. -5.5001 mm
+/gps/pos/halfx 0.02475 mm
+/gps/pos/halfy 0.02475 mm
+/gps/ang/type cos 
+/gps/ang/mintheta 0.00 deg 
+/gps/ang/maxtheta 0.0010 deg
+/gps/ene/type Lin 
+/gps/ene/min 50. MeV 
+/gps/ene/max 50.00000001 MeV 
+/gps/ene/gradient 0. 
+/gps/ene/intercept 1.
 
-#/stk/thicknessThickW 1 mm
-#/payload/update
-
-# run 10 events
-/run/beamOn 10
-
+/run/beamOn 10000
 
