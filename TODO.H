@@ -32,6 +32,7 @@
 // *
 // *  TODO: Simulation
 //
+//      >>  SD::ProcessHits() how to get correct copy number
 //      16/03/2014 >>  expose SimDataMgr to python instead of exposing set method 
 //      17/03/2014 >>  fParser->Read(subDet*.gdml) respectively??
 //      12/03/2014 >>  delete static data member to create singleton, only use static function and a static object in stack in this function
