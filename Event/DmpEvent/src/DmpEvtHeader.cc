@@ -15,7 +15,6 @@ ClassImp(DmpEvtHeader)
 //-------------------------------------------------------------------
 DmpEvtHeader::DmpEvtHeader()
  :fEventID(-1),
-  fTime(0),
   fParticle(0)
 {
 #ifdef DmpDebug

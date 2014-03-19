@@ -16,9 +16,10 @@
 // *
 // *  TODO: Event
 //
+//      >>  DmpEventRaw::GetHitsCollections(DmpEDetectorID id)
 //      17/03/2014 >>  save vector(fRunMode) wrong, fix it
-//      2.  add digitization into EventAction.cc
-//      3.  add PrintTime() in order to check time in Rdc
+//      >>  add digitization into EventAction.cc
+//      >>  add PrintTime() in order to check time in Rdc
 // *
 
 // *

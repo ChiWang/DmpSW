@@ -29,10 +29,11 @@ public:
   virtual ~DmpVOutDataManager();
 
   virtual void BookBranch()=0;
-  virtual void SetOutDataName(const std::string &n)   {fOutDataName = n+".root";}   // binding me
+  virtual void SetOutDataName(std::string)=0;
   void  SetOutDataPath(std::string);        // binding me
   std::string GetOutDataPath() const    {return fOutDataPath;}  // binding me
   std::string GetOutDataName() const    {return fOutDataName;}  // binding me
+  void SetOutDataTag(const std::string &t)   {fNameTag = t;}   // binding me
   void  SaveOutput();
   void  FillEvent();
 
@@ -42,6 +43,7 @@ protected:
 protected:
   std::string   fOutDataPath;   //
   std::string   fOutDataName;   //
+  std::string   fNameTag;       // add a tag in the out data name
   TTree         *fOutDataTree;  //
 
 };

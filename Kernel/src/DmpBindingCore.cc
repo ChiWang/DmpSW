@@ -69,6 +69,7 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .def("SetOutDataPath",&DmpVOutDataManager::SetOutDataPath)
     .def("GetOutDataPath",&DmpVOutDataManager::GetOutDataPath)
     .def("GetOutDataName",&DmpVOutDataManager::GetOutDataName)
+    .def("SetOutDataTag",&DmpVOutDataManager::SetOutDataTag)
   ;
 
   // DmpServiceManager

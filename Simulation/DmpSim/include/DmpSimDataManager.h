@@ -23,7 +23,7 @@ class DmpSimDataManager : public DmpVOutDataManager{
 public:
   static DmpSimDataManager* GetInstance();
   void BookBranch();            // invoked from BeginOfRunAction()
-  void SetOutDataName(std::string name="default");     // invoked from BeginOfRunAction()
+  void SetOutDataName(std::string);     // invoked from BeginOfRunAction()
 
 private:
   DmpSimDataManager();

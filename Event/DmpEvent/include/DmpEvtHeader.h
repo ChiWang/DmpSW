@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEvtHeader.h, 2014-03-09 02:01:25 chi $
+ *  $Id: DmpEvtHeader.h, 2014-03-19 18:09:51 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -7,7 +7,6 @@
 #ifndef DmpEvtHeader_H
 #define DmpEvtHeader_H
 
-#include <vector>
 #include "TObject.h"
 
 #include "DmpDetectorID.h"
@@ -27,8 +26,8 @@ public:
 
   void  SetEventID(long id)     {fEventID = id;}
   long  GetEventID() const      {return fEventID;}
-  void  SetTime(long time)      {fTime = time;}
-  long  GetTime() const         {return fTime;}
+  void  SetTime(short id,short v)     {fTime[id] = v;}
+  short GetTimeSize() const     {return 8;}
   void  SetParticlePdgCode(int);
   TParticle* GetParticle() const {return fParticle;}
   void SetRunMode(DmpDetector::DmpEDetectorID id, DmpDetector::DmpERunMode mode) {fRunMode[id] = mode;}
@@ -36,12 +35,20 @@ public:
 
 private:
   long      fEventID;               // valid event count
-  long      fTime;                  // Unit msec
+  short     fTime[8];               // 8 bytes from satellite
+  /*
+   *    fTime[0] = 
+   *    fTime[1] = 
+   *    fTime[2] = 
+   *    fTime[3] = 
+   *    fTime[4] = 
+   *    fTime[5] = 
+   *    fTime[6] = 
+   *    fTime[7] = 
+   *
+   */
   TParticle *fParticle;             // this particle
-// *
-// *  TODO: just save one value of Run Mode, why ??
-// *
-  DmpDetector::DmpERunMode fRunMode[DmpDetector::gSubDetNo];
+  DmpDetector::DmpERunMode fRunMode[DmpDetector::gSubDetNo];    // size = gSubDetNo
 
   ClassDef(DmpEvtHeader,1)
 };

@@ -1,74 +1,61 @@
 /*
- *  $Id: DmpRdcAlgBgo.cc, 2014-03-10 13:32:01 chi $
+ *  $Id: DmpRdcAlgBgo.cc, 2014-03-19 12:39:26 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
 
-#include "DmpEvtHeader.h"
-#include "DmpEvtBgoHit.h"
-/*
- * DmpRdcDataManager, get RawEvent::BgoHits class and update data in them
- *
- */
-#include "DmpRdcDataManager.h"
-/*
- * DmpRdcAlgorithm cantains DmpRdcAlg::gInputData and
- * DmpRdcAlg::Bgo connector and trigger
- */
-#include "DmpRdcAlgorithm.h"
+#include <iostream>
 
-//-------------------------------------------------------------------
-void DmpRdcAlg::Bgo SetConnector(std::tring path){
-/*
- *  use path of Connector to set DmpRdcAlg::Bgo::connector
- *
- */
-  std::cout<<"\nSetup connector:\tBgo"<<"\t\tSuccess"<<std::endl;
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-#endif
-}
-
-void DmpRdcAlg::Bgo ConvertEvent(){
-/*
- *  use DmpRdcAlg::Bgo::connector, DmpRdcAlg::gInputData to update data in DmpRdcDataManager::fEvtRaw::fBgoHits, and DmpRdcAlg::Bgo::trigger
- *
- */
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-#endif
-}
-
-
-//-------------------------------------------------------------------
+//#include "DmpEvtHeader.h"
 #include "DmpRdcAlgBgo.h"
+#include "DmpRdcDataManager.h"
+#include "DmpEventRaw.h"
+#include "TClonesArray.h"
+#include "DmpEvtBgoHit.h"
+#include "DmpRdcConnectorInterface.h"
 
-void DmpRdcAlg::Bgo::Quarter::SetConnector(std::string path){
-  std::cout<<"\nSetup connector:\tBgo"<<std::endl;
-  std::cout<<"-----------------------"<<std::endl;
-  Int_t FEEID, ChannelID;
-  Short_t LID, BID, SID, DID;
-  Int_t const MaxSignalNb_Side = (BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb;
+DmpRdcAlgBgo::DmpRdcAlgBgo()
+ :fRunMe(true),
+  fFile(0),
+  fHits(0),
+  fTrigger(0)
+{
+  fHits = DmpRdcDataManager::GetInstance()->GetHitCollectionBgo();
+}
+
+DmpRdcAlgBgo::~DmpRdcAlgBgo(){
+}
+
+//-------------------------------------------------------------------
+bool DmpRdcAlgBgo::SetupConnector(){
+// *
+// *  TODO:  check connector right?
+// *
+  std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpCore::kBgo);
+  if(path == "default"){
+    fRunMe = false;
+    return true;
+  }
+  int FEEID, ChannelID;
+  short LID, BID, SID, DID;
+  int const MaxSignalNb_Side = (BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb;
   std::string note;
   char fileName[20];
-
-  for(Short_t l=0;l<BT2012::kPlaneNb*2;++l){
+  for(short l=0;l<BT2012::kPlaneNb*2;++l){
     LID = l;
     sprintf(fileName,"Layer_%d.cnct",l);
-    ifstream cnctFile(fConnectorPath+"/BT2012/Bgo/"+fileName);
+    ifstream cnctFile(path+fileName);
     if (!cnctFile.good()) {
-      std::cerr<<"Error: DmpRdcAlgorithm::SetConnectorBgo_BT2012():\tRead "<<fileName<<"\tfailed..."<<std::endl;
+      std::cerr<<"Error: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tRead "<<fileName<<"\tfailed..."<<std::endl;
       return false;
-    } else {
-      std::cout<<"\t"<<fileName;
     }
-    for(Short_t s=0;s<BT2012::kSideNb;++s){
+    for(short s=0;s<BT2012::kSideNb;++s){
       getline(cnctFile,note);   // reserved 1 line for note
       cnctFile>>SID;
       getline(cnctFile,note);   // reserved 1 line for note
       cnctFile>>FEEID;
       getline(cnctFile,note);   // reserved 1 line for note
-      for(Short_t c=0;c<MaxSignalNb_Side;++c){
+      for(short c=0;c<MaxSignalNb_Side;++c){
         cnctFile>>BID;
         cnctFile>>DID;
         cnctFile>>ChannelID;
@@ -77,20 +64,26 @@ void DmpRdcAlg::Bgo::Quarter::SetConnector(std::string path){
     }
     cnctFile.close();
   }
-  std::cout<<"\t\tSuccessful"<<std::endl;
+
+  std::cout<<"\nSetup connector:\tBgo"<<std::endl;
   return true;
 }
 
-void DmpRdcAlg::Bgo::Quarter ConvertEvent(){
-#ifdef Dmp_DEBUG
+//-------------------------------------------------------------------
+bool DmpRdcAlgBgo::Convert(){
+  if(not fRunMe) return true;
+#ifdef DmpDebug
 std::cerr<<"\t\t-->Bgo from "<<std::dec<<fHexData->tellg();
 #endif
-  static const Short_t  kFeeDataLength0 = ((BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb*BT2012::kSideNb*2+3)*2;  // 3: (1)data Length 0x00a2; (2)reverse 0x0000; (3)CRC 0x0xxx.  *2:to unit Byte.  Fee type A or B
-  static const Short_t  kFeeDataLength1 = ((BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb*BT2012::kSideNb+3)*2;   // Fee type C
-  static Short_t feeCount=0, feeID=0, channelID=0;
-  static Short_t nChan=0, dataLong=0;
-  static Short_t rawHex[2]={0};
-  static Short_t nc=0,tmp=0;     // for loop, define as static at here to save time
+// *
+// *  TODO: conversion bgo
+// *
+  static const short  kFeeDataLength0 = ((BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb*BT2012::kSideNb*2+3)*2;  // 3: (1)data Length 0x00a2; (2)reverse 0x0000; (3)CRC 0x0xxx.  *2:to unit Byte.  Fee type A or B
+  static const short  kFeeDataLength1 = ((BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb*BT2012::kSideNb+3)*2;   // Fee type C
+  static short feeCount=0, feeID=0, channelID=0;
+  static short nChan=0, dataLong=0;
+  static short rawHex[2]={0};
+  static short nc=0,tmp=0;     // for loop, define as static at here to save time
 
   fBgo->Reset();
   for (feeCount=0;feeCount<BT2012::kPlaneNb;++feeCount) {
@@ -127,7 +120,7 @@ std::cerr<<"\t\t-->Bgo from "<<std::dec<<fHexData->tellg();
     feeID = feeID%16;
     fHexData->read((char*)(&tmp),1);        // datalong, 2 Bytes
     fHexData->read((char*)(&dataLong),1);
-    Int_t dataLength = tmp*256 + dataLong;
+    int dataLength = tmp*256 + dataLong;
     if (dataLength == kFeeDataLength0 || dataLength == kFeeDataLength1) {
       nChan = (dataLength-2*3)/2;
     } else {
@@ -155,54 +148,10 @@ std::cerr<<"\t\t-->Bgo from "<<std::dec<<fHexData->tellg();
 //    fHexData->read((char*)(&tmp),2);             // 5aa5,    2 Bytes
   }
 
-#ifdef Dmp_DEBUG
+#ifdef DmpDebug
 std::cerr<<"\tto "<<std::dec<<fHexData->tellg()<<std::endl;
 #endif
-
   return true;
 }
 
-//-------------------------------------------------------------------
-void DmpRdcAlg::Bgo::Prototype SetConnector(std::tring path){
-/*
- *  use path of Connector to set DmpRdcAlg::Bgo::connector
- *
- */
-  std::cout<<"\nSetup connector:\tBgo"<<"\t\tSuccess"<<std::endl;
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-#endif
-}
-
-void DmpRdcAlg::Bgo::Prototype ConvertEvent(){
-/*
- *  use DmpRdcAlg::Bgo::connector, DmpRdcAlg::gInputData to update data in DmpRdcDataManager::fEvtRaw::fBgoHits, and DmpRdcAlg::Bgo::trigger
- *
- */
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-#endif
-}
-
-//-------------------------------------------------------------------
-void DmpRdcAlg::Bgo::Product SetConnector(std::tring path){
-/*
- *  use path of Connector to set DmpRdcAlg::Bgo::connector
- *
- */
-  std::cout<<"\nSetup connector:\tBgo"<<"\t\tSuccess"<<std::endl;
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-#endif
-}
-
-void DmpRdcAlg::Bgo::Product ConvertEvent(){
-/*
- *  use DmpRdcAlg::Bgo::connector, DmpRdcAlg::gInputData to update data in DmpRdcDataManager::fEvtRaw::fBgoHits, and DmpRdcAlg::Bgo::trigger
- *
- */
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-#endif
-}
 

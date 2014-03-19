@@ -28,11 +28,13 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 }
 
 //-------------------------------------------------------------------
+#include <boost/filesystem/path.hpp>
 void DmpRdcDataManager::SetOutDataName(std::string name){
-  if(name != "stamp"){
-    fOutDataName = name;
-  }else if(name == "stamp" && fOutDataName == "default"){
-    fOutDataName.replace(name.end()-4,fOutDataName.end(),"_raw.root");
+  boost::filesystem::path inpath(name);
+  if(fNameTag != "no"){
+    fOutDataName = "DmpRaw_"+fNameTag+"_"+inpath.stem()+"_"+TimeStamp()+".root";
+  }else{
+    fOutDataName = "DmpRaw_"+inpath.stem()+"_"+TimeStamp()+".root";
   }
 }
 

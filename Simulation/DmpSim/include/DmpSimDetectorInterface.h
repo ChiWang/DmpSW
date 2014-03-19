@@ -4,11 +4,6 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 17/03/2014
 */
 
-/*
- * split static variables  into this class
- *
- */
-
 #ifndef DmpSimDetectorInterface_H
 #define DmpSimDetectorInterface_H
 

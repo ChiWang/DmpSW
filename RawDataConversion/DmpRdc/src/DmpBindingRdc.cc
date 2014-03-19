@@ -5,20 +5,32 @@
 */
 
 #include <boost/python.hpp>
+
+#include "DmpRdcDataManager.h"
+#include "DmpRdcConnectorInterface.h"
 #include "DmpRdcEntrance.h"
 
 BOOST_PYTHON_MODULE(libDmpRdc){
   using namespace boost::python;
-  using namespace DmpCore;
 
-  def("SetConnectorNud",RdcSetConnector);
+  // DmpRdcDataManager
+  class_<DmpRdcDataManager,boost::noncopyable,bases<DmpVOutDataManager> >("DmpRdcDataManager",no_init)
+    .def("GetInstance",&DmpRdcDataManager::GetInstance,return_value_policy<reference_existing_object>())
+    .staticmethod("GetInstance")
+    .def("SetOutDataName",&DmpRdcDataManager::SetOutDataName)
+  ;
 
-  def("SetOutDataPath",RdcSetOutDataPath);
-  def("GetOutDataPath",RdcGetOutDataPath);
-  def("SetOutDataName",RdcSetOutDataName);
-  def("Initialize",RdcInitialize);
-  def("Execute",RdcExecute);
-  def("Clear",RdcClear);
+  // DmpRdcConnectorInterface
+  class_<DmpRdcConnectorInterface,boost::noncopyable>("DmpRdcConnectorInterface",no_init)
+    .def("GetInstance",&DmpRdcConnectorInterface::GetInstance,return_value_policy<reference_existing_object>())
+    .staticmethod("GetInstance")
+    .def("SetConnectorPath",&DmpRdcConnectorInterface::SetConnectorPath)
+  ;
+
+  // DmpRdcEntrance
+  def("Initialize", DmpCore::RdcInitialize);
+  def("Execute",    DmpCore::RdcExecute);
+  def("Clear",      DmpCore::RdcClear);
 }
 
 

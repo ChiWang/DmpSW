@@ -4,117 +4,94 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
-#include <iostream>
-#include <stdlib.h>     // getenv() chdir()
-
-#include "DmpCore.h"
-#include "DmpRdcEntrance.h"
-#include "DmpRdcAlgorithm.h"
-#include "DmpRdcDataManager.h"
-
-using namespace DmpRdcAlg;
-
-bool DmpCore::RdcSetConnector(DmpEDetectorID id,std::string p){
-  short st[DmpParameter::Detector::kSubDetNo]={0};
-  if(p=="default"){
-    p = (std::strin)getenv("DMPSWSYS") + "/share/Connector/";
-  }else if(p[p.length()-1] != '/'){
-    p=p+'/';
-  }
-  if(id = DmpParameter::Detector::kWhole){
-    if(not st[DmpEDetectorID::kPsd]){
-      if(not Psd::SetConnector(p+"Psd/"))  return false;
-    }
-    if(not st[DmpEDetectorID::kStk]){
-      if(not Stk::SetConnector(p+"Stk/"))  return false;
-    }
-    if(not st[DmpEDetectorID::kBgo]){
-      if(not Bgo::SetConnector(p+"Bgo/"))  return false;
-    }
-    if(not st[DmpEDetectorID::kNud]){
-      if(not Nud::SetConnector(p+"Nud/"))  return false;
-    }
-  }else if(id = DmpParameter::Detector::kPsd){
-    if(Psd::SetConnector(p)) st[DmpEDetectorID::kPsd]=1;
-    else return false;
-  }else if(id = DmpParameter::Detector::kStk){
-    if(Stk::SetConnector(p)) st[DmpEDetectorID::kStk]=1;
-    else return false;
-  }else if(id = DmpParameter::Detector::kBgo){
-    if(Bgo::SetConnector(p)) st[DmpEDetectorID::kBgo]=1;
-    else return false;
-  }else if(id = DmpParameter::Detector::kNud){
-    if(Nud::SetConnector(p)) st[DmpEDetectorID::kNud]=1;
-    else return false;
-  }
-  return true;
-}
-
-//-------------------------------------------------------------------
-void DmpCore::RdcSetOutDataPath(std::string p){
-  DmpRdcDataManager::GetInstance()->SetOutDataPath(p);
-}
-
-//-------------------------------------------------------------------
-std::string DmpCore::RdcGetOutDataPath(){
-  DmpRdcDataManager::GetInstance()->GetOutDataPath();
-}
-
-//-------------------------------------------------------------------
-void DmpCore::RdcSetOutDataName(std::string n){
-  DmpRdcDataManager::GetInstance()->SetOutDataName();
-}
-
-//-------------------------------------------------------------------
-bool DmpCore::RdcInitialize(){
-  std::cout<<"DAMPE software: Setup kernel of Raw Data Conversion"<<std::endl;
-}
-
-//-------------------------------------------------------------------
-void DmpCore::RdcExecute(std::string dataName){
-  DmpRdcDataManager *dataMan = DmpRdcDataManager::GetInstance();
-  gInputData = new ifstream(dataMan->GetInDataPath()+dataName,std::ios::in|std::ios::binary);
-  if (!gInputData->good()) {
-    std::cerr<<"\nwarning: open "<<dataMan->GetInDataPath()+dataName<<" failed"<<std::endl;
-    gInputData->close();
-    delete gInputData;
-    return;
-  }
-
-  dataMan->BookBranch();
-  dataMan->CreateOutDataName(dataName);
-  for (long nEvt=0;!inData->eof();){
-    if(ConvertEventHeader()){
-      ++nEvt;
-      dataMan->GetEventHeader()->SetEventID(nEvt);
-    }else{
-      continue;
-    }
 #ifdef DmpDebug
-if (nEvt < 5000){
-  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"nEvt = "<<nEvt<<std::endl;
-}else{
-  break;
-}
+#include <iostream>
 #endif
-    if(not Psd::ConvertEvent())   continue;
-    if(not Stk::ConvertEvent())   continue;
-    if(not Bgo::ConvertEvent())   continue;
-    if(not Nud::ConvertEvent())   continue;
-    if((gTrigger != Psd::trigger) || (gTrigger != Stk::trigger) || (gTrigger != Bgo::trigger) || gTrigger != Nug::trigger) continue;
 
-    dataMan->FillEvent();
-  }
-  dataMan->SaveOutput();
+#include "DmpRdcAlgHeader.h"
+#include "DmpRdcAlgPsd.h"
+#include "DmpRdcAlgStk.h"
+#include "DmpRdcAlgBgo.h"
+#include "DmpRdcAlgNud.h"
+#include "DmpRdcEntrance.h"
 
-  gInputData->close();
-  delete gInputData;
-  for(short i=0;i<fTrigger.size();++i)  fTrigger[i]=0;
+//-------------------------------------------------------------------
+DmpRdcAlgHeader *headerAlg = 0;
+DmpRdcAlgPsd    *psdAlg = 0;
+DmpRdcAlgStk    *stkAlg = 0;
+DmpRdcAlgBgo    *bgoAlg = 0;
+DmpRdcAlgNud    *nudAlg = 0;
+
+//-------------------------------------------------------------------
+void DmpCore::RdcInitialize(){
+  std::cout<<"DAMPE software: Setup kernel of Raw Data Conversion"<<std::endl;
+  headerAlg = new DmpRdcAlgHeader();
+  psdAlg = new DmpRdcAlgPsd();
+  stkAlg = new DmpRdcAlgStk();
+  bgoAlg = new DmpRdcAlgBgo();
+  nudAlg = new DmpRdcAlgNud();
+  psdAlg->SetupConnector();
+  stkAlg->SetupConnector();
+  bgoAlg->SetupConnector();
+  nudAlg->SetupConnector();
 }
 
 //-------------------------------------------------------------------
 void DmpCore::RdcClear(){
-  DmpRdcDataManager::Vanish();
+  delete headerAlg;
+  delete psdAlg;
+  delete stkAlg;
+  delete bgoAlg;
+  delete nudAlg;
+}
+
+#include "DmpRdcDataManager.h"
+//-------------------------------------------------------------------
+void DmpCore::RdcExecute(const std::string &dataName, long nEvt){
+  // open file
+  ifstream *inputData = new ifstream(dataName,std::ios::in|std::ios::binary);
+  if (!inputData->good()) {
+    std::cerr<<"\nwarning: open "<<dataName<<" failed"<<std::endl;
+    inputData->close();
+    delete inputData;
+    return;
+  }else{
+    headerAlg->SetFileStream(inputData);
+    psdAlg->SetFileStream(inputData);
+    stkAlg->SetFileStream(inputData);
+    bgoAlg->SetFileStream(inputData);
+    nudAlg->SetFileStream(inputData);
+  }
+
+  // convert and save output
+  static DmpRdcDataManager *dataMgr = DmpRdcDataManager::GetInstance();
+  dataMgr->BookBranch();
+  for (long i=0;!inData->eof();++i){
+          /*
+if (i < nEvt){
+  if(nEvt%100 == 0)  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"nEvt = "<<i<<std::endl;
+}else{
+  break;
+}
+*/
+    if(not headerAlg->Convert())    continue;
+    if(not psdAlg->Convert())   continue;
+    if(not stkAlg->Convert())   continue;
+    if(not bgoAlg->Convert())   continue;
+    if(not nudAlg->Convert())   continue;
+
+    if(headerAlg->GetTrigger() == psdAlg->GetTrigger() &&
+       headerAlg->GetTrigger() == bgoAlg->GetTrigger())
+    {
+        dataMgr->FillEvent();
+    }
+  }
+  dataMgr->SetOutDataName(dataName);
+  dataMgr->SaveOutput();
+
+  // reset
+  inputData->close();
+  delete inputData;
 }
 
 

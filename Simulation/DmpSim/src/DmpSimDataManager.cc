@@ -29,12 +29,12 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 }
 
 #include <boost/lexical_cast.hpp>
-void DmpSimDataManager::SetOutDataName(std::string tag){
+void DmpSimDataManager::SetOutDataName(std::string){
   static int runID=0;
   ++runID;
-  if(tag != "default"){
-    fOutDataName = "DmpSim_run"+boost::lexical_cast<std::string>(runID)+"_"+TimeStamp()+"_"+tag+".root";
-  }else if(tag == "default" && fOutDataName == "no"){
+  if(fNameTag != "no"){
+    fOutDataName = "DmpSim_"+fNameTag+"_"+TimeStamp()+".root";
+  }else{
     fOutDataName = "DmpSim_run"+boost::lexical_cast<std::string>(runID)+"_"+TimeStamp()+".root";
   }
 }

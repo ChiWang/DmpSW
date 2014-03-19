@@ -14,6 +14,7 @@
 DmpVOutDataManager::DmpVOutDataManager()
  :fOutDataPath("./"),
   fOutDataName("no"),
+  fNameTag("no"),
   fOutDataTree(0)
 {
   fOutDataTree = new TTree("DAMPE","DAMPE");    // should rename in concrete class
@@ -44,6 +45,7 @@ void DmpVOutDataManager::SaveOutput(){
   delete aFile;
   std::cout<<"Result in : "<<fOutDataPath+fOutDataName<<std::endl;
   fOutDataName = "no";
+  fNameTag = "no";
   fOutDataTree->Reset();       // delete this tree from memory
 }
 

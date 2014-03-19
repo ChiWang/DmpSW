@@ -20,7 +20,7 @@ class DmpRdcDataManager : public DmpVOutDataManager{
 public:
   static DmpRdcDataManager*     GetInstance();
   void BookBranch();
-  void SetOutDataName(std::string name="stamp");
+  void SetOutDataName(std::string);
 
 private:
   DmpRdcDataManager();

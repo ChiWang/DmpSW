@@ -1,38 +1,48 @@
 /*
- *  $Id: DmpRdcAlgBgo.h, 2014-03-10 13:31:51 chi $
+ *  $Id: DmpRdcAlgBgo.h, 2014-03-19 12:14:03 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
 
-#ifndef DmpRdcAlgorithmBgo_H
-#define DmpRdcAlgorithmBgo_H
+#ifndef DmpRdcAlgBgo_H
+#define DmpRdcAlgBgo_H
 
-/*
- *  add more algorithmes of Bgo Rdc at here
- *
- *  The default algorithm in DmpRdc/include/DmpRdcAlgorithm.h
- *
- */
+#include <string>
+#include <map>
+#include <fstream>
 
-namespace DmpAlgorithm{
-namespace Rdc{
-namespace Bgo{
-  namespace Quarter{
-    void SetConnector(std::string);
-    void ConvertOneEvent();
-  }
-  namespace Prototype{
-    void SetConnector(std::string);
-    void ConvertOneEvent();
-  }
-  namespace Product{
-    void SetConnector(std::string);
-    void ConvertOneEvent();
-  }
-}
-}
-}
+class TClonesArray;
 
+class DmpRdcAlgBgo{
+public:
+  DmpRdcAlgBgo();
+  virtual ~DmpRdcAlgBgo();
+  virtual bool SetupConnector();
+  virtual bool Convert();        // convert one event
+  void  SetFileStream(ifstream *p)   {fFile = p;}
+  short GetTrigger() const {return fTrigger;}
+
+private:
+  bool      fRunMe;        // tag to run this subDet
+  // for all input datas
+  std::map<int,int> fConnector;
+    /*
+     * Connector: FEE channel <--> Detector
+     * fConnector[FEEID*1000+ChannelID][LBSD_ID]
+     * LBSD_ID = Layer_id*10000+Bar_id*100+Side_id*10+Dy_id
+     *
+    */
+
+private:
+  // for one input data
+  ifstream      *fFile;     // pointer of file stream
+
+private:
+  // for one event
+  TClonesArray  *fHits;     // responded bars
+  short     fTrigger;       // trigger of all FEE
+
+};
 
 #endif
 
