@@ -9,8 +9,6 @@
 
 #include <string>
 
-#include "DmpCore.h"
-
 namespace DmpCore{
   void SimInitialize();          // set physics list, detector, user actions and visualization.
   void SimExecute(std::string);  // run a macro file and save result into root file

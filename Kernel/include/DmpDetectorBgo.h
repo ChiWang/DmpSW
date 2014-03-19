@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpDetectorBgo.h, 2014-03-12 11:22:43 chi $
+ *  $Id: DmpDetectorBgo.h, 2014-03-19 09:59:03 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 06/08/2013
 */

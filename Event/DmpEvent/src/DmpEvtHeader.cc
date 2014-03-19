@@ -9,7 +9,6 @@
 #endif
 #include "TParticle.h"
 #include "DmpEvtHeader.h"
-#include "DmpCore.h"
 
 ClassImp(DmpEvtHeader)
 

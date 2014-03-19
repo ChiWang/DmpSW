@@ -15,12 +15,12 @@ DmpSimDetectorInterface::~DmpSimDetectorInterface(){
 }
 
 DmpSimDetectorInterface::DmpSimDetectorInterface(){
-  for(short i=0;i<DmpCore::gSubDetNo + 1;++i){
+  for(short i=0;i<DmpDetector::gSubDetNo + 1;++i){
     fGdmlPath[i]="default";
   }
-  fOffset[DmpCore::kPsd] = -33.4;
-  fOffset[DmpCore::kStk] = 0;
-  fOffset[DmpCore::kBgo] = 200;
-  fOffset[DmpCore::kNud] = 0;
+  fOffset[DmpDetector::kPsd] = -33.4;
+  fOffset[DmpDetector::kStk] = 0;
+  fOffset[DmpDetector::kBgo] = 200;
+  fOffset[DmpDetector::kNud] = 0;
 }
 

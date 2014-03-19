@@ -6,7 +6,8 @@
 
 #include <boost/python.hpp>
 
-#include "DmpCore.h"
+#include "DmpRunMode.h"
+#include "DmpDetectorID.h"
 #include "DmpBindingCore.h"
 #include "DmpVOutDataManager.h"
 #include "DmpServiceManager.h"
@@ -33,26 +34,28 @@ struct DmpVOutDataManagerWrap : DmpVOutDataManager, boost::python::wrapper<DmpVO
 BOOST_PYTHON_MODULE(libDmpCore){
   using namespace boost::python;
 
-  // DmpCore
-  enum_<DmpCore::DmpEPhase>("DmpEPhase")
-    .value("kQuarter",  DmpCore::kQuarter)
-    .value("kPrototype",DmpCore::kPrototype)
-    .value("kProduct",  DmpCore::kProduct)
+  // DmpPhase
+  //enum_<DmpCore::DmpEPhase>("DmpEPhase")
+  //  .value("kQuarter",  DmpCore::kQuarter)
+  //  .value("kPrototype",DmpCore::kPrototype)
+  //  .value("kProduct",  DmpCore::kProduct)
+  //;
+
+  // DmpRunMode
+  enum_<DmpDetector::DmpERunMode>("DmpERunMode")
+    .value("kUnknow",   DmpDetector::kUnknow)
+    .value("kCompress", DmpDetector::kCompress)
+    .value("kCalPed",   DmpDetector::kCalPed)
+    .value("kCalADC",   DmpDetector::kCalADC)
   ;
 
-  enum_<DmpCore::DmpERunMode>("DmpERunMode")
-    .value("kUnknow",   DmpCore::kUnknow)
-    .value("kCompress", DmpCore::kCompress)
-    .value("kCalPed",   DmpCore::kCalPed)
-    .value("kCalADC",   DmpCore::kCalADC)
-  ;
-
-  enum_<DmpCore::DmpEDetectorID>("DmpEDetectorID")
-    .value("kPsd",  DmpCore::kPsd)
-    .value("kStk",  DmpCore::kStk)
-    .value("kBgo",  DmpCore::kBgo)
-    .value("kNud",  DmpCore::kNud)
-    .value("kWhole",DmpCore::kWhole)
+  // DmpDetectorID
+  enum_<DmpDetector::DmpEDetectorID>("DmpEDetectorID")
+    .value("kPsd",  DmpDetector::kPsd)
+    .value("kStk",  DmpDetector::kStk)
+    .value("kBgo",  DmpDetector::kBgo)
+    .value("kNud",  DmpDetector::kNud)
+    .value("kWhole",DmpDetector::kWhole)
   ;
 
   // DmpBindingCore

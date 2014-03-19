@@ -7,11 +7,11 @@
 #ifndef DmpRdcDataManager_H
 #define DmpRdcDataManager_H
 
-#include "DmpVDataManager.h"
+#include "DmpVOutDataManager.h"
 
 class DmpEventRaw;
 
-class DmpRdcDataManager : public DmpVDataManager{
+class DmpRdcDataManager : public DmpVOutDataManager{
 /*
  *  DmpRdcDataManager
  *

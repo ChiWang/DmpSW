@@ -10,7 +10,8 @@
 #include <vector>
 #include "TObject.h"
 
-#include "DmpCore.h"
+#include "DmpDetectorID.h"
+#include "DmpRunMode.h"
 
 class TParticle;
 class DmpEvtHeader : public TObject{
@@ -30,8 +31,8 @@ public:
   long  GetTime() const         {return fTime;}
   void  SetParticlePdgCode(int);
   TParticle* GetParticle() const {return fParticle;}
-  void SetRunMode(DmpCore::DmpEDetectorID id, DmpCore::DmpERunMode mode) {fRunMode[id] = mode;}
-  DmpCore::DmpERunMode GetRunMode(DmpCore::DmpEDetectorID id) const {return fRunMode[id];}
+  void SetRunMode(DmpDetector::DmpEDetectorID id, DmpDetector::DmpERunMode mode) {fRunMode[id] = mode;}
+  DmpDetector::DmpERunMode GetRunMode(DmpDetector::DmpEDetectorID id) const {return fRunMode[id];}
 
 private:
   long      fEventID;               // valid event count
@@ -40,7 +41,7 @@ private:
 // *
 // *  TODO: just save one value of Run Mode, why ??
 // *
-  DmpCore::DmpERunMode fRunMode[DmpCore::gSubDetNo];
+  DmpDetector::DmpERunMode fRunMode[DmpDetector::gSubDetNo];
 
   ClassDef(DmpEvtHeader,1)
 };

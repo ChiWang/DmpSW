@@ -66,10 +66,10 @@ void DmpSimDataManager::UpdatePrimaryParticleInformation(const G4Event *anEvent)
 void DmpSimDataManager::UpdateEventHeader(const G4Event *anEvent){
   static DmpEvtHeader *eventHeader = fEvtRaw->GetEventHeader();
   eventHeader->SetEventID(anEvent->GetEventID());
-  eventHeader->SetRunMode(DmpCore::kPsd,DmpCore::kCompress);
-  eventHeader->SetRunMode(DmpCore::kStk,DmpCore::kCompress);
-  eventHeader->SetRunMode(DmpCore::kBgo,DmpCore::kCompress);
-  eventHeader->SetRunMode(DmpCore::kNud,DmpCore::kCompress);
+  eventHeader->SetRunMode(DmpDetector::kPsd,DmpDetector::kCompress);
+  eventHeader->SetRunMode(DmpDetector::kStk,DmpDetector::kCompress);
+  eventHeader->SetRunMode(DmpDetector::kBgo,DmpDetector::kCompress);
+  eventHeader->SetRunMode(DmpDetector::kNud,DmpDetector::kCompress);
   eventHeader->SetParticlePdgCode(anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode());
 }
 

@@ -41,7 +41,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 
 
 //-------------------------------------------------------------------
-#include "DmpRdcAlgorithmBgo.h"
+#include "DmpRdcAlgBgo.h"
 
 void DmpRdcAlg::Bgo::Quarter::SetConnector(std::string path){
   std::cout<<"\nSetup connector:\tBgo"<<std::endl;

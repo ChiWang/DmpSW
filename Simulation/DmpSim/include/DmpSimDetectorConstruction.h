@@ -9,7 +9,7 @@
 
 #include "G4VUserDetectorConstruction.hh"
 
-#include "DmpCore.h"
+#include "DmpDetectorID.h"
 
 class G4GDMLParser;
 class DmpSimDetectorInterface;
@@ -21,8 +21,8 @@ public:
   G4VPhysicalVolume* Construct();
 
 private:
-  G4GDMLParser              *fParser[DmpCore::gSubDetNo + 1];
-  G4VPhysicalVolume         *fPhysiVol[DmpCore::gSubDetNo + 1];
+  G4GDMLParser              *fParser[DmpDetector::gSubDetNo + 1];
+  G4VPhysicalVolume         *fPhysiVol[DmpDetector::gSubDetNo + 1];
   DmpSimDetectorInterface   *fDetInterface;
 
 };
