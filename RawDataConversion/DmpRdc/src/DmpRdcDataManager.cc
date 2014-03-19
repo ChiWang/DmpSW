@@ -29,12 +29,14 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 
 //-------------------------------------------------------------------
 #include <boost/filesystem/path.hpp>
+#include <boost/lexical_cast.hpp>
 void DmpRdcDataManager::SetOutDataName(std::string name){
+  static int runID = -1;
   boost::filesystem::path inpath(name);
   if(fNameTag != "no"){
-    fOutDataName = "DmpRaw_"+fNameTag+"_"+inpath.stem()+"_"+TimeStamp()+".root";
+    fOutDataName = "DmpRaw_"+TimeStamp()+"_run"+boost::lexical_cast<std::string>(runID)+"_"+inpath.stem()+"_"+fNameTag+".root";
   }else{
-    fOutDataName = "DmpRaw_"+inpath.stem()+"_"+TimeStamp()+".root";
+    fOutDataName = "DmpRaw_"+TimeStamp()+"_run"+boost::lexical_cast<std::string>(runID)+"_"+inpath.stem()+".root";
   }
 }
 

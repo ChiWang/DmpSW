@@ -7,7 +7,6 @@
 
 ### test macro files:
 
-    DmpSim_electron.mac and DmpSim_proton.mac
-
     examples of macro files to run batch mode of simulation.
+    contains "Ex"(means example) in the file name
 

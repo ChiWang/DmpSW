@@ -16,7 +16,8 @@
 // *
 // *  TODO: Event
 //
-//      >>  DmpEventRaw::GetHitsCollections(DmpEDetectorID id)
+//      >> Psd, Nud, Stk Event hit...
+//      19/03/2014 >>  DmpEventRaw::GetHitCollection(DmpEDetectorID id)
 //      17/03/2014 >>  save vector(fRunMode) wrong, fix it
 //      >>  add digitization into EventAction.cc
 //      >>  add PrintTime() in order to check time in Rdc
@@ -33,6 +34,7 @@
 // *
 // *  TODO: Simulation
 //
+//      >>  run multi mac file in JobOpt_DmpSim, du -sh all output data, events count is right, why size created?
 //      >>  store what infor. of Primary particle infor DmpSimDataManager::UpdatePrimaryParticleInformation(const G4Event*);
 //      18/03/2014 >>  SD::ProcessHits() how to get correct copy number (finished Bgo, update Geometry should update the method to get copy number)
 //      16/03/2014 >>  expose SimDataMgr to python instead of exposing set method 
@@ -47,13 +49,13 @@
 // *
 // *  TODO: Rdc
 //
-//      0.  split RdcManager to RdcManager and RdcAlgorithm
-//      0.1 implement Rdc algorithm in sebDet
-//      0.2 how to choose different algorithm in run time python script ??!!
-//      1.  JobOpt file
-//      2.  Bgo part Conversion
-//      3.  ConvertEventHeader()
-//      4.  does it necessary to SetConnector Path in python ?? (no)
+//      >>  (why!?) import libDmpRdc as  DmpRdc, ImportError: /home/chi/tmp/DmpInstall/lib/libDmpEvent.so: undefined symbol: _ZN9TParticle10SetPdgCodeEi
+//      >>  implement Rdc algorithm in sebDet
+//      >>  how to choose different algorithm in run time python script ??!!
+//      19/03/2014 >>  JobOpt file
+//      >>  Bgo part Conversion
+//      19/03/2014 >>  ConvertEventHeader()
+//      19/03/2014 >>  does it necessary to SetConnector Path in python ?? (yes)
 // *
 
 

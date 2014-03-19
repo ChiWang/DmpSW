@@ -1,37 +1,38 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpRdc, 2014-03-11 16:36:14 chi $
+ *  $Id: JobOpt_DmpRdc, 2014-03-19 19:43:15 chi $
  *  Author(s):
- *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 11/03/2014
  *-----------------------------------------------------
- *  This is an example how to run simulation of DAMPE
+ *  This is an example how to run Rdc of DAMPE
  *-----------------------------------------------------
 '''
 
 # load lib. of DAMPE software
 import os
 import sys
+prefix=os.getenv('DMPSWSYS')
 if os.environ['DMPSWSYS'] not in sys.path:
-    sys.path.append(os.getenv('DMPSWSYS')+'/lib')
+    sys.path.append(prefix+'/lib')
 
 import libDmpCore as DmpCore
-import libDmpRdc as DmpRdc
+import libDmpRdc as  DmpRdc
 
-# set phase
-#DmpCore.PhaseManager.SetPhase(DmpCore.DmpEPhase.kQuarter)  # default is kProduct, if NOT set
+# RUN Raw Data Conversion
+    ##  where to save the output. If NOT set will use "./" by defualt
+rdcDataMgr = DmpRdc.DmpRdcDataManager.GetInstance()
+rdcDataMgr.SetOutDataPath("./test")
+    ##  where to cnct files for different subDet, if NOT set will ignore this subDet.
+rdcCNCT = DmpRdc.DmpRdcConnectorInterface.GetInstance()
+#rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kPsd,prefix+"/share/Connector/Psd/Quarter")
+#rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kStk,prefix+"/share/Connector/Stk/Quarter")       # if NOT set, will not construct this subDet
+rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kBgo,prefix+"/share/Connector/Bgo/Quarter")
+#rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kNud,prefix+"/share/Connector/Nud/Quarter")
 
-# RUN Rdc
-    ##  where to save the output. If NOT set at here will use "./"
-DmpRdc.SetOutDataPath("./test")
-    ##  Setup connectors, if you want seta special path for one subDet, must set it before the rest
-#DmpRdc.SetConnector(DmpCore.DmpEDetectorID.kPsd,"")       # speical for kPsd, before kWhole
-DmpRdc.SetConnector(DmpCore.DmpEDetectorID.kWhole,"default")       # for whole dampe, there must has sub-directories Psd, Stk, Bgo, Nud under this path. If set the second argument as "default", will use /prefix/share/Connector/Product defaultly
+    ##  Start Rdc. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SsetIn(Out)DataPath() between different Execute()
+DmpRdc.Initialize()      # create Rdc argorithm of all subDet, and setup connector
+DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat",1000)
+#rdcDataMgr.SetOutDataTag("protonTest")        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay
+#DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")     # start to convert a new file, without delete connectors.
 
-    ##  Start Rdc
-inRdcPath="./"
-DmpRdc.Initialize()     # load connectors, from connectors' path
-DmpRdc.SetOutDataName("electronRDC.root")   # set output data name(*.root) for the next Execute(). If NOT set will use the default name(time stamp)
-DmpRdc.Execute(inRdcPath+"BGO_ScienceData_20121003012321.dat")
-DmpRdc.Execute(inRdcPath+"BGO_ScienceData_20121003012000.dat")      # convert another data, without delete the older connectors
-DmpRdc.Clear()
 
