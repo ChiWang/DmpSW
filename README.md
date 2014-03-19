@@ -6,6 +6,7 @@ DMPSW
 > *
 
 DAMPE Offline Software
+[TODO](https://github.com/ChiWang/DmpSW/wiki)
 
 ##  Requirement
 
@@ -354,5 +355,4 @@ These directories (or link) below are in "/prefix"
         std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
     #endif
 
-3.  [TODO list](https://github.com/ChiWang/DmpSW/wiki)
 
