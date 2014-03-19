@@ -6,6 +6,8 @@
 
 #include "TObject.h"
 
+#include "DmpDetectorID.h"
+
 class TClonesArray;
 class DmpEvtHeader;
 
@@ -24,20 +26,14 @@ public:
   DmpEventRaw();
   ~DmpEventRaw();
   DmpEvtHeader* GetEventHeader() const {return fEvtHeader;};
-  //TClonesArray* GetHitCollectionPsd() const {return fPsdHits;};
-  //TClonesArray* GetHitCollectionStk() const {return fStkHits;};
-  TClonesArray* GetHitCollectionBgo() const {return fBgoHits;};
-  //TClonesArray* GetHitCollectionNud() const {return fNudHits;};
+  TClonesArray* GetHitCollection(DmpDetector::DmpEDetectorID) const;
 
 private:
   DmpEvtHeader      *fEvtHeader;
-// *
-// *  TODO: add hits collection of Psd, Stk and Nud
-// *
-  //TClonesArray      *fPsdHits;  //->
-  //TClonesArray      *fStkHits;  //->
+  TClonesArray      *fPsdHits;  //->
+  TClonesArray      *fStkHits;  //->
   TClonesArray      *fBgoHits;  //->
-  //TClonesArray      *fNudHits;  //->
+  TClonesArray      *fNudHits;  //->
 
   ClassDef(DmpEventRaw,1)
 };

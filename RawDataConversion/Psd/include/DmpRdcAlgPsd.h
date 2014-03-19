@@ -1,11 +1,11 @@
 /*
- *  $Id: DmpRdcAlgBgo.h, 2014-03-19 18:40:49 chi $
+ *  $Id: DmpRdcAlgPsd.h, 2014-03-19 18:40:54 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
 
-#ifndef DmpRdcAlgBgo_H
-#define DmpRdcAlgBgo_H
+#ifndef DmpRdcAlgPsd_H
+#define DmpRdcAlgPsd_H
 
 #include <string>
 #include <map>
@@ -13,10 +13,10 @@
 
 class TClonesArray;
 
-class DmpRdcAlgBgo{
+class DmpRdcAlgPsd{
 public:
-  DmpRdcAlgBgo();
-  virtual ~DmpRdcAlgBgo();
+  DmpRdcAlgPsd();
+  virtual ~DmpRdcAlgPsd();
   virtual bool SetupConnector();
   virtual bool Convert();        // convert one event
   void  SetFileStream(std::ifstream *p)   {fFile = p;}

@@ -49,7 +49,8 @@ void DmpCore::RdcClear(){
 //-------------------------------------------------------------------
 void DmpCore::RdcExecute(const std::string &dataName, long nEvt){
   // open file
-  ifstream *inputData = new ifstream(dataName,std::ios::in|std::ios::binary);
+  //using namespace std;
+  std::ifstream *inputData = new std::ifstream(dataName.c_str(),std::ios::in|std::ios::binary);
   if (!inputData->good()) {
     std::cerr<<"\nwarning: open "<<dataName<<" failed"<<std::endl;
     inputData->close();
@@ -66,7 +67,7 @@ void DmpCore::RdcExecute(const std::string &dataName, long nEvt){
   // convert and save output
   static DmpRdcDataManager *dataMgr = DmpRdcDataManager::GetInstance();
   dataMgr->BookBranch();
-  for (long i=0;!inData->eof();++i){
+  for (long i=0;!inputData->eof();++i){
           /*
 if (i < nEvt){
   if(nEvt%100 == 0)  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"nEvt = "<<i<<std::endl;

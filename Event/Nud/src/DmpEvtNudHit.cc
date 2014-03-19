@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEvtNudHit.cc, 2014-03-11 18:52:38 chi $
+ *  $Id: DmpEvtNudHit.cc, 2014-03-11 18:52:32 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
@@ -12,7 +12,7 @@ ClassImp(DmpEvtNudHit)
 
 //------------------------------------------------------------------------------
 DmpEvtNudHit::DmpEvtNudHit()
- :fBarID(0),
+ :fSDID(0),
   fEnergy(0),
   fUsedSide(0),
   fPMT0(0),
@@ -38,7 +38,7 @@ void DmpEvtNudHit::Reset(){
 void DmpEvtNudHit::PrintHit() const{
 }
 
-void DmpEvtNudHit::AddThisStep(double e, double x, double y, double z){
+void DmpEvtNudHit::AddThisHit(double e, double x, double y, double z){
   double totE = e + fEnergy;
   double nX = (e*x + fEnergy*fPosition[0])/totE;
   double nY = (e*y + fEnergy*fPosition[1])/totE;

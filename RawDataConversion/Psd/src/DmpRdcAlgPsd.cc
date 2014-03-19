@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgBgo.cc, 2014-03-19 12:39:26 chi $
+ *  $Id: DmpRdcAlgPsd.cc, 2014-03-19 18:41:47 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
@@ -7,31 +7,31 @@
 #include <iostream>
 
 //#include "DmpEvtHeader.h"
-#include "DmpRdcAlgBgo.h"
+#include "DmpRdcAlgPsd.h"
 #include "DmpRdcDataManager.h"
 #include "DmpEventRaw.h"
 #include "TClonesArray.h"
-#include "DmpEvtBgoHit.h"
+#include "DmpEvtPsdHit.h"
 #include "DmpRdcConnectorInterface.h"
 
-DmpRdcAlgBgo::DmpRdcAlgBgo()
+DmpRdcAlgPsd::DmpRdcAlgPsd()
  :fRunMe(true),
   fFile(0),
   fHits(0),
   fTrigger(0)
 {
-  fHits = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kBgo);
+  fHits = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kPsd);
 }
 
-DmpRdcAlgBgo::~DmpRdcAlgBgo(){
+DmpRdcAlgPsd::~DmpRdcAlgPsd(){
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgBgo::SetupConnector(){
+bool DmpRdcAlgPsd::SetupConnector(){
 // *
 // *  TODO:  check connector right?
 // *
-  std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kBgo);
+  std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kPsd);
   if(path == "default"){
     fRunMe = false;
     return true;
@@ -60,22 +60,22 @@ bool DmpRdcAlgBgo::SetupConnector(){
         cnctFile>>BID;
         cnctFile>>DID;
         cnctFile>>ChannelID;
-        ConnectorBgo.insert(std::make_pair(FEEID*1000+ChannelID,LID*10000+BID*100+SID*10+DID));     // FEEID*1000 + ChannelID as key, since MaxSignalNb_Side = (22+2)*3*2 = (kBarNb+kRefBarNb)*kDynb*kSideNb = 144 > 100
+        ConnectorPsd.insert(std::make_pair(FEEID*1000+ChannelID,LID*10000+BID*100+SID*10+DID));     // FEEID*1000 + ChannelID as key, since MaxSignalNb_Side = (22+2)*3*2 = (kBarNb+kRefBarNb)*kDynb*kSideNb = 144 > 100
       }
     }
     cnctFile.close();
   }
 
   */
-  std::cout<<"\nSetup connector:\tBgo"<<std::endl;
+  std::cout<<"\nSetup connector:\tPsd"<<std::endl;
   return true;
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgBgo::Convert(){
+bool DmpRdcAlgPsd::Convert(){
   if(not fRunMe) return true;
 #ifdef DmpDebug
-std::cerr<<"\t\t-->Bgo from "<<std::dec<<fFile->tellg();
+std::cerr<<"\t\t-->Psd from "<<std::dec<<fFile->tellg();
 #endif
 // *
 // *  TODO: conversion bgo
@@ -88,34 +88,34 @@ std::cerr<<"\t\t-->Bgo from "<<std::dec<<fFile->tellg();
   static short rawHex[2]={0};
   static short nc=0,tmp=0;     // for loop, define as static at here to save time
 
-  fBgo->Reset();
+  fPsd->Reset();
   for (feeCount=0;feeCount<BT2012::kPlaneNb;++feeCount) {
     tmp=0;
     fFile->read((char*)(&tmp),1);
     if (tmp!=0xeb) {
-      std::cerr<<"\nError: DmpRdcAlgorithm::ConversionBgo()\t0xeb wrong\tFee = "<<feeCount<<"\t";
+      std::cerr<<"\nError: DmpRdcAlgorithm::ConversionPsd()\t0xeb wrong\tFee = "<<feeCount<<"\t";
       fHeader->ShowTime(0);
       return false;
     }
     fFile->read((char*)(&tmp),1);
     if (tmp!=0x90) {
-      std::cerr<<"\nError: DmpRdcAlgorithm::ConversionBgo()\t0x90 wrong\t";
+      std::cerr<<"\nError: DmpRdcAlgorithm::ConversionPsd()\t0x90 wrong\t";
       fHeader->ShowTime(0);
       return false;
     }
     fFile->read((char*)(&tmp),1);        //trigger
     fFile->read((char*)(&feeID),1);
     if (feeCount == 0) {                          //trigger check, runMode check
-      fTrigger["Bgo"] = tmp;
-      fBgo->SetMode(DmpVEvtSubDet::DmpERunMode(feeID/16));
+      fTrigger["Psd"] = tmp;
+      fPsd->SetMode(DmpVEvtSubDet::DmpERunMode(feeID/16));
     } else {
-      if (tmp != fTrigger["Bgo"]) {
-        std::cerr<<"\nError: DmpRdcAlgorithm::ConversionBgo()\tFEE trigger not match\t";
+      if (tmp != fTrigger["Psd"]) {
+        std::cerr<<"\nError: DmpRdcAlgorithm::ConversionPsd()\tFEE trigger not match\t";
         fHeader->ShowTime(0);
         return false;
       }
-      if (feeID/16 != fBgo->GetMode()) {
-        std::cerr<<"\nError: DmpRdcAlgorithmConversionBgo()\tFEE mode not match\t";
+      if (feeID/16 != fPsd->GetMode()) {
+        std::cerr<<"\nError: DmpRdcAlgorithmConversionPsd()\tFEE mode not match\t";
         fHeader->ShowTime(0);
         return false;
       }
@@ -139,9 +139,9 @@ std::cerr<<"\t\t-->Bgo from "<<std::dec<<fFile->tellg();
       }
       fFile->read((char*)(&rawHex[0]),1);
       fFile->read((char*)(&rawHex[1]),1);
-      fBgo->SetSignal(20518,rawHex[0]*256+rawHex[1]);
-      fBgo->SetSignal(
-        ConnectorBgo[feeID*1000+channelID],         // LBSD_ID
+      fPsd->SetSignal(20518,rawHex[0]*256+rawHex[1]);
+      fPsd->SetSignal(
+        ConnectorPsd[feeID*1000+channelID],         // LBSD_ID
         rawHex[0]*256+rawHex[1]);                   // ADC
     }
     fFile->read((char*)(&tmp),2);             // reserve, 2 Bytes

@@ -4,6 +4,8 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 19/03/2014
 */
 
+#include "DmpRdcConnectorInterface.h"
+
 DmpRdcConnectorInterface* DmpRdcConnectorInterface::GetInstance(){
   static DmpRdcConnectorInterface  instance;
   return &instance;

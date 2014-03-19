@@ -5,6 +5,7 @@
 */
 
 #include "TClonesArray.h"
+
 #include "DmpEventRaw.h"
 #include "DmpEvtHeader.h"
 // *
@@ -19,19 +20,19 @@ ClassImp(DmpEventRaw)
 
 DmpEventRaw::DmpEventRaw()
  :fEvtHeader(0),
-  //fPsdHits(0),
-  //fStkHits(0),
-  fBgoHits(0)
-  //fNudHits(0)
+  fPsdHits(0),
+  fStkHits(0),
+  fBgoHits(0),
+  fNudHits(0)
 {
   fEvtHeader = new DmpEvtHeader();
   fBgoHits = new TClonesArray("DmpEvtBgoHit",300);
 // *
 // *  TODO: add hits collection of Psd, Stk and Nud
 // *
-  //fPsdHits = new TClonesArray("DmpEvtPsdHit",300);
-  //fStkHits = new TClonesArray("DmpEvtStkHit",300);
-  //fNudHits = new TClonesArray("DmpEvtNudHit",300);
+  fPsdHits = new TClonesArray("DmpEvtPsdHit",300);
+  fStkHits = new TClonesArray("DmpEvtStkHit",300);
+  fNudHits = new TClonesArray("DmpEvtNudHit",300);
 }
 
 DmpEventRaw::~DmpEventRaw(){
@@ -42,7 +43,6 @@ DmpEventRaw::~DmpEventRaw(){
 // *
 // *  TODO: add hits collection of Psd, Stk and Nud
 // *
-/*
   fPsdHits->Delete();
   fPsdHits->Clear();
   delete fPsdHits;
@@ -52,7 +52,13 @@ DmpEventRaw::~DmpEventRaw(){
   fNudHits->Delete();
   fNudHits->Clear();
   delete fNudHits;
-  */
+}
+
+TClonesArray* DmpEventRaw::GetHitCollection(DmpDetector::DmpEDetectorID id) const {
+  if(id == DmpDetector::kPsd)    return fPsdHits;
+  if(id == DmpDetector::kStk)    return fStkHits;
+  if(id == DmpDetector::kBgo)    return fBgoHits;
+  if(id == DmpDetector::kNud)    return fNudHits;
 }
 
 

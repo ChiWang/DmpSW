@@ -11,7 +11,7 @@
 
 namespace DmpCore{
   void RdcInitialize();           // actually, do nothing
-  void RdcExecute(const std::string&);   // run a raw data
+  void RdcExecute(const std::string&, long);   // run a raw data
   void RdcClear();
 }
 

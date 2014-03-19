@@ -4,6 +4,10 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/03/2014
 */
 
+#ifdef DmpDebug
+//#include <iostream>
+#endif
+
 #include "TClonesArray.h"
 
 #include "G4Step.hh"
@@ -17,7 +21,7 @@
 DmpSimBgoSD::DmpSimBgoSD(G4String name)
  :G4VSensitiveDetector(name)
 {
-  fHitCollection = DmpSimDataManager::GetInstance()->GetRawEvent()->GetHitCollectionBgo();
+  fHitCollection = DmpSimDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kBgo);
 }
 
 DmpSimBgoSD::~DmpSimBgoSD(){
