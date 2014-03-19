@@ -33,7 +33,7 @@ void DmpSimDataManager::SetOutDataName(std::string){
   static int runID=0;
   ++runID;
   if(fNameTag != "no"){
-    fOutDataName = "DmpSim_"+fNameTag+"_"+TimeStamp()+".root";
+    fOutDataName = "DmpSim_run"+boost::lexical_cast<std::string>(runID)+"_"+fNameTag+"_"+TimeStamp()+".root";
   }else{
     fOutDataName = "DmpSim_run"+boost::lexical_cast<std::string>(runID)+"_"+TimeStamp()+".root";
   }
