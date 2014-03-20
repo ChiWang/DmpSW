@@ -22,18 +22,19 @@ import libDmpRdc as  DmpRdc
 # RUN Raw Data Conversion
     ##  where to save the output. If NOT set will use "./" by defualt
 rdcDataMgr = DmpRdc.DmpRdcDataManager.GetInstance()
-rdcDataMgr.SetOutDataPath("./testRdc")
+rdcDataMgr.SetOutDataPath("./test")
     ##  where to cnct files for different subDet, if NOT set will ignore this subDet.
 rdcCNCT = DmpRdc.DmpRdcConnectorInterface.GetInstance()
 #rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kPsd,prefix+"/share/Connector/Psd/Quarter")
 #rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kStk,prefix+"/share/Connector/Stk/Quarter")       # if NOT set, will not construct this subDet
+rdcDataMgr.AppendDataNote("protonTest")        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay
 rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kBgo,prefix+"/share/Connector/Bgo/Quarter")
 #rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kNud,prefix+"/share/Connector/Nud/Quarter")
 
     ##  Start Rdc. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SsetIn(Out)DataPath() between different Execute()
 DmpRdc.Initialize()      # create Rdc argorithm of all subDet, and setup connector
 DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat",1000)
-#rdcDataMgr.SetOutDataTag("protonTest")        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay
+#rdcDataMgr.AppendDataNote("protonTest")        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay
 #DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")     # start to convert a new file, without delete connectors.
 
 

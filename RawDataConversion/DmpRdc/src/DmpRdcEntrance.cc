@@ -70,24 +70,27 @@ void DmpCore::RdcExecute(const std::string &dataName, long nEvt){
   // convert and save output
   dataMgr->BookBranch();
   for (long i=0;!inputData->eof();++i){
-          /*
-if (i < nEvt){
-  if(nEvt%100 == 0)  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"nEvt = "<<i<<std::endl;
-}else{
-  break;
+{// debug
+  if (i < nEvt){
+    if(nEvt%100 == 0)  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"nEvt = "<<i<<std::endl;
+  }else{
+    break;
+  }
 }
-*/
     if(not headerAlg->Convert())    continue;
     if(not psdAlg->Convert())   continue;
     if(not stkAlg->Convert())   continue;
     if(not bgoAlg->Convert())   continue;
     if(not nudAlg->Convert())   continue;
 
-    if(headerAlg->GetTrigger() == psdAlg->GetTrigger() &&
-       headerAlg->GetTrigger() == bgoAlg->GetTrigger())
+    {// trigger check
+    if(headerAlg->GetTrigger() != psdAlg->GetTrigger() ||
+       headerAlg->GetTrigger() != bgoAlg->GetTrigger())
     {
-        dataMgr->FillEvent();
+            std::cout<<"i = "<<i<<std::endl;
     }
+    }
+    dataMgr->FillEvent();
   }
   dataMgr->SaveOutput();
 

@@ -59,15 +59,13 @@ void DmpVDataManager::SetOutDataPath(const std::string &path){
 }
 
 //-------------------------------------------------------------------
-#include <boost/lexical_cast.hpp>
 #include <boost/filesystem/path.hpp>
 void DmpVDataManager::SetOutDataName(){
-  static int runID = -1;
   boost::filesystem::path inpath(fInDataName);
   if(fNote == "no"){
-    fOutDataName = fPgkID+TimeStamp()+"_run"+boost::lexical_cast<std::string>(++runID)+"_"+inpath.stem()+".root";
+    fOutDataName = fPgkID+TimeStamp()+"_"+inpath.stem()+".root";
   }else{
-    fOutDataName = fPgkID+TimeStamp()+"_run"+boost::lexical_cast<std::string>(++runID)+"_"+inpath.stem()+"_"+fNote+".root";
+    fOutDataName = fPgkID+TimeStamp()+"_"+inpath.stem()+"_"+fNote+".root";
   }
 }
 

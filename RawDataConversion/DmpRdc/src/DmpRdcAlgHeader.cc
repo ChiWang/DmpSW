@@ -28,7 +28,7 @@ bool DmpRdcAlgHeader::Convert(){
 // *  TODO: header convert
 // *
 #ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::dec<<fFile->tellg();
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::dec<<fFile->tellg()<<std::endl;;
 #endif
   static long id = 0;
   static short tmp=0;

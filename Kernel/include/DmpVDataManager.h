@@ -32,7 +32,7 @@ public:
   void  FillEvent();
   void  SaveOutput();
   void  SetOutDataPath(const std::string&);        // binding me
-  void  SetNote(const std::string &t)   {fNote = t;}   // binding me
+  void  AppendDataNote(const std::string &t)   {fNote = t;}   // binding me
   std::string GetOutDataPath() const    {return fOutDataPath;}  // binding me
   std::string GetOutDataName() const    {return fOutDataName;}  // binding me
   void  SetInDataName(const std::string &n) {fInDataName = n;}

@@ -28,7 +28,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 
   fOutDataTree = new TTree("DAMPE_Raw","Simulation");
   fOutDataTree->Branch("PrimaryParticle","DmpEvtSimPrimaryParticle",&fPrimaryParticle,32000,2);
-  fOutDataTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
+  fOutDataTree->Branch("Event","DmpEventRaw",&fEvtRaw,32000,2);
 }
 
 //-------------------------------------------------------------------

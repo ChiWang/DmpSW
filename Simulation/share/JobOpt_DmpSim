@@ -34,8 +34,11 @@ simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kBgo,prefix+"/share/Geometry/Bgo/Qu
     ##  Start simulation. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SsetIn(Out)DataPath() between different Execute()
 DmpSim.Initialize()      # setup detector, user actions
 for i in range(4):
+    note='Test-%d'%i
+    print note
+    simDataMgr.AppendDataNote(note)        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay
     DmpSim.Execute(prefix+"/share/TestRelease/Ex_electron.mac")
-#simDataMgr.SetOutDataTag("protonTest")        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay
+#simDataMgr.SetOutDataNote("protonTest")        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay
 #DmpSim.Execute(prefix+"/share/TestRelease/Ex_proton.mac")     # start a new run, without delete physics list, detector construction and all user actions.
 #DmpSim.Execute("visual")                # open visual mode, if you don't want to use batch mode as above(input a macro file name in Execute()).
 DmpSim.Clear()

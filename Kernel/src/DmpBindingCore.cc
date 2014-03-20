@@ -67,9 +67,9 @@ BOOST_PYTHON_MODULE(libDmpCore){
   // DmpVDataManager, only derived classes will use them
   class_<DmpVDataManager,boost::noncopyable>("DmpVDataManager",no_init)
     .def("SetOutDataPath",  &DmpVDataManager::SetOutDataPath)
+    .def("AppendDataNote",  &DmpVDataManager::AppendDataNote)
     .def("GetOutDataPath",  &DmpVDataManager::GetOutDataPath)
     .def("GetOutDataName",  &DmpVDataManager::GetOutDataName)
-    .def("SetNote",         &DmpVDataManager::SetNote)
   ;
 
   // DmpServiceManager

@@ -24,7 +24,7 @@ void DmpRdcDataManager::BookBranch(){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
   fOutDataTree = new TTree("DAMPE_Raw","ADC");
 #endif
-  fOutDataTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
+  fOutDataTree->Branch("Event","DmpEventRaw",&fEvtRaw,32000,2);
 }
 
 //-------------------------------------------------------------------
