@@ -34,7 +34,10 @@ bool DmpRdcAlgPsd::SetupConnector(){
   std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kPsd);
   if(path == "default"){
     fRunMe = false;
+    std::cout<<"\nNo set connector:\tPsd"<<std::endl;
     return true;
+  }else{
+    std::cout<<"\nSetting connector:\tPsd";
   }
   /*
   int FEEID, ChannelID;
@@ -67,16 +70,17 @@ bool DmpRdcAlgPsd::SetupConnector(){
   }
 
   */
-  std::cout<<"\nSetup connector:\tPsd"<<std::endl;
   return true;
 }
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgPsd::Convert(){
   if(not fRunMe) return true;
+{// debug
 #ifdef DmpDebug
-std::cerr<<"\t\t-->Psd from "<<std::dec<<fFile->tellg();
+std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg()<<std::endl;
 #endif
+}
 // *
 // *  TODO: conversion bgo
 // *
@@ -150,9 +154,11 @@ std::cerr<<"\t\t-->Psd from "<<std::dec<<fFile->tellg();
   }
 
   */
+{// debug
 #ifdef DmpDebug
-std::cerr<<"\tto "<<std::dec<<fFile->tellg()<<std::endl;
+std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tto "<<fFile->tellg()<<std::endl;
 #endif
+}
   return true;
 }
 

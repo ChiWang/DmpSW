@@ -34,7 +34,10 @@ bool DmpRdcAlgBgo::SetupConnector(){
   std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kBgo);
   if(path == "default"){
     fRunMe = false;
+    std::cout<<"\nNo set connector:\tBgo"<<std::endl;
     return true;
+  }else{
+    std::cout<<"\nSetting connector:\tBgo";
   }
   /*
   int FEEID, ChannelID;
@@ -67,16 +70,17 @@ bool DmpRdcAlgBgo::SetupConnector(){
   }
 
   */
-  std::cout<<"\nSetup connector:\tBgo"<<std::endl;
   return true;
 }
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBgo::Convert(){
   if(not fRunMe) return true;
+{// debug
 #ifdef DmpDebug
-std::cerr<<"\t\t-->Bgo from "<<std::dec<<fFile->tellg();
+std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg()<<std::endl;
 #endif
+}
 // *
 // *  TODO: conversion bgo
 // *
@@ -150,9 +154,11 @@ std::cerr<<"\t\t-->Bgo from "<<std::dec<<fFile->tellg();
   }
 
   */
+{// debug
 #ifdef DmpDebug
-std::cerr<<"\tto "<<std::dec<<fFile->tellg()<<std::endl;
+std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tto "<<fFile->tellg()<<std::endl;
 #endif
+}
   return true;
 }
 

@@ -46,35 +46,33 @@ void DmpCore::RdcClear(){
   delete stkAlg;
   delete bgoAlg;
   delete nudAlg;
-  std::cout<<"\n******************************************************"<<std::endl;
-  std::cout<<"*     DAMPE software: Delete Raw Data Conversion     *"<<std::endl;
-  std::cout<<"******************************************************"<<std::endl;
+  std::cout<<"\n**************************************************"<<std::endl;
+  std::cout<<"*             Delete Raw Data Conversion          *"<<std::endl;
+  std::cout<<"***************************************************"<<std::endl;
 }
 
 //-------------------------------------------------------------------
 void DmpCore::RdcExecute(const std::string &dataName, long nEvt){
   dataMgr->SetInDataName(dataName);
   // open file
-  std::ifstream *inputData = new std::ifstream(dataName.c_str(),std::ios::in|std::ios::binary);
-  if (inputData->good()) {
-    headerAlg->SetFileStream(inputData);
-    psdAlg->SetFileStream(inputData);
-    stkAlg->SetFileStream(inputData);
-    bgoAlg->SetFileStream(inputData);
-    nudAlg->SetFileStream(inputData);
+  std::ifstream inputData(dataName.c_str(),std::ios::in|std::ios::binary);
+  if (inputData.good()) {
+    headerAlg->SetFileStream(&inputData);
+    psdAlg->SetFileStream(&inputData);
+    stkAlg->SetFileStream(&inputData);
+    bgoAlg->SetFileStream(&inputData);
+    nudAlg->SetFileStream(&inputData);
   }else{
     std::cerr<<"\nwarning: open "<<dataName<<" failed"<<std::endl;
-    inputData->close();
-    delete inputData;
+    inputData.close();
     return;
   }
 
   // convert and save output
   dataMgr->BookBranch();
-  for (long i=0;!inputData->eof();++i){
+  for (long i=0;!inputData.eof();++i){
 {// debug
   if (i > nEvt) break;
-    dataMgr->FillEvent();
 }
     if(not headerAlg->Convert())    continue;
 {
@@ -101,21 +99,17 @@ std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"),\tn "<<std::endl;
 #endif
 }
     if(not nudAlg->Convert())   continue;
-
     {// trigger check
     if(headerAlg->GetTrigger() != psdAlg->GetTrigger() ||
        headerAlg->GetTrigger() != bgoAlg->GetTrigger())
-    {
-            std::cout<<"i = "<<i<<std::endl;
-    }
+    {}
     }
     dataMgr->FillEvent();
   }
   dataMgr->SaveOutput();
 
   // reset
-  inputData->close();
-  delete inputData;
+  inputData.close();
 }
 
 

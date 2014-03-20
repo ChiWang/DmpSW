@@ -32,6 +32,7 @@ public:
   TParticle* GetParticle() const {return fParticle;}
   void SetRunMode(DmpDetector::DmpEDetectorID id, DmpDetector::DmpERunMode mode) {fRunMode[id] = mode;}
   DmpDetector::DmpERunMode GetRunMode(DmpDetector::DmpEDetectorID id) const {return fRunMode[id];}
+  void PrintTime()const;
 
 private:
   long      fEventID;               // valid event count

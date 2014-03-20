@@ -4,6 +4,8 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */ 
 
+#include <iostream>
+
 #include "TParticle.h"
 #include "DmpEvtHeader.h"
 
@@ -39,23 +41,13 @@ void DmpEvtHeader::SetTime(short Time[],int size){
 }
 */
 
-/*
-void DmpEvtHeader::ShowTime(Short_t mode) const{
- *  use cerr instead of cout, since most situation while calling ShowTime() is just after a cerr.
- *  So, if we use cout in this function, then the output file will not match the file of the last cerr information in.
- *
-  Long64_t tmp=fSec;
-  if (mode ==1) {
-    std::cerr<<"Normal time:"<<std::endl;
-  } else {
-    std::cerr<<"Hex time:\t";
-    std::cerr<<std::hex<<fTime[2]<<" "<<fTime[3]<<" "<<fTime[4]<<" "<<fTime[5]<<" "<<fTime[6]<<" "<<fTime[7]<<std::endl;
-    std::cerr<<std::hex<<tmp/Power(16,6)<<"  "; tmp = tmp%(16*16*16*16*16*16);
-    std::cerr<<std::hex<<tmp/Power(16,4)<<"  "; tmp = tmp%(16*16*16*16);
-    std::cerr<<std::hex<<tmp/Power(16,2)<<"  "; tmp = tmp%(16*16);
-    std::cerr<<std::hex<<tmp<<"  "; tmp = fmSec;
-    std::cerr<<std::hex<<tmp/256<<"  "<<tmp%256<<std::endl;
-  }
+void DmpEvtHeader::PrintTime() const{
+ //*  use cerr instead of cout, since most situation while calling ShowTime() is just after a cerr.
+ //*  So, if we use cout in this function, then the output file will not match the file of the last cerr information in.
+ std::cout<<"Time:\t";
+ for(short i=0;i<GetTimeSize();++i){
+   std::cout<<" "<<std::hex<<fTime[i];
+ }
+ std::cout<<std::dec<<std::endl;
 }
-*/
 

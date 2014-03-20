@@ -34,7 +34,10 @@ bool DmpRdcAlgNud::SetupConnector(){
   std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kNud);
   if(path == "default"){
     fRunMe = false;
+    std::cout<<"\nNo set connector:\tNud"<<std::endl;
     return true;
+  }else{
+    std::cout<<"\nSetting connector:\tNud";
   }
   /*
   int FEEID, ChannelID;
@@ -67,16 +70,17 @@ bool DmpRdcAlgNud::SetupConnector(){
   }
 
   */
-  std::cout<<"\nSetup connector:\tNud"<<std::endl;
   return true;
 }
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgNud::Convert(){
   if(not fRunMe) return true;
+{// debug
 #ifdef DmpDebug
-std::cerr<<"\t\t-->Nud from "<<std::dec<<fFile->tellg();
+std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg()<<std::endl;
 #endif
+}
 // *
 // *  TODO: conversion bgo
 // *
@@ -150,9 +154,11 @@ std::cerr<<"\t\t-->Nud from "<<std::dec<<fFile->tellg();
   }
 
   */
+{// debug
 #ifdef DmpDebug
-std::cerr<<"\tto "<<std::dec<<fFile->tellg()<<std::endl;
+std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tto "<<fFile->tellg()<<std::endl;
 #endif
+}
   return true;
 }
 

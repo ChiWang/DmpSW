@@ -16,7 +16,7 @@ public:
   DmpRdcAlgHeader();
   virtual ~DmpRdcAlgHeader();
   virtual bool Convert();
-  void  SetFileStream(std::ifstream *&p)   {fFile = p;}
+  void  SetFileStream(std::ifstream *p)   {fFile = p;}
   short GetTrigger() const {return fTrigger;}
 
 private:
