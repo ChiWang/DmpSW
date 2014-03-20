@@ -22,7 +22,7 @@ import libDmpRdc as  DmpRdc
 # RUN Raw Data Conversion
     ##  where to save the output. If NOT set will use "./" by defualt
 rdcDataMgr = DmpRdc.DmpRdcDataManager.GetInstance()
-rdcDataMgr.SetOutDataPath("./test")
+rdcDataMgr.SetOutDataPath("./testRdc")
     ##  where to cnct files for different subDet, if NOT set will ignore this subDet.
 rdcCNCT = DmpRdc.DmpRdcConnectorInterface.GetInstance()
 #rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kPsd,prefix+"/share/Connector/Psd/Quarter")

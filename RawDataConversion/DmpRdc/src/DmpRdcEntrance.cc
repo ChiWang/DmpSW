@@ -89,7 +89,6 @@ if (i < nEvt){
         dataMgr->FillEvent();
     }
   }
-  dataMgr->SetOutDataName();
   dataMgr->SaveOutput();
 
   // reset

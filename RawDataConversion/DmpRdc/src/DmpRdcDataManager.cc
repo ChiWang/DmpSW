@@ -4,23 +4,21 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
-#ifdef DmpDebug
-#include <iostream>
-#endif
-
 #include "TTree.h"
-#include "TFile.h"
 
 #include "DmpEventRaw.h"
 #include "DmpRdcDataManager.h"
 
-
+//-------------------------------------------------------------------
 DmpRdcDataManager* DmpRdcDataManager::GetInstance(){
   static DmpRdcDataManager instance;
   return &instance;
 }
 
 //-------------------------------------------------------------------
+#ifdef DmpDebug
+#include <iostream>
+#endif
 void DmpRdcDataManager::BookBranch(){
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
@@ -30,18 +28,11 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 }
 
 //-------------------------------------------------------------------
-void DmpRdcDataManager::FillEvent(){
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-#endif
-  fOutDataTree->Fill();
-}
-
-//-------------------------------------------------------------------
 DmpRdcDataManager::DmpRdcDataManager()
  :fEvtRaw(0)
 {
   fEvtRaw = new DmpEventRaw();
+  fPgkID += "Rdc_V1.0_";
 }
 
 //-------------------------------------------------------------------

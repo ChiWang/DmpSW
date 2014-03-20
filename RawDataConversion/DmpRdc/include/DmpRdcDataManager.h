@@ -9,7 +9,6 @@
 
 #include "DmpVDataManager.h"
 
-class TTree;
 class DmpEventRaw;
 
 class DmpRdcDataManager : public DmpVDataManager{
@@ -19,9 +18,8 @@ class DmpRdcDataManager : public DmpVDataManager{
  *
 */
 public:
-  static DmpRdcDataManager*     GetInstance();
+  static DmpRdcDataManager* GetInstance();
   void BookBranch();
-  void FillEvent();
 
 private:
   DmpRdcDataManager();
@@ -29,9 +27,6 @@ private:
 
 public:
   DmpEventRaw*  GetRawEvent() const     {return fEvtRaw;}
-
-private:
-  TTree     *fOutDataTree;
 
 private:
   DmpEventRaw   *fEvtRaw;

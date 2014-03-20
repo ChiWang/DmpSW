@@ -5,7 +5,6 @@
 */
 
 #include "TTree.h"
-#include "TFile.h"
 
 #include "G4Run.hh"
 #include "G4Event.hh"
