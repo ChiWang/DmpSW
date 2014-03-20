@@ -4,9 +4,7 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
-#ifdef DmpDebug
 #include <iostream>
-#endif
 
 #include "DmpRdcAlgHeader.h"
 #include "DmpRdcAlgPsd.h"
@@ -26,7 +24,9 @@ DmpRdcDataManager *dataMgr = 0;
 
 //-------------------------------------------------------------------
 void DmpCore::RdcInitialize(){
-  std::cout<<"DAMPE software: Setup kernel of Raw Data Conversion"<<std::endl;
+  std::cout<<"\n*********************************************************"<<std::endl;
+  std::cout<<"*  DAMPE software: Setup kernel of Raw Data Conversion  *"<<std::endl;
+  std::cout<<"*********************************************************"<<std::endl;
   headerAlg = new DmpRdcAlgHeader();
   psdAlg = new DmpRdcAlgPsd();
   stkAlg = new DmpRdcAlgStk();
@@ -46,13 +46,15 @@ void DmpCore::RdcClear(){
   delete stkAlg;
   delete bgoAlg;
   delete nudAlg;
+  std::cout<<"\n******************************************************"<<std::endl;
+  std::cout<<"*     DAMPE software: Delete Raw Data Conversion     *"<<std::endl;
+  std::cout<<"******************************************************"<<std::endl;
 }
 
 //-------------------------------------------------------------------
 void DmpCore::RdcExecute(const std::string &dataName, long nEvt){
-  // open file
-  //using namespace std;
   dataMgr->SetInDataName(dataName);
+  // open file
   std::ifstream *inputData = new std::ifstream(dataName.c_str(),std::ios::in|std::ios::binary);
   if (!inputData->good()) {
     std::cerr<<"\nwarning: open "<<dataName<<" failed"<<std::endl;
@@ -71,16 +73,33 @@ void DmpCore::RdcExecute(const std::string &dataName, long nEvt){
   dataMgr->BookBranch();
   for (long i=0;!inputData->eof();++i){
 {// debug
-  if (i < nEvt){
-    if(nEvt%100 == 0)  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"nEvt = "<<i<<std::endl;
-  }else{
-    break;
-  }
+  if (i > nEvt) break;
+    dataMgr->FillEvent();
 }
     if(not headerAlg->Convert())    continue;
+{
+#ifdef DmpDebug
+std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"),\tn "<<std::endl;
+#endif
+}
     if(not psdAlg->Convert())   continue;
+{
+#ifdef DmpDebug
+std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"),\tn "<<std::endl;
+#endif
+}
     if(not stkAlg->Convert())   continue;
+{
+#ifdef DmpDebug
+std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"),\tn "<<std::endl;
+#endif
+}
     if(not bgoAlg->Convert())   continue;
+{
+#ifdef DmpDebug
+std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"),\tn "<<std::endl;
+#endif
+}
     if(not nudAlg->Convert())   continue;
 
     {// trigger check

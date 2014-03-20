@@ -4,9 +4,6 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */ 
 
-#ifdef  DmpDebug
-#include <iostream>
-#endif
 #include "TParticle.h"
 #include "DmpEvtHeader.h"
 
@@ -17,16 +14,10 @@ DmpEvtHeader::DmpEvtHeader()
  :fEventID(-1),
   fParticle(0)
 {
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-#endif
   fParticle = new TParticle();
 }
 
 DmpEvtHeader::~DmpEvtHeader(){
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-#endif
   delete fParticle;
 }
 

@@ -21,24 +21,42 @@ DmpRdcAlgHeader::DmpRdcAlgHeader()
   fHeader = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetEventHeader();  
 }
 
-DmpRdcAlgHeader::~DmpRdcAlgHeader(){}
+DmpRdcAlgHeader::~DmpRdcAlgHeader(){
+}
 
 bool DmpRdcAlgHeader::Convert(){
 // *
 // *  TODO: header convert
 // *
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::dec<<fFile->tellg()<<std::endl;;
-#endif
   static long id = 0;
   static short tmp=0;
   fFile->read((char*)(&tmp),1);
+{
+#ifdef DmpDebug
+std::cout<<std::dec<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"),\tn "<<fFile->tellg()<<" value = "<<std::hex<<tmp;
+#endif
+}
   if (tmp!=0xe2)    return false;
   fFile->read((char*)(&tmp),1);
+{
+#ifdef DmpDebug
+std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"),\tn "<<std::dec<<fFile->tellg()<<" value = "<<std::hex<<tmp;
+#endif
+}
   if (tmp!=0x25)    return false;
   fFile->read((char*)(&tmp),1);
+{
+#ifdef DmpDebug
+std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"),\tn "<<std::dec<<fFile->tellg()<<" value = "<<std::hex<<tmp;
+#endif
+}
   if (tmp!=0x08)    return false;
   fFile->read((char*)(&tmp),1);
+{
+#ifdef DmpDebug
+std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"),\tn "<<std::dec<<fFile->tellg()<<" value = "<<std::hex<<tmp;
+#endif
+}
   if (tmp!=0x13) {
     std::cout<<"\t\t\t\t----> Searching 0xe225 0813"<<std::endl;
     return false;
@@ -48,8 +66,18 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
   }
   fFile->read((char*)(&tmp),1);      //this needed
   fFile->read((char*)(&fTrigger),1);
+{
+#ifdef DmpDebug
+std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"),\tn "<<std::dec<<fFile->tellg()<<" value = "<<std::hex<<tmp;
+#endif
+}
   fFile->read((char*)(&tmp),1);      //Datalength
   fFile->read((char*)(&tmp),1);      //Datalength
+{
+#ifdef DmpDebug
+std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"),\tn "<<std::dec<<fFile->tellg()<<" value = "<<std::hex<<tmp;
+#endif
+}
 
   for (short index=0;fHeader->GetTimeSize();++index) {     // size = 8
     fFile->read((char*)(&tmp),1);

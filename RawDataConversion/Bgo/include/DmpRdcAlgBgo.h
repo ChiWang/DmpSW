@@ -19,7 +19,7 @@ public:
   virtual ~DmpRdcAlgBgo();
   virtual bool SetupConnector();
   virtual bool Convert();        // convert one event
-  void  SetFileStream(std::ifstream *p)   {fFile = p;}
+  void  SetFileStream(std::ifstream *&p)   {fFile = p;}
   short GetTrigger() const {return fTrigger;}
 
 private:
