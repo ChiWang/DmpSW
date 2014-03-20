@@ -28,8 +28,6 @@ DmpSimBgoSD::~DmpSimBgoSD(){
 }
 
 void DmpSimBgoSD::Initialize(G4HCofThisEvent*){
-  fHitCollection->Delete();
-  fHitCollection->Clear(); // delete all Hits in collection
 }
 
 #include <boost/lexical_cast.hpp>

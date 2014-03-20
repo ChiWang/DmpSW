@@ -6,23 +6,27 @@
 
 #include <iostream>
 
-//#include "DmpEvtHeader.h"
+#include "TClonesArray.h"
+
 #include "DmpRdcAlgNud.h"
 #include "DmpRdcDataManager.h"
 #include "DmpEventRaw.h"
-#include "TClonesArray.h"
 #include "DmpEvtNudHit.h"
+#include "DmpEvtHeader.h"
 #include "DmpRdcConnectorInterface.h"
 
 DmpRdcAlgNud::DmpRdcAlgNud()
  :fRunMe(true),
   fFile(0),
   fHits(0),
-  fTrigger(0)
+  fHeader(0)
 {
-  fHits = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kNud);
+  DmpEventRaw *rawEvent = DmpRdcDataManager::GetInstance()->GetRawEvent();
+  fHits = rawEvent->GetHitCollection(DmpDetector::kNud);
+  fHeader = rawEvent->GetEventHeader();
 }
 
+//-------------------------------------------------------------------
 DmpRdcAlgNud::~DmpRdcAlgNud(){
 }
 
@@ -76,90 +80,59 @@ bool DmpRdcAlgNud::SetupConnector(){
 //-------------------------------------------------------------------
 bool DmpRdcAlgNud::Convert(){
   if(not fRunMe) return true;
+#ifdef DmpDebug
+static bool noFrom=true; // debug
+#endif
 {// debug
 #ifdef DmpDebug
-std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg()<<std::endl;
+if(noFrom){
+  std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
+  noFrom = false;
+}
 #endif
 }
 // *
-// *  TODO: conversion bgo
+// *  TODO: check conversion Nud
 // *
-/*
-  static const short  kFeeDataLength0 = ((BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb*BT2012::kSideNb*2+3)*2;  // 3: (1)data Length 0x00a2; (2)reverse 0x0000; (3)CRC 0x0xxx.  *2:to unit Byte.  Fee type A or B
-  static const short  kFeeDataLength1 = ((BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb*BT2012::kSideNb+3)*2;   // Fee type C
-  static short feeCount=0, feeID=0, channelID=0;
-  static short nChan=0, dataLong=0;
-  static short rawHex[2]={0};
-  static short nc=0,tmp=0;     // for loop, define as static at here to save time
-
-  fNud->Reset();
-  for (feeCount=0;feeCount<BT2012::kPlaneNb;++feeCount) {
-    tmp=0;
-    fFile->read((char*)(&tmp),1);
-    if (tmp!=0xeb) {
-      std::cerr<<"\nError: DmpRdcAlgorithm::ConversionNud()\t0xeb wrong\tFee = "<<feeCount<<"\t";
-      fHeader->ShowTime(0);
-      return false;
-    }
-    fFile->read((char*)(&tmp),1);
-    if (tmp!=0x90) {
-      std::cerr<<"\nError: DmpRdcAlgorithm::ConversionNud()\t0x90 wrong\t";
-      fHeader->ShowTime(0);
-      return false;
-    }
-    fFile->read((char*)(&tmp),1);        //trigger
-    fFile->read((char*)(&feeID),1);
-    if (feeCount == 0) {                          //trigger check, runMode check
-      fTrigger["Nud"] = tmp;
-      fNud->SetMode(DmpVEvtSubDet::DmpERunMode(feeID/16));
-    } else {
-      if (tmp != fTrigger["Nud"]) {
-        std::cerr<<"\nError: DmpRdcAlgorithm::ConversionNud()\tFEE trigger not match\t";
-        fHeader->ShowTime(0);
-        return false;
-      }
-      if (feeID/16 != fNud->GetMode()) {
-        std::cerr<<"\nError: DmpRdcAlgorithmConversionNud()\tFEE mode not match\t";
-        fHeader->ShowTime(0);
-        return false;
-      }
-    }
-    feeID = feeID%16;
-    fFile->read((char*)(&tmp),1);        // datalong, 2 Bytes
-    fFile->read((char*)(&dataLong),1);
-    int dataLength = tmp*256 + dataLong;
-    if (dataLength == kFeeDataLength0 || dataLength == kFeeDataLength1) {
-      nChan = (dataLength-2*3)/2;
-    } else {
-      nChan = (dataLength-2*3)/3;
-    }
-//std::cout<<"\t\t\t XX 2  nChan = "<<std::dec<<nChan<<" dL = "<<std::hex<<tmp<<" "<<dataLong<<std::endl;
-
-    for (nc=0;nc<nChan;++nc) {
-      if (dataLength == kFeeDataLength0 || dataLength == kFeeDataLength1) {
-        channelID = nc;
-      } else {
-        fFile->read((char*)(&channelID),1);
-      }
-      fFile->read((char*)(&rawHex[0]),1);
-      fFile->read((char*)(&rawHex[1]),1);
-      fNud->SetSignal(20518,rawHex[0]*256+rawHex[1]);
-      fNud->SetSignal(
-        ConnectorNud[feeID*1000+channelID],         // LBSD_ID
-        rawHex[0]*256+rawHex[1]);                   // ADC
-    }
-    fFile->read((char*)(&tmp),2);             // reserve, 2 Bytes
-    fFile->read((char*)(&tmp),2);             // CRC,     2 Bytes
-//    fFile->read((char*)(&tmp),2);             // 5aa5,    2 Bytes
+//-------------------------------------------------------------------
+  static short tmp=0;
+  fFile->read((char*)(&tmp),1);
+  if (tmp!=0xeb) {
+    std::cerr<<"Error: "<<__FUNCTION__<<"\t not 0xeb("<<std::hex<<tmp<<std::dec<<")"<<std::endl;
+    fHeader->PrintTime();
+    return false;
   }
+  fFile->read((char*)(&tmp),1);
+  if (tmp!=0x90) {
+    std::cerr<<"Error: "<<__FUNCTION__<<"\t not 0x90("<<std::hex<<tmp<<std::dec<<")"<<std::endl;
+    fHeader->PrintTime();
+    return false;
+  }
+  fFile->read((char*)(&tmp),1);
+  fHeader->SetTrigger(DmpDetector::kNud,tmp);
+  fFile->read((char*)(&tmp),1);
+  fHeader->SetRunMode(DmpDetector::kNud,tmp%16);
+  static short nBytes = 0;
+  fFile->read((char*)(&tmp),1);        // data length, 2 Bytes
+  fFile->read((char*)(&nBytes),1);
+  nBytes += tmp*256-2-2;      // 2 bytes for data length, 2 bytes for CRC
+  //if (fHeader->GetRunMode(DmpDetector::kNud) == DmpDetector::k0Compress) 
+  for(short i=0;i<nBytes;i+=2){ // k0Compress
+    fFile->read((char*)(&tmp),1);
+    fFile->read((char*)(&tmp),1);
+// *
+// *  TODO: store impfore into hits
+// *
+    //fHits->
+  }
+  fFile->read((char*)(&tmp),2);             // CRC,     2 Bytes
 
-  */
 {// debug
 #ifdef DmpDebug
-std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tto "<<fFile->tellg()<<std::endl;
+std::cout<<" to "<<fFile->tellg()<<std::endl;
+noFrom = true;
 #endif
 }
   return true;
 }
-
 

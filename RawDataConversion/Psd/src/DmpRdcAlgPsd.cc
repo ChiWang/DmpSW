@@ -6,12 +6,13 @@
 
 #include <iostream>
 
-//#include "DmpEvtHeader.h"
+#include "TClonesArray.h"
+
 #include "DmpRdcAlgPsd.h"
 #include "DmpRdcDataManager.h"
 #include "DmpEventRaw.h"
-#include "TClonesArray.h"
 #include "DmpEvtPsdHit.h"
+//#include "DmpEvtHeader.h"
 #include "DmpRdcConnectorInterface.h"
 
 DmpRdcAlgPsd::DmpRdcAlgPsd()
@@ -76,9 +77,13 @@ bool DmpRdcAlgPsd::SetupConnector(){
 //-------------------------------------------------------------------
 bool DmpRdcAlgPsd::Convert(){
   if(not fRunMe) return true;
+static bool noFrom=true; // debug
 {// debug
 #ifdef DmpDebug
-std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg()<<std::endl;
+if(noFrom){
+  std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg()<<std::endl;
+  noFrom = false;
+}
 #endif
 }
 // *
@@ -156,7 +161,8 @@ std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg()<<std::endl;
   */
 {// debug
 #ifdef DmpDebug
-std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tto "<<fFile->tellg()<<std::endl;
+std::cout<<" to "<<fFile->tellg()<<std::endl;
+noFrom = true;
 #endif
 }
   return true;

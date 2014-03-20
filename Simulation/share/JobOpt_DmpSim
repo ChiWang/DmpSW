@@ -33,7 +33,7 @@ simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kBgo,prefix+"/share/Geometry/Bgo/Qu
 
     ##  Start simulation. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SsetIn(Out)DataPath() between different Execute()
 DmpSim.Initialize()      # setup detector, user actions
-for i in range(4):
+for i in range(7):
     note='Test-%d'%i
     print note
     simDataMgr.AppendDataNote(note)        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay

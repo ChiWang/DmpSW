@@ -156,7 +156,7 @@ std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg()<<std::endl;
   */
 {// debug
 #ifdef DmpDebug
-std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tto "<<fFile->tellg()<<std::endl;
+std::cout<<" to "<<fFile->tellg()<<std::endl;
 #endif
 }
   return true;

@@ -11,7 +11,10 @@
 #include <map>
 #include <fstream>
 
+#include "DmpRunMode.h"
+
 class TClonesArray;
+class DmpEvtHeader;
 
 class DmpRdcAlgNud{
 public:
@@ -20,10 +23,9 @@ public:
   virtual bool SetupConnector();
   virtual bool Convert();        // convert one event
   void  SetFileStream(std::ifstream *p)   {fFile = p;}
-  short GetTrigger() const {return fTrigger;}
 
 private:
-  bool      fRunMe;        // tag to run this subDet
+  bool      fRunMe;         // tag to run this subDet
   // for all input datas
   std::map<int,int> fConnector;
     /*
@@ -35,12 +37,12 @@ private:
 
 private:
   // for one input data
-  std::ifstream      *fFile;     // pointer of file stream
+  std::ifstream *fFile;     // pointer of file stream
 
 private:
   // for one event
   TClonesArray  *fHits;     // responded bars
-  short     fTrigger;       // trigger of all FEE
+  DmpEvtHeader  *fHeader;   // to print time, set run mode
 
 };
 

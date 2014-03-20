@@ -29,6 +29,7 @@ public:
   virtual ~DmpVDataManager();
 
   virtual void BookBranch()=0;
+  virtual void Reset()=0;   // reset memory before processing the next event
   void  FillEvent();
   void  SaveOutput();
   void  SetOutDataPath(const std::string&);        // binding me

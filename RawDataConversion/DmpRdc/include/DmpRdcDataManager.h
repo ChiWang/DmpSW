@@ -20,6 +20,7 @@ class DmpRdcDataManager : public DmpVDataManager{
 public:
   static DmpRdcDataManager* GetInstance();
   void BookBranch();
+  void Reset();
 
 private:
   DmpRdcDataManager();

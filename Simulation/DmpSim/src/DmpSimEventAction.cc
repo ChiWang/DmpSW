@@ -51,6 +51,7 @@ void DmpSimEventAction::BeginOfEventAction(const G4Event *aEvent){
 #ifdef DmpDebug
   std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tEvent ID = "<<aEvent->GetEventID()<<std::endl;
 #endif
+  fDataMgr->Reset();
   fDataMgr->UpdateEventHeader(aEvent);
 }
 

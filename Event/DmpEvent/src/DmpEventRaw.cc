@@ -35,6 +35,7 @@ DmpEventRaw::DmpEventRaw()
   fNudHits = new TClonesArray("DmpEvtNudHit",300);
 }
 
+//-------------------------------------------------------------------
 DmpEventRaw::~DmpEventRaw(){
   delete fEvtHeader;
   fBgoHits->Delete();
@@ -54,6 +55,15 @@ DmpEventRaw::~DmpEventRaw(){
   delete fNudHits;
 }
 
+void DmpEventRaw::Reset(){
+  // event header not need reset function.
+  fPsdHits->Delete();   fPsdHits->Clear();
+  fStkHits->Delete();   fStkHits->Clear();
+  fBgoHits->Delete();   fBgoHits->Clear();
+  fNudHits->Delete();   fNudHits->Clear();
+}
+
+//-------------------------------------------------------------------
 TClonesArray* DmpEventRaw::GetHitCollection(DmpDetector::DmpEDetectorID id) const {
   if(id == DmpDetector::kPsd)    return fPsdHits;
   if(id == DmpDetector::kStk)    return fStkHits;

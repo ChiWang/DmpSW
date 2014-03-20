@@ -13,6 +13,8 @@
 #include "DmpRdcAlgNud.h"
 #include "DmpRdcEntrance.h"
 #include "DmpRdcDataManager.h"
+#include "DmpEventRaw.h"
+#include "DmpEvtHeader.h"
 
 //-------------------------------------------------------------------
 DmpRdcAlgHeader *headerAlg = 0;
@@ -72,39 +74,26 @@ void DmpCore::RdcExecute(const std::string &dataName, long nEvt){
   dataMgr->BookBranch();
   for (long i=0;!inputData.eof();++i){
 {// debug
-  if (i > nEvt) break;
+  if (dataMgr->GetRawEvent()->GetEventHeader()->GetEventID() > nEvt) break;
 }
     if(not headerAlg->Convert())    continue;
-{
-#ifdef DmpDebug
-std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"),\tn "<<std::endl;
-#endif
-}
+    if(not nudAlg->Convert())   continue;       // in hex data, nud first
     if(not psdAlg->Convert())   continue;
-{
-#ifdef DmpDebug
-std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"),\tn "<<std::endl;
-#endif
-}
     if(not stkAlg->Convert())   continue;
-{
-#ifdef DmpDebug
-std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"),\tn "<<std::endl;
-#endif
-}
     if(not bgoAlg->Convert())   continue;
-{
-#ifdef DmpDebug
-std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"),\tn "<<std::endl;
-#endif
-}
-    if(not nudAlg->Convert())   continue;
     {// trigger check
     if(headerAlg->GetTrigger() != psdAlg->GetTrigger() ||
        headerAlg->GetTrigger() != bgoAlg->GetTrigger())
     {}
     }
+{// debug
+#ifdef DmpDebug
+std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<")\t";
+dataMgr->GetRawEvent()->GetEventHeader()->PrintTime();
+#endif
+}
     dataMgr->FillEvent();
+    dataMgr->Reset();
   }
   dataMgr->SaveOutput();
 

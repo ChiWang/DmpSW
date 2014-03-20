@@ -28,6 +28,11 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 }
 
 //-------------------------------------------------------------------
+void DmpRdcDataManager::Reset(){
+  fEvtRaw->Reset();
+}
+
+//-------------------------------------------------------------------
 DmpRdcDataManager::DmpRdcDataManager()
  :fEvtRaw(0)
 {

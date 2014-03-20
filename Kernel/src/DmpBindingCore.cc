@@ -44,6 +44,7 @@ BOOST_PYTHON_MODULE(libDmpCore){
   // DmpRunMode
   enum_<DmpDetector::DmpERunMode>("DmpERunMode")
     .value("kUnknow",   DmpDetector::kUnknow)
+    .value("k0Compress",DmpDetector::k0Compress)
     .value("kCompress", DmpDetector::kCompress)
     .value("kCalPed",   DmpDetector::kCalPed)
     .value("kCalADC",   DmpDetector::kCalADC)

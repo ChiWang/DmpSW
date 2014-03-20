@@ -10,6 +10,7 @@
 namespace DmpDetector{
   enum DmpERunMode{
     kUnknow = -1,
+    k0Compress = 1,
     kCompress = 5,
     kCalPed = 6,
     kCalADC = 7,

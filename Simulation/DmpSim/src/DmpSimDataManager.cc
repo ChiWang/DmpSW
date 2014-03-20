@@ -32,6 +32,15 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 }
 
 //-------------------------------------------------------------------
+void DmpSimDataManager::Reset(){
+  fEvtRaw->Reset();
+// *
+// *  TODO:  add Reset for primary particle
+// *
+  //fPrimaryParticle->Reset();
+}
+
+//-------------------------------------------------------------------
 DmpSimDataManager::DmpSimDataManager()
  :fPrimaryParticle(0),
   fEvtRaw(0)
@@ -58,10 +67,6 @@ void DmpSimDataManager::UpdatePrimaryParticleInformation(const G4Event *anEvent)
 void DmpSimDataManager::UpdateEventHeader(const G4Event *anEvent){
   static DmpEvtHeader *eventHeader = fEvtRaw->GetEventHeader();
   eventHeader->SetEventID(anEvent->GetEventID());
-  eventHeader->SetRunMode(DmpDetector::kPsd,DmpDetector::kCompress);
-  eventHeader->SetRunMode(DmpDetector::kStk,DmpDetector::kCompress);
-  eventHeader->SetRunMode(DmpDetector::kBgo,DmpDetector::kCompress);
-  eventHeader->SetRunMode(DmpDetector::kNud,DmpDetector::kCompress);
   eventHeader->SetParticlePdgCode(anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode());
 }
 

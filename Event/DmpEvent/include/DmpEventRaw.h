@@ -25,6 +25,7 @@ class DmpEventRaw : public TObject{
 public:
   DmpEventRaw();
   ~DmpEventRaw();
+  void Reset();
   DmpEvtHeader* GetEventHeader() const {return fEvtHeader;};
   TClonesArray* GetHitCollection(DmpDetector::DmpEDetectorID) const;
 
@@ -37,4 +38,5 @@ private:
 
   ClassDef(DmpEventRaw,1)
 };
+
 
