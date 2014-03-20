@@ -4,12 +4,18 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
+#include <iostream>
+
+#include "TTree.h"
+#include "TFile.h"
 #include "DmpVDataManager.h"
 
 //-------------------------------------------------------------------
 DmpVDataManager::DmpVDataManager()
- :fInDataName("no"),
+ :fPgkID("Dmp"),
+  fOutDataTree(0),
   fOutDataPath("./"),
+  fInDataName("no"),
   fOutDataName("no"),
   fNote("no")
 {
@@ -17,6 +23,28 @@ DmpVDataManager::DmpVDataManager()
 
 //-------------------------------------------------------------------
 DmpVDataManager::~DmpVDataManager(){
+}
+
+//-------------------------------------------------------------------
+void DmpVDataManager::FillEvent(){
+#ifdef DmpDebug
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+#endif
+  fOutDataTree->Fill();
+}
+
+//-------------------------------------------------------------------
+void DmpVDataManager::SaveOutput(){
+  SetOutDataName();
+  TFile *aFile = new TFile((TString)(fOutDataPath+fOutDataName),"recreate");
+  fOutDataTree->Write();
+  aFile->Close();
+  delete fOutDataTree;
+  delete aFile;
+  std::cout<<"Result in : "<<fOutDataPath+fOutDataName<<std::endl;
+  fInDataName = "no";
+  fOutDataName = "no";
+  fNote = "no";
 }
 
 #include <sys/stat.h>       // mkdir()
@@ -28,6 +56,19 @@ void DmpVDataManager::SetOutDataPath(const std::string &path){
     fOutDataPath = path + "/";
   }
   mkdir(fOutDataPath.c_str(),0755);
+}
+
+//-------------------------------------------------------------------
+#include <boost/lexical_cast.hpp>
+#include <boost/filesystem/path.hpp>
+void DmpVDataManager::SetOutDataName(){
+  static int runID = -1;
+  boost::filesystem::path inpath(fInDataName);
+  if(fNote == "no"){
+    fOutDataName = fPgkID+TimeStamp()+"_run"+boost::lexical_cast<std::string>(++runID)+"_"+inpath.stem()+".root";
+  }else{
+    fOutDataName = fPgkID+TimeStamp()+"_run"+boost::lexical_cast<std::string>(++runID)+"_"+inpath.stem()+"_"+fNote+".root";
+  }
 }
 
 //-------------------------------------------------------------------

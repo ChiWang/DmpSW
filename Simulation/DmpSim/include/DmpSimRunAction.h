@@ -19,7 +19,7 @@ public:
   void EndOfRunAction(const G4Run*);
   
 private:
-  DmpSimDataManager     *fDataMan;
+  DmpSimDataManager     *fDataMgr;
 };
 
 #endif

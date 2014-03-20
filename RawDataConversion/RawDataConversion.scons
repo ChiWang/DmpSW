@@ -38,9 +38,6 @@ for key in subDetectors:
 env.Prepend(LIBS=['DmpCore','DmpEvent'])
 env.Prepend(LIBPATH=[P1Path,P2Path])
 
-    #+  Add boost filesyetem
-env.Append(LIBS=['boost_filesystem-mt'])
-
 # install share
 #--------------------------------------------------------------------
 def ProcessThisDir(var):

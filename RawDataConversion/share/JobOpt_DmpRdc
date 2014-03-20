@@ -16,7 +16,7 @@ if os.environ['DMPSWSYS'] not in sys.path:
     sys.path.append(prefix+'/lib')
 
 import libDmpCore as DmpCore
-#import libDmpEvent
+from ROOT import TParticle      # for Rdc, why Sim not need it??
 import libDmpRdc as  DmpRdc
 
 # RUN Raw Data Conversion

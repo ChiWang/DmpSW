@@ -26,12 +26,12 @@
 #include "DmpSimDataManager.h"
 
 DmpSimEventAction::DmpSimEventAction()
- :fDataMan(0)
+ :fDataMgr(0)
 {
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
-  fDataMan = DmpSimDataManager::GetInstance();
+  fDataMgr = DmpSimDataManager::GetInstance();
 // *
 // *  TODO: add digitizer here
 // *
@@ -51,11 +51,11 @@ void DmpSimEventAction::BeginOfEventAction(const G4Event *aEvent){
 #ifdef DmpDebug
   std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tEvent ID = "<<aEvent->GetEventID()<<std::endl;
 #endif
-  fDataMan->UpdateEventHeader(aEvent);
+  fDataMgr->UpdateEventHeader(aEvent);
 }
 
 void DmpSimEventAction::EndOfEventAction(const G4Event *aEvent){
-  fDataMan->Digitize();
-  fDataMan->FillEvent();
+  fDataMgr->Digitize();
+  fDataMgr->FillEvent();
 }
 

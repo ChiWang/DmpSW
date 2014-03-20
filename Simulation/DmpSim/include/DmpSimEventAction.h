@@ -18,7 +18,7 @@ public:
   void EndOfEventAction(const G4Event*);
   
 private:
-  DmpSimDataManager     *fDataMan;
+  DmpSimDataManager     *fDataMgr;
 
 };
 

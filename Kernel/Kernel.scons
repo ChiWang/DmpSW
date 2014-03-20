@@ -11,7 +11,7 @@ print "\t\t\t invoke %s\n" % os.path.abspath("./")
 
 target='DmpCore'
 env = envBase.Clone()
-#useRoot(env)
+useRoot(env)
 #useGeant4(env)
 #useCLHEP(env)
 useBoostPython(env)
@@ -20,6 +20,8 @@ useBoostPython(env)
 # include
 includeDir='./include'
 env.Prepend(CPPPATH=[includeDir])
+# Add boost filesyetem
+env.Append(LIBS=['boost_filesystem-mt'])
 
 # install share
 #--------------------------------------------------------------------

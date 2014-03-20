@@ -16,7 +16,6 @@ BOOST_PYTHON_MODULE(libDmpSim){
   class_<DmpSimDataManager,boost::noncopyable,bases<DmpVDataManager> >("DmpSimDataManager",no_init)
     .def("GetInstance",&DmpSimDataManager::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
-    .def("SetOutDataName",&DmpSimDataManager::SetOutDataName)
   ;
 
   // DmpSimDetectorInterface

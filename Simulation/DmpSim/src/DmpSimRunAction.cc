@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimRunAction.cc, 2014-03-04 17:38:44 chi $
+ *  $Id: DmpSimRunAction.cc, 2014-03-20 10:59:22 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 04/03/2014
 */
@@ -17,19 +17,21 @@
 #include "DmpSimDataManager.h"
 
 DmpSimRunAction::DmpSimRunAction()
- :fDataMan(0)
+ :fDataMgr(0)
 {
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-  fDataMan = DmpSimDataManager::GetInstance();
+  fDataMgr = DmpSimDataManager::GetInstance();
 }
 
+//-------------------------------------------------------------------
 DmpSimRunAction::~DmpSimRunAction(){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 }
 
+//-------------------------------------------------------------------
 void DmpSimRunAction::BeginOfRunAction(const G4Run *aRun){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"Run ID = "<<aRun->GetRunID()<<std::endl;
-  fDataMan->BookBranch(); 
+  fDataMgr->BookBranch(); 
 // *  TODO: engine not works...
 /*
   //Random Engine
@@ -47,12 +49,12 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"R
 #endif
 }
 
+//-------------------------------------------------------------------
 void DmpSimRunAction::EndOfRunAction(const G4Run* aRun){
 #ifdef DmpDebug
   G4cout << "End of Run, saving the root file" << G4endl;
 #endif
-  fDataMan->SetOutDataName();
-  fDataMan->SaveOutput();
+  fDataMgr->SaveOutput();
   /***
   if ( fSaveRndm ) { 
     G4int runNumber = run->GetRunID();

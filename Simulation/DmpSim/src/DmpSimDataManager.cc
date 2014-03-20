@@ -28,50 +28,18 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 #endif
 
   fOutDataTree = new TTree("DAMPE_Raw","Simulation");
-  //fOutDataTree = new TTree("DAMPE_Raw","Simulation","recreate");
   fOutDataTree->Branch("PrimaryParticle","DmpEvtSimPrimaryParticle",&fPrimaryParticle,32000,2);
   fOutDataTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
 }
 
 //-------------------------------------------------------------------
-void DmpSimDataManager::FillEvent(){
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-#endif
-  fOutDataTree->Fill();
-}
-
-#include <boost/lexical_cast.hpp>
-void DmpSimDataManager::SetOutDataName(){
-  static int runID  = -1;
-  ++runID;
-  if(fNote != "no"){
-    fOutDataName = "DmpSim_"+TimeStamp()+"_run"+boost::lexical_cast<std::string>(runID)+"_"+fNote+".root";
-  }else{
-    fOutDataName = "DmpSim_"+TimeStamp()+"_run"+boost::lexical_cast<std::string>(runID)+".root";
-  }
-}
-
-void DmpSimDataManager::SaveOutput(){
-  TFile *aFile = new TFile((TString)(fOutDataPath+fOutDataName),"recreate");
-  fOutDataTree->Write();
-  aFile->Close();
-  delete fOutDataTree;
-  delete aFile;
-  std::cout<<"Result in : "<<fOutDataPath+fOutDataName<<std::endl;
-  fInDataName = "no";
-  fOutDataName = "no";
-  fNote = "no";
-}
-
-//-------------------------------------------------------------------
 DmpSimDataManager::DmpSimDataManager()
- :fOutDataTree(0),
-  fPrimaryParticle(0),
+ :fPrimaryParticle(0),
   fEvtRaw(0)
 {
   fPrimaryParticle = new DmpEvtSimPrimaryParticle();
   fEvtRaw = new DmpEventRaw();
+  fPgkID += "Sim_V1.0_";
 }
 
 DmpSimDataManager::~DmpSimDataManager(){

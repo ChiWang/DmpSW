@@ -17,7 +17,6 @@ BOOST_PYTHON_MODULE(libDmpRdc){
   class_<DmpRdcDataManager,boost::noncopyable,bases<DmpVDataManager> >("DmpRdcDataManager",no_init)
     .def("GetInstance",&DmpRdcDataManager::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
-    .def("SetOutDataName",&DmpRdcDataManager::SetOutDataName)
   ;
 
   // DmpRdcConnectorInterface

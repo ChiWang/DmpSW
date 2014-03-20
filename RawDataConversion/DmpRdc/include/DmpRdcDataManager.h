@@ -22,8 +22,6 @@ public:
   static DmpRdcDataManager*     GetInstance();
   void BookBranch();
   void FillEvent();
-  void SetOutDataName();
-  void SaveOutput();
 
 private:
   DmpRdcDataManager();

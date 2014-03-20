@@ -9,7 +9,6 @@
 
 #include "DmpVDataManager.h"
 
-class TTree;
 class G4Run;
 class G4Event;
 class DmpEvtSimPrimaryParticle;
@@ -24,9 +23,6 @@ class DmpSimDataManager : public DmpVDataManager{
 public:
   static DmpSimDataManager* GetInstance();
   void BookBranch();            // invoked from BeginOfRunAction()
-  void FillEvent();             // invoked from EndOfEnventAction()
-  void SetOutDataName();        // invoked from EndOfRunAction()
-  void SaveOutput();            // invoked from EndOfRunAction()
 
 private:
   DmpSimDataManager();
@@ -38,9 +34,6 @@ public:
   void UpdatePrimaryParticleInformation(const G4Event*);    // invoked from GeneratePrimaries()
   void UpdateEventHeader(const G4Event*); // invoked from BeginOfEventAction()
   void Digitize();                  // invoked from EndOfEventAction(), before FillEvent()
-
-private:
-  TTree     *fOutDataTree;
 
 private:
   DmpEvtSimPrimaryParticle  *fPrimaryParticle;
