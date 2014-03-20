@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcEntrance.cc, 2014-03-14 11:15:59 chi $
+ *  $Id: DmpRdcEntrance.cc, 2014-03-20 16:02:37 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -56,17 +56,17 @@ void DmpCore::RdcExecute(const std::string &dataName, long nEvt){
   dataMgr->SetInDataName(dataName);
   // open file
   std::ifstream *inputData = new std::ifstream(dataName.c_str(),std::ios::in|std::ios::binary);
-  if (!inputData->good()) {
-    std::cerr<<"\nwarning: open "<<dataName<<" failed"<<std::endl;
-    inputData->close();
-    delete inputData;
-    return;
-  }else{
+  if (inputData->good()) {
     headerAlg->SetFileStream(inputData);
     psdAlg->SetFileStream(inputData);
     stkAlg->SetFileStream(inputData);
     bgoAlg->SetFileStream(inputData);
     nudAlg->SetFileStream(inputData);
+  }else{
+    std::cerr<<"\nwarning: open "<<dataName<<" failed"<<std::endl;
+    inputData->close();
+    delete inputData;
+    return;
   }
 
   // convert and save output
