@@ -51,7 +51,7 @@ void DmpSimRunAction::EndOfRunAction(const G4Run* aRun){
 #ifdef DmpDebug
   G4cout << "End of Run, saving the root file" << G4endl;
 #endif
-  fDataMan->SetOutDataName("default");
+  fDataMan->SetOutDataName();
   fDataMan->SaveOutput();
   /***
   if ( fSaveRndm ) { 

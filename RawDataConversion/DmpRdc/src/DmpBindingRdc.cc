@@ -14,7 +14,7 @@ BOOST_PYTHON_MODULE(libDmpRdc){
   using namespace boost::python;
 
   // DmpRdcDataManager
-  class_<DmpRdcDataManager,boost::noncopyable,bases<DmpVOutDataManager> >("DmpRdcDataManager",no_init)
+  class_<DmpRdcDataManager,boost::noncopyable,bases<DmpVDataManager> >("DmpRdcDataManager",no_init)
     .def("GetInstance",&DmpRdcDataManager::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
     .def("SetOutDataName",&DmpRdcDataManager::SetOutDataName)

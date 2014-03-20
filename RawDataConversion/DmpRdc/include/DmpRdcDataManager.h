@@ -7,11 +7,12 @@
 #ifndef DmpRdcDataManager_H
 #define DmpRdcDataManager_H
 
-#include "DmpVOutDataManager.h"
+#include "DmpVDataManager.h"
 
+class TTree;
 class DmpEventRaw;
 
-class DmpRdcDataManager : public DmpVOutDataManager{
+class DmpRdcDataManager : public DmpVDataManager{
 /*
  *  DmpRdcDataManager
  *
@@ -20,7 +21,9 @@ class DmpRdcDataManager : public DmpVOutDataManager{
 public:
   static DmpRdcDataManager*     GetInstance();
   void BookBranch();
-  void SetOutDataName(std::string);
+  void FillEvent();
+  void SetOutDataName();
+  void SaveOutput();
 
 private:
   DmpRdcDataManager();
@@ -28,6 +31,9 @@ private:
 
 public:
   DmpEventRaw*  GetRawEvent() const     {return fEvtRaw;}
+
+private:
+  TTree     *fOutDataTree;
 
 private:
   DmpEventRaw   *fEvtRaw;

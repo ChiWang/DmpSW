@@ -14,6 +14,7 @@
 #include "DmpRdcAlgBgo.h"
 #include "DmpRdcAlgNud.h"
 #include "DmpRdcEntrance.h"
+#include "DmpRdcDataManager.h"
 
 //-------------------------------------------------------------------
 DmpRdcAlgHeader *headerAlg = 0;
@@ -21,6 +22,7 @@ DmpRdcAlgPsd    *psdAlg = 0;
 DmpRdcAlgStk    *stkAlg = 0;
 DmpRdcAlgBgo    *bgoAlg = 0;
 DmpRdcAlgNud    *nudAlg = 0;
+DmpRdcDataManager *dataMgr = 0;
 
 //-------------------------------------------------------------------
 void DmpCore::RdcInitialize(){
@@ -34,6 +36,7 @@ void DmpCore::RdcInitialize(){
   stkAlg->SetupConnector();
   bgoAlg->SetupConnector();
   nudAlg->SetupConnector();
+  dataMgr = DmpRdcDataManager::GetInstance();
 }
 
 //-------------------------------------------------------------------
@@ -45,11 +48,11 @@ void DmpCore::RdcClear(){
   delete nudAlg;
 }
 
-#include "DmpRdcDataManager.h"
 //-------------------------------------------------------------------
 void DmpCore::RdcExecute(const std::string &dataName, long nEvt){
   // open file
   //using namespace std;
+  dataMgr->SetInDataName(dataName);
   std::ifstream *inputData = new std::ifstream(dataName.c_str(),std::ios::in|std::ios::binary);
   if (!inputData->good()) {
     std::cerr<<"\nwarning: open "<<dataName<<" failed"<<std::endl;
@@ -65,7 +68,6 @@ void DmpCore::RdcExecute(const std::string &dataName, long nEvt){
   }
 
   // convert and save output
-  static DmpRdcDataManager *dataMgr = DmpRdcDataManager::GetInstance();
   dataMgr->BookBranch();
   for (long i=0;!inputData->eof();++i){
           /*
@@ -87,7 +89,7 @@ if (i < nEvt){
         dataMgr->FillEvent();
     }
   }
-  dataMgr->SetOutDataName(dataName);
+  dataMgr->SetOutDataName();
   dataMgr->SaveOutput();
 
   // reset

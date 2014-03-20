@@ -1,19 +1,17 @@
 /*
- *  $Id: DmpVOutDataManager.h, 2014-03-11 23:32:46 chi $
+ *  $Id: DmpVDataManager.h, 2014-03-20 00:00:32 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
-#ifndef DmpVOutDataManager_H
-#define DmpVOutDataManager_H
+#ifndef DmpVDataManager_H
+#define DmpVDataManager_H
 
 #include <string>
 
-class TTree;
-
-class DmpVOutDataManager{
+class DmpVDataManager{
 /* 
- *  DmpVOutDataManager
+ *  DmpVDataManager
  *
  *  All DataManager class inherite from this class
  *
@@ -25,26 +23,28 @@ class DmpVOutDataManager{
  *
  */
 public:
-  DmpVOutDataManager();
-  virtual ~DmpVOutDataManager();
+  DmpVDataManager();
+  virtual ~DmpVDataManager();
 
   virtual void BookBranch()=0;
-  virtual void SetOutDataName(std::string)=0;
-  void  SetOutDataPath(std::string);        // binding me
+  virtual void FillEvent()=0;
+  virtual void SetOutDataName()=0;
+  virtual void SaveOutput()=0;
+  void  SetInDataName(const std::string &n) {fInDataName = n;}
+  std::string GetInDataName() const     {return fInDataName;}  // binding me
+  void  SetOutDataPath(const std::string&);        // binding me
   std::string GetOutDataPath() const    {return fOutDataPath;}  // binding me
   std::string GetOutDataName() const    {return fOutDataName;}  // binding me
-  void SetOutDataTag(const std::string &t)   {fNameTag = t;}   // binding me
-  void  SaveOutput();
-  void  FillEvent();
+  void  SetNote(const std::string &t)   {fNote = t;}   // binding me
 
 protected:
   std::string TimeStamp();
 
 protected:
+  std::string   fInDataName;    // path + name
   std::string   fOutDataPath;   //
   std::string   fOutDataName;   //
-  std::string   fNameTag;       // add a tag in the out data name
-  TTree         *fOutDataTree;  //
+  std::string   fNote;          // add note in the out data name
 
 };
 

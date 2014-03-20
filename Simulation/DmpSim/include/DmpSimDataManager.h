@@ -7,14 +7,15 @@
 #ifndef DmpSimDataManager_H
 #define DmpSimDataManager_H
 
-#include "DmpVOutDataManager.h"
+#include "DmpVDataManager.h"
 
+class TTree;
 class G4Run;
 class G4Event;
 class DmpEvtSimPrimaryParticle;
 class DmpEventRaw;
 
-class DmpSimDataManager : public DmpVOutDataManager{
+class DmpSimDataManager : public DmpVDataManager{
 /*
  *  DmpSimDataManager
  *
@@ -23,7 +24,9 @@ class DmpSimDataManager : public DmpVOutDataManager{
 public:
   static DmpSimDataManager* GetInstance();
   void BookBranch();            // invoked from BeginOfRunAction()
-  void SetOutDataName(std::string);     // invoked from BeginOfRunAction()
+  void FillEvent();             // invoked from EndOfEnventAction()
+  void SetOutDataName();        // invoked from EndOfRunAction()
+  void SaveOutput();            // invoked from EndOfRunAction()
 
 private:
   DmpSimDataManager();
@@ -37,9 +40,11 @@ public:
   void Digitize();                  // invoked from EndOfEventAction(), before FillEvent()
 
 private:
+  TTree     *fOutDataTree;
+
+private:
   DmpEvtSimPrimaryParticle  *fPrimaryParticle;
   DmpEventRaw   *fEvtRaw;
-
 };
 
 #endif

@@ -5,6 +5,7 @@
 */
 
 #include "TTree.h"
+#include "TFile.h"
 
 #include "G4Run.hh"
 #include "G4Event.hh"
@@ -20,31 +21,55 @@ DmpSimDataManager* DmpSimDataManager::GetInstance(){
   return &instance;
 }
 
+//-------------------------------------------------------------------
 void DmpSimDataManager::BookBranch(){
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
+
+  fOutDataTree = new TTree("DAMPE_Raw","Simulation");
+  //fOutDataTree = new TTree("DAMPE_Raw","Simulation","recreate");
   fOutDataTree->Branch("PrimaryParticle","DmpEvtSimPrimaryParticle",&fPrimaryParticle,32000,2);
   fOutDataTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
 }
 
+//-------------------------------------------------------------------
+void DmpSimDataManager::FillEvent(){
+#ifdef DmpDebug
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+#endif
+  fOutDataTree->Fill();
+}
+
 #include <boost/lexical_cast.hpp>
-void DmpSimDataManager::SetOutDataName(std::string){
+void DmpSimDataManager::SetOutDataName(){
   static int runID  = -1;
   ++runID;
-  if(fNameTag != "no"){
-    fOutDataName = "DmpSim_"+TimeStamp()+"_run"+boost::lexical_cast<std::string>(runID)+"_"+fNameTag+".root";
+  if(fNote != "no"){
+    fOutDataName = "DmpSim_"+TimeStamp()+"_run"+boost::lexical_cast<std::string>(runID)+"_"+fNote+".root";
   }else{
     fOutDataName = "DmpSim_"+TimeStamp()+"_run"+boost::lexical_cast<std::string>(runID)+".root";
   }
 }
 
+void DmpSimDataManager::SaveOutput(){
+  TFile *aFile = new TFile((TString)(fOutDataPath+fOutDataName),"recreate");
+  fOutDataTree->Write();
+  aFile->Close();
+  delete fOutDataTree;
+  delete aFile;
+  std::cout<<"Result in : "<<fOutDataPath+fOutDataName<<std::endl;
+  fInDataName = "no";
+  fOutDataName = "no";
+  fNote = "no";
+}
+
 //-------------------------------------------------------------------
 DmpSimDataManager::DmpSimDataManager()
- :fPrimaryParticle(0),
+ :fOutDataTree(0),
+  fPrimaryParticle(0),
   fEvtRaw(0)
 {
-  fOutDataTree->SetNameTitle("DAMPE_Raw","Simulation");
   fPrimaryParticle = new DmpEvtSimPrimaryParticle();
   fEvtRaw = new DmpEventRaw();
 }
