@@ -10,8 +10,8 @@
 #include <string>
 
 namespace DmpCore{
-  void RdcInitialize();           // actually, do nothing
-  void RdcExecute(const std::string&, long);   // run a raw data
+  void RdcInitialize();           // create algorithm of detectors, setup connectors
+  void RdcExecute(const std::string&, long);   // run one raw data
   void RdcClear();
 }
 
