@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpRdc, 2014-03-19 19:43:15 chi $
+ *  $Id: JobOpt_DmpRdc, 2014-03-21 18:59:37 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 11/03/2014
  *-----------------------------------------------------
@@ -16,7 +16,6 @@ if os.environ['DMPSWSYS'] not in sys.path:
     sys.path.append(prefix+'/lib')
 
 import libDmpCore as DmpCore
-#from ROOT import TParticle      # for Rdc, why Sim not need it??
 import libDmpRdc as  DmpRdc
 
 # RUN Raw Data Conversion
@@ -26,17 +25,15 @@ rdcDataMgr.SetOutDataPath("./test")
     ##  where to cnct files for different subDet, if NOT set will ignore this subDet.
 rdcCNCT = DmpRdc.DmpRdcConnectorInterface.GetInstance()
 rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kPsd,prefix+"/share/Connector/Psd/Quarter")
-rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kStk,prefix+"/share/Connector/Stk/Quarter")       # if NOT set, will not construct this subDet
+#rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kStk,prefix+"/share/Connector/Stk/Quarter")       # if NOT set, will not construct this subDet
 rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kBgo,prefix+"/share/Connector/Bgo/Quarter")
 rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kNud,prefix+"/share/Connector/Nud/Quarter")
 
     ##  Start Rdc. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SsetIn(Out)DataPath() between different Execute()
 DmpRdc.Initialize()      # create Rdc argorithm of all subDet, and setup connector
 rdcDataMgr.AppendDataNote("protonTest")        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay
-DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
-DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
-#rdcDataMgr.AppendDataNote("protonTest")        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay
-#DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")     # start to convert a new file, without delete connectors.
+DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat",4)
+DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat",1)     # Trigger match level(with Bgo) 1: Psd; 2(or 3): Psd, Stk; 4: Psd, Stk, Nud
 DmpRdc.Clear()
 
 

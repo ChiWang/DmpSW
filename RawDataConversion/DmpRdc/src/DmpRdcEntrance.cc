@@ -54,7 +54,7 @@ void DmpCore::RdcClear(){
 }
 
 //-------------------------------------------------------------------
-void DmpCore::RdcExecute(const std::string &dataName){
+void DmpCore::RdcExecute(const std::string &dataName,const short &level){
   dataMgr->SetInDataName(dataName);
   // open file
   std::ifstream inputData(dataName.c_str(),std::ios::in|std::ios::binary);
@@ -70,12 +70,12 @@ void DmpCore::RdcExecute(const std::string &dataName){
   dataMgr->BookBranch();
   for (long i=0;!inputData.eof();++i){
     if(not headerAlg->Convert())    continue;
+    dataMgr->Reset();
     if(not nudAlg->Convert())   continue;       // in hex data, nud first
     if(not psdAlg->Convert())   continue;
-    if(not stkAlg->Convert())   continue;
     if(not bgoAlg->Convert())   continue;
-    dataMgr->FillEvent();
-    dataMgr->Reset();
+    if(not stkAlg->Convert())   continue;
+    if(dataMgr->TriggerMatch(level)) dataMgr->FillEvent();
   }
   dataMgr->SaveOutput();
 

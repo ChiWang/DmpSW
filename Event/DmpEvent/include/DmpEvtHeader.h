@@ -23,11 +23,10 @@ public:
   DmpEvtHeader();
   ~DmpEvtHeader();
 
+  void  SetTime(const short&,const short&);
+  void  PrintTime()const;
   void  SetEventID(long id)     {fEventID = id;}
   long  GetEventID() const      {return fEventID;}
-  void  SetTime(short id,short v)     {fTime[id] = v;}
-  short GetTimeSize() const     {return 8;}
-  void  PrintTime() const;
   void  SetParticlePdgCode(const int &i)    {fPdgCode = i;}
   int   GetParticlePdgCode() const {return fPdgCode;}
   void  SetTrigger(const DmpDetector::DmpEDetectorID&, const short&);
@@ -37,14 +36,16 @@ public:
   DmpDetector::DmpERunMode GetRunMode(const DmpDetector::DmpEDetectorID&) const;
 
 private:
-  long      fEventID;       // valid event count
-  short     fTime[8];       // 8 bytes from satellite
+  long      fSec;           // second
+  short     fMillisec;      // millisecond
+  short     fTime[8];       //!
   /*
-   *    fTime[0~1] = 
-   *    fTime[2~4] = 
-   *    fTime[5~7] = 
+   *    8 bytes from satellite
+   *    fTime[0~5] = second
+   *    fTime[6~7] = m second
    *
    */
+  long      fEventID;       // valid event count
   int       fPdgCode;       // particle pdg code
   short     fTrgPsd;        // trigger Psd
   short     fTrgStk;        // trigger Stk

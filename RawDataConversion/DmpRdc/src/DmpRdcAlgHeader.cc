@@ -45,7 +45,7 @@ bool DmpRdcAlgHeader::Convert(){
   fFile->read((char*)(&fTrigger),1);
   fFile->read((char*)(&tmp),1);      //Datalength
   fFile->read((char*)(&tmp),1);      //Datalength
-  for (short index=0;index<fHeader->GetTimeSize();++index) {     // size = 8
+  for (short index=0;index<8;++index) {     // size = 8
     fFile->read((char*)(&tmp),1);
     fHeader->SetTime(index,tmp);
   }

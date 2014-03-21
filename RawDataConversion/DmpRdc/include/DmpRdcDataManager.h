@@ -21,6 +21,7 @@ public:
   static DmpRdcDataManager* GetInstance();
   void BookBranch();
   void Reset();
+  bool TriggerMatch(const short&);
 
 private:
   DmpRdcDataManager();

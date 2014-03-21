@@ -12,12 +12,14 @@ ClassImp(DmpEvtHeader)
 
 //-------------------------------------------------------------------
 DmpEvtHeader::DmpEvtHeader()
- :fEventID(-1),
+ :fSec(0),
+  fMillisec(0),
+  fEventID(-1),
   fPdgCode(0),
-  fTrgPsd(0),
-  fTrgStk(0),
-  fTrgBgo(0),
-  fTrgNud(0),
+  fTrgPsd(-1),
+  fTrgStk(-1),
+  fTrgBgo(-1),
+  fTrgNud(-1),
   fModePsd(DmpDetector::kCompress),
   fModeStk(DmpDetector::kCompress),
   fModeBgo(DmpDetector::kCompress),
@@ -30,14 +32,25 @@ DmpEvtHeader::~DmpEvtHeader(){
 }
 
 //-------------------------------------------------------------------
-void DmpEvtHeader::PrintTime() const{
- //*  use cerr instead of cout, since most situation while calling ShowTime() is just after a cerr.
- //*  So, if we use cout in this function, then the output file will not match the file of the last cerr information in.
- std::cout<<"Time: ";
- for(short i=0;i<GetTimeSize();++i){
-   std::cout<<" "<<std::hex<<fTime[i];
- }
- std::cout<<std::dec<<std::endl;
+void DmpEvtHeader::SetTime(const short &n,const short &v){
+  fTime[n]=v;
+  if(n < 6){
+    if(n == 0){
+      fSec = 0; fMillisec = 0;
+    }
+    fSec = fSec*256 + v;
+  }else{
+    fMillisec = fMillisec*256 + v;
+  }
+}
+
+//-------------------------------------------------------------------
+void DmpEvtHeader::PrintTime()const{
+  std::cout<<"Time: ";
+  for(short i=0;i<8;++i){
+    std::cout<<" "<<std::hex<<fTime[i];
+  }
+  std::cout<<std::dec<<std::endl;
 }
 
 //-------------------------------------------------------------------
@@ -81,4 +94,5 @@ DmpDetector::DmpERunMode DmpEvtHeader::GetRunMode(const DmpDetector::DmpEDetecto
   if(id == DmpDetector::kBgo)   return fModeBgo;
   if(id == DmpDetector::kNud)   return fModeNud;
 }
+
 
