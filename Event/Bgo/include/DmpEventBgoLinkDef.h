@@ -10,6 +10,7 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
+#pragma link C++ struct DmpBgoPMT+;
 #pragma link C++ class DmpEvtBgoHit+;
 // *
 // *  TODO: delete DmpEvtBgoRaw, and rewrite RDC using DmpBgoHit

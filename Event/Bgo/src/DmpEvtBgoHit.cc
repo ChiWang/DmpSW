@@ -4,7 +4,6 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
 
-#include "DmpEvtPMT.h"
 #include "DmpEvtBgoHit.h"
 #include "DmpDetectorBgo.h"
 
@@ -19,8 +18,8 @@ DmpEvtBgoHit::DmpEvtBgoHit()
   fPMT1(0)
 {
   for (int i=0;i<3;++i) fPosition[i]=0;
-  fPMT0 = new DmpEvtPMT(DmpDetector::Bgo::kDyNo);
-  fPMT1 = new DmpEvtPMT(DmpDetector::Bgo::kDyNo);
+  fPMT0 = new DmpBgoPMT();
+  fPMT1 = new DmpBgoPMT();
 }
 
 //------------------------------------------------------------------------------
@@ -50,11 +49,26 @@ void DmpEvtBgoHit::AddG4Hit(double e, double x, double y, double z){
   fEnergy = totE;
 }
 
+//-------------------------------------------------------------------
 void DmpEvtBgoHit::SetSignal(const int &id,const short &v){
+  static short dyID = 0;
+  dyID = id%10;
   if(id/10 == 0){ // PMT0
-    fPMT0->SetSignal(id%10,v);
+    if(dyID == 5){
+      fPMT0->fAdcDy5 = v;
+    }else if(dyID == 2){
+      fPMT0->fAdcDy2 = v;
+    }else{
+      fPMT0->fAdcDy8 = v;
+    }
   }else{    // PMT1
-    fPMT1->SetSignal(id%10,v);
+    if(dyID == 5){
+      fPMT1->fAdcDy5 = v;
+    }else if(dyID == 2){
+      fPMT1->fAdcDy2 = v;
+    }else{
+      fPMT1->fAdcDy8 = v;
+    }
   }
 }
 

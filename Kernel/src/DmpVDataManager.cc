@@ -39,9 +39,9 @@ void DmpVDataManager::SaveOutput(){
   TFile *aFile = new TFile((TString)(fOutDataPath+fOutDataName),"recreate");
   fOutDataTree->Write();
   aFile->Close();
+  std::cout<<"Result in : "<<fOutDataPath+fOutDataName<<", entries = "<<fOutDataTree->GetEntries()<<std::endl;
   delete fOutDataTree;
   delete aFile;
-  std::cout<<"Result in : "<<fOutDataPath+fOutDataName<<std::endl;
   fInDataName = "no";
   fOutDataName = "no";
   fNote = "no";

@@ -146,7 +146,7 @@ void DmpRdcAlgBgo::AppendThisSignal(const int &id, const float &v){
     index = fHitCollection->GetEntriesFast();
     aHit = (DmpEvtBgoHit*)fHitCollection->ConstructedAt(index);
     aHit->SetSDID(barID);
-    std::cout<<"\nadd new bar = "<<barID;
+    //std::cout<<"\nadd new bar = "<<barID;
   }else{
     aHit = (DmpEvtBgoHit*)fHitCollection->At(index);
   }

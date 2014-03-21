@@ -4,7 +4,6 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
 
-#include "DmpEvtPMT.h"
 #include "DmpEvtPsdHit.h"
 #include "DmpDetectorPsd.h"
 
@@ -14,19 +13,13 @@ ClassImp(DmpEvtPsdHit)
 DmpEvtPsdHit::DmpEvtPsdHit()
  :fSDID(0),
   fEnergy(0),
-  fUsedSide(0),
-  fPMT0(0),
-  fPMT1(0)
+  fUsedSide(0)
 {
   for (int i=0;i<3;++i) fPosition[i]=0;
-  fPMT0 = new DmpEvtPMT(DmpDetector::Psd::kDyNo);
-  fPMT1 = new DmpEvtPMT(DmpDetector::Psd::kDyNo);
 }
 
 //------------------------------------------------------------------------------
 DmpEvtPsdHit::~DmpEvtPsdHit(){
-  delete fPMT0;
-  delete fPMT1;
 }
 
 //-------------------------------------------------------------------

@@ -9,7 +9,20 @@
 
 #include "TObject.h"
 
-class DmpEvtPMT;
+//-------------------------------------------------------------------
+struct DmpBgoPMT :public TObject{
+  short     fAdcDy2;    // Adc value of dynode 2
+  short     fAdcDy5;    // Adc value of dynode 5
+  short     fAdcDy8;    // Adc value of dynode 8
+  short     fUsedDy;    // used which dynode
+  double    fEnergy;    // unit MeV
+  DmpBgoPMT()
+  :fAdcDy2(0),fAdcDy5(0),fAdcDy8(0),
+   fUsedDy(0),fEnergy(0){}
+  ClassDef(DmpBgoPMT,1)
+};
+
+//-------------------------------------------------------------------
 class DmpEvtBgoHit : public TObject{
 /*
  *  DmpEvtBgoHit
@@ -17,7 +30,7 @@ class DmpEvtBgoHit : public TObject{
  *  One DmpEvtBgoHit is a response of one Bgo Bar.
  *  The class DmpEvtRaw is a collection of DmpEvtBgoHits and other sub-dets' hit collection
  *
- *  Both of Simulation and Analysis will use this class, but, DmpEvtPMT will not be used while Simulation
+ *  Both of Simulation and Analysis will use this class, but, DmpBgoPMT will not be used while Simulation
  *
 */
 
@@ -35,7 +48,6 @@ public:
   void SetUsedSide(short i) {fUsedSide = i;}
   double* GetPosition() {return fPosition;}
   void SetPosition(double x, double y, double z) {fPosition[0]=x;fPosition[1]=y;fPosition[2]=z;}
-  DmpEvtPMT* GetPMT(short id=0) {return id==0 ? fPMT0 : fPMT1;}
   void SetSignal(const int&,const short&);
 
 private:
@@ -43,8 +55,8 @@ private:
   double    fEnergy;        // unit MeV
   short     fUsedSide;      // used which side for fEnergy
   double    fPosition[3];   // unit cm
-  DmpEvtPMT  *fPMT0;        // side 0
-  DmpEvtPMT  *fPMT1;        // side 1
+  DmpBgoPMT *fPMT0;         // side 0
+  DmpBgoPMT *fPMT1;         // side 1
 
   ClassDef(DmpEvtBgoHit,1)
 

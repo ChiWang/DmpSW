@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpRdc, 2014-03-21 18:59:37 chi $
+ *  $Id: JobOpt_DmpRdc, 2014-03-22 02:52:03 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 11/03/2014
  *-----------------------------------------------------
@@ -32,7 +32,7 @@ rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kNud,prefix+"/share/Connector/Nu
     ##  Start Rdc. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SetOutDataPath() between different Execute()
 DmpRdc.Initialize()      # create Rdc argorithm of all subDet, and setup connectors
 #rdcDataMgr.AppendDataNote("protonTest")        # set tag for the next output data. NOT set is okay
-#DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat",4)
+DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat",4)
 DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat",1)     # Trigger match level(with Bgo) 1: Psd; 2(or 3): Psd, Stk; 4: Psd, Stk, Nud
 DmpRdc.Clear()
 
