@@ -17,7 +17,7 @@
 #include "DmpRdcConnectorInterface.h"
 
 DmpRdcAlgBgo::DmpRdcAlgBgo(){
-  fHits = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kBgo);
+  fHitCollection = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kBgo);
 }
 
 //-------------------------------------------------------------------
@@ -25,48 +25,34 @@ DmpRdcAlgBgo::~DmpRdcAlgBgo(){
 }
 
 //-------------------------------------------------------------------
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
 bool DmpRdcAlgBgo::SetupConnector(){
   std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kBgo);
   if(path == "default"){
-    std::cout<<"\nNo set connector:\tBgo"<<std::endl;
+    std::cout<<"No set connector:\tBgo"<<std::endl;
     return true;
   }else{
     fRunMe = true;
-    std::cout<<"\nSetting connector:\tBgo";
+    std::cout<<"Setting connector:\tBgo";
   }
-// *
-// *  TODO:  check connector right?
-// *
-/*
-  int FEEID, ChannelID;
-  short LID, BID, SID, DID;
-  int const MaxSignalNb_Side = (BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb;
-  std::string note;
-  char fileName[20];
-  for(short l=0;l<BT2012::kPlaneNb*2;++l){
-    LID = l;
-    sprintf(fileName,"Layer_%d.cnct",l);
-    ifstream cnctFile(path+fileName);
-    if (!cnctFile.good()) {
-      std::cerr<<"Error: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tRead "<<fileName<<"\tfailed..."<<std::endl;
-      return false;
-    }
-    for(short s=0;s<BT2012::kSideNb;++s){
-      getline(cnctFile,note);   // reserved 1 line for note
-      cnctFile>>SID;
-      getline(cnctFile,note);   // reserved 1 line for note
-      cnctFile>>FEEID;
-      getline(cnctFile,note);   // reserved 1 line for note
-      for(short c=0;c<MaxSignalNb_Side;++c){
-        cnctFile>>BID;
-        cnctFile>>DID;
-        cnctFile>>ChannelID;
-        ConnectorBgo.insert(std::make_pair(FEEID*1000+ChannelID,LID*10000+BID*100+SID*10+DID));     // FEEID*1000 + ChannelID as key, since MaxSignalNb_Side = (22+2)*3*2 = (kBarNb+kRefBarNb)*kDynb*kSideNb = 144 > 100
-      }
+  static short feeID=0, channelID=0, layerID=0, barID=0, sideID=0, dyID=0;
+  boost::filesystem::directory_iterator end_iter;
+  for(boost::filesystem::directory_iterator iter(path);iter!=end_iter;++iter){
+    if(iter->path().extension() != ".cnct") continue;
+    ifstream cnctFile(iter->path().string().c_str());
+    if (!cnctFile.good())   return false;
+    cnctFile>>feeID;
+    for(short s=0;s<DmpDetector::Bgo::Quarter::kFEEChannelNo;++s){
+      cnctFile>>channelID;
+      cnctFile>>layerID;
+      cnctFile>>barID;
+      cnctFile>>sideID;
+      cnctFile>>dyID;
+      fConnector.insert(std::make_pair(feeID*1000+channelID,layerID*10000+barID*100+sideID*10+dyID));
     }
     cnctFile.close();
   }
-*/
   return true;
 }
 
@@ -80,7 +66,7 @@ bool DmpRdcAlgBgo::Convert(){
 // *
 //-------------------------------------------------------------------
   static short tmp=0, tmp2=0, nBytes=0;
-  for (short FEEID=0;FEEID<DmpDetector::Bgo::Quarter::kFEENo;++FEEID) {
+  for (short counts=0;counts<DmpDetector::Bgo::Quarter::kFEENo;++counts) {
     fFile->read((char*)(&tmp),1);
     if (tmp!=0xeb) {
       StatusLog(-1);
@@ -92,7 +78,7 @@ bool DmpRdcAlgBgo::Convert(){
       return false;
     }
     fFile->read((char*)(&tmp),1);       // trigger
-    if(FEEID == 0){
+    if(counts == 0){
       fHeader->SetTrigger(DmpDetector::kBgo,tmp);
     }else{
       if(fHeader->GetTrigger(DmpDetector::kBgo) != tmp){
@@ -101,7 +87,9 @@ bool DmpRdcAlgBgo::Convert(){
       }
     }
     fFile->read((char*)(&tmp),1);       // run mode and FEE ID
-    if(FEEID == 0){
+    static short feeID = 0;
+    feeID = tmp%16;
+    if(counts == 0){
       fHeader->SetRunMode(DmpDetector::kBgo,tmp/16);
     }else{
       if(fHeader->GetRunMode(DmpDetector::kBgo) != tmp/16){
@@ -118,27 +106,18 @@ bool DmpRdcAlgBgo::Convert(){
     if(fHeader->GetRunMode(DmpDetector::kBgo) == DmpDetector::k0Compress){
       for(short i=0;i<nBytes;i+=2){     // k0Compress
         fFile->read((char*)(&tmp),1);
-        fFile->read((char*)(&tmp),1);
-// *
-// *  TODO: add hits information
-// *
-        //fHits->
-      //fBgo->SetSignal(
-      //  ConnectorBgo[feeID*1000+channelID],         // LBSD_ID
-      //  rawHex[0]*256+rawHex[1]);                   // ADC
+        fFile->read((char*)(&tmp2),1);
+        AppendThisSignal(fConnector[feeID*1000+i],tmp*256+tmp2);
       }
     }else{
       for(short i=0;i<nBytes;i+=3){     // kCompress
-        fFile->read((char*)(&tmp),1);
-        fFile->read((char*)(&tmp),1);
-        fFile->read((char*)(&tmp),1);
 // *
-// *  TODO: add hits information
+// *  TODO: fix me
 // *
-        //fHits->
-      //fBgo->SetSignal(
-      //  ConnectorBgo[feeID*1000+channelID],         // LBSD_ID
-      //  rawHex[0]*256+rawHex[1]);                   // ADC
+        fFile->read((char*)(&tmp),1);
+        fFile->read((char*)(&tmp),1);
+        fFile->read((char*)(&tmp2),1);
+        //AppendThisSignal(fConnector[feeID*1000+i],tmp*256+tmp2);
       }
     }
     fFile->read((char*)(&tmp),1);       // 2 bytes for 0x0000
@@ -151,4 +130,27 @@ bool DmpRdcAlgBgo::Convert(){
   StatusLog(nBytes);
   return true;
 }
+
+//-------------------------------------------------------------------
+void DmpRdcAlgBgo::AppendThisSignal(const int &id, const float &v){
+  static DmpEvtBgoHit *aHit = 0;
+  static short i=0, barID=0;
+  int index = -1;
+  barID = id/100;
+  for(i=0;i<fHitCollection->GetEntriesFast();++i){
+    if(((DmpEvtBgoHit*)fHitCollection->At(i))->GetSDID() == barID){
+      index = i;
+    }
+  }
+  if(index < 0){
+    index = fHitCollection->GetEntriesFast();
+    aHit = (DmpEvtBgoHit*)fHitCollection->ConstructedAt(index);
+    aHit->SetSDID(barID);
+    std::cout<<"\nadd new bar = "<<barID;
+  }else{
+    aHit = (DmpEvtBgoHit*)fHitCollection->At(index);
+  }
+  aHit->SetSignal(id%100,v);
+}
+
 

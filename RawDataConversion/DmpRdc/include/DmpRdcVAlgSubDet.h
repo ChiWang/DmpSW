@@ -20,6 +20,9 @@ public:
   virtual bool Convert();           // convert one event
 
 protected:
+  virtual void AppendThisSignal(const int&,const float&)=0;
+
+protected:
   std::map<int,int> fConnector;     // for all input datas
     /*
      * Connector: FEE channel <--> Detector
@@ -28,7 +31,7 @@ protected:
      *
     */
   bool          fRunMe;             // tag to run this subDet
-  TClonesArray  *fHits;             // responded bars (update it each event)
+  TClonesArray  *fHitCollection;    // responded bars (update it each event)
 
 };
 

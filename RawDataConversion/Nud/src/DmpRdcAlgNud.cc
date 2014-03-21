@@ -16,7 +16,7 @@
 #include "DmpRdcConnectorInterface.h"
 
 DmpRdcAlgNud::DmpRdcAlgNud(){
-  fHits = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kNud);
+  fHitCollection = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kNud);
 }
 
 //-------------------------------------------------------------------
@@ -107,7 +107,7 @@ bool DmpRdcAlgNud::Convert(){
 // *
 // *  TODO: store impfore into hits
 // *
-    //fHits->
+    //fHitCollection->
   }
   fFile->read((char*)(&tmp),1);     // 2 bytes for CRC
   fFile->read((char*)(&tmp),1);     // 2 bytes for CRC, MUST split them
@@ -115,5 +115,9 @@ bool DmpRdcAlgNud::Convert(){
 
   StatusLog(nBytes);
   return true;
+}
+
+void DmpRdcAlgNud::AppendThisSignal(const int &id,const float &v){
+
 }
 

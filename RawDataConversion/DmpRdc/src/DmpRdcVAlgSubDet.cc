@@ -13,7 +13,7 @@
 
 DmpRdcVAlgSubDet::DmpRdcVAlgSubDet()
  :fRunMe(false),
-  fHits(0)
+  fHitCollection(0)
 {
 }
 

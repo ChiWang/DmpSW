@@ -1,12 +1,6 @@
 
 ##  Rdc Connector files
 
-### Quarter
+    set cnct files in subdetectors' directories.
 
-    connector file
-
-### Prototype
-
-### Product
-
-
+    could add more sub-directory under subdetectors

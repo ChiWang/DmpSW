@@ -17,7 +17,7 @@
 #include "DmpRdcConnectorInterface.h"
 
 DmpRdcAlgPsd::DmpRdcAlgPsd(){
-  fHits = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kPsd);
+  fHitCollection = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kPsd);
 }
 
 //-------------------------------------------------------------------
@@ -122,7 +122,7 @@ bool DmpRdcAlgPsd::Convert(){
 // *
 // *  TODO: add hits information
 // *
-        //fHits->
+        //fHitCollection->
       //fPsd->SetSignal(
       //  ConnectorPsd[feeID*1000+channelID],         // LBSD_ID
       //  rawHex[0]*256+rawHex[1]);                   // ADC
@@ -135,7 +135,7 @@ bool DmpRdcAlgPsd::Convert(){
 // *
 // *  TODO: add hits information
 // *
-        //fHits->
+        //fHitCollection->
       //fPsd->SetSignal(
       //  ConnectorPsd[feeID*1000+channelID],         // LBSD_ID
       //  rawHex[0]*256+rawHex[1]);                   // ADC
@@ -150,5 +150,9 @@ bool DmpRdcAlgPsd::Convert(){
 
   StatusLog(nBytes);
   return true;
+}
+
+//-------------------------------------------------------------------
+void DmpRdcAlgPsd::AppendThisSignal(const int &id,const float &v){
 }
 

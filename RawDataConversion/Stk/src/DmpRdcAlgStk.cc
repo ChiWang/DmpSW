@@ -16,7 +16,7 @@
 #include "DmpRdcConnectorInterface.h"
 
 DmpRdcAlgStk::DmpRdcAlgStk(){
-  fHits = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kStk);
+  fHitCollection = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kStk);
 }
 
 //-------------------------------------------------------------------
@@ -151,5 +151,8 @@ bool DmpRdcAlgStk::Convert(){
 
   StatusLog(1);
   return true;
+}
+
+void DmpRdcAlgStk::AppendThisSignal(const int &id,const float &v){
 }
 

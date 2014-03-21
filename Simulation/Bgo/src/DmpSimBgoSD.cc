@@ -47,7 +47,7 @@ G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
       index = i;
     }
   }
-  DmpEvtBgoHit *aHit = 0;
+  static DmpEvtBgoHit *aHit = 0;
   if(index < 0){
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tnew bar has hits = "<<barID<<std::endl;
@@ -59,7 +59,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\
     aHit = (DmpEvtBgoHit*)fHitCollection->At(index);
   }
   G4ThreeVector position = aStep->GetPreStepPoint()->GetPosition();
-  aHit->AddThisHit(aStep->GetTotalEnergyDeposit()/MeV,position.x()/cm,position.y()/cm,position.z()/cm);
+  aHit->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,position.x()/cm,position.y()/cm,position.z()/cm);
 }
 
 void DmpSimBgoSD::EndOfEvent(G4HCofThisEvent* HCE){

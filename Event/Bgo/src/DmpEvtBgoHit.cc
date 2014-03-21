@@ -38,7 +38,8 @@ void DmpEvtBgoHit::Reset(){
 void DmpEvtBgoHit::PrintHit() const{
 }
 
-void DmpEvtBgoHit::AddThisHit(double e, double x, double y, double z){
+//-------------------------------------------------------------------
+void DmpEvtBgoHit::AddG4Hit(double e, double x, double y, double z){
   double totE = e + fEnergy;
   double nX = (e*x + fEnergy*fPosition[0])/totE;
   double nY = (e*y + fEnergy*fPosition[1])/totE;
@@ -48,3 +49,13 @@ void DmpEvtBgoHit::AddThisHit(double e, double x, double y, double z){
   fPosition[2] = nZ;
   fEnergy = totE;
 }
+
+void DmpEvtBgoHit::SetSignal(const int &id,const short &v){
+  if(id/10 == 0){ // PMT0
+    fPMT0->SetSignal(id%10,v);
+  }else{    // PMT1
+    fPMT1->SetSignal(id%10,v);
+  }
+}
+
+

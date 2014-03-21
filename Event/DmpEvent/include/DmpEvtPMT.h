@@ -20,6 +20,7 @@ public:
   DmpEvtPMT(short vectorSize);
   ~DmpEvtPMT();
   void Reset();
+  void SetSignal(const int&id, const short&v){fADCDynode[id] = v;}
 
 private:
   double    fEnergy;        // unit MeV

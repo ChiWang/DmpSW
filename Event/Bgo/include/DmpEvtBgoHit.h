@@ -26,7 +26,7 @@ public:
   ~DmpEvtBgoHit();
   void  Reset();
   void  PrintHit() const;
-  void  AddThisHit(double e,double x,double y,double z);     // only for simulation, invoke from G4Step or Sensitive Detector
+  void  AddG4Hit(double e,double x,double y,double z);     // only for simulation, invoke from G4Step or Sensitive Detector
   int   GetSDID() const     {return fSDID;}
   int   SetSDID(int id)     {fSDID = id;}
   double GetEnergy() const  {return fEnergy;}
@@ -36,6 +36,7 @@ public:
   double* GetPosition() {return fPosition;}
   void SetPosition(double x, double y, double z) {fPosition[0]=x;fPosition[1]=y;fPosition[2]=z;}
   DmpEvtPMT* GetPMT(short id=0) {return id==0 ? fPMT0 : fPMT1;}
+  void SetSignal(const int&,const short&);
 
 private:
   int       fSDID;          // unique sensitive detector(minimum detector unit) ID. Bgo bar ID. fSDID =  layerID*100 + barID
