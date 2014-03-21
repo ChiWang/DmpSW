@@ -1,45 +1,42 @@
 /*
- *  $Id: DmpRdcAlgStk.cc, 2014-03-19 18:41:48 chi $
+ *  $Id: DmpRdcAlgStk.cc, 2014-03-21 00:26:06 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
 
 #include <iostream>
 
-//#include "DmpEvtHeader.h"
+#include "TClonesArray.h"
+
 #include "DmpRdcAlgStk.h"
 #include "DmpRdcDataManager.h"
 #include "DmpEventRaw.h"
-#include "TClonesArray.h"
 #include "DmpEvtStkHit.h"
+#include "DmpEvtHeader.h"
 #include "DmpRdcConnectorInterface.h"
 
-DmpRdcAlgStk::DmpRdcAlgStk()
- :fRunMe(true),
-  fFile(0),
-  fHits(0),
-  fTrigger(0)
-{
+DmpRdcAlgStk::DmpRdcAlgStk(){
   fHits = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kStk);
 }
 
+//-------------------------------------------------------------------
 DmpRdcAlgStk::~DmpRdcAlgStk(){
 }
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgStk::SetupConnector(){
-// *
-// *  TODO:  check connector right?
-// *
   std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kStk);
   if(path == "default"){
-    fRunMe = false;
     std::cout<<"\nNo set connector:\tStk"<<std::endl;
     return true;
   }else{
+    fRunMe = true;
     std::cout<<"\nSetting connector:\tStk";
   }
-  /*
+// *
+// *  TODO:  check connector right?
+// *
+/*
   int FEEID, ChannelID;
   short LID, BID, SID, DID;
   int const MaxSignalNb_Side = (BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb;
@@ -68,22 +65,24 @@ bool DmpRdcAlgStk::SetupConnector(){
     }
     cnctFile.close();
   }
-
-  */
+*/
   return true;
 }
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgStk::Convert(){
   if(not fRunMe) return true;
-{// debug
 #ifdef DmpDebug
-std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg()<<std::endl;
-#endif
+static bool noFrom=true;
+if(noFrom){
+  std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
+  noFrom = false;
 }
+#endif
 // *
 // *  TODO: conversion bgo
 // *
+//-------------------------------------------------------------------
 /*
   static const short  kFeeDataLength0 = ((BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb*BT2012::kSideNb*2+3)*2;  // 3: (1)data Length 0x00a2; (2)reverse 0x0000; (3)CRC 0x0xxx.  *2:to unit Byte.  Fee type A or B
   static const short  kFeeDataLength1 = ((BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb*BT2012::kSideNb+3)*2;   // Fee type C
@@ -152,14 +151,13 @@ std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg()<<std::endl;
     fFile->read((char*)(&tmp),2);             // CRC,     2 Bytes
 //    fFile->read((char*)(&tmp),2);             // 5aa5,    2 Bytes
   }
+*/
+//-------------------------------------------------------------------
 
-  */
-{// debug
 #ifdef DmpDebug
 std::cout<<" to "<<fFile->tellg()<<std::endl;
+noFrom = true;
 #endif
-}
   return true;
 }
-
 

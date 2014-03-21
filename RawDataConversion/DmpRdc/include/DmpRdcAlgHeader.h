@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgHeader.h, 2014-03-19 18:41:29 chi $
+ *  $Id: DmpRdcAlgHeader.h, 2014-03-20 23:41:06 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 19/03/2014
 */
@@ -7,21 +7,16 @@
 #ifndef DmpRdcAlgHeader_H
 #define DmpRdcAlgHeader_H
 
-#include <fstream>
+#include "DmpRdcVAlg.h"
 
-class DmpEvtHeader;
-
-class DmpRdcAlgHeader{
+class DmpRdcAlgHeader : public DmpRdcVAlg{
 public:
   DmpRdcAlgHeader();
-  virtual ~DmpRdcAlgHeader();
-  virtual bool Convert();
-  void  SetFileStream(std::ifstream *p)     {fFile = p;}
+  ~DmpRdcAlgHeader();
+  bool  Convert();
   short GetTrigger() const {return fTrigger;}
 
 private:
-  DmpEvtHeader  *fHeader;
-  std::ifstream      *fFile;     // pointer of file stream
   short     fTrigger;   // trigger in event header
 
 };

@@ -15,15 +15,8 @@
 #include "DmpEvtHeader.h"
 #include "DmpRdcConnectorInterface.h"
 
-DmpRdcAlgNud::DmpRdcAlgNud()
- :fRunMe(true),
-  fFile(0),
-  fHits(0),
-  fHeader(0)
-{
-  DmpEventRaw *rawEvent = DmpRdcDataManager::GetInstance()->GetRawEvent();
-  fHits = rawEvent->GetHitCollection(DmpDetector::kNud);
-  fHeader = rawEvent->GetEventHeader();
+DmpRdcAlgNud::DmpRdcAlgNud(){
+  fHits = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kNud);
 }
 
 //-------------------------------------------------------------------
@@ -37,10 +30,10 @@ bool DmpRdcAlgNud::SetupConnector(){
 // *
   std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kNud);
   if(path == "default"){
-    fRunMe = false;
     std::cout<<"\nNo set connector:\tNud"<<std::endl;
     return true;
   }else{
+    fRunMe = true;
     std::cout<<"\nSetting connector:\tNud";
   }
   /*
@@ -81,16 +74,12 @@ bool DmpRdcAlgNud::SetupConnector(){
 bool DmpRdcAlgNud::Convert(){
   if(not fRunMe) return true;
 #ifdef DmpDebug
-static bool noFrom=true; // debug
-#endif
-{// debug
-#ifdef DmpDebug
+static bool noFrom=true;
 if(noFrom){
   std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
   noFrom = false;
 }
 #endif
-}
 // *
 // *  TODO: check conversion Nud
 // *
@@ -98,7 +87,7 @@ if(noFrom){
   static short tmp=0;
   fFile->read((char*)(&tmp),1);
   if (tmp!=0xeb) {
-    std::cerr<<"Error: "<<__FUNCTION__<<"\t not 0xeb("<<std::hex<<tmp<<std::dec<<")"<<std::endl;
+    std::cerr<<"Error: "<<__FUNCTION__<<"\t not find 0xeb("<<std::hex<<tmp<<std::dec<<")"<<std::endl;
     fHeader->PrintTime();
     return false;
   }
@@ -111,13 +100,13 @@ if(noFrom){
   fFile->read((char*)(&tmp),1);
   fHeader->SetTrigger(DmpDetector::kNud,tmp);
   fFile->read((char*)(&tmp),1);
-  fHeader->SetRunMode(DmpDetector::kNud,tmp%16);
+  fHeader->SetRunMode(DmpDetector::kNud,tmp/16);
   static short nBytes = 0;
-  fFile->read((char*)(&tmp),1);        // data length, 2 Bytes
+  fFile->read((char*)(&tmp),1);     // data length, 2 Bytes
   fFile->read((char*)(&nBytes),1);
-  nBytes += tmp*256-2-2;      // 2 bytes for data length, 2 bytes for CRC
+  nBytes += tmp*256-2-2;            // 2 bytes for data length, 2 bytes for CRC
   //if (fHeader->GetRunMode(DmpDetector::kNud) == DmpDetector::k0Compress) 
-  for(short i=0;i<nBytes;i+=2){ // k0Compress
+  for(short i=0;i<nBytes;i+=2){     // k0Compress
     fFile->read((char*)(&tmp),1);
     fFile->read((char*)(&tmp),1);
 // *
@@ -125,14 +114,14 @@ if(noFrom){
 // *
     //fHits->
   }
-  fFile->read((char*)(&tmp),2);             // CRC,     2 Bytes
+  fFile->read((char*)(&tmp),1);     // 2 bytes for CRC
+  fFile->read((char*)(&tmp),1);     // 2 bytes for CRC, MUST split them
+//-------------------------------------------------------------------
 
-{// debug
 #ifdef DmpDebug
 std::cout<<" to "<<fFile->tellg()<<std::endl;
 noFrom = true;
 #endif
-}
   return true;
 }
 

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgPsd.cc, 2014-03-19 18:41:47 chi $
+ *  $Id: DmpRdcAlgPsd.cc, 2014-03-21 00:26:06 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
@@ -12,35 +12,31 @@
 #include "DmpRdcDataManager.h"
 #include "DmpEventRaw.h"
 #include "DmpEvtPsdHit.h"
-//#include "DmpEvtHeader.h"
+#include "DmpEvtHeader.h"
 #include "DmpRdcConnectorInterface.h"
 
-DmpRdcAlgPsd::DmpRdcAlgPsd()
- :fRunMe(true),
-  fFile(0),
-  fHits(0),
-  fTrigger(0)
-{
+DmpRdcAlgPsd::DmpRdcAlgPsd(){
   fHits = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kPsd);
 }
 
+//-------------------------------------------------------------------
 DmpRdcAlgPsd::~DmpRdcAlgPsd(){
 }
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgPsd::SetupConnector(){
-// *
-// *  TODO:  check connector right?
-// *
   std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kPsd);
   if(path == "default"){
-    fRunMe = false;
     std::cout<<"\nNo set connector:\tPsd"<<std::endl;
     return true;
   }else{
+    fRunMe = true;
     std::cout<<"\nSetting connector:\tPsd";
   }
-  /*
+// *
+// *  TODO:  check connector right?
+// *
+/*
   int FEEID, ChannelID;
   short LID, BID, SID, DID;
   int const MaxSignalNb_Side = (BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb;
@@ -69,26 +65,24 @@ bool DmpRdcAlgPsd::SetupConnector(){
     }
     cnctFile.close();
   }
-
-  */
+*/
   return true;
 }
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgPsd::Convert(){
   if(not fRunMe) return true;
-static bool noFrom=true; // debug
-{// debug
 #ifdef DmpDebug
+static bool noFrom=true;
 if(noFrom){
-  std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg()<<std::endl;
+  std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
   noFrom = false;
 }
 #endif
-}
 // *
 // *  TODO: conversion bgo
 // *
+//-------------------------------------------------------------------
 /*
   static const short  kFeeDataLength0 = ((BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb*BT2012::kSideNb*2+3)*2;  // 3: (1)data Length 0x00a2; (2)reverse 0x0000; (3)CRC 0x0xxx.  *2:to unit Byte.  Fee type A or B
   static const short  kFeeDataLength1 = ((BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb*BT2012::kSideNb+3)*2;   // Fee type C
@@ -157,15 +151,13 @@ if(noFrom){
     fFile->read((char*)(&tmp),2);             // CRC,     2 Bytes
 //    fFile->read((char*)(&tmp),2);             // 5aa5,    2 Bytes
   }
+*/
+//-------------------------------------------------------------------
 
-  */
-{// debug
 #ifdef DmpDebug
 std::cout<<" to "<<fFile->tellg()<<std::endl;
 noFrom = true;
 #endif
-}
   return true;
 }
-
 

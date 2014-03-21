@@ -33,7 +33,7 @@ rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kNud,prefix+"/share/Connector/Nu
     ##  Start Rdc. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SsetIn(Out)DataPath() between different Execute()
 DmpRdc.Initialize()      # create Rdc argorithm of all subDet, and setup connector
 rdcDataMgr.AppendDataNote("protonTest")        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay
-DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat",14360)
+DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat",1436000)
 #rdcDataMgr.AppendDataNote("protonTest")        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay
 #DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")     # start to convert a new file, without delete connectors.
 DmpRdc.Clear()

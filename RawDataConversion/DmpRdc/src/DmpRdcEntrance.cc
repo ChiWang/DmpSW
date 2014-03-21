@@ -59,11 +59,7 @@ void DmpCore::RdcExecute(const std::string &dataName, long nEvt){
   // open file
   std::ifstream inputData(dataName.c_str(),std::ios::in|std::ios::binary);
   if (inputData.good()) {
-    headerAlg->SetFileStream(&inputData);
-    psdAlg->SetFileStream(&inputData);
-    stkAlg->SetFileStream(&inputData);
-    bgoAlg->SetFileStream(&inputData);
-    nudAlg->SetFileStream(&inputData);
+    DmpRdcVAlg::SetFileStream(&inputData);
   }else{
     std::cerr<<"\nwarning: open "<<dataName<<" failed"<<std::endl;
     inputData.close();
@@ -81,14 +77,9 @@ void DmpCore::RdcExecute(const std::string &dataName, long nEvt){
     if(not psdAlg->Convert())   continue;
     if(not stkAlg->Convert())   continue;
     if(not bgoAlg->Convert())   continue;
-    {// trigger check
-    if(headerAlg->GetTrigger() != psdAlg->GetTrigger() ||
-       headerAlg->GetTrigger() != bgoAlg->GetTrigger())
-    {}
-    }
 {// debug
 #ifdef DmpDebug
-std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<")\t";
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<")\t";
 dataMgr->GetRawEvent()->GetEventHeader()->PrintTime();
 #endif
 }
