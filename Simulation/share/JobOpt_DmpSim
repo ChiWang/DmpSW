@@ -29,16 +29,14 @@ simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kWhole,prefix+"/share/Geometry/Sat/
 #simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kStk,prefix+"/share/Geometry/Stk/Quarter")       # if NOT set, will not construct this subDet
 simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kBgo,prefix+"/share/Geometry/Bgo/Quarter")
 #simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kNud,prefix+"/share/Geometry/Nud/Quarter")
-#simDetPar.SetOffset(DmpCore.DmpEDetectorID.kPsd,-80)            # Reset offset if you like
+#simDetPar.SetOffset(DmpCore.DmpEDetectorID.kPsd,-80)            # if NOT set, will use the defaulted value
 
-    ##  Start simulation. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SsetIn(Out)DataPath() between different Execute()
+    ##  Start simulation. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SetOutDataPath() between different Execute()
 DmpSim.Initialize()      # setup detector, user actions
 for i in range(7):
-    note='Test-%d'%i
-    print note
+    note='run-%d'%i
     simDataMgr.AppendDataNote(note)        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay
     DmpSim.Execute(prefix+"/share/TestRelease/Ex_electron.mac")
-#simDataMgr.SetOutDataNote("protonTest")        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay
 #DmpSim.Execute(prefix+"/share/TestRelease/Ex_proton.mac")     # start a new run, without delete physics list, detector construction and all user actions.
 #DmpSim.Execute("visual")                # open visual mode, if you don't want to use batch mode as above(input a macro file name in Execute()).
 DmpSim.Clear()
