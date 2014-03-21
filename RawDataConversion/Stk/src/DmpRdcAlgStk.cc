@@ -71,9 +71,9 @@ bool DmpRdcAlgStk::SetupConnector(){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgStk::Convert(){
+  if(not fRunMe) return true;
   std::cout<<"\t"<<__PRETTY_FUNCTION__;
   StatusLog(0);
-  if(not fRunMe) return true;
 // *
 // *  TODO: conversion bgo
 // *

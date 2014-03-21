@@ -72,14 +72,14 @@ bool DmpRdcAlgPsd::SetupConnector(){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgPsd::Convert(){
+  if(not fRunMe) return true;
   std::cout<<"\t"<<__PRETTY_FUNCTION__;
   StatusLog(0);
-  if(not fRunMe) return true;
 // *
 // *  TODO: conversion Psd
 // *
 //-------------------------------------------------------------------
-  static short tmp=0, nBytes = 0;
+  static short tmp=0, tmp2 = 0, nBytes = 0;
   for (short FEEID=0;FEEID<DmpDetector::Psd::Quarter::kFEENo;++FEEID) {
     fFile->read((char*)(&tmp),1);
     if (tmp!=0xeb) {
@@ -110,8 +110,8 @@ bool DmpRdcAlgPsd::Convert(){
       }
     }
     fFile->read((char*)(&tmp),1);       // data length, 2 bytes
-    fFile->read((char*)(&nBytes),1);
-    nBytes += tmp*256-2-2-2;            // 2 bytes for data length, 2 bytes for 0x0000, 2 bytes for CRC
+    fFile->read((char*)(&tmp2),1);
+    nBytes = tmp*256+tmp2-2-2-2;        // 2 bytes for data length, 2 bytes for 0x0000, 2 bytes for CRC
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *

@@ -14,7 +14,6 @@
 #include "DmpRdcEntrance.h"
 #include "DmpRdcDataManager.h"
 #include "DmpEventRaw.h"
-#include "DmpEvtHeader.h"
 
 //-------------------------------------------------------------------
 DmpRdcAlgHeader *headerAlg = 0;
@@ -55,7 +54,7 @@ void DmpCore::RdcClear(){
 }
 
 //-------------------------------------------------------------------
-void DmpCore::RdcExecute(const std::string &dataName, long nEvt){
+void DmpCore::RdcExecute(const std::string &dataName){
   dataMgr->SetInDataName(dataName);
   // open file
   std::ifstream inputData(dataName.c_str(),std::ios::in|std::ios::binary);
@@ -70,18 +69,12 @@ void DmpCore::RdcExecute(const std::string &dataName, long nEvt){
   // convert and save output
   dataMgr->BookBranch();
   for (long i=0;!inputData.eof();++i){
-{// debug
-  if (dataMgr->GetRawEvent()->GetEventHeader()->GetEventID() > nEvt) break;
-}
     if(not headerAlg->Convert())    continue;
     if(not nudAlg->Convert())   continue;       // in hex data, nud first
     if(not psdAlg->Convert())   continue;
     if(not stkAlg->Convert())   continue;
     if(not bgoAlg->Convert())   continue;
     dataMgr->FillEvent();
-#ifdef DmpDebug
-dataMgr->GetRawEvent()->GetEventHeader()->PrintTime();
-#endif
     dataMgr->Reset();
   }
   dataMgr->SaveOutput();

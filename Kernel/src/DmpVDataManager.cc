@@ -28,7 +28,7 @@ DmpVDataManager::~DmpVDataManager(){
 //-------------------------------------------------------------------
 void DmpVDataManager::FillEvent(){
 #ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__;
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
   fOutDataTree->Fill();
 }
