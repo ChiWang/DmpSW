@@ -19,6 +19,12 @@ public:
   static void  SetFileStream(std::ifstream *p)   {fFile = p;}
 
 protected:
+  void StatusLog(short)const;
+
+private:
+  void PrintLocation()const;
+
+protected:
   static std::ifstream  *fFile;     // pointer of file stream (update it evry input data)
   static DmpEvtHeader   *fHeader;   // to print time, set run mode
 

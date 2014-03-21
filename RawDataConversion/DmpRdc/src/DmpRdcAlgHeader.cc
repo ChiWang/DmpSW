@@ -23,13 +23,7 @@ DmpRdcAlgHeader::~DmpRdcAlgHeader(){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgHeader::Convert(){
-#ifdef DmpDebug
-static bool noFrom=true;
-if(noFrom){
-  std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
-  noFrom = false;
-}
-#endif
+  StatusLog(0);
 // *
 // *  TODO: check conversion Header
 // *
@@ -55,11 +49,7 @@ if(noFrom){
     fFile->read((char*)(&tmp),1);
     fHeader->SetTime(index,tmp);
   }
-
-#ifdef DmpDebug
-std::cout<<" to "<<fFile->tellg()<<std::endl;
-noFrom = true;
-#endif
+  StatusLog(1);
   return true;
 }
 

@@ -39,6 +39,7 @@ void DmpCore::RdcInitialize(){
   bgoAlg->SetupConnector();
   nudAlg->SetupConnector();
   dataMgr = DmpRdcDataManager::GetInstance();
+  std::cout<<"\n*********************************************************\n"<<std::endl;
 }
 
 //-------------------------------------------------------------------
@@ -48,7 +49,7 @@ void DmpCore::RdcClear(){
   delete stkAlg;
   delete bgoAlg;
   delete nudAlg;
-  std::cout<<"\n**************************************************"<<std::endl;
+  std::cout<<"\n***************************************************"<<std::endl;
   std::cout<<"*             Delete Raw Data Conversion          *"<<std::endl;
   std::cout<<"***************************************************"<<std::endl;
 }
@@ -77,13 +78,10 @@ void DmpCore::RdcExecute(const std::string &dataName, long nEvt){
     if(not psdAlg->Convert())   continue;
     if(not stkAlg->Convert())   continue;
     if(not bgoAlg->Convert())   continue;
-{// debug
+    dataMgr->FillEvent();
 #ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<")\t";
 dataMgr->GetRawEvent()->GetEventHeader()->PrintTime();
 #endif
-}
-    dataMgr->FillEvent();
     dataMgr->Reset();
   }
   dataMgr->SaveOutput();

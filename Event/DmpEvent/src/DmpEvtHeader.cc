@@ -33,7 +33,7 @@ DmpEvtHeader::~DmpEvtHeader(){
 void DmpEvtHeader::PrintTime() const{
  //*  use cerr instead of cout, since most situation while calling ShowTime() is just after a cerr.
  //*  So, if we use cout in this function, then the output file will not match the file of the last cerr information in.
- std::cout<<"Time:\t";
+ std::cout<<"Time: ";
  for(short i=0;i<GetTimeSize();++i){
    std::cout<<" "<<std::hex<<fTime[i];
  }

@@ -71,14 +71,9 @@ bool DmpRdcAlgStk::SetupConnector(){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgStk::Convert(){
+  std::cout<<"\t"<<__PRETTY_FUNCTION__;
+  StatusLog(0);
   if(not fRunMe) return true;
-#ifdef DmpDebug
-static bool noFrom=true;
-if(noFrom){
-  std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
-  noFrom = false;
-}
-#endif
 // *
 // *  TODO: conversion bgo
 // *
@@ -154,10 +149,7 @@ if(noFrom){
 */
 //-------------------------------------------------------------------
 
-#ifdef DmpDebug
-std::cout<<" to "<<fFile->tellg()<<std::endl;
-noFrom = true;
-#endif
+  StatusLog(1);
   return true;
 }
 

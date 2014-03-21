@@ -32,6 +32,7 @@ namespace DmpDetector{
       const short kPlaneNo = 6;
       const short kBarNo   = 11;
       const short kSideNo  = 1;
+      const short kFEENo   = 6;
     }
     namespace Prototype{
       const short kPlaneNo = 7;

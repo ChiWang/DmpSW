@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgBgo.cc, 2014-03-21 00:26:06 chi $
+ *  $Id: DmpRdcAlgBgo.cc, 2014-03-21 09:34:01 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
@@ -12,6 +12,7 @@
 #include "DmpRdcDataManager.h"
 #include "DmpEventRaw.h"
 #include "DmpEvtBgoHit.h"
+#include "DmpDetectorBgo.h"
 #include "DmpEvtHeader.h"
 #include "DmpRdcConnectorInterface.h"
 
@@ -71,93 +72,83 @@ bool DmpRdcAlgBgo::SetupConnector(){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBgo::Convert(){
+  std::cout<<"\t"<<__PRETTY_FUNCTION__;
+  StatusLog(0);
   if(not fRunMe) return true;
-#ifdef DmpDebug
-static bool noFrom=true;
-if(noFrom){
-  std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
-  noFrom = false;
-}
-#endif
 // *
-// *  TODO: conversion bgo
+// *  TODO: conversion Bgo
 // *
 //-------------------------------------------------------------------
-/*
-  static const short  kFeeDataLength0 = ((BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb*BT2012::kSideNb*2+3)*2;  // 3: (1)data Length 0x00a2; (2)reverse 0x0000; (3)CRC 0x0xxx.  *2:to unit Byte.  Fee type A or B
-  static const short  kFeeDataLength1 = ((BT2012::kBarNb+BT2012::kRefBarNb)*BT2012::kDyNb*BT2012::kSideNb+3)*2;   // Fee type C
-  static short feeCount=0, feeID=0, channelID=0;
-  static short nChan=0, dataLong=0;
-  static short rawHex[2]={0};
-  static short nc=0,tmp=0;     // for loop, define as static at here to save time
-
-  fBgo->Reset();
-  for (feeCount=0;feeCount<BT2012::kPlaneNb;++feeCount) {
-    tmp=0;
+  static short tmp=0, nBytes = 0;
+  for (short FEEID=0;FEEID<DmpDetector::Bgo::Quarter::kFEENo;++FEEID) {
     fFile->read((char*)(&tmp),1);
     if (tmp!=0xeb) {
-      std::cerr<<"\nError: DmpRdcAlgorithm::ConversionBgo()\t0xeb wrong\tFee = "<<feeCount<<"\t";
-      fHeader->ShowTime(0);
+      StatusLog(-1);
       return false;
     }
     fFile->read((char*)(&tmp),1);
     if (tmp!=0x90) {
-      std::cerr<<"\nError: DmpRdcAlgorithm::ConversionBgo()\t0x90 wrong\t";
-      fHeader->ShowTime(0);
+      StatusLog(-2);
       return false;
     }
-    fFile->read((char*)(&tmp),1);        //trigger
-    fFile->read((char*)(&feeID),1);
-    if (feeCount == 0) {                          //trigger check, runMode check
-      fTrigger["Bgo"] = tmp;
-      fBgo->SetMode(DmpVEvtSubDet::DmpERunMode(feeID/16));
-    } else {
-      if (tmp != fTrigger["Bgo"]) {
-        std::cerr<<"\nError: DmpRdcAlgorithm::ConversionBgo()\tFEE trigger not match\t";
-        fHeader->ShowTime(0);
-        return false;
-      }
-      if (feeID/16 != fBgo->GetMode()) {
-        std::cerr<<"\nError: DmpRdcAlgorithmConversionBgo()\tFEE mode not match\t";
-        fHeader->ShowTime(0);
+    fFile->read((char*)(&tmp),1);       // trigger
+    if(FEEID == 0){
+      fHeader->SetTrigger(DmpDetector::kBgo,tmp);
+    }else{
+      if(fHeader->GetTrigger(DmpDetector::kBgo) != tmp){
+        StatusLog(-3);
         return false;
       }
     }
-    feeID = feeID%16;
-    fFile->read((char*)(&tmp),1);        // datalong, 2 Bytes
-    fFile->read((char*)(&dataLong),1);
-    int dataLength = tmp*256 + dataLong;
-    if (dataLength == kFeeDataLength0 || dataLength == kFeeDataLength1) {
-      nChan = (dataLength-2*3)/2;
-    } else {
-      nChan = (dataLength-2*3)/3;
-    }
-//std::cout<<"\t\t\t XX 2  nChan = "<<std::dec<<nChan<<" dL = "<<std::hex<<tmp<<" "<<dataLong<<std::endl;
-
-    for (nc=0;nc<nChan;++nc) {
-      if (dataLength == kFeeDataLength0 || dataLength == kFeeDataLength1) {
-        channelID = nc;
-      } else {
-        fFile->read((char*)(&channelID),1);
+    fFile->read((char*)(&tmp),1);       // run mode and FEE ID
+    if(FEEID == 0){
+      fHeader->SetRunMode(DmpDetector::kBgo,tmp/16);
+    }else{
+      if(fHeader->GetRunMode(DmpDetector::kBgo) != tmp/16){
+        StatusLog(-4);
+        return false;
       }
-      fFile->read((char*)(&rawHex[0]),1);
-      fFile->read((char*)(&rawHex[1]),1);
-      fBgo->SetSignal(20518,rawHex[0]*256+rawHex[1]);
-      fBgo->SetSignal(
-        ConnectorBgo[feeID*1000+channelID],         // LBSD_ID
-        rawHex[0]*256+rawHex[1]);                   // ADC
     }
-    fFile->read((char*)(&tmp),2);             // reserve, 2 Bytes
-    fFile->read((char*)(&tmp),2);             // CRC,     2 Bytes
-//    fFile->read((char*)(&tmp),2);             // 5aa5,    2 Bytes
+    fFile->read((char*)(&tmp),1);       // data length, 2 bytes
+    fFile->read((char*)(&nBytes),1);
+    nBytes += tmp*256-2-2-2;            // 2 bytes for data length, 2 bytes for 0x0000, 2 bytes for CRC
+// *
+// *  TODO: mode == k0Compress && data length == xxx
+// *
+    if(fHeader->GetRunMode(DmpDetector::kBgo) == DmpDetector::k0Compress){
+      for(short i=0;i<nBytes;i+=2){     // k0Compress
+        fFile->read((char*)(&tmp),1);
+        fFile->read((char*)(&tmp),1);
+// *
+// *  TODO: add hits information
+// *
+        //fHits->
+      //fBgo->SetSignal(
+      //  ConnectorBgo[feeID*1000+channelID],         // LBSD_ID
+      //  rawHex[0]*256+rawHex[1]);                   // ADC
+      }
+    }else{
+      for(short i=0;i<nBytes;i+=3){     // kCompress
+        fFile->read((char*)(&tmp),1);
+        fFile->read((char*)(&tmp),1);
+        fFile->read((char*)(&tmp),1);
+// *
+// *  TODO: add hits information
+// *
+        //fHits->
+      //fBgo->SetSignal(
+      //  ConnectorBgo[feeID*1000+channelID],         // LBSD_ID
+      //  rawHex[0]*256+rawHex[1]);                   // ADC
+      }
+    }
+    fFile->read((char*)(&tmp),1);       // 2 bytes for 0x0000
+    fFile->read((char*)(&tmp),1);       // must split them, 2 bytes for 0x0000
+    fFile->read((char*)(&tmp),1);       // 2 bytes for CRC
+    fFile->read((char*)(&tmp),1);       // must spplit them, 2 bytes for CRC
   }
-*/
 //-------------------------------------------------------------------
 
-#ifdef DmpDebug
-std::cout<<" to "<<fFile->tellg()<<std::endl;
-noFrom = true;
-#endif
+  StatusLog(nBytes);
   return true;
 }
 

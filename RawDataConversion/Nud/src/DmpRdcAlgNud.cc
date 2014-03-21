@@ -72,39 +72,34 @@ bool DmpRdcAlgNud::SetupConnector(){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgNud::Convert(){
+  std::cout<<"\t"<<__PRETTY_FUNCTION__;
+  StatusLog(0);
   if(not fRunMe) return true;
-#ifdef DmpDebug
-static bool noFrom=true;
-if(noFrom){
-  std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
-  noFrom = false;
-}
-#endif
 // *
 // *  TODO: check conversion Nud
 // *
 //-------------------------------------------------------------------
-  static short tmp=0;
+  static short tmp=0, nBytes = 0;
   fFile->read((char*)(&tmp),1);
   if (tmp!=0xeb) {
-    std::cerr<<"Error: "<<__FUNCTION__<<"\t not find 0xeb("<<std::hex<<tmp<<std::dec<<")"<<std::endl;
-    fHeader->PrintTime();
+    StatusLog(-1);
     return false;
   }
   fFile->read((char*)(&tmp),1);
   if (tmp!=0x90) {
-    std::cerr<<"Error: "<<__FUNCTION__<<"\t not 0x90("<<std::hex<<tmp<<std::dec<<")"<<std::endl;
-    fHeader->PrintTime();
+    StatusLog(-2);
     return false;
   }
-  fFile->read((char*)(&tmp),1);
+  fFile->read((char*)(&tmp),1);     // trigger
   fHeader->SetTrigger(DmpDetector::kNud,tmp);
-  fFile->read((char*)(&tmp),1);
+  fFile->read((char*)(&tmp),1);     // run mode and FEE ID
   fHeader->SetRunMode(DmpDetector::kNud,tmp/16);
-  static short nBytes = 0;
   fFile->read((char*)(&tmp),1);     // data length, 2 Bytes
   fFile->read((char*)(&nBytes),1);
   nBytes += tmp*256-2-2;            // 2 bytes for data length, 2 bytes for CRC
+// *
+// *  TODO: mode == k0Compress && data length == xxx
+// *
   //if (fHeader->GetRunMode(DmpDetector::kNud) == DmpDetector::k0Compress) 
   for(short i=0;i<nBytes;i+=2){     // k0Compress
     fFile->read((char*)(&tmp),1);
@@ -118,10 +113,7 @@ if(noFrom){
   fFile->read((char*)(&tmp),1);     // 2 bytes for CRC, MUST split them
 //-------------------------------------------------------------------
 
-#ifdef DmpDebug
-std::cout<<" to "<<fFile->tellg()<<std::endl;
-noFrom = true;
-#endif
+  StatusLog(nBytes);
   return true;
 }
 
