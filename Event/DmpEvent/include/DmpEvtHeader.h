@@ -34,11 +34,12 @@ public:
   bool  TriggerMatch() const  {return (fTrgBgo==fTrgPsd && fTrgBgo==fTrgStk && fTrgBgo==fTrgNud);}
   void  SetRunMode(const DmpDetector::DmpEDetectorID&, const short&);
   DmpDetector::DmpERunMode GetRunMode(const DmpDetector::DmpEDetectorID&) const;
+  void  ResetEventID() {fEventID = -1;}
 
 private:
   long      fSec;           // second
   short     fMillisec;      // millisecond
-  short     fTime[8];       //!
+  short     fTime[8];       //! not save
   /*
    *    8 bytes from satellite
    *    fTime[0~5] = second

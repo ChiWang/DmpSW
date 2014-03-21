@@ -81,44 +81,44 @@ bool DmpRdcAlgPsd::Convert(){
 //-------------------------------------------------------------------
   static short tmp=0, tmp2 = 0, nBytes = 0;
   for (short FEEID=0;FEEID<DmpDetector::Psd::Quarter::kFEENo;++FEEID) {
-    fFile->read((char*)(&tmp),1);
+    sFile->read((char*)(&tmp),1);
     if (tmp!=0xeb) {
       StatusLog(-1);
       return false;
     }
-    fFile->read((char*)(&tmp),1);
+    sFile->read((char*)(&tmp),1);
     if (tmp!=0x90) {
       StatusLog(-2);
       return false;
     }
-    fFile->read((char*)(&tmp),1);       // trigger
+    sFile->read((char*)(&tmp),1);       // trigger
     if(FEEID == 0){
-      fHeader->SetTrigger(DmpDetector::kPsd,tmp);
+      sHeader->SetTrigger(DmpDetector::kPsd,tmp);
     }else{
-      if(fHeader->GetTrigger(DmpDetector::kPsd) != tmp){
+      if(sHeader->GetTrigger(DmpDetector::kPsd) != tmp){
         StatusLog(-3);
         return false;
       }
     }
-    fFile->read((char*)(&tmp),1);       // run mode and FEE ID
+    sFile->read((char*)(&tmp),1);       // run mode and FEE ID
     if(FEEID == 0){
-      fHeader->SetRunMode(DmpDetector::kPsd,tmp/16);
+      sHeader->SetRunMode(DmpDetector::kPsd,tmp/16);
     }else{
-      if(fHeader->GetRunMode(DmpDetector::kPsd) != tmp/16){
+      if(sHeader->GetRunMode(DmpDetector::kPsd) != tmp/16){
         StatusLog(-4);
         return false;
       }
     }
-    fFile->read((char*)(&tmp),1);       // data length, 2 bytes
-    fFile->read((char*)(&tmp2),1);
+    sFile->read((char*)(&tmp),1);       // data length, 2 bytes
+    sFile->read((char*)(&tmp2),1);
     nBytes = tmp*256+tmp2-2-2-2;        // 2 bytes for data length, 2 bytes for 0x0000, 2 bytes for CRC
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
-    if(fHeader->GetRunMode(DmpDetector::kPsd) == DmpDetector::k0Compress){
+    if(sHeader->GetRunMode(DmpDetector::kPsd) == DmpDetector::k0Compress){
       for(short i=0;i<nBytes;i+=2){     // k0Compress
-        fFile->read((char*)(&tmp),1);
-        fFile->read((char*)(&tmp),1);
+        sFile->read((char*)(&tmp),1);
+        sFile->read((char*)(&tmp),1);
 // *
 // *  TODO: add hits information
 // *
@@ -129,9 +129,9 @@ bool DmpRdcAlgPsd::Convert(){
       }
     }else{
       for(short i=0;i<nBytes;i+=3){     // kCompress
-        fFile->read((char*)(&tmp),1);
-        fFile->read((char*)(&tmp),1);
-        fFile->read((char*)(&tmp),1);
+        sFile->read((char*)(&tmp),1);
+        sFile->read((char*)(&tmp),1);
+        sFile->read((char*)(&tmp),1);
 // *
 // *  TODO: add hits information
 // *
@@ -141,10 +141,10 @@ bool DmpRdcAlgPsd::Convert(){
       //  rawHex[0]*256+rawHex[1]);                   // ADC
       }
     }
-    fFile->read((char*)(&tmp),1);       // 2 bytes for 0x0000
-    fFile->read((char*)(&tmp),1);       // must split them, 2 bytes for 0x0000
-    fFile->read((char*)(&tmp),1);       // 2 bytes for CRC
-    fFile->read((char*)(&tmp),1);       // must spplit them, 2 bytes for CRC
+    sFile->read((char*)(&tmp),1);       // 2 bytes for 0x0000
+    sFile->read((char*)(&tmp),1);       // must split them, 2 bytes for 0x0000
+    sFile->read((char*)(&tmp),1);       // 2 bytes for CRC
+    sFile->read((char*)(&tmp),1);       // must spplit them, 2 bytes for CRC
   }
 //-------------------------------------------------------------------
 

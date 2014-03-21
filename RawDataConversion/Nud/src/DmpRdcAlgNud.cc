@@ -80,37 +80,37 @@ bool DmpRdcAlgNud::Convert(){
 // *
 //-------------------------------------------------------------------
   static short tmp=0, tmp2=0, nBytes=0;
-  fFile->read((char*)(&tmp),1);
+  sFile->read((char*)(&tmp),1);
   if (tmp!=0xeb) {
     StatusLog(-1);
     return false;
   }
-  fFile->read((char*)(&tmp),1);
+  sFile->read((char*)(&tmp),1);
   if (tmp!=0x90) {
     StatusLog(-2);
     return false;
   }
-  fFile->read((char*)(&tmp),1);     // trigger
-  fHeader->SetTrigger(DmpDetector::kNud,tmp);
-  fFile->read((char*)(&tmp),1);     // run mode and FEE ID
-  fHeader->SetRunMode(DmpDetector::kNud,tmp/16);
-  fFile->read((char*)(&tmp),1);     // data length, 2 Bytes
-  fFile->read((char*)(&tmp2),1);
+  sFile->read((char*)(&tmp),1);     // trigger
+  sHeader->SetTrigger(DmpDetector::kNud,tmp);
+  sFile->read((char*)(&tmp),1);     // run mode and FEE ID
+  sHeader->SetRunMode(DmpDetector::kNud,tmp/16);
+  sFile->read((char*)(&tmp),1);     // data length, 2 Bytes
+  sFile->read((char*)(&tmp2),1);
   nBytes = tmp*256+tmp2-2-2;            // 2 bytes for data length, 2 bytes for CRC
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
-  //if (fHeader->GetRunMode(DmpDetector::kNud) == DmpDetector::k0Compress) 
+  //if (sHeader->GetRunMode(DmpDetector::kNud) == DmpDetector::k0Compress) 
   for(short i=0;i<nBytes;i+=2){     // k0Compress
-    fFile->read((char*)(&tmp),1);
-    fFile->read((char*)(&tmp),1);
+    sFile->read((char*)(&tmp),1);
+    sFile->read((char*)(&tmp),1);
 // *
 // *  TODO: store impfore into hits
 // *
     //fHitCollection->
   }
-  fFile->read((char*)(&tmp),1);     // 2 bytes for CRC
-  fFile->read((char*)(&tmp),1);     // 2 bytes for CRC, MUST split them
+  sFile->read((char*)(&tmp),1);     // 2 bytes for CRC
+  sFile->read((char*)(&tmp),1);     // 2 bytes for CRC, MUST split them
 //-------------------------------------------------------------------
 
   StatusLog(nBytes);

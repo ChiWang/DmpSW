@@ -95,4 +95,3 @@ DmpDetector::DmpERunMode DmpEvtHeader::GetRunMode(const DmpDetector::DmpEDetecto
   if(id == DmpDetector::kNud)   return fModeNud;
 }
 
-

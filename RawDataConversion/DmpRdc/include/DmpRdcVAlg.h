@@ -16,7 +16,7 @@ public:
   DmpRdcVAlg();
   virtual ~DmpRdcVAlg();
   virtual bool Convert()=0;         // convert one event
-  static void  SetFileStream(std::ifstream *p)   {fFile = p;}
+  static void  SetFileStream(std::ifstream *p)   {sFile = p;}
 
 protected:
   void StatusLog(short)const;
@@ -25,8 +25,8 @@ private:
   void PrintLocation()const;
 
 protected:
-  static std::ifstream  *fFile;     // pointer of file stream (update it evry input data)
-  static DmpEvtHeader   *fHeader;   // to print time, set run mode
+  static std::ifstream  *sFile;     // pointer of file stream (update it evry input data)
+  static DmpEvtHeader   *sHeader;   // to print time, set run mode
 
 };
 

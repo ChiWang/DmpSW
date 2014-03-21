@@ -89,38 +89,38 @@ bool DmpRdcAlgStk::Convert(){
   fStk->Reset();
   for (feeCount=0;feeCount<BT2012::kPlaneNb;++feeCount) {
     tmp=0;
-    fFile->read((char*)(&tmp),1);
+    sFile->read((char*)(&tmp),1);
     if (tmp!=0xeb) {
       std::cerr<<"\nError: DmpRdcAlgorithm::ConversionStk()\t0xeb wrong\tFee = "<<feeCount<<"\t";
-      fHeader->ShowTime(0);
+      sHeader->ShowTime(0);
       return false;
     }
-    fFile->read((char*)(&tmp),1);
+    sFile->read((char*)(&tmp),1);
     if (tmp!=0x90) {
       std::cerr<<"\nError: DmpRdcAlgorithm::ConversionStk()\t0x90 wrong\t";
-      fHeader->ShowTime(0);
+      sHeader->ShowTime(0);
       return false;
     }
-    fFile->read((char*)(&tmp),1);        //trigger
-    fFile->read((char*)(&feeID),1);
+    sFile->read((char*)(&tmp),1);        //trigger
+    sFile->read((char*)(&feeID),1);
     if (feeCount == 0) {                          //trigger check, runMode check
       fTrigger["Stk"] = tmp;
       fStk->SetMode(DmpVEvtSubDet::DmpERunMode(feeID/16));
     } else {
       if (tmp != fTrigger["Stk"]) {
         std::cerr<<"\nError: DmpRdcAlgorithm::ConversionStk()\tFEE trigger not match\t";
-        fHeader->ShowTime(0);
+        sHeader->ShowTime(0);
         return false;
       }
       if (feeID/16 != fStk->GetMode()) {
         std::cerr<<"\nError: DmpRdcAlgorithmConversionStk()\tFEE mode not match\t";
-        fHeader->ShowTime(0);
+        sHeader->ShowTime(0);
         return false;
       }
     }
     feeID = feeID%16;
-    fFile->read((char*)(&tmp),1);        // datalong, 2 Bytes
-    fFile->read((char*)(&dataLong),1);
+    sFile->read((char*)(&tmp),1);        // datalong, 2 Bytes
+    sFile->read((char*)(&dataLong),1);
     int dataLength = tmp*256 + dataLong;
     if (dataLength == kFeeDataLength0 || dataLength == kFeeDataLength1) {
       nChan = (dataLength-2*3)/2;
@@ -133,18 +133,18 @@ bool DmpRdcAlgStk::Convert(){
       if (dataLength == kFeeDataLength0 || dataLength == kFeeDataLength1) {
         channelID = nc;
       } else {
-        fFile->read((char*)(&channelID),1);
+        sFile->read((char*)(&channelID),1);
       }
-      fFile->read((char*)(&rawHex[0]),1);
-      fFile->read((char*)(&rawHex[1]),1);
+      sFile->read((char*)(&rawHex[0]),1);
+      sFile->read((char*)(&rawHex[1]),1);
       fStk->SetSignal(20518,rawHex[0]*256+rawHex[1]);
       fStk->SetSignal(
         ConnectorStk[feeID*1000+channelID],         // LBSD_ID
         rawHex[0]*256+rawHex[1]);                   // ADC
     }
-    fFile->read((char*)(&tmp),2);             // reserve, 2 Bytes
-    fFile->read((char*)(&tmp),2);             // CRC,     2 Bytes
-//    fFile->read((char*)(&tmp),2);             // 5aa5,    2 Bytes
+    sFile->read((char*)(&tmp),2);             // reserve, 2 Bytes
+    sFile->read((char*)(&tmp),2);             // CRC,     2 Bytes
+//    sFile->read((char*)(&tmp),2);             // 5aa5,    2 Bytes
   }
 */
 //-------------------------------------------------------------------

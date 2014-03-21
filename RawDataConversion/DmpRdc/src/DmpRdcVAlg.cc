@@ -11,11 +11,11 @@
 #include "DmpEventRaw.h"
 #include "DmpEvtHeader.h"
 
-std::ifstream*  DmpRdcVAlg::fFile = 0;
-DmpEvtHeader*   DmpRdcVAlg::fHeader = 0;
+std::ifstream*  DmpRdcVAlg::sFile = 0;
+DmpEvtHeader*   DmpRdcVAlg::sHeader = 0;
 
 DmpRdcVAlg::DmpRdcVAlg(){
-  fHeader = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetEventHeader();
+  sHeader = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetEventHeader();
 }
 
 //-------------------------------------------------------------------
@@ -26,13 +26,13 @@ DmpRdcVAlg::~DmpRdcVAlg(){
 void DmpRdcVAlg::StatusLog(short x)const {
   static bool prepareForFirstIn = true;
   if(x == 0 && prepareForFirstIn){     // in convert function
-    std::cout<<"\tfrom "<<fFile->tellg();
+    std::cout<<"\tfrom "<<sFile->tellg();
     prepareForFirstIn = false;
   }else if(x == 1){     // out convert function, not output data length
-    std::cout<<" to "<<fFile->tellg()<<std::endl;
+    std::cout<<" to "<<sFile->tellg()<<std::endl;
     prepareForFirstIn = true;
   }else if(x > 1){      // out convert function, output data length
-    std::cout<<" to "<<fFile->tellg()<<"\t---> "<<x<<std::endl;
+    std::cout<<" to "<<sFile->tellg()<<"\t---> "<<x<<std::endl;
     prepareForFirstIn = true;
   }else if(x == -1){
     std::cout<<"\tError: not find 0xeb\t";
@@ -58,11 +58,11 @@ void DmpRdcVAlg::PrintLocation()const{
   static short tmp = 0;
   std::cout<<"Location: ";
   for(short i=0;i<5;++i){
-    fFile->read((char*)(&tmp),1);
+    sFile->read((char*)(&tmp),1);
     std::cout<<" "<<std::hex<<tmp<<std::dec;
   }
   std::cout<<"\t";
-  fHeader->PrintTime();
+  sHeader->PrintTime();
 }
 
 

@@ -39,7 +39,7 @@ bool DmpRdcVAlgSubDet::Convert(){
 #ifdef DmpDebug
 static bool noFrom=true;
 if(noFrom){
-  std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
+  std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<sFile->tellg();
   noFrom = false;
 }
 #endif
@@ -48,7 +48,7 @@ if(noFrom){
 
 //-------------------------------------------------------------------
 #ifdef DmpDebug
-std::cout<<" to "<<fFile->tellg()<<std::endl;
+std::cout<<" to "<<sFile->tellg()<<std::endl;
 noFrom = true;
 #endif
   return true;
