@@ -19,8 +19,8 @@ class DmpRdcDataManager : public DmpVDataManager{
 */
 public:
   static DmpRdcDataManager* GetInstance();
+  void Initialize();
   void BookBranch();
-  void Reset();
   bool TriggerMatch(const short&);
 
 private:

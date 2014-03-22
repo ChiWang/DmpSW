@@ -25,7 +25,7 @@ public:
 
   void  SetTime(const short&,const short&);
   void  PrintTime()const;
-  void  SetEventID(long id)     {fEventID = id;}
+  void  CountThisEvent()        {++fEventID;}
   long  GetEventID() const      {return fEventID;}
   void  SetParticlePdgCode(const int &i)    {fPdgCode = i;}
   int   GetParticlePdgCode() const {return fPdgCode;}
@@ -34,7 +34,7 @@ public:
   bool  TriggerMatch() const  {return (fTrgBgo==fTrgPsd && fTrgBgo==fTrgStk && fTrgBgo==fTrgNud);}
   void  SetRunMode(const DmpDetector::DmpEDetectorID&, const short&);
   DmpDetector::DmpERunMode GetRunMode(const DmpDetector::DmpEDetectorID&) const;
-  void  ResetEventID() {fEventID = -1;}
+  void  Initialize() {fEventID = -1;}
 
 private:
   long      fSec;           // second

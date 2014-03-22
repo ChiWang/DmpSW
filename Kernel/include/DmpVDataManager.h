@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpVDataManager.h, 2014-03-20 00:00:32 chi $
+ *  $Id: DmpVDataManager.h, 2014-03-22 13:54:38 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -28,8 +28,8 @@ public:
   DmpVDataManager();
   virtual ~DmpVDataManager();
 
+  virtual void Initialize()=0;   // prepare for the next data file
   virtual void BookBranch()=0;
-  virtual void Reset()=0;   // reset memory before processing the next event
   void  FillEvent();
   void  SaveOutput();
   void  SetOutDataPath(const std::string&);        // binding me

@@ -67,10 +67,11 @@ void DmpCore::RdcExecute(const std::string &dataName,const short &level){
   }
 
   // convert and save output
+  dataMgr->Initialize();
   dataMgr->BookBranch();
-  for (long i=0;!inputData.eof();++i){
+  for(long i=0;!inputData.eof();++i){
     if(not headerAlg->Convert())    continue;
-    dataMgr->Reset();
+    dataMgr->GetRawEvent()->Reset();
     if(not nudAlg->Convert())   continue;       // in hex data, nud first
     if(not psdAlg->Convert())   continue;
     if(not bgoAlg->Convert())   continue;

@@ -10,14 +10,23 @@
 #include "G4Event.hh"
 
 #include "DmpEvtSimPrimaryParticle.h"
-#include "DmpEvtHeader.h"
 #include "DmpEventRaw.h"
+#include "DmpEvtHeader.h"
 #include "DmpSimDataManager.h"
 
 
 DmpSimDataManager* DmpSimDataManager::GetInstance(){
   static DmpSimDataManager instance;
   return &instance;
+}
+
+//-------------------------------------------------------------------
+void DmpSimDataManager::Initialize(){
+// *
+// *  TODO:  for primary particle
+// *
+  //fPrimaryParticle->Reset();
+  fEvtRaw->GetEventHeader()->Initialize();
 }
 
 //-------------------------------------------------------------------
@@ -29,15 +38,6 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
   fOutDataTree = new TTree("DAMPE_Raw","Simulation");
   fOutDataTree->Branch("PrimaryParticle","DmpEvtSimPrimaryParticle",&fPrimaryParticle,32000,2);
   fOutDataTree->Branch("Event","DmpEventRaw",&fEvtRaw,32000,2);
-}
-
-//-------------------------------------------------------------------
-void DmpSimDataManager::Reset(){
-  fEvtRaw->Reset();
-// *
-// *  TODO:  add Reset for primary particle
-// *
-  //fPrimaryParticle->Reset();
 }
 
 //-------------------------------------------------------------------
@@ -61,13 +61,6 @@ void DmpSimDataManager::UpdatePrimaryParticleInformation(const G4Event *anEvent)
 // *  TODO: Use DataManager to save informations of parimary particle
 // *
 //  fPrimaryParticle->SetXXX();
-}
-
-//-------------------------------------------------------------------
-void DmpSimDataManager::UpdateEventHeader(const G4Event *anEvent){
-  static DmpEvtHeader *eventHeader = fEvtRaw->GetEventHeader();
-  eventHeader->SetEventID(anEvent->GetEventID());
-  eventHeader->SetParticlePdgCode(anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode());
 }
 
 //-------------------------------------------------------------------

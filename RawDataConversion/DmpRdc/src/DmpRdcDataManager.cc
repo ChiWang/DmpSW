@@ -17,6 +17,11 @@ DmpRdcDataManager* DmpRdcDataManager::GetInstance(){
 }
 
 //-------------------------------------------------------------------
+void DmpRdcDataManager::Initialize(){
+  fEvtRaw->GetEventHeader()->Initialize();
+}
+
+//-------------------------------------------------------------------
 #ifdef DmpDebug
 #include <iostream>
 #endif
@@ -24,14 +29,8 @@ void DmpRdcDataManager::BookBranch(){
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
-  fEvtRaw->GetEventHeader()->ResetEventID();
   fOutDataTree = new TTree("DAMPE_Raw","ADC");
   fOutDataTree->Branch("Event","DmpEventRaw",&fEvtRaw,32000,2);
-}
-
-//-------------------------------------------------------------------
-void DmpRdcDataManager::Reset(){
-  fEvtRaw->Reset();
 }
 
 //-------------------------------------------------------------------

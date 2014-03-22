@@ -28,7 +28,6 @@ bool DmpRdcAlgHeader::Convert(){
 // *  TODO: check conversion Header
 // *
 //-------------------------------------------------------------------
-  static long id = -1;
   static short tmp=0;
   sFile->read((char*)(&tmp),1);
   if (tmp!=0xe2)    return false;
@@ -38,9 +37,7 @@ bool DmpRdcAlgHeader::Convert(){
   if (tmp!=0x08)    return false;
   sFile->read((char*)(&tmp),1);
   if (tmp!=0x13)    return false;
-
-  ++id;     // find a science data header 0xe225 0813
-  sHeader->SetEventID(id);
+  sHeader->CountThisEvent();    // find a science data header 0xe225 0813
   sFile->read((char*)(&tmp),1);      //this needed
   sFile->read((char*)(&fTrigger),1);
   sFile->read((char*)(&tmp),1);      //Datalength

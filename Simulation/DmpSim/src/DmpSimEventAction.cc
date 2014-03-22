@@ -24,6 +24,8 @@
 */
 #include "DmpSimEventAction.h"
 #include "DmpSimDataManager.h"
+#include "DmpEventRaw.h"
+#include "DmpEvtHeader.h"
 
 DmpSimEventAction::DmpSimEventAction()
  :fDataMgr(0)
@@ -41,21 +43,26 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
   //fDM->AddNewModule(myDM);
 }
 
+//-------------------------------------------------------------------
 DmpSimEventAction::~DmpSimEventAction(){
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
 }
 
-void DmpSimEventAction::BeginOfEventAction(const G4Event *aEvent){
+//-------------------------------------------------------------------
+void DmpSimEventAction::BeginOfEventAction(const G4Event *anEvent){
 #ifdef DmpDebug
-  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tEvent ID = "<<aEvent->GetEventID()<<std::endl;
+  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tEvent ID = "<<anEvent->GetEventID()<<std::endl;
 #endif
-  fDataMgr->Reset();
-  fDataMgr->UpdateEventHeader(aEvent);
+  static DmpEvtHeader *eventHeader = fDataMgr->GetRawEvent()->GetEventHeader();
+  eventHeader->CountThisEvent();
+  eventHeader->SetParticlePdgCode(anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode());
+  fDataMgr->GetRawEvent()->Reset();
 }
 
-void DmpSimEventAction::EndOfEventAction(const G4Event *aEvent){
+//-------------------------------------------------------------------
+void DmpSimEventAction::EndOfEventAction(const G4Event *anEvent){
   fDataMgr->Digitize();
   fDataMgr->FillEvent();
 }

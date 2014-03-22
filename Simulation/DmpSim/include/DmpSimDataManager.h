@@ -22,8 +22,8 @@ class DmpSimDataManager : public DmpVDataManager{
  */
 public:
   static DmpSimDataManager* GetInstance();
+  void Initialize();
   void BookBranch();            // invoked from BeginOfRunAction()
-  void Reset();
 
 private:
   DmpSimDataManager();
@@ -33,7 +33,6 @@ public:
   DmpEvtSimPrimaryParticle* GetPrimaryParticle() const {return fPrimaryParticle;}
   DmpEventRaw*  GetRawEvent() const     {return fEvtRaw;}
   void UpdatePrimaryParticleInformation(const G4Event*);    // invoked from GeneratePrimaries()
-  void UpdateEventHeader(const G4Event*); // invoked from BeginOfEventAction()
   void Digitize();                  // invoked from EndOfEventAction(), before FillEvent()
 
 private:

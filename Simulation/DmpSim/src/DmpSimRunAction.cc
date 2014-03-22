@@ -31,6 +31,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 //-------------------------------------------------------------------
 void DmpSimRunAction::BeginOfRunAction(const G4Run *aRun){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"Run ID = "<<aRun->GetRunID()<<std::endl;
+  fDataMgr->Initialize();
   fDataMgr->BookBranch(); 
 // *  TODO: engine not works...
 /*
