@@ -31,11 +31,11 @@ public:
   int   GetParticlePdgCode() const {return fPdgCode;}
   void  GenerateTriggerStatus();
   short GetTriggerStatus() const {return fTrgStatus;}
-  void  SetTrigger(const DmpDetector::DmpEDetectorID &id, const short&v) {fTriggers[id] = v;}
+  void  SetTrigger(const DmpDetector::DmpEDetectorID &id, const short &v) {fTriggers[id] = v;}
   short GetTrigger(const DmpDetector::DmpEDetectorID &id)   {return fTriggers[id];}
   void  SetRunMode(const DmpDetector::DmpEDetectorID&, const short&);
   DmpDetector::DmpERunMode GetRunMode(const DmpDetector::DmpEDetectorID&) const;
-  void  Initialize() {fEventID = -1;}
+  void  Initialize() {fEventID = -1;}   // prepare for the next data file
 
 private:
   long      fSec;           // second

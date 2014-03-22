@@ -12,6 +12,7 @@
 #include "DmpRdcDataManager.h"
 #include "DmpEventRaw.h"
 #include "DmpEvtNudHit.h"
+#include "DmpDetectorNud.h"
 #include "DmpEvtHeader.h"
 #include "DmpRdcConnectorInterface.h"
 
@@ -93,7 +94,7 @@ bool DmpRdcAlgNud::Convert(){
   sFile->read((char*)(&tmp),1);     // trigger
   sHeader->SetTrigger(DmpDetector::kNud,tmp);
   sFile->read((char*)(&tmp),1);     // run mode and FEE ID
-  sHeader->SetRunMode(DmpDetector::kNud,tmp/16);
+  sHeader->SetRunMode(DmpDetector::kNud,tmp/16-DmpDetector::Nud::kFEEType);
   sFile->read((char*)(&tmp),1);     // data length, 2 Bytes
   sFile->read((char*)(&tmp2),1);
   nBytes = tmp*256+tmp2-2-2;            // 2 bytes for data length, 2 bytes for CRC

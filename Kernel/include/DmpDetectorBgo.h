@@ -28,6 +28,7 @@ namespace DmpDetector{
     extern DmpEBgoPhase gPhase;
     const short kRefBarNo= 2;
     const short kDyNo    = 3;
+    const short kFEEType = 0;
     namespace Quarter{
       const short kPlaneNo = 6;
       const short kBarNo   = 11;

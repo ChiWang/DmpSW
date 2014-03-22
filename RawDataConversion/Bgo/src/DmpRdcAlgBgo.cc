@@ -90,9 +90,9 @@ bool DmpRdcAlgBgo::Convert(){
     static short feeID = 0;
     feeID = tmp%16;
     if(counts == 0){
-      sHeader->SetRunMode(DmpDetector::kBgo,tmp/16);
+      sHeader->SetRunMode(DmpDetector::kBgo,tmp/16-DmpDetector::Bgo::kFEEType);
     }else{
-      if(sHeader->GetRunMode(DmpDetector::kBgo) != tmp/16){
+      if(sHeader->GetRunMode(DmpDetector::kBgo) != tmp/16-DmpDetector::Bgo::kFEEType){
         StatusLog(-4);
         return false;
       }

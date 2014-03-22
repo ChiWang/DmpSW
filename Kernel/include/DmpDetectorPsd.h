@@ -27,6 +27,7 @@ namespace DmpDetector{
     const short kRefBarNo= 2;
     const short kSideNo  = 2;
     const short kDyNo    = 2;
+    const short kFEEType = 1;
     namespace Quarter{
       const short kBarNo  = 11;
       const short kSideNo = 1;

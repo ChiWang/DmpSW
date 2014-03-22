@@ -54,10 +54,10 @@ void DmpEvtHeader::PrintTime()const{
 void DmpEvtHeader::GenerateTriggerStatus(){
     /*
      * all match
-     *      1
-     * one subDet not match the others
-     *      0-(subDetID*1000 + |trigger_right - trigger_wrong|)
-     * many subDet are not match, recored their ID only
+     *      0
+     * one subDet not match the others (>0)
+     *      subDetID*1000 + |trigger_right - trigger_wrong|
+     * many subDet are not match, recored their ID only (<0)
      *      0-(sbuDetID_1*100 + subDetID_2*10 + subDetID_3)
      *
      */
@@ -82,13 +82,13 @@ void DmpEvtHeader::GenerateTriggerStatus(){
 //-------------------------------------------------------------------
 void DmpEvtHeader::SetRunMode(const DmpDetector::DmpEDetectorID &id,const short &m){
   if(id == DmpDetector::kPsd){
-    fModePsd = (DmpDetector::DmpERunMode)(m-1);
+    fModePsd = (DmpDetector::DmpERunMode)m;
   }else if(id == DmpDetector::kStk){
     fModeStk = (DmpDetector::DmpERunMode)m;
   }else if(id == DmpDetector::kBgo){
     fModeBgo = (DmpDetector::DmpERunMode)m;
   }else if(id == DmpDetector::kNud){
-    fModeNud = (DmpDetector::DmpERunMode)(m-2);
+    fModeNud = (DmpDetector::DmpERunMode)m;
   }
 }
 

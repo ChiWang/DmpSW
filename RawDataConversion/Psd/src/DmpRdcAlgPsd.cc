@@ -102,9 +102,9 @@ bool DmpRdcAlgPsd::Convert(){
     }
     sFile->read((char*)(&tmp),1);       // run mode and FEE ID
     if(FEEID == 0){
-      sHeader->SetRunMode(DmpDetector::kPsd,tmp/16);
+      sHeader->SetRunMode(DmpDetector::kPsd,tmp/16-DmpDetector::Psd::kFEEType);
     }else{
-      if(sHeader->GetRunMode(DmpDetector::kPsd) != tmp/16){
+      if(sHeader->GetRunMode(DmpDetector::kPsd) != tmp/16-DmpDetector::Psd::kFEEType){
         StatusLog(-4);
         return false;
       }
