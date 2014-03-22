@@ -33,8 +33,8 @@ public:
   short GetTriggerStatus() const {return fTrgStatus;}
   void  SetTrigger(const DmpDetector::DmpEDetectorID &id, const short &v) {fTriggers[id] = v;}
   short GetTrigger(const DmpDetector::DmpEDetectorID &id)   {return fTriggers[id];}
-  void  SetRunMode(const DmpDetector::DmpEDetectorID&, const short&);
-  DmpDetector::DmpERunMode GetRunMode(const DmpDetector::DmpEDetectorID&) const;
+  void  SetRunMode(const DmpDetector::DmpEDetectorID &id, const short &m) {fRunMode[id] = (DmpDetector::DmpERunMode)m;}
+  DmpDetector::DmpERunMode GetRunMode(const DmpDetector::DmpEDetectorID &id) const {return fRunMode[id];}
   void  Initialize() {fEventID = -1;}   // prepare for the next data file
 
 private:
@@ -52,13 +52,7 @@ private:
      *      0-(sbuDetID_1*100 + subDetID_2*10 + subDetID_3)
      *
      */
-  DmpDetector::DmpERunMode fModePsd;    // Psd run mode
-  DmpDetector::DmpERunMode fModeStk;    // Stk run mode
-  DmpDetector::DmpERunMode fModeBgo;    // Bgo run mode
-// *
-// *  TODO: confirm mode of Stk, Nud
-// *
-  DmpDetector::DmpERunMode fModeNud;    // Need? Nud run mode
+  DmpDetector::DmpERunMode fRunMode[DmpDetector::gSubDetNo];  // run modes of 4 subDet
 
 private:    // those variables will not save
   short     fTime[8];       //! not save

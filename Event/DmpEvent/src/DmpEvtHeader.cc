@@ -16,12 +16,11 @@ DmpEvtHeader::DmpEvtHeader()
   fMillisec(0),
   fEventID(-1),
   fPdgCode(0),
-  fTrgStatus(0),
-  fModePsd(DmpDetector::kCompress),
-  fModeStk(DmpDetector::kCompress),
-  fModeBgo(DmpDetector::kCompress),
-  fModeNud(DmpDetector::kCompress)
+  fTrgStatus(0)
 {
+  for(short i=0;i<DmpDetector::gSubDetNo;++i){
+    fRunMode[i]=DmpDetector::kCompress;
+  }
 }
 
 //-------------------------------------------------------------------
@@ -77,26 +76,5 @@ void DmpEvtHeader::GenerateTriggerStatus(){
   for(wrongID=0;wrongID<DmpDetector::gSubDetNo;++wrongID){
     fTriggers[wrongID] = 0;
   }
-}
-
-//-------------------------------------------------------------------
-void DmpEvtHeader::SetRunMode(const DmpDetector::DmpEDetectorID &id,const short &m){
-  if(id == DmpDetector::kPsd){
-    fModePsd = (DmpDetector::DmpERunMode)m;
-  }else if(id == DmpDetector::kStk){
-    fModeStk = (DmpDetector::DmpERunMode)m;
-  }else if(id == DmpDetector::kBgo){
-    fModeBgo = (DmpDetector::DmpERunMode)m;
-  }else if(id == DmpDetector::kNud){
-    fModeNud = (DmpDetector::DmpERunMode)m;
-  }
-}
-
-//-------------------------------------------------------------------
-DmpDetector::DmpERunMode DmpEvtHeader::GetRunMode(const DmpDetector::DmpEDetectorID &id) const{
-  if(id == DmpDetector::kPsd)   return fModePsd;
-  if(id == DmpDetector::kStk)   return fModeStk;
-  if(id == DmpDetector::kBgo)   return fModeBgo;
-  if(id == DmpDetector::kNud)   return fModeNud;
 }
 
