@@ -22,7 +22,7 @@ public:
   ~DmpRdcDataManager();
   void Initialize();
   void BookBranch();
-  bool TriggerMatch(const short&);  // set match level(with Bgo) 1: Psd; 2(or 3): Psd, Stk; 4: Psd, Stk, Nud
+  void FillEvent();
 
 private:
   DmpRdcDataManager();

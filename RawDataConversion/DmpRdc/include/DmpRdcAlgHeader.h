@@ -14,10 +14,6 @@ public:
   DmpRdcAlgHeader();
   ~DmpRdcAlgHeader();
   bool  Convert();
-  short GetTrigger() const {return fTrigger;}
-
-private:
-  short     fTrigger;   // trigger in event header
 
 };
 

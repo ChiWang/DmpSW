@@ -34,17 +34,9 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcDataManager::TriggerMatch(const short &level){
-  static short trigger = 0;
-  trigger = fEvtRaw->GetEventHeader()->GetTrigger(DmpDetector::kBgo);
-  for(short i=0;i<level;++i){
-    if(trigger != fEvtRaw->GetEventHeader()->GetTrigger((DmpDetector::DmpEDetectorID)i)){
-      std::cout<<"Error: Event triggers not match ("<<level<<" sub detectors) ";
-      fEvtRaw->GetEventHeader()->PrintTime();
-      return false;
-    }
-  }
-  return true;
+void DmpRdcDataManager::FillEvent(){
+  fEvtRaw->GetEventHeader()->GenerateTriggerStatus();
+  fOutDataTree->Fill();
 }
 
 //-------------------------------------------------------------------

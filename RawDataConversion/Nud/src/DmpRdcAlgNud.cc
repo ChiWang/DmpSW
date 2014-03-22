@@ -117,6 +117,7 @@ bool DmpRdcAlgNud::Convert(){
   return true;
 }
 
+//-------------------------------------------------------------------
 void DmpRdcAlgNud::AppendThisSignal(const int &id,const float &v){
 
 }

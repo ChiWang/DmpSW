@@ -30,7 +30,7 @@ public:
 
   virtual void Initialize()=0;   // prepare for the next data file
   virtual void BookBranch()=0;
-  void  FillEvent();
+  virtual void FillEvent();
   void  SaveOutput();
   void  SetOutDataPath(const std::string&);        // binding me
   void  AppendDataNote(const std::string &t)   {fNote = t;}   // binding me

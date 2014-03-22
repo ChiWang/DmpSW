@@ -76,7 +76,7 @@ void DmpCore::RdcExecute(const std::string &dataName,const short &level){
     if(not psdAlg->Convert())   continue;
     if(not bgoAlg->Convert())   continue;
     if(not stkAlg->Convert())   continue;
-    if(dataMgr->TriggerMatch(level)) dataMgr->FillEvent();
+    dataMgr->FillEvent();
   }
   dataMgr->SaveOutput();
 

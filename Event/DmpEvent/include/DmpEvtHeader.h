@@ -29,9 +29,10 @@ public:
   long  GetEventID() const      {return fEventID;}
   void  SetParticlePdgCode(const int &i)    {fPdgCode = i;}
   int   GetParticlePdgCode() const {return fPdgCode;}
-  void  SetTrigger(const DmpDetector::DmpEDetectorID&, const short&);
-  short GetTrigger(const DmpDetector::DmpEDetectorID&) const ;
-  bool  TriggerMatch() const  {return (fTrgBgo==fTrgPsd && fTrgBgo==fTrgStk && fTrgBgo==fTrgNud);}
+  void  GenerateTriggerStatus();
+  short GetTriggerStatus() const {return fTrgStatus;}
+  void  SetTrigger(const DmpDetector::DmpEDetectorID &id, const short&v) {fTriggers[id] = v;}
+  short GetTrigger(const DmpDetector::DmpEDetectorID &id)   {return fTriggers[id];}
   void  SetRunMode(const DmpDetector::DmpEDetectorID&, const short&);
   DmpDetector::DmpERunMode GetRunMode(const DmpDetector::DmpEDetectorID&) const;
   void  Initialize() {fEventID = -1;}
@@ -39,19 +40,18 @@ public:
 private:
   long      fSec;           // second
   short     fMillisec;      // millisecond
-  short     fTime[8];       //! not save
-  /*
-   *    8 bytes from satellite
-   *    fTime[0~5] = second
-   *    fTime[6~7] = m second
-   *
-   */
   long      fEventID;       // valid event count
   int       fPdgCode;       // particle pdg code
-  short     fTrgPsd;        // trigger Psd
-  short     fTrgStk;        // trigger Stk
-  short     fTrgBgo;        // trigger Bgo
-  short     fTrgNud;        // trigger Nud
+  short     fTrgStatus;     // trigger status
+    /*
+     * all match
+     *      0
+     * one subDet not match the others (>0)
+     *      subDetID*1000 + |trigger_right - trigger_wrong|
+     * many subDet are not match, recored their ID only (<0)
+     *      0-(sbuDetID_1*100 + subDetID_2*10 + subDetID_3)
+     *
+     */
   DmpDetector::DmpERunMode fModePsd;    // Psd run mode
   DmpDetector::DmpERunMode fModeStk;    // Stk run mode
   DmpDetector::DmpERunMode fModeBgo;    // Bgo run mode
@@ -59,6 +59,16 @@ private:
 // *  TODO: confirm mode of Stk, Nud
 // *
   DmpDetector::DmpERunMode fModeNud;    // Need? Nud run mode
+
+private:    // those variables will not save
+  short     fTime[8];       //! not save
+  /*
+   *    8 bytes from satellite
+   *    fTime[0~5] = second
+   *    fTime[6~7] = m second
+   *
+   */
+  short     fTriggers[DmpDetector::gSubDetNo];      //! trigger of 4 subDet and trigger of satellite
 
   ClassDef(DmpEvtHeader,1)
 };

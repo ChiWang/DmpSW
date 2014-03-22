@@ -16,10 +16,7 @@ DmpEvtHeader::DmpEvtHeader()
   fMillisec(0),
   fEventID(-1),
   fPdgCode(0),
-  fTrgPsd(-1),
-  fTrgStk(-1),
-  fTrgBgo(-1),
-  fTrgNud(-1),
+  fTrgStatus(0),
   fModePsd(DmpDetector::kCompress),
   fModeStk(DmpDetector::kCompress),
   fModeBgo(DmpDetector::kCompress),
@@ -54,24 +51,32 @@ void DmpEvtHeader::PrintTime()const{
 }
 
 //-------------------------------------------------------------------
-void DmpEvtHeader::SetTrigger(const DmpDetector::DmpEDetectorID &id,const short &t){
-  if(id == DmpDetector::kPsd){
-    fTrgPsd = t;
-  }else if(id == DmpDetector::kStk){
-    fTrgStk = t;
-  }else if(id == DmpDetector::kBgo){
-    fTrgBgo = t;
-  }else if(id == DmpDetector::kNud){
-    fTrgNud = t;
+void DmpEvtHeader::GenerateTriggerStatus(){
+    /*
+     * all match
+     *      1
+     * one subDet not match the others
+     *      0-(subDetID*1000 + |trigger_right - trigger_wrong|)
+     * many subDet are not match, recored their ID only
+     *      0-(sbuDetID_1*100 + subDetID_2*10 + subDetID_3)
+     *
+     */
+  fTrgStatus = 0;
+  static short wrongID = 0;
+  for(short i=DmpDetector::gSubDetNo;i>-1;--i){
+    if(fTriggers[DmpDetector::kBgo] != fTriggers[i]){
+      wrongID = i;
+      fTriggers[i] = fTriggers[DmpDetector::kBgo]-fTriggers[i];
+      fTrgStatus = fTrgStatus*10-i;
+    }
   }
-}
-
-//-------------------------------------------------------------------
-short DmpEvtHeader::GetTrigger(const DmpDetector::DmpEDetectorID &id) const {
-  if(id == DmpDetector::kPsd)   return fTrgPsd;
-  if(id == DmpDetector::kStk)   return fTrgStk;
-  if(id == DmpDetector::kBgo)   return fTrgBgo;
-  if(id == DmpDetector::kNud)   return fTrgNud;
+  if(fTrgStatus != 0 && fTrgStatus > -10){  // only one wrong
+    fTrgStatus = (fTriggers[wrongID]>0) ? (wrongID*1000+fTriggers[wrongID]):(wrongID*1000-fTriggers[wrongID]);
+  }
+  std::cout<<"\tWarning: event triggers not match... "<<fTrgStatus<<"\t"; PrintTime();
+  for(wrongID=0;wrongID<DmpDetector::gSubDetNo;++wrongID){
+    fTriggers[wrongID] = 0;
+  }
 }
 
 //-------------------------------------------------------------------
