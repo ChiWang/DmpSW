@@ -24,7 +24,7 @@ public:
   ~DmpEvtHeader();
 
   void  SetTime(const short&,const short&);
-  void  PrintTime()const;
+  void  PrintTime()const;       // only Rdc use it
   void  CountThisEvent()        {++fEventID;}
   long  GetEventID() const      {return fEventID;}
   void  SetParticlePdgCode(const int &i)    {fPdgCode = i;}
@@ -54,12 +54,12 @@ private:
      */
   DmpDetector::DmpERunMode fRunMode[DmpDetector::gSubDetNo];  // run modes of 4 subDet
 
-private:    // those variables will not save
+private:    // variables below will not save into root file
   short     fTime[8];       //! not save
   /*
    *    8 bytes from satellite
    *    fTime[0~5] = second
-   *    fTime[6~7] = m second
+   *    fTime[6~7] = millisecond
    *
    */
   short     fTriggers[DmpDetector::gSubDetNo];      //! trigger of 4 subDet and trigger of satellite

@@ -8,11 +8,7 @@
 #include "DmpServiceManager.h"
 #include "DmpVService.h"
 
-DmpServiceManager*  DmpServiceManager::GetInstance(){
-  static DmpServiceManager instance;
-  return &instance;
-}
-
+//-------------------------------------------------------------------
 DmpServiceManager::~DmpServiceManager(){
   for(std::map<std::string,DmpVService*>::iterator it=fServiceMap.begin();it != fServiceMap.end();++it){
     std::cout<<"delete service: "<<it->first<<std::endl;;
@@ -20,10 +16,7 @@ DmpServiceManager::~DmpServiceManager(){
   }
 }
 
-DmpVService* DmpServiceManager::GetService(const std::string &name){
-  return fServiceMap[name];
-}
-
+//-------------------------------------------------------------------
 void DmpServiceManager::AppendThisService(const std::string &name,DmpVService *aSvc){
   if(fServiceMap.find(name) != fServiceMap.end()){
     // exist
@@ -36,6 +29,7 @@ void DmpServiceManager::AppendThisService(const std::string &name,DmpVService *a
   }
 }
 
+//-------------------------------------------------------------------
 void DmpServiceManager::ListAllService(){
   for(std::map<std::string,DmpVService*>::iterator it=fServiceMap.begin();it!=fServiceMap.end();++it){
     std::cout<<"service : "<<it->first<<std::endl;

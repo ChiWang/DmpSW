@@ -12,10 +12,20 @@
 
 class DmpVService;
 class DmpServiceManager{
+/*
+ * DmpServiceManager
+ *
+ * manage all service of DAMPE software
+ *
+ *
+ */
 public:
-  static DmpServiceManager*  GetInstance();
+  static DmpServiceManager*  GetInstance(){
+    static DmpServiceManager instance;
+    return &instance;
+  }
   ~DmpServiceManager();
-  DmpVService*  GetService(const std::string&);
+  DmpVService*  GetService(const std::string &name) {return fServiceMap[name];}
   void AppendThisService(const std::string&, DmpVService*);
   void ListAllService();
 
