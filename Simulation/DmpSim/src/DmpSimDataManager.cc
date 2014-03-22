@@ -14,12 +14,6 @@
 #include "DmpEvtHeader.h"
 #include "DmpSimDataManager.h"
 
-
-DmpSimDataManager* DmpSimDataManager::GetInstance(){
-  static DmpSimDataManager instance;
-  return &instance;
-}
-
 //-------------------------------------------------------------------
 void DmpSimDataManager::Initialize(){
 // *
@@ -37,7 +31,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 
   fOutDataTree = new TTree("DAMPE_Raw","Simulation");
   fOutDataTree->Branch("PrimaryParticle","DmpEvtSimPrimaryParticle",&fPrimaryParticle,32000,2);
-  fOutDataTree->Branch("Event","DmpEventRaw",&fEvtRaw,32000,2);
+  fOutDataTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
 }
 
 //-------------------------------------------------------------------
@@ -50,6 +44,7 @@ DmpSimDataManager::DmpSimDataManager()
   fPgkID += "Sim_V1.0_";
 }
 
+//-------------------------------------------------------------------
 DmpSimDataManager::~DmpSimDataManager(){
   delete fPrimaryParticle;
   delete fEvtRaw;

@@ -21,7 +21,10 @@ class DmpSimDataManager : public DmpVDataManager{
  *  
  */
 public:
-  static DmpSimDataManager* GetInstance();
+  static DmpSimDataManager* GetInstance(){
+    static DmpSimDataManager instance;
+    return &instance;
+  }
   void Initialize();
   void BookBranch();            // invoked from BeginOfRunAction()
 
