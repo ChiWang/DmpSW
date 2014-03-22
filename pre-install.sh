@@ -1,15 +1,14 @@
 #! /bin/bash
-#=====================================================================
-#   File:   pre-install.sh
-#   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    26/12/2013
-#---------------------------------------------------------------------
-#   Description:
-#       1. check basic environment
-#       2. create all dictionaries
-#---------------------------------------------------------------------
-#   History:
-#                           Last update:  24/01/2014   13:35:43
-#=====================================================================
+:<<EOF
+ *  $Id: pre-install.sh, 2014-03-22 14:28:38 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 26/12/2013
+ *---------------------------------------------------
+ *  Description:
+ *      1. check basic environment
+ *      2. create all dictionaries
+ *---------------------------------------------------
+EOF
 
 
 #+ functions

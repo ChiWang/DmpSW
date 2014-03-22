@@ -4,7 +4,7 @@
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
  *-----------------------------------------------------
- *  This is an example how to run simulation of DAMPE
+ *      Example of how to run simulation of DAMPE
  *-----------------------------------------------------
 '''
 
@@ -35,7 +35,7 @@ simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kBgo,prefix+"/share/Geometry/Bgo/Qu
 DmpSim.Initialize()      # setup detector, user actions
 for i in range(2):
     note='run-%d'%i
-    simDataMgr.AppendDataNote(note)        # set tag for the next output data which will be created in the next Execute(). If NOT set is okay
+    simDataMgr.AppendDataNote(note)        # append note for the next output data which will be created in the next Execute(). If NOT set is okay
     DmpSim.Execute(prefix+"/share/TestRelease/Ex_electron.mac")
 #DmpSim.Execute(prefix+"/share/TestRelease/Ex_proton.mac")     # start a new run, without delete physics list, detector construction and all user actions.
 #DmpSim.Execute("visual")                # open visual mode, if you don't want to use batch mode as above(input a macro file name in Execute()).

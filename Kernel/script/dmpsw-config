@@ -1,15 +1,13 @@
 #! /bin/bash
-#=====================================================================
-#   File:   dmpsw-config
-#   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    30/07/2014
-#---------------------------------------------------------------------
-#   Description:
-#           *   must in /prefix/bin
-#---------------------------------------------------------------------
-#   History:
-#                           Last update:  24/01/2014   10:16:54
-#=====================================================================
-
+:<<EOF
+ *  $Id: dmpsw-config, 2014-03-22 14:31:13 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 30/07/2014
+ *---------------------------------------------------
+ *  Description:
+ *      must in $DMPSWSYS/bin
+ *---------------------------------------------------
+EOF
 
 prefix=$DMPSWSYS
 
@@ -76,7 +74,7 @@ while test $# -gt 0; do
       help
       ;;
    --version)
-      out="DMPSW verison VERSION"  # set this automatically while install
+      out="DMPSW verison VERSION"  # How to set this automatically while installation ??
       ;;
   esac
   shift

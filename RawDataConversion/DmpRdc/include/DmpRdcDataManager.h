@@ -19,13 +19,13 @@ class DmpRdcDataManager : public DmpVDataManager{
 */
 public:
   static DmpRdcDataManager* GetInstance();
+  ~DmpRdcDataManager();
   void Initialize();
   void BookBranch();
-  bool TriggerMatch(const short&);
+  bool TriggerMatch(const short&);  // set match level(with Bgo) 1: Psd; 2(or 3): Psd, Stk; 4: Psd, Stk, Nud
 
 private:
   DmpRdcDataManager();
-  ~DmpRdcDataManager();
 
 public:
   DmpEventRaw*  GetRawEvent() const     {return fEvtRaw;}

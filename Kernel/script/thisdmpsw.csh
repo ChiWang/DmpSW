@@ -3,9 +3,9 @@
 #+  $Id: thisdmpsw.csh, 2014-03-08 14:10:58 chi $
 #+  Author(s):
 #+    Chi WANG (chiwang@mail.ustc.edu.cn) 01/10/2013
-#-------------------------------------------------------------------------------
-#   source this file(any where is Okay) to setup envirenment of DAMPE software
-#-------------------------------------------------------------------------------
+#-----------------------------------------------------------------------
+#   source me(anywhere is Okay) to setup envirenment of DAMPE software
+#-----------------------------------------------------------------------
 #+
 
 #+  Set installation environment of DAMPE offline software 
