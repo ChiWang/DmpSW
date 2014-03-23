@@ -15,6 +15,8 @@ public:
   ~DmpRdcAlgNud();
   bool SetupConnector();
   bool Convert();           // convert one event
+  
+pritvate:
   void AppendThisSignal(const int&,const float&);
 
 };
