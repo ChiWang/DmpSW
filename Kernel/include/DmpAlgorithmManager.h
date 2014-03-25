@@ -11,6 +11,7 @@
 #include <map>
 
 class DmpVAlgorithm;
+
 class DmpAlgorithmManager{
 /*
  * DmpAlgorithmManager
@@ -29,7 +30,7 @@ public:
   ~DmpAlgorithmManager();
 
 private:
-  DmpAlgorithmManager(){}
+  DmpAlgorithmManager();
 
 private:
   std::map<std::string,DmpVAlgorithm*>  fAlgMap;

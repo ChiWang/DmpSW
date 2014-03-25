@@ -14,6 +14,13 @@ DmpAlgorithmManager::~DmpAlgorithmManager(){
     std::cout<<"delete algorithm: "<<it->first<<std::endl;;
     delete it->second;
   }
+  std::cout<<"Delete DmpAlgorithmManager"<<std::endl;
+}
+
+//-------------------------------------------------------------------
+DmpAlgorithmManager::DmpAlgorithmManager(){
+  std::cout<<"\tSetup DmpAlgorithmManager...    Done"<<std::endl;
+  std::cout<<"*********************************************************\n"<<std::endl;
 }
 
 //-------------------------------------------------------------------

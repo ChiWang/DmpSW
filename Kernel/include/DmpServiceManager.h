@@ -11,6 +11,7 @@
 #include <map>
 
 class DmpVService;
+
 class DmpServiceManager{
 /*
  * DmpServiceManager
@@ -30,7 +31,7 @@ public:
   void ListAllService();
 
 private:
-  DmpServiceManager(){}
+  DmpServiceManager();
 
 private:
   std::map<std::string,DmpVService*>        fServiceMap;
@@ -41,4 +42,5 @@ private:
 extern DmpServiceManager  *gServiceMgr;
 
 #endif
+
 

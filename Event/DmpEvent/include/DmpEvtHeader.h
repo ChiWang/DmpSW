@@ -62,7 +62,7 @@ private:    // variables below will not save into root file
    *    fTime[6~7] = millisecond
    *
    */
-  short     fTriggers[DmpDetector::gSubDetNo];      //! trigger of 4 subDet and trigger of satellite
+  short     fTriggers[DmpDetector::gSubDetNo+1];    //! trigger of 4 subDet and trigger of satellite
 
   ClassDef(DmpEvtHeader,1)
 };

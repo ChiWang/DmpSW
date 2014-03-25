@@ -14,6 +14,7 @@ DmpServiceManager::~DmpServiceManager(){
     std::cout<<"delete service: "<<it->first<<std::endl;;
     delete it->second;
   }
+  std::cout<<"Delete DmpServiceManager"<<std::endl;
 }
 
 //-------------------------------------------------------------------
@@ -40,6 +41,16 @@ void DmpServiceManager::ListAllService(){
   for(std::map<std::string,DmpVService*>::iterator it=fServiceMap.begin();it!=fServiceMap.end();++it){
     std::cout<<"service : "<<it->first<<std::endl;
   }
+}
+
+//-------------------------------------------------------------------
+DmpServiceManager::DmpServiceManager(){
+  std::cout<<"\n*********************************************************"<<std::endl;
+  std::cout<<"\t\t\tDAMPE software version 1.0"<<std::endl;
+  std::cout<<"*********************************************************"<<std::endl;
+  std::cout<<"Initalize core:"<<std::endl;
+  std::cout<<"\tSetup DmpServiceManager...    Done"<<std::endl;
+  ListAllService();
 }
 
 //-------------------------------------------------------------------

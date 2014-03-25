@@ -68,12 +68,10 @@ BOOST_PYTHON_MODULE(libDmpCore){
   ;
 
   // DmpServiceManager
-  class_<DmpServiceManager,DmpServiceManager*>("DmpServiceManager",no_init)
-    .def("ListAllService",  &DmpServiceManager::ListAllService)
-  ;
-  scope().attr("gServiceMgr")   = gServiceMgr;
+  class_<DmpServiceManager,DmpServiceManager*>("DmpServiceManager",no_init);
+  scope().attr("gServiceMgr")=gServiceMgr;
   // DmpAlgorithmManager
   class_<DmpAlgorithmManager,DmpAlgorithmManager*>("DmpAlgorithmManager",no_init);
-  scope().attr("gAlgorithmMgr") = gAlgorithmMgr;
+  scope().attr("gAlgorithmMgr")=gAlgorithmMgr;
 }
 

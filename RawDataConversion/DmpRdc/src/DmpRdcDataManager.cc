@@ -38,6 +38,7 @@ void DmpRdcDataManager::FillEvent(){
 DmpRdcDataManager::DmpRdcDataManager()
  :fEvtRaw(0)
 {
+  std::cout<<"\tSetup DmpRdcDataManager"<<std::endl;
   fEvtRaw = new DmpEventRaw();
   fPgkID += "Rdc_V1.0_";
 }
@@ -45,6 +46,7 @@ DmpRdcDataManager::DmpRdcDataManager()
 //-------------------------------------------------------------------
 DmpRdcDataManager::~DmpRdcDataManager(){
   delete fEvtRaw;
+  std::cout<<"Delete DmpRdcDataManager"<<std::endl;
 }
 
 

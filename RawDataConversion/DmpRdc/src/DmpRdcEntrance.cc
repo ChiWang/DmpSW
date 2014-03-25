@@ -25,9 +25,6 @@ DmpRdcDataManager *dataMgr = 0;
 
 //-------------------------------------------------------------------
 void DmpCore::RdcInitialize(){
-  std::cout<<"\n*********************************************************"<<std::endl;
-  std::cout<<"*  DAMPE software: Setup kernel of Raw Data Conversion  *"<<std::endl;
-  std::cout<<"*********************************************************"<<std::endl;
   headerAlg = new DmpRdcAlgHeader();
   psdAlg = new DmpRdcAlgPsd();
   stkAlg = new DmpRdcAlgStk();
@@ -38,7 +35,6 @@ void DmpCore::RdcInitialize(){
   bgoAlg->SetupConnector();
   nudAlg->SetupConnector();
   dataMgr = DmpRdcDataManager::GetInstance();
-  std::cout<<"\n*********************************************************\n"<<std::endl;
 }
 
 //-------------------------------------------------------------------
@@ -48,9 +44,6 @@ void DmpCore::RdcClear(){
   delete stkAlg;
   delete bgoAlg;
   delete nudAlg;
-  std::cout<<"\n***************************************************"<<std::endl;
-  std::cout<<"*             Delete Raw Data Conversion          *"<<std::endl;
-  std::cout<<"***************************************************"<<std::endl;
 }
 
 //-------------------------------------------------------------------
