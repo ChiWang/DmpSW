@@ -1,11 +1,10 @@
-
 DMPSW
 =====
 > *
 > *  TODO: update readme.   (marked by TODO)
 > *
 
-DAMPE Offline Software
+DAMPE Offline Software for **Beam Test 2012**
 [TODO](https://github.com/ChiWang/DmpSW/wiki)
 
 ##  Requirement
