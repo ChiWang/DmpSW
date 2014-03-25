@@ -24,5 +24,53 @@ DmpAlgorithmManager::DmpAlgorithmManager(){
 }
 
 //-------------------------------------------------------------------
-DmpAlgorithmManager *gAlgorithmMgr = DmpAlgorithmManager::GetInstance();
+void DmpAlgorithmManager::AppendAlgorithm(DmpVAlgorithm *aAlg){
+  std::string name = aAlg->GetName();
+  if(fAlgMap.find(name) != fAlgMap.end()){  // exist
+    DmpVAlgorithm *tmp = fAlgMap[name];
+    delete tmp;
+    fAlgMap[name] = aAlg;
+  }else{    // no exist
+    fAlgMap.insert(std::pair<std::string,DmpVAlgorithm*>(name,aAlg));
+  }
+}
+
+//-------------------------------------------------------------------
+bool DmpAlgorithmManager::Initialize(){
+// *
+// *  TODO: order not right?!!?
+//          AppendAlgorithm() is Header, Nud, Psd, Stk, Bgo
+// *
+  for(std::map<std::string,DmpVAlgorithm*>::iterator it=fAlgMap.begin();it != fAlgMap.end();++it){
+    it->second->Initialize();
+  }
+}
+
+//-------------------------------------------------------------------
+bool DmpAlgorithmManager::Process(){
+  for(std::map<std::string,DmpVAlgorithm*>::iterator it=fAlgMap.begin();it != fAlgMap.end();++it){
+    if(not it->second->ProcessThisEvent())  return false;
+  }
+}
+
+//-------------------------------------------------------------------
+bool DmpAlgorithmManager::Finialize(){
+// *
+// *  TODO: finialize() right??
+// *
+  for(std::map<std::string,DmpVAlgorithm*>::iterator it=fAlgMap.begin();it != fAlgMap.end();++it){
+    it->second->Finialize();
+  }
+}
+
+//-------------------------------------------------------------------
+void DmpAlgorithmManager::ListAllAlgorithm(){
+  std::cout<<"There are "<<fAlgMap.size()<<" algorithm(s):"<<std::endl;
+  for(std::map<std::string,DmpVAlgorithm*>::iterator it=fAlgMap.begin();it!=fAlgMap.end();++it){
+    std::cout<<"name : "<<it->first<<std::endl;
+  }
+}
+
+//-------------------------------------------------------------------
+DmpAlgorithmManager *gAlgMgr = DmpAlgorithmManager::GetInstance();
 

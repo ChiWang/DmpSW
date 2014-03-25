@@ -29,8 +29,10 @@ public:
   virtual bool ProcessThisEvent()=0;
   virtual bool Finialize()=0;
 
-protected:
+public:
   std::string   GetName() const   {return fName;}
+
+protected:
   DmpVService*  Service(const std::string &name) const;
 
 private:

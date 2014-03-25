@@ -28,6 +28,11 @@ public:
     return &instance;
   }
   ~DmpAlgorithmManager();
+  void AppendAlgorithm(DmpVAlgorithm*);
+  bool Initialize();
+  bool Process();       // Process one event
+  bool Finialize();
+  void ListAllAlgorithm();
 
 private:
   DmpAlgorithmManager();
@@ -38,7 +43,7 @@ private:
 };
 
 //-------------------------------------------------------------------
-extern DmpAlgorithmManager  *gAlgorithmMgr;
+extern DmpAlgorithmManager  *gAlgMgr;
 
 #endif
 

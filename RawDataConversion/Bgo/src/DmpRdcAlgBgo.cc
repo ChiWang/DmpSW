@@ -36,7 +36,7 @@ bool DmpRdcAlgBgo::Initialize(){
     return true;
   }else{
     fRunMe = true;
-    std::cout<<"Setting connector:\tBgo";
+    std::cout<<"\nSetting connector:\tBgo";
   }
   static short feeID=0, channelID=0, layerID=0, barID=0, sideID=0, dyID=0;
   boost::filesystem::directory_iterator end_iter;

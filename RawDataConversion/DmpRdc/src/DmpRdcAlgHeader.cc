@@ -10,6 +10,7 @@
 
 #include "DmpRdcAlgHeader.h"
 #include "DmpRdcDataManager.h"
+#include "DmpEventRaw.h"
 #include "DmpEvtHeader.h"
 
 DmpRdcAlgHeader::DmpRdcAlgHeader(const std::string &name)
@@ -47,6 +48,7 @@ bool DmpRdcAlgHeader::ProcessThisEvent(){
     sFile->read((char*)(&tmp),1);
     sHeader->SetTime(index,tmp);
   }
+  DmpRdcDataManager::GetInstance()->GetRawEvent()->Reset();
   StatusLog(1);
   return true;
 }

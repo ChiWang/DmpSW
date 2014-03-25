@@ -10,7 +10,7 @@
 
 //-------------------------------------------------------------------
 DmpServiceManager::~DmpServiceManager(){
-  for(std::map<std::string,DmpVService*>::iterator it=fServiceMap.begin();it != fServiceMap.end();++it){
+  for(std::map<std::string,DmpVService*>::iterator it=fSvcMap.begin();it != fSvcMap.end();++it){
     std::cout<<"delete service: "<<it->first<<std::endl;;
     delete it->second;
   }
@@ -22,24 +22,26 @@ DmpVService* DmpServiceManager::GetService(const std::string &name, bool create)
 // *
 // *  TODO: ???  protect me ?
 // *
-  return fServiceMap[name];
+  return fSvcMap[name];
 }
 
 //-------------------------------------------------------------------
-void DmpServiceManager::AppendThisService(const std::string &name,DmpVService *aSvc){
-  if(fServiceMap.find(name) != fServiceMap.end()){  // exist
-    DmpVService *tmp = fServiceMap[name];
+void DmpServiceManager::AppendService(DmpVService *aSvc){
+  std::string name = aSvc->GetName();
+  if(fSvcMap.find(name) != fSvcMap.end()){  // exist
+    DmpVService *tmp = fSvcMap[name];
     delete tmp;
-    fServiceMap[name] = aSvc;
+    fSvcMap[name] = aSvc;
   }else{    // no exist
-    fServiceMap.insert(std::pair<std::string,DmpVService*>(name,aSvc));
+    fSvcMap.insert(std::pair<std::string,DmpVService*>(name,aSvc));
   }
 }
 
 //-------------------------------------------------------------------
 void DmpServiceManager::ListAllService(){
-  for(std::map<std::string,DmpVService*>::iterator it=fServiceMap.begin();it!=fServiceMap.end();++it){
-    std::cout<<"service : "<<it->first<<std::endl;
+  std::cout<<"There are "<<fSvcMap.size()<<" service(s):"<<std::endl;
+  for(std::map<std::string,DmpVService*>::iterator it=fSvcMap.begin();it!=fSvcMap.end();++it){
+    std::cout<<"name : "<<it->first<<std::endl;
   }
 }
 
@@ -54,4 +56,4 @@ DmpServiceManager::DmpServiceManager(){
 }
 
 //-------------------------------------------------------------------
-DmpServiceManager *gServiceMgr = DmpServiceManager::GetInstance();
+DmpServiceManager *gSvcMgr = DmpServiceManager::GetInstance();
