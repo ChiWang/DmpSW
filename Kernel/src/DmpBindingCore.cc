@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpBindingCore.cc, 2014-03-25 12:31:22 chi $
+ *  $Id: DmpBindingCore.cc, 2014-03-25 13:42:56 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
@@ -10,6 +10,7 @@
 #include "DmpDetectorID.h"
 #include "DmpVDataManager.h"
 #include "DmpServiceManager.h"
+#include "DmpAlgorithmManager.h"
 
 //-------------------------------------------------------------------
 // wrapper for DmpVOutDataManger
@@ -67,10 +68,12 @@ BOOST_PYTHON_MODULE(libDmpCore){
   ;
 
   // DmpServiceManager
-  class_<DmpServiceManager,boost::noncopyable>("DmpServiceManager",no_init)
-    .def("GetInstance",&DmpServiceManager::GetInstance,return_value_policy<reference_existing_object>())
-    .staticmethod("GetInstance")
-    .def("ListAllService",&DmpServiceManager::ListAllService)
+  class_<DmpServiceManager,DmpServiceManager*>("DmpServiceManager",no_init)
+    .def("ListAllService",  &DmpServiceManager::ListAllService)
   ;
+  scope().attr("gServiceMgr")   = gServiceMgr;
+  // DmpAlgorithmManager
+  class_<DmpAlgorithmManager,DmpAlgorithmManager*>("DmpAlgorithmManager",no_init);
+  scope().attr("gAlgorithmMgr") = gAlgorithmMgr;
 }
 

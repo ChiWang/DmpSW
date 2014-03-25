@@ -10,7 +10,7 @@
 
 #include <string>
 
-//class DmpVService;
+class DmpVService;
 class DmpVAlgorithm{
 /*
  * DmpVAlgorithm
@@ -24,7 +24,8 @@ class DmpVAlgorithm{
 public:
   DmpVAlgorithm(const std::string &n):fName(n){}
   virtual ~DmpVAlgorithm(){}
-  std::string GetName() const   {return fName;}
+  std::string   GetName() const   {return fName;}
+  DmpVService*  Service(const std::string &name) const;
 
 private:
   std::string   fName;

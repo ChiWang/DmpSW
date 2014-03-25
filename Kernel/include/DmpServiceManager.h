@@ -20,12 +20,12 @@ class DmpServiceManager{
  *
  */
 public:
-  static DmpServiceManager*  GetInstance(){
+  static DmpServiceManager* GetInstance(){
     static DmpServiceManager instance;
     return &instance;
   }
   ~DmpServiceManager();
-  DmpVService*  GetService(const std::string &name) {return fServiceMap[name];}
+  DmpVService*  GetService(const std::string &name, bool create=false);
   void AppendThisService(const std::string&, DmpVService*);
   void ListAllService();
 
@@ -36,6 +36,9 @@ private:
   std::map<std::string,DmpVService*>        fServiceMap;
 
 };
+
+//-------------------------------------------------------------------
+extern DmpServiceManager  *gServiceMgr;
 
 #endif
 

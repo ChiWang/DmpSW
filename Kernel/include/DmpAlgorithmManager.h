@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpAlgorithmManager.h, 2014-03-22 23:03:28 chi $
+ *  $Id: DmpAlgorithmManager.h, 2014-03-25 13:39:33 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/03/2014
 */
@@ -19,14 +19,14 @@ class DmpAlgorithmManager{
  *
  */
 public:
+// *
+// *  TODO: how to manager and choose the right one?
+// *
   static DmpAlgorithmManager* GetInstance(){
     static DmpAlgorithmManager instance;
     return &instance;
   }
-// *
-// *  TODO: how to manager and choose the right one?
-// *
-  ~DmpAlgorithmManager(){;}
+  ~DmpAlgorithmManager();
 
 private:
   DmpAlgorithmManager(){}
@@ -34,8 +34,10 @@ private:
 private:
   std::map<std::string,DmpVAlgorithm*>  fAlgMap;
 
-
 };
+
+//-------------------------------------------------------------------
+extern DmpAlgorithmManager  *gAlgorithmMgr;
 
 #endif
 

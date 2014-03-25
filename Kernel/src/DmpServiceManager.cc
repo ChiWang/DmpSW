@@ -17,14 +17,20 @@ DmpServiceManager::~DmpServiceManager(){
 }
 
 //-------------------------------------------------------------------
+DmpVService* DmpServiceManager::GetService(const std::string &name, bool create){
+// *
+// *  TODO: ???  protect me ?
+// *
+  return fServiceMap[name];
+}
+
+//-------------------------------------------------------------------
 void DmpServiceManager::AppendThisService(const std::string &name,DmpVService *aSvc){
-  if(fServiceMap.find(name) != fServiceMap.end()){
-    // exist
+  if(fServiceMap.find(name) != fServiceMap.end()){  // exist
     DmpVService *tmp = fServiceMap[name];
     delete tmp;
     fServiceMap[name] = aSvc;
-  }else{
-    // no exist
+  }else{    // no exist
     fServiceMap.insert(std::pair<std::string,DmpVService*>(name,aSvc));
   }
 }
@@ -36,3 +42,5 @@ void DmpServiceManager::ListAllService(){
   }
 }
 
+//-------------------------------------------------------------------
+DmpServiceManager *gServiceMgr = DmpServiceManager::GetInstance();
