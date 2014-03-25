@@ -12,7 +12,8 @@
 #include "DmpRdcDataManager.h"
 #include "DmpEvtHeader.h"
 
-DmpRdcAlgHeader::DmpRdcAlgHeader()
+DmpRdcAlgHeader::DmpRdcAlgHeader(const std::string &name)
+ :DmpRdcVAlg(name)
 {
 }
 
@@ -21,7 +22,7 @@ DmpRdcAlgHeader::~DmpRdcAlgHeader(){
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgHeader::Convert(){
+bool DmpRdcAlgHeader::ProcessThisEvent(){
   StatusLog(0);
 // *
 // *  TODO: check conversion Header

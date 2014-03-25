@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcVAlg.h, 2014-03-20 23:59:47 chi $
+ *  $Id: DmpRdcVAlg.h, 2014-03-25 19:00:45 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 20/03/2014
 */
@@ -8,14 +8,14 @@
 #define DmpRdcVAlg_H
 
 #include <fstream>
+#include "DmpVAlgorithm.h"
 
 class DmpEvtHeader;
 
-class DmpRdcVAlg{
+class DmpRdcVAlg : public DmpVAlgorithm{
 public:
-  DmpRdcVAlg();
+  DmpRdcVAlg(const std::string&);
   virtual ~DmpRdcVAlg();
-  virtual bool Convert()=0;         // convert one event
   static void  SetFileStream(std::ifstream *p)   {sFile = p;}
 
 protected:

@@ -25,16 +25,17 @@ DmpRdcDataManager *dataMgr = 0;
 
 //-------------------------------------------------------------------
 void DmpCore::RdcInitialize(){
-  headerAlg = new DmpRdcAlgHeader();
-  psdAlg = new DmpRdcAlgPsd();
-  stkAlg = new DmpRdcAlgStk();
-  bgoAlg = new DmpRdcAlgBgo();
-  nudAlg = new DmpRdcAlgNud();
-  psdAlg->SetupConnector();
-  stkAlg->SetupConnector();
-  bgoAlg->SetupConnector();
-  nudAlg->SetupConnector();
+  headerAlg = new DmpRdcAlgHeader("RdcAglHeader");
+  psdAlg = new DmpRdcAlgPsd("RdcAlgPsd");
+  stkAlg = new DmpRdcAlgStk("RdcAlgStk");
+  bgoAlg = new DmpRdcAlgBgo("RdcAlgBgo");
+  nudAlg = new DmpRdcAlgNud("RdcAlgNud");
+  psdAlg->Initialize();
+  stkAlg->Initialize();
+  bgoAlg->Initialize();
+  nudAlg->Initialize();
   dataMgr = DmpRdcDataManager::GetInstance();
+  std::cout<<"\nRdc initialized"<<std::endl;
 }
 
 //-------------------------------------------------------------------
@@ -63,12 +64,12 @@ void DmpCore::RdcExecute(const std::string &dataName,const short &level){
   dataMgr->Initialize();
   dataMgr->BookBranch();
   for(long i=0;!inputData.eof();++i){
-    if(not headerAlg->Convert())    continue;
+    if(not headerAlg->ProcessThisEvent())    continue;
     dataMgr->GetRawEvent()->Reset();
-    if(not nudAlg->Convert())   continue;       // in hex data, nud first
-    if(not psdAlg->Convert())   continue;
-    if(not bgoAlg->Convert())   continue;
-    if(not stkAlg->Convert())   continue;
+    if(not nudAlg->ProcessThisEvent())   continue;       // in hex data, nud first
+    if(not psdAlg->ProcessThisEvent())   continue;
+    if(not bgoAlg->ProcessThisEvent())   continue;
+    if(not stkAlg->ProcessThisEvent())   continue;
     dataMgr->FillEvent();
   }
   dataMgr->SaveOutput();

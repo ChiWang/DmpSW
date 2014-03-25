@@ -18,8 +18,8 @@ DmpEvtBgoHit::DmpEvtBgoHit()
   fPMT1(0)
 {
   for (int i=0;i<3;++i) fPosition[i]=0;
-  fPMT0 = new DmpBgoPMT();
-  fPMT1 = new DmpBgoPMT();
+  fPMT0 = new DmpPMTBgo();
+  fPMT1 = new DmpPMTBgo();
 }
 
 //------------------------------------------------------------------------------

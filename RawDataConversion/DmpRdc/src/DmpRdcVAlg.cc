@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcVAlg.cc, 2014-03-21 00:01:42 chi $
+ *  $Id: DmpRdcVAlg.cc, 2014-03-25 19:30:29 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
@@ -14,7 +14,10 @@
 std::ifstream*  DmpRdcVAlg::sFile = 0;
 DmpEvtHeader*   DmpRdcVAlg::sHeader = 0;
 
-DmpRdcVAlg::DmpRdcVAlg(){
+//-------------------------------------------------------------------
+DmpRdcVAlg::DmpRdcVAlg(const std::string &name)
+ :DmpVAlgorithm(name)
+{
   sHeader = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetEventHeader();
 }
 
@@ -64,6 +67,5 @@ void DmpRdcVAlg::PrintLocation()const{
   std::cout<<"\t";
   sHeader->PrintTime();
 }
-
 
 

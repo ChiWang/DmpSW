@@ -15,7 +15,9 @@
 #include "DmpEvtHeader.h"
 #include "DmpRdcConnectorInterface.h"
 
-DmpRdcAlgStk::DmpRdcAlgStk(){
+DmpRdcAlgStk::DmpRdcAlgStk(const std::string &name)
+ :DmpRdcVAlgSubDet(name)
+{
   fHitCollection = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kStk);
 }
 
@@ -24,7 +26,7 @@ DmpRdcAlgStk::~DmpRdcAlgStk(){
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgStk::SetupConnector(){
+bool DmpRdcAlgStk::Initialize(){
   std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kStk);
   if(path == "default"){
     std::cout<<"\nNo set connector:\tStk"<<std::endl;
@@ -70,7 +72,7 @@ bool DmpRdcAlgStk::SetupConnector(){
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgStk::Convert(){
+bool DmpRdcAlgStk::ProcessThisEvent(){
   if(not fRunMe) return true;
   std::cout<<"\t"<<__PRETTY_FUNCTION__;
   StatusLog(0);

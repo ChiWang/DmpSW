@@ -16,7 +16,9 @@
 #include "DmpEvtHeader.h"
 #include "DmpRdcConnectorInterface.h"
 
-DmpRdcAlgPsd::DmpRdcAlgPsd(){
+DmpRdcAlgPsd::DmpRdcAlgPsd(const std::string &name)
+ :DmpRdcVAlgSubDet(name)
+{
   fHitCollection = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kPsd);
 }
 
@@ -25,7 +27,7 @@ DmpRdcAlgPsd::~DmpRdcAlgPsd(){
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgPsd::SetupConnector(){
+bool DmpRdcAlgPsd::Initialize(){
   std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kPsd);
   if(path == "default"){
     std::cout<<"\nNo set connector:\tPsd"<<std::endl;
@@ -71,7 +73,7 @@ bool DmpRdcAlgPsd::SetupConnector(){
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgPsd::Convert(){
+bool DmpRdcAlgPsd::ProcessThisEvent(){
   if(not fRunMe) return true;
   std::cout<<"\t"<<__PRETTY_FUNCTION__;
   StatusLog(0);

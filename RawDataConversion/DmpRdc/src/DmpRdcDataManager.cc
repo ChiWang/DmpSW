@@ -38,7 +38,7 @@ void DmpRdcDataManager::FillEvent(){
 DmpRdcDataManager::DmpRdcDataManager()
  :fEvtRaw(0)
 {
-  std::cout<<"\tSetup DmpRdcDataManager"<<std::endl;
+  std::cout<<"Setting DmpRdcDataManager"<<std::endl;
   fEvtRaw = new DmpEventRaw();
   fPgkID += "Rdc_V1.0_";
 }

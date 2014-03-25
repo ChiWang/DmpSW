@@ -11,8 +11,9 @@
 #include "DmpEventRaw.h"
 
 
-DmpRdcVAlgSubDet::DmpRdcVAlgSubDet()
- :fRunMe(false),
+DmpRdcVAlgSubDet::DmpRdcVAlgSubDet(const std::string &name)
+ :DmpRdcVAlg(name),
+  fRunMe(false),
   fHitCollection(0)
 {
 }
@@ -22,35 +23,15 @@ DmpRdcVAlgSubDet::~DmpRdcVAlgSubDet(){
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcVAlgSubDet::SetupConnector(){
-  /*
-   *  Set connector fConnector
-   *
-   *    1. should include "DmpRdcConnectorInterface.h"
-   *    2. if (connector path == "default") return true, else: set fRunMe = true, then setup connector
-   *
-   */
-  return true;
-}
-
-//-------------------------------------------------------------------
-bool DmpRdcVAlgSubDet::Convert(){
+bool DmpRdcVAlgSubDet::ProcessThisEvent(){
   if(not fRunMe) return true;
-#ifdef DmpDebug
-static bool noFrom=true;
-if(noFrom){
-  std::cout<<"\t"<<__PRETTY_FUNCTION__<<"\tfrom "<<sFile->tellg();
-  noFrom = false;
-}
-#endif
+  std::cout<<"\t"<<__PRETTY_FUNCTION__;
+  StatusLog(0);
 //-------------------------------------------------------------------
-// set Convertion method here
+// set ProcessThisEvention method here
 
 //-------------------------------------------------------------------
-#ifdef DmpDebug
-std::cout<<" to "<<sFile->tellg()<<std::endl;
-noFrom = true;
-#endif
+  StatusLog(1);
   return true;
 }
 

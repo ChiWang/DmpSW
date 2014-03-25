@@ -14,10 +14,18 @@ class TClonesArray;
 
 class DmpRdcVAlgSubDet : public DmpRdcVAlg{
 public:
-  DmpRdcVAlgSubDet();
+  DmpRdcVAlgSubDet(const std::string&);
   virtual ~DmpRdcVAlgSubDet();
-  virtual bool SetupConnector();
-  virtual bool Convert();           // convert one event
+  virtual bool Initialize() {return true;}  // setup connector fConnector
+  /*
+   *  Setup connector fConnector
+   *
+   *    1. should include "DmpRdcConnectorInterface.h"
+   *    2. if (connector path == "default") return true, else: set fRunMe = true, then setup connector
+   *
+   */
+  virtual bool Finialize(){}
+  virtual bool ProcessThisEvent();  // convert one event
 
 protected:
   virtual void AppendThisSignal(const int&,const float&)=0;

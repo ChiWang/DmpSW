@@ -46,7 +46,7 @@ void DmpServiceManager::ListAllService(){
 //-------------------------------------------------------------------
 DmpServiceManager::DmpServiceManager(){
   std::cout<<"\n*********************************************************"<<std::endl;
-  std::cout<<"\t\t\tDAMPE software version 1.0"<<std::endl;
+  std::cout<<"\t\tDAMPE software version 1.0"<<std::endl;
   std::cout<<"*********************************************************"<<std::endl;
   std::cout<<"Initalize core:"<<std::endl;
   std::cout<<"\tSetup DmpServiceManager...    Done"<<std::endl;

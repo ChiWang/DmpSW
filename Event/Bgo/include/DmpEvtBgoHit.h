@@ -10,16 +10,16 @@
 #include "TObject.h"
 
 //-------------------------------------------------------------------
-struct DmpBgoPMT :public TObject{
+struct DmpPMTBgo :public TObject{
   short     fAdcDy2;    // Adc value of dynode 2
   short     fAdcDy5;    // Adc value of dynode 5
   short     fAdcDy8;    // Adc value of dynode 8
   short     fUsedDy;    // used which dynode
   double    fEnergy;    // unit MeV
-  DmpBgoPMT()
+  DmpPMTBgo()
   :fAdcDy2(0),fAdcDy5(0),fAdcDy8(0),
    fUsedDy(0),fEnergy(0){}
-  ClassDef(DmpBgoPMT,1)
+  ClassDef(DmpPMTBgo,1)
 };
 
 //-------------------------------------------------------------------
@@ -30,7 +30,7 @@ class DmpEvtBgoHit : public TObject{
  *  One DmpEvtBgoHit is a response of one Bgo Bar.
  *  The class DmpEvtRaw is a collection of DmpEvtBgoHits and other sub-dets' hit collection
  *
- *  Both of Simulation and Analysis will use this class, but, DmpBgoPMT will not be used while Simulation
+ *  Both of Simulation and Analysis will use this class, but, DmpPMTBgo will not be used while Simulation
  *
 */
 
@@ -55,8 +55,8 @@ private:
   double    fEnergy;        // unit MeV
   short     fUsedSide;      // used which side for fEnergy
   double    fPosition[3];   // unit cm
-  DmpBgoPMT *fPMT0;         // side 0
-  DmpBgoPMT *fPMT1;         // side 1
+  DmpPMTBgo *fPMT0;         // side 0
+  DmpPMTBgo *fPMT1;         // side 1
 
   ClassDef(DmpEvtBgoHit,1)
 

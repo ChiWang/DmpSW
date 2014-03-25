@@ -16,7 +16,9 @@
 #include "DmpEvtHeader.h"
 #include "DmpRdcConnectorInterface.h"
 
-DmpRdcAlgBgo::DmpRdcAlgBgo(){
+DmpRdcAlgBgo::DmpRdcAlgBgo(const std::string &name)
+ :DmpRdcVAlgSubDet(name)
+{
   fHitCollection = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kBgo);
 }
 
@@ -27,7 +29,7 @@ DmpRdcAlgBgo::~DmpRdcAlgBgo(){
 //-------------------------------------------------------------------
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
-bool DmpRdcAlgBgo::SetupConnector(){
+bool DmpRdcAlgBgo::Initialize(){
   std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kBgo);
   if(path == "default"){
     std::cout<<"No set connector:\tBgo"<<std::endl;
@@ -57,7 +59,7 @@ bool DmpRdcAlgBgo::SetupConnector(){
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgBgo::Convert(){
+bool DmpRdcAlgBgo::ProcessThisEvent(){
   if(not fRunMe) return true;
   std::cout<<"\t"<<__PRETTY_FUNCTION__;
   StatusLog(0);

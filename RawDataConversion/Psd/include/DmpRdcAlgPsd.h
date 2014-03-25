@@ -11,10 +11,10 @@
 
 class DmpRdcAlgPsd : public DmpRdcVAlgSubDet{
 public:
-  DmpRdcAlgPsd();
+  DmpRdcAlgPsd(const std::string&);
   ~DmpRdcAlgPsd();
-  bool SetupConnector();
-  bool Convert();           // convert one event
+  bool Initialize();
+  bool ProcessThisEvent();           // convert one event
 
 private:
   void AppendThisSignal(const int&,const float&);

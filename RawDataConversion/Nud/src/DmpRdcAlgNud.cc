@@ -16,7 +16,9 @@
 #include "DmpEvtHeader.h"
 #include "DmpRdcConnectorInterface.h"
 
-DmpRdcAlgNud::DmpRdcAlgNud(){
+DmpRdcAlgNud::DmpRdcAlgNud(const std::string &name)
+ :DmpRdcVAlgSubDet(name)
+{
   fHitCollection = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kNud);
 }
 
@@ -25,7 +27,7 @@ DmpRdcAlgNud::~DmpRdcAlgNud(){
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgNud::SetupConnector(){
+bool DmpRdcAlgNud::Initialize(){
 // *
 // *  TODO:  check connector right?
 // *
@@ -72,7 +74,7 @@ bool DmpRdcAlgNud::SetupConnector(){
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgNud::Convert(){
+bool DmpRdcAlgNud::ProcessThisEvent(){
   if(not fRunMe) return true;
   std::cout<<"\t"<<__PRETTY_FUNCTION__;
   StatusLog(0);

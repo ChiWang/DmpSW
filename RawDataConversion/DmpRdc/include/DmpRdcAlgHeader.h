@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgHeader.h, 2014-03-20 23:41:06 chi $
+ *  $Id: DmpRdcAlgHeader.h, 2014-03-25 19:02:48 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 19/03/2014
 */
@@ -11,9 +11,14 @@
 
 class DmpRdcAlgHeader : public DmpRdcVAlg{
 public:
-  DmpRdcAlgHeader();
+  DmpRdcAlgHeader(const std::string&);
   ~DmpRdcAlgHeader();
-  bool  Convert();
+// *
+// *  TODO: how to get sFile and sHeader in Initialize() if delete DmpRdcVAlg (using DmpServiceManager instead)
+// *
+  bool  Initialize(){}
+  bool  Finialize(){}
+  bool  ProcessThisEvent();
 
 };
 
