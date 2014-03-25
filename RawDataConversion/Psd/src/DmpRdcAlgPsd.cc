@@ -80,7 +80,7 @@ bool DmpRdcAlgPsd::Convert(){
 // *
 //-------------------------------------------------------------------
   static short tmp=0, tmp2 = 0, nBytes = 0;
-  for (short FEEID=0;FEEID<DmpDetector::Psd::Quarter::kFEENo;++FEEID) {
+  for (short FEEID=0;FEEID<DmpDetector::Psd::kFEENo;++FEEID) {
     sFile->read((char*)(&tmp),1);
     if (tmp!=0xeb) {
       StatusLog(-1);

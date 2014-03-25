@@ -43,7 +43,7 @@ bool DmpRdcAlgBgo::SetupConnector(){
     ifstream cnctFile(iter->path().string().c_str());
     if (!cnctFile.good())   return false;
     cnctFile>>feeID;
-    for(short s=0;s<DmpDetector::Bgo::Quarter::kFEEChannelNo;++s){
+    for(short s=0;s<DmpDetector::Bgo::kFEEChannelNo;++s){
       cnctFile>>channelID;
       cnctFile>>layerID;
       cnctFile>>barID;
@@ -66,7 +66,7 @@ bool DmpRdcAlgBgo::Convert(){
 // *
 //-------------------------------------------------------------------
   static short tmp=0, tmp2=0, nBytes=0;
-  for (short counts=0;counts<DmpDetector::Bgo::Quarter::kFEENo;++counts) {
+  for (short counts=0;counts<DmpDetector::Bgo::kFEENo;++counts) {
     sFile->read((char*)(&tmp),1);
     if (tmp!=0xeb) {
       StatusLog(-1);

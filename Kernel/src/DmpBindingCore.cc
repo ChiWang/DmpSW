@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpBindingCore.cc, 2014-03-12 11:20:13 chi $
+ *  $Id: DmpBindingCore.cc, 2014-03-25 12:31:22 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
@@ -8,7 +8,6 @@
 
 #include "DmpRunMode.h"
 #include "DmpDetectorID.h"
-#include "DmpBindingCore.h"
 #include "DmpVDataManager.h"
 #include "DmpServiceManager.h"
 
@@ -58,12 +57,6 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .value("kNud",  DmpDetector::kNud)
     .value("kWhole",DmpDetector::kWhole)
   ;
-
-  // DmpBindingCore
-  DmpBindingEntrance::Core::Psd();
-  DmpBindingEntrance::Core::Stk();
-  DmpBindingEntrance::Core::Bgo();
-  DmpBindingEntrance::Core::Nud();
 
   // DmpVDataManager, only derived classes will use them
   class_<DmpVDataManager,boost::noncopyable>("DmpVDataManager",no_init)

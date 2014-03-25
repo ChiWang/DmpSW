@@ -8,18 +8,18 @@
 #define DmpDetectorNud_H
 
 /*  >>> Example Bgo <<<
- *  add any phase for yourself detector one day later
+ *  set only one phase.
  *
- *  and set the unstable variables into your phase.
+ *  If you want to use anything in run time job option files,
+ *  bind them in the DmpDetectorSubDetID.cc file
  *
  */
 namespace DmpDetector{
   namespace Nud{            //Sub-detector  Nud parameters                             
-    const short kPlaneNo = 6;
-    const short kBarNo   = 11;
-    const short kRefBarNo= 2;
+    const short kPlaneNo = 1;
+    const short kBlockNo = 4;
     const short kSideNo  = 1;
-    const short kDyNo    = 3;
+    const short kDyNo    = 1;
     const short kFEEType = 2;
   }
 }
