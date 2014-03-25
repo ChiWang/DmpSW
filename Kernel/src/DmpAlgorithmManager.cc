@@ -51,6 +51,7 @@ bool DmpAlgorithmManager::Process(){
   for(std::map<std::string,DmpVAlgorithm*>::iterator it=fAlgMap.begin();it != fAlgMap.end();++it){
     if(not it->second->ProcessThisEvent())  return false;
   }
+  return true;
 }
 
 //-------------------------------------------------------------------
