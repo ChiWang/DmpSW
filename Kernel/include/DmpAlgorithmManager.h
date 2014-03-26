@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpAlgorithmManager.h, 2014-03-25 13:39:33 chi $
+ *  $Id: DmpAlgorithmManager.h, 2014-03-26 10:45:26 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/03/2014
 */
@@ -7,12 +7,11 @@
 #ifndef DmpAlgorithmManager_H
 #define DmpAlgorithmManager_H
 
-#include <string>
-#include <map>
+#include "DmpVElementManager.h"
 
 class DmpVAlgorithm;
 
-class DmpAlgorithmManager{
+class DmpAlgorithmManager : public DmpVElementManager<DmpVAlgorithm>{
 /*
  * DmpAlgorithmManager
  *
@@ -28,17 +27,15 @@ public:
     return &instance;
   }
   ~DmpAlgorithmManager();
+// *
+// *  TODO:  delete Append... ListAll... at here
+// *
   void AppendAlgorithm(DmpVAlgorithm*);
-  bool Initialize();
   bool Process();       // Process one event
-  bool Finialize();
   void ListAllAlgorithm();
 
 private:
   DmpAlgorithmManager();
-
-private:
-  std::map<std::string,DmpVAlgorithm*>  fAlgMap;
 
 };
 

@@ -8,7 +8,7 @@
 #define DmpServiceManager_H
 
 #include <string>
-#include <map>
+#include <list>
 
 class DmpVService;
 
@@ -28,13 +28,14 @@ public:
   ~DmpServiceManager();
   DmpVService*  GetService(const std::string &name, bool create=false);
   void AppendService(DmpVService*);
+  void ReplaceService(DmpVService*);
   void ListAllService();
 
 private:
   DmpServiceManager();
 
 private:
-  std::map<std::string,DmpVService*>        fSvcMap;
+  std::list<DmpVService*>   fSvcList;
 
 };
 

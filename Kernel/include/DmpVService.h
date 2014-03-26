@@ -19,7 +19,7 @@ class DmpVService{
 public:
   DmpVService(const std::string &n):fName(n){}
   virtual ~DmpVService(){}
-  std::string GetName() const   {return fName;}
+  std::string Name() const   {return fName;}
 
 private:
   std::string   fName;

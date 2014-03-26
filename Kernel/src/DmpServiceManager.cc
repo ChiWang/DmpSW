@@ -10,11 +10,12 @@
 
 //-------------------------------------------------------------------
 DmpServiceManager::~DmpServiceManager(){
-  for(std::map<std::string,DmpVService*>::iterator it=fSvcMap.begin();it != fSvcMap.end();++it){
-    std::cout<<"delete service: "<<it->first<<std::endl;;
-    delete it->second;
+  std::cout<<"Deleting DmpServiceManager"<<std::endl;
+  for(std::list<DmpVService*>::iterator it=fSvcList.begin();it != fSvcList.end();++it){
+    std::cout<<"\tdelete service: "<<(*it)->Name()<<std::endl;;
+    delete (*it);
   }
-  std::cout<<"Delete DmpServiceManager"<<std::endl;
+  std::cout<<"Done\n"<<std::endl;
 }
 
 //-------------------------------------------------------------------
@@ -22,26 +23,34 @@ DmpVService* DmpServiceManager::GetService(const std::string &name, bool create)
 // *
 // *  TODO: ???  protect me ?
 // *
-  return fSvcMap[name];
+  for(std::list<DmpVService*>::iterator it=fSvcList.begin();it != fSvcList.end();++it){
+    if((*it)->Name() == name) return (*it);
+  }
+  return 0;
 }
 
 //-------------------------------------------------------------------
 void DmpServiceManager::AppendService(DmpVService *aSvc){
-  std::string name = aSvc->GetName();
-  if(fSvcMap.find(name) != fSvcMap.end()){  // exist
-    DmpVService *tmp = fSvcMap[name];
-    delete tmp;
-    fSvcMap[name] = aSvc;
-  }else{    // no exist
-    fSvcMap.insert(std::pair<std::string,DmpVService*>(name,aSvc));
-  }
+  fSvcList.push_back(aSvc);
 }
 
 //-------------------------------------------------------------------
+void DmpServiceManager::ReplaceService(DmpVService *aSvc){
+  std::string name = aSvc->Name();
+  for(std::list<DmpVService*>::iterator it=fSvcList.begin();it != fSvcList.end();++it){
+    if((*it)->Name() == name){
+      delete (*it);
+      (*it) = aSvc;
+    }
+  }
+}
+
+
+//-------------------------------------------------------------------
 void DmpServiceManager::ListAllService(){
-  std::cout<<"There are "<<fSvcMap.size()<<" service(s):"<<std::endl;
-  for(std::map<std::string,DmpVService*>::iterator it=fSvcMap.begin();it!=fSvcMap.end();++it){
-    std::cout<<"name : "<<it->first<<std::endl;
+  std::cout<<"There are "<<fSvcList.size()<<" service(s):"<<std::endl;
+  for(std::list<DmpVService*>::iterator it=fSvcList.begin();it!=fSvcList.end();++it){
+    std::cout<<"name : "<<(*it)->Name()<<std::endl;
   }
 }
 

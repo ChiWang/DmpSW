@@ -30,7 +30,7 @@ public:
   virtual bool Finialize()=0;
 
 public:
-  std::string   GetName() const   {return fName;}
+  std::string   Name() const   {return fName;}
 
 protected:
   DmpVService*  Service(const std::string &name) const;
