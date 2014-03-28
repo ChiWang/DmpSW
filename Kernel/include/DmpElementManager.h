@@ -1,21 +1,21 @@
 /*
- *  $Id: DmpVElementManager.h, 2014-03-26 17:08:16 chi $
+ *  $Id: DmpElementManager.h, 2014-03-26 17:08:16 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 26/03/2014
 */
 
-#ifndef DmpVElementManager_H
-#define DmpVElementManager_H
+#ifndef DmpElementManager_H
+#define DmpElementManager_H
 
 #include <list>
 #include <string>
 
 template<typename DmpElement>       // DmpElement: DmpVAlgorithm, DmpVService
 
-class DmpVElementManager{
+class DmpElementManager{
 public:
-  DmpVElementManager(const std::string&);
-  virtual ~DmpVElementManager();
+  DmpElementManager(const std::string&);
+  virtual ~DmpElementManager();
 
 public:
   bool Initialize();
@@ -42,7 +42,7 @@ private:
 //-------------------------------------------------------------------
 #include <iostream>
 template<typename DmpElement>
-DmpVElementManager<DmpElement>::DmpVElementManager(const std::string &n)
+DmpElementManager<DmpElement>::DmpElementManager(const std::string &n)
  :fName(n)
 {
   std::cout<<"---> Setting "<<fName;
@@ -50,7 +50,7 @@ DmpVElementManager<DmpElement>::DmpVElementManager(const std::string &n)
 
 //-------------------------------------------------------------------
 template<typename DmpElement>
-DmpVElementManager<DmpElement>::~DmpVElementManager(){
+DmpElementManager<DmpElement>::~DmpElementManager(){
   for(fIterator = fElements.begin();fIterator != fElements.end();++fIterator){
     std::cout<<"\tdelete "<<(*fIterator)->Name()<<std::endl;;
     delete (*fIterator);
@@ -60,7 +60,7 @@ DmpVElementManager<DmpElement>::~DmpVElementManager(){
 
 //-------------------------------------------------------------------
 template<typename DmpElement>
-bool DmpVElementManager<DmpElement>::Initialize(){
+bool DmpElementManager<DmpElement>::Initialize(){
   for(fIterator = fElements.begin();fIterator != fElements.end();++fIterator){
     (*fIterator)->Initialize();
   }
@@ -68,7 +68,7 @@ bool DmpVElementManager<DmpElement>::Initialize(){
 
 //-------------------------------------------------------------------
 template<typename DmpElement>
-bool DmpVElementManager<DmpElement>::Finialize(){
+bool DmpElementManager<DmpElement>::Finialize(){
   for(fIterator = fElements.begin();fIterator != fElements.end();++fIterator){
     (*fIterator)->Finialize();
   }
@@ -76,7 +76,7 @@ bool DmpVElementManager<DmpElement>::Finialize(){
 
 //-------------------------------------------------------------------
 template<typename DmpElement>
-void DmpVElementManager<DmpElement>::ListAllElements(){
+void DmpElementManager<DmpElement>::ListAllElements(){
   std::cout<<"There are "<<fElements.size()<<" in "<<fName<<std::endl;
   for(fIterator = fElements.begin();fIterator != fElements.end();++fIterator){
     std::cout<<"name : "<<(*fIterator)->Name()<<std::endl;
@@ -85,7 +85,7 @@ void DmpVElementManager<DmpElement>::ListAllElements(){
 
 //-------------------------------------------------------------------
 template<typename DmpElement>
-void DmpVElementManager<DmpElement>::Replace(DmpElement *aEle){
+void DmpElementManager<DmpElement>::Replace(DmpElement *aEle){
   std::string name = aEle->Name();
   for(fIterator = fElements.begin();fIterator != fElements.end();++fIterator){
     if((*fIterator)->Name() == name){
@@ -97,7 +97,7 @@ void DmpVElementManager<DmpElement>::Replace(DmpElement *aEle){
 
 //-------------------------------------------------------------------
 template<typename DmpElement>
-DmpElement* DmpVElementManager<DmpElement>::Get(const std::string &n)const{
+DmpElement* DmpElementManager<DmpElement>::Get(const std::string &n)const{
   for(fIterator = fElements.begin();fIterator != fElements.end();++fIterator){
     if((*fIterator)->Name() == n) return (*fIterator);
   }

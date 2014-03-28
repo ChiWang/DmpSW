@@ -15,7 +15,7 @@ DmpAlgorithmManager::~DmpAlgorithmManager(){
 
 //-------------------------------------------------------------------
 DmpAlgorithmManager::DmpAlgorithmManager()
- :DmpVElementManager<DmpVAlgorithm>("DMPSW Algorithm Manager")
+ :DmpElementManager<DmpVAlgorithm>("DMPSW Algorithm Manager")
 {
   std::cout<<"\tDone\n"<<std::endl;
 }
@@ -35,7 +35,7 @@ bool DmpAlgorithmManager::Process(){
 
 //-------------------------------------------------------------------
 void DmpAlgorithmManager::ListAllAlgorithm(){
-  DmpVElementManager<DmpVAlgorithm>::ListAllElements();
+  DmpElementManager<DmpVAlgorithm>::ListAllElements();
 }
 
 //-------------------------------------------------------------------
