@@ -7,17 +7,15 @@
 #ifndef DmpServiceManager_H
 #define DmpServiceManager_H
 
-#include <string>
-#include <list>
+#include "DmpElementManager.h"
 
 class DmpVService;
 
-class DmpServiceManager{
+class DmpServiceManager : public DmpElementManager<DmpVService>{
 /*
  * DmpServiceManager
  *
  * manage all service of DAMPE software
- *
  *
  */
 public:
@@ -26,16 +24,9 @@ public:
     return &instance;
   }
   ~DmpServiceManager();
-  DmpVService*  GetService(const std::string &name, bool create=false);
-  void AppendService(DmpVService*);
-  void ReplaceService(DmpVService*);
-  void ListAllService();
 
 private:
   DmpServiceManager();
-
-private:
-  std::list<DmpVService*>   fSvcList;
 
 };
 

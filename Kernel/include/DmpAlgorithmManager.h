@@ -30,9 +30,7 @@ public:
 // *
 // *  TODO:  delete Append... ListAll... at here
 // *
-  void AppendAlgorithm(DmpVAlgorithm*);
   bool Process();       // Process one event
-  void ListAllAlgorithm();
 
 private:
   DmpAlgorithmManager();

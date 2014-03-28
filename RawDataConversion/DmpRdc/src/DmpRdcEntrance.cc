@@ -20,11 +20,11 @@ DmpRdcDataManager *dataMgr = 0;
 
 //-------------------------------------------------------------------
 void DmpCore::RdcInitialize(){
-  gAlgMgr->AppendAlgorithm(new DmpRdcAlgHeader("RdcAlgHeader"));
-  gAlgMgr->AppendAlgorithm(new DmpRdcAlgNud("RdcAlgNud"));
-  gAlgMgr->AppendAlgorithm(new DmpRdcAlgPsd("RdcAlgPsd"));
-  gAlgMgr->AppendAlgorithm(new DmpRdcAlgBgo("RdcAlgBgo"));
-  gAlgMgr->AppendAlgorithm(new DmpRdcAlgStk("RdcAlgStk"));
+  gAlgMgr->Append(new DmpRdcAlgHeader("RdcAlgHeader"));
+  gAlgMgr->Append(new DmpRdcAlgNud("RdcAlgNud"));
+  gAlgMgr->Append(new DmpRdcAlgPsd("RdcAlgPsd"));
+  gAlgMgr->Append(new DmpRdcAlgBgo("RdcAlgBgo"));
+  gAlgMgr->Append(new DmpRdcAlgStk("RdcAlgStk"));
   gAlgMgr->Initialize();
   dataMgr = DmpRdcDataManager::GetInstance();
   std::cout<<"\nRdc initialized"<<std::endl;

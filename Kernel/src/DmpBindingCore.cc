@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpBindingCore.cc, 2014-03-25 13:42:56 chi $
+ *  $Id: DmpBindingCore.cc, 2014-03-28 20:13:43 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
@@ -9,6 +9,7 @@
 #include "DmpRunMode.h"
 #include "DmpDetectorID.h"
 #include "DmpVDataManager.h"
+#include "DmpElementManager.h"
 #include "DmpServiceManager.h"
 #include "DmpAlgorithmManager.h"
 
@@ -67,16 +68,21 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .def("GetOutDataName",  &DmpVDataManager::GetOutDataName)
   ;
 
-  // DmpServiceManager
-  class_<DmpServiceManager,DmpServiceManager*>("DmpServiceManager",no_init)
-    //.def("AppendThisService",   &DmpServiceManager::AppendThisService)
-    .def("ListAllService",      &DmpServiceManager::ListAllService)
-  ;
-  scope().attr("gSvcMgr") = gSvcMgr;
-  // DmpAlgorithmManager
-  //class_<DmpAlgorithmManager,DmpAlgorithmManager*>("DmpAlgorithmManager",no_init)
-  //  .def("ListAllAlgorithm",    &DmpAlgorithmManager::ListAllAlgorithm)
+  // DmpElementManager
+// *
+// *  TODO: how to bind template class?
+// *
+  //template<typename DmpElement>
+  //class_<DmpElementManager<DmpElement>,boost::noncopyable>("DmpElementManager",no_init)
+  //  .def("ListAllElements", &DmpElementManager<DmpElement>::ListAllElements)
+  //  .def("Append",          &DmpElementManager<DmpElement>::Append)
+  //  .def("Replace",         &DmpElementManager<DmpElement>::Replace)
   //;
+  // DmpServiceManager
+  //class_<DmpServiceManager,DmpServiceManager*>("DmpServiceManager",no_init);
+  //scope().attr("gSvcMgr") = gSvcMgr;
+  // DmpAlgorithmManager
+  //class_<DmpAlgorithmManager,DmpAlgorithmManager*,bases<DmpElementManager>>("DmpAlgorithmManager",no_init);
   //scope().attr("gAlgMgr") = gAlgMgr;
 }
 

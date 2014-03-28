@@ -45,7 +45,7 @@ template<typename DmpElement>
 DmpElementManager<DmpElement>::DmpElementManager(const std::string &n)
  :fName(n)
 {
-  std::cout<<"---> Setting "<<fName;
+  std::cout<<"---> Setting Kernel "<<fName;
 }
 
 //-------------------------------------------------------------------
@@ -101,8 +101,9 @@ DmpElement* DmpElementManager<DmpElement>::Get(const std::string &n)const{
   for(fIterator = fElements.begin();fIterator != fElements.end();++fIterator){
     if((*fIterator)->Name() == n) return (*fIterator);
   }
-  return 0;
+  return (DmpElement*)0;
 }
+
 
 #endif
 

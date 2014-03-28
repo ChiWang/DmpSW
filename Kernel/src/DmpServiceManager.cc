@@ -10,59 +10,25 @@
 
 //-------------------------------------------------------------------
 DmpServiceManager::~DmpServiceManager(){
-  std::cout<<"Deleting DmpServiceManager"<<std::endl;
-  for(std::list<DmpVService*>::iterator it=fSvcList.begin();it != fSvcList.end();++it){
-    std::cout<<"\tdelete service: "<<(*it)->Name()<<std::endl;;
-    delete (*it);
-  }
-  std::cout<<"Done\n"<<std::endl;
+  std::cout<<"Deleting "<<Name()<<std::endl;
 }
 
 //-------------------------------------------------------------------
-DmpVService* DmpServiceManager::GetService(const std::string &name, bool create){
-// *
-// *  TODO: ???  protect me ?
-// *
-  for(std::list<DmpVService*>::iterator it=fSvcList.begin();it != fSvcList.end();++it){
-    if((*it)->Name() == name) return (*it);
-  }
-  return 0;
-}
-
-//-------------------------------------------------------------------
-void DmpServiceManager::AppendService(DmpVService *aSvc){
-  fSvcList.push_back(aSvc);
-}
-
-//-------------------------------------------------------------------
-void DmpServiceManager::ReplaceService(DmpVService *aSvc){
-  std::string name = aSvc->Name();
-  for(std::list<DmpVService*>::iterator it=fSvcList.begin();it != fSvcList.end();++it){
-    if((*it)->Name() == name){
-      delete (*it);
-      (*it) = aSvc;
-    }
-  }
-}
-
-
-//-------------------------------------------------------------------
-void DmpServiceManager::ListAllService(){
-  std::cout<<"There are "<<fSvcList.size()<<" service(s):"<<std::endl;
-  for(std::list<DmpVService*>::iterator it=fSvcList.begin();it!=fSvcList.end();++it){
-    std::cout<<"name : "<<(*it)->Name()<<std::endl;
-  }
-}
-
-//-------------------------------------------------------------------
-DmpServiceManager::DmpServiceManager(){
-  std::cout<<"\n*********************************************************"<<std::endl;
-  std::cout<<"\t\tDAMPE software version 1.0"<<std::endl;
-  std::cout<<"*********************************************************"<<std::endl;
-  std::cout<<"Initalize core:"<<std::endl;
-  std::cout<<"\tSetup DmpServiceManager...    Done"<<std::endl;
-  ListAllService();
+DmpServiceManager::DmpServiceManager()
+ :DmpElementManager<DmpVService>("Service Manager")
+{
+  std::cout<<"\tDone\n"<<std::endl;
 }
 
 //-------------------------------------------------------------------
 DmpServiceManager *gSvcMgr = DmpServiceManager::GetInstance();
+
+//-------------------------------------------------------------------
+/*
+void DmpElementManager<DmpElement>::VersionNote()const{
+  std::cout<<"\n*********************************************************"<<std::endl;
+  std::cout<<"\t\tDAMPE software version 1.0"<<std::endl;
+  std::cout<<"*********************************************************"<<std::endl;
+  std::cout<<"Initalize core:"<<std::endl;
+}
+*/ 

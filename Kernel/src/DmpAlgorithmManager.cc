@@ -15,14 +15,9 @@ DmpAlgorithmManager::~DmpAlgorithmManager(){
 
 //-------------------------------------------------------------------
 DmpAlgorithmManager::DmpAlgorithmManager()
- :DmpElementManager<DmpVAlgorithm>("DMPSW Algorithm Manager")
+ :DmpElementManager<DmpVAlgorithm>("Algorithm Manager")
 {
   std::cout<<"\tDone\n"<<std::endl;
-}
-
-//-------------------------------------------------------------------
-void DmpAlgorithmManager::AppendAlgorithm(DmpVAlgorithm *aAlg){
-  Append(aAlg);
 }
 
 //-------------------------------------------------------------------
@@ -31,11 +26,6 @@ bool DmpAlgorithmManager::Process(){
     if(not (*it)->ProcessThisEvent())  return false;
   }
   return true;
-}
-
-//-------------------------------------------------------------------
-void DmpAlgorithmManager::ListAllAlgorithm(){
-  DmpElementManager<DmpVAlgorithm>::ListAllElements();
 }
 
 //-------------------------------------------------------------------
