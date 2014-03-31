@@ -4,7 +4,6 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/03/2014
 */
 
-
 #ifndef DmpVAlgorithm_H
 #define DmpVAlgorithm_H
 

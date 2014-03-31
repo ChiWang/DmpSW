@@ -6,14 +6,17 @@
 
 #include "DmpRdcConnectorInterface.h"
 
+//-------------------------------------------------------------------
 DmpRdcConnectorInterface* DmpRdcConnectorInterface::GetInstance(){
   static DmpRdcConnectorInterface  instance;
   return &instance;
 }
 
+//-------------------------------------------------------------------
 DmpRdcConnectorInterface::~DmpRdcConnectorInterface(){
 }
 
+//-------------------------------------------------------------------
 DmpRdcConnectorInterface::DmpRdcConnectorInterface(){
   for(short i=0;i<DmpDetector::gSubDetNo;++i){
     fConnectorPath[i]="default";

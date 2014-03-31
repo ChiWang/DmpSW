@@ -7,6 +7,7 @@
 #include "DmpVAlgorithm.h"
 #include "DmpServiceManager.h"
 
+//-------------------------------------------------------------------
 DmpVService* DmpVAlgorithm::Service(const std::string &name)const {
 // *
 // *  TODO:  error of the next line??
