@@ -7,9 +7,8 @@
 #ifndef DmpAlgorithmManager_H
 #define DmpAlgorithmManager_H
 
+#include "DmpVAlgorithm.h"      // not use 
 #include "DmpElementManager.h"
-
-class DmpVAlgorithm;
 
 class DmpAlgorithmManager : public DmpElementManager<DmpVAlgorithm>{
 /*

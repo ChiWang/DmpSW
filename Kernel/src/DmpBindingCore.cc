@@ -79,10 +79,19 @@ BOOST_PYTHON_MODULE(libDmpCore){
   //  .def("Replace",         &DmpElementManager<DmpElement>::Replace)
   //;
   // DmpServiceManager
-  //class_<DmpServiceManager,DmpServiceManager*>("DmpServiceManager",no_init);
+  class_<DmpServiceManager,boost::noncopyable>("DmpServiceManager",no_init)
+    .def("GetInstance", &DmpServiceManager::GetInstance,return_value_policy<reference_existing_object>())
+    .staticmethod("GetInstance")
+    .def("Replace", &DmpServiceManager::Replace)
+  ;
   //scope().attr("gSvcMgr") = gSvcMgr;
   // DmpAlgorithmManager
-  //class_<DmpAlgorithmManager,DmpAlgorithmManager*,bases<DmpElementManager>>("DmpAlgorithmManager",no_init);
+  class_<DmpAlgorithmManager,boost::noncopyable>("DmpAlgorithmManager",no_init)
+    .def("GetInstance", &DmpAlgorithmManager::GetInstance,return_value_policy<reference_existing_object>())
+    .staticmethod("GetInstance")
+    .def("Replace", &DmpAlgorithmManager::Replace)
+    .def("ListAllElements",&DmpAlgorithmManager::ListAllElements)
+  ;
   //scope().attr("gAlgMgr") = gAlgMgr;
 }
 

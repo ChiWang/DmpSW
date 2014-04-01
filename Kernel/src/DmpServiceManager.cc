@@ -6,7 +6,6 @@
 
 #include <iostream>
 #include "DmpServiceManager.h"
-#include "DmpVService.h"
 
 //-------------------------------------------------------------------
 DmpServiceManager::~DmpServiceManager(){

@@ -5,7 +5,6 @@
 */
 
 #include <iostream>
-#include "DmpVAlgorithm.h"
 #include "DmpAlgorithmManager.h"
 
 //-------------------------------------------------------------------

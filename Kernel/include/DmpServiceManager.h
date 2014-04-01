@@ -7,9 +7,8 @@
 #ifndef DmpServiceManager_H
 #define DmpServiceManager_H
 
+#include "DmpVService.h"
 #include "DmpElementManager.h"
-
-class DmpVService;
 
 class DmpServiceManager : public DmpElementManager<DmpVService>{
 /*
