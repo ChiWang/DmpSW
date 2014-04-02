@@ -18,7 +18,7 @@
 DmpRdcAlgPsd::DmpRdcAlgPsd(const std::string &name)
  :DmpRdcVAlgSubDet(name)
 {
-  fHitCollection = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kPsd);
+  fHitCollection = gDataMgr->GetRawEvent()->GetHitCollection(DmpDetector::kPsd);
 }
 
 //-------------------------------------------------------------------
@@ -26,9 +26,9 @@ DmpRdcAlgPsd::~DmpRdcAlgPsd(){
 }
 
 //-------------------------------------------------------------------
-#include "DmpRdcConnectorInterface.h"
+#include "DmpRdcCnctPath.h"
 bool DmpRdcAlgPsd::Initialize(){
-  std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kPsd);
+  std::string path = gCnctPathMgr->GetConnectorPath(DmpDetector::kPsd);
   if(path == "default"){
     std::cout<<"\nNo set connector:\tPsd"<<std::endl;
     return true;
@@ -83,7 +83,7 @@ bool DmpRdcAlgPsd::ProcessThisEvent(){
 // *
 //-------------------------------------------------------------------
   static short tmp=0, tmp2 = 0, nBytes = 0;
-  std::ifstream *&inFile = DmpRdcDataManager::GetInstance()->gInFile;
+  static std::ifstream *inFile = gDataMgr->gInFile;
   for (short FEEID=0;FEEID<DmpDetector::Psd::kFEENo;++FEEID) {
     inFile->read((char*)(&tmp),1);
     if (tmp!=0xeb) {

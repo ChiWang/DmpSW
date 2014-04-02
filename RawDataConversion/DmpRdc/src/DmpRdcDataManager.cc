@@ -50,3 +50,7 @@ DmpRdcDataManager::~DmpRdcDataManager(){
 }
 
 
+//-------------------------------------------------------------------
+DmpRdcDataManager *gDataMgr = DmpRdcDataManager::GetInstance();
+
+

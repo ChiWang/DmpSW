@@ -20,18 +20,18 @@ import libDmpRdc as  DmpRdc
 
 # RUN Raw Data Conversion
     ##  where to save the output. If NOT set will use "./" by defualt
-rdcDataMgr = DmpRdc.DmpRdcDataManager.GetInstance()
-rdcDataMgr.SetOutDataPath("./test")
+gRdcDataMgr = DmpRdc.DmpRdcDataManager.GetInstance()
+gRdcDataMgr.SetOutDataPath("./test")
     ##  where to read cnct files for different subDet
-rdcCNCT = DmpRdc.DmpRdcConnectorInterface.GetInstance()
-rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kPsd,prefix+"/share/Connector/Psd/Quarter")
-#rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kStk,prefix+"/share/Connector/Stk/Quarter")     # if NOT set, will skip setupconnector and conversion methods of this subDet.
-rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kBgo,prefix+"/share/Connector/Bgo/Quarter")
-rdcCNCT.SetConnectorPath(DmpCore.DmpEDetectorID.kNud,prefix+"/share/Connector/Nud/Quarter")
+gRdcCnctMgr = DmpRdc.DmpRdcCnctPath.GetInstance()
+gRdcCnctMgr.SetConnectorPath(DmpCore.DmpEDetectorID.kPsd,prefix+"/share/Connector/Psd/Quarter")
+#gRdcCnctMgr.SetConnectorPath(DmpCore.DmpEDetectorID.kStk,prefix+"/share/Connector/Stk/Quarter")     # if NOT set, will skip setupconnector and conversion methods of this subDet.
+gRdcCnctMgr.SetConnectorPath(DmpCore.DmpEDetectorID.kBgo,prefix+"/share/Connector/Bgo/Quarter")
+gRdcCnctMgr.SetConnectorPath(DmpCore.DmpEDetectorID.kNud,prefix+"/share/Connector/Nud/Quarter")
 
     ##  Start Rdc. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SetOutDataPath() between different Execute()
 DmpRdc.Initialize()      # create Rdc argorithm of all subDet, and setup connectors
-rdcDataMgr.AppendDataNote("protonTest")        # set tag for the next output data. NOT set is okay
+gRdcDataMgr.AppendDataNote("protonTest")        # set tag for the next output data. NOT set is okay
 #DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat",1)
 DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat",1)     # Trigger match level(with Bgo) 1: Psd; 2(or 3): Psd, Stk; 4: Psd, Stk, Nud
 DmpRdc.Clear()

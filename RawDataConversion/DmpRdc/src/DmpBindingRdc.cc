@@ -7,7 +7,7 @@
 #include <boost/python.hpp>
 
 #include "DmpRdcDataManager.h"
-#include "DmpRdcConnectorInterface.h"
+#include "DmpRdcCnctPath.h"
 #include "DmpRdcEntrance.h"
 
 BOOST_PYTHON_MODULE(libDmpRdc){
@@ -19,11 +19,11 @@ BOOST_PYTHON_MODULE(libDmpRdc){
     .staticmethod("GetInstance")
   ;
 
-  // DmpRdcConnectorInterface
-  class_<DmpRdcConnectorInterface,boost::noncopyable>("DmpRdcConnectorInterface",no_init)
-    .def("GetInstance",&DmpRdcConnectorInterface::GetInstance,return_value_policy<reference_existing_object>())
+  // DmpRdcCnctPath
+  class_<DmpRdcCnctPath,boost::noncopyable>("DmpRdcCnctPath",no_init)
+    .def("GetInstance",&DmpRdcCnctPath::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
-    .def("SetConnectorPath",&DmpRdcConnectorInterface::SetConnectorPath)
+    .def("SetConnectorPath",&DmpRdcCnctPath::SetConnectorPath)
   ;
 
   // DmpRdcEntrance

@@ -18,7 +18,7 @@
 DmpRdcAlgNud::DmpRdcAlgNud(const std::string &name)
  :DmpRdcVAlgSubDet(name)
 {
-  fHitCollection = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kNud);
+  fHitCollection = gDataMgr->GetRawEvent()->GetHitCollection(DmpDetector::kNud);
 }
 
 //-------------------------------------------------------------------
@@ -26,12 +26,12 @@ DmpRdcAlgNud::~DmpRdcAlgNud(){
 }
 
 //-------------------------------------------------------------------
-#include "DmpRdcConnectorInterface.h"
+#include "DmpRdcCnctPath.h"
 bool DmpRdcAlgNud::Initialize(){
 // *
 // *  TODO:  check connector right?
 // *
-  std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kNud);
+  std::string path = gCnctPathMgr->GetConnectorPath(DmpDetector::kNud);
   if(path == "default"){
     std::cout<<"\nNo set connector:\tNud"<<std::endl;
     return true;
@@ -84,7 +84,7 @@ bool DmpRdcAlgNud::ProcessThisEvent(){
 // *
 //-------------------------------------------------------------------
   static short tmp=0, tmp2=0, nBytes=0;
-  std::ifstream *&inFile = DmpRdcDataManager::GetInstance()->gInFile;
+  static std::ifstream *inFile = gDataMgr->gInFile;
   inFile->read((char*)(&tmp),1);
   if (tmp!=0xeb) {
     gRdcLog->StatusLog(-1);

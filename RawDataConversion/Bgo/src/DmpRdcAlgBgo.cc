@@ -18,7 +18,7 @@
 DmpRdcAlgBgo::DmpRdcAlgBgo(const std::string &name)
  :DmpRdcVAlgSubDet(name)
 {
-  fHitCollection = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kBgo);
+  fHitCollection = gDataMgr->GetRawEvent()->GetHitCollection(DmpDetector::kBgo);
 }
 
 //-------------------------------------------------------------------
@@ -28,9 +28,9 @@ DmpRdcAlgBgo::~DmpRdcAlgBgo(){
 //-------------------------------------------------------------------
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
-#include "DmpRdcConnectorInterface.h"
+#include "DmpRdcCnctPath.h"
 bool DmpRdcAlgBgo::Initialize(){
-  std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kBgo);
+  std::string path = gCnctPathMgr->GetConnectorPath(DmpDetector::kBgo);
   if(path == "default"){
     std::cout<<"No set connector:\tBgo"<<std::endl;
     return true;
@@ -66,7 +66,7 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
   gRdcLog->StatusLog(0);
 //-------------------------------------------------------------------
   static short tmp=0, tmp2=0, nBytes=0;
-  std::ifstream *&inFile = DmpRdcDataManager::GetInstance()->gInFile;
+  static std::ifstream *inFile = gDataMgr->gInFile;
   for (short counts=0;counts<DmpDetector::Bgo::kFEENo;++counts) {
     inFile->read((char*)(&tmp),1);
     if (tmp!=0xeb) {

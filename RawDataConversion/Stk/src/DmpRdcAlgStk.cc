@@ -17,7 +17,7 @@
 DmpRdcAlgStk::DmpRdcAlgStk(const std::string &name)
  :DmpRdcVAlgSubDet(name)
 {
-  fHitCollection = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kStk);
+  fHitCollection = gDataMgr->GetRawEvent()->GetHitCollection(DmpDetector::kStk);
 }
 
 //-------------------------------------------------------------------
@@ -25,9 +25,9 @@ DmpRdcAlgStk::~DmpRdcAlgStk(){
 }
 
 //-------------------------------------------------------------------
-#include "DmpRdcConnectorInterface.h"
+#include "DmpRdcCnctPath.h"
 bool DmpRdcAlgStk::Initialize(){
-  std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kStk);
+  std::string path = DmpRdcCnctPath::GetInstance()->GetConnectorPath(DmpDetector::kStk);
   if(path == "default"){
     std::cout<<"\nNo set connector:\tStk"<<std::endl;
     return true;

@@ -13,7 +13,7 @@
 DmpRdcAlgHeader::DmpRdcAlgHeader(const std::string &n)
  :DmpVAlgorithm(n)
 {
-  fEvtHeader = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetEventHeader();
+  fEvtHeader = gDataMgr->GetRawEvent()->GetEventHeader();
 }
 
 //-------------------------------------------------------------------
@@ -22,7 +22,7 @@ bool DmpRdcAlgHeader::ProcessThisEvent(){
   gRdcLog->StatusLog(0);
 //-------------------------------------------------------------------
   static short tmp=0;
-  std::ifstream *inFile = DmpRdcDataManager::GetInstance()->gInFile;
+  static std::ifstream *inFile = gDataMgr->gInFile;
   inFile->read((char*)(&tmp),1);
   if (tmp!=0xe2)    return false;
   inFile->read((char*)(&tmp),1);
@@ -41,7 +41,7 @@ bool DmpRdcAlgHeader::ProcessThisEvent(){
     inFile->read((char*)(&tmp),1);
     fEvtHeader->SetTime(index,tmp);
   }
-  DmpRdcDataManager::GetInstance()->GetRawEvent()->Reset(); // perpare for the sub-Det Convert()
+  gDataMgr->GetRawEvent()->Reset(); // perpare for the sub-Det Convert()
 //-------------------------------------------------------------------
   gRdcLog->StatusLog(1);
   return true;
