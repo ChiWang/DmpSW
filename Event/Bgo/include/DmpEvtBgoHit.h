@@ -55,11 +55,14 @@ private:
   double    fEnergy;        // unit MeV
   short     fUsedSide;      // used which side for fEnergy
   double    fPosition[3];   // unit cm
-  DmpPMTBgo *fPMT0;         // side 0
-  DmpPMTBgo *fPMT1;         // side 1
+
+public:
+  DmpPMTBgo *PMT0;          // side 0
+  DmpPMTBgo *PMT1;          // side 1
 
   ClassDef(DmpEvtBgoHit,1)
 
 };
 
 #endif
+

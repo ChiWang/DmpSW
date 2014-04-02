@@ -14,18 +14,18 @@ DmpEvtBgoHit::DmpEvtBgoHit()
  :fSDID(0),
   fEnergy(0),
   fUsedSide(0),
-  fPMT0(0),
-  fPMT1(0)
+  PMT0(0),
+  PMT1(0)
 {
   for (int i=0;i<3;++i) fPosition[i]=0;
-  fPMT0 = new DmpPMTBgo();
-  fPMT1 = new DmpPMTBgo();
+  PMT0 = new DmpPMTBgo();
+  PMT1 = new DmpPMTBgo();
 }
 
 //------------------------------------------------------------------------------
 DmpEvtBgoHit::~DmpEvtBgoHit(){
-  delete fPMT0;
-  delete fPMT1;
+  delete PMT0;
+  delete PMT1;
 }
 
 //-------------------------------------------------------------------
@@ -55,19 +55,19 @@ void DmpEvtBgoHit::SetSignal(const int &id,const short &v){
   dyID = id%10;
   if(id/10 == 0){ // PMT0
     if(dyID == 5){
-      fPMT0->fAdcDy5 = v;
+      PMT0->fAdcDy5 = v;
     }else if(dyID == 2){
-      fPMT0->fAdcDy2 = v;
+      PMT0->fAdcDy2 = v;
     }else{
-      fPMT0->fAdcDy8 = v;
+      PMT0->fAdcDy8 = v;
     }
   }else{    // PMT1
     if(dyID == 5){
-      fPMT1->fAdcDy5 = v;
+      PMT1->fAdcDy5 = v;
     }else if(dyID == 2){
-      fPMT1->fAdcDy2 = v;
+      PMT1->fAdcDy2 = v;
     }else{
-      fPMT1->fAdcDy8 = v;
+      PMT1->fAdcDy8 = v;
     }
   }
 }
