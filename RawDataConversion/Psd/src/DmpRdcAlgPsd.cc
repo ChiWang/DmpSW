@@ -12,9 +12,8 @@
 #include "DmpRdcDataManager.h"
 #include "DmpEventRaw.h"
 #include "DmpEvtPsdHit.h"
-#include "DmpDetectorPsd.h"
 #include "DmpEvtHeader.h"
-#include "DmpRdcConnectorInterface.h"
+#include "DmpDetectorPsd.h"
 
 DmpRdcAlgPsd::DmpRdcAlgPsd(const std::string &name)
  :DmpRdcVAlgSubDet(name)
@@ -27,6 +26,7 @@ DmpRdcAlgPsd::~DmpRdcAlgPsd(){
 }
 
 //-------------------------------------------------------------------
+#include "DmpRdcConnectorInterface.h"
 bool DmpRdcAlgPsd::Initialize(){
   std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kPsd);
   if(path == "default"){
@@ -73,54 +73,56 @@ bool DmpRdcAlgPsd::Initialize(){
 }
 
 //-------------------------------------------------------------------
+#include "DmpRdcLog.h"
 bool DmpRdcAlgPsd::ProcessThisEvent(){
   if(not fRunMe) return true;
   std::cout<<"\t"<<__PRETTY_FUNCTION__;
-  StatusLog(0);
+  gRdcLog->StatusLog(0);
 // *
 // *  TODO: conversion Psd
 // *
 //-------------------------------------------------------------------
   static short tmp=0, tmp2 = 0, nBytes = 0;
+  std::ifstream *&inFile = DmpRdcDataManager::GetInstance()->gInFile;
   for (short FEEID=0;FEEID<DmpDetector::Psd::kFEENo;++FEEID) {
-    sFile->read((char*)(&tmp),1);
+    inFile->read((char*)(&tmp),1);
     if (tmp!=0xeb) {
-      StatusLog(-1);
+      gRdcLog->StatusLog(-1);
       return false;
     }
-    sFile->read((char*)(&tmp),1);
+    inFile->read((char*)(&tmp),1);
     if (tmp!=0x90) {
-      StatusLog(-2);
+      gRdcLog->StatusLog(-2);
       return false;
     }
-    sFile->read((char*)(&tmp),1);       // trigger
+    inFile->read((char*)(&tmp),1);       // trigger
     if(FEEID == 0){
       sHeader->SetTrigger(DmpDetector::kPsd,tmp);
     }else{
       if(sHeader->GetTrigger(DmpDetector::kPsd) != tmp){
-        StatusLog(-3);
+        gRdcLog->StatusLog(-3);
         return false;
       }
     }
-    sFile->read((char*)(&tmp),1);       // run mode and FEE ID
+    inFile->read((char*)(&tmp),1);       // run mode and FEE ID
     if(FEEID == 0){
       sHeader->SetRunMode(DmpDetector::kPsd,tmp/16-DmpDetector::Psd::kFEEType);
     }else{
       if(sHeader->GetRunMode(DmpDetector::kPsd) != tmp/16-DmpDetector::Psd::kFEEType){
-        StatusLog(-4);
+        gRdcLog->StatusLog(-4);
         return false;
       }
     }
-    sFile->read((char*)(&tmp),1);       // data length, 2 bytes
-    sFile->read((char*)(&tmp2),1);
+    inFile->read((char*)(&tmp),1);       // data length, 2 bytes
+    inFile->read((char*)(&tmp2),1);
     nBytes = tmp*256+tmp2-2-2-2;        // 2 bytes for data length, 2 bytes for 0x0000, 2 bytes for CRC
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
     if(sHeader->GetRunMode(DmpDetector::kPsd) == DmpDetector::k0Compress){
       for(short i=0;i<nBytes;i+=2){     // k0Compress
-        sFile->read((char*)(&tmp),1);
-        sFile->read((char*)(&tmp),1);
+        inFile->read((char*)(&tmp),1);
+        inFile->read((char*)(&tmp),1);
 // *
 // *  TODO: add hits information
 // *
@@ -131,9 +133,9 @@ bool DmpRdcAlgPsd::ProcessThisEvent(){
       }
     }else{
       for(short i=0;i<nBytes;i+=3){     // kCompress
-        sFile->read((char*)(&tmp),1);
-        sFile->read((char*)(&tmp),1);
-        sFile->read((char*)(&tmp),1);
+        inFile->read((char*)(&tmp),1);
+        inFile->read((char*)(&tmp),1);
+        inFile->read((char*)(&tmp),1);
 // *
 // *  TODO: add hits information
 // *
@@ -143,14 +145,14 @@ bool DmpRdcAlgPsd::ProcessThisEvent(){
       //  rawHex[0]*256+rawHex[1]);                   // ADC
       }
     }
-    sFile->read((char*)(&tmp),1);       // 2 bytes for 0x0000
-    sFile->read((char*)(&tmp),1);       // must split them, 2 bytes for 0x0000
-    sFile->read((char*)(&tmp),1);       // 2 bytes for CRC
-    sFile->read((char*)(&tmp),1);       // must spplit them, 2 bytes for CRC
+    inFile->read((char*)(&tmp),1);       // 2 bytes for 0x0000
+    inFile->read((char*)(&tmp),1);       // must split them, 2 bytes for 0x0000
+    inFile->read((char*)(&tmp),1);       // 2 bytes for CRC
+    inFile->read((char*)(&tmp),1);       // must spplit them, 2 bytes for CRC
   }
 //-------------------------------------------------------------------
 
-  StatusLog(nBytes);
+  gRdcLog->StatusLog(nBytes);
   return true;
 }
 

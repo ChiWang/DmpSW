@@ -9,29 +9,20 @@
 #include "DmpRdcVAlgSubDet.h"
 #include "DmpRdcDataManager.h"
 #include "DmpEventRaw.h"
-
-
-DmpRdcVAlgSubDet::DmpRdcVAlgSubDet(const std::string &name)
- :DmpRdcVAlg(name),
-  fRunMe(false),
-  fHitCollection(0)
-{
-}
+#include "DmpRdcLog.h"
 
 //-------------------------------------------------------------------
-DmpRdcVAlgSubDet::~DmpRdcVAlgSubDet(){
-}
+DmpEvtHeader*  DmpRdcVAlgSubDet::sHeader = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetEventHeader();
 
 //-------------------------------------------------------------------
 bool DmpRdcVAlgSubDet::ProcessThisEvent(){
   if(not fRunMe) return true;
   std::cout<<"\t"<<__PRETTY_FUNCTION__;
-  StatusLog(0);
+  gRdcLog->StatusLog(0);
 //-------------------------------------------------------------------
 // set ProcessThisEvention method here
-
 //-------------------------------------------------------------------
-  StatusLog(1);
+  gRdcLog->StatusLog(1);
   return true;
 }
 

@@ -12,9 +12,8 @@
 #include "DmpRdcDataManager.h"
 #include "DmpEventRaw.h"
 #include "DmpEvtNudHit.h"
-#include "DmpDetectorNud.h"
 #include "DmpEvtHeader.h"
-#include "DmpRdcConnectorInterface.h"
+#include "DmpDetectorNud.h"
 
 DmpRdcAlgNud::DmpRdcAlgNud(const std::string &name)
  :DmpRdcVAlgSubDet(name)
@@ -27,6 +26,7 @@ DmpRdcAlgNud::~DmpRdcAlgNud(){
 }
 
 //-------------------------------------------------------------------
+#include "DmpRdcConnectorInterface.h"
 bool DmpRdcAlgNud::Initialize(){
 // *
 // *  TODO:  check connector right?
@@ -74,49 +74,51 @@ bool DmpRdcAlgNud::Initialize(){
 }
 
 //-------------------------------------------------------------------
+#include "DmpRdcLog.h"
 bool DmpRdcAlgNud::ProcessThisEvent(){
   if(not fRunMe) return true;
   std::cout<<"\t"<<__PRETTY_FUNCTION__;
-  StatusLog(0);
+  gRdcLog->StatusLog(0);
 // *
 // *  TODO: check conversion Nud
 // *
 //-------------------------------------------------------------------
   static short tmp=0, tmp2=0, nBytes=0;
-  sFile->read((char*)(&tmp),1);
+  std::ifstream *&inFile = DmpRdcDataManager::GetInstance()->gInFile;
+  inFile->read((char*)(&tmp),1);
   if (tmp!=0xeb) {
-    StatusLog(-1);
+    gRdcLog->StatusLog(-1);
     return false;
   }
-  sFile->read((char*)(&tmp),1);
+  inFile->read((char*)(&tmp),1);
   if (tmp!=0x90) {
-    StatusLog(-2);
+    gRdcLog->StatusLog(-2);
     return false;
   }
-  sFile->read((char*)(&tmp),1);     // trigger
+  inFile->read((char*)(&tmp),1);     // trigger
   sHeader->SetTrigger(DmpDetector::kNud,tmp);
-  sFile->read((char*)(&tmp),1);     // run mode and FEE ID
+  inFile->read((char*)(&tmp),1);     // run mode and FEE ID
   sHeader->SetRunMode(DmpDetector::kNud,tmp/16-DmpDetector::Nud::kFEEType);
-  sFile->read((char*)(&tmp),1);     // data length, 2 Bytes
-  sFile->read((char*)(&tmp2),1);
+  inFile->read((char*)(&tmp),1);     // data length, 2 Bytes
+  inFile->read((char*)(&tmp2),1);
   nBytes = tmp*256+tmp2-2-2;            // 2 bytes for data length, 2 bytes for CRC
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
   //if (sHeader->GetRunMode(DmpDetector::kNud) == DmpDetector::k0Compress) 
   for(short i=0;i<nBytes;i+=2){     // k0Compress
-    sFile->read((char*)(&tmp),1);
-    sFile->read((char*)(&tmp),1);
+    inFile->read((char*)(&tmp),1);
+    inFile->read((char*)(&tmp),1);
 // *
 // *  TODO: store impfore into hits
 // *
     //fHitCollection->
   }
-  sFile->read((char*)(&tmp),1);     // 2 bytes for CRC
-  sFile->read((char*)(&tmp),1);     // 2 bytes for CRC, MUST split them
+  inFile->read((char*)(&tmp),1);     // 2 bytes for CRC
+  inFile->read((char*)(&tmp),1);     // 2 bytes for CRC, MUST split them
 //-------------------------------------------------------------------
 
-  StatusLog(nBytes);
+  gRdcLog->StatusLog(nBytes);
   return true;
 }
 

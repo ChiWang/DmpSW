@@ -8,14 +8,18 @@
 #define DmpRdcVAlgSubDet_H
 
 #include <map>
-#include "DmpRdcVAlg.h"
+#include "DmpVAlgorithm.h"
 
+class DmpEvtHeader;
 class TClonesArray;
 
-class DmpRdcVAlgSubDet : public DmpRdcVAlg{
+class DmpRdcVAlgSubDet : public DmpVAlgorithm{
 public:
-  DmpRdcVAlgSubDet(const std::string&);
-  virtual ~DmpRdcVAlgSubDet();
+  DmpRdcVAlgSubDet(const std::string &n)
+   :DmpVAlgorithm(n),
+    fRunMe(false),
+    fHitCollection(0){}
+  virtual ~DmpRdcVAlgSubDet(){}
   virtual bool Initialize() {return true;}  // setup connector fConnector
   /*
    *  Setup connector fConnector
@@ -24,13 +28,14 @@ public:
    *    2. if (connector path == "default") return true, else: set fRunMe = true, then setup connector
    *
    */
-  virtual bool Finialize(){}
+  virtual bool Finialize(){return true;}
   virtual bool ProcessThisEvent();  // convert one event
 
 protected:
   virtual void AppendThisSignal(const int&,const float&)=0;
 
 protected:
+  static DmpEvtHeader *sHeader;     // event header for all sub-det algorithm
   std::map<int,int> fConnector;     // for all input datas
     /*
      * Connector: FEE channel <--> Detector

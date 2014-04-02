@@ -13,13 +13,20 @@
 
 class DmpRdcConnectorInterface{
 public:
-  static DmpRdcConnectorInterface*  GetInstance();
-  ~DmpRdcConnectorInterface();
+  static DmpRdcConnectorInterface*  GetInstance(){
+    static DmpRdcConnectorInterface  instance;
+    return &instance;
+  }
+  ~DmpRdcConnectorInterface(){}
   void SetConnectorPath(DmpDetector::DmpEDetectorID id,const std::string &p) {fConnectorPath[id] = p;}
   std::string GetConnectorPath(DmpDetector::DmpEDetectorID id) const         {return fConnectorPath[id];}
 
 private:
-  DmpRdcConnectorInterface();
+  DmpRdcConnectorInterface(){
+    for(short i=0;i<DmpDetector::gSubDetNo;++i){
+      fConnectorPath[i]="default";
+    }
+  }
 
 private:
   std::string    fConnectorPath[DmpDetector::gSubDetNo];

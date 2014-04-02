@@ -13,7 +13,6 @@
 #include "DmpEventRaw.h"
 #include "DmpEvtStkHit.h"
 #include "DmpEvtHeader.h"
-#include "DmpRdcConnectorInterface.h"
 
 DmpRdcAlgStk::DmpRdcAlgStk(const std::string &name)
  :DmpRdcVAlgSubDet(name)
@@ -26,6 +25,7 @@ DmpRdcAlgStk::~DmpRdcAlgStk(){
 }
 
 //-------------------------------------------------------------------
+#include "DmpRdcConnectorInterface.h"
 bool DmpRdcAlgStk::Initialize(){
   std::string path = DmpRdcConnectorInterface::GetInstance()->GetConnectorPath(DmpDetector::kStk);
   if(path == "default"){
@@ -72,10 +72,11 @@ bool DmpRdcAlgStk::Initialize(){
 }
 
 //-------------------------------------------------------------------
+#include "DmpRdcLog.h"
 bool DmpRdcAlgStk::ProcessThisEvent(){
   if(not fRunMe) return true;
   std::cout<<"\t"<<__PRETTY_FUNCTION__;
-  StatusLog(0);
+  gRdcLog->StatusLog(0);
 // *
 // *  TODO: conversion bgo
 // *
@@ -151,7 +152,7 @@ bool DmpRdcAlgStk::ProcessThisEvent(){
 */
 //-------------------------------------------------------------------
 
-  StatusLog(1);
+  gRdcLog->StatusLog(1);
   return true;
 }
 

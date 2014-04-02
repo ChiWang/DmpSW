@@ -7,6 +7,7 @@
 #ifndef DmpRdcDataManager_H
 #define DmpRdcDataManager_H
 
+#include <fstream>
 #include "DmpVDataManager.h"
 
 class DmpEventRaw;
@@ -23,6 +24,7 @@ public:
     return &instance;
   }
   ~DmpRdcDataManager();
+  std::ifstream     *gInFile;   // in file pointer. update it for every binary data
   void Initialize();
   void BookBranch();
   void FillEvent();

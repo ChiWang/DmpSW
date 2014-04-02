@@ -10,7 +10,6 @@
 #include "DmpEvtHeader.h"
 #include "DmpRdcDataManager.h"
 
-
 //-------------------------------------------------------------------
 void DmpRdcDataManager::Initialize(){
   fEvtRaw->GetEventHeader()->Initialize();
@@ -36,7 +35,8 @@ void DmpRdcDataManager::FillEvent(){
 
 //-------------------------------------------------------------------
 DmpRdcDataManager::DmpRdcDataManager()
- :fEvtRaw(0)
+ :gInFile(0),
+  fEvtRaw(0)
 {
   std::cout<<"Setting DmpRdcDataManager"<<std::endl;
   fEvtRaw = new DmpEventRaw();

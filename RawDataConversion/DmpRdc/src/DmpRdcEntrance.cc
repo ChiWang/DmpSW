@@ -40,7 +40,7 @@ void DmpCore::RdcExecute(const std::string &dataName,const short &level){
   // open file
   std::ifstream inputData(dataName.c_str(),std::ios::in|std::ios::binary);
   if (inputData.good()) {
-    DmpRdcVAlg::SetFileStream(&inputData);
+    dataMgr->gInFile = &inputData;
   }else{
     std::cerr<<"\nwarning: open "<<dataName<<" failed"<<std::endl;
     inputData.close();
