@@ -9,8 +9,6 @@
 
 #include <string>
 
-class DmpVService;
-
 class DmpVAlgorithm{
 /*
  * DmpVAlgorithm
@@ -30,9 +28,6 @@ public:
 
 public:
   std::string   Name() const   {return fName;}
-
-protected:
-  DmpVService*  Service(const std::string &name) const;
 
 private:
   std::string   fName;

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpServiceManager.h, 2014-03-15 09:46:52 chi $
+ *  $Id: DmpServiceManager.h, 2014-04-02 09:32:38 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 15/03/2014
 */

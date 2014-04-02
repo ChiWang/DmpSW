@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpAlgorithmManager.h, 2014-03-26 10:45:26 chi $
+ *  $Id: DmpAlgorithmManager.h, 2014-04-02 09:30:24 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/03/2014
 */
@@ -7,7 +7,7 @@
 #ifndef DmpAlgorithmManager_H
 #define DmpAlgorithmManager_H
 
-#include "DmpVAlgorithm.h"      // not use 
+#include "DmpVAlgorithm.h"      // include file instead of forward declaration
 #include "DmpElementManager.h"
 
 class DmpAlgorithmManager : public DmpElementManager<DmpVAlgorithm>{
@@ -26,9 +26,6 @@ public:
     return &instance;
   }
   ~DmpAlgorithmManager();
-// *
-// *  TODO:  delete Append... ListAll... at here
-// *
   bool Process();       // Process one event
 
 private:

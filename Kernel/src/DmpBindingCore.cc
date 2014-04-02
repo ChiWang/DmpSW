@@ -70,7 +70,7 @@ BOOST_PYTHON_MODULE(libDmpCore){
 
   // DmpElementManager
 // *
-// *  TODO: how to bind template class?
+// *  TODO: how to bind class template?
 // *
   //template<typename DmpElement>
   //class_<DmpElementManager<DmpElement>,boost::noncopyable>("DmpElementManager",no_init)
@@ -82,13 +82,16 @@ BOOST_PYTHON_MODULE(libDmpCore){
   class_<DmpServiceManager,boost::noncopyable>("DmpServiceManager",no_init)
     .def("GetInstance", &DmpServiceManager::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
+    .def("Append",  &DmpServiceManager::Append)
     .def("Replace", &DmpServiceManager::Replace)
+    .def("ListAllElements", &DmpServiceManager::ListAllElements)
   ;
   //scope().attr("gSvcMgr") = gSvcMgr;
   // DmpAlgorithmManager
   class_<DmpAlgorithmManager,boost::noncopyable>("DmpAlgorithmManager",no_init)
     .def("GetInstance", &DmpAlgorithmManager::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
+    .def("Append",  &DmpAlgorithmManager::Append)
     .def("Replace", &DmpAlgorithmManager::Replace)
     .def("ListAllElements",&DmpAlgorithmManager::ListAllElements)
   ;
