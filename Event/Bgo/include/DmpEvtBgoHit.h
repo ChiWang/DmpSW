@@ -17,8 +17,8 @@ struct DmpPMTBgo :public TObject{
   short     fUsedDy;    // used which dynode
   double    fEnergy;    // unit MeV
   DmpPMTBgo()
-  :fAdcDy2(0),fAdcDy5(0),fAdcDy8(0),
-   fUsedDy(0),fEnergy(0){}
+  :fAdcDy2(-1),fAdcDy5(-1),fAdcDy8(-1),
+   fUsedDy(-1),fEnergy(-1){}
   ClassDef(DmpPMTBgo,1)
 };
 

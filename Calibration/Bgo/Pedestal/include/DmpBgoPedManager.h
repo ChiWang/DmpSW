@@ -1,3 +1,9 @@
+/*
+ *  $Id: DmpBgoPedManager.h, 2014-04-03 16:12:16 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/04/2014
+*/
+
 /*=====================================================================
  *   File:   DmpBgoPedManager.h
  *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    18/10/2013
