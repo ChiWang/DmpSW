@@ -11,7 +11,7 @@
 
 namespace DmpCore{
   void RdcInitialize();           // create algorithm of detectors, setup connectors
-  void RdcExecute(const std::string&, const short &level);   // run one raw data. Trigger match level(with Bgo) 1: Psd; 2(or 3): Psd, Stk; 4: Psd, Stk, Nud
+  void RdcExecute(const std::string&);
   void RdcClear();
 }
 

@@ -31,7 +31,7 @@ void DmpCore::RdcClear(){
 }
 
 //-------------------------------------------------------------------
-void DmpCore::RdcExecute(const std::string &dataName,const short &level){
+void DmpCore::RdcExecute(const std::string &dataName){
   gDataMgr->SetInDataName(dataName);
   // open file
   std::ifstream inputData(dataName.c_str(),std::ios::in|std::ios::binary);
