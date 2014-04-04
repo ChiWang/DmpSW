@@ -24,6 +24,6 @@ DmpSimPrimaryGeneratorAction::~DmpSimPrimaryGeneratorAction(){
 void DmpSimPrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent){
 //std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
   fGPS->GeneratePrimaryVertex(anEvent);
-  DmpSimDataManager::GetInstance()->UpdatePrimaryParticleInformation(anEvent);
+  gDataMgr->UpdatePrimaryParticleInformation(anEvent);
 }
 

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimDataManager.h, 2014-03-07 00:00:48 chi $
+ *  $Id: DmpSimDataManager.h, 2014-04-04 17:22:52 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/02/2014
 */
@@ -42,6 +42,8 @@ private:
   DmpEvtSimPrimaryParticle  *fPrimaryParticle;
   DmpEventRaw   *fEvtRaw;
 };
+
+extern DmpSimDataManager *gDataMgr;
 
 #endif
 

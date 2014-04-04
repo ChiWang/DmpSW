@@ -80,3 +80,6 @@ void DmpSimDataManager::Digitize(){
   */
 }
 
+//-------------------------------------------------------------------
+DmpSimDataManager *gDataMgr = DmpSimDataManager::GetInstance();
+

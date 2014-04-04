@@ -21,7 +21,7 @@
 DmpSimBgoSD::DmpSimBgoSD(G4String name)
  :G4VSensitiveDetector(name)
 {
-  fHitCollection = DmpSimDataManager::GetInstance()->GetRawEvent()->GetHitCollection(DmpDetector::kBgo);
+  fHitCollection = gDataMgr->GetRawEvent()->GetHitCollection(DmpDetector::kBgo);
 }
 
 DmpSimBgoSD::~DmpSimBgoSD(){

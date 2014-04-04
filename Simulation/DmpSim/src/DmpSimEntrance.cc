@@ -29,7 +29,6 @@
 
 G4RunManager *runManager = 0;
 G4VisManager *visManager = 0;
-DmpSimDataManager *dataMgr = 0;
 //-------------------------------------------------------------------
 void DmpCore::SimInitialize(){
   runManager = new G4RunManager();
@@ -72,13 +71,12 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
   visManager = new G4VisExecutive;
   visManager->Initialize();
 #endif
-  dataMgr = DmpSimDataManager::GetInstance();
 }
 
 //-------------------------------------------------------------------
 void DmpCore::SimExecute(const std::string &inData){
   // UI interface manager
-  dataMgr->SetInDataName(inData);
+  gDataMgr->SetInData(inData);
   G4UImanager *UImanager = G4UImanager::GetUIpointer();
   if (inData == "visual"){
     // interactive mode : define UI session

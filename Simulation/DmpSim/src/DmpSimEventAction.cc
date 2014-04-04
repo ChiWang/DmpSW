@@ -28,12 +28,10 @@
 #include "DmpEvtHeader.h"
 
 DmpSimEventAction::DmpSimEventAction()
- :fDataMgr(0)
 {
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
-  fDataMgr = DmpSimDataManager::GetInstance();
 // *
 // *  TODO: add digitizer here
 // *
@@ -55,15 +53,15 @@ void DmpSimEventAction::BeginOfEventAction(const G4Event *anEvent){
 #ifdef DmpDebug
   std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tEvent ID = "<<anEvent->GetEventID()<<std::endl;
 #endif
-  static DmpEvtHeader *eventHeader = fDataMgr->GetRawEvent()->GetEventHeader();
+  static DmpEvtHeader *eventHeader = gDataMgr->GetRawEvent()->GetEventHeader();
   eventHeader->CountThisEvent();
   eventHeader->SetParticlePdgCode(anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode());
-  fDataMgr->GetRawEvent()->Reset();
+  gDataMgr->GetRawEvent()->Reset();
 }
 
 //-------------------------------------------------------------------
 void DmpSimEventAction::EndOfEventAction(const G4Event *anEvent){
-  fDataMgr->Digitize();
-  fDataMgr->FillEvent();
+  gDataMgr->Digitize();
+  gDataMgr->FillEvent();
 }
 

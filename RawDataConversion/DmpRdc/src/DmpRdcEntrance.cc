@@ -32,7 +32,7 @@ void DmpCore::RdcClear(){
 
 //-------------------------------------------------------------------
 void DmpCore::RdcExecute(const std::string &dataName){
-  gDataMgr->SetInDataName(dataName);
+  gDataMgr->SetInData(dataName);
   // open file
   std::ifstream inputData(dataName.c_str(),std::ios::in|std::ios::binary);
   if (inputData.good()) {
