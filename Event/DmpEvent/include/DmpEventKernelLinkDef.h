@@ -14,6 +14,5 @@
 #pragma link C++ class DmpEvtHeader+;
 #pragma link C++ class DmpEvtSimPrimaryParticle+;
 #pragma link C++ class DmpEventRaw+;
-#pragma link C++ class DmpVRecord+;
 
 #endif

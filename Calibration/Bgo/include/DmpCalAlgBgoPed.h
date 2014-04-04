@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpCalAlgBgoPed.h, 2014-04-03 16:30:05 chi $
+ *  $Id: DmpCalAlgBgoPed.h, 2014-04-04 16:49:22 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/04/2014
 */

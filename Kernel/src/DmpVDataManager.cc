@@ -15,7 +15,7 @@ DmpVDataManager::DmpVDataManager()
  :fPgkID("Dmp"),
   fOutDataTree(0),
   fOutDataPath("./"),
-  fInDataName("no"),
+  fInData("no"),
   fOutDataName("no"),
   fNote("no")
 {
@@ -42,7 +42,7 @@ void DmpVDataManager::SaveOutput(){
   std::cout<<"Result in : "<<fOutDataPath+fOutDataName<<", entries = "<<fOutDataTree->GetEntries()<<std::endl;
   delete fOutDataTree;
   delete aFile;
-  fInDataName = "no";
+  fInData = "no";
   fOutDataName = "no";
   fNote = "no";
 }
@@ -61,7 +61,7 @@ void DmpVDataManager::SetOutDataPath(const std::string &path){
 //-------------------------------------------------------------------
 #include <boost/filesystem/path.hpp>
 void DmpVDataManager::SetOutDataName(){
-  boost::filesystem::path inpath(fInDataName);
+  boost::filesystem::path inpath(fInData);
   if(fNote == "no"){
     fOutDataName = fPgkID+TimeStamp()+"_"+inpath.stem()+".root";
   }else{

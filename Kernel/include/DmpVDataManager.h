@@ -36,8 +36,8 @@ public:
   void  AppendDataNote(const std::string &t)   {fNote = t;}   // binding me
   std::string GetOutDataPath() const    {return fOutDataPath;}  // binding me
   std::string GetOutDataName() const    {return fOutDataName;}  // binding me
-  void  SetInDataName(const std::string &n) {fInDataName = n;}
-  std::string GetInDataName() const     {return fInDataName;}
+  void  SetInData(const std::string &n) {fInData = n;}
+  std::string GetInData() const     {return fInData;}
 
 private:
   void SetOutDataName();
@@ -54,7 +54,7 @@ private:
   // for all input datas
   std::string   fOutDataPath;   //
   // for one data
-  std::string   fInDataName;    // path + name
+  std::string   fInData;        // path + name
   std::string   fOutDataName;   //
   std::string   fNote;          // add note in the out data name
 

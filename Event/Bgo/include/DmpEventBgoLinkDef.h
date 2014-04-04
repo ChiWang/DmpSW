@@ -10,14 +10,15 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
-#pragma link C++ struct DmpPMTBgo+;
+#pragma link C++ struct DmpEvtBgoPMT+;
 #pragma link C++ class DmpEvtBgoHit+;
-// *
-// *  TODO: delete DmpEvtBgoRaw, and rewrite RDC using DmpBgoHit
-// *
-//#pragma link C++ class DmpEvtBgoRaw+;
 #pragma link C++ class DmpEvtBgoShower+;
-#pragma link C++ class DmpRecordBgoPed+;
+// *
+// *  TODO: add calibration classes at here
+// *
+#pragma link C++ class DmpCalBgoPMT+;
+#pragma link C++ class DmpCalBgoBar+;
+#pragma link C++ class DmpCalBgo+;
 
 #endif
 
