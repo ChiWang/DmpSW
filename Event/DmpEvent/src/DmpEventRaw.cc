@@ -11,64 +11,64 @@
 // *
 // *  TODO: add hits collection of Psd, Stk and Nud
 // *
-//#include "DmpEvtPsdHit.h"
-//#include "DmpEvtStkHit.h"
-#include "DmpEvtBgoHit.h"
-//#include "DmpEvtNudHit.h"
+//#include "DmpEvtPsdMSD.h"
+//#include "DmpEvtStkMSD.h"
+#include "DmpEvtBgoMSD.h"
+//#include "DmpEvtNudMSD.h"
 
 ClassImp(DmpEventRaw)
 
 DmpEventRaw::DmpEventRaw()
  :fEvtHeader(0),
-  fPsdHits(0),
-  fStkHits(0),
-  fBgoHits(0),
-  fNudHits(0)
+  fPsdMSDSet(0),
+  fStkMSDSet(0),
+  fBgoMSDSet(0),
+  fNudMSDSet(0)
 {
   fEvtHeader = new DmpEvtHeader();
-  fBgoHits = new TClonesArray("DmpEvtBgoHit",300);
+  fBgoMSDSet = new TClonesArray("DmpEvtBgoMSD",300);
 // *
 // *  TODO: add hits collection of Psd, Stk and Nud
 // *
-  fPsdHits = new TClonesArray("DmpEvtPsdHit",300);
-  fStkHits = new TClonesArray("DmpEvtStkHit",300);
-  fNudHits = new TClonesArray("DmpEvtNudHit",300);
+  fPsdMSDSet = new TClonesArray("DmpEvtPsdMSD",300);
+  fStkMSDSet = new TClonesArray("DmpEvtStkMSD",300);
+  fNudMSDSet = new TClonesArray("DmpEvtNudMSD",300);
 }
 
 //-------------------------------------------------------------------
 DmpEventRaw::~DmpEventRaw(){
   delete fEvtHeader;
-  fBgoHits->Delete();
-  fBgoHits->Clear();
-  delete fBgoHits;
+  fBgoMSDSet->Delete();
+  fBgoMSDSet->Clear();
+  delete fBgoMSDSet;
 // *
 // *  TODO: add hits collection of Psd, Stk and Nud
 // *
-  fPsdHits->Delete();
-  fPsdHits->Clear();
-  delete fPsdHits;
-  fStkHits->Delete();
-  fStkHits->Clear();
-  delete fStkHits;
-  fNudHits->Delete();
-  fNudHits->Clear();
-  delete fNudHits;
+  fPsdMSDSet->Delete();
+  fPsdMSDSet->Clear();
+  delete fPsdMSDSet;
+  fStkMSDSet->Delete();
+  fStkMSDSet->Clear();
+  delete fStkMSDSet;
+  fNudMSDSet->Delete();
+  fNudMSDSet->Clear();
+  delete fNudMSDSet;
 }
 
 void DmpEventRaw::Reset(){
   // event header not need reset function.
-  fPsdHits->Delete();   fPsdHits->Clear();
-  fStkHits->Delete();   fStkHits->Clear();
-  fBgoHits->Delete();   fBgoHits->Clear();
-  fNudHits->Delete();   fNudHits->Clear();
+  fPsdMSDSet->Delete();   fPsdMSDSet->Clear();
+  fStkMSDSet->Delete();   fStkMSDSet->Clear();
+  fBgoMSDSet->Delete();   fBgoMSDSet->Clear();
+  fNudMSDSet->Delete();   fNudMSDSet->Clear();
 }
 
 //-------------------------------------------------------------------
-TClonesArray* DmpEventRaw::GetHitCollection(DmpDetector::DmpEDetectorID id) const {
-  if(id == DmpDetector::kPsd)    return fPsdHits;
-  if(id == DmpDetector::kStk)    return fStkHits;
-  if(id == DmpDetector::kBgo)    return fBgoHits;
-  if(id == DmpDetector::kNud)    return fNudHits;
+TClonesArray* DmpEventRaw::GetMSDCollection(DmpDetector::DmpEDetectorID id) const {
+  if(id == DmpDetector::kPsd)    return fPsdMSDSet;
+  if(id == DmpDetector::kStk)    return fStkMSDSet;
+  if(id == DmpDetector::kBgo)    return fBgoMSDSet;
+  if(id == DmpDetector::kNud)    return fNudMSDSet;
 }
 
 

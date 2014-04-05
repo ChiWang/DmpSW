@@ -11,13 +11,13 @@
 #include "DmpRdcAlgStk.h"
 #include "DmpRdcDataManager.h"
 #include "DmpEventRaw.h"
-#include "DmpEvtStkHit.h"
+#include "DmpEvtStkMSD.h"
 #include "DmpEvtHeader.h"
 
 DmpRdcAlgStk::DmpRdcAlgStk(const std::string &name)
  :DmpRdcVAlgSubDet(name)
 {
-  fHitCollection = gDataMgr->GetRawEvent()->GetHitCollection(DmpDetector::kStk);
+  fMSDSet = gDataMgr->GetRawEvent()->GetMSDCollection(DmpDetector::kStk);
 }
 
 //-------------------------------------------------------------------

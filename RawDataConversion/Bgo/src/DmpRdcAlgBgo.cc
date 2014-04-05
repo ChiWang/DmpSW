@@ -11,14 +11,14 @@
 #include "DmpRdcAlgBgo.h"
 #include "DmpRdcDataManager.h"
 #include "DmpEventRaw.h"
-#include "DmpEvtBgoHit.h"
+#include "DmpEvtBgoMSD.h"
 #include "DmpEvtHeader.h"
 #include "DmpDetectorBgo.h"
 
 DmpRdcAlgBgo::DmpRdcAlgBgo(const std::string &name)
  :DmpRdcVAlgSubDet(name)
 {
-  fHitCollection = gDataMgr->GetRawEvent()->GetHitCollection(DmpDetector::kBgo);
+  fMSDSet = gDataMgr->GetRawEvent()->GetMSDCollection(DmpDetector::kBgo);
 }
 
 //-------------------------------------------------------------------
@@ -133,24 +133,24 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
 
 //-------------------------------------------------------------------
 void DmpRdcAlgBgo::AppendThisSignal(const int &id, const float &v){
-  static DmpEvtBgoHit *aHit = 0;
+  static DmpEvtBgoMSD *aMSD = 0;
   static short i=0, barID=0;
   int index = -1;
   barID = id/100;
-  for(i=0;i<fHitCollection->GetEntriesFast();++i){
-    if(((DmpEvtBgoHit*)fHitCollection->At(i))->GetSDID() == barID){
+  for(i=0;i<fMSDSet->GetEntriesFast();++i){
+    if(((DmpEvtBgoMSD*)fMSDSet->At(i))->GetSDID() == barID){
       index = i;
     }
   }
   if(index < 0){
-    index = fHitCollection->GetEntriesFast();
-    aHit = (DmpEvtBgoHit*)fHitCollection->ConstructedAt(index);
-    aHit->SetSDID(barID);
+    index = fMSDSet->GetEntriesFast();
+    aMSD = (DmpEvtBgoMSD*)fMSDSet->ConstructedAt(index);
+    aMSD->SetSDID(barID);
     //std::cout<<"\nadd new bar = "<<barID;
   }else{
-    aHit = (DmpEvtBgoHit*)fHitCollection->At(index);
+    aMSD = (DmpEvtBgoMSD*)fMSDSet->At(index);
   }
-  aHit->SetSignal(id%100,v);
+  aMSD->SetSignal(id%100,v);
 }
 
 

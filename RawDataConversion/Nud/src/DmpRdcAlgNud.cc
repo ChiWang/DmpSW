@@ -11,14 +11,14 @@
 #include "DmpRdcAlgNud.h"
 #include "DmpRdcDataManager.h"
 #include "DmpEventRaw.h"
-#include "DmpEvtNudHit.h"
+#include "DmpEvtNudMSD.h"
 #include "DmpEvtHeader.h"
 #include "DmpDetectorNud.h"
 
 DmpRdcAlgNud::DmpRdcAlgNud(const std::string &name)
  :DmpRdcVAlgSubDet(name)
 {
-  fHitCollection = gDataMgr->GetRawEvent()->GetHitCollection(DmpDetector::kNud);
+  fMSDSet = gDataMgr->GetRawEvent()->GetMSDCollection(DmpDetector::kNud);
 }
 
 //-------------------------------------------------------------------
@@ -111,7 +111,7 @@ bool DmpRdcAlgNud::ProcessThisEvent(){
 // *
 // *  TODO: store impfore into hits
 // *
-    //fHitCollection->
+    //fMSDSet->
   }
   gDataMgr->gInDataStream.read((char*)(&tmp),1);     // 2 bytes for CRC
   gDataMgr->gInDataStream.read((char*)(&tmp),1);     // 2 bytes for CRC, MUST split them

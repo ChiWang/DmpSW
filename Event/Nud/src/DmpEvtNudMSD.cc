@@ -1,16 +1,16 @@
 /*
- *  $Id: DmpEvtPsdHit.cc, 2014-03-11 18:52:32 chi $
+ *  $Id: DmpEvtNudMSD.cc, 2014-04-05 15:10:28 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
 
-#include "DmpEvtPsdHit.h"
-#include "DmpDetectorPsd.h"
+#include "DmpEvtNudMSD.h"
+#include "DmpDetectorNud.h"
 
-ClassImp(DmpEvtPsdHit)
+ClassImp(DmpEvtNudMSD)
 
 //------------------------------------------------------------------------------
-DmpEvtPsdHit::DmpEvtPsdHit()
+DmpEvtNudMSD::DmpEvtNudMSD()
  :fSDID(0),
   fEnergy(0),
   fUsedSide(0)
@@ -19,19 +19,19 @@ DmpEvtPsdHit::DmpEvtPsdHit()
 }
 
 //------------------------------------------------------------------------------
-DmpEvtPsdHit::~DmpEvtPsdHit(){
+DmpEvtNudMSD::~DmpEvtNudMSD(){
 }
 
 //-------------------------------------------------------------------
-void DmpEvtPsdHit::Reset(){
+void DmpEvtNudMSD::Reset(){
 
 }
 
 //------------------------------------------------------------------------------
-void DmpEvtPsdHit::PrintHit() const{
+void DmpEvtNudMSD::PrintHit() const{
 }
 
-void DmpEvtPsdHit::AddThisHit(double e, double x, double y, double z){
+void DmpEvtNudMSD::AddThisHit(double e, double x, double y, double z){
   double totE = e + fEnergy;
   double nX = (e*x + fEnergy*fPosition[0])/totE;
   double nY = (e*y + fEnergy*fPosition[1])/totE;

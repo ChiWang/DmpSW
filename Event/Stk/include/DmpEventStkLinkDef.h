@@ -15,7 +15,7 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
-#pragma link C++ class DmpEvtStkHit+;
+#pragma link C++ class DmpEvtStkMSD+;
 //#pragma link C++ class DmpEvtStkCluster+;
 //#pragma link C++ class DmpEvtStkShower+;
 //#pragma link C++ class DmpRecordStkPed+;

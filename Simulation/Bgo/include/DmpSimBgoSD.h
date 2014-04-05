@@ -26,7 +26,7 @@ public:
   void EndOfEvent(G4HCofThisEvent*);
 
 private:
-  TClonesArray      *fHitCollection;
+  TClonesArray      *fMSDSet;
 };
 
 #endif

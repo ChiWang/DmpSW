@@ -1,11 +1,11 @@
 /*
- *  $Id: DmpEvtBgoHit.h, 2014-03-03 23:47:21 chi $
+ *  $Id: DmpEvtBgoMSD.h, 2014-04-05 14:34:41 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
 
-#ifndef DmpEvtBgoHit_H
-#define DmpEvtBgoHit_H
+#ifndef DmpEvtBgoMSD_H
+#define DmpEvtBgoMSD_H
 
 #include "TObject.h"
 
@@ -23,20 +23,20 @@ struct DmpEvtBgoPMT : public TObject{
 };
 
 //-------------------------------------------------------------------
-class DmpEvtBgoHit : public TObject{
+class DmpEvtBgoMSD : public TObject{
 /*
- *  DmpEvtBgoHit
+ *  DmpEvtBgoMSD
  *  
- *  One DmpEvtBgoHit is a response of one Bgo Bar.
- *  The class DmpEvtRaw is a collection of DmpEvtBgoHits and other sub-dets' hit collection
+ *  One DmpEvtBgoMSD is a response of one Bgo Bar.
+ *  The class DmpEvtRaw is a collection of DmpEvtBgoMSDs and other sub-dets' hit collection
  *
  *  Both of Simulation and Analysis will use this class, but, DmpEvtBgoPMT will not be used while Simulation
  *
 */
 
 public:
-  DmpEvtBgoHit();
-  ~DmpEvtBgoHit();
+  DmpEvtBgoMSD();
+  ~DmpEvtBgoMSD();
   void  Reset();
   void  PrintHit() const;
   void  AddG4Hit(double e,double x,double y,double z);     // only for simulation, invoke from G4Step or Sensitive Detector
@@ -57,10 +57,10 @@ private:
   double    fPosition[3];   // unit cm
 
 public:
-  DmpEvtBgoPMT *PMT0;          // side 0
-  DmpEvtBgoPMT *PMT1;          // side 1
+  DmpEvtBgoPMT *PMT0;       // side 0
+  DmpEvtBgoPMT *PMT1;       // side 1
 
-  ClassDef(DmpEvtBgoHit,1)
+  ClassDef(DmpEvtBgoMSD,1)
 
 };
 

@@ -1,16 +1,16 @@
 /*
- *  $Id: DmpEvtBgoHit.cc, 2014-03-11 18:52:32 chi $
+ *  $Id: DmpEvtBgoMSD.cc, 2014-04-05 14:34:15 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
 
-#include "DmpEvtBgoHit.h"
+#include "DmpEvtBgoMSD.h"
 #include "DmpDetectorBgo.h"
 
-ClassImp(DmpEvtBgoHit)
+ClassImp(DmpEvtBgoMSD)
 
 //------------------------------------------------------------------------------
-DmpEvtBgoHit::DmpEvtBgoHit()
+DmpEvtBgoMSD::DmpEvtBgoMSD()
  :fSDID(0),
   fEnergy(0),
   fUsedSide(0),
@@ -23,22 +23,22 @@ DmpEvtBgoHit::DmpEvtBgoHit()
 }
 
 //------------------------------------------------------------------------------
-DmpEvtBgoHit::~DmpEvtBgoHit(){
+DmpEvtBgoMSD::~DmpEvtBgoMSD(){
   delete PMT0;
   delete PMT1;
 }
 
 //-------------------------------------------------------------------
-void DmpEvtBgoHit::Reset(){
+void DmpEvtBgoMSD::Reset(){
 
 }
 
 //------------------------------------------------------------------------------
-void DmpEvtBgoHit::PrintHit() const{
+void DmpEvtBgoMSD::PrintHit() const{
 }
 
 //-------------------------------------------------------------------
-void DmpEvtBgoHit::AddG4Hit(double e, double x, double y, double z){
+void DmpEvtBgoMSD::AddG4Hit(double e, double x, double y, double z){
   double totE = e + fEnergy;
   double nX = (e*x + fEnergy*fPosition[0])/totE;
   double nY = (e*y + fEnergy*fPosition[1])/totE;
@@ -50,7 +50,7 @@ void DmpEvtBgoHit::AddG4Hit(double e, double x, double y, double z){
 }
 
 //-------------------------------------------------------------------
-void DmpEvtBgoHit::SetSignal(const int &id,const short &v){
+void DmpEvtBgoMSD::SetSignal(const int &id,const short &v){
   static short dyID = 0;
   dyID = id%10;
   if(id/10 == 0){ // PMT0

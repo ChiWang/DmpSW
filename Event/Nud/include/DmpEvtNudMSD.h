@@ -1,28 +1,28 @@
 /*
- *  $Id: DmpEvtNudHit.h, 2014-03-22 02:29:58 chi $
+ *  $Id: DmpEvtNudMSD.h, 2014-03-22 02:29:58 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
 
-#ifndef DmpEvtNudHit_H
-#define DmpEvtNudHit_H
+#ifndef DmpEvtNudMSD_H
+#define DmpEvtNudMSD_H
 
 #include "TObject.h"
 
-class DmpEvtNudHit : public TObject{
+class DmpEvtNudMSD : public TObject{
 /*
- *  DmpEvtNudHit
+ *  DmpEvtNudMSD
  *  
- *  One DmpEvtNudHit is a response of one Nud Bar.
- *  The class DmpEvtRaw is a collection of DmpEvtNudHits and other sub-dets' hit collection
+ *  One DmpEvtNudMSD is a response of one Nud Bar.
+ *  The class DmpEvtRaw is a collection of DmpEvtNudMSDs and other sub-dets' hit collection
  *
  *  Both of Simulation and Analysis will use this class, but, DmpEvtPMT will not be used while Simulation
  *
 */
 
 public:
-  DmpEvtNudHit();
-  ~DmpEvtNudHit();
+  DmpEvtNudMSD();
+  ~DmpEvtNudMSD();
   void  Reset();
   void  PrintHit() const;
   void  AddThisHit(double e,double x,double y,double z);     // only for simulation, invoke from G4Step or Sensitive Detector
@@ -41,8 +41,9 @@ private:
   short     fUsedSide;      // used which side for fEnergy
   double    fPosition[3];   // unit cm
 
-  ClassDef(DmpEvtNudHit,1)
+  ClassDef(DmpEvtNudMSD,1)
 
 };
 
 #endif
+

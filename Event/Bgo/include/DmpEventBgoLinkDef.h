@@ -11,7 +11,7 @@
 #pragma link off all functions;
 
 #pragma link C++ struct DmpEvtBgoPMT+;
-#pragma link C++ class DmpEvtBgoHit+;
+#pragma link C++ class DmpEvtBgoMSD+;
 #pragma link C++ class DmpEvtBgoShower+;
 // *
 // *  TODO: add calibration classes at here

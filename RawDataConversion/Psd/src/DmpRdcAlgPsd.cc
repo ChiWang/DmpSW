@@ -11,14 +11,14 @@
 #include "DmpRdcAlgPsd.h"
 #include "DmpRdcDataManager.h"
 #include "DmpEventRaw.h"
-#include "DmpEvtPsdHit.h"
+#include "DmpEvtPsdMSD.h"
 #include "DmpEvtHeader.h"
 #include "DmpDetectorPsd.h"
 
 DmpRdcAlgPsd::DmpRdcAlgPsd(const std::string &name)
  :DmpRdcVAlgSubDet(name)
 {
-  fHitCollection = gDataMgr->GetRawEvent()->GetHitCollection(DmpDetector::kPsd);
+  fMSDSet = gDataMgr->GetRawEvent()->GetMSDCollection(DmpDetector::kPsd);
 }
 
 //-------------------------------------------------------------------
@@ -125,7 +125,7 @@ bool DmpRdcAlgPsd::ProcessThisEvent(){
 // *
 // *  TODO: add hits information
 // *
-        //fHitCollection->
+        //fMSDSet->
       //fPsd->SetSignal(
       //  ConnectorPsd[feeID*1000+channelID],         // LBSD_ID
       //  rawHex[0]*256+rawHex[1]);                   // ADC
@@ -138,7 +138,7 @@ bool DmpRdcAlgPsd::ProcessThisEvent(){
 // *
 // *  TODO: add hits information
 // *
-        //fHitCollection->
+        //fMSDSet->
       //fPsd->SetSignal(
       //  ConnectorPsd[feeID*1000+channelID],         // LBSD_ID
       //  rawHex[0]*256+rawHex[1]);                   // ADC

@@ -15,6 +15,6 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
-#pragma link C++ class DmpEvtNudHit+;
+#pragma link C++ class DmpEvtNudMSD+;
 
 #endif

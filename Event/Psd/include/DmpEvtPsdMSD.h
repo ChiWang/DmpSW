@@ -1,28 +1,28 @@
 /*
- *  $Id: DmpEvtPsdHit.h, 2014-03-03 23:47:21 chi $
+ *  $Id: DmpEvtPsdMSD.h, 2014-04-05 15:06:00 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
 
-#ifndef DmpEvtPsdHit_H
-#define DmpEvtPsdHit_H
+#ifndef DmpEvtPsdMSD_H
+#define DmpEvtPsdMSD_H
 
 #include "TObject.h"
 
-class DmpEvtPsdHit : public TObject{
+class DmpEvtPsdMSD : public TObject{
 /*
- *  DmpEvtPsdHit
+ *  DmpEvtPsdMSD
  *  
- *  One DmpEvtPsdHit is a response of one Psd Bar.
- *  The class DmpEvtRaw is a collection of DmpEvtPsdHits and other sub-dets' hit collection
+ *  One DmpEvtPsdMSD is a response of one Psd Bar.
+ *  The class DmpEvtRaw is a collection of DmpEvtPsdMSD and other sub-dets' hit collection
  *
  *  Both of Simulation and Analysis will use this class, but, DmpEvtPMT will not be used while Simulation
  *
 */
 
 public:
-  DmpEvtPsdHit();
-  ~DmpEvtPsdHit();
+  DmpEvtPsdMSD();
+  ~DmpEvtPsdMSD();
   void  Reset();
   void  PrintHit() const;
   void  AddThisHit(double e,double x,double y,double z);     // only for simulation, invoke from G4Step or Sensitive Detector
@@ -41,7 +41,7 @@ private:
   short     fUsedSide;      // used which side for fEnergy
   double    fPosition[3];   // unit cm
 
-  ClassDef(DmpEvtPsdHit,1)
+  ClassDef(DmpEvtPsdMSD,1)
 
 };
 

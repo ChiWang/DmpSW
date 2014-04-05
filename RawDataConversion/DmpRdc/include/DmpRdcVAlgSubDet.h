@@ -18,7 +18,7 @@ public:
   DmpRdcVAlgSubDet(const std::string &n)
    :DmpVAlgorithm(n),
     fRunMe(false),
-    fHitCollection(0){}
+    fMSDSet(0){}
   virtual ~DmpRdcVAlgSubDet(){}
   virtual bool Initialize() {return true;}  // setup connector fConnector
   /*
@@ -44,7 +44,7 @@ protected:
      *
     */
   bool          fRunMe;             // tag to run this subDet
-  TClonesArray  *fHitCollection;    // responded bars (update it each event)
+  TClonesArray  *fMSDSet;           // responded bars (update it each event)
 
 };
 
