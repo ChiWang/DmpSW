@@ -21,7 +21,7 @@ private:
   DmpRdcLog(const std::string &n):DmpVService(n){}
 
 public:
-  void StatusLog(const short&) const;
+  void StatusLog(const short &n=0) const;
   void PrintLocation() const;
 
 };

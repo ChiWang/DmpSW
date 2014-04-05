@@ -14,31 +14,42 @@
 //-------------------------------------------------------------------
 void DmpRdcLog::StatusLog(const short &x) const {
   static bool prepareForFirstIn = true;
-  if(x == 0 && prepareForFirstIn){     // in convert function
-    std::cout<<"\tfrom "<<gDataMgr->gInDataStream.tellg();
-    prepareForFirstIn = false;
-  }else if(x == 1){     // out convert function, not output data length
-    std::cout<<" to "<<gDataMgr->gInDataStream.tellg()<<std::endl;
-    prepareForFirstIn = true;
-  }else if(x > 1){      // out convert function, output data length
+  if(x > 1){    // out convert (subDet)
     std::cout<<" to "<<gDataMgr->gInDataStream.tellg()<<"\t---> "<<x<<std::endl;
     prepareForFirstIn = true;
-  }else if(x == -1){
-    std::cout<<"\tError: not find 0xeb\t";
-    PrintLocation();
-    prepareForFirstIn = true;
-  }else if(x == -2){
-    std::cout<<"\tError: not find 0x90\t";
-    PrintLocation();
-    prepareForFirstIn = true;
-  }else if(x == -3){
-    std::cout<<"\tError: trigger not match\t";
-    PrintLocation();
-    prepareForFirstIn = true;
-  }else if(x == -4){
-    std::cout<<"\tError: run mode not match\t";
-    PrintLocation();
-    prepareForFirstIn = true;
+  }else{
+    switch(x){
+    case 1:     // out convert (header)
+      std::cout<<" to "<<gDataMgr->gInDataStream.tellg()<<std::endl;
+      prepareForFirstIn = true;
+      break;
+    case 0:     // start convert
+      if(prepareForFirstIn){
+        std::cout<<"\tfrom "<<gDataMgr->gInDataStream.tellg();
+        prepareForFirstIn = false;
+      }
+      break;
+    case -1:
+      std::cout<<"\tError: not find 0xeb\t";
+      PrintLocation();
+      prepareForFirstIn = true;
+      break;
+    case -2:
+      std::cout<<"\tError: not find 0x90\t";
+      PrintLocation();
+      prepareForFirstIn = true;
+      break;
+    case -3:
+      std::cout<<"\tError: trigger not match\t";
+      PrintLocation();
+      prepareForFirstIn = true;
+      break;
+    case -4:
+      std::cout<<"\tError: run mode not match\t";
+      PrintLocation();
+      prepareForFirstIn = true;
+      break;
+    }
   }
 }
 
