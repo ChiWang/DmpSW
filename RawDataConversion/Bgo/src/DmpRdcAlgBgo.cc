@@ -126,7 +126,6 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
     gDataMgr->gInDataStream.read((char*)(&tmp),1);       // must spplit them, 2 bytes for CRC
   }
 //-------------------------------------------------------------------
-
   gRdcLog->StatusLog(nBytes);
   return true;
 }
