@@ -15,13 +15,13 @@
 void DmpRdcLog::StatusLog(const short &x) const {
   static bool prepareForFirstIn = true;
   if(x == 0 && prepareForFirstIn){     // in convert function
-    std::cout<<"\tfrom "<<gDataMgr->gInFile->tellg();
+    std::cout<<"\tfrom "<<gDataMgr->gInDataStream.tellg();
     prepareForFirstIn = false;
   }else if(x == 1){     // out convert function, not output data length
-    std::cout<<" to "<<gDataMgr->gInFile->tellg()<<std::endl;
+    std::cout<<" to "<<gDataMgr->gInDataStream.tellg()<<std::endl;
     prepareForFirstIn = true;
   }else if(x > 1){      // out convert function, output data length
-    std::cout<<" to "<<gDataMgr->gInFile->tellg()<<"\t---> "<<x<<std::endl;
+    std::cout<<" to "<<gDataMgr->gInDataStream.tellg()<<"\t---> "<<x<<std::endl;
     prepareForFirstIn = true;
   }else if(x == -1){
     std::cout<<"\tError: not find 0xeb\t";
@@ -48,7 +48,7 @@ void DmpRdcLog::PrintLocation() const{
   static DmpEvtHeader *evtHeader = gDataMgr->GetRawEvent()->GetEventHeader();
   std::cout<<"Location: ";
   for(short i=0;i<5;++i){
-    gDataMgr->gInFile->read((char*)(&tmp),1);
+    gDataMgr->gInDataStream.read((char*)(&tmp),1);
     std::cout<<" "<<std::hex<<tmp<<std::dec;
   }
   std::cout<<"\t";

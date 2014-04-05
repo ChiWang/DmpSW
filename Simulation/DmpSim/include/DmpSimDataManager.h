@@ -25,12 +25,13 @@ public:
     static DmpSimDataManager instance;
     return &instance;
   }
+  ~DmpSimDataManager();
+  bool InputData(const std::string &n){fInDataName = n;}
   void Initialize();
   void BookBranch();            // invoked from BeginOfRunAction()
 
 private:
   DmpSimDataManager();
-  ~DmpSimDataManager();
 
 public:
   DmpEvtSimPrimaryParticle* GetPrimaryParticle() const {return fPrimaryParticle;}
@@ -43,6 +44,7 @@ private:
   DmpEventRaw   *fEvtRaw;
 };
 
+//-------------------------------------------------------------------
 extern DmpSimDataManager *gDataMgr;
 
 #endif

@@ -24,7 +24,7 @@ public:
     return &instance;
   }
   ~DmpRdcDataManager();
-  std::ifstream     *gInFile;   // in file pointer. update it for every binary data
+  bool InputData(const std::string&);
   void Initialize();
   void BookBranch();
   void FillEvent();
@@ -33,7 +33,8 @@ private:
   DmpRdcDataManager();
 
 public:
-  DmpEventRaw*  GetRawEvent() const     {return fEvtRaw;}
+  std::ifstream gInDataStream;   // inFile stream. update it for every binary data
+  DmpEventRaw*  GetRawEvent() const {return fEvtRaw;}
 
 private:
   DmpEventRaw   *fEvtRaw;

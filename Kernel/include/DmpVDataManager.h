@@ -28,6 +28,7 @@ public:
   DmpVDataManager();
   virtual ~DmpVDataManager();
 
+  virtual bool InputData(const std::string&)=0;
   virtual void Initialize()=0;   // prepare for the next data file
   virtual void BookBranch()=0;
   virtual void FillEvent();
@@ -36,8 +37,6 @@ public:
   void  AppendDataNote(const std::string &t)   {fNote = t;}   // binding me
   std::string GetOutDataPath() const    {return fOutDataPath;}  // binding me
   std::string GetOutDataName() const    {return fOutDataName;}  // binding me
-  void  SetInData(const std::string &n) {fInData = n;}
-  std::string GetInData() const     {return fInData;}
 
 private:
   void SetOutDataName();
@@ -46,6 +45,7 @@ private:
 protected:
   // for all input datas
   std::string   fPgkID;         // package id, add this in out data name
+  std::string   fInDataName;    // path + name
   // for one data
   TTree         *fOutDataTree;  // create and delete in concrete data manager class
 
@@ -54,7 +54,6 @@ private:
   // for all input datas
   std::string   fOutDataPath;   //
   // for one data
-  std::string   fInData;        // path + name
   std::string   fOutDataName;   //
   std::string   fNote;          // add note in the out data name
 

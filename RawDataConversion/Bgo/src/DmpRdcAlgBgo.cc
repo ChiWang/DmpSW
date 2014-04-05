@@ -66,19 +66,18 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
   gRdcLog->StatusLog(0);
 //-------------------------------------------------------------------
   static short tmp=0, tmp2=0, nBytes=0;
-  static std::ifstream *inFile = gDataMgr->gInFile;
   for (short counts=0;counts<DmpDetector::Bgo::kFEENo;++counts) {
-    inFile->read((char*)(&tmp),1);
+    gDataMgr->gInDataStream.read((char*)(&tmp),1);
     if (tmp!=0xeb) {
       gRdcLog->StatusLog(-1);
       return false;
     }
-    inFile->read((char*)(&tmp),1);
+    gDataMgr->gInDataStream.read((char*)(&tmp),1);
     if (tmp!=0x90) {
       gRdcLog->StatusLog(-2);
       return false;
     }
-    inFile->read((char*)(&tmp),1);       // trigger
+    gDataMgr->gInDataStream.read((char*)(&tmp),1);       // trigger
     if(counts == 0){
       sHeader->SetTrigger(DmpDetector::kBgo,tmp);
     }else{
@@ -87,7 +86,7 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
         return false;
       }
     }
-    inFile->read((char*)(&tmp),1);       // run mode and FEE ID
+    gDataMgr->gInDataStream.read((char*)(&tmp),1);       // run mode and FEE ID
     static short feeID = 0;
     feeID = tmp%16;
     if(counts == 0){
@@ -98,16 +97,16 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
         return false;
       }
     }
-    inFile->read((char*)(&tmp),1);       // data length, 2 bytes
-    inFile->read((char*)(&tmp2),1);
+    gDataMgr->gInDataStream.read((char*)(&tmp),1);       // data length, 2 bytes
+    gDataMgr->gInDataStream.read((char*)(&tmp2),1);
     nBytes = tmp*256+tmp2-2-2-2;        // 2 bytes for data length, 2 bytes for 0x0000, 2 bytes for CRC
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
     if(sHeader->GetRunMode(DmpDetector::kBgo) == DmpDetector::k0Compress){
       for(short i=0;i<nBytes;i+=2){     // k0Compress
-        inFile->read((char*)(&tmp),1);
-        inFile->read((char*)(&tmp2),1);
+        gDataMgr->gInDataStream.read((char*)(&tmp),1);
+        gDataMgr->gInDataStream.read((char*)(&tmp2),1);
         AppendThisSignal(fConnector[feeID*1000+i],tmp*256+tmp2);
       }
     }else{
@@ -115,16 +114,16 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
 // *
 // *  TODO: fix me
 // *
-        inFile->read((char*)(&tmp),1);
-        inFile->read((char*)(&tmp),1);
-        inFile->read((char*)(&tmp2),1);
+        gDataMgr->gInDataStream.read((char*)(&tmp),1);
+        gDataMgr->gInDataStream.read((char*)(&tmp),1);
+        gDataMgr->gInDataStream.read((char*)(&tmp2),1);
         //AppendThisSignal(fConnector[feeID*1000+i],tmp*256+tmp2);
       }
     }
-    inFile->read((char*)(&tmp),1);       // 2 bytes for 0x0000
-    inFile->read((char*)(&tmp),1);       // must split them, 2 bytes for 0x0000
-    inFile->read((char*)(&tmp),1);       // 2 bytes for CRC
-    inFile->read((char*)(&tmp),1);       // must spplit them, 2 bytes for CRC
+    gDataMgr->gInDataStream.read((char*)(&tmp),1);       // 2 bytes for 0x0000
+    gDataMgr->gInDataStream.read((char*)(&tmp),1);       // must split them, 2 bytes for 0x0000
+    gDataMgr->gInDataStream.read((char*)(&tmp),1);       // 2 bytes for CRC
+    gDataMgr->gInDataStream.read((char*)(&tmp),1);       // must spplit them, 2 bytes for CRC
   }
 //-------------------------------------------------------------------
 

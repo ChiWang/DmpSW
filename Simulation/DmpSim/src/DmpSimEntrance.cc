@@ -76,7 +76,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 //-------------------------------------------------------------------
 void DmpCore::SimExecute(const std::string &inData){
   // UI interface manager
-  gDataMgr->SetInData(inData);
+  gDataMgr->InputData(inData);
   G4UImanager *UImanager = G4UImanager::GetUIpointer();
   if (inData == "visual"){
     // interactive mode : define UI session

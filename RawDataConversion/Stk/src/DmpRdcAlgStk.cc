@@ -27,7 +27,7 @@ DmpRdcAlgStk::~DmpRdcAlgStk(){
 //-------------------------------------------------------------------
 #include "DmpRdcCnctPath.h"
 bool DmpRdcAlgStk::Initialize(){
-  std::string path = DmpRdcCnctPath::GetInstance()->GetConnectorPath(DmpDetector::kStk);
+  std::string path = gCnctPathMgr->GetConnectorPath(DmpDetector::kStk);
   if(path == "default"){
     std::cout<<"\nNo set connector:\tStk"<<std::endl;
     return true;

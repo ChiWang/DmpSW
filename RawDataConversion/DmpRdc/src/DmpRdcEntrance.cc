@@ -32,28 +32,20 @@ void DmpCore::RdcClear(){
 
 //-------------------------------------------------------------------
 void DmpCore::RdcExecute(const std::string &dataName){
-  gDataMgr->SetInData(dataName);
   // open file
-  std::ifstream inputData(dataName.c_str(),std::ios::in|std::ios::binary);
-  if (inputData.good()) {
-    gDataMgr->gInFile = &inputData;
-  }else{
-    std::cerr<<"\nwarning: open "<<dataName<<" failed"<<std::endl;
-    inputData.close();
-    return;
-  }
+  if(not gDataMgr->InputData(dataName)) return;
 
   // convert and save output
   gDataMgr->Initialize();
   gDataMgr->BookBranch();
-  for(long i=0;!inputData.eof();++i){
+  for(long i=0;!gDataMgr->gInDataStream.eof();++i){
     if(not gAlgMgr->Process())  continue;
     gDataMgr->FillEvent();
   }
   gDataMgr->SaveOutput();
 
   // reset
-  inputData.close();
+  gDataMgr->gInDataStream.close();
 }
 
 

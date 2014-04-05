@@ -18,7 +18,7 @@
 // *
 #pragma link C++ class DmpCalBgoPMT+;
 #pragma link C++ class DmpCalBgoBar+;
-#pragma link C++ class DmpCalBgo+;
+#pragma link C++ class DmpCalBgoMetaData+;
 
 #endif
 

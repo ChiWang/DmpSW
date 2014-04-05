@@ -84,38 +84,37 @@ bool DmpRdcAlgNud::ProcessThisEvent(){
 // *
 //-------------------------------------------------------------------
   static short tmp=0, tmp2=0, nBytes=0;
-  static std::ifstream *inFile = gDataMgr->gInFile;
-  inFile->read((char*)(&tmp),1);
+  gDataMgr->gInDataStream.read((char*)(&tmp),1);
   if (tmp!=0xeb) {
     gRdcLog->StatusLog(-1);
     return false;
   }
-  inFile->read((char*)(&tmp),1);
+  gDataMgr->gInDataStream.read((char*)(&tmp),1);
   if (tmp!=0x90) {
     gRdcLog->StatusLog(-2);
     return false;
   }
-  inFile->read((char*)(&tmp),1);     // trigger
+  gDataMgr->gInDataStream.read((char*)(&tmp),1);     // trigger
   sHeader->SetTrigger(DmpDetector::kNud,tmp);
-  inFile->read((char*)(&tmp),1);     // run mode and FEE ID
+  gDataMgr->gInDataStream.read((char*)(&tmp),1);     // run mode and FEE ID
   sHeader->SetRunMode(DmpDetector::kNud,tmp/16-DmpDetector::Nud::kFEEType);
-  inFile->read((char*)(&tmp),1);     // data length, 2 Bytes
-  inFile->read((char*)(&tmp2),1);
+  gDataMgr->gInDataStream.read((char*)(&tmp),1);     // data length, 2 Bytes
+  gDataMgr->gInDataStream.read((char*)(&tmp2),1);
   nBytes = tmp*256+tmp2-2-2;            // 2 bytes for data length, 2 bytes for CRC
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
   //if (sHeader->GetRunMode(DmpDetector::kNud) == DmpDetector::k0Compress) 
   for(short i=0;i<nBytes;i+=2){     // k0Compress
-    inFile->read((char*)(&tmp),1);
-    inFile->read((char*)(&tmp),1);
+    gDataMgr->gInDataStream.read((char*)(&tmp),1);
+    gDataMgr->gInDataStream.read((char*)(&tmp),1);
 // *
 // *  TODO: store impfore into hits
 // *
     //fHitCollection->
   }
-  inFile->read((char*)(&tmp),1);     // 2 bytes for CRC
-  inFile->read((char*)(&tmp),1);     // 2 bytes for CRC, MUST split them
+  gDataMgr->gInDataStream.read((char*)(&tmp),1);     // 2 bytes for CRC
+  gDataMgr->gInDataStream.read((char*)(&tmp),1);     // 2 bytes for CRC, MUST split them
 //-------------------------------------------------------------------
 
   gRdcLog->StatusLog(nBytes);

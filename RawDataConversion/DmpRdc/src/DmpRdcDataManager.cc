@@ -4,11 +4,25 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
+#include <iostream>
+
 #include "TTree.h"
 
 #include "DmpEventRaw.h"
 #include "DmpEvtHeader.h"
 #include "DmpRdcDataManager.h"
+
+//-------------------------------------------------------------------
+bool DmpRdcDataManager::InputData(const std::string &dataName){
+  gInDataStream.open(dataName.c_str(),std::ios::in|std::ios::binary);
+  fInDataName = dataName;
+  if(not gInDataStream.good()){
+    std::cerr<<"\nwarning: open "<<dataName<<" failed"<<std::endl;
+    gInDataStream.close();
+    return false;
+  }
+  return true;
+}
 
 //-------------------------------------------------------------------
 void DmpRdcDataManager::Initialize(){
@@ -35,7 +49,7 @@ void DmpRdcDataManager::FillEvent(){
 
 //-------------------------------------------------------------------
 DmpRdcDataManager::DmpRdcDataManager()
- :gInFile(0),
+ :gInDataStream(0),
   fEvtRaw(0)
 {
   std::cout<<"Setting DmpRdcDataManager"<<std::endl;

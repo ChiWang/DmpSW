@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpCalAlgBgoPed.h, 2014-04-04 16:49:22 chi $
+ *  $Id: DmpCalAlgBgoPed.h, 2014-04-04 21:27:08 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/04/2014
 */
@@ -9,20 +9,13 @@
 
 #include "DmpVAlgorithm.h"
 
-class TClonesArray;
-
 class DmpCalAlgBgoPed : public DmpVAlgorithm{
 public:
-  DmpCalAlgBgoPed(const std::string &n)
-   :DmpVAlgorithm(n),
-   fHitCollection(0){}
-  ~DmpCalAlgBgoPed(){}
-  bool Initialize();    // book file
-  bool Finialize();     // save out constant data
+  DmpCalAlgBgoPed(const std::string&);
+  ~DmpCalAlgBgoPed();
+  bool Initialize();
+  bool Finialize();
   bool ProcessThisEvent();  // get entry and fill
-
-private:
-  TClonesArray  *fHitCollection;    // rawEvt
 
 };
 

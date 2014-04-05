@@ -11,6 +11,16 @@
 #include "DmpEvtBgoHit.h"
 
 //-------------------------------------------------------------------
+DmpCalAlgBgoPed::DmpCalAlgBgoPed(const std::string &n)
+ :DmpVAlgorithm(n)
+{
+}
+
+//-------------------------------------------------------------------
+DmpCalAlgBgoPed::~DmpCalAlgBgoPed(){
+}
+
+//-------------------------------------------------------------------
 bool DmpCalAlgBgoPed::Initialize(){
 
 }

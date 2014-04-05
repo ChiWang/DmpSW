@@ -1,11 +1,11 @@
 /*
- *  $Id: DmpCalBgo.h, 2014-04-04 10:37:20 chi $
+ *  $Id: DmpCalBgoMetaData.h, 2014-04-04 21:24:38 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 26/12/2013
 */
 
-#ifndef DmpCalBgo_H
-#define DmpCalBgo_H
+#ifndef DmpCalBgoMetaData_H
+#define DmpCalBgoMetaData_H
 
 #include "TObject.h"
 
@@ -37,16 +37,16 @@ struct DmpCalBgoBar : public TObject{
 
 class TClonesArray;
 //-------------------------------------------------------------------
-class DmpCalBgo : public TObject{
+class DmpCalBgoMetaData : public TObject{
 /*
- * DmpCalBgo
+ * DmpCalBgoMetaData
  *
  * This class used to recore caliration results of Bgo
  *
  */
 public:
-  DmpCalBgo();
-  ~DmpCalBgo();
+  DmpCalBgoMetaData();
+  ~DmpCalBgoMetaData();
   DmpCalBgoBar* GetBar(const int &SDID)const;
   DmpCalBgoBar* GetRefBar(const short &layer, const short &side)const;
 
@@ -55,10 +55,10 @@ private:
   std::string   fUsedDate_Mip;      // used which data to calibration Mips
   std::string   fUsedDate_Rel;      // used which data to calibration Relation
 
-  TClonesArray  *fBarSet;           //->
-  TClonesArray  *fRefBarSet;        //->
+  TClonesArray  *fBarCollection;    //->
+  TClonesArray  *fRefBarCollection; //->
 
-  ClassDef(DmpCalBgo,1)
+  ClassDef(DmpCalBgoMetaData,1)
 };
 
 
