@@ -7,6 +7,21 @@
 #include "DmpCalBgoDataManager.h"
 
 //-------------------------------------------------------------------
+bool DmpCalBgoDataManager::InputData(const std::string &n){
+  fInDataName = n;
+  //gInDataTree = ;
+}
+
+//-------------------------------------------------------------------
+void DmpCalBgoDataManager::Initialize(){
+}
+
+//-------------------------------------------------------------------
+void DmpCalBgoDataManager::BookBranch(){
+
+}
+
+//-------------------------------------------------------------------
 DmpCalBgoDataManager::~DmpCalBgoDataManager(){
   delete fMetaData;
 }

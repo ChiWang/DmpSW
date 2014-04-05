@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpCalBgoDataManager.h, 2014-04-04 21:19:51 chi $
+ *  $Id: DmpCalBgoDataManager.h, 2014-04-05 12:34:00 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 04/04/2014
 */
@@ -18,16 +18,16 @@ public:
     return &instance;
   }
   ~DmpCalBgoDataManager();
+  bool InputData(const std::string&);
   void Initialize();
   void BookBranch();
-  virtual bool SetInData(const std::string);
 
 private:
   DmpCalBgoDataManager();
 
 public:
   TTree         *gInDataTree;   // in data
-  DmpCalBgoMetaData* GetMetaData()const{return fMetaData;}
+  DmpCalBgoMetaData* GetMetaData() const {return fMetaData;}
 
 private:
   DmpCalBgoMetaData     *fMetaData;      // MetaData of Calibration
