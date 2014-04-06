@@ -23,6 +23,10 @@ void DmpCore::RdcInitialize(){
   gAlgMgr->Append(new DmpRdcAlgBgo("RdcAlgBgo"));
   gAlgMgr->Append(new DmpRdcAlgStk("RdcAlgStk"));
   gAlgMgr->Initialize();
+// *
+// *  TODO:  add DataMgr into SVCMgr, then initialize it
+// *
+  //gDataMgr->Initialize();
 }
 
 //-------------------------------------------------------------------
@@ -34,16 +38,12 @@ void DmpCore::RdcExecute(const std::string &dataName){
   // open file
   if(not gDataMgr->InputData(dataName)) return;
   // convert and save output
-// *
-// *  TODO:  add DataMgr into SVCMgr, then initialize it
-// *
-  //gDataMgr->Initialize();
   gDataMgr->BookBranch();
   for(long i=0;!gDataMgr->gInDataStream.eof();++i){
     if(not gAlgMgr->Process())  continue;
     gDataMgr->FillEvent();
   }
-  gDataMgr->Finialize();
+  gDataMgr->SaveOutput();
 
   // reset
   gDataMgr->gInDataStream.close();
