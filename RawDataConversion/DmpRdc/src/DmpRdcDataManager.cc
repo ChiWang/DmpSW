@@ -47,7 +47,7 @@ DmpRdcDataManager::~DmpRdcDataManager(){
 //-------------------------------------------------------------------
 bool DmpRdcDataManager::InputData(const std::string &dataName){
   gInDataStream.open(dataName.c_str(),std::ios::in|std::ios::binary);
-  gDataMgr->InputData(dataName);
+  DmpVIOSvc::InputData(dataName);
   if(not gInDataStream.good()){
     std::cerr<<"\nwarning: open "<<dataName<<" failed"<<std::endl;
     gInDataStream.close();

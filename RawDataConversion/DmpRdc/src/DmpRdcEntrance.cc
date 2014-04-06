@@ -33,7 +33,6 @@ void DmpCore::RdcClear(){
 void DmpCore::RdcExecute(const std::string &dataName){
   // open file
   if(not gDataMgr->InputData(dataName)) return;
-  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
   // convert and save output
 // *
 // *  TODO:  add DataMgr into SVCMgr, then initialize it
