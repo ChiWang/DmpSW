@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimDataManager.h, 2014-04-04 17:22:52 chi $
+ *  $Id: DmpSimDataManager.h, 2014-04-06 17:16:01 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/02/2014
 */
@@ -7,14 +7,15 @@
 #ifndef DmpSimDataManager_H
 #define DmpSimDataManager_H
 
-#include "DmpVDataManager.h"
+#include "DmpVIOSvc.h"
+#include "DmpDetectorID.h"
 
-class G4Run;
 class G4Event;
 class DmpEvtSimPrimaryParticle;
-class DmpEventRaw;
+class DmpEvtHeader;
+class TClonesArray;
 
-class DmpSimDataManager : public DmpVDataManager{
+class DmpSimDataManager : public DmpVIOSvc{
 /*
  *  DmpSimDataManager
  *
@@ -26,22 +27,27 @@ public:
     return &instance;
   }
   ~DmpSimDataManager();
-  bool InputData(const std::string &n){fInDataName = n;}
-  void Initialize();
+  bool Initialize();            // invoked from BeginOfrunAction()
   void BookBranch();            // invoked from BeginOfRunAction()
 
 private:
   DmpSimDataManager();
 
 public:
+  DmpEvtHeader* GetEventHeader() const  {return fEvtHeader;}
+  TClonesArray* GetOutCollection(DmpDetector::DmpEDetectorID) const;
+  void ResetEvent();            // delete all elements in TClonesArray
   DmpEvtSimPrimaryParticle* GetPrimaryParticle() const {return fPrimaryParticle;}
-  DmpEventRaw*  GetRawEvent() const     {return fEvtRaw;}
   void UpdatePrimaryParticleInformation(const G4Event*);    // invoked from GeneratePrimaries()
-  void Digitize();                  // invoked from EndOfEventAction(), before FillEvent()
+  void Digitize();              // invoked from EndOfEventAction(), before FillEvent()
 
 private:
   DmpEvtSimPrimaryParticle  *fPrimaryParticle;
-  DmpEventRaw   *fEvtRaw;
+  DmpEvtHeader  *fEvtHeader;
+  TClonesArray  *fPsdOutSet;
+  TClonesArray  *fBgoOutSet;
+  TClonesArray  *fStkOutSet;
+  TClonesArray  *fNudOutSet;
 };
 
 //-------------------------------------------------------------------

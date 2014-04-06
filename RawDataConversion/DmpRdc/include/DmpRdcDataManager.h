@@ -10,7 +10,9 @@
 #include <fstream>
 #include "DmpVDataManager.h"
 
-class DmpEventRaw;
+//class DmpEventRaw;
+class DmpEvtHeader;
+class TClonesArray;
 
 class DmpRdcDataManager : public DmpVDataManager{
 /*
@@ -34,11 +36,17 @@ private:
 
 public:
   std::ifstream gInDataStream;   // inFile stream. update it for every binary data
-  DmpEventRaw*  GetRawEvent() const {return fEvtRaw;}
+  DmpEvtHeader* GetEventHeader() const {return fEvtHeader;}
+  TClonesArray* GetMSDCollection(DmpDetector::DmpEDetectorID) const;
+  //DmpEventRaw*  GetRawEvent() const {return fEvtRaw;}
 
 private:
-  DmpEventRaw   *fEvtRaw;
-
+  //DmpEventRaw   *fEvtRaw;
+  DmpEvtHeader      *fEvtHeader;
+  TClonesArray      *fPsdMSDSet;
+  TClonesArray      *fBgoMSDSet;
+  TClonesArray      *fStkMSDSet;
+  TClonesArray      *fNudMSDSet;
 };
 
 //-------------------------------------------------------------------

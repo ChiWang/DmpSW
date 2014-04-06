@@ -19,6 +19,10 @@ class DmpVService{
 public:
   DmpVService(const std::string &n):fName(n){}
   virtual ~DmpVService(){}
+  virtual bool Initialize()=0;
+  virtual bool Finialize()=0;
+
+public:
   std::string Name() const   {return fName;}
 
 private:

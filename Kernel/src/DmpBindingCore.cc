@@ -8,7 +8,7 @@
 
 #include "DmpRunMode.h"
 #include "DmpDetectorID.h"
-#include "DmpVDataManager.h"
+#include "DmpVIOSvc.h"
 #include "DmpElementManager.h"
 #include "DmpServiceManager.h"
 #include "DmpAlgorithmManager.h"
@@ -17,16 +17,16 @@
 // wrapper for DmpVOutDataManger
 /*
 using namespace boost::python;
-struct DmpVDataManagerWrap : DmpVDataManager, boost::python::wrapper<DmpVDataManager>{
+struct DmpVIOSvcWrap : DmpVIOSvc, boost::python::wrapper<DmpVIOSvc>{
 
   void SetOutDataName(const std::string &n){
     if(override SetOutDataName = this->get_override("SetOutDataName")){
       return SetOutDataName(const std::string&);
     }
-    return DmpVDataManager::SetOutDataName(const std::string&);
+    return DmpVIOSvc::SetOutDataName(const std::string&);
   }
   void Def_SetOutDataName(const std::string&){
-    return this->DmpVDataManager::SetOutDataName(const std::string&);
+    return this->DmpVIOSvc::SetOutDataName(const std::string&);
   }
 };
 */
@@ -60,12 +60,12 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .value("kWhole",DmpDetector::kWhole)
   ;
 
-  // DmpVDataManager, only derived classes will use them
-  class_<DmpVDataManager,boost::noncopyable>("DmpVDataManager",no_init)
-    .def("SetOutDataPath",  &DmpVDataManager::SetOutDataPath)
-    .def("AppendDataNote",  &DmpVDataManager::AppendDataNote)
-    .def("GetOutDataPath",  &DmpVDataManager::GetOutDataPath)
-    .def("GetOutDataName",  &DmpVDataManager::GetOutDataName)
+  // DmpVIOSvc, only derived classes will use them
+  class_<DmpVIOSvc,boost::noncopyable>("DmpVIOSvc",no_init)
+    .def("SetOutDataPath",  &DmpVIOSvc::SetOutDataPath)
+    .def("AppendDataNote",  &DmpVIOSvc::AppendDataNote)
+    .def("GetOutDataPath",  &DmpVIOSvc::GetOutDataPath)
+    .def("GetOutDataName",  &DmpVIOSvc::GetOutDataName)
   ;
 
   // DmpElementManager

@@ -4,47 +4,42 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/03/2014
 */
 
-#ifdef DmpDebug
-//#include <iostream>
-#endif
-
 #include "TClonesArray.h"
 
 #include "G4Step.hh"
 #include "G4TouchableHistory.hh"
 
-#include "DmpSimBgoSD.h"
-#include "DmpEventRaw.h"
 #include "DmpEvtBgoMSD.h"
+#include "DmpSimBgoSD.h"
 #include "DmpSimDataManager.h"
 
+//-------------------------------------------------------------------
 DmpSimBgoSD::DmpSimBgoSD(G4String name)
  :G4VSensitiveDetector(name)
 {
-  fMSDSet = gDataMgr->GetRawEvent()->GetMSDCollection(DmpDetector::kBgo);
+  fMSDSet = gDataMgr->GetOutCollection(DmpDetector::kBgo);
 }
 
+//-------------------------------------------------------------------
 DmpSimBgoSD::~DmpSimBgoSD(){
 }
 
+//-------------------------------------------------------------------
 void DmpSimBgoSD::Initialize(G4HCofThisEvent*){
 }
 
+//-------------------------------------------------------------------
 #include <boost/lexical_cast.hpp>
 G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
-// *
-// *  TODO: update the method to get barID
-// *
   G4TouchableHistory *theTouchable = (G4TouchableHistory*)(aStep->GetPreStepPoint()->GetTouchable());
   std::string barName = theTouchable->GetVolume()->GetName();
   barName.assign(barName.end()-4,barName.end());        // get ID
   int barID = boost::lexical_cast<int>(barName);
-  //int barID = 333;
-  //int barID = (theTouchable->GetVolume(1)->GetCopyNo())*100 + theTouchable->GetVolume()->GetCopyNo();
   int index = -1;
   for(int i=0;i<fMSDSet->GetEntriesFast();++i){
     if(((DmpEvtBgoMSD*)fMSDSet->At(i))->GetSDID() == barID){
       index = i;
+      break;
     }
   }
   static DmpEvtBgoMSD *aMSD = 0;
@@ -52,8 +47,8 @@ G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tnew bar has hits = "<<barID<<std::endl;
 #endif
-    index = fMSDSet->GetEntriesFast();
-    aMSD = (DmpEvtBgoMSD*)fMSDSet->ConstructedAt(index);
+    //aMSD = (DmpEvtBgoMSD*)fMSDSet->ConstructedAt(fMSDSet->GetEntriesFast());
+    aMSD = (DmpEvtBgoMSD*)fMSDSet->New(fMSDSet->GetEntriesFast());
     aMSD->SetSDID(barID);
   }else{
     aMSD = (DmpEvtBgoMSD*)fMSDSet->At(index);
@@ -62,6 +57,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\
   aMSD->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,position.x()/cm,position.y()/cm,position.z()/cm);
 }
 
+//-------------------------------------------------------------------
 void DmpSimBgoSD::EndOfEvent(G4HCofThisEvent* HCE){
 }
 

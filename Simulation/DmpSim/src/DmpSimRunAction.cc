@@ -1,13 +1,10 @@
 /*
- *  $Id: DmpSimRunAction.cc, 2014-03-20 10:59:22 chi $
+ *  $Id: DmpSimRunAction.cc, 2014-04-06 14:35:54 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 04/03/2014
 */
 
-//#include <stdlib.h>
 #include "G4Run.hh"
-//#include "G4Event.hh"
-//#include "G4ios.hh"
 #include "G4UImanager.hh"
 #include "G4VVisManager.hh"
 #include <time.h>
@@ -16,8 +13,7 @@
 #include "DmpSimRunAction.h"
 #include "DmpSimDataManager.h"
 
-DmpSimRunAction::DmpSimRunAction()
-{
+DmpSimRunAction::DmpSimRunAction(){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 }
 
@@ -53,7 +49,7 @@ void DmpSimRunAction::EndOfRunAction(const G4Run* aRun){
 #ifdef DmpDebug
   G4cout << "End of Run, saving the root file" << G4endl;
 #endif
-  gDataMgr->SaveOutput();
+  gDataMgr->Finialize();
   /***
   if ( fSaveRndm ) { 
     G4int runNumber = run->GetRunID();

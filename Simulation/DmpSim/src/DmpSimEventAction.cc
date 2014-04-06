@@ -1,13 +1,10 @@
 /*
- *  $Id: DmpSimEventAction.cc, 2014-03-05 17:11:25 chi $
+ *  $Id: DmpSimEventAction.cc, 2014-04-06 15:45:13 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/03/2014
 */
 
-#ifdef DmpDebug
-#include <iostream>
 #include "G4Event.hh"
-#endif
 /*
 #include "G4EventManager.hh"
 #include "G4HCofThisEvent.hh"
@@ -22,13 +19,12 @@
 #include "DmpSimDigitization.h"
 //#include "G4Event.hh"
 */
+#include "DmpEvtHeader.h"
 #include "DmpSimEventAction.h"
 #include "DmpSimDataManager.h"
-#include "DmpEventRaw.h"
-#include "DmpEvtHeader.h"
 
-DmpSimEventAction::DmpSimEventAction()
-{
+//-------------------------------------------------------------------
+DmpSimEventAction::DmpSimEventAction(){
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
@@ -53,10 +49,10 @@ void DmpSimEventAction::BeginOfEventAction(const G4Event *anEvent){
 #ifdef DmpDebug
   std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tEvent ID = "<<anEvent->GetEventID()<<std::endl;
 #endif
-  static DmpEvtHeader *eventHeader = gDataMgr->GetRawEvent()->GetEventHeader();
+  static DmpEvtHeader *eventHeader = gDataMgr->GetEventHeader();
   eventHeader->CountThisEvent();
   eventHeader->SetParticlePdgCode(anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode());
-  gDataMgr->GetRawEvent()->Reset();
+  gDataMgr->ResetEvent();
 }
 
 //-------------------------------------------------------------------

@@ -13,6 +13,7 @@ class DmpSimEventAction : public G4UserEventAction{
 public:
   DmpSimEventAction();
   ~DmpSimEventAction();
+
   void BeginOfEventAction(const G4Event*);
   void EndOfEventAction(const G4Event*);
   

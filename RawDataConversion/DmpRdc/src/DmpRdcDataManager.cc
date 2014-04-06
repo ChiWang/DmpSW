@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcDataManager.cc, 2014-03-09 20:46:56 chi $
+ *  $Id: DmpRdcDataManager.cc, 2014-04-06 15:59:41 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -8,9 +8,19 @@
 
 #include "TTree.h"
 
-#include "DmpEventRaw.h"
+//#include "DmpEventRaw.h"
 #include "DmpEvtHeader.h"
 #include "DmpRdcDataManager.h"
+
+//-------------------------------------------------------------------
+DmpRdcDataManager::DmpRdcDataManager()
+ :gInDataStream(0),
+  //fEvtRaw(0)
+{
+  std::cout<<"Setting DmpRdcDataManager"<<std::endl;
+  //fEvtRaw = new DmpEventRaw();
+  fPgkID += "Rdc_V1.0_";
+}
 
 //-------------------------------------------------------------------
 bool DmpRdcDataManager::InputData(const std::string &dataName){
@@ -26,7 +36,7 @@ bool DmpRdcDataManager::InputData(const std::string &dataName){
 
 //-------------------------------------------------------------------
 void DmpRdcDataManager::Initialize(){
-  fEvtRaw->GetEventHeader()->Initialize();
+  //fEvtRaw->GetEventHeader()->Initialize();
 }
 
 //-------------------------------------------------------------------
@@ -38,31 +48,20 @@ void DmpRdcDataManager::BookBranch(){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
   fOutDataTree = new TTree("DAMPE_Raw","ADC");
-  fOutDataTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
+  //fOutDataTree->Branch("RawEvent","DmpEventRaw",&fEvtRaw,32000,2);
 }
 
 //-------------------------------------------------------------------
 void DmpRdcDataManager::FillEvent(){
-  fEvtRaw->GetEventHeader()->GenerateTriggerStatus();
+  //fEvtRaw->GetEventHeader()->GenerateTriggerStatus();
   fOutDataTree->Fill();
 }
 
 //-------------------------------------------------------------------
-DmpRdcDataManager::DmpRdcDataManager()
- :gInDataStream(0),
-  fEvtRaw(0)
-{
-  std::cout<<"Setting DmpRdcDataManager"<<std::endl;
-  fEvtRaw = new DmpEventRaw();
-  fPgkID += "Rdc_V1.0_";
-}
-
-//-------------------------------------------------------------------
 DmpRdcDataManager::~DmpRdcDataManager(){
-  delete fEvtRaw;
+  //delete fEvtRaw;
   std::cout<<"Delete DmpRdcDataManager"<<std::endl;
 }
-
 
 //-------------------------------------------------------------------
 DmpRdcDataManager *gDataMgr = DmpRdcDataManager::GetInstance();

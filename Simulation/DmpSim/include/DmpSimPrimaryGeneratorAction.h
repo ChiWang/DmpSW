@@ -10,6 +10,7 @@
 #include "G4VUserPrimaryGeneratorAction.hh"
 
 class G4GeneralParticleSource;
+
 class DmpSimPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction{
 public:
   DmpSimPrimaryGeneratorAction();    
