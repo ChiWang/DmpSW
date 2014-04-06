@@ -52,7 +52,6 @@ void DmpSimEventAction::BeginOfEventAction(const G4Event *anEvent){
   static DmpEvtHeader *eventHeader = gDataMgr->GetEventHeader();
   eventHeader->CountThisEvent();
   eventHeader->SetParticlePdgCode(anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode());
-  gDataMgr->ResetEvent();
 }
 
 //-------------------------------------------------------------------

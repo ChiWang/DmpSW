@@ -16,6 +16,8 @@ public:
     return &instance;
   }
   ~DmpRdcLog(){}
+  bool Initialize() {return true;}
+  bool Finialize()  {return true;}
 
 private:
   DmpRdcLog(const std::string &n):DmpVService(n){}

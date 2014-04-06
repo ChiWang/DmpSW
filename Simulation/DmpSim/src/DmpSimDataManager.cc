@@ -48,11 +48,6 @@ DmpSimDataManager::~DmpSimDataManager(){
 
 //-------------------------------------------------------------------
 bool DmpSimDataManager::Initialize(){
-// *
-// *  TODO:  for primary particle
-// *
-  //fPrimaryParticle->Reset();
-  fEvtHeader->Initialize();
 }
 
 //-------------------------------------------------------------------
@@ -60,6 +55,11 @@ void DmpSimDataManager::BookBranch(){
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
+// *
+// *  TODO:  for primary particle
+// *
+  //fPrimaryParticle->Reset();
+  fEvtHeader->Initialize();
   fOutDataTree = new TTree("DAMPE_Raw","Simulation");
   fOutDataTree->Branch("PrimaryParticle","DmpEvtSimPrimaryParticle",&fPrimaryParticle,32000,2);
   fOutDataTree->Branch("EventHeader","DmpEvtHeader",&fEvtHeader,32000,2);

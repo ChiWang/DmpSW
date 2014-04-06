@@ -6,14 +6,13 @@
 
 #include "DmpRdcAlgHeader.h"
 #include "DmpRdcDataManager.h"
-#include "DmpEventRaw.h"
 #include "DmpEvtHeader.h"
 
 //-------------------------------------------------------------------
 DmpRdcAlgHeader::DmpRdcAlgHeader(const std::string &n)
  :DmpVAlgorithm(n)
 {
-  fEvtHeader = gDataMgr->GetRawEvent()->GetEventHeader();
+  fEvtHeader = gDataMgr->GetEventHeader();
 }
 
 //-------------------------------------------------------------------
@@ -40,7 +39,6 @@ bool DmpRdcAlgHeader::ProcessThisEvent(){
     gDataMgr->gInDataStream.read((char*)(&tmp),1);
     fEvtHeader->SetTime(index,tmp);
   }
-  gDataMgr->GetRawEvent()->Reset(); // perpare for the sub-Det Convert()
 //-------------------------------------------------------------------
   gRdcLog->StatusLog(1);
   return true;

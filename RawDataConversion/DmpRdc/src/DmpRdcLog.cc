@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcLog.cc, 2014-04-02 10:58:35 chi $
+ *  $Id: DmpRdcLog.cc, 2014-04-06 20:37:24 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 02/04/2014
 */
@@ -7,9 +7,8 @@
 #include <iostream>
 
 #include "DmpRdcLog.h"
-#include "DmpRdcDataManager.h"
-#include "DmpEventRaw.h"
 #include "DmpEvtHeader.h"
+#include "DmpRdcDataManager.h"
 
 //-------------------------------------------------------------------
 void DmpRdcLog::StatusLog(const short &x) const {
@@ -56,7 +55,7 @@ void DmpRdcLog::StatusLog(const short &x) const {
 //-------------------------------------------------------------------
 void DmpRdcLog::PrintLocation() const{
   static short tmp = 0;
-  static DmpEvtHeader *evtHeader = gDataMgr->GetRawEvent()->GetEventHeader();
+  static DmpEvtHeader *evtHeader = gDataMgr->GetEventHeader();
   std::cout<<"Location: ";
   for(short i=0;i<5;++i){
     gDataMgr->gInDataStream.read((char*)(&tmp),1);
@@ -65,7 +64,6 @@ void DmpRdcLog::PrintLocation() const{
   std::cout<<"\t";
   evtHeader->PrintTime();
 }
-
 
 //-------------------------------------------------------------------
 DmpRdcLog *gRdcLog = DmpRdcLog::GetInstance();

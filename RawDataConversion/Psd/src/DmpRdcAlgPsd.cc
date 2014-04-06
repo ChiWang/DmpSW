@@ -10,7 +10,6 @@
 
 #include "DmpRdcAlgPsd.h"
 #include "DmpRdcDataManager.h"
-#include "DmpEventRaw.h"
 #include "DmpEvtPsdMSD.h"
 #include "DmpEvtHeader.h"
 #include "DmpDetectorPsd.h"
@@ -18,7 +17,7 @@
 DmpRdcAlgPsd::DmpRdcAlgPsd(const std::string &name)
  :DmpRdcVAlgSubDet(name)
 {
-  fMSDSet = gDataMgr->GetRawEvent()->GetMSDCollection(DmpDetector::kPsd);
+  fMSDSet = gDataMgr->GetOutCollection(DmpDetector::kPsd);
 }
 
 //-------------------------------------------------------------------
@@ -30,11 +29,11 @@ DmpRdcAlgPsd::~DmpRdcAlgPsd(){
 bool DmpRdcAlgPsd::Initialize(){
   std::string path = gCnctPathMgr->GetConnectorPath(DmpDetector::kPsd);
   if(path == "default"){
-    std::cout<<"\nNo set connector:\tPsd"<<std::endl;
+    std::cout<<"\n\tNo set connector:\tPsd"<<std::endl;
     return true;
   }else{
     fRunMe = true;
-    std::cout<<"\nSetting connector:\tPsd";
+    std::cout<<"\n\tSetting connector:\tPsd";
   }
 // *
 // *  TODO:  check connector right?
@@ -83,6 +82,7 @@ bool DmpRdcAlgPsd::ProcessThisEvent(){
 // *
 //-------------------------------------------------------------------
   static short tmp=0, tmp2 = 0, nBytes = 0;
+  static DmpEvtHeader *evtHeader = gDataMgr->GetEventHeader();
   for (short FEEID=0;FEEID<DmpDetector::Psd::kFEENo;++FEEID) {
     gDataMgr->gInDataStream.read((char*)(&tmp),1);
     if (tmp!=0xeb) {
@@ -96,18 +96,18 @@ bool DmpRdcAlgPsd::ProcessThisEvent(){
     }
     gDataMgr->gInDataStream.read((char*)(&tmp),1);       // trigger
     if(FEEID == 0){
-      sHeader->SetTrigger(DmpDetector::kPsd,tmp);
+      evtHeader->SetTrigger(DmpDetector::kPsd,tmp);
     }else{
-      if(sHeader->GetTrigger(DmpDetector::kPsd) != tmp){
+      if(evtHeader->GetTrigger(DmpDetector::kPsd) != tmp){
         gRdcLog->StatusLog(-3);
         return false;
       }
     }
     gDataMgr->gInDataStream.read((char*)(&tmp),1);       // run mode and FEE ID
     if(FEEID == 0){
-      sHeader->SetRunMode(DmpDetector::kPsd,tmp/16-DmpDetector::Psd::kFEEType);
+      evtHeader->SetRunMode(DmpDetector::kPsd,tmp/16-DmpDetector::Psd::kFEEType);
     }else{
-      if(sHeader->GetRunMode(DmpDetector::kPsd) != tmp/16-DmpDetector::Psd::kFEEType){
+      if(evtHeader->GetRunMode(DmpDetector::kPsd) != tmp/16-DmpDetector::Psd::kFEEType){
         gRdcLog->StatusLog(-4);
         return false;
       }
@@ -118,7 +118,7 @@ bool DmpRdcAlgPsd::ProcessThisEvent(){
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
-    if(sHeader->GetRunMode(DmpDetector::kPsd) == DmpDetector::k0Compress){
+    if(evtHeader->GetRunMode(DmpDetector::kPsd) == DmpDetector::k0Compress){
       for(short i=0;i<nBytes;i+=2){     // k0Compress
         gDataMgr->gInDataStream.read((char*)(&tmp),1);
         gDataMgr->gInDataStream.read((char*)(&tmp),1);

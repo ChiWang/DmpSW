@@ -32,11 +32,11 @@ public:
 
 private:
   DmpSimDataManager();
+  void ResetEvent();            // delete all elements in TClonesArray
 
 public:
   DmpEvtHeader* GetEventHeader() const  {return fEvtHeader;}
   TClonesArray* GetOutCollection(DmpDetector::DmpEDetectorID) const;
-  void ResetEvent();            // delete all elements in TClonesArray
   DmpEvtSimPrimaryParticle* GetPrimaryParticle() const {return fPrimaryParticle;}
   void UpdatePrimaryParticleInformation(const G4Event*);    // invoked from GeneratePrimaries()
   void Digitize();              // invoked from EndOfEventAction(), before FillEvent()

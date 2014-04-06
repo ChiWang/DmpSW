@@ -8,13 +8,13 @@
 #define DmpRdcDataManager_H
 
 #include <fstream>
-#include "DmpVDataManager.h"
+#include "DmpVIOSvc.h"
+#include "DmpDetectorID.h"
 
-//class DmpEventRaw;
 class DmpEvtHeader;
 class TClonesArray;
 
-class DmpRdcDataManager : public DmpVDataManager{
+class DmpRdcDataManager : public DmpVIOSvc{
 /*
  *  DmpRdcDataManager
  *
@@ -27,26 +27,25 @@ public:
   }
   ~DmpRdcDataManager();
   bool InputData(const std::string&);
-  void Initialize();
+  bool Initialize();
   void BookBranch();
   void FillEvent();
 
 private:
   DmpRdcDataManager();
+  void ResetEvent();            // delete all elements in TClonesArray
 
 public:
-  std::ifstream gInDataStream;   // inFile stream. update it for every binary data
+  std::ifstream gInDataStream;  // inFile stream. update it for every binary data
   DmpEvtHeader* GetEventHeader() const {return fEvtHeader;}
-  TClonesArray* GetMSDCollection(DmpDetector::DmpEDetectorID) const;
-  //DmpEventRaw*  GetRawEvent() const {return fEvtRaw;}
+  TClonesArray* GetOutCollection(DmpDetector::DmpEDetectorID) const;
 
 private:
-  //DmpEventRaw   *fEvtRaw;
   DmpEvtHeader      *fEvtHeader;
-  TClonesArray      *fPsdMSDSet;
-  TClonesArray      *fBgoMSDSet;
-  TClonesArray      *fStkMSDSet;
-  TClonesArray      *fNudMSDSet;
+  TClonesArray      *fPsdOutSet;
+  TClonesArray      *fBgoOutSet;
+  TClonesArray      *fStkOutSet;
+  TClonesArray      *fNudOutSet;
 };
 
 //-------------------------------------------------------------------

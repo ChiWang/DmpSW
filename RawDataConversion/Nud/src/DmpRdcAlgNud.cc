@@ -10,7 +10,6 @@
 
 #include "DmpRdcAlgNud.h"
 #include "DmpRdcDataManager.h"
-#include "DmpEventRaw.h"
 #include "DmpEvtNudMSD.h"
 #include "DmpEvtHeader.h"
 #include "DmpDetectorNud.h"
@@ -18,7 +17,7 @@
 DmpRdcAlgNud::DmpRdcAlgNud(const std::string &name)
  :DmpRdcVAlgSubDet(name)
 {
-  fMSDSet = gDataMgr->GetRawEvent()->GetMSDCollection(DmpDetector::kNud);
+  fMSDSet = gDataMgr->GetOutCollection(DmpDetector::kNud);
 }
 
 //-------------------------------------------------------------------
@@ -33,11 +32,11 @@ bool DmpRdcAlgNud::Initialize(){
 // *
   std::string path = gCnctPathMgr->GetConnectorPath(DmpDetector::kNud);
   if(path == "default"){
-    std::cout<<"\nNo set connector:\tNud"<<std::endl;
+    std::cout<<"\n\tNo set connector:\tNud"<<std::endl;
     return true;
   }else{
     fRunMe = true;
-    std::cout<<"\nSetting connector:\tNud";
+    std::cout<<"\n\tSetting connector:\tNud";
   }
   /*
   int FEEID, ChannelID;
@@ -84,6 +83,7 @@ bool DmpRdcAlgNud::ProcessThisEvent(){
 // *
 //-------------------------------------------------------------------
   static short tmp=0, tmp2=0, nBytes=0;
+  static DmpEvtHeader *evtHeader = gDataMgr->GetEventHeader();
   gDataMgr->gInDataStream.read((char*)(&tmp),1);
   if (tmp!=0xeb) {
     gRdcLog->StatusLog(-1);
@@ -95,16 +95,16 @@ bool DmpRdcAlgNud::ProcessThisEvent(){
     return false;
   }
   gDataMgr->gInDataStream.read((char*)(&tmp),1);     // trigger
-  sHeader->SetTrigger(DmpDetector::kNud,tmp);
+  evtHeader->SetTrigger(DmpDetector::kNud,tmp);
   gDataMgr->gInDataStream.read((char*)(&tmp),1);     // run mode and FEE ID
-  sHeader->SetRunMode(DmpDetector::kNud,tmp/16-DmpDetector::Nud::kFEEType);
+  evtHeader->SetRunMode(DmpDetector::kNud,tmp/16-DmpDetector::Nud::kFEEType);
   gDataMgr->gInDataStream.read((char*)(&tmp),1);     // data length, 2 Bytes
   gDataMgr->gInDataStream.read((char*)(&tmp2),1);
   nBytes = tmp*256+tmp2-2-2;            // 2 bytes for data length, 2 bytes for CRC
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
-  //if (sHeader->GetRunMode(DmpDetector::kNud) == DmpDetector::k0Compress) 
+  //if (evtHeader->GetRunMode(DmpDetector::kNud) == DmpDetector::k0Compress) 
   for(short i=0;i<nBytes;i+=2){     // k0Compress
     gDataMgr->gInDataStream.read((char*)(&tmp),1);
     gDataMgr->gInDataStream.read((char*)(&tmp),1);

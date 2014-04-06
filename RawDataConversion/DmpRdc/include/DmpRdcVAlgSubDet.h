@@ -10,15 +10,16 @@
 #include <map>
 #include "DmpVAlgorithm.h"
 
-class DmpEvtHeader;
 class TClonesArray;
 
 class DmpRdcVAlgSubDet : public DmpVAlgorithm{
+/*
+ *  DmpRdcVAlgSubDet
+ *
+ *
+ */
 public:
-  DmpRdcVAlgSubDet(const std::string &n)
-   :DmpVAlgorithm(n),
-    fRunMe(false),
-    fMSDSet(0){}
+  DmpRdcVAlgSubDet(const std::string&);
   virtual ~DmpRdcVAlgSubDet(){}
   virtual bool Initialize() {return true;}  // setup connector fConnector
   /*
@@ -28,14 +29,13 @@ public:
    *    2. if (connector path == "default") return true, else: set fRunMe = true, then setup connector
    *
    */
-  virtual bool Finialize(){return true;}
+  virtual bool Finialize()  {return true;}
   virtual bool ProcessThisEvent();  // convert one event
 
 protected:
   virtual void AppendThisSignal(const int&,const float&)=0;
 
 protected:
-  static DmpEvtHeader *sHeader;     // event header for all sub-det algorithm
   std::map<int,int> fConnector;     // for all input datas
     /*
      * Connector: FEE channel <--> Detector
@@ -45,7 +45,6 @@ protected:
     */
   bool          fRunMe;             // tag to run this subDet
   TClonesArray  *fMSDSet;           // responded bars (update it each event)
-
 };
 
 #endif

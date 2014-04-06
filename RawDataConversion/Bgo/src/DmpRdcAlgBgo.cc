@@ -8,17 +8,16 @@
 
 #include "TClonesArray.h"
 
-#include "DmpRdcAlgBgo.h"
-#include "DmpRdcDataManager.h"
-#include "DmpEventRaw.h"
+#include "DmpDetectorBgo.h"
 #include "DmpEvtBgoMSD.h"
 #include "DmpEvtHeader.h"
-#include "DmpDetectorBgo.h"
+#include "DmpRdcDataManager.h"
+#include "DmpRdcAlgBgo.h"
 
 DmpRdcAlgBgo::DmpRdcAlgBgo(const std::string &name)
  :DmpRdcVAlgSubDet(name)
 {
-  fMSDSet = gDataMgr->GetRawEvent()->GetMSDCollection(DmpDetector::kBgo);
+  fMSDSet = gDataMgr->GetOutCollection(DmpDetector::kBgo);
 }
 
 //-------------------------------------------------------------------
@@ -32,11 +31,11 @@ DmpRdcAlgBgo::~DmpRdcAlgBgo(){
 bool DmpRdcAlgBgo::Initialize(){
   std::string path = gCnctPathMgr->GetConnectorPath(DmpDetector::kBgo);
   if(path == "default"){
-    std::cout<<"No set connector:\tBgo"<<std::endl;
+    std::cout<<"\n\tNo set connector:\tBgo"<<std::endl;
     return true;
   }else{
     fRunMe = true;
-    std::cout<<"\nSetting connector:\tBgo";
+    std::cout<<"\n\tSetting connector:\tBgo";
   }
   static short feeID=0, channelID=0, layerID=0, barID=0, sideID=0, dyID=0;
   boost::filesystem::directory_iterator end_iter;
@@ -66,6 +65,7 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
   gRdcLog->StatusLog(0);
 //-------------------------------------------------------------------
   static short tmp=0, tmp2=0, nBytes=0;
+  static DmpEvtHeader *evtHeader = gDataMgr->GetEventHeader();
   for (short counts=0;counts<DmpDetector::Bgo::kFEENo;++counts) {
     gDataMgr->gInDataStream.read((char*)(&tmp),1);
     if (tmp!=0xeb) {
@@ -79,9 +79,9 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
     }
     gDataMgr->gInDataStream.read((char*)(&tmp),1);       // trigger
     if(counts == 0){
-      sHeader->SetTrigger(DmpDetector::kBgo,tmp);
+      evtHeader->SetTrigger(DmpDetector::kBgo,tmp);
     }else{
-      if(sHeader->GetTrigger(DmpDetector::kBgo) != tmp){
+      if(evtHeader->GetTrigger(DmpDetector::kBgo) != tmp){
         gRdcLog->StatusLog(-3);
         return false;
       }
@@ -90,9 +90,9 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
     static short feeID = 0;
     feeID = tmp%16;
     if(counts == 0){
-      sHeader->SetRunMode(DmpDetector::kBgo,tmp/16-DmpDetector::Bgo::kFEEType);
+      evtHeader->SetRunMode(DmpDetector::kBgo,tmp/16-DmpDetector::Bgo::kFEEType);
     }else{
-      if(sHeader->GetRunMode(DmpDetector::kBgo) != tmp/16-DmpDetector::Bgo::kFEEType){
+      if(evtHeader->GetRunMode(DmpDetector::kBgo) != tmp/16-DmpDetector::Bgo::kFEEType){
         gRdcLog->StatusLog(-4);
         return false;
       }
@@ -103,7 +103,7 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
-    if(sHeader->GetRunMode(DmpDetector::kBgo) == DmpDetector::k0Compress){
+    if(evtHeader->GetRunMode(DmpDetector::kBgo) == DmpDetector::k0Compress){
       for(short i=0;i<nBytes;i+=2){     // k0Compress
         gDataMgr->gInDataStream.read((char*)(&tmp),1);
         gDataMgr->gInDataStream.read((char*)(&tmp2),1);

@@ -13,6 +13,7 @@
 #include "DmpSimRunAction.h"
 #include "DmpSimDataManager.h"
 
+//-------------------------------------------------------------------
 DmpSimRunAction::DmpSimRunAction(){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 }
@@ -25,7 +26,6 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 //-------------------------------------------------------------------
 void DmpSimRunAction::BeginOfRunAction(const G4Run *aRun){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"Run ID = "<<aRun->GetRunID()<<std::endl;
-  gDataMgr->Initialize();
   gDataMgr->BookBranch(); 
 // *  TODO: engine not works...
 /*
@@ -49,7 +49,7 @@ void DmpSimRunAction::EndOfRunAction(const G4Run* aRun){
 #ifdef DmpDebug
   G4cout << "End of Run, saving the root file" << G4endl;
 #endif
-  gDataMgr->Finialize();
+  gDataMgr->SaveOutput();
   /***
   if ( fSaveRndm ) { 
     G4int runNumber = run->GetRunID();

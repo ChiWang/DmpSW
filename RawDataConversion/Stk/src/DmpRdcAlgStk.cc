@@ -10,14 +10,13 @@
 
 #include "DmpRdcAlgStk.h"
 #include "DmpRdcDataManager.h"
-#include "DmpEventRaw.h"
 #include "DmpEvtStkMSD.h"
 #include "DmpEvtHeader.h"
 
 DmpRdcAlgStk::DmpRdcAlgStk(const std::string &name)
  :DmpRdcVAlgSubDet(name)
 {
-  fMSDSet = gDataMgr->GetRawEvent()->GetMSDCollection(DmpDetector::kStk);
+  fMSDSet = gDataMgr->GetOutCollection(DmpDetector::kStk);
 }
 
 //-------------------------------------------------------------------
@@ -29,11 +28,11 @@ DmpRdcAlgStk::~DmpRdcAlgStk(){
 bool DmpRdcAlgStk::Initialize(){
   std::string path = gCnctPathMgr->GetConnectorPath(DmpDetector::kStk);
   if(path == "default"){
-    std::cout<<"\nNo set connector:\tStk"<<std::endl;
+    std::cout<<"\n\tNo set connector:\tStk"<<std::endl;
     return true;
   }else{
     fRunMe = true;
-    std::cout<<"\nSetting connector:\tStk";
+    std::cout<<"\n\tSetting connector:\tStk";
   }
 // *
 // *  TODO:  check connector right?

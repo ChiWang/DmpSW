@@ -1,23 +1,24 @@
 /*
- *  $Id: DmpRdcVAlgSubDet.cc, 2014-03-21 00:07:10 chi $
+ *  $Id: DmpRdcVAlgSubDet.cc, 2014-04-06 20:13:17 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
 
-#include <iostream>
-
 #include "DmpRdcVAlgSubDet.h"
-#include "DmpRdcDataManager.h"
-#include "DmpEventRaw.h"
 #include "DmpRdcLog.h"
 
 //-------------------------------------------------------------------
-DmpEvtHeader*  DmpRdcVAlgSubDet::sHeader = DmpRdcDataManager::GetInstance()->GetRawEvent()->GetEventHeader();
+DmpRdcVAlgSubDet::DmpRdcVAlgSubDet(const std::string &n)
+ :DmpVAlgorithm(n),
+  fRunMe(false),
+  fMSDSet(0)
+{
+}
 
 //-------------------------------------------------------------------
 bool DmpRdcVAlgSubDet::ProcessThisEvent(){
   if(not fRunMe) return true;
-  std::cout<<"\t"<<__PRETTY_FUNCTION__;
+  //std::cout<<"\t"<<__PRETTY_FUNCTION__;
   gRdcLog->StatusLog(0);
 //-------------------------------------------------------------------
 // set ProcessThisEvention method here

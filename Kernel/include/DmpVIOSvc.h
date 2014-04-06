@@ -24,17 +24,20 @@ public:
   DmpVIOSvc(const std::string &n);
   virtual ~DmpVIOSvc();
 
+  virtual bool Initialize() {return true;}
+  virtual bool Finialize()  {return true;}
   virtual void BookBranch()=0;
   virtual void FillEvent();
+  virtual void SaveOutput();  // save output, for one indata
   virtual bool InputData(const std::string &n) {fInDataName = n; return true;}
-  bool Finialize();     // save output, for one indata
   void SetOutDataPath(const std::string&);        // binding me
   void AppendDataNote(const std::string &t)   {fNote = t;}   // binding me
   std::string GetOutDataPath() const    {return fOutDataPath;}  // binding me
   std::string GetOutDataName() const    {return fOutDataName;}  // binding me
 
 protected:
-  void SetPackageID(const std::string &n) {fPgkID = n;}
+  void SetPackageID(const std::string &n) {fPgkID += n;}
+  virtual void ResetEvent()=0;
 
 private:
   void SetOutDataName();

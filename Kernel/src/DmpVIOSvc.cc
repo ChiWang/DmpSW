@@ -33,10 +33,11 @@ void DmpVIOSvc::FillEvent(){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
   fOutDataTree->Fill();
+  ResetEvent();
 }
 
 //-------------------------------------------------------------------
-bool DmpVIOSvc::Finialize(){
+void DmpVIOSvc::SaveOutput(){
   SetOutDataName();
   TFile *aFile = new TFile((TString)(fOutDataPath+fOutDataName),"recreate");
   fOutDataTree->Write();
@@ -47,7 +48,6 @@ bool DmpVIOSvc::Finialize(){
   fInDataName = "no";
   fOutDataName = "no";
   fNote = "no";
-  return true;
 }
 
 //-------------------------------------------------------------------
