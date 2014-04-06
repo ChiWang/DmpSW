@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpCalBgoDataManager.h, 2014-04-05 12:34:00 chi $
+ *  $Id: DmpCalBgoDataManager.h, 2014-04-06 10:10:15 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 04/04/2014
 */
@@ -9,7 +9,8 @@
 
 #include "DmpVDataManager.h"
 
-class DmpCalBgoMetaData;
+class TClonesArray;
+class DmpCalBgoMSD;
 
 class DmpCalBgoDataManager : public DmpVDataManager{
 public:
@@ -19,6 +20,7 @@ public:
   }
   ~DmpCalBgoDataManager();
   bool InputData(const std::string&);
+  bool InputData(const std::string&, const std::string&);   // Agrv_0 = *.dat, Agrv_1 = *.root
   void Initialize();
   void BookBranch();
 
@@ -27,10 +29,18 @@ private:
 
 public:
   TTree         *gInDataTree;   // in data
-  DmpCalBgoMetaData* GetMetaData() const {return fMetaData;}
+  DmpCalBgoMSD* GetBgoMSD(const int &SDID,const short &side=0)const;
+  /*
+   *  if SDID = LayerID*100 + BarID (>100)
+   *    return a normal bar.
+   *
+   *  if SDID = LayerID (<100)
+   *    return a Ref. bar (use side to choose which one)
+   *
+   */
 
 private:
-  DmpCalBgoMetaData     *fMetaData;      // MetaData of Calibration
+  TClonesArray   *fBgoMSDSet;       // construct all MSD of Bgo
 
 };
 

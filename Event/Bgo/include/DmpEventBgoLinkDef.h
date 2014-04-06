@@ -16,9 +16,8 @@
 // *
 // *  TODO: add calibration classes at here
 // *
-#pragma link C++ class DmpCalBgoPMT+;
-#pragma link C++ class DmpCalBgoBar+;
-#pragma link C++ class DmpCalBgoMetaData+;
+#pragma link C++ struct DmpCalBgoPMT+;
+#pragma link C++ struct DmpCalBgoMSD+;
 
 #endif
 
