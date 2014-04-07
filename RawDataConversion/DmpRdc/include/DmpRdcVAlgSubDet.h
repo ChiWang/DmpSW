@@ -21,7 +21,6 @@ class DmpRdcVAlgSubDet : public DmpVAlgorithm{
 public:
   DmpRdcVAlgSubDet(const std::string&);
   virtual ~DmpRdcVAlgSubDet(){}
-  virtual bool Initialize() {return true;}  // setup connector fConnector
   /*
    *  Setup connector fConnector
    *

@@ -57,10 +57,6 @@ bool DmpRdcDataManager::InputData(const std::string &dataName){
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcDataManager::Initialize(){
-}
-
-//-------------------------------------------------------------------
 void DmpRdcDataManager::BookBranch(){
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;

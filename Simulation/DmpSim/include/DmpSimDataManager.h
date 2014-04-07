@@ -27,7 +27,6 @@ public:
     return &instance;
   }
   ~DmpSimDataManager();
-  bool Initialize();            // invoked from BeginOfrunAction()
   void BookBranch();            // invoked from BeginOfRunAction()
 
 private:

@@ -27,7 +27,6 @@ public:
   }
   ~DmpRdcDataManager();
   bool InputData(const std::string&);
-  bool Initialize();
   void BookBranch();
   void FillEvent();
 
