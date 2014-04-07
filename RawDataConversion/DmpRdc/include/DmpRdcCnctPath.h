@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcCnctPath.h, 2014-04-02 22:18:01 chi $
+ *  $Id: DmpRdcCnctPath.h, 2014-04-07 20:51:13 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 19/03/2014
 */

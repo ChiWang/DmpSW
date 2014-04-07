@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpBindingCore.cc, 2014-03-28 20:13:43 chi $
+ *  $Id: DmpBindingCore.cc, 2014-04-07 19:59:22 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
@@ -12,35 +12,19 @@
 #include "DmpElementManager.h"
 #include "DmpServiceManager.h"
 #include "DmpAlgorithmManager.h"
+#include "DmpVRunTimeOptionSvc.h"
 
 //-------------------------------------------------------------------
-// wrapper for DmpVOutDataManger
-/*
-using namespace boost::python;
-struct DmpVIOSvcWrap : DmpVIOSvc, boost::python::wrapper<DmpVIOSvc>{
-
-  void SetOutDataName(const std::string &n){
-    if(override SetOutDataName = this->get_override("SetOutDataName")){
-      return SetOutDataName(const std::string&);
-    }
-    return DmpVIOSvc::SetOutDataName(const std::string&);
-  }
-  void Def_SetOutDataName(const std::string&){
-    return this->DmpVIOSvc::SetOutDataName(const std::string&);
+    // Wrapper DmpVRunTimeOptionSvc
+struct DmpVRunTimeOptionSvcWrapper : public DmpVRunTimeOptionSvc, boost::python::wrapper<DmpVRunTimeOptionSvc>{
+  void Set(const std::string &type, DmpDetector::DmpEDetectorID id, const std::string &argv){
+    this->get_override("Set")(type,id,argv);
   }
 };
-*/
 
 //-------------------------------------------------------------------
 BOOST_PYTHON_MODULE(libDmpCore){
   using namespace boost::python;
-
-  // DmpPhase
-  //enum_<DmpCore::DmpEPhase>("DmpEPhase")
-  //  .value("kQuarter",  DmpCore::kQuarter)
-  //  .value("kPrototype",DmpCore::kPrototype)
-  //  .value("kProduct",  DmpCore::kProduct)
-  //;
 
   // DmpRunMode
   enum_<DmpDetector::DmpERunMode>("DmpERunMode")
@@ -68,16 +52,6 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .def("GetOutDataName",  &DmpVIOSvc::GetOutDataName)
   ;
 
-  // DmpElementManager
-// *
-// *  TODO: how to bind class template?
-// *
-  //template<typename DmpElement>
-  //class_<DmpElementManager<DmpElement>,boost::noncopyable>("DmpElementManager",no_init)
-  //  .def("ListAllElements", &DmpElementManager<DmpElement>::ListAllElements)
-  //  .def("Append",          &DmpElementManager<DmpElement>::Append)
-  //  .def("Replace",         &DmpElementManager<DmpElement>::Replace)
-  //;
   // DmpServiceManager
   class_<DmpServiceManager,boost::noncopyable>("DmpServiceManager",no_init)
     .def("GetInstance", &DmpServiceManager::GetInstance,return_value_policy<reference_existing_object>())
@@ -85,8 +59,12 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .def("Append",  &DmpServiceManager::Append)
     .def("Replace", &DmpServiceManager::Replace)
     .def("ListAllElements", &DmpServiceManager::ListAllElements)
+// *
+// *  TODO: how to get a Svc in python script??
+// *
+    //.def("Get",     &DmpServiceManager::Get)
   ;
-  //scope().attr("gSvcMgr") = gSvcMgr;
+
   // DmpAlgorithmManager
   class_<DmpAlgorithmManager,boost::noncopyable>("DmpAlgorithmManager",no_init)
     .def("GetInstance", &DmpAlgorithmManager::GetInstance,return_value_policy<reference_existing_object>())
@@ -95,6 +73,12 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .def("Replace", &DmpAlgorithmManager::Replace)
     .def("ListAllElements",&DmpAlgorithmManager::ListAllElements)
   ;
-  //scope().attr("gAlgMgr") = gAlgMgr;
+
+  // DmpVRunTimeOptionSvc
+  class_<DmpVRunTimeOptionSvcWrapper,boost::noncopyable>("DmpVRunTimeOptionSvc",no_init)
+    .def("Set", pure_virtual(&DmpVRunTimeOptionSvc::Set))
+  ;
+
 }
+
 

@@ -73,8 +73,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 //-------------------------------------------------------------------
 void DmpRdcDataManager::FillEvent(){
   fEvtHeader->GenerateTriggerStatus();
-  fOutDataTree->Fill();
-  ResetEvent();
+  DmpVIOSvc::FillEvent();
 }
 
 //-------------------------------------------------------------------

@@ -21,7 +21,7 @@ class DmpVIOSvc : public DmpVService{
  *
  */
 public:
-  DmpVIOSvc(const std::string &n);
+  DmpVIOSvc(const std::string&);
   virtual ~DmpVIOSvc();
 
   virtual bool Initialize() {return true;}

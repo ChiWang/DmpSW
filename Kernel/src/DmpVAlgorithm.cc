@@ -8,6 +8,9 @@
 #include "DmpServiceManager.h"
 
 DmpVService* DmpVAlgorithm::Service(const std::string &n){
+// *
+// *  TODO:  how to call this function
+// *
   //return gSvcMgr->Get(n);
 }
 
