@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgHeader.cc, 2014-04-02 13:11:10 chi $
+ *  $Id: DmpRdcAlgHeader.cc, 2014-04-08 15:27:59 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 19/03/2014
 */
@@ -10,7 +10,7 @@
 
 //-------------------------------------------------------------------
 DmpRdcAlgHeader::DmpRdcAlgHeader(const std::string &n)
- :DmpVAlgorithm(n)
+ :DmpVAlg(n)
 {
   fEvtHeader = gDataMgr->GetEventHeader();
 }

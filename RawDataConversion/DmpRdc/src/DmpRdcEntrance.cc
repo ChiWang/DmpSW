@@ -17,12 +17,12 @@
 
 //-------------------------------------------------------------------
 void DmpCore::RdcInitialize(){
-  gAlgMgr->Append(new DmpRdcAlgHeader("RdcAlgHeader"));
-  gAlgMgr->Append(new DmpRdcAlgNud("RdcAlgNud"));
-  gAlgMgr->Append(new DmpRdcAlgPsd("RdcAlgPsd"));
-  gAlgMgr->Append(new DmpRdcAlgBgo("RdcAlgBgo"));
-  gAlgMgr->Append(new DmpRdcAlgStk("RdcAlgStk"));
-  gAlgMgr->Initialize();
+  gDmpAlgMgr->Append(new DmpRdcAlgHeader("RdcAlgHeader"));
+  gDmpAlgMgr->Append(new DmpRdcAlgNud("RdcAlgNud"));
+  gDmpAlgMgr->Append(new DmpRdcAlgPsd("RdcAlgPsd"));
+  gDmpAlgMgr->Append(new DmpRdcAlgBgo("RdcAlgBgo"));
+  gDmpAlgMgr->Append(new DmpRdcAlgStk("RdcAlgStk"));
+  gDmpAlgMgr->Initialize();
 // *
 // *  TODO:  add DataMgr into SVCMgr, then initialize it
 // *
@@ -40,7 +40,7 @@ void DmpCore::RdcExecute(const std::string &dataName){
   // convert and save output
   gDataMgr->BookBranch();
   for(long i=0;!gDataMgr->gInDataStream.eof();++i){
-    if(not gAlgMgr->Process())  continue;
+    if(not gDmpAlgMgr->Process())  continue;
     gDataMgr->FillEvent();
   }
   gDataMgr->SaveOutput();

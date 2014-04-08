@@ -8,11 +8,11 @@
 #define DmpRdcVAlgSubDet_H
 
 #include <map>
-#include "DmpVAlgorithm.h"
+#include "DmpVAlg.h"
 
 class TClonesArray;
 
-class DmpRdcVAlgSubDet : public DmpVAlgorithm{
+class DmpRdcVAlgSubDet : public DmpVAlg{
 /*
  *  DmpRdcVAlgSubDet
  *
@@ -21,15 +21,8 @@ class DmpRdcVAlgSubDet : public DmpVAlgorithm{
 public:
   DmpRdcVAlgSubDet(const std::string&);
   virtual ~DmpRdcVAlgSubDet(){}
-  /*
-   *  Setup connector fConnector
-   *
-   *    1. should include "DmpRdcConnectorInterface.h"
-   *    2. if (connector path == "default") return true, else: set fRunMe = true, then setup connector
-   *
-   */
-  virtual bool Finialize()  {return true;}
   virtual bool ProcessThisEvent();  // convert one event
+  virtual bool Finialize()  {return true;}
 
 protected:
   virtual void AppendThisSignal(const int&,const float&)=0;

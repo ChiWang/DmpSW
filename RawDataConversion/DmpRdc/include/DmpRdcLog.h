@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcLog.h, 2014-04-02 10:57:15 chi $
+ *  $Id: DmpRdcLog.h, 2014-04-08 14:47:51 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 02/04/2014
 */
@@ -7,23 +7,21 @@
 #ifndef DmpRdcLog_H
 #define DmpRdcLog_H
 
-#include "DmpVService.h"
+#include "DmpVLog.h"
 
-class DmpRdcLog : public DmpVService{
+class DmpRdcLog : public DmpVLog{
 public:
   static DmpRdcLog*  GetInstance(){
-    static DmpRdcLog instance("RdcLog");
+    static DmpRdcLog instance;
     return &instance;
   }
   ~DmpRdcLog(){}
-  bool Initialize() {return true;}
-  bool Finialize()  {return true;}
+  void StatusLog(const short &n=0) const;
 
 private:
-  DmpRdcLog(const std::string &n):DmpVService(n){}
+  DmpRdcLog(){}
 
 public:
-  void StatusLog(const short &n=0) const;
   void PrintLocation() const;
 
 };

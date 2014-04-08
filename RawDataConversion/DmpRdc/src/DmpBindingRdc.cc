@@ -7,23 +7,22 @@
 #include <boost/python.hpp>
 
 #include "DmpRdcDataManager.h"
-#include "DmpRdcCnctPath.h"
+#include "DmpRdcOption.h"
 #include "DmpRdcEntrance.h"
 
 BOOST_PYTHON_MODULE(libDmpRdc){
   using namespace boost::python;
 
   // DmpRdcDataManager
-  class_<DmpRdcDataManager,boost::noncopyable,bases<DmpVIOSvc> >("DmpRdcDataManager",no_init)
+  class_<DmpRdcDataManager,boost::noncopyable,bases<DmpVIO> >("DmpRdcDataManager",no_init)
     .def("GetInstance",&DmpRdcDataManager::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
   ;
 
-  // DmpRdcCnctPath
-  class_<DmpRdcCnctPath,boost::noncopyable>("DmpRdcCnctPath",no_init)
-    .def("GetInstance",&DmpRdcCnctPath::GetInstance,return_value_policy<reference_existing_object>())
+  // DmpRdcOption
+  class_<DmpRdcOption,boost::noncopyable,bases<DmpVOption> >("DmpRdcOption",no_init)
+    .def("GetInstance",&DmpRdcOption::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
-    .def("SetConnectorPath",&DmpRdcCnctPath::SetConnectorPath)
   ;
 
   // DmpRdcEntrance

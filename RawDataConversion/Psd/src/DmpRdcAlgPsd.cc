@@ -27,7 +27,7 @@ DmpRdcAlgPsd::~DmpRdcAlgPsd(){
 //-------------------------------------------------------------------
 #include "DmpRdcOption.h"
 bool DmpRdcAlgPsd::Initialize(){
-  std::string path = gCnctPathMgr->GetConnectorPath(DmpDetector::kPsd);
+  std::string path = gRdcOpt->GetConnectorPath(DmpDetector::kPsd);
   if(path == "default"){
     std::cout<<"\n\tNo set connector:\tPsd"<<std::endl;
     return true;

@@ -30,7 +30,7 @@ bool DmpRdcAlgNud::Initialize(){
 // *
 // *  TODO:  check connector right?
 // *
-  std::string path = gCnctPathMgr->GetConnectorPath(DmpDetector::kNud);
+  std::string path = gRdcOpt->GetConnectorPath(DmpDetector::kNud);
   if(path == "default"){
     std::cout<<"\n\tNo set connector:\tNud"<<std::endl;
     return true;

@@ -9,7 +9,7 @@
 
 //-------------------------------------------------------------------
 DmpRdcVAlgSubDet::DmpRdcVAlgSubDet(const std::string &n)
- :DmpVAlgorithm(n),
+ :DmpVAlg(n),
   fRunMe(false),
   fMSDSet(0)
 {
