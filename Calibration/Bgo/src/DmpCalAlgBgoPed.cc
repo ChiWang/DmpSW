@@ -26,7 +26,7 @@ bool DmpCalAlgBgoPed::Initialize(){
 }
 
 //-------------------------------------------------------------------
-bool DmpCalAlgBgoPed::Finialize(){
+bool DmpCalAlgBgoPed::Finalize(){
 }
 
 //-------------------------------------------------------------------

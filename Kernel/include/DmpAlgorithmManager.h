@@ -10,8 +10,6 @@
 #include <list>
 #include "DmpVAlg.h"
 
-//class DmpVAlg;
-
 class DmpAlgorithmManager{
 /*
  * DmpAlgorithmManager
@@ -28,12 +26,12 @@ public:
     return &instance;
   }
   ~DmpAlgorithmManager();
-  bool Initialize();
-  bool Process();       // Process one event
-  bool Finialize();
   void Append(DmpVAlg *aEle) {fElements.push_back(aEle);}
   void Replace(DmpVAlg*);
   void ListAllElements();
+  bool Initialize();
+  bool Process();       // Process one event
+  bool Finalize();
 
 private:
   DmpAlgorithmManager();

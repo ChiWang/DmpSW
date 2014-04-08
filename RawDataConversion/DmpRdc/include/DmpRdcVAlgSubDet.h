@@ -22,7 +22,7 @@ public:
   DmpRdcVAlgSubDet(const std::string&);
   virtual ~DmpRdcVAlgSubDet(){}
   virtual bool ProcessThisEvent();  // convert one event
-  virtual bool Finialize()  {return true;}
+  virtual bool Finalize()  {return true;}
 
 protected:
   virtual void AppendThisSignal(const int&,const float&)=0;

@@ -14,7 +14,7 @@ public:
   DmpCalAlgBgoPed(const std::string&);
   ~DmpCalAlgBgoPed();
   bool Initialize();
-  bool Finialize();
+  bool Finalize();
   bool ProcessThisEvent();  // get entry and fill
 
 };

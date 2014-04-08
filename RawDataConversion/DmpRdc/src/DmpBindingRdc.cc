@@ -9,6 +9,12 @@
 #include "DmpRdcDataManager.h"
 #include "DmpRdcOption.h"
 #include "DmpRdcEntrance.h"
+// default algorithm of Rdc
+/*#include "DmpRdcAlgHeader.h"
+#include "DmpRdcAlgPsd.h"
+#include "DmpRdcAlgStk.h"
+#include "DmpRdcAlgBgo.h"
+#include "DmpRdcAlgNud.h"*/
 
 BOOST_PYTHON_MODULE(libDmpRdc){
   using namespace boost::python;
@@ -25,10 +31,17 @@ BOOST_PYTHON_MODULE(libDmpRdc){
     .staticmethod("GetInstance")
   ;
 
+  // default algorithm
+    /*
+  class_<DmpRdcAlgHeader,boost::noncopyable>("DmpRdcAlgHeader");
+  class_<DmpRdcAlgPsd,boost::noncopyable>("DmpRdcAlgPsd");
+  class_<DmpRdcAlgStk,boost::noncopyable>("DmpRdcAlgStk");
+  class_<DmpRdcAlgBgo,boost::noncopyable>("DmpRdcAlgBgo");
+  class_<DmpRdcAlgNud,boost::noncopyable>("DmpRdcAlgNud");
+*/
   // DmpRdcEntrance
   def("Initialize", DmpCore::RdcInitialize);
   def("Execute",    DmpCore::RdcExecute);
-  def("Clear",      DmpCore::RdcClear);
 }
 
 

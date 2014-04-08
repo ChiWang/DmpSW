@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpRdc, 2014-03-22 02:52:03 chi $
+ *  $Id: JobOpt_DmpRdc, 2014-04-08 22:07:28 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 11/03/2014
  *-----------------------------------------------------
@@ -18,6 +18,9 @@ if os.environ['DMPSWSYS'] not in sys.path:
 import libDmpCore as DmpCore
 import libDmpRdc as  DmpRdc
 
+# Get AlgMgr
+gDmpAlgMgr = DmpCore.DmpAlgorithmManager.GetInstance()
+
 # RUN Raw Data Conversion
     ##  where to save the output. If NOT set will use "./" by defualt
 gRdcDataMgr = DmpRdc.DmpRdcDataManager.GetInstance()
@@ -31,9 +34,12 @@ rdcOpt.Set("cnctPath",DmpCore.DmpEDetectorID.kNud,prefix+"/share/Connector/Nud/Q
 
     ##  Start Rdc. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SetOutDataPath() between different Execute()
 DmpRdc.Initialize()      # create Rdc argorithm of all subDet, and setup connectors
+# *
+# *  TODO: how to add alg into algMgr in job opt. file?
+# *
+gDmpAlgMgr.Initialize()
 gRdcDataMgr.AppendDataNote("protonTest")        # set tag for the next output data. NOT set is okay
 #DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
 DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")     # Trigger match level(with Bgo) 1: Psd; 2(or 3): Psd, Stk; 4: Psd, Stk, Nud
-DmpRdc.Clear()
-
+gDmpAlgMgr.Finalize
 

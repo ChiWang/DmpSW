@@ -13,10 +13,11 @@ class DmpEvtHeader;
 
 class DmpRdcAlgHeader : public DmpVAlg{
 public:
+  //DmpRdcAlgHeader(){}
   DmpRdcAlgHeader(const std::string&);
   ~DmpRdcAlgHeader(){}
   bool  Initialize() {return true;}
-  bool  Finialize()  {return true;}
+  bool  Finalize()  {return true;}
   bool  ProcessThisEvent();
 
 private:

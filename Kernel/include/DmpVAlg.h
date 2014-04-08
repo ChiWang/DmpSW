@@ -22,7 +22,7 @@ public:
   virtual ~DmpVAlg(){}
   virtual bool Initialize()=0;
   virtual bool ProcessThisEvent()=0;
-  virtual bool Finialize()=0;
+  virtual bool Finalize()=0;
 
 public:
   std::string   Name() const   {return fName;}

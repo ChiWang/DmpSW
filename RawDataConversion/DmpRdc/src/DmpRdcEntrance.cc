@@ -22,15 +22,6 @@ void DmpCore::RdcInitialize(){
   gDmpAlgMgr->Append(new DmpRdcAlgPsd("RdcAlgPsd"));
   gDmpAlgMgr->Append(new DmpRdcAlgBgo("RdcAlgBgo"));
   gDmpAlgMgr->Append(new DmpRdcAlgStk("RdcAlgStk"));
-  gDmpAlgMgr->Initialize();
-// *
-// *  TODO:  add DataMgr into SVCMgr, then initialize it
-// *
-  //gDataMgr->Initialize();
-}
-
-//-------------------------------------------------------------------
-void DmpCore::RdcClear(){
 }
 
 //-------------------------------------------------------------------
@@ -44,7 +35,6 @@ void DmpCore::RdcExecute(const std::string &dataName){
     gDataMgr->FillEvent();
   }
   gDataMgr->SaveOutput();
-
   // reset
   gDataMgr->gInDataStream.close();
 }

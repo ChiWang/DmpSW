@@ -12,7 +12,6 @@
 namespace DmpCore{
   void RdcInitialize();           // create algorithm of detectors, setup connectors
   void RdcExecute(const std::string&);
-  void RdcClear();
 }
 
 #endif

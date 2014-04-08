@@ -40,9 +40,9 @@ bool DmpAlgorithmManager::Process(){
 }
 
 //-------------------------------------------------------------------
-bool DmpAlgorithmManager::Finialize(){
+bool DmpAlgorithmManager::Finalize(){
   for(fIterator = fElements.begin();fIterator != fElements.end();++fIterator){
-    if(not (*fIterator)->Finialize()) return false;
+    if(not (*fIterator)->Finalize()) return false;
   }
   return true;
 }

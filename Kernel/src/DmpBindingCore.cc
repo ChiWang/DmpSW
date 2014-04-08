@@ -62,6 +62,8 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .def("Append",  &DmpAlgorithmManager::Append)
     .def("Replace", &DmpAlgorithmManager::Replace)
     .def("ListAllElements",&DmpAlgorithmManager::ListAllElements)
+    .def("Initialize",&DmpAlgorithmManager::Initialize)
+    .def("Finalize",&DmpAlgorithmManager::Finalize)
   ;
 }
 
