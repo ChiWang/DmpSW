@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimEntrance.cc, 2014-03-12 15:00:40 chi $
+ *  $Id: DmpSimEntrance.cc, 2014-04-08 13:34:18 chi $
  *  Author(s):
  *    X.Wu () 09/07/2013
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/02/2014

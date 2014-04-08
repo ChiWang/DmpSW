@@ -1,5 +1,5 @@
 /* 
- *  $Id: DmpSimDetectorConstruction.h, 2014-03-03 23:02:22 chi $
+ *  $Id: DmpSimDetectorConstruction.h, 2014-04-08 13:55:40 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 26/02/2014
 */
@@ -12,7 +12,6 @@
 #include "DmpDetectorID.h"
 
 class G4GDMLParser;
-class DmpSimDetectorInterface;
 
 class DmpSimDetectorConstruction : public G4VUserDetectorConstruction{
 public:
@@ -23,7 +22,6 @@ public:
 private:
   G4GDMLParser              *fParser[DmpDetector::gSubDetNo + 1];
   G4VPhysicalVolume         *fPhysiVol[DmpDetector::gSubDetNo + 1];
-  DmpSimDetectorInterface   *fDetInterface;
 
 };
 

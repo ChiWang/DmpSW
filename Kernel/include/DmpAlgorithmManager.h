@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpAlgorithmManager.h, 2014-04-02 09:30:24 chi $
+ *  $Id: DmpAlgorithmManager.h, 2014-04-08 12:42:07 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/03/2014
 */
@@ -7,10 +7,12 @@
 #ifndef DmpAlgorithmManager_H
 #define DmpAlgorithmManager_H
 
-#include "DmpVAlgorithm.h"      // include file instead of forward declaration
-#include "DmpElementManager.h"
+#include <list>
+#include "DmpVAlg.h"
 
-class DmpAlgorithmManager : public DmpElementManager<DmpVAlgorithm>{
+//class DmpVAlg;
+
+class DmpAlgorithmManager{
 /*
  * DmpAlgorithmManager
  *
@@ -26,15 +28,23 @@ public:
     return &instance;
   }
   ~DmpAlgorithmManager();
+  bool Initialize();
   bool Process();       // Process one event
+  bool Finialize();
+  void Append(DmpVAlg *aEle) {fElements.push_back(aEle);}
+  void Replace(DmpVAlg*);
+  void ListAllElements();
 
 private:
   DmpAlgorithmManager();
 
+private:
+  std::list<DmpVAlg*>    fElements;
+  std::list<DmpVAlg*>::iterator    fIterator;
 };
 
 //-------------------------------------------------------------------
-extern DmpAlgorithmManager  *gAlgMgr;
+extern DmpAlgorithmManager  *gDmpAlgMgr;
 
 #endif
 

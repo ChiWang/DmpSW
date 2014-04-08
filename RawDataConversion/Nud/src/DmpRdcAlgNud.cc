@@ -25,7 +25,7 @@ DmpRdcAlgNud::~DmpRdcAlgNud(){
 }
 
 //-------------------------------------------------------------------
-#include "DmpRdcCnctPath.h"
+#include "DmpRdcOption.h"
 bool DmpRdcAlgNud::Initialize(){
 // *
 // *  TODO:  check connector right?

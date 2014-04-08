@@ -19,8 +19,7 @@
 
 //-------------------------------------------------------------------
 DmpSimDataManager::DmpSimDataManager()
- :DmpVIOSvc("DmpSimDataManager"),
-  fPrimaryParticle(0),
+ :fPrimaryParticle(0),
   fEvtHeader(0),
   fPsdOutSet(0),
   fStkOutSet(0),

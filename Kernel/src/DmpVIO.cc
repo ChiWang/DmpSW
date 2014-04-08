@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpVIOSvc.cc, 2014-04-06 19:48:54 chi $
+ *  $Id: DmpVIO.cc, 2014-04-08 10:31:09 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -9,13 +9,12 @@
 #include "TTree.h"
 #include "TFile.h"
 
-#include "DmpVIOSvc.h"
+#include "DmpVIO.h"
 
 //-------------------------------------------------------------------
-DmpVIOSvc::DmpVIOSvc(const std::string &n)
- :DmpVService(n),
-  fOutDataTree(0),
-  fInDataName("no"),
+DmpVIO::DmpVIO()
+ :fOutDataTree(0),
+  fInData("no"),
   fOutDataPath("./"),
   fOutDataName("no"),
   fPgkID("Dmp"),
@@ -24,11 +23,11 @@ DmpVIOSvc::DmpVIOSvc(const std::string &n)
 }
 
 //-------------------------------------------------------------------
-DmpVIOSvc::~DmpVIOSvc(){
+DmpVIO::~DmpVIO(){
 }
 
 //-------------------------------------------------------------------
-void DmpVIOSvc::FillEvent(){
+void DmpVIO::FillEvent(){
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
@@ -37,7 +36,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 }
 
 //-------------------------------------------------------------------
-void DmpVIOSvc::SaveOutput(){
+void DmpVIO::SaveOutput(){
   SetOutDataName();
   TFile *aFile = new TFile((TString)(fOutDataPath+fOutDataName),"recreate");
   fOutDataTree->Write();
@@ -45,14 +44,14 @@ void DmpVIOSvc::SaveOutput(){
   std::cout<<"Result in : "<<fOutDataPath+fOutDataName<<", entries = "<<fOutDataTree->GetEntries()<<std::endl;
   delete fOutDataTree;
   delete aFile;
-  fInDataName = "no";
+  fInData = "no";
   fOutDataName = "no";
   fNote = "no";
 }
 
 //-------------------------------------------------------------------
 #include <sys/stat.h>       // mkdir()
-void DmpVIOSvc::SetOutDataPath(const std::string &path){
+void DmpVIO::SetOutDataPath(const std::string &path){
   if (path[path.length()-1] == '/') {
     fOutDataPath = path;
   } else {
@@ -63,8 +62,8 @@ void DmpVIOSvc::SetOutDataPath(const std::string &path){
 
 //-------------------------------------------------------------------
 #include <boost/filesystem/path.hpp>
-void DmpVIOSvc::SetOutDataName(){
-  boost::filesystem::path inpath(fInDataName);
+void DmpVIO::SetOutDataName(){
+  boost::filesystem::path inpath(fInData);
   if(fNote == "no"){
     fOutDataName = fPgkID+TimeStamp()+"_"+inpath.stem()+".root";
   }else{
@@ -74,7 +73,7 @@ void DmpVIOSvc::SetOutDataName(){
 
 //-------------------------------------------------------------------
 #include <time.h>
-std::string DmpVIOSvc::TimeStamp(){
+std::string DmpVIO::TimeStamp(){
   time_t now;
   struct tm *p;
   time(&now);

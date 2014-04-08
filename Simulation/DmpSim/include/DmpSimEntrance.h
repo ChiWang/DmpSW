@@ -1,11 +1,11 @@
 /*
- *  $Id: DmpEntranceSimulation.h, 2014-03-08 19:38:27 chi $
+ *  $Id: DmpSimEntrance.h, 2014-04-08 13:34:15 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
 
-#ifndef DmpEntranceSimulation_H
-#define DmpEntranceSimulation_H
+#ifndef DmpSimEntrance_H
+#define DmpSimEntrance_H
 
 #include <string>
 
@@ -16,3 +16,5 @@ namespace DmpCore{
 }
 
 #endif
+
+

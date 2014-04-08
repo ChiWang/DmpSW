@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpSim, 2014-03-18 10:32:38 chi $
+ *  $Id: JobOpt_DmpSim, 2014-04-08 14:13:15 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
  *-----------------------------------------------------
@@ -23,13 +23,13 @@ import libDmpSim as  DmpSim
 simDataMgr = DmpSim.DmpSimDataManager.GetInstance()
 simDataMgr.SetOutDataPath("./test")
     ##  where to read gdml files for different subDet, if NOT set will ignore this subDet.
-simDetPar = DmpSim.DmpSimDetectorInterface.GetInstance()
-simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kWhole,prefix+"/share/Geometry/Sat/Quarter")      # must add satellite gdml files
-#simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kPsd,prefix+"/share/Geometry/Psd/Quarter")
-#simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kStk,prefix+"/share/Geometry/Stk/Quarter")       # if NOT set, will not construct this subDet
-simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kBgo,prefix+"/share/Geometry/Bgo/Quarter")
-#simDetPar.SetGdmlPath(DmpCore.DmpEDetectorID.kNud,prefix+"/share/Geometry/Nud/Quarter")
-#simDetPar.SetOffset(DmpCore.DmpEDetectorID.kPsd,-80)            # if NOT set, will use the defaulted value
+simOpt = DmpSim.DmpSimOption.GetInstance()
+simOpt.Set("gdmlPath",DmpCore.DmpEDetectorID.kWhole,prefix+"/share/Geometry/Sat/Quarter")      # must add satellite gdml files
+#simOpt.Set("gdmlPath",DmpCore.DmpEDetectorID.kPsd,prefix+"/share/Geometry/Psd/Quarter")
+#simOpt.Set("gdmlPath",DmpCore.DmpEDetectorID.kStk,prefix+"/share/Geometry/Stk/Quarter")       # if NOT set, will not construct this subDet
+simOpt.Set("gdmlPath",DmpCore.DmpEDetectorID.kBgo,prefix+"/share/Geometry/Bgo/Quarter")
+#simOpt.Set("gdmlPath",DmpCore.DmpEDetectorID.kNud,prefix+"/share/Geometry/Nud/Quarter")
+#simOpt.Set("offset",DmpCore.DmpEDetectorID.kPsd,-80)            # if NOT set, will use the defaulted value
 
     ##  Start simulation. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SetOutDataPath() between different Execute()
 DmpSim.Initialize()      # setup detector, user actions

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpBindingSim.cc, 2014-03-15 15:27:18 chi $
+ *  $Id: DmpBindingSim.cc, 2014-04-08 13:44:47 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
@@ -7,23 +7,21 @@
 #include <boost/python.hpp>
 
 #include "DmpSimDataManager.h"
-#include "DmpSimDetectorInterface.h"
+#include "DmpSimOption.h"
 #include "DmpSimEntrance.h"
 
 BOOST_PYTHON_MODULE(libDmpSim){
   using namespace boost::python;
   // DmpSimDataManager
-  class_<DmpSimDataManager,boost::noncopyable,bases<DmpVIOSvc> >("DmpSimDataManager",no_init)
+  class_<DmpSimDataManager,boost::noncopyable,bases<DmpVIO> >("DmpSimDataManager",no_init)
     .def("GetInstance",&DmpSimDataManager::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
   ;
 
-  // DmpSimDetectorInterface
-  class_<DmpSimDetectorInterface,boost::noncopyable>("DmpSimDetectorInterface",no_init)
-    .def("GetInstance",&DmpSimDetectorInterface::GetInstance,return_value_policy<reference_existing_object>())
+  // DmpSimOption
+  class_<DmpSimOption,boost::noncopyable,bases<DmpVOption> >("DmpSimOption",no_init)
+    .def("GetInstance",&DmpSimOption::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
-    .def("SetGdmlPath",&DmpSimDetectorInterface::SetGdmlPath)
-    .def("SetOffset",&DmpSimDetectorInterface::SetOffset)
   ;
 
   // DmpSimEntrance

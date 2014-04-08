@@ -7,7 +7,7 @@
 #ifndef DmpSimDataManager_H
 #define DmpSimDataManager_H
 
-#include "DmpVIOSvc.h"
+#include "DmpVIO.h"
 #include "DmpDetectorID.h"
 
 class G4Event;
@@ -15,7 +15,7 @@ class DmpEvtSimPrimaryParticle;
 class DmpEvtHeader;
 class TClonesArray;
 
-class DmpSimDataManager : public DmpVIOSvc{
+class DmpSimDataManager : public DmpVIO{
 /*
  *  DmpSimDataManager
  *

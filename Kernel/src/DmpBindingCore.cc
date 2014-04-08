@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpBindingCore.cc, 2014-04-07 19:59:22 chi $
+ *  $Id: DmpBindingCore.cc, 2014-04-08 12:51:08 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
@@ -8,15 +8,13 @@
 
 #include "DmpRunMode.h"
 #include "DmpDetectorID.h"
-#include "DmpVIOSvc.h"
-#include "DmpElementManager.h"
-#include "DmpServiceManager.h"
+#include "DmpVIO.h"
+#include "DmpVOption.h"
 #include "DmpAlgorithmManager.h"
-#include "DmpVRunTimeOptionSvc.h"
 
 //-------------------------------------------------------------------
-    // Wrapper DmpVRunTimeOptionSvc
-struct DmpVRunTimeOptionSvcWrapper : public DmpVRunTimeOptionSvc, boost::python::wrapper<DmpVRunTimeOptionSvc>{
+    // Wrapper DmpVOption
+struct DmpVOptionWrapper : public DmpVOption, boost::python::wrapper<DmpVOption>{
   void Set(const std::string &type, DmpDetector::DmpEDetectorID id, const std::string &argv){
     this->get_override("Set")(type,id,argv);
   }
@@ -44,25 +42,17 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .value("kWhole",DmpDetector::kWhole)
   ;
 
-  // DmpVIOSvc, only derived classes will use them
-  class_<DmpVIOSvc,boost::noncopyable>("DmpVIOSvc",no_init)
-    .def("SetOutDataPath",  &DmpVIOSvc::SetOutDataPath)
-    .def("AppendDataNote",  &DmpVIOSvc::AppendDataNote)
-    .def("GetOutDataPath",  &DmpVIOSvc::GetOutDataPath)
-    .def("GetOutDataName",  &DmpVIOSvc::GetOutDataName)
+  // DmpVIO, only derived classes will use them
+  class_<DmpVIO,boost::noncopyable>("DmpVIO",no_init)
+    .def("SetOutDataPath",  &DmpVIO::SetOutDataPath)
+    .def("AppendDataNote",  &DmpVIO::AppendDataNote)
+    .def("GetOutDataPath",  &DmpVIO::GetOutDataPath)
+    .def("GetOutDataName",  &DmpVIO::GetOutDataName)
   ;
 
-  // DmpServiceManager
-  class_<DmpServiceManager,boost::noncopyable>("DmpServiceManager",no_init)
-    .def("GetInstance", &DmpServiceManager::GetInstance,return_value_policy<reference_existing_object>())
-    .staticmethod("GetInstance")
-    .def("Append",  &DmpServiceManager::Append)
-    .def("Replace", &DmpServiceManager::Replace)
-    .def("ListAllElements", &DmpServiceManager::ListAllElements)
-// *
-// *  TODO: how to get a Svc in python script??
-// *
-    //.def("Get",     &DmpServiceManager::Get)
+  // DmpVOption
+  class_<DmpVOptionWrapper,boost::noncopyable>("DmpVOption",no_init)
+    .def("Set", pure_virtual(&DmpVOption::Set))
   ;
 
   // DmpAlgorithmManager
@@ -73,12 +63,6 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .def("Replace", &DmpAlgorithmManager::Replace)
     .def("ListAllElements",&DmpAlgorithmManager::ListAllElements)
   ;
-
-  // DmpVRunTimeOptionSvc
-  class_<DmpVRunTimeOptionSvcWrapper,boost::noncopyable>("DmpVRunTimeOptionSvc",no_init)
-    .def("Set", pure_virtual(&DmpVRunTimeOptionSvc::Set))
-  ;
-
 }
 
 

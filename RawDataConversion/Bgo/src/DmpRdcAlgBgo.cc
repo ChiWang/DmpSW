@@ -27,7 +27,7 @@ DmpRdcAlgBgo::~DmpRdcAlgBgo(){
 //-------------------------------------------------------------------
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
-#include "DmpRdcCnctPath.h"
+#include "DmpRdcOption.h"
 bool DmpRdcAlgBgo::Initialize(){
   std::string path = gCnctPathMgr->GetConnectorPath(DmpDetector::kBgo);
   if(path == "default"){
