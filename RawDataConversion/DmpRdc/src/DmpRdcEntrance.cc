@@ -17,6 +17,7 @@
 
 //-------------------------------------------------------------------
 void DmpCore::RdcInitialize(){
+//return;
   gDmpAlgMgr->Append(new DmpRdcAlgHeader("RdcAlgHeader"));
   gDmpAlgMgr->Append(new DmpRdcAlgNud("RdcAlgNud"));
   gDmpAlgMgr->Append(new DmpRdcAlgPsd("RdcAlgPsd"));

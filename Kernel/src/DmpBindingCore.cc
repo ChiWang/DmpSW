@@ -10,6 +10,7 @@
 #include "DmpDetectorID.h"
 #include "DmpVIO.h"
 #include "DmpVOption.h"
+#include "DmpVAlg.h"
 #include "DmpAlgorithmManager.h"
 
 //-------------------------------------------------------------------
@@ -17,6 +18,22 @@
 struct DmpVOptionWrapper : public DmpVOption, boost::python::wrapper<DmpVOption>{
   void Set(const std::string &type, DmpDetector::DmpEDetectorID id, const std::string &argv){
     this->get_override("Set")(type,id,argv);
+  }
+};
+    // Wrapper DmpVAlg
+struct DmpVAlgWrapper : public DmpVAlg, boost::python::wrapper<DmpVAlg>{
+// *
+// *  TODO: binding constructor
+// *
+  DmpVAlgWrapper(const std::string &n):DmpVAlg(n){}
+  bool Initialize(){
+    return this->get_override("Initialize")();
+  }
+  bool ProcessThisEvent(){
+    return this->get_override("ProcessThisEvent")();
+  }
+  bool Finalize(){
+    return this->get_override("Finalize")();
   }
 };
 
@@ -53,6 +70,13 @@ BOOST_PYTHON_MODULE(libDmpCore){
   // DmpVOption
   class_<DmpVOptionWrapper,boost::noncopyable>("DmpVOption",no_init)
     .def("Set", pure_virtual(&DmpVOption::Set))
+  ;
+
+  // DmpVAlg
+  class_<DmpVAlgWrapper,boost::noncopyable>("DmpVAlg",init<std::string>())
+    .def("Initialize",      pure_virtual(&DmpVAlg::Initialize))
+    .def("ProcessThisEvent",pure_virtual(&DmpVAlg::ProcessThisEvent))
+    .def("Finalize",        pure_virtual(&DmpVAlg::Finalize))
   ;
 
   // DmpAlgorithmManager

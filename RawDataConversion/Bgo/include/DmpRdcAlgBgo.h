@@ -11,7 +11,6 @@
 
 class DmpRdcAlgBgo : public DmpRdcVAlgSubDet{
 public:
-  //DmpRdcAlgBgo(){}
   DmpRdcAlgBgo(const std::string&);
   ~DmpRdcAlgBgo();
   bool Initialize();

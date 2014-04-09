@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpRdc, 2014-04-08 22:07:28 chi $
+ *  $Id: JobOpt_DmpRdc, 2014-04-09 19:33:24 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 11/03/2014
  *-----------------------------------------------------
@@ -37,6 +37,12 @@ DmpRdc.Initialize()      # create Rdc argorithm of all subDet, and setup connect
 # *
 # *  TODO: how to add alg into algMgr in job opt. file?
 # *
+#gDmpAlgMgr.Append(DmpRdc.DmpRdcAlgHeader("RdcAlgHeader"))
+#gDmpAlgMgr.Append(DmpRdc.DmpRdcAlgPsd("RdcAlgPsd"))
+#gDmpAlgMgr.Append(DmpRdc.DmpRdcAlgStk("RdcAlgStk"))
+#gDmpAlgMgr.Append(DmpRdc.DmpRdcAlgBgo("RdcAlgBgo"))
+#gDmpAlgMgr.Append(DmpRdc.DmpRdcAlgNud("RdcAlgNud"))
+#sys.exit(1)
 gDmpAlgMgr.Initialize()
 gRdcDataMgr.AppendDataNote("protonTest")        # set tag for the next output data. NOT set is okay
 #DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcVAlgSubDetSubDet.h, 2014-03-20 23:56:17 chi $
+ *  $Id: DmpRdcVAlgSubDet.h, 2014-04-09 19:58:09 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 20/03/2014
 */
