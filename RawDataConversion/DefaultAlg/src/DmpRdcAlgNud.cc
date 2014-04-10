@@ -17,7 +17,7 @@
 DmpRdcAlgNud::DmpRdcAlgNud(const std::string &name)
  :DmpRdcVAlgSubDet(name)
 {
-  fMSDSet = gDataMgr->GetOutCollection(DmpDetector::kNud);
+  fMSDSet = gRdcDataMgr->GetOutCollection(DmpDetector::kNud);
 }
 
 //-------------------------------------------------------------------
@@ -83,38 +83,38 @@ bool DmpRdcAlgNud::ProcessThisEvent(){
 // *
 //-------------------------------------------------------------------
   static short tmp=0, tmp2=0, nBytes=0;
-  static DmpEvtHeader *evtHeader = gDataMgr->GetEventHeader();
-  gDataMgr->gInDataStream.read((char*)(&tmp),1);
+  static DmpEvtHeader *evtHeader = gRdcDataMgr->GetEventHeader();
+  gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);
   if (tmp!=0xeb) {
     gRdcLog->StatusLog(-1);
     return false;
   }
-  gDataMgr->gInDataStream.read((char*)(&tmp),1);
+  gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);
   if (tmp!=0x90) {
     gRdcLog->StatusLog(-2);
     return false;
   }
-  gDataMgr->gInDataStream.read((char*)(&tmp),1);     // trigger
+  gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);     // trigger
   evtHeader->SetTrigger(DmpDetector::kNud,tmp);
-  gDataMgr->gInDataStream.read((char*)(&tmp),1);     // run mode and FEE ID
+  gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);     // run mode and FEE ID
   evtHeader->SetRunMode(DmpDetector::kNud,tmp/16-DmpDetector::Nud::kFEEType);
-  gDataMgr->gInDataStream.read((char*)(&tmp),1);     // data length, 2 Bytes
-  gDataMgr->gInDataStream.read((char*)(&tmp2),1);
+  gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);     // data length, 2 Bytes
+  gRdcDataMgr->gInDataStream.read((char*)(&tmp2),1);
   nBytes = tmp*256+tmp2-2-2;            // 2 bytes for data length, 2 bytes for CRC
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
   //if (evtHeader->GetRunMode(DmpDetector::kNud) == DmpDetector::k0Compress) 
   for(short i=0;i<nBytes;i+=2){     // k0Compress
-    gDataMgr->gInDataStream.read((char*)(&tmp),1);
-    gDataMgr->gInDataStream.read((char*)(&tmp),1);
+    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);
+    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);
 // *
 // *  TODO: store impfore into hits
 // *
     //fMSDSet->
   }
-  gDataMgr->gInDataStream.read((char*)(&tmp),1);     // 2 bytes for CRC
-  gDataMgr->gInDataStream.read((char*)(&tmp),1);     // 2 bytes for CRC, MUST split them
+  gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);     // 2 bytes for CRC
+  gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);     // 2 bytes for CRC, MUST split them
 //-------------------------------------------------------------------
 
   gRdcLog->StatusLog(nBytes);

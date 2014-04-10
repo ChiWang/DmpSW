@@ -48,7 +48,7 @@ private:
 };
 
 //-------------------------------------------------------------------
-extern DmpRdcDataManager    *gDataMgr;
+extern DmpRdcDataManager    *gRdcDataMgr;
 
 #endif
 

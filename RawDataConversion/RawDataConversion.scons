@@ -1,5 +1,5 @@
 '''
- *  $Id: RawDataConversion.scons, 2014-03-09 14:12:47 chi $
+ *  $Id: RawDataConversion.scons, 2014-04-10 14:35:22 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 '''
@@ -13,15 +13,12 @@ target='DmpRdc'
 env = envBase.Clone()
 useRoot(env)
 #useCLHEP(env)
-#useGeant4(env)
 useBoostPython(env)
 #useOpenMP(env)
 
 # include
+env.Prepend(CPPPATH='DefaultAlg/include')
 env.Prepend(CPPPATH='DmpRdc/include')
-for key in subDetectors:
-    includeDir=key+'/include'
-    env.Prepend(CPPPATH=[includeDir])
 
 # Use other top-1 package
 #--------------------------------------------------------------------
@@ -42,18 +39,11 @@ env.Append(LIBS=['boost_filesystem-mt'])
 
 # install share
 #--------------------------------------------------------------------
-def ProcessThisDir(var):
-    for tmp in os.listdir(var):
-        if "." in tmp[0] or "scons" in tmp or "test" in tmp:   continue
-        if os.path.isdir(var+tmp):  ProcessThisDir(var+tmp)
-        else: Default(Command(prefix+'/'+var+'/'+tmp,var+'/'+tmp,Copy("$TARGET","$SOURCE")))
-
-ProcessThisDir("share/Connector/")
+ProcessThisDir("share/Connector/",prefix+"/share/Connector/")
+ProcessThisDir("DmpRdc/include/",prefix+"/include/Rdc")
 
 # main build
 #--------------------------------------------------------------------
-#goal=env.Program(target,Glob('./*/src/*.cc'))
-#Default(env.InstallAs(prefix+'/bin/'+target,goal))
 goal=env.SharedLibrary(target,Glob('./*/src/*.cc'))
 Default(env.InstallAs(prefix+"/lib/lib"+target+".so",goal))
 

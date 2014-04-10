@@ -48,6 +48,12 @@ def useBoostPython(aEnv):
 def useOpenMP(aEnv):
     aEnv.MergeFlags('-fopenmp')
 
+def ProcessThisDir(fromPath,toPath):
+    for tmp in os.listdir(fromPath):
+        if "." in tmp[0] or "scons" in tmp or "test" in tmp:   continue
+        if os.path.isdir(fromPath+tmp):  ProcessThisDir(fromPath+tmp,toPath+tmp)
+        else: Default(Command(toPath+'/'+tmp,fromPath+'/'+tmp,Copy("$TARGET","$SOURCE")))
+
 # set basical environment
 #--------------------------------------------------------------------
 envBase = Environment(ENV = os.environ)
@@ -83,5 +89,5 @@ subScript=[]
 for key in pkgList:
     subScript=subScript+[key+'/'+key+'.scons']
 
-SConscript(subScript,exports=['prefix','version','envBase','subDetectors','useRoot','useGeant4','useBoostPython','useCLHEP','useOpenMP'])
+SConscript(subScript,exports=['prefix','version','envBase','subDetectors','useRoot','useGeant4','useBoostPython','useCLHEP','useOpenMP','ProcessThisDir'])
 

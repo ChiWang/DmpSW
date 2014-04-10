@@ -44,8 +44,8 @@ gDmpAlgMgr.Initialize()
     ##  Start to run this job (Execute()). Also could use Set("outDataPath") between 2 Execute()
 DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
 #print rdcOpt.Get("outDataName")
-rdcOpt.Set("outDataNote",DmpCore.DmpEDetectorID.kWhole,"ProTest")   # set tag for the next output data. NOT set is okay
-DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
+#rdcOpt.Set("outDataNote",DmpCore.DmpEDetectorID.kWhole,"ProTest")   # set tag for the next output data. NOT set is okay
+#DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
 #print rdcOpt.Get("outDataName")
 
 gDmpAlgMgr.Finalize()

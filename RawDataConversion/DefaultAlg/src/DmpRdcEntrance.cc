@@ -11,16 +11,16 @@
 //-------------------------------------------------------------------
 void DmpCore::RdcExecute(const std::string &dataName){
   // open file
-  if(not gDataMgr->InputData(dataName)) return;
+  if(not gRdcDataMgr->InputData(dataName)) return;
   // convert and save output
-  gDataMgr->BookBranch();
-  for(long i=0;!gDataMgr->gInDataStream.eof();++i){
+  gRdcDataMgr->BookBranch();
+  for(long i=0;!gRdcDataMgr->gInDataStream.eof();++i){
     if(not gDmpAlgMgr->Process())  continue;
-    gDataMgr->FillEvent();
+    gRdcDataMgr->FillEvent();
   }
-  gDataMgr->SaveOutput();
+  gRdcDataMgr->SaveOutput();
   // reset
-  gDataMgr->gInDataStream.close();
+  gRdcDataMgr->gInDataStream.close();
 }
 
 

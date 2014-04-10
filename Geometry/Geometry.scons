@@ -13,11 +13,12 @@ print "\t\t\t invoke %s\n" % os.path.abspath("./")
 ## install Geometry
     # (copy all files(include Readme.md, except ".*" and *.scons) into prefix/share/Geometry)
 ##--------------------------------------------------------------------
-def ProcessThisDir(var):
-    for tmp in os.listdir(var):
+'''
+def ProcessThisDir(fromPath,toPath):
+    for tmp in os.listdir(fromPath):
         if "." in tmp[0] or "scons" in tmp:   continue
-        if os.path.isdir(var+tmp):  ProcessThisDir(var+tmp)
-        else: Default(Command(prefix+'/share/Geometry/'+var+'/'+tmp,var+'/'+tmp,Copy("$TARGET","$SOURCE")))
-
-ProcessThisDir("./")
+        if os.path.isdir(fromPath+tmp):  ProcessThisDir(fromPath+tmp,toPath+tmp)
+        else: Default(Command(toPath+'/'+tmp,fromPath+'/'+tmp,Copy("$TARGET","$SOURCE")))
+'''
+ProcessThisDir("./",prefix+"/share/Geometry/")
 

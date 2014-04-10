@@ -98,6 +98,6 @@ TClonesArray* DmpRdcDataManager::GetOutCollection(DmpDetector::DmpEDetectorID id
 }
 
 //-------------------------------------------------------------------
-DmpRdcDataManager *gDataMgr = DmpRdcDataManager::GetInstance();
+DmpRdcDataManager *gRdcDataMgr = DmpRdcDataManager::GetInstance();
 
 

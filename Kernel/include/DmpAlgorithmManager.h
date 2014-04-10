@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpAlgorithmManager.h, 2014-04-08 12:42:07 chi $
+ *  $Id: DmpAlgorithmManager.h, 2014-04-10 13:58:58 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/03/2014
 */

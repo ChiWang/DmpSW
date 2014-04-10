@@ -14,17 +14,17 @@
 void DmpRdcLog::StatusLog(const short &x) const {
   static bool prepareForFirstIn = true;
   if(x > 1){    // out convert (subDet)
-    std::cout<<" to "<<gDataMgr->gInDataStream.tellg()<<"\t---> "<<x<<std::endl;
+    std::cout<<" to "<<gRdcDataMgr->gInDataStream.tellg()<<"\t---> "<<x<<std::endl;
     prepareForFirstIn = true;
   }else{
     switch(x){
     case 1:     // out convert (header)
-      std::cout<<" to "<<gDataMgr->gInDataStream.tellg()<<std::endl;
+      std::cout<<" to "<<gRdcDataMgr->gInDataStream.tellg()<<std::endl;
       prepareForFirstIn = true;
       break;
     case 0:     // start convert
       if(prepareForFirstIn){
-        std::cout<<"\tfrom "<<gDataMgr->gInDataStream.tellg();
+        std::cout<<"\tfrom "<<gRdcDataMgr->gInDataStream.tellg();
         prepareForFirstIn = false;
       }
       break;
@@ -55,10 +55,10 @@ void DmpRdcLog::StatusLog(const short &x) const {
 //-------------------------------------------------------------------
 void DmpRdcLog::PrintLocation() const{
   static short tmp = 0;
-  static DmpEvtHeader *evtHeader = gDataMgr->GetEventHeader();
+  static DmpEvtHeader *evtHeader = gRdcDataMgr->GetEventHeader();
   std::cout<<"Location: ";
   for(short i=0;i<5;++i){
-    gDataMgr->gInDataStream.read((char*)(&tmp),1);
+    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);
     std::cout<<" "<<std::hex<<tmp<<std::dec;
   }
   std::cout<<"\t";

@@ -17,7 +17,7 @@
 DmpRdcAlgBgo::DmpRdcAlgBgo(const std::string &name)
  :DmpRdcVAlgSubDet(name)
 {
-  fMSDSet = gDataMgr->GetOutCollection(DmpDetector::kBgo);
+  fMSDSet = gRdcDataMgr->GetOutCollection(DmpDetector::kBgo);
 }
 
 //-------------------------------------------------------------------
@@ -65,19 +65,19 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
   gRdcLog->StatusLog(0);
 //-------------------------------------------------------------------
   static short tmp=0, tmp2=0, nBytes=0;
-  static DmpEvtHeader *evtHeader = gDataMgr->GetEventHeader();
+  static DmpEvtHeader *evtHeader = gRdcDataMgr->GetEventHeader();
   for (short counts=0;counts<DmpDetector::Bgo::kFEENo;++counts) {
-    gDataMgr->gInDataStream.read((char*)(&tmp),1);
+    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);
     if (tmp!=0xeb) {
       gRdcLog->StatusLog(-1);
       return false;
     }
-    gDataMgr->gInDataStream.read((char*)(&tmp),1);
+    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);
     if (tmp!=0x90) {
       gRdcLog->StatusLog(-2);
       return false;
     }
-    gDataMgr->gInDataStream.read((char*)(&tmp),1);       // trigger
+    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);       // trigger
     if(counts == 0){
       evtHeader->SetTrigger(DmpDetector::kBgo,tmp);
     }else{
@@ -86,7 +86,7 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
         return false;
       }
     }
-    gDataMgr->gInDataStream.read((char*)(&tmp),1);       // run mode and FEE ID
+    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);       // run mode and FEE ID
     static short feeID = 0;
     feeID = tmp%16;
     if(counts == 0){
@@ -97,16 +97,16 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
         return false;
       }
     }
-    gDataMgr->gInDataStream.read((char*)(&tmp),1);       // data length, 2 bytes
-    gDataMgr->gInDataStream.read((char*)(&tmp2),1);
+    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);       // data length, 2 bytes
+    gRdcDataMgr->gInDataStream.read((char*)(&tmp2),1);
     nBytes = tmp*256+tmp2-2-2-2;        // 2 bytes for data length, 2 bytes for 0x0000, 2 bytes for CRC
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
     if(evtHeader->GetRunMode(DmpDetector::kBgo) == DmpDetector::k0Compress){
       for(short i=0;i<nBytes;i+=2){     // k0Compress
-        gDataMgr->gInDataStream.read((char*)(&tmp),1);
-        gDataMgr->gInDataStream.read((char*)(&tmp2),1);
+        gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);
+        gRdcDataMgr->gInDataStream.read((char*)(&tmp2),1);
         AppendThisSignal(fConnector[feeID*1000+i],tmp*256+tmp2);
       }
     }else{
@@ -114,16 +114,16 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
 // *
 // *  TODO: fix me
 // *
-        gDataMgr->gInDataStream.read((char*)(&tmp),1);
-        gDataMgr->gInDataStream.read((char*)(&tmp),1);
-        gDataMgr->gInDataStream.read((char*)(&tmp2),1);
+        gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);
+        gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);
+        gRdcDataMgr->gInDataStream.read((char*)(&tmp2),1);
         //AppendThisSignal(fConnector[feeID*1000+i],tmp*256+tmp2);
       }
     }
-    gDataMgr->gInDataStream.read((char*)(&tmp),1);       // 2 bytes for 0x0000
-    gDataMgr->gInDataStream.read((char*)(&tmp),1);       // must split them, 2 bytes for 0x0000
-    gDataMgr->gInDataStream.read((char*)(&tmp),1);       // 2 bytes for CRC
-    gDataMgr->gInDataStream.read((char*)(&tmp),1);       // must spplit them, 2 bytes for CRC
+    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);       // 2 bytes for 0x0000
+    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);       // must split them, 2 bytes for 0x0000
+    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);       // 2 bytes for CRC
+    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);       // must spplit them, 2 bytes for CRC
   }
 //-------------------------------------------------------------------
   gRdcLog->StatusLog(nBytes);

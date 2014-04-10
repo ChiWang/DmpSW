@@ -16,7 +16,7 @@
 DmpRdcAlgStk::DmpRdcAlgStk(const std::string &name)
  :DmpRdcVAlgSubDet(name)
 {
-  fMSDSet = gDataMgr->GetOutCollection(DmpDetector::kStk);
+  fMSDSet = gRdcDataMgr->GetOutCollection(DmpDetector::kStk);
 }
 
 //-------------------------------------------------------------------

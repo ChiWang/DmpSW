@@ -23,16 +23,16 @@ void DmpRdcOption::Set(const std::string &type, DmpDetector::DmpEDetectorID id, 
   if(type == "cnctPath"){
     fConnectorPath[id] = argv;
   }else if(type == "outDataPath"){
-    gDataMgr->SetOutDataPath(argv);  
+    gRdcDataMgr->SetOutDataPath(argv);  
   }else if(type == "outDataNote"){
-    gDataMgr->AppendDataNote(argv);  
+    gRdcDataMgr->AppendDataNote(argv);  
   }
 }
 
 //-------------------------------------------------------------------
 std::string DmpRdcOption::Get(const std::string &type){
   if(type == "outDataName"){
-    return gDataMgr->GetOutDataName();
+    return gRdcDataMgr->GetOutDataName();
   }
 }
 
