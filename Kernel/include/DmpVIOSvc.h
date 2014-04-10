@@ -1,19 +1,19 @@
 /*
- *  $Id: DmpVIO.h, 2014-04-08 10:31:52 chi $
+ *  $Id: DmpVIOSvc.h, 2014-04-08 10:31:52 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
-#ifndef DmpVIO_H
-#define DmpVIO_H
+#ifndef DmpVIOSvc_H
+#define DmpVIOSvc_H
 
-#include <string>
+#include "DmpVSvc.h"
 
 class TTree;
 
-class DmpVIO{
+class DmpVIOSvc : public DmpVSvc{
 /* 
- *  DmpVIO
+ *  DmpVIOSvc
  *
  *  All data manager classes inherite from this class
  *
@@ -21,13 +21,17 @@ class DmpVIO{
  *
  */
 public:
-  DmpVIO();
-  virtual ~DmpVIO();
+  DmpVIOSvc(const std::string&);
+  virtual ~DmpVIOSvc();
 
   virtual void BookBranch()=0;
   virtual void FillEvent();
   virtual void SaveOutput();  // save output, for one indata
   virtual bool InputData(const std::string &n) {fInData = n; return true;}
+
+public:
+  bool Initialize(){}
+  bool Finalize(){}
 
 public:
   void SetOutDataPath(const std::string&);        // binding me

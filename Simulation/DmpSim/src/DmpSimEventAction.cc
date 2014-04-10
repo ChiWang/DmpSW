@@ -21,7 +21,7 @@
 */
 #include "DmpEvtHeader.h"
 #include "DmpSimEventAction.h"
-#include "DmpSimDataManager.h"
+#include "DmpSimSvcDataMgr.h"
 
 //-------------------------------------------------------------------
 DmpSimEventAction::DmpSimEventAction(){
@@ -49,14 +49,14 @@ void DmpSimEventAction::BeginOfEventAction(const G4Event *anEvent){
 #ifdef DmpDebug
   std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tEvent ID = "<<anEvent->GetEventID()<<std::endl;
 #endif
-  static DmpEvtHeader *eventHeader = gDataMgr->GetEventHeader();
+  static DmpEvtHeader *eventHeader = gSimDataMgr->GetEventHeader();
   eventHeader->CountThisEvent();
   eventHeader->SetParticlePdgCode(anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode());
 }
 
 //-------------------------------------------------------------------
 void DmpSimEventAction::EndOfEventAction(const G4Event *anEvent){
-  gDataMgr->Digitize();
-  gDataMgr->FillEvent();
+  gSimDataMgr->Digitize();
+  gSimDataMgr->FillEvent();
 }
 

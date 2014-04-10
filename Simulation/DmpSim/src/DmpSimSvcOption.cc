@@ -1,14 +1,16 @@
 /*
- *  $Id: DmpSimOption.cc, 2014-04-08 13:33:40 chi $
+ *  $Id: DmpSimSvcOption.cc, 2014-04-10 21:09:06 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 17/03/2014
 */
 
-#include "DmpSimOption.h"
-#include "DmpSimDataManager.h"
+#include "DmpSimSvcOption.h"
+#include "DmpSimSvcDataMgr.h"
 
 //-------------------------------------------------------------------
-DmpSimOption::DmpSimOption(){
+DmpSimSvcOption::DmpSimSvcOption()
+ :DmpVOptionSvc("DmpSimSvcOption")
+{
   for(short i=0;i<DmpDetector::gSubDetNo + 1;++i){
     fGdmlPath[i]="default";
   }
@@ -19,25 +21,25 @@ DmpSimOption::DmpSimOption(){
 }
 
 //-------------------------------------------------------------------
-DmpSimOption::~DmpSimOption(){
+DmpSimSvcOption::~DmpSimSvcOption(){
 }
 
 //-------------------------------------------------------------------
 #include <boost/lexical_cast.hpp>
-void DmpSimOption::Set(const std::string &type,DmpDetector::DmpEDetectorID id, const std::string &argv){
+void DmpSimSvcOption::Set(const std::string &type,DmpDetector::DmpEDetectorID id, const std::string &argv){
   if(type == "gdmlPath"){
     fGdmlPath[id] = argv;
   }else if(type == "offset"){
     fOffset[id] = boost::lexical_cast<float>(argv);
   }else if(type == "outDataPath"){
-    gDataMgr->SetOutDataPath(argv);
+    gSimDataMgr->SetOutDataPath(argv);
   }else if(type == "outDataNote"){
-    gDataMgr->AppendDataNote(argv);
+    gSimDataMgr->AppendDataNote(argv);
   }
 }
 
 
 //-------------------------------------------------------------------
-DmpSimOption *gSimOpt = DmpSimOption::GetInstance();
+DmpSimSvcOption *gSimOpt = DmpSimSvcOption::GetInstance();
 
 

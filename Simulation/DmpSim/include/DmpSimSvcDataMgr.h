@@ -1,13 +1,13 @@
 /*
- *  $Id: DmpSimDataManager.h, 2014-04-06 17:16:01 chi $
+ *  $Id: DmpSimSvcDataMgr.h, 2014-04-10 21:08:36 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/02/2014
 */
 
-#ifndef DmpSimDataManager_H
-#define DmpSimDataManager_H
+#ifndef DmpSimSvcDataMgr_H
+#define DmpSimSvcDataMgr_H
 
-#include "DmpVIO.h"
+#include "DmpVIOSvc.h"
 #include "DmpDetectorID.h"
 
 class G4Event;
@@ -15,22 +15,22 @@ class DmpEvtSimPrimaryParticle;
 class DmpEvtHeader;
 class TClonesArray;
 
-class DmpSimDataManager : public DmpVIO{
+class DmpSimSvcDataMgr : public DmpVIOSvc{
 /*
- *  DmpSimDataManager
+ *  DmpSimSvcDataMgr
  *
  *  
  */
 public:
-  static DmpSimDataManager* GetInstance(){
-    static DmpSimDataManager instance;
+  static DmpSimSvcDataMgr* GetInstance(){
+    static DmpSimSvcDataMgr instance;
     return &instance;
   }
-  ~DmpSimDataManager();
+  ~DmpSimSvcDataMgr();
   void BookBranch();            // invoked from BeginOfRunAction()
 
 private:
-  DmpSimDataManager();
+  DmpSimSvcDataMgr();
   void ResetEvent();            // delete all elements in TClonesArray
 
 public:
@@ -50,7 +50,7 @@ private:
 };
 
 //-------------------------------------------------------------------
-extern DmpSimDataManager *gDataMgr;
+extern DmpSimSvcDataMgr *gSimDataMgr;
 
 #endif
 

@@ -1,31 +1,32 @@
 /*
- *  $Id: DmpAlgorithmManager.cc, 2014-04-08 10:27:47 chi $
+ *  $Id: DmpServiceManager.cc, 2014-04-10 20:31:12 chi $
  *  Author(s):
- *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/03/2014
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 15/03/2014
 */
 
-#include "DmpAlgorithmManager.h"
+#include "DmpServiceManager.h"
 
 //-------------------------------------------------------------------
-DmpAlgorithmManager::DmpAlgorithmManager()
- :DmpElementManager<DmpVAlg>("Algorithm Manager")
+DmpServiceManager::DmpServiceManager()
+ :DmpElementManager<DmpVSvc>("Service Manager")
 {
   std::cout<<"\t\tDone\n"<<std::endl;
 }
 
 //-------------------------------------------------------------------
-DmpAlgorithmManager::~DmpAlgorithmManager(){
+DmpServiceManager::~DmpServiceManager(){
   std::cout<<"DMPSW Kernerl: deleting "<<Name();
 }
 
 //-------------------------------------------------------------------
-bool DmpAlgorithmManager::Process(){
+DmpVSvc* DmpServiceManager::Get(const std::string &name){
   for(fIterator = fElements.begin();fIterator != fElements.end();++fIterator){
-    if(not (*fIterator)->ProcessThisEvent())  return false;
+    if((*fIterator)->Name() == name) return (*fIterator);
   }
-  return true;
+  return 0;
 }
 
 //-------------------------------------------------------------------
-DmpAlgorithmManager *gDmpAlgMgr = DmpAlgorithmManager::GetInstance();
+DmpServiceManager *gDmpSvcMgr = DmpServiceManager::GetInstance();
+
 

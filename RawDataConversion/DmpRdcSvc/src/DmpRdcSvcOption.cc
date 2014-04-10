@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcOption.cc, 2014-04-08 15:19:43 chi $
+ *  $Id: DmpRdcSvcOption.cc, 2014-04-10 21:26:16 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 02/04/2014
 */
@@ -8,7 +8,9 @@
 #include "DmpRdcDataManager.h"
 
 //-------------------------------------------------------------------
-DmpRdcOption::DmpRdcOption(){
+DmpRdcOption::DmpRdcOption()
+ :DmpVOptionSvc("DmpRdcOption")
+{
   for(short i=0;i<DmpDetector::gSubDetNo;++i){
     fConnectorPath[i]="default";
   }

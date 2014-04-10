@@ -6,15 +6,15 @@
 
 #include <boost/python.hpp>
 
-#include "DmpSimOption.h"
+#include "DmpSimSvcOption.h"
 #include "DmpSimEntrance.h"
 
 BOOST_PYTHON_MODULE(libDmpSim){
   using namespace boost::python;
 
-  // DmpSimOption
-  class_<DmpSimOption,boost::noncopyable,bases<DmpVOption> >("DmpSimOption",no_init)
-    .def("GetInstance",&DmpSimOption::GetInstance,return_value_policy<reference_existing_object>())
+  // DmpSimSvcOption
+  class_<DmpSimSvcOption,boost::noncopyable,bases<DmpVOptionSvc> >("DmpSimSvcOption",no_init)
+    .def("GetInstance",&DmpSimSvcOption::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
   ;
 

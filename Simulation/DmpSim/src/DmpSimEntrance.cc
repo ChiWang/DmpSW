@@ -25,7 +25,7 @@
 #include "DmpSimEventAction.h"
 #include "DmpSimTrackingAction.h"
 #include "DmpSimEntrance.h"
-#include "DmpSimDataManager.h"
+#include "DmpSimSvcDataMgr.h"
 
 G4RunManager *runManager = 0;
 G4VisManager *visManager = 0;
@@ -76,7 +76,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 //-------------------------------------------------------------------
 void DmpCore::SimExecute(const std::string &inData){
   // UI interface manager
-  gDataMgr->InputData(inData);
+  gSimDataMgr->InputData(inData);
   G4UImanager *UImanager = G4UImanager::GetUIpointer();
   if (inData == "visual"){
     // interactive mode : define UI session

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcDataManager.cc, 2014-04-06 15:59:41 chi $
+ *  $Id: DmpRdcSvcDataMgr.cc, 2014-04-10 21:24:55 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -18,7 +18,8 @@
 
 //-------------------------------------------------------------------
 DmpRdcDataManager::DmpRdcDataManager()
- :fEvtHeader(0),
+ :DmpVIOSvcSvc("DmpRdcDataMgr")
+  fEvtHeader(0),
   fPsdOutSet(0),
   fStkOutSet(0),
   fBgoOutSet(0),
@@ -46,7 +47,7 @@ DmpRdcDataManager::~DmpRdcDataManager(){
 //-------------------------------------------------------------------
 bool DmpRdcDataManager::InputData(const std::string &dataName){
   gInDataStream.open(dataName.c_str(),std::ios::in|std::ios::binary);
-  DmpVIO::InputData(dataName);
+  DmpVIOSvc::InputData(dataName);
   if(not gInDataStream.good()){
     std::cerr<<"\nwarning: open "<<dataName<<" failed"<<std::endl;
     gInDataStream.close();
@@ -72,7 +73,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 //-------------------------------------------------------------------
 void DmpRdcDataManager::FillEvent(){
   fEvtHeader->GenerateTriggerStatus();
-  DmpVIO::FillEvent();
+  DmpVIOSvc::FillEvent();
 }
 
 //-------------------------------------------------------------------

@@ -1,30 +1,30 @@
 /*
- *  $Id: DmpSimOption.h, 2014-04-08 13:19:43 chi $
+ *  $Id: DmpSimSvcOption.h, 2014-04-10 21:09:30 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 17/03/2014
 */
 
-#ifndef DmpSimOption_H
-#define DmpSimOption_H
+#ifndef DmpSimSvcOption_H
+#define DmpSimSvcOption_H
 
-#include "DmpVOption.h"
+#include "DmpVOptionSvc.h"
 
-class DmpSimOption : public DmpVOption{
+class DmpSimSvcOption : public DmpVOptionSvc{
 /*
- *  DmpSimOption
+ *  DmpSimSvcOption
  *
  */
 public:
-  static DmpSimOption*  GetInstance(){
-    static DmpSimOption instance;
+  static DmpSimSvcOption*  GetInstance(){
+    static DmpSimSvcOption instance;
     return &instance;
   }
-  ~DmpSimOption();
+  ~DmpSimSvcOption();
   void Set(const std::string&,DmpDetector::DmpEDetectorID,const std::string&);
   std::string Get(const std::string&){}
 
 private:
-  DmpSimOption();
+  DmpSimSvcOption();
 
 public:
   std::string GetGdmlPath(DmpDetector::DmpEDetectorID id) const {return fGdmlPath[id];}
@@ -37,7 +37,7 @@ private:
 };
 
 //-------------------------------------------------------------------
-extern DmpSimOption *gSimOpt;
+extern DmpSimSvcOption *gSimOpt;
 
 #endif
 

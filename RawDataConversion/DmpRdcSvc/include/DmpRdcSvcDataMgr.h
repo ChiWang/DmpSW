@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcDataManager.h, 2014-04-08 14:51:08 chi $
+ *  $Id: DmpRdcSvcDataMgr.h, 2014-04-10 21:23:55 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -8,13 +8,13 @@
 #define DmpRdcDataManager_H
 
 #include <fstream>
-#include "DmpVIO.h"
+#include "DmpVIOSvc.h"
 #include "DmpDetectorID.h"
 
 class DmpEvtHeader;
 class TClonesArray;
 
-class DmpRdcDataManager : public DmpVIO{
+class DmpRdcDataManager : public DmpVIOSvc{
 /*
  *  DmpRdcDataManager
  *

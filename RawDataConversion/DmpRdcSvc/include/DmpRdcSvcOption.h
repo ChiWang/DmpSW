@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcOption.h, 2014-04-08 15:20:34 chi $
+ *  $Id: DmpRdcSvcOption.h, 2014-04-10 21:26:14 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 19/03/2014
 */
@@ -7,9 +7,9 @@
 #ifndef DmpRdcOption_H
 #define DmpRdcOption_H
 
-#include "DmpVOption.h"
+#include "DmpVOptionSvc.h"
 
-class DmpRdcOption : public DmpVOption{
+class DmpRdcOption : public DmpVOptionSvc{
 public:
   static DmpRdcOption*  GetInstance(){
     static DmpRdcOption  instance;

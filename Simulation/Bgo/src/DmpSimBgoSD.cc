@@ -11,13 +11,13 @@
 
 #include "DmpEvtBgoMSD.h"
 #include "DmpSimBgoSD.h"
-#include "DmpSimDataManager.h"
+#include "DmpSimSvcDataMgr.h"
 
 //-------------------------------------------------------------------
 DmpSimBgoSD::DmpSimBgoSD(G4String name)
  :G4VSensitiveDetector(name)
 {
-  fMSDSet = gDataMgr->GetOutCollection(DmpDetector::kBgo);
+  fMSDSet = gSimDataMgr->GetOutCollection(DmpDetector::kBgo);
 }
 
 //-------------------------------------------------------------------

@@ -19,7 +19,7 @@ import libDmpCore as DmpCore
 import libDmpSim as  DmpSim
 
 # Set options for this job
-simOpt = DmpSim.DmpSimOption.GetInstance()
+simOpt = DmpSim.DmpSimSvcOption.GetInstance()
     ##  where to read gdml files for different subDet, if NOT set will ignore this subDet.
 simOpt.Set("gdmlPath",DmpCore.DmpEDetectorID.kWhole,prefix+"/share/Geometry/Sat/Quarter")      # must add satellite gdml files
 #simOpt.Set("gdmlPath",DmpCore.DmpEDetectorID.kPsd,prefix+"/share/Geometry/Psd/Quarter")

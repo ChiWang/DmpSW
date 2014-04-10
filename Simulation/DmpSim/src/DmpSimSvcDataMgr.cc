@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimDataManager.cc, 2014-03-06 16:27:45 chi $
+ *  $Id: DmpSimSvcDataMgr.cc, 2014-04-10 21:08:38 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/02/2014
 */
@@ -15,11 +15,12 @@
 #include "DmpEvtStkMSD.h"
 #include "DmpEvtBgoMSD.h"
 #include "DmpEvtNudMSD.h"
-#include "DmpSimDataManager.h"
+#include "DmpSimSvcDataMgr.h"
 
 //-------------------------------------------------------------------
-DmpSimDataManager::DmpSimDataManager()
- :fPrimaryParticle(0),
+DmpSimSvcDataMgr::DmpSimSvcDataMgr()
+ :DmpVIOSvc("DmpSimDataMgr"),
+  fPrimaryParticle(0),
   fEvtHeader(0),
   fPsdOutSet(0),
   fStkOutSet(0),
@@ -36,7 +37,7 @@ DmpSimDataManager::DmpSimDataManager()
 }
 
 //-------------------------------------------------------------------
-DmpSimDataManager::~DmpSimDataManager(){
+DmpSimSvcDataMgr::~DmpSimSvcDataMgr(){
   delete fPrimaryParticle;
   delete fEvtHeader;
   fPsdOutSet->Delete(); fPsdOutSet->Clear(); delete fPsdOutSet;
@@ -46,7 +47,7 @@ DmpSimDataManager::~DmpSimDataManager(){
 }
 
 //-------------------------------------------------------------------
-void DmpSimDataManager::BookBranch(){
+void DmpSimSvcDataMgr::BookBranch(){
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
@@ -65,7 +66,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 }
 
 //-------------------------------------------------------------------
-TClonesArray* DmpSimDataManager::GetOutCollection(DmpDetector::DmpEDetectorID id) const{
+TClonesArray* DmpSimSvcDataMgr::GetOutCollection(DmpDetector::DmpEDetectorID id) const{
   switch(id){
     case DmpDetector::kPsd:
       return fPsdOutSet;
@@ -79,7 +80,7 @@ TClonesArray* DmpSimDataManager::GetOutCollection(DmpDetector::DmpEDetectorID id
 }
 
 //-------------------------------------------------------------------
-void DmpSimDataManager::ResetEvent(){
+void DmpSimSvcDataMgr::ResetEvent(){
   fPsdOutSet->Delete(); fPsdOutSet->Clear();
   fStkOutSet->Delete(); fStkOutSet->Clear();
   fBgoOutSet->Delete(); fBgoOutSet->Clear();
@@ -87,7 +88,7 @@ void DmpSimDataManager::ResetEvent(){
 }
 
 //-------------------------------------------------------------------
-void DmpSimDataManager::UpdatePrimaryParticleInformation(const G4Event *anEvent){
+void DmpSimSvcDataMgr::UpdatePrimaryParticleInformation(const G4Event *anEvent){
 // *
 // *  TODO: Use DataManager to save informations of parimary particle
 // *
@@ -95,7 +96,7 @@ void DmpSimDataManager::UpdatePrimaryParticleInformation(const G4Event *anEvent)
 }
 
 //-------------------------------------------------------------------
-void DmpSimDataManager::Digitize(){
+void DmpSimSvcDataMgr::Digitize(){
 // *
 // *  TODO: call this function before FillEvent() 
 // *
@@ -117,5 +118,5 @@ void DmpSimDataManager::Digitize(){
 }
 
 //-------------------------------------------------------------------
-DmpSimDataManager *gDataMgr = DmpSimDataManager::GetInstance();
+DmpSimSvcDataMgr *gSimDataMgr = DmpSimSvcDataMgr::GetInstance();
 

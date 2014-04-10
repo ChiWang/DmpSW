@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimDetectorConstruction.cc, 2014-03-05 16:37:19 chi $
+ *  $Id: DmpSimDetectorConstruction.cc, 2014-04-10 21:12:21 chi $
  *  Author(s):
  *    Xin WU (Xin.Wu@cern.cn)   11/07/2013
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 26/02/2014
@@ -14,7 +14,7 @@
 // *  TODO: add SD of Psd, Stk and Nud
 // *
 #include "DmpSimDetectorConstruction.h"
-#include "DmpSimOption.h"
+#include "DmpSimSvcOption.h"
 //#include "DmpSimPsdSD.h"
 //#include "DmpSimStkSD.h"
 #include "DmpSimBgoSD.h"

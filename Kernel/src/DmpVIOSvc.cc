@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpVIO.cc, 2014-04-08 10:31:09 chi $
+ *  $Id: DmpVIOSvc.cc, 2014-04-08 10:31:09 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -9,11 +9,12 @@
 #include "TTree.h"
 #include "TFile.h"
 
-#include "DmpVIO.h"
+#include "DmpVIOSvc.h"
 
 //-------------------------------------------------------------------
-DmpVIO::DmpVIO()
- :fOutDataTree(0),
+DmpVIOSvc::DmpVIOSvc(const std::string &n)
+ :DmpVSvc(n),
+  fOutDataTree(0),
   fInData("no"),
   fOutDataPath("./"),
   fOutDataName("no"),
@@ -23,11 +24,11 @@ DmpVIO::DmpVIO()
 }
 
 //-------------------------------------------------------------------
-DmpVIO::~DmpVIO(){
+DmpVIOSvc::~DmpVIOSvc(){
 }
 
 //-------------------------------------------------------------------
-void DmpVIO::FillEvent(){
+void DmpVIOSvc::FillEvent(){
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl<<std::endl;
 #endif
@@ -36,7 +37,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 }
 
 //-------------------------------------------------------------------
-void DmpVIO::SaveOutput(){
+void DmpVIOSvc::SaveOutput(){
   SetOutDataName();
   TFile *aFile = new TFile((TString)(fOutDataPath+fOutDataName),"recreate");
   fOutDataTree->Write();
@@ -49,7 +50,7 @@ void DmpVIO::SaveOutput(){
 
 //-------------------------------------------------------------------
 #include <sys/stat.h>       // mkdir()
-void DmpVIO::SetOutDataPath(const std::string &path){
+void DmpVIOSvc::SetOutDataPath(const std::string &path){
   if (path[path.length()-1] == '/') {
     fOutDataPath = path;
   } else {
@@ -60,7 +61,7 @@ void DmpVIO::SetOutDataPath(const std::string &path){
 
 //-------------------------------------------------------------------
 #include <boost/filesystem/path.hpp>
-void DmpVIO::SetOutDataName(){
+void DmpVIOSvc::SetOutDataName(){
   boost::filesystem::path inpath(fInData);
   if(fNote == "no"){
     fOutDataName = fPgkID+TimeStamp()+"_"+inpath.stem()+".root";
@@ -71,7 +72,7 @@ void DmpVIO::SetOutDataName(){
 
 //-------------------------------------------------------------------
 #include <time.h>
-std::string DmpVIO::TimeStamp(){
+std::string DmpVIOSvc::TimeStamp(){
   time_t now;
   struct tm *p;
   time(&now);
