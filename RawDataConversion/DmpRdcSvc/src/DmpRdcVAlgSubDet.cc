@@ -5,7 +5,7 @@
 */
 
 #include "DmpRdcVAlgSubDet.h"
-#include "DmpRdcLog.h"
+#include "DmpRdcSvcLog.h"
 
 //-------------------------------------------------------------------
 DmpRdcVAlgSubDet::DmpRdcVAlgSubDet(const std::string &n)

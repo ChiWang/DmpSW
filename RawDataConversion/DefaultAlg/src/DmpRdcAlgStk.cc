@@ -9,7 +9,7 @@
 #include "TClonesArray.h"
 
 #include "DmpRdcAlgStk.h"
-#include "DmpRdcDataManager.h"
+#include "DmpRdcSvcDataMgr.h"
 #include "DmpEvtStkMSD.h"
 #include "DmpEvtHeader.h"
 
@@ -24,7 +24,7 @@ DmpRdcAlgStk::~DmpRdcAlgStk(){
 }
 
 //-------------------------------------------------------------------
-#include "DmpRdcOption.h"
+#include "DmpRdcSvcOption.h"
 bool DmpRdcAlgStk::Initialize(){
   std::string path = gRdcOpt->GetConnectorPath(DmpDetector::kStk);
   if(path == "default"){
@@ -71,7 +71,7 @@ bool DmpRdcAlgStk::Initialize(){
 }
 
 //-------------------------------------------------------------------
-#include "DmpRdcLog.h"
+#include "DmpRdcSvcLog.h"
 bool DmpRdcAlgStk::ProcessThisEvent(){
   if(not fRunMe) return true;
   std::cout<<"\t"<<__PRETTY_FUNCTION__;

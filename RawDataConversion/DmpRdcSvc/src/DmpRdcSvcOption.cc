@@ -4,12 +4,12 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 02/04/2014
 */
 
-#include "DmpRdcOption.h"
-#include "DmpRdcDataManager.h"
+#include "DmpRdcSvcOption.h"
+#include "DmpRdcSvcDataMgr.h"
 
 //-------------------------------------------------------------------
-DmpRdcOption::DmpRdcOption()
- :DmpVOptionSvc("DmpRdcOption")
+DmpRdcSvcOption::DmpRdcSvcOption()
+ :DmpVOptionSvc("DmpRdcSvcOption")
 {
   for(short i=0;i<DmpDetector::gSubDetNo;++i){
     fConnectorPath[i]="default";
@@ -17,11 +17,11 @@ DmpRdcOption::DmpRdcOption()
 }
 
 //-------------------------------------------------------------------
-DmpRdcOption::~DmpRdcOption(){
+DmpRdcSvcOption::~DmpRdcSvcOption(){
 }
 
 //-------------------------------------------------------------------
-void DmpRdcOption::Set(const std::string &type, DmpDetector::DmpEDetectorID id, const std::string &argv){
+void DmpRdcSvcOption::Set(const std::string &type, DmpDetector::DmpEDetectorID id, const std::string &argv){
   if(type == "cnctPath"){
     fConnectorPath[id] = argv;
   }else if(type == "outDataPath"){
@@ -32,13 +32,13 @@ void DmpRdcOption::Set(const std::string &type, DmpDetector::DmpEDetectorID id, 
 }
 
 //-------------------------------------------------------------------
-std::string DmpRdcOption::Get(const std::string &type){
+std::string DmpRdcSvcOption::Get(const std::string &type){
   if(type == "outDataName"){
     return gRdcDataMgr->GetOutDataName();
   }
 }
 
 //-------------------------------------------------------------------
-DmpRdcOption *gRdcOpt = DmpRdcOption::GetInstance();
+DmpRdcSvcOption *gRdcOpt = DmpRdcSvcOption::GetInstance();
 
 

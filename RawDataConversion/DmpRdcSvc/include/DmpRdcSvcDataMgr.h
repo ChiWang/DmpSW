@@ -4,8 +4,8 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
-#ifndef DmpRdcDataManager_H
-#define DmpRdcDataManager_H
+#ifndef DmpRdcSvcDataMgr_H
+#define DmpRdcSvcDataMgr_H
 
 #include <fstream>
 #include "DmpVIOSvc.h"
@@ -14,24 +14,24 @@
 class DmpEvtHeader;
 class TClonesArray;
 
-class DmpRdcDataManager : public DmpVIOSvc{
+class DmpRdcSvcDataMgr : public DmpVIOSvc{
 /*
- *  DmpRdcDataManager
+ *  DmpRdcSvcDataMgr
  *
  *
 */
 public:
-  static DmpRdcDataManager* GetInstance(){
-    static DmpRdcDataManager instance;
+  static DmpRdcSvcDataMgr* GetInstance(){
+    static DmpRdcSvcDataMgr instance;
     return &instance;
   }
-  ~DmpRdcDataManager();
+  ~DmpRdcSvcDataMgr();
   bool InputData(const std::string&);
   void BookBranch();
   void FillEvent();
 
 private:
-  DmpRdcDataManager();
+  DmpRdcSvcDataMgr();
   void ResetEvent();            // delete all elements in TClonesArray
 
 public:
@@ -48,7 +48,7 @@ private:
 };
 
 //-------------------------------------------------------------------
-extern DmpRdcDataManager    *gRdcDataMgr;
+extern DmpRdcSvcDataMgr    *gRdcDataMgr;
 
 #endif
 

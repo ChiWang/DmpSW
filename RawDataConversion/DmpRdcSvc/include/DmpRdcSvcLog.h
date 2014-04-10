@@ -4,22 +4,22 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 02/04/2014
 */
 
-#ifndef DmpRdcLog_H
-#define DmpRdcLog_H
+#ifndef DmpRdcSvcLog_H
+#define DmpRdcSvcLog_H
 
 #include "DmpVLogSvc.h"
 
-class DmpRdcLog : public DmpVLogSvc{
+class DmpRdcSvcLog : public DmpVLogSvc{
 public:
-  static DmpRdcLog*  GetInstance(){
-    static DmpRdcLog instance;
+  static DmpRdcSvcLog*  GetInstance(){
+    static DmpRdcSvcLog instance;
     return &instance;
   }
-  ~DmpRdcLog(){}
+  ~DmpRdcSvcLog(){}
   void StatusLog(const short &n=0) const;
 
 private:
-  DmpRdcLog():DmpVLogSvc("DmpRdcLog"){}
+  DmpRdcSvcLog():DmpVLogSvc("DmpRdcSvcLog"){}
 
 public:
   void PrintLocation() const;
@@ -27,7 +27,7 @@ public:
 };
 
 //-------------------------------------------------------------------
-extern DmpRdcLog *gRdcLog;
+extern DmpRdcSvcLog *gRdcLog;
 
 #endif
 

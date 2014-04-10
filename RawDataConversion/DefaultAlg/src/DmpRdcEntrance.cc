@@ -5,7 +5,7 @@
 */
 
 #include "DmpRdcEntrance.h"
-#include "DmpRdcDataManager.h"
+#include "DmpRdcSvcDataMgr.h"
 #include "DmpAlgorithmManager.h"
 
 //-------------------------------------------------------------------

@@ -9,7 +9,7 @@
 #include "TClonesArray.h"
 
 #include "DmpRdcAlgNud.h"
-#include "DmpRdcDataManager.h"
+#include "DmpRdcSvcDataMgr.h"
 #include "DmpEvtNudMSD.h"
 #include "DmpEvtHeader.h"
 #include "DmpDetectorNud.h"
@@ -25,7 +25,7 @@ DmpRdcAlgNud::~DmpRdcAlgNud(){
 }
 
 //-------------------------------------------------------------------
-#include "DmpRdcOption.h"
+#include "DmpRdcSvcOption.h"
 bool DmpRdcAlgNud::Initialize(){
 // *
 // *  TODO:  check connector right?
@@ -73,7 +73,7 @@ bool DmpRdcAlgNud::Initialize(){
 }
 
 //-------------------------------------------------------------------
-#include "DmpRdcLog.h"
+#include "DmpRdcSvcLog.h"
 bool DmpRdcAlgNud::ProcessThisEvent(){
   if(not fRunMe) return true;
   std::cout<<"\t"<<__PRETTY_FUNCTION__;

@@ -9,7 +9,7 @@
 #include "TClonesArray.h"
 
 #include "DmpRdcAlgPsd.h"
-#include "DmpRdcDataManager.h"
+#include "DmpRdcSvcDataMgr.h"
 #include "DmpEvtPsdMSD.h"
 #include "DmpEvtHeader.h"
 #include "DmpDetectorPsd.h"
@@ -25,7 +25,7 @@ DmpRdcAlgPsd::~DmpRdcAlgPsd(){
 }
 
 //-------------------------------------------------------------------
-#include "DmpRdcOption.h"
+#include "DmpRdcSvcOption.h"
 bool DmpRdcAlgPsd::Initialize(){
   std::string path = gRdcOpt->GetConnectorPath(DmpDetector::kPsd);
   if(path == "default"){
@@ -72,7 +72,7 @@ bool DmpRdcAlgPsd::Initialize(){
 }
 
 //-------------------------------------------------------------------
-#include "DmpRdcLog.h"
+#include "DmpRdcSvcLog.h"
 bool DmpRdcAlgPsd::ProcessThisEvent(){
   if(not fRunMe) return true;
   std::cout<<"\t"<<__PRETTY_FUNCTION__;

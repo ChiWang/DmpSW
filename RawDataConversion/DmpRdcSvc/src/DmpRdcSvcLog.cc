@@ -6,12 +6,12 @@
 
 #include <iostream>
 
-#include "DmpRdcLog.h"
+#include "DmpRdcSvcLog.h"
 #include "DmpEvtHeader.h"
-#include "DmpRdcDataManager.h"
+#include "DmpRdcSvcDataMgr.h"
 
 //-------------------------------------------------------------------
-void DmpRdcLog::StatusLog(const short &x) const {
+void DmpRdcSvcLog::StatusLog(const short &x) const {
   static bool prepareForFirstIn = true;
   if(x > 1){    // out convert (subDet)
     std::cout<<" to "<<gRdcDataMgr->gInDataStream.tellg()<<"\t---> "<<x<<std::endl;
@@ -53,7 +53,7 @@ void DmpRdcLog::StatusLog(const short &x) const {
 }
 
 //-------------------------------------------------------------------
-void DmpRdcLog::PrintLocation() const{
+void DmpRdcSvcLog::PrintLocation() const{
   static short tmp = 0;
   static DmpEvtHeader *evtHeader = gRdcDataMgr->GetEventHeader();
   std::cout<<"Location: ";
@@ -66,6 +66,6 @@ void DmpRdcLog::PrintLocation() const{
 }
 
 //-------------------------------------------------------------------
-DmpRdcLog *gRdcLog = DmpRdcLog::GetInstance();
+DmpRdcSvcLog *gRdcLog = DmpRdcSvcLog::GetInstance();
 
 

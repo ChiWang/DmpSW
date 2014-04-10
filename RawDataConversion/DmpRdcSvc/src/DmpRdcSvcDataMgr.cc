@@ -14,18 +14,18 @@
 #include "DmpEvtStkMSD.h"
 #include "DmpEvtBgoMSD.h"
 #include "DmpEvtNudMSD.h"
-#include "DmpRdcDataManager.h"
+#include "DmpRdcSvcDataMgr.h"
 
 //-------------------------------------------------------------------
-DmpRdcDataManager::DmpRdcDataManager()
- :DmpVIOSvcSvc("DmpRdcDataMgr")
+DmpRdcSvcDataMgr::DmpRdcSvcDataMgr()
+ :DmpVIOSvc("DmpRdcDataMgr"),
   fEvtHeader(0),
   fPsdOutSet(0),
   fStkOutSet(0),
   fBgoOutSet(0),
   fNudOutSet(0)
 {
-  std::cout<<"Setting DmpRdcDataManager"<<std::endl;
+  std::cout<<"Setting DmpRdcSvcDataMgr"<<std::endl;
   SetPackageID("Rdc_V1.0_");
   fEvtHeader = new DmpEvtHeader();
   fPsdOutSet = new TClonesArray("DmpEvtPsdMSD",300);
@@ -35,8 +35,8 @@ DmpRdcDataManager::DmpRdcDataManager()
 }
 
 //-------------------------------------------------------------------
-DmpRdcDataManager::~DmpRdcDataManager(){
-  std::cout<<"Delete DmpRdcDataManager"<<std::endl;
+DmpRdcSvcDataMgr::~DmpRdcSvcDataMgr(){
+  std::cout<<"Delete DmpRdcSvcDataMgr"<<std::endl;
   delete fEvtHeader;
   fPsdOutSet->Delete(); fPsdOutSet->Clear(); delete fPsdOutSet;
   fStkOutSet->Delete(); fStkOutSet->Clear(); delete fStkOutSet;
@@ -45,7 +45,7 @@ DmpRdcDataManager::~DmpRdcDataManager(){
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcDataManager::InputData(const std::string &dataName){
+bool DmpRdcSvcDataMgr::InputData(const std::string &dataName){
   gInDataStream.open(dataName.c_str(),std::ios::in|std::ios::binary);
   DmpVIOSvc::InputData(dataName);
   if(not gInDataStream.good()){
@@ -57,7 +57,7 @@ bool DmpRdcDataManager::InputData(const std::string &dataName){
 }
 
 //-------------------------------------------------------------------
-void DmpRdcDataManager::BookBranch(){
+void DmpRdcSvcDataMgr::BookBranch(){
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
@@ -71,13 +71,13 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 }
 
 //-------------------------------------------------------------------
-void DmpRdcDataManager::FillEvent(){
+void DmpRdcSvcDataMgr::FillEvent(){
   fEvtHeader->GenerateTriggerStatus();
   DmpVIOSvc::FillEvent();
 }
 
 //-------------------------------------------------------------------
-void DmpRdcDataManager::ResetEvent(){
+void DmpRdcSvcDataMgr::ResetEvent(){
   fPsdOutSet->Delete(); fPsdOutSet->Clear();
   fStkOutSet->Delete(); fStkOutSet->Clear();
   fBgoOutSet->Delete(); fBgoOutSet->Clear();
@@ -85,7 +85,7 @@ void DmpRdcDataManager::ResetEvent(){
 }
 
 //-------------------------------------------------------------------
-TClonesArray* DmpRdcDataManager::GetOutCollection(DmpDetector::DmpEDetectorID id) const{
+TClonesArray* DmpRdcSvcDataMgr::GetOutCollection(DmpDetector::DmpEDetectorID id) const{
   switch(id){
     case DmpDetector::kPsd:
       return fPsdOutSet;
@@ -99,6 +99,6 @@ TClonesArray* DmpRdcDataManager::GetOutCollection(DmpDetector::DmpEDetectorID id
 }
 
 //-------------------------------------------------------------------
-DmpRdcDataManager *gRdcDataMgr = DmpRdcDataManager::GetInstance();
+DmpRdcSvcDataMgr *gRdcDataMgr = DmpRdcSvcDataMgr::GetInstance();
 
 

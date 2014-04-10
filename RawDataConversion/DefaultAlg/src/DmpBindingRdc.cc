@@ -6,7 +6,7 @@
 
 #include <boost/python.hpp>
 
-#include "DmpRdcOption.h"
+#include "DmpRdcSvcOption.h"
 #include "DmpRdcEntrance.h"
 // default algorithm of Rdc
 #include "DmpRdcAlgHeader.h"
@@ -18,9 +18,9 @@
 BOOST_PYTHON_MODULE(libDmpRdc){
   using namespace boost::python;
 
-  // DmpRdcOption
-  class_<DmpRdcOption,boost::noncopyable,bases<DmpVOption> >("DmpRdcOption",no_init)
-    .def("GetInstance",&DmpRdcOption::GetInstance,return_value_policy<reference_existing_object>())
+  // DmpRdcSvcOption
+  class_<DmpRdcSvcOption,boost::noncopyable,bases<DmpVOptionSvc> >("DmpRdcSvcOption",no_init)
+    .def("GetInstance",&DmpRdcSvcOption::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
   ;
 

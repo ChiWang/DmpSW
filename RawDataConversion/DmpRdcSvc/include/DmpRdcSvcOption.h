@@ -4,23 +4,23 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 19/03/2014
 */
 
-#ifndef DmpRdcOption_H
-#define DmpRdcOption_H
+#ifndef DmpRdcSvcOption_H
+#define DmpRdcSvcOption_H
 
 #include "DmpVOptionSvc.h"
 
-class DmpRdcOption : public DmpVOptionSvc{
+class DmpRdcSvcOption : public DmpVOptionSvc{
 public:
-  static DmpRdcOption*  GetInstance(){
-    static DmpRdcOption  instance;
+  static DmpRdcSvcOption*  GetInstance(){
+    static DmpRdcSvcOption  instance;
     return &instance;
   }
-  ~DmpRdcOption();
+  ~DmpRdcSvcOption();
   void Set(const std::string&,DmpDetector::DmpEDetectorID,const std::string&);
   std::string Get(const std::string&);
 
 private:
-  DmpRdcOption();
+  DmpRdcSvcOption();
 
 public:
   std::string GetConnectorPath(DmpDetector::DmpEDetectorID id) const {return fConnectorPath[id];}
@@ -30,7 +30,7 @@ private:
 
 };
 
-extern DmpRdcOption *gRdcOpt;
+extern DmpRdcSvcOption *gRdcOpt;
 
 #endif
 

@@ -5,7 +5,7 @@
 */
 
 #include "DmpRdcAlgHeader.h"
-#include "DmpRdcDataManager.h"
+#include "DmpRdcSvcDataMgr.h"
 #include "DmpEvtHeader.h"
 
 //-------------------------------------------------------------------
@@ -16,7 +16,7 @@ DmpRdcAlgHeader::DmpRdcAlgHeader(const std::string &n)
 }
 
 //-------------------------------------------------------------------
-#include "DmpRdcLog.h"
+#include "DmpRdcSvcLog.h"
 bool DmpRdcAlgHeader::ProcessThisEvent(){
   gRdcLog->StatusLog(0);
 //-------------------------------------------------------------------

@@ -11,7 +11,7 @@
 #include "DmpDetectorBgo.h"
 #include "DmpEvtBgoMSD.h"
 #include "DmpEvtHeader.h"
-#include "DmpRdcDataManager.h"
+#include "DmpRdcSvcDataMgr.h"
 #include "DmpRdcAlgBgo.h"
 
 DmpRdcAlgBgo::DmpRdcAlgBgo(const std::string &name)
@@ -27,7 +27,7 @@ DmpRdcAlgBgo::~DmpRdcAlgBgo(){
 //-------------------------------------------------------------------
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
-#include "DmpRdcOption.h"
+#include "DmpRdcSvcOption.h"
 bool DmpRdcAlgBgo::Initialize(){
   std::string path = gRdcOpt->GetConnectorPath(DmpDetector::kBgo);
   if(path == "default"){
@@ -58,7 +58,7 @@ bool DmpRdcAlgBgo::Initialize(){
 }
 
 //-------------------------------------------------------------------
-#include "DmpRdcLog.h"
+#include "DmpRdcSvcLog.h"
 bool DmpRdcAlgBgo::ProcessThisEvent(){
   if(not fRunMe) return true;
   std::cout<<"\t"<<__PRETTY_FUNCTION__;

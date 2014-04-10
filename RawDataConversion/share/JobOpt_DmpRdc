@@ -30,7 +30,7 @@ for aAlg in algList:
     gDmpAlgMgr.Append(aAlg)
 
 # Set options for this job
-rdcOpt = DmpRdc.DmpRdcOption.GetInstance()
+rdcOpt = DmpRdc.DmpRdcSvcOption.GetInstance()
     ##  where to read cnct files for different subDet
 rdcOpt.Set("cnctPath",DmpCore.DmpEDetectorID.kPsd,prefix+"/share/Connector/Psd/Quarter")
 #rdcOpt.Set("cnctPath",DmpCore.DmpEDetectorID.kStk,prefix+"/share/Connector/Stk/Quarter")     # if NOT set, will skip setupconnector and conversion methods of this subDet.
