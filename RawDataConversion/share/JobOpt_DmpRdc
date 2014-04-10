@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpRdc, 2014-04-09 19:33:24 chi $
+ *  $Id: JobOpt_DmpRdc, 2014-04-10 11:25:03 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 11/03/2014
  *-----------------------------------------------------
@@ -8,7 +8,7 @@
  *-----------------------------------------------------
 '''
 
-# load lib. of DAMPE software
+# Load lib. of DAMPE software
 import os
 import sys
 prefix=os.getenv('DMPSWSYS')
@@ -18,34 +18,36 @@ if os.environ['DMPSWSYS'] not in sys.path:
 import libDmpCore as DmpCore
 import libDmpRdc as  DmpRdc
 
-# Get AlgMgr
+# Set Alg. for this job
 gDmpAlgMgr = DmpCore.DmpAlgorithmManager.GetInstance()
+algList = [DmpRdc.DmpRdcAlgHeader("RdcAlgHeader"),
+           DmpRdc.DmpRdcAlgPsd("RdcAlgPsd"),
+           DmpRdc.DmpRdcAlgNud("RdcAlgNud"),
+           DmpRdc.DmpRdcAlgBgo("RdcAlgBgo"),
+           DmpRdc.DmpRdcAlgStk("RdcAlgStk")
+           ]
+for aAlg in algList:
+    gDmpAlgMgr.Append(aAlg)
 
-# RUN Raw Data Conversion
-    ##  where to save the output. If NOT set will use "./" by defualt
-gRdcDataMgr = DmpRdc.DmpRdcDataManager.GetInstance()
-gRdcDataMgr.SetOutDataPath("./test")
-    ##  where to read cnct files for different subDet
+# Set options for this job
 rdcOpt = DmpRdc.DmpRdcOption.GetInstance()
+    ##  where to read cnct files for different subDet
 rdcOpt.Set("cnctPath",DmpCore.DmpEDetectorID.kPsd,prefix+"/share/Connector/Psd/Quarter")
 #rdcOpt.Set("cnctPath",DmpCore.DmpEDetectorID.kStk,prefix+"/share/Connector/Stk/Quarter")     # if NOT set, will skip setupconnector and conversion methods of this subDet.
 rdcOpt.Set("cnctPath",DmpCore.DmpEDetectorID.kBgo,prefix+"/share/Connector/Bgo/Quarter")
 rdcOpt.Set("cnctPath",DmpCore.DmpEDetectorID.kNud,prefix+"/share/Connector/Nud/Quarter")
+    ##  where to save the output of this job. If NOT set will use "./" by defualt
+rdcOpt.Set("outDataPath",DmpCore.DmpEDetectorID.kWhole,"./test")
 
-    ##  Start Rdc. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SetOutDataPath() between different Execute()
-DmpRdc.Initialize()      # create Rdc argorithm of all subDet, and setup connectors
-# *
-# *  TODO: how to add alg into algMgr in job opt. file?
-# *
-#gDmpAlgMgr.Append(DmpRdc.DmpRdcAlgHeader("RdcAlgHeader"))
-#gDmpAlgMgr.Append(DmpRdc.DmpRdcAlgPsd("RdcAlgPsd"))
-#gDmpAlgMgr.Append(DmpRdc.DmpRdcAlgStk("RdcAlgStk"))
-#gDmpAlgMgr.Append(DmpRdc.DmpRdcAlgBgo("RdcAlgBgo"))
-#gDmpAlgMgr.Append(DmpRdc.DmpRdcAlgNud("RdcAlgNud"))
-#sys.exit(1)
+# RUN job
 gDmpAlgMgr.Initialize()
-gRdcDataMgr.AppendDataNote("protonTest")        # set tag for the next output data. NOT set is okay
-#DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
-DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")     # Trigger match level(with Bgo) 1: Psd; 2(or 3): Psd, Stk; 4: Psd, Stk, Nud
-gDmpAlgMgr.Finalize
+    ##  Start to run this job (Execute()). Also could use Set("outDataPath") between 2 Execute()
+DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
+#print rdcOpt.Get("outDataName")
+rdcOpt.Set("outDataNote",DmpCore.DmpEDetectorID.kWhole,"ProTest")   # set tag for the next output data. NOT set is okay
+DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
+#print rdcOpt.Get("outDataName")
+
+gDmpAlgMgr.Finalize()
+
 

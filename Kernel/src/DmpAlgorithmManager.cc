@@ -16,10 +16,12 @@ DmpAlgorithmManager::DmpAlgorithmManager()
 //-------------------------------------------------------------------
 DmpAlgorithmManager::~DmpAlgorithmManager(){
   std::cout<<"Deleting Algorithm Manager"<<std::endl;
+  /*
   for(fIterator = fElements.begin();fIterator != fElements.end();++fIterator){
     std::cout<<"\tdelete "<<(*fIterator)->Name()<<std::endl;;
     delete (*fIterator);
   }
+  */
   std::cout<<"Done\n"<<std::endl;
 }
 
@@ -48,6 +50,13 @@ bool DmpAlgorithmManager::Finalize(){
 }
 
 //-------------------------------------------------------------------
+void DmpAlgorithmManager::Append(DmpVAlg *aEle){
+  std::cout<<"Append Algorithm: "<<aEle->Name();
+  fElements.push_back(aEle);
+  std::cout<<"\t\tSucc."<<std::endl;
+}
+
+//-------------------------------------------------------------------
 void DmpAlgorithmManager::Replace(DmpVAlg *aEle){
   std::string name = aEle->Name();
   for(fIterator = fElements.begin();fIterator != fElements.end();++fIterator){
@@ -60,9 +69,9 @@ void DmpAlgorithmManager::Replace(DmpVAlg *aEle){
 
 //-------------------------------------------------------------------
 void DmpAlgorithmManager::ListAllElements(){
-  std::cout<<"There are "<<fElements.size()<<" in Algorithm Manager"<<std::endl;
+  std::cout<<"There are "<<fElements.size()<<" elements in Algorithm Manager"<<std::endl;
   for(fIterator = fElements.begin();fIterator != fElements.end();++fIterator){
-    std::cout<<"name : "<<(*fIterator)->Name()<<std::endl;
+    std::cout<<"\t\tname : "<<(*fIterator)->Name()<<std::endl;
   }
 }
 

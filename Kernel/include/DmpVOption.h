@@ -23,6 +23,7 @@ public:
   virtual ~DmpVOption(){}
 
   virtual void Set(const std::string&,DmpDetector::DmpEDetectorID, const std::string&)=0;
+  virtual std::string Get(const std::string&)=0;
 
 };
 

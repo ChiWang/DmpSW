@@ -8,7 +8,6 @@
 
 #include "DmpRunMode.h"
 #include "DmpDetectorID.h"
-#include "DmpVIO.h"
 #include "DmpVOption.h"
 #include "DmpVAlg.h"
 #include "DmpAlgorithmManager.h"
@@ -18,6 +17,9 @@
 struct DmpVOptionWrapper : public DmpVOption, boost::python::wrapper<DmpVOption>{
   void Set(const std::string &type, DmpDetector::DmpEDetectorID id, const std::string &argv){
     this->get_override("Set")(type,id,argv);
+  }
+  std::string Get(const std::string &type){
+    return this->get_override("Get")(type);
   }
 };
     // Wrapper DmpVAlg
@@ -59,17 +61,10 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .value("kWhole",DmpDetector::kWhole)
   ;
 
-  // DmpVIO, only derived classes will use them
-  class_<DmpVIO,boost::noncopyable>("DmpVIO",no_init)
-    .def("SetOutDataPath",  &DmpVIO::SetOutDataPath)
-    .def("AppendDataNote",  &DmpVIO::AppendDataNote)
-    .def("GetOutDataPath",  &DmpVIO::GetOutDataPath)
-    .def("GetOutDataName",  &DmpVIO::GetOutDataName)
-  ;
-
   // DmpVOption
   class_<DmpVOptionWrapper,boost::noncopyable>("DmpVOption",no_init)
     .def("Set", pure_virtual(&DmpVOption::Set))
+    .def("Get", pure_virtual(&DmpVOption::Get))
   ;
 
   // DmpVAlg

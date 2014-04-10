@@ -29,7 +29,7 @@ DmpVIO::~DmpVIO(){
 //-------------------------------------------------------------------
 void DmpVIO::FillEvent(){
 #ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl<<std::endl;
 #endif
   fOutDataTree->Fill();
   ResetEvent();
@@ -44,8 +44,6 @@ void DmpVIO::SaveOutput(){
   std::cout<<"Result in : "<<fOutDataPath+fOutDataName<<", entries = "<<fOutDataTree->GetEntries()<<std::endl;
   delete fOutDataTree;
   delete aFile;
-  fInData = "no";
-  fOutDataName = "no";
   fNote = "no";
 }
 

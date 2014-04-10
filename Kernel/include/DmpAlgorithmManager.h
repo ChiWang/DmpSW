@@ -26,7 +26,7 @@ public:
     return &instance;
   }
   ~DmpAlgorithmManager();
-  void Append(DmpVAlg *aEle) {fElements.push_back(aEle);}
+  void Append(DmpVAlg*);
   void Replace(DmpVAlg*);
   void ListAllElements();
   bool Initialize();

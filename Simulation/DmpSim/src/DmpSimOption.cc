@@ -5,6 +5,7 @@
 */
 
 #include "DmpSimOption.h"
+#include "DmpSimDataManager.h"
 
 //-------------------------------------------------------------------
 DmpSimOption::DmpSimOption(){
@@ -28,6 +29,10 @@ void DmpSimOption::Set(const std::string &type,DmpDetector::DmpEDetectorID id, c
     fGdmlPath[id] = argv;
   }else if(type == "offset"){
     fOffset[id] = boost::lexical_cast<float>(argv);
+  }else if(type == "outDataPath"){
+    gDataMgr->SetOutDataPath(argv);
+  }else if(type == "outDataNote"){
+    gDataMgr->AppendDataNote(argv);
   }
 }
 

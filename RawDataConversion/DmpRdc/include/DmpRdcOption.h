@@ -17,6 +17,7 @@ public:
   }
   ~DmpRdcOption();
   void Set(const std::string&,DmpDetector::DmpEDetectorID,const std::string&);
+  std::string Get(const std::string&);
 
 private:
   DmpRdcOption();

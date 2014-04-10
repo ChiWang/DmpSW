@@ -8,7 +8,7 @@
  *-----------------------------------------------------
 '''
 
-# load lib. of DAMPE software
+# Load lib. of DAMPE software
 import os
 import sys
 prefix=os.getenv('DMPSWSYS')
@@ -18,24 +18,24 @@ if os.environ['DMPSWSYS'] not in sys.path:
 import libDmpCore as DmpCore
 import libDmpSim as  DmpSim
 
-# RUN simulation
-    ##  where to save the output. If NOT set will use "./" by defualt
-simDataMgr = DmpSim.DmpSimDataManager.GetInstance()
-simDataMgr.SetOutDataPath("./test")
-    ##  where to read gdml files for different subDet, if NOT set will ignore this subDet.
+# Set options for this job
 simOpt = DmpSim.DmpSimOption.GetInstance()
+    ##  where to read gdml files for different subDet, if NOT set will ignore this subDet.
 simOpt.Set("gdmlPath",DmpCore.DmpEDetectorID.kWhole,prefix+"/share/Geometry/Sat/Quarter")      # must add satellite gdml files
 #simOpt.Set("gdmlPath",DmpCore.DmpEDetectorID.kPsd,prefix+"/share/Geometry/Psd/Quarter")
 #simOpt.Set("gdmlPath",DmpCore.DmpEDetectorID.kStk,prefix+"/share/Geometry/Stk/Quarter")       # if NOT set, will not construct this subDet
 simOpt.Set("gdmlPath",DmpCore.DmpEDetectorID.kBgo,prefix+"/share/Geometry/Bgo/Quarter")
 #simOpt.Set("gdmlPath",DmpCore.DmpEDetectorID.kNud,prefix+"/share/Geometry/Nud/Quarter")
 #simOpt.Set("offset",DmpCore.DmpEDetectorID.kPsd,-80)            # if NOT set, will use the defaulted value
+    ##  where to save the output. If NOT set will use "./" by defualt
+simOpt.Set("outDataPath",DmpCore.DmpEDetectorID.kWhole,"./test")
 
-    ##  Start simulation. ORDER: Initialize(), then Execute(), finally Clear(). Also could use SetOutDataPath() between different Execute()
+# RUN job
 DmpSim.Initialize()      # setup detector, user actions
+    ##  Start to run this job (Execute()). Also could use Set("outDataPath") between 2 Execute()
 for i in range(2):
     note='run-%d'%i
-    simDataMgr.AppendDataNote(note)        # append note for the next output data which will be created in the next Execute(). If NOT set is okay
+    simOpt.Set("outDataNote",DmpCore.DmpEDetectorID.kWhole,note)        # append note for the next output data which will be created in the next Execute(). If NOT set is okay
     DmpSim.Execute(prefix+"/share/TestRelease/Ex_electron.mac")
 #DmpSim.Execute(prefix+"/share/TestRelease/Ex_proton.mac")     # start a new run, without delete physics list, detector construction and all user actions.
 #DmpSim.Execute("visual")                # open visual mode, if you don't want to use batch mode as above(input a macro file name in Execute()).

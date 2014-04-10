@@ -4,26 +4,9 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
-#include <iostream>
-
-#include "DmpRdcAlgHeader.h"
-#include "DmpRdcAlgPsd.h"
-#include "DmpRdcAlgStk.h"
-#include "DmpRdcAlgBgo.h"
-#include "DmpRdcAlgNud.h"
 #include "DmpRdcEntrance.h"
 #include "DmpRdcDataManager.h"
 #include "DmpAlgorithmManager.h"
-
-//-------------------------------------------------------------------
-void DmpCore::RdcInitialize(){
-//return;
-  gDmpAlgMgr->Append(new DmpRdcAlgHeader("RdcAlgHeader"));
-  gDmpAlgMgr->Append(new DmpRdcAlgNud("RdcAlgNud"));
-  gDmpAlgMgr->Append(new DmpRdcAlgPsd("RdcAlgPsd"));
-  gDmpAlgMgr->Append(new DmpRdcAlgBgo("RdcAlgBgo"));
-  gDmpAlgMgr->Append(new DmpRdcAlgStk("RdcAlgStk"));
-}
 
 //-------------------------------------------------------------------
 void DmpCore::RdcExecute(const std::string &dataName){

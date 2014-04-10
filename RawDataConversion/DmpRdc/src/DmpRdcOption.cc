@@ -5,6 +5,7 @@
 */
 
 #include "DmpRdcOption.h"
+#include "DmpRdcDataManager.h"
 
 //-------------------------------------------------------------------
 DmpRdcOption::DmpRdcOption(){
@@ -21,6 +22,17 @@ DmpRdcOption::~DmpRdcOption(){
 void DmpRdcOption::Set(const std::string &type, DmpDetector::DmpEDetectorID id, const std::string &argv){
   if(type == "cnctPath"){
     fConnectorPath[id] = argv;
+  }else if(type == "outDataPath"){
+    gDataMgr->SetOutDataPath(argv);  
+  }else if(type == "outDataNote"){
+    gDataMgr->AppendDataNote(argv);  
+  }
+}
+
+//-------------------------------------------------------------------
+std::string DmpRdcOption::Get(const std::string &type){
+  if(type == "outDataName"){
+    return gDataMgr->GetOutDataName();
   }
 }
 
