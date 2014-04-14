@@ -11,16 +11,16 @@
 
 class DmpRdcSvcOption : public DmpVOptionSvc{
 public:
+        /*
   static DmpRdcSvcOption*  GetInstance(){
     static DmpRdcSvcOption  instance;
     return &instance;
   }
+  */
+  DmpRdcSvcOption();
   ~DmpRdcSvcOption();
   void Set(const std::string&,DmpDetector::DmpEDetectorID,const std::string&);
   std::string Get(const std::string&);
-
-private:
-  DmpRdcSvcOption();
 
 public:
   std::string GetConnectorPath(DmpDetector::DmpEDetectorID id) const {return fConnectorPath[id];}
@@ -29,8 +29,6 @@ private:
   std::string    fConnectorPath[DmpDetector::gSubDetNo];
 
 };
-
-extern DmpRdcSvcOption *gRdcOpt;
 
 #endif
 

@@ -11,8 +11,10 @@
 #include "DmpDetectorBgo.h"
 #include "DmpEvtBgoMSD.h"
 #include "DmpEvtHeader.h"
-#include "DmpRdcSvcDataMgr.h"
 #include "DmpRdcAlgBgo.h"
+#include "DmpRdcSvcDataMgr.h"
+#include "DmpRdcSvcOption.h"
+#include "DmpServiceManager.h"
 
 DmpRdcAlgBgo::DmpRdcAlgBgo(const std::string &name)
  :DmpRdcVAlgSubDet(name)
@@ -27,9 +29,8 @@ DmpRdcAlgBgo::~DmpRdcAlgBgo(){
 //-------------------------------------------------------------------
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
-#include "DmpRdcSvcOption.h"
 bool DmpRdcAlgBgo::Initialize(){
-  std::string path = gRdcOpt->GetConnectorPath(DmpDetector::kBgo);
+  std::string path = ((DmpRdcSvcOption*)gDmpSvcMgr->Get("RdcOpt"))->GetConnectorPath(DmpDetector::kBgo);
   if(path == "default"){
     std::cout<<"\n\tNo set connector:\tBgo"<<std::endl;
     return true;

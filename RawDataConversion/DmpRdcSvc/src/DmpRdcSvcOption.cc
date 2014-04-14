@@ -9,7 +9,7 @@
 
 //-------------------------------------------------------------------
 DmpRdcSvcOption::DmpRdcSvcOption()
- :DmpVOptionSvc("DmpRdcSvcOption")
+ :DmpVOptionSvc("RdcOpt")
 {
   for(short i=0;i<DmpDetector::gSubDetNo;++i){
     fConnectorPath[i]="default";
@@ -37,8 +37,5 @@ std::string DmpRdcSvcOption::Get(const std::string &type){
     return gRdcDataMgr->GetOutDataName();
   }
 }
-
-//-------------------------------------------------------------------
-DmpRdcSvcOption *gRdcOpt = DmpRdcSvcOption::GetInstance();
 
 

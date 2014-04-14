@@ -19,14 +19,6 @@ DmpServiceManager::~DmpServiceManager(){
 }
 
 //-------------------------------------------------------------------
-DmpVSvc* DmpServiceManager::Get(const std::string &name){
-  for(fIterator = fElements.begin();fIterator != fElements.end();++fIterator){
-    if((*fIterator)->Name() == name) return (*fIterator);
-  }
-  return 0;
-}
-
-//-------------------------------------------------------------------
 DmpServiceManager *gDmpSvcMgr = DmpServiceManager::GetInstance();
 
 

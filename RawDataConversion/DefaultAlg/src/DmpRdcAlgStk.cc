@@ -8,10 +8,12 @@
 
 #include "TClonesArray.h"
 
-#include "DmpRdcAlgStk.h"
-#include "DmpRdcSvcDataMgr.h"
 #include "DmpEvtStkMSD.h"
 #include "DmpEvtHeader.h"
+#include "DmpRdcAlgStk.h"
+#include "DmpRdcSvcDataMgr.h"
+#include "DmpRdcSvcOption.h"
+#include "DmpServiceManager.h"
 
 DmpRdcAlgStk::DmpRdcAlgStk(const std::string &name)
  :DmpRdcVAlgSubDet(name)
@@ -24,9 +26,8 @@ DmpRdcAlgStk::~DmpRdcAlgStk(){
 }
 
 //-------------------------------------------------------------------
-#include "DmpRdcSvcOption.h"
 bool DmpRdcAlgStk::Initialize(){
-  std::string path = gRdcOpt->GetConnectorPath(DmpDetector::kStk);
+  std::string path = ((DmpRdcSvcOption*)gDmpSvcMgr->Get("RdcOpt"))->GetConnectorPath(DmpDetector::kStk);
   if(path == "default"){
     std::cout<<"\n\tNo set connector:\tStk"<<std::endl;
     return true;

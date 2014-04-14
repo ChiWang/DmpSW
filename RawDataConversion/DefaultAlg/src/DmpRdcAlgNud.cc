@@ -8,11 +8,13 @@
 
 #include "TClonesArray.h"
 
-#include "DmpRdcAlgNud.h"
-#include "DmpRdcSvcDataMgr.h"
+#include "DmpDetectorNud.h"
 #include "DmpEvtNudMSD.h"
 #include "DmpEvtHeader.h"
-#include "DmpDetectorNud.h"
+#include "DmpRdcAlgNud.h"
+#include "DmpRdcSvcDataMgr.h"
+#include "DmpRdcSvcOption.h"
+#include "DmpServiceManager.h"
 
 DmpRdcAlgNud::DmpRdcAlgNud(const std::string &name)
  :DmpRdcVAlgSubDet(name)
@@ -25,12 +27,11 @@ DmpRdcAlgNud::~DmpRdcAlgNud(){
 }
 
 //-------------------------------------------------------------------
-#include "DmpRdcSvcOption.h"
 bool DmpRdcAlgNud::Initialize(){
 // *
 // *  TODO:  check connector right?
 // *
-  std::string path = gRdcOpt->GetConnectorPath(DmpDetector::kNud);
+  std::string path = ((DmpRdcSvcOption*)gDmpSvcMgr->Get("RdcOpt"))->GetConnectorPath(DmpDetector::kNud);
   if(path == "default"){
     std::cout<<"\n\tNo set connector:\tNud"<<std::endl;
     return true;

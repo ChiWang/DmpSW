@@ -8,11 +8,13 @@
 
 #include "TClonesArray.h"
 
-#include "DmpRdcAlgPsd.h"
-#include "DmpRdcSvcDataMgr.h"
 #include "DmpEvtPsdMSD.h"
 #include "DmpEvtHeader.h"
 #include "DmpDetectorPsd.h"
+#include "DmpRdcAlgPsd.h"
+#include "DmpRdcSvcOption.h"
+#include "DmpRdcSvcDataMgr.h"
+#include "DmpServiceManager.h"
 
 DmpRdcAlgPsd::DmpRdcAlgPsd(const std::string &name)
  :DmpRdcVAlgSubDet(name)
@@ -25,9 +27,8 @@ DmpRdcAlgPsd::~DmpRdcAlgPsd(){
 }
 
 //-------------------------------------------------------------------
-#include "DmpRdcSvcOption.h"
 bool DmpRdcAlgPsd::Initialize(){
-  std::string path = gRdcOpt->GetConnectorPath(DmpDetector::kPsd);
+  std::string path = ((DmpRdcSvcOption*)gDmpSvcMgr->Get("RdcOpt"))->GetConnectorPath(DmpDetector::kPsd);
   if(path == "default"){
     std::cout<<"\n\tNo set connector:\tPsd"<<std::endl;
     return true;

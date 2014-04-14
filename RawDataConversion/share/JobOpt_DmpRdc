@@ -18,16 +18,21 @@ if os.environ['DMPSWSYS'] not in sys.path:
 import libDmpCore as DmpCore
 import libDmpRdc as  DmpRdc
 
-# Set Alg. for this job
+# Set DmpCore
+    ##  Set Algorithm
 gDmpAlgMgr = DmpCore.DmpAlgorithmManager.GetInstance()
 algList = [DmpRdc.DmpRdcAlgHeader("RdcAlgHeader"),
            DmpRdc.DmpRdcAlgPsd("RdcAlgPsd"),
            DmpRdc.DmpRdcAlgNud("RdcAlgNud"),
            DmpRdc.DmpRdcAlgBgo("RdcAlgBgo"),
-           DmpRdc.DmpRdcAlgStk("RdcAlgStk")
-           ]
+           DmpRdc.DmpRdcAlgStk("RdcAlgStk")]
 for aAlg in algList:
     gDmpAlgMgr.Append(aAlg)
+    ##  Set Service
+gDmpSvcMgr = DmpCore.DmpSverviceManager.GetInstance()
+svcList = [DmpRdc.DmpRdcSvcOption()]
+for aSvc in svcList:
+    gDmpSvcMgr.Append(aSvc)
 
 # Set options for this job
 rdcOpt = DmpRdc.DmpRdcSvcOption.GetInstance()
@@ -39,8 +44,10 @@ rdcOpt.Set("cnctPath",DmpCore.DmpEDetectorID.kNud,prefix+"/share/Connector/Nud/Q
     ##  where to save the output of this job. If NOT set will use "./" by defualt
 rdcOpt.Set("outDataPath",DmpCore.DmpEDetectorID.kWhole,"./test")
 
-# RUN job
+# RUN DmpCore
 gDmpAlgMgr.Initialize()
+
+# Run job
     ##  Start to run this job (Execute()). Also could use Set("outDataPath") between 2 Execute()
 DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
 #print rdcOpt.Get("outDataName")
@@ -48,6 +55,7 @@ DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
 #DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
 #print rdcOpt.Get("outDataName")
 
+# Quit DmpCore
 gDmpAlgMgr.Finalize()
 
 

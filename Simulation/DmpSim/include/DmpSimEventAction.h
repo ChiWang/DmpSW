@@ -9,6 +9,8 @@
 
 #include "G4UserEventAction.hh"
 
+class DmpSimSvcDataMgr;
+
 class DmpSimEventAction : public G4UserEventAction{
 public:
   DmpSimEventAction();
@@ -16,6 +18,9 @@ public:
 
   void BeginOfEventAction(const G4Event*);
   void EndOfEventAction(const G4Event*);
+
+private:
+  DmpSimSvcDataMgr  *fDataMgr;
   
 };
 

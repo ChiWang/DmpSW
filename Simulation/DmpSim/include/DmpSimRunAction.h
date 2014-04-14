@@ -9,6 +9,8 @@
 
 #include "G4UserRunAction.hh"
 
+class DmpSimSvcDataMgr;
+
 class DmpSimRunAction : public G4UserRunAction{
 public:
   DmpSimRunAction();
@@ -17,6 +19,8 @@ public:
   void BeginOfRunAction(const G4Run*);
   void EndOfRunAction(const G4Run*);
   
+private:
+  DmpSimSvcDataMgr  *fDataMgr;
 };
 
 #endif

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpBindingCore.cc, 2014-04-08 12:51:08 chi $
+ *  $Id: DmpBindingCore.cc, 2014-04-11 21:54:40 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
@@ -7,24 +7,13 @@
 #include <boost/python.hpp>
 
 #include "DmpRunMode.h"
-#include "DmpDetectorID.h"
-#include "DmpVOptionSvc.h"
+#include "DmpVSvcDataMgr.h"    // included DmpDetectorID.h, DmpVSvc.h
 #include "DmpVAlg.h"
-#include "DmpVSvc.h"
 #include "DmpAlgorithmManager.h"
 #include "DmpServiceManager.h"
 
 //-------------------------------------------------------------------
-    // Wrapper DmpVOptionSvc
-struct DmpVOptionSvcWrapper : public DmpVOptionSvc, boost::python::wrapper<DmpVOptionSvc>{
-  void Set(const std::string &type, DmpDetector::DmpEDetectorID id, const std::string &argv){
-    this->get_override("Set")(type,id,argv);
-  }
-  std::string Get(const std::string &type){
-    return this->get_override("Get")(type);
-  }
-};
-    // Wrapper DmpVAlg
+    // Wrap DmpVAlg
 struct DmpVAlgWrapper : public DmpVAlg, boost::python::wrapper<DmpVAlg>{
   DmpVAlgWrapper(const std::string &n):DmpVAlg(n){}
   bool Initialize(){
@@ -36,8 +25,18 @@ struct DmpVAlgWrapper : public DmpVAlg, boost::python::wrapper<DmpVAlg>{
   bool Finalize(){
     return this->get_override("Finalize")();
   }
+  void Set(const std::string &type,const std::string &argv){
+    if(boost::python::override Set = this->get_override("Set")(type,argv)){
+      Set(type,argv);
+    }else{
+      DmpVAlg::Set(type,argv);
+    }
+  }
+  void Default_Set(const std::string &type,const std::string &argv){
+    this->DmpVAlg::Set(type,argv);
+  }
 };
-    // Wrapper DmpVSvc
+    // Wrap DmpVSvc
 struct DmpVSvcWrapper : public DmpVSvc, boost::python::wrapper<DmpVSvc>{
   DmpVSvcWrapper(const std::string &n):DmpVSvc(n){}
   bool Initialize(){
@@ -46,12 +45,47 @@ struct DmpVSvcWrapper : public DmpVSvc, boost::python::wrapper<DmpVSvc>{
   bool Finalize(){
     return this->get_override("Finalize")();
   }
+  void Set(const std::string &type,const std::string &argv){
+    if(boost::python::override Set = this->get_override("Set")(type,argv)){
+      Set(type,argv);
+    }else{
+      DmpVSvc::Set(type,argv);
+    }
+  }
+  void Default_Set(const std::string &type,const std::string &argv){
+    this->DmpVSvc::Set(type,argv);
+  }
+};
+    // Wrap DmpVSvcDataMgr
+struct DmpVSvcDataMgrWrapper : public DmpVSvcDataMgr, boost::python::wrapper<DmpVSvcDataMgr>{
+  DmpVSvcDataMgrWrapper(const std::string &n):DmpVSvcDataMgr(n){}
+  bool Initialize(){
+    return this->get_override("Initialize")();
+  }
+  bool Finalize(){
+    return this->get_override("Finalize")();
+  }
+  void Set(const std::string &type,const std::string &argv){
+    if(boost::python::override Set = this->get_override("Set")(type,argv)){
+      Set(type,argv);
+    }else{
+      DmpVSvcDataMgr::Set(type,argv);
+    }
+  }
+  void Default_Set(const std::string &type,const std::string &argv){
+    this->DmpVSvcDataMgr::Set(type,argv);
+  }
+  void BookBranch(){
+    this->get_override("BookBranch")();
+  }
+  void ResetEvent(){
+    this->get_override("ResetEvent")();
+  }
 };
 
 //-------------------------------------------------------------------
 BOOST_PYTHON_MODULE(libDmpCore){
   using namespace boost::python;
-
   // DmpRunMode
   enum_<DmpDetector::DmpERunMode>("DmpERunMode")
     .value("kUnknow",   DmpDetector::kUnknow)
@@ -60,7 +94,6 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .value("kCalPed",   DmpDetector::kCalPed)
     .value("kCalADC",   DmpDetector::kCalADC)
   ;
-
   // DmpDetectorID
   enum_<DmpDetector::DmpEDetectorID>("DmpEDetectorID")
     .value("kPsd",  DmpDetector::kPsd)
@@ -69,51 +102,51 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .value("kNud",  DmpDetector::kNud)
     .value("kWhole",DmpDetector::kWhole)
   ;
-
-  // DmpVOptionSvc
-  class_<DmpVOptionSvcWrapper,boost::noncopyable>("DmpVOptionSvc",no_init)
-    .def("Set", pure_virtual(&DmpVOptionSvc::Set))
-    .def("Get", pure_virtual(&DmpVOptionSvc::Get))
+  // DmpVSvc
+  class_<DmpVSvcWrapper,boost::noncopyable>("DmpVSvc",init<std::string>())
+    .def("Initialize",  pure_virtual(&DmpVSvc::Initialize))
+    .def("Finalize",    pure_virtual(&DmpVSvc::Finalize))
+    .def("Set", &DmpVSvc::Set,  &DmpVSvcWrapper::Default_Set)
+    .def("SetSubDet",   &DmpVSvc::SetSubDet)
   ;
-
+  // DmpVSvcDataMgr
+  class_<DmpVSvcDataMgrWrapper,boost::noncopyable,bases<DmpVSvc> >("DmpVSvcDataMgr",init<std::string>())
+    .def("Initialize",  pure_virtual(&DmpVSvcDataMgr::Initialize))
+    .def("Finalize",    pure_virtual(&DmpVSvcDataMgr::Finalize))
+    .def("Set", &DmpVSvcDataMgr::Set,  &DmpVSvcDataMgrWrapper::Default_Set)
+    .def("SetSubDet",   &DmpVSvcDataMgr::SetSubDet)
+    .def("BookBranch",  pure_virtual(&DmpVSvcDataMgr::BookBranch))
+    .def("ResetEvent",  pure_virtual(&DmpVSvcDataMgr::ResetEvent))
+  ;
   // DmpVAlg
   class_<DmpVAlgWrapper,boost::noncopyable>("DmpVAlg",init<std::string>())
     .def("Initialize",      pure_virtual(&DmpVAlg::Initialize))
     .def("ProcessThisEvent",pure_virtual(&DmpVAlg::ProcessThisEvent))
     .def("Finalize",        pure_virtual(&DmpVAlg::Finalize))
+    .def("Set", &DmpVAlg::Set,  &DmpVAlgWrapper::Default_Set)
   ;
-
-  // DmpVSvc
-  class_<DmpVSvcWrapper,boost::noncopyable>("DmpVSvc",init<std::string>())
-    .def("Initialize",      pure_virtual(&DmpVSvc::Initialize))
-    .def("Finalize",        pure_virtual(&DmpVSvc::Finalize))
-  ;
-
   // DmpAlgorithmManager
   class_<DmpAlgorithmManager,boost::noncopyable>("DmpAlgorithmManager",no_init)
     .def("GetInstance", &DmpAlgorithmManager::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
     .def("Append",  &DmpAlgorithmManager::Append)
     .def("Replace", &DmpAlgorithmManager::Replace)
+    .def("Get",     &DmpAlgorithmManager::Get,return_value_policy<reference_existing_object>())
     .def("ListAllElements",&DmpAlgorithmManager::ListAllElements)
-    .def("Initialize",&DmpAlgorithmManager::Initialize)
-// *
-// *  TODO:  why can't bind Process()
-// *
-    //.def("Process"  &DmpAlgorithmManager::Process)
-    .def("Finalize",&DmpAlgorithmManager::Finalize)
+    .def("Initialize",  &DmpAlgorithmManager::Initialize)
+    .def("Finalize",    &DmpAlgorithmManager::Finalize)
+    .def("Process",     &DmpAlgorithmManager::Process)
   ;
-
   // DmpServiceManager
   class_<DmpServiceManager,boost::noncopyable>("DmpServiceManager",no_init)
     .def("GetInstance", &DmpServiceManager::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
     .def("Append",  &DmpServiceManager::Append)
     .def("Replace", &DmpServiceManager::Replace)
+    .def("Get",     &DmpServiceManager::Get,return_value_policy<reference_existing_object>())
     .def("ListAllElements",&DmpServiceManager::ListAllElements)
-    .def("Initialize",&DmpServiceManager::Initialize)
-    //.def("Get",     &DmpServiceManager::Get)
-    .def("Finalize",&DmpServiceManager::Finalize)
+    .def("Initialize",  &DmpServiceManager::Initialize)
+    .def("Finalize",    &DmpServiceManager::Finalize)
   ;
 }
 

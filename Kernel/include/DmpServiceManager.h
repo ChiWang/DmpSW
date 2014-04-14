@@ -23,7 +23,6 @@ public:
     return &instance;
   }
   ~DmpServiceManager();
-  DmpVSvc*  Get(const std::string&);
 
 private:
   DmpServiceManager();

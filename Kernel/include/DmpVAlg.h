@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpVAlg.h, 2014-04-09 20:01:17 chi $
+ *  $Id: DmpVAlg.h, 2014-04-12 16:34:15 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/03/2014
 */
@@ -13,8 +13,8 @@ class DmpVAlg{
 /*
  * DmpVAlg
  *
- * drive yourself algorithm from this class, and thn
- * could register your algorithm into dampe software.
+ *  drive yourself algorithm from this class, and then
+ *  register your algorithm into Dmp Alorithm Manager, in python
  *
  */
 public:
@@ -23,9 +23,10 @@ public:
   virtual bool Initialize()=0;
   virtual bool ProcessThisEvent()=0;
   virtual bool Finalize()=0;
+  virtual void Set(const std::string&,const std::string&){}    // for options, binding me
 
 public:
-  std::string   Name() const   {return fName;}
+  const std::string& Name() const {return fName;}
 
 private:
   std::string   fName;

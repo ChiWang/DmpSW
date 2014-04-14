@@ -12,10 +12,16 @@
 
 #include "DmpSimRunAction.h"
 #include "DmpSimSvcDataMgr.h"
+#include "DmpServiceManager.h"
 
 //-------------------------------------------------------------------
-DmpSimRunAction::DmpSimRunAction(){
+DmpSimRunAction::DmpSimRunAction()
+ :fDataMgr(0)
+{
+#ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+#endif
+  fDataMgr = (DmpSimSvcDataMgr*)gDmpSvcMgr->Get("Sim/DataManager");
 }
 
 //-------------------------------------------------------------------
@@ -26,7 +32,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 //-------------------------------------------------------------------
 void DmpSimRunAction::BeginOfRunAction(const G4Run *aRun){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"Run ID = "<<aRun->GetRunID()<<std::endl;
-  gSimDataMgr->BookBranch(); 
+  fDataMgr->BookBranch(); 
 // *  TODO: engine not works...
 /*
   //Random Engine
@@ -49,7 +55,7 @@ void DmpSimRunAction::EndOfRunAction(const G4Run* aRun){
 #ifdef DmpDebug
   G4cout << "End of Run, saving the root file" << G4endl;
 #endif
-  gSimDataMgr->SaveOutput();
+  fDataMgr->SaveOutput();
   /***
   if ( fSaveRndm ) { 
     G4int runNumber = run->GetRunID();

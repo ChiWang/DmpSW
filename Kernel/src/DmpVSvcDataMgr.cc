@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpVIOSvc.cc, 2014-04-08 10:31:09 chi $
+ *  $Id: DmpVSvcDataMgr.cc, 2014-04-12 17:22:05 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -9,10 +9,10 @@
 #include "TTree.h"
 #include "TFile.h"
 
-#include "DmpVIOSvc.h"
+#include "DmpVSvcDataMgr.h"
 
 //-------------------------------------------------------------------
-DmpVIOSvc::DmpVIOSvc(const std::string &n)
+DmpVSvcDataMgr::DmpVSvcDataMgr(const std::string &n)
  :DmpVSvc(n),
   fOutDataTree(0),
   fInData("no"),
@@ -24,11 +24,11 @@ DmpVIOSvc::DmpVIOSvc(const std::string &n)
 }
 
 //-------------------------------------------------------------------
-DmpVIOSvc::~DmpVIOSvc(){
+DmpVSvcDataMgr::~DmpVSvcDataMgr(){
 }
 
 //-------------------------------------------------------------------
-void DmpVIOSvc::FillEvent(){
+void DmpVSvcDataMgr::FillEvent(){
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl<<std::endl;
 #endif
@@ -37,7 +37,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 }
 
 //-------------------------------------------------------------------
-void DmpVIOSvc::SaveOutput(){
+void DmpVSvcDataMgr::SaveOutput(){
   SetOutDataName();
   TFile *aFile = new TFile((TString)(fOutDataPath+fOutDataName),"recreate");
   fOutDataTree->Write();
@@ -50,18 +50,18 @@ void DmpVIOSvc::SaveOutput(){
 
 //-------------------------------------------------------------------
 #include <sys/stat.h>       // mkdir()
-void DmpVIOSvc::SetOutDataPath(const std::string &path){
-  if (path[path.length()-1] == '/') {
-    fOutDataPath = path;
+void DmpVSvcDataMgr::SetOutDataPath(const std::string &argv){
+  if (argv[argv.length()-1] == '/') {
+    fOutDataPath = argv;
   } else {
-    fOutDataPath = path + "/";
+    fOutDataPath = argv + "/";
   }
   mkdir(fOutDataPath.c_str(),0755);
 }
 
 //-------------------------------------------------------------------
 #include <boost/filesystem/path.hpp>
-void DmpVIOSvc::SetOutDataName(){
+void DmpVSvcDataMgr::SetOutDataName(){
   boost::filesystem::path inpath(fInData);
   if(fNote == "no"){
     fOutDataName = fPgkID+TimeStamp()+"_"+inpath.stem()+".root";
@@ -72,7 +72,7 @@ void DmpVIOSvc::SetOutDataName(){
 
 //-------------------------------------------------------------------
 #include <time.h>
-std::string DmpVIOSvc::TimeStamp(){
+std::string DmpVSvcDataMgr::TimeStamp(){
   time_t now;
   struct tm *p;
   time(&now);

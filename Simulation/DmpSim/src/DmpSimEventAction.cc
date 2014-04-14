@@ -22,12 +22,16 @@
 #include "DmpEvtHeader.h"
 #include "DmpSimEventAction.h"
 #include "DmpSimSvcDataMgr.h"
+#include "DmpServiceManager.h"
 
 //-------------------------------------------------------------------
-DmpSimEventAction::DmpSimEventAction(){
+DmpSimEventAction::DmpSimEventAction()
+ :fDataMgr(0)
+{
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
+  fDataMgr = (DmpSimSvcDataMgr*)gDmpSvcMgr->Get("Sim/DataManager");
 // *
 // *  TODO: add digitizer here
 // *
@@ -49,14 +53,14 @@ void DmpSimEventAction::BeginOfEventAction(const G4Event *anEvent){
 #ifdef DmpDebug
   std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tEvent ID = "<<anEvent->GetEventID()<<std::endl;
 #endif
-  static DmpEvtHeader *eventHeader = gSimDataMgr->GetEventHeader();
+  static DmpEvtHeader *eventHeader = fDataMgr->GetEventHeader();
   eventHeader->CountThisEvent();
   eventHeader->SetParticlePdgCode(anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode());
 }
 
 //-------------------------------------------------------------------
 void DmpSimEventAction::EndOfEventAction(const G4Event *anEvent){
-  gSimDataMgr->Digitize();
-  gSimDataMgr->FillEvent();
+  fDataMgr->Digitize();
+  fDataMgr->FillEvent();
 }
 

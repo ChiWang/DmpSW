@@ -19,7 +19,7 @@
 
 //-------------------------------------------------------------------
 DmpSimSvcDataMgr::DmpSimSvcDataMgr()
- :DmpVIOSvc("DmpSimDataMgr"),
+ :DmpVSvcDataMgr("Sim/DataMgr"),
   fPrimaryParticle(0),
   fEvtHeader(0),
   fPsdOutSet(0),
@@ -34,6 +34,7 @@ DmpSimSvcDataMgr::DmpSimSvcDataMgr()
   fStkOutSet = new TClonesArray("DmpEvtStkMSD",300);
   fBgoOutSet = new TClonesArray("DmpEvtBgoMSD",300);
   fNudOutSet = new TClonesArray("DmpEvtNudMSD",300);
+  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 }
 
 //-------------------------------------------------------------------
@@ -44,6 +45,15 @@ DmpSimSvcDataMgr::~DmpSimSvcDataMgr(){
   fStkOutSet->Delete(); fStkOutSet->Clear(); delete fStkOutSet;
   fBgoOutSet->Delete(); fBgoOutSet->Clear(); delete fBgoOutSet;
   fNudOutSet->Delete(); fNudOutSet->Clear(); delete fNudOutSet;
+}
+
+//-------------------------------------------------------------------
+void DmpSimSvcDataMgr::Set(const std::string &type, const std::string &argv){
+  if(type == "OutDataPath"){
+    SetOutDataPath(argv);
+  }else if(type == "OutDataNote"){
+    AppendDataNote(argv);
+  }
 }
 
 //-------------------------------------------------------------------
@@ -67,6 +77,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 
 //-------------------------------------------------------------------
 TClonesArray* DmpSimSvcDataMgr::GetOutCollection(DmpDetector::DmpEDetectorID id) const{
+  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"Add = "<<fBgoOutSet<<std::endl;
   switch(id){
     case DmpDetector::kPsd:
       return fPsdOutSet;
@@ -116,7 +127,4 @@ void DmpSimSvcDataMgr::Digitize(){
   }
   */
 }
-
-//-------------------------------------------------------------------
-DmpSimSvcDataMgr *gSimDataMgr = DmpSimSvcDataMgr::GetInstance();
 

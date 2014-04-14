@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpElementManager.h, 2014-04-10 19:59:09 chi $
+ *  $Id: DmpElementManager.h, 2014-04-11 23:43:14 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 26/03/2014
 */
@@ -23,7 +23,7 @@ public:
   void ListAllElements();
   bool Initialize();
   bool Finalize();
-  //DmpElement* Get(const std::string&) const;
+  DmpElement* Get(const std::string&);
 
 protected:
   std::string Name() const {return fName;}
@@ -43,7 +43,7 @@ template<typename DmpElement>
 DmpElementManager<DmpElement>::DmpElementManager(const std::string &n)
  :fName(n)
 {
-  std::cout<<"---> Setting DMPSW Kernel: "<<fName;
+  std::cout<<"---> DmpCore:\tCreate "<<fName;
 }
 
 //-------------------------------------------------------------------
@@ -73,7 +73,7 @@ void DmpElementManager<DmpElement>::Replace(DmpElement *aEle){
 //-------------------------------------------------------------------
 template<typename DmpElement>
 void DmpElementManager<DmpElement>::Append(DmpElement *aEle){
-  std::cout<<"Append Algorithm: "<<aEle->Name();
+  std::cout<<fName<<": Appending Element "<<aEle->Name();
   fElements.push_back(aEle);
   std::cout<<"\t\tSucc."<<std::endl;
 }
@@ -105,6 +105,16 @@ bool DmpElementManager<DmpElement>::Finalize(){
   return true;
 }
 
+//-------------------------------------------------------------------
+template<typename DmpElement>
+DmpElement* DmpElementManager<DmpElement>::Get(const std::string &n) {
+  for(fIterator = fElements.begin();fIterator != fElements.end();++fIterator){
+    if((*fIterator)->Name() == n){
+      return (*fIterator);
+    }
+  }
+  return 0;
+}
 
 #endif
 

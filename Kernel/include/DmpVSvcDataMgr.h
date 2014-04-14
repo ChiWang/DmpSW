@@ -1,47 +1,43 @@
 /*
- *  $Id: DmpVIOSvc.h, 2014-04-08 10:31:52 chi $
+ *  $Id: DmpVSvcDataMgr.h, 2014-04-12 17:22:37 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
-#ifndef DmpVIOSvc_H
-#define DmpVIOSvc_H
+#ifndef DmpVSvcDataMgr_H
+#define DmpVSvcDataMgr_H
 
 #include "DmpVSvc.h"
 
 class TTree;
 
-class DmpVIOSvc : public DmpVSvc{
+class DmpVSvcDataMgr : public DmpVSvc{
 /* 
- *  DmpVIOSvc
+ *  DmpVSvcDataMgr
  *
  *  All data manager classes inherite from this class
  *
- *  Example: DmpRdcDataManger.h or DmpSimDataManager.h
+ *  Example: DmpRdcDataManger.h or DmpSimSvcDataMgr.h
  *
  */
 public:
-  DmpVIOSvc(const std::string&);
-  virtual ~DmpVIOSvc();
+  DmpVSvcDataMgr(const std::string&);
+  virtual ~DmpVSvcDataMgr();
 
   virtual void BookBranch()=0;
   virtual void FillEvent();
+  virtual void ResetEvent()=0;
   virtual void SaveOutput();  // save output, for one indata
   virtual bool InputData(const std::string &n) {fInData = n; return true;}
 
 public:
-  bool Initialize(){}
-  bool Finalize(){}
-
-public:
-  void SetOutDataPath(const std::string&);        // binding me
-  void AppendDataNote(const std::string &t)   {fNote = t;}   // binding me
-  std::string GetOutDataPath() const    {return fOutDataPath;}  // binding me
-  std::string GetOutDataName() const    {return fOutDataName;}  // binding me
+  std::string GetOutDataPath() const    {return fOutDataPath;}
+  std::string GetOutDataName() const    {return fOutDataName;}
 
 protected:
+  void SetOutDataPath(const std::string&);
+  void AppendDataNote(const std::string &n) {fNote = n;}
   void SetPackageID(const std::string &n) {fPgkID += n;}
-  virtual void ResetEvent()=0;
 
 private:
   void SetOutDataName();
