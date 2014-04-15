@@ -12,7 +12,6 @@
 class G4RunManager;
 class DmpSimDetector;
 class G4PhysListFactory;
-class G4VisExecutive;
 class G4VUserPhysicsList;
 
 class DmpSimSvcBoot : public DmpVSvc{
@@ -49,7 +48,6 @@ private:
   DmpSimDetector        *fDetector;
   G4PhysListFactory     *fPhyFactory;
   G4VUserPhysicsList    *fPhyList;
-  G4VisExecutive        *fVisMgr;
   std::string           fPhyListName;       // default is QGSP_BIC
 
 };

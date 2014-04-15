@@ -1,19 +1,17 @@
 /*
- *  $Id: DmpVSvcDataMgr.h, 2014-04-12 17:22:37 chi $
+ *  $Id: DmpVDataMgr.h, 2014-04-12 17:22:37 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
-#ifndef DmpVSvcDataMgr_H
-#define DmpVSvcDataMgr_H
-
-#include "DmpVSvc.h"
+#ifndef DmpVDataMgr_H
+#define DmpVDataMgr_H
 
 class TTree;
 
-class DmpVSvcDataMgr : public DmpVSvc{
+class DmpVDataMgr{
 /* 
- *  DmpVSvcDataMgr
+ *  DmpVDataMgr
  *
  *  All data manager classes inherite from this class
  *
@@ -21,8 +19,8 @@ class DmpVSvcDataMgr : public DmpVSvc{
  *
  */
 public:
-  DmpVSvcDataMgr(const std::string&);
-  virtual ~DmpVSvcDataMgr();
+  DmpVDataMgr();
+  virtual ~DmpVDataMgr();
 
   virtual void BookBranch()=0;
   virtual void FillEvent();

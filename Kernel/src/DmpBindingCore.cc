@@ -7,7 +7,8 @@
 #include <boost/python.hpp>
 
 #include "DmpRunMode.h"
-#include "DmpVSvcDataMgr.h"    // included DmpDetectorID.h, DmpVSvc.h
+#include "DmpVSvc.h"    // included DmpDetectorID.h
+#include "DmpVDataMgr.h"
 #include "DmpVAlg.h"
 #include "DmpAlgorithmManager.h"
 #include "DmpServiceManager.h"
@@ -56,25 +57,9 @@ struct DmpVSvcWrapper : public DmpVSvc, boost::python::wrapper<DmpVSvc>{
     this->DmpVSvc::Set(type,argv);
   }
 };
-    // Wrap DmpVSvcDataMgr
-struct DmpVSvcDataMgrWrapper : public DmpVSvcDataMgr, boost::python::wrapper<DmpVSvcDataMgr>{
-  DmpVSvcDataMgrWrapper(const std::string &n):DmpVSvcDataMgr(n){}
-  bool Initialize(){
-    return this->get_override("Initialize")();
-  }
-  bool Finalize(){
-    return this->get_override("Finalize")();
-  }
-  void Set(const std::string &type,const std::string &argv){
-    if(boost::python::override Set = this->get_override("Set")(type,argv)){
-      Set(type,argv);
-    }else{
-      DmpVSvcDataMgr::Set(type,argv);
-    }
-  }
-  void Default_Set(const std::string &type,const std::string &argv){
-    this->DmpVSvcDataMgr::Set(type,argv);
-  }
+    // Wrap DmpVDataMgr
+struct DmpVDataMgrWrapper : public DmpVDataMgr, boost::python::wrapper<DmpVDataMgr>{
+  DmpVDataMgrWrapper():DmpVDataMgr(){}
   void BookBranch(){
     this->get_override("BookBranch")();
   }
@@ -109,14 +94,10 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .def("Set", &DmpVSvc::Set,  &DmpVSvcWrapper::Default_Set)
     .def("SetSubDet",   &DmpVSvc::SetSubDet)
   ;
-  // DmpVSvcDataMgr
-  class_<DmpVSvcDataMgrWrapper,boost::noncopyable,bases<DmpVSvc> >("DmpVSvcDataMgr",init<std::string>())
-    .def("Initialize",  pure_virtual(&DmpVSvcDataMgr::Initialize))
-    .def("Finalize",    pure_virtual(&DmpVSvcDataMgr::Finalize))
-    .def("Set", &DmpVSvcDataMgr::Set,  &DmpVSvcDataMgrWrapper::Default_Set)
-    .def("SetSubDet",   &DmpVSvcDataMgr::SetSubDet)
-    .def("BookBranch",  pure_virtual(&DmpVSvcDataMgr::BookBranch))
-    .def("ResetEvent",  pure_virtual(&DmpVSvcDataMgr::ResetEvent))
+  // DmpVDataMgr
+  class_<DmpVDataMgrWrapper,boost::noncopyable>("DmpVDataMgr",init<>())
+    .def("BookBranch",  pure_virtual(&DmpVDataMgr::BookBranch))
+    .def("ResetEvent",  pure_virtual(&DmpVDataMgr::ResetEvent))
   ;
   // DmpVAlg
   class_<DmpVAlgWrapper,boost::noncopyable>("DmpVAlg",init<std::string>())

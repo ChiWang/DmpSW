@@ -19,7 +19,7 @@
 
 //-------------------------------------------------------------------
 DmpSimSvcDataMgr::DmpSimSvcDataMgr()
- :DmpVSvcDataMgr("Sim/DataMgr"),
+ :DmpVSvc("Sim/DataMgr"),
   fPrimaryParticle(0),
   fEvtHeader(0),
   fPsdOutSet(0),

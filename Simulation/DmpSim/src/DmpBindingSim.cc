@@ -16,7 +16,7 @@ BOOST_PYTHON_MODULE(libDmpSim){
   // DmpSimSvcBoot
   class_<DmpSimSvcBoot,boost::noncopyable,bases<DmpVSvc> >("DmpSimSvcBoot",init<>());
   // DmpSimSvcDataMgr
-  class_<DmpSimSvcDataMgr,boost::noncopyable,bases<DmpVSvcDataMgr,DmpVSvc> >("DmpSimSvcDataMgr",init<>());
+  class_<DmpSimSvcDataMgr,boost::noncopyable,bases<DmpVDataMgr,DmpVSvc> >("DmpSimSvcDataMgr",init<>());
   // DmpSimEntrance
   def("Execute",        DmpCore::SimExecute);
 

@@ -7,7 +7,7 @@
 #ifndef DmpSimSvcDataMgr_H
 #define DmpSimSvcDataMgr_H
 
-#include "DmpVSvcDataMgr.h"
+#include "DmpVDataMgr.h"
 #include "DmpVSvc.h"
 
 class G4Event;
@@ -15,7 +15,7 @@ class DmpEvtSimPrimaryParticle;
 class DmpEvtHeader;
 class TClonesArray;
 
-class DmpSimSvcDataMgr : public DmpVSvcDataMgr{
+class DmpSimSvcDataMgr : public DmpVSvc, public DmpVDataMgr{
 /*
  *  DmpSimSvcDataMgr
  *
@@ -28,8 +28,6 @@ public:
   bool Finalize()   {return true;}
   void Set(const std::string&, const std::string&);
   void BookBranch();            // invoked from BeginOfRunAction()
-
-private:
   void ResetEvent();            // delete all elements in TClonesArray
 
 public:
