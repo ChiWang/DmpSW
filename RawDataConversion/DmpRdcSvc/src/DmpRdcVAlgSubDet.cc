@@ -28,7 +28,6 @@ bool DmpRdcVAlgSubDet::Initialize(){
   fFile = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->InFileStream();
   fLog = ((DmpRdcSvcLog*)gDmpSvcMgr->Get("Rdc/Log"));
   fEvtHeader = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->GetEventHeader();
-  fMSDSet = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->GetOutCollection(DmpDetector::kBgo);
   if(not SetupConnector()){
     return false;
   }

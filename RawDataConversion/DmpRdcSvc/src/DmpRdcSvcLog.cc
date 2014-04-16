@@ -6,18 +6,27 @@
 
 #include <iostream>
 
+#include "DmpServiceManager.h"
+#include "DmpRdcSvcDataMgr.h"
 #include "DmpRdcSvcLog.h"
 #include "DmpEvtHeader.h"
-#include "DmpRdcSvcDataMgr.h"
 
 //-------------------------------------------------------------------
 DmpRdcSvcLog::DmpRdcSvcLog()
- :DmpVSvc("Rdc/Log")
+ :DmpVSvc("Rdc/Log"),
+  fFile(0),
+  fEvtHeader(0)
 {
 }
 
 //-------------------------------------------------------------------
 DmpRdcSvcLog::~DmpRdcSvcLog(){
+}
+
+//-------------------------------------------------------------------
+bool DmpRdcSvcLog::Initialize(){
+  fFile = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->InFileStream();
+  fEvtHeader = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->GetEventHeader();
 }
 
 //-------------------------------------------------------------------
@@ -33,17 +42,17 @@ void DmpRdcSvcLog::Set(const std::string &type, const std::string &argv){
 void DmpRdcSvcLog::Type(const short &x) const {
   static bool prepareForFirstIn = true;
   if(x > 1){    // out convert (subDet)
-    std::cout<<" to "<<gRdcDataMgr->gInDataStream.tellg()<<"\t---> "<<x<<std::endl;
+    std::cout<<" to "<<fFile->tellg()<<"\t---> "<<x<<std::endl;
     prepareForFirstIn = true;
   }else{
     switch(x){
     case 1:     // out convert (header)
-      std::cout<<" to "<<gRdcDataMgr->gInDataStream.tellg()<<std::endl;
+      std::cout<<" to "<<fFile->tellg()<<std::endl;
       prepareForFirstIn = true;
       break;
     case 0:     // start convert
       if(prepareForFirstIn){
-        std::cout<<"\tfrom "<<gRdcDataMgr->gInDataStream.tellg();
+        std::cout<<"\tfrom "<<fFile->tellg();
         prepareForFirstIn = false;
       }
       break;
@@ -74,14 +83,13 @@ void DmpRdcSvcLog::Type(const short &x) const {
 //-------------------------------------------------------------------
 void DmpRdcSvcLog::PrintLocation() const{
   static short tmp = 0;
-  static DmpEvtHeader *evtHeader = gRdcDataMgr->GetEventHeader();
   std::cout<<"Location: ";
   for(short i=0;i<5;++i){
-    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);
+    fFile->read((char*)(&tmp),1);
     std::cout<<" "<<std::hex<<tmp<<std::dec;
   }
   std::cout<<"\t";
-  evtHeader->PrintTime();
+  fEvtHeader->PrintTime();
 }
 
 

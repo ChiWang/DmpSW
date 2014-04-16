@@ -7,8 +7,12 @@
 #ifndef DmpRdcSvcLog_H
 #define DmpRdcSvcLog_H
 
+#include <ifstream>
+
 #include "DmpVLog.h"
 #include "DmpVSvc.h"
+
+class DmpEvtHeader;
 
 class DmpRdcSvcLog : public DmpVSvc, public DmpVLog{
 /*
@@ -20,13 +24,17 @@ class DmpRdcSvcLog : public DmpVSvc, public DmpVLog{
 public:
   DmpRdcSvcLog();
   ~DmpRdcSvcLog();
-  bool Initialize() {return true;}
+  bool Initialize();
   bool Finalize()   {return true;}
   void Set(const std::string &type,const std::string &argv);
   void Type(const short &n=0) const;
 
 private:
   void PrintLocation() const;
+
+private:
+  std::ifstream     *fFile;
+  DmpEvtHeader      *fEvtHeader;
 
 };
 

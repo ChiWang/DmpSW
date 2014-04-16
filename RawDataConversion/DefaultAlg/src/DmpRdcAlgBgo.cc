@@ -13,13 +13,12 @@
 #include "DmpEvtHeader.h"
 #include "DmpRdcAlgBgo.h"
 #include "DmpRdcSvcDataMgr.h"
-#include "DmpRdcSvcOption.h"
+#include "DmpRdcSvcLog.h"
 #include "DmpServiceManager.h"
 
-DmpRdcAlgBgo::DmpRdcAlgBgo(const std::string &name)
- :DmpRdcVAlgSubDet(name)
+DmpRdcAlgBgo::DmpRdcAlgBgo()
+ :DmpRdcVAlgSubDet("Rdc/Bgo/DefaultAlg")
 {
-  fMSDSet = gRdcDataMgr->GetOutCollection(DmpDetector::kBgo);
 }
 
 //-------------------------------------------------------------------
@@ -27,23 +26,105 @@ DmpRdcAlgBgo::~DmpRdcAlgBgo(){
 }
 
 //-------------------------------------------------------------------
+bool DmpRdcAlgBgo::Initialize(){
+  fMSDSet = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->GetOutCollection(DmpDetector::kBgo);
+  if(not DmpRdcVAlgSubDet::Initialize()){
+    return false;
+  }
+  return true;
+}
+
+//-------------------------------------------------------------------
+bool DmpRdcAlgBgo::ProcessThisEvent(){
+  if(fConnectorPath == "no") return true;
+  std::cout<<"\t"<<__PRETTY_FUNCTION__;
+  fLog->Type(0);
+//-------------------------------------------------------------------
+  static short tmp=0, tmp2=0, nBytes=0;
+  for (short counts=0;counts<DmpDetector::Bgo::kFEENo;++counts) {
+    fFile->read((char*)(&tmp),1);
+    if (tmp!=0xeb) {
+      fLog->Type(-1);
+      return false;
+    }
+    fFile->read((char*)(&tmp),1);
+    if (tmp!=0x90) {
+      fLog->Type(-2);
+      return false;
+    }
+    fFile->read((char*)(&tmp),1);       // trigger
+    if(counts == 0){
+      fEvtHeader->SetTrigger(DmpDetector::kBgo,tmp);
+    }else{
+      if(fEvtHeader->GetTrigger(DmpDetector::kBgo) != tmp){
+        fLog->Type(-3);
+        return false;
+      }
+    }
+    fFile->read((char*)(&tmp),1);       // run mode and FEE ID
+    static short feeID = 0;
+    feeID = tmp%16;
+    if(counts == 0){
+      fEvtHeader->SetRunMode(DmpDetector::kBgo,tmp/16-DmpDetector::Bgo::kFEEType);
+    }else{
+      if(fEvtHeader->GetRunMode(DmpDetector::kBgo) != tmp/16-DmpDetector::Bgo::kFEEType){
+        fLog->Type(-4);
+        return false;
+      }
+    }
+    fFile->read((char*)(&tmp),1);       // data length, 2 bytes
+    fFile->read((char*)(&tmp2),1);
+    nBytes = tmp*256+tmp2-2-2-2;        // 2 bytes for data length, 2 bytes for 0x0000, 2 bytes for CRC
+// *
+// *  TODO: mode == k0Compress && data length == xxx
+// *
+    if(fEvtHeader->GetRunMode(DmpDetector::kBgo) == DmpDetector::k0Compress){
+      for(short i=0;i<nBytes;i+=2){     // k0Compress
+        fFile->read((char*)(&tmp),1);
+        fFile->read((char*)(&tmp2),1);
+        AppendThisSignal(fConnector[feeID*1000+i],tmp*256+tmp2);
+      }
+    }else{
+      for(short i=0;i<nBytes;i+=3){     // kCompress
+// *
+// *  TODO: fix me
+// *
+        fFile->read((char*)(&tmp),1);
+        fFile->read((char*)(&tmp),1);
+        fFile->read((char*)(&tmp2),1);
+        //AppendThisSignal(fConnector[feeID*1000+i],tmp*256+tmp2);
+      }
+    }
+    fFile->read((char*)(&tmp),1);       // 2 bytes for 0x0000
+    fFile->read((char*)(&tmp),1);       // must split them, 2 bytes for 0x0000
+    fFile->read((char*)(&tmp),1);       // 2 bytes for CRC
+    fFile->read((char*)(&tmp),1);       // must spplit them, 2 bytes for CRC
+  }
+//-------------------------------------------------------------------
+  fLog->Type(nBytes);
+  return true;
+}
+
+//-------------------------------------------------------------------
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
-bool DmpRdcAlgBgo::Initialize(){
-  std::string path = ((DmpRdcSvcOption*)gDmpSvcMgr->Get("RdcOpt"))->GetConnectorPath(DmpDetector::kBgo);
-  if(path == "default"){
+bool DmpRdcAlgBgo::SetupConnector(){
+  if(fConnectorPath == "no"){
     std::cout<<"\n\tNo set connector:\tBgo"<<std::endl;
-    return true;
+    return false;
   }else{
-    fRunMe = true;
     std::cout<<"\n\tSetting connector:\tBgo";
   }
-  static short feeID=0, channelID=0, layerID=0, barID=0, sideID=0, dyID=0;
+  short feeID=0, channelID=0, layerID=0, barID=0, sideID=0, dyID=0;
   boost::filesystem::directory_iterator end_iter;
-  for(boost::filesystem::directory_iterator iter(path);iter!=end_iter;++iter){
+  for(boost::filesystem::directory_iterator iter(fConnectorPath);iter!=end_iter;++iter){
     if(iter->path().extension() != ".cnct") continue;
     ifstream cnctFile(iter->path().string().c_str());
-    if (!cnctFile.good())   return false;
+    if (not cnctFile.good()){
+      std::cout<<"reading cnct file ("<<fConnectorPath<<") failed"<<std::endl;
+      cnctFile.close();
+      return false;
+    }
     cnctFile>>feeID;
     for(short s=0;s<DmpDetector::Bgo::kFEEChannelNo;++s){
       cnctFile>>channelID;
@@ -55,79 +136,6 @@ bool DmpRdcAlgBgo::Initialize(){
     }
     cnctFile.close();
   }
-  return true;
-}
-
-//-------------------------------------------------------------------
-#include "DmpRdcSvcLog.h"
-bool DmpRdcAlgBgo::ProcessThisEvent(){
-  if(not fRunMe) return true;
-  std::cout<<"\t"<<__PRETTY_FUNCTION__;
-  gRdcLog->StatusLog(0);
-//-------------------------------------------------------------------
-  static short tmp=0, tmp2=0, nBytes=0;
-  static DmpEvtHeader *evtHeader = gRdcDataMgr->GetEventHeader();
-  for (short counts=0;counts<DmpDetector::Bgo::kFEENo;++counts) {
-    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);
-    if (tmp!=0xeb) {
-      gRdcLog->StatusLog(-1);
-      return false;
-    }
-    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);
-    if (tmp!=0x90) {
-      gRdcLog->StatusLog(-2);
-      return false;
-    }
-    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);       // trigger
-    if(counts == 0){
-      evtHeader->SetTrigger(DmpDetector::kBgo,tmp);
-    }else{
-      if(evtHeader->GetTrigger(DmpDetector::kBgo) != tmp){
-        gRdcLog->StatusLog(-3);
-        return false;
-      }
-    }
-    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);       // run mode and FEE ID
-    static short feeID = 0;
-    feeID = tmp%16;
-    if(counts == 0){
-      evtHeader->SetRunMode(DmpDetector::kBgo,tmp/16-DmpDetector::Bgo::kFEEType);
-    }else{
-      if(evtHeader->GetRunMode(DmpDetector::kBgo) != tmp/16-DmpDetector::Bgo::kFEEType){
-        gRdcLog->StatusLog(-4);
-        return false;
-      }
-    }
-    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);       // data length, 2 bytes
-    gRdcDataMgr->gInDataStream.read((char*)(&tmp2),1);
-    nBytes = tmp*256+tmp2-2-2-2;        // 2 bytes for data length, 2 bytes for 0x0000, 2 bytes for CRC
-// *
-// *  TODO: mode == k0Compress && data length == xxx
-// *
-    if(evtHeader->GetRunMode(DmpDetector::kBgo) == DmpDetector::k0Compress){
-      for(short i=0;i<nBytes;i+=2){     // k0Compress
-        gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);
-        gRdcDataMgr->gInDataStream.read((char*)(&tmp2),1);
-        AppendThisSignal(fConnector[feeID*1000+i],tmp*256+tmp2);
-      }
-    }else{
-      for(short i=0;i<nBytes;i+=3){     // kCompress
-// *
-// *  TODO: fix me
-// *
-        gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);
-        gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);
-        gRdcDataMgr->gInDataStream.read((char*)(&tmp2),1);
-        //AppendThisSignal(fConnector[feeID*1000+i],tmp*256+tmp2);
-      }
-    }
-    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);       // 2 bytes for 0x0000
-    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);       // must split them, 2 bytes for 0x0000
-    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);       // 2 bytes for CRC
-    gRdcDataMgr->gInDataStream.read((char*)(&tmp),1);       // must spplit them, 2 bytes for CRC
-  }
-//-------------------------------------------------------------------
-  gRdcLog->StatusLog(nBytes);
   return true;
 }
 

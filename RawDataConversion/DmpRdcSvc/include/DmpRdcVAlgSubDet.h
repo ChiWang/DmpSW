@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcVAlgSubDet.h, 2014-04-16 21:23:26 chi $
+ *  $Id: DmpRdcVAlgSubDet.h, 2014-04-17 00:18:53 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 20/03/2014
 */
@@ -32,8 +32,8 @@ public:
   virtual void Set(const std::string &type,const std::string &argv);
 
 protected:
-  virtual void AppendThisSignal(const int&,const float&)=0;
   virtual bool SetupConnector()=0;
+  virtual void AppendThisSignal(const int&,const float&)=0;
 
 protected:
   std::ifstream     *fFile;
@@ -49,7 +49,7 @@ protected:
 
 protected:
   DmpEvtHeader      *fEvtHeader;
-  TClonesArray      *fMSDSet;           // responded bars (update it each event)
+  TClonesArray      *fMSDSet;           // initialize it in concrete class
 
 };
 

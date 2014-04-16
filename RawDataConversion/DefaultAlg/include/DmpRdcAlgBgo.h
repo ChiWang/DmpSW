@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgBgo.h, 2014-03-21 00:23:42 chi $
+ *  $Id: DmpRdcAlgBgo.h, 2014-04-17 00:18:49 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
@@ -10,13 +10,22 @@
 #include "DmpRdcVAlgSubDet.h"
 
 class DmpRdcAlgBgo : public DmpRdcVAlgSubDet{
+/*
+ *  DmpRdcAlgBgo
+ *
+ *      This is the default Rdc Alg of Bgo
+ *
+ *      User could write a new one, and append it into DmpAlgMgr in JobOpt file. Then, could run the new Alg.
+ *
+ */
 public:
-  DmpRdcAlgBgo(const std::string&);
+  DmpRdcAlgBgo();
   ~DmpRdcAlgBgo();
   bool Initialize();
   bool ProcessThisEvent();  // convert one event
 
 private:
+  bool SetupConnector();
   void AppendThisSignal(const int&,const float&);
 
 };
