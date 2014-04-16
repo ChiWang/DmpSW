@@ -7,27 +7,29 @@
 #ifndef DmpRdcSvcLog_H
 #define DmpRdcSvcLog_H
 
-#include "DmpVLogSvc.h"
+#include "DmpVLog.h"
+#include "DmpVSvc.h"
 
-class DmpRdcSvcLog : public DmpVLogSvc{
+class DmpRdcSvcLog : public DmpVSvc, public DmpVLog{
+/*
+ *  DmpRdcSvcLog
+ *
+ *  for DmpRdcAlg*, error log
+ *
+ */
 public:
-  static DmpRdcSvcLog*  GetInstance(){
-    static DmpRdcSvcLog instance;
-    return &instance;
-  }
-  ~DmpRdcSvcLog(){}
-  void StatusLog(const short &n=0) const;
+  DmpRdcSvcLog();
+  ~DmpRdcSvcLog();
+  bool Initialize() {return true;}
+  bool Finalize()   {return true;}
+  void Set(const std::string &type,const std::string &argv);
+  void Type(const short &n=0) const;
 
 private:
-  DmpRdcSvcLog():DmpVLogSvc("DmpRdcSvcLog"){}
-
-public:
   void PrintLocation() const;
 
 };
 
-//-------------------------------------------------------------------
-extern DmpRdcSvcLog *gRdcLog;
-
 #endif
+
 

@@ -11,7 +11,26 @@
 #include "DmpRdcSvcDataMgr.h"
 
 //-------------------------------------------------------------------
-void DmpRdcSvcLog::StatusLog(const short &x) const {
+DmpRdcSvcLog::DmpRdcSvcLog()
+ :DmpVSvc("Rdc/Log")
+{
+}
+
+//-------------------------------------------------------------------
+DmpRdcSvcLog::~DmpRdcSvcLog(){
+}
+
+//-------------------------------------------------------------------
+#include <boost/lexical_cast.hpp>
+void DmpRdcSvcLog::Set(const std::string &type, const std::string &argv){
+  if(type == "Log/Level"){
+    short v = boost::lexical_cast<short>(argv);
+    SetLevel(v);
+  }
+}
+
+//-------------------------------------------------------------------
+void DmpRdcSvcLog::Type(const short &x) const {
   static bool prepareForFirstIn = true;
   if(x > 1){    // out convert (subDet)
     std::cout<<" to "<<gRdcDataMgr->gInDataStream.tellg()<<"\t---> "<<x<<std::endl;
@@ -64,8 +83,5 @@ void DmpRdcSvcLog::PrintLocation() const{
   std::cout<<"\t";
   evtHeader->PrintTime();
 }
-
-//-------------------------------------------------------------------
-DmpRdcSvcLog *gRdcLog = DmpRdcSvcLog::GetInstance();
 
 

@@ -46,10 +46,13 @@ DmpRdcSvcDataMgr::~DmpRdcSvcDataMgr(){
 
 //-------------------------------------------------------------------
 bool DmpRdcSvcDataMgr::SetInputData(const std::string &dataName){
-  gInDataStream.open(dataName.c_str(),std::ios::in|std::ios::binary);
-  if(not gInDataStream.good()){
+  if(fInDataStream->is_open()){
+    fInDataStream->close();
+  }
+  fInDataStream->open(dataName.c_str(),std::ios::in|std::ios::binary);
+  if(not fInDataStream->good()){
     std::cerr<<"\nwarning: open "<<dataName<<" failed"<<std::endl;
-    gInDataStream.close();
+    fInDataStream->close();
     return false;
   }
   DmpVDataMgr::SetInputData(dataName);
@@ -97,8 +100,5 @@ TClonesArray* DmpRdcSvcDataMgr::GetOutCollection(DmpDetector::DmpEDetectorID id)
       return fNudOutSet;
   }
 }
-
-//-------------------------------------------------------------------
-DmpRdcSvcDataMgr *gRdcDataMgr = DmpRdcSvcDataMgr::GetInstance();
 
 

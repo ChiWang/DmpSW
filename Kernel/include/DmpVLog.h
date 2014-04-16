@@ -17,7 +17,7 @@ class DmpVLog{
 public:
   DmpVLog():fLevel(0){}
   virtual ~DmpVLog(){}
-  virtual void StatusLog(const short&) const=0;
+  virtual void Type(const short&) const=0;      // log type
 
 protected:
   void SetLevel(const short &i){

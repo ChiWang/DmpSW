@@ -4,26 +4,53 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
 
-#include "DmpRdcVAlgSubDet.h"
+#include "DmpServiceManager.h"
+#include "DmpRdcSvcDataMgr.h"
 #include "DmpRdcSvcLog.h"
+#include "DmpRdcVAlgSubDet.h"
 
 //-------------------------------------------------------------------
 DmpRdcVAlgSubDet::DmpRdcVAlgSubDet(const std::string &n)
  :DmpVAlg(n),
-  fRunMe(false),
+  fFile(0),
+  fLog(0),
+  fConnectorPath("no"),
+  fEvtHeader(0),
   fMSDSet(0)
 {
 }
 
 //-------------------------------------------------------------------
+bool DmpRdcVAlgSubDet::Initialize(){
+// *
+// *  TODO:     1.  check Get a 0?
+//              2.  fFile will update if set a new data??
+  fFile = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->InFileStream();
+  fLog = ((DmpRdcSvcLog*)gDmpSvcMgr->Get("Rdc/Log"));
+  fEvtHeader = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->GetEventHeader();
+  fMSDSet = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->GetOutCollection(DmpDetector::kBgo);
+  if(not SetupConnector()){
+    return false;
+  }
+  return true;
+}
+
+//-------------------------------------------------------------------
 bool DmpRdcVAlgSubDet::ProcessThisEvent(){
-  if(not fRunMe) return true;
-  //std::cout<<"\t"<<__PRETTY_FUNCTION__;
-  gRdcLog->StatusLog(0);
+  if(fConnectorPath == "no") return true;
+  fLog->Type(0);
 //-------------------------------------------------------------------
 // set ProcessThisEvention method here
 //-------------------------------------------------------------------
-  gRdcLog->StatusLog(1);
+  fLog->Type(1);
   return true;
 }
+
+//-------------------------------------------------------------------
+void DmpRdcVAlgSubDet::Set(const std::string &type,const std::string &argv){
+  if(type == "CnctPath"){
+    fConnectorPath = argv;
+  }
+}
+
 

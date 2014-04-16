@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcSvcDataMgr.h, 2014-04-10 21:23:55 chi $
+ *  $Id: DmpRdcSvcDataMgr.h, 2014-04-16 17:14:10 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -8,9 +8,9 @@
 #define DmpRdcSvcDataMgr_H
 
 #include <fstream>
+
 #include "DmpVDataMgr.h"
 #include "DmpVSvc.h"
-#include "DmpDetectorID.h"
 
 class DmpEvtHeader;
 class TClonesArray;
@@ -31,13 +31,16 @@ public:
   void FillEvent();
 
 public:
-  std::ifstream gInDataStream;  // inFile stream. update it for every binary data
+  std::ifstream* InFileStream() {return fInDataStream;}
   DmpEvtHeader* GetEventHeader() const {return fEvtHeader;}
   TClonesArray* GetOutCollection(DmpDetector::DmpEDetectorID) const;
 
 private:
   bool SetInputData(const std::string&);
   void ResetEvent();            // delete all elements in TClonesArray
+
+private:
+  std::ifstream     *fInDataStream; // inFile stream. update it for every binary data
 
 private:
   DmpEvtHeader      *fEvtHeader;
@@ -48,4 +51,5 @@ private:
 };
 
 #endif
+
 

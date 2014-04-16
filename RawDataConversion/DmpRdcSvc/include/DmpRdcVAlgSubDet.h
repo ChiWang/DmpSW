@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcVAlgSubDet.h, 2014-04-10 23:29:18 chi $
+ *  $Id: DmpRdcVAlgSubDet.h, 2014-04-16 21:23:26 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 20/03/2014
 */
@@ -7,10 +7,14 @@
 #ifndef DmpRdcVAlgSubDet_H
 #define DmpRdcVAlgSubDet_H
 
+#include <ifstream>
 #include <map>
+
 #include "DmpVAlg.h"
 
 class TClonesArray;
+class DmpEvtHeader;
+class DmpRdcSvcLog;
 
 class DmpRdcVAlgSubDet : public DmpVAlg{
 /*
@@ -22,22 +26,31 @@ class DmpRdcVAlgSubDet : public DmpVAlg{
 public:
   DmpRdcVAlgSubDet(const std::string&);
   virtual ~DmpRdcVAlgSubDet(){}
+  virtual bool Initialize();
   virtual bool ProcessThisEvent();  // convert one event
   virtual bool Finalize()  {return true;}
+  virtual void Set(const std::string &type,const std::string &argv);
 
 protected:
   virtual void AppendThisSignal(const int&,const float&)=0;
+  virtual bool SetupConnector()=0;
 
 protected:
-  std::map<int,int> fConnector;     // for all input datas
+  std::ifstream     *fFile;
+  DmpRdcSvcLog      *fLog;
+  std::string       fConnectorPath;     // where to read cnct files
+  std::map<int,int> fConnector;         // for all input datas
     /*
      * Connector: FEE channel <--> Detector
      * fConnector[FEEID*1000+ChannelID][LBSD_ID]
      * LBSD_ID = Layer_id*10000+Bar_id*100+Side_id*10+Dy_id
      *
     */
-  bool          fRunMe;             // tag to run this subDet
-  TClonesArray  *fMSDSet;           // responded bars (update it each event)
+
+protected:
+  DmpEvtHeader      *fEvtHeader;
+  TClonesArray      *fMSDSet;           // responded bars (update it each event)
+
 };
 
 #endif
