@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpRdc, 2014-04-10 11:25:03 chi $
+ *  $Id: JobOpt_DmpRdc, 2014-04-16 14:30:51 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 11/03/2014
  *-----------------------------------------------------
@@ -8,6 +8,7 @@
  *-----------------------------------------------------
 '''
 
+#-------------------------------------------------------------------
 # Load lib. of DAMPE software
 import os
 import sys
@@ -18,21 +19,32 @@ if os.environ['DMPSWSYS'] not in sys.path:
 import libDmpCore as DmpCore
 import libDmpRdc as  DmpRdc
 
-# Set DmpCore
-    ##  Set Algorithm
+#-------------------------------------------------------------------
+# Create Service
+rdcDataMgr = DmpRdc.DmpRdcSvcDataMgr()
+rdcDataMgr.Set("OutDataPath","./test")      # where to save the output. If NOT set will use "./" by defualt
+
+#-------------------------------------------------------------------
+# Create Algorithm
+rdcAlgHed = DmpRdc.DmpRdcAlgHeader("RdcAlgHeader")
+rdcAlgPsd = DmpRdc.DmpRdcAlgPsd("RdcAlgPsd")
+rdcAlgNud = DmpRdc.DmpRdcAlgNud("RdcAlgNud")
+rdcAlgBgo = DmpRdc.DmpRdcAlgBgo("RdcAlgBgo")
+rdcAlgStk = DmpRdc.DmpRdcAlgStk("RdcAlgStk")
+
+#-------------------------------------------------------------------
+# RUN DmpCore
+    ##  Service Manager
+gDmpSvcMgr = DmpCore.DmpServiceManager.GetInstance()
+gDmpSvcMgr.Append(rdcDataMgr)
+gDmpSvcMgr.Initialize()
+    ##  Algorithm Manager
 gDmpAlgMgr = DmpCore.DmpAlgorithmManager.GetInstance()
-algList = [DmpRdc.DmpRdcAlgHeader("RdcAlgHeader"),
-           DmpRdc.DmpRdcAlgPsd("RdcAlgPsd"),
-           DmpRdc.DmpRdcAlgNud("RdcAlgNud"),
-           DmpRdc.DmpRdcAlgBgo("RdcAlgBgo"),
-           DmpRdc.DmpRdcAlgStk("RdcAlgStk")]
-for aAlg in algList:
-    gDmpAlgMgr.Append(aAlg)
-    ##  Set Service
-gDmpSvcMgr = DmpCore.DmpSverviceManager.GetInstance()
-svcList = [DmpRdc.DmpRdcSvcOption()]
-for aSvc in svcList:
-    gDmpSvcMgr.Append(aSvc)
+gDmpAlgMgr.Append(rdcAlgPsd)
+gDmpAlgMgr.Append(rdcAlgStk)
+gDmpAlgMgr.Append(rdcAlgBgo)
+gDmpAlgMgr.Append(rdcAlgNud)
+gDmpAlgMgr.Initialize()
 
 # Set options for this job
 rdcOpt = DmpRdc.DmpRdcSvcOption.GetInstance()
@@ -44,9 +56,7 @@ rdcOpt.Set("cnctPath",DmpCore.DmpEDetectorID.kNud,prefix+"/share/Connector/Nud/Q
     ##  where to save the output of this job. If NOT set will use "./" by defualt
 rdcOpt.Set("outDataPath",DmpCore.DmpEDetectorID.kWhole,"./test")
 
-# RUN DmpCore
-gDmpAlgMgr.Initialize()
-
+#-------------------------------------------------------------------
 # Run job
     ##  Start to run this job (Execute()). Also could use Set("outDataPath") between 2 Execute()
 DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
@@ -55,6 +65,7 @@ DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
 #DmpRdc.Execute(prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
 #print rdcOpt.Get("outDataName")
 
+#-------------------------------------------------------------------
 # Quit DmpCore
 gDmpAlgMgr.Finalize()
 

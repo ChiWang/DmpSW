@@ -77,7 +77,6 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 
 //-------------------------------------------------------------------
 TClonesArray* DmpSimSvcDataMgr::GetOutCollection(DmpDetector::DmpEDetectorID id) const{
-  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"Add = "<<fBgoOutSet<<std::endl;
   switch(id){
     case DmpDetector::kPsd:
       return fPsdOutSet;
