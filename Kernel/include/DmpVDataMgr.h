@@ -24,15 +24,16 @@ public:
 
   virtual void BookBranch()=0;
   virtual void FillEvent();
-  virtual void ResetEvent()=0;
   virtual void SaveOutput();  // save output, for one indata
-  virtual bool InputData(const std::string &n) {fInData = n; return true;}
 
 public:
   std::string GetOutDataPath() const    {return fOutDataPath;}
   std::string GetOutDataName() const    {return fOutDataName;}
+  std::string InputData() const     {return fInData;}
 
 protected:
+  virtual bool SetInputData(const std::string &n) {fInData = n; return true;}
+  virtual void ResetEvent(){}
   void SetOutDataPath(const std::string&);
   void AppendDataNote(const std::string &n) {fNote = n;}
   void SetPackageID(const std::string &n) {fPgkID += n;}

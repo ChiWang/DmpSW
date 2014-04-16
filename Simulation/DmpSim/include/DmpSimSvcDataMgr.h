@@ -28,7 +28,6 @@ public:
   bool Finalize()   {return true;}
   void Set(const std::string&, const std::string&);
   void BookBranch();            // invoked from BeginOfRunAction()
-  void ResetEvent();            // delete all elements in TClonesArray
 
 public:
   DmpEvtHeader* GetEventHeader() const  {return fEvtHeader;}
@@ -36,6 +35,9 @@ public:
   DmpEvtSimPrimaryParticle* GetPrimaryParticle() const {return fPrimaryParticle;}
   void UpdatePrimaryParticleInformation(const G4Event*);    // invoked from GeneratePrimaries()
   void Digitize();              // invoked from EndOfEventAction(), before FillEvent()
+
+private:
+  void ResetEvent();            // delete all elements in TClonesArray
 
 private:
   DmpEvtSimPrimaryParticle  *fPrimaryParticle;

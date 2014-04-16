@@ -18,12 +18,11 @@
 #include "DmpServiceManager.h"
 
 //-------------------------------------------------------------------
-void DmpCore::SimExecute(const std::string &inData){
-  ((DmpSimSvcDataMgr*)gDmpSvcMgr->Get("Sim/DataMgr"))->InputData(inData);
+void DmpCore::SimExecute(){
+  std::string inData = ((DmpSimSvcDataMgr*)gDmpSvcMgr->Get("Sim/DataMgr"))->InputData();
   // UI interface manager
   G4UImanager *uiMgr = G4UImanager::GetUIpointer();
-  if(inData == "visual"){
-    // interactive mode : define UI session
+  if(inData == "no"){   // interactive mode: define UI session
 #ifdef G4UI_USE
     char *dummyargv[20]={"visual"};
     G4UIExecutive *ui = new G4UIExecutive(1,dummyargv);

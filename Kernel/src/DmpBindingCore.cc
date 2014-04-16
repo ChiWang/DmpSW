@@ -63,9 +63,11 @@ struct DmpVDataMgrWrapper : public DmpVDataMgr, boost::python::wrapper<DmpVDataM
   void BookBranch(){
     this->get_override("BookBranch")();
   }
+  /*
   void ResetEvent(){
     this->get_override("ResetEvent")();
   }
+  */
 };
 
 //-------------------------------------------------------------------
@@ -97,7 +99,7 @@ BOOST_PYTHON_MODULE(libDmpCore){
   // DmpVDataMgr
   class_<DmpVDataMgrWrapper,boost::noncopyable>("DmpVDataMgr",init<>())
     .def("BookBranch",  pure_virtual(&DmpVDataMgr::BookBranch))
-    .def("ResetEvent",  pure_virtual(&DmpVDataMgr::ResetEvent))
+    //.def("ResetEvent",  pure_virtual(&DmpVDataMgr::ResetEvent))
   ;
   // DmpVAlg
   class_<DmpVAlgWrapper,boost::noncopyable>("DmpVAlg",init<std::string>())

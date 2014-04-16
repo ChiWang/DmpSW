@@ -7,10 +7,8 @@
 #ifndef DmpSimEntrance_H
 #define DmpSimEntrance_H
 
-#include <string>
-
 namespace DmpCore{
-  void SimExecute(const std::string&);        // run a macro file and save result into root file
+  void SimExecute();
 }
 
 #endif

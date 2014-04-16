@@ -18,7 +18,7 @@
 
 //-------------------------------------------------------------------
 DmpRdcSvcDataMgr::DmpRdcSvcDataMgr()
- :DmpVIOSvc("DmpRdcDataMgr"),
+ :DmpVSvc("Rdc/DataMgr"),
   fEvtHeader(0),
   fPsdOutSet(0),
   fStkOutSet(0),
@@ -45,14 +45,14 @@ DmpRdcSvcDataMgr::~DmpRdcSvcDataMgr(){
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcSvcDataMgr::InputData(const std::string &dataName){
+bool DmpRdcSvcDataMgr::SetInputData(const std::string &dataName){
   gInDataStream.open(dataName.c_str(),std::ios::in|std::ios::binary);
-  DmpVIOSvc::InputData(dataName);
   if(not gInDataStream.good()){
     std::cerr<<"\nwarning: open "<<dataName<<" failed"<<std::endl;
     gInDataStream.close();
     return false;
   }
+  DmpVDataMgr::SetInputData(dataName);
   return true;
 }
 
@@ -73,7 +73,7 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 //-------------------------------------------------------------------
 void DmpRdcSvcDataMgr::FillEvent(){
   fEvtHeader->GenerateTriggerStatus();
-  DmpVIOSvc::FillEvent();
+  DmpVDataMgr::FillEvent();
 }
 
 //-------------------------------------------------------------------

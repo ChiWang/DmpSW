@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpSim, 2014-04-16 11:43:23 chi $
+ *  $Id: JobOpt_DmpSim, 2014-04-16 15:58:34 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
  *-----------------------------------------------------
@@ -31,7 +31,7 @@ simBoot.SetSubDet(DmpCore.DmpEDetectorID.kPsd,"Gdml",prefix+"/share/Geometry/Psd
 #simBoot.SetSubDet(DmpCore.DmpEDetectorID.kStk,"Gdml",prefix+"/share/Geometry/Stk/Quarter")   # if NOT set, will not construct this subDet
 simBoot.SetSubDet(DmpCore.DmpEDetectorID.kBgo,"Gdml",prefix+"/share/Geometry/Bgo/Quarter")
 #simBoot.SetSubDet(DmpCore.DmpEDetectorID.kNud,"Gdml",prefix+"/share/Geometry/Nud/Quarter")
-#simBoot.SetSubDet(DmpCore.DmpEDetectorID.kPsd,"Offset",-80)            # if NOT set, will use the defaulted value
+simBoot.SetSubDet(DmpCore.DmpEDetectorID.kPsd,"Offset","-60")            # if NOT set, will use the defaulted value
 
 #-------------------------------------------------------------------
 # Create Algorithm
@@ -48,13 +48,13 @@ gDmpSvcMgr.Initialize()
 
 #-------------------------------------------------------------------
 # Run job
-    ##  Start to run this job (Execute()). Also could use Set("OutDataPath") between 2 Execute()
-for i in range(2):
+    ##  Start to run this job (Execute())
+for i in range(2):  # could start a new run, without deleting physics list, detector construction and all user actions.
     note='run-%d'%i
-    simDataMgr.Set("OutDataNote",note)  # append note for the next output data. NOT set is okay
-    DmpSim.Execute(prefix+"/share/TestRelease/Ex_electron.mac")
-#DmpSim.Execute(prefix+"/share/TestRelease/Ex_proton.mac")     # start a new run, without deleting physics list, detector construction and all user actions.
-#DmpSim.Execute("visual")                # open visual mode, if you don't want to use batch mode as above(input a macro file name in Execute()).
+    simDataMgr.Set("InData",prefix+"/share/TestRelease/Ex_electron.mac")
+    simDataMgr.Set("OutDataNote",note)  # append note for the next output data. NOT set is okay. Also could use Set("OutDataPath")
+    DmpSim.Execute()
+#DmpSim.Execute()                # run visual mode. if NOT set a input macro file by simDataMgr.Set("InData",aFile)
 
 #-------------------------------------------------------------------
 # Quit DmpCore

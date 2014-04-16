@@ -53,6 +53,8 @@ void DmpSimSvcDataMgr::Set(const std::string &type, const std::string &argv){
     SetOutDataPath(argv);
   }else if(type == "OutDataNote"){
     AppendDataNote(argv);
+  }else if(type == "InData"){
+    SetInputData(argv);
   }
 }
 

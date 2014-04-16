@@ -45,6 +45,7 @@ void DmpVDataMgr::SaveOutput(){
   delete fOutDataTree;
   delete aFile;
   fNote = "no";
+  fInData = "no";
 }
 
 //-------------------------------------------------------------------

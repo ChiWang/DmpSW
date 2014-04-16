@@ -16,6 +16,7 @@ class DmpRdcVAlgSubDet : public DmpVAlg{
 /*
  *  DmpRdcVAlgSubDet
  *
+ *      if you want to create a new RdcAlg for your subDet, derive from this class
  *
  */
 public:

@@ -8,36 +8,36 @@
 #define DmpRdcSvcDataMgr_H
 
 #include <fstream>
-#include "DmpVIOSvc.h"
+#include "DmpVDataMgr.h"
+#include "DmpVSvc.h"
 #include "DmpDetectorID.h"
 
 class DmpEvtHeader;
 class TClonesArray;
 
-class DmpRdcSvcDataMgr : public DmpVIOSvc{
+class DmpRdcSvcDataMgr : public DmpVSvc, public DmpVDataMgr{
 /*
  *  DmpRdcSvcDataMgr
  *
  *
 */
 public:
-  static DmpRdcSvcDataMgr* GetInstance(){
-    static DmpRdcSvcDataMgr instance;
-    return &instance;
-  }
+  DmpRdcSvcDataMgr();
   ~DmpRdcSvcDataMgr();
-  bool InputData(const std::string&);
+  bool Initialize() {return true;}
+  bool Finalize()   {return true;}
+  void Set(const std::string&, const std::string&);
   void BookBranch();
   void FillEvent();
-
-private:
-  DmpRdcSvcDataMgr();
-  void ResetEvent();            // delete all elements in TClonesArray
 
 public:
   std::ifstream gInDataStream;  // inFile stream. update it for every binary data
   DmpEvtHeader* GetEventHeader() const {return fEvtHeader;}
   TClonesArray* GetOutCollection(DmpDetector::DmpEDetectorID) const;
+
+private:
+  bool SetInputData(const std::string&);
+  void ResetEvent();            // delete all elements in TClonesArray
 
 private:
   DmpEvtHeader      *fEvtHeader;
@@ -46,9 +46,6 @@ private:
   TClonesArray      *fStkOutSet;
   TClonesArray      *fNudOutSet;
 };
-
-//-------------------------------------------------------------------
-extern DmpRdcSvcDataMgr    *gRdcDataMgr;
 
 #endif
 
