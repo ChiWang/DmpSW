@@ -90,8 +90,8 @@ void DmpElementManager<DmpElement>::ListAllElements(){
 template<typename DmpElement>
 bool DmpElementManager<DmpElement>::Initialize(){
   for(typename std::list<DmpElement*>::iterator it = fElements.begin();it != fElements.end();++it){
-    std::cout<<"\t\t ii name : "<<(*it)->Name()<<std::endl;
     if(not (*it)->Initialize()){
+      std::cout<<"Error: Initialize "<<(*it)->Name()<<" false"<<std::endl;
       return false;
     }
   }

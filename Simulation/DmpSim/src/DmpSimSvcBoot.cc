@@ -19,10 +19,9 @@ DmpSimSvcBoot::DmpSimSvcBoot()
   fRunMgr(0),
   fDetector(0),
   fPhyFactory(0),
-  fPhyList(0),
   fPhyListName("QGSP_BIC")
 {
-  fDetector = new DmpSimDetector();     // NOT delete it in destructot, since G4RunManager will delete it 
+  fDetector = new DmpSimDetector(); // must create it at here, since will set option before Initialize(). Do NOT "delete fDetector" in destructor, fRunMgr will delete it
 }
 
 //-------------------------------------------------------------------
@@ -46,13 +45,27 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 #endif
   fRunMgr = new G4RunManager();
   fPhyFactory = new G4PhysListFactory();
+  // NOT delete them in destructor, since G4RunManager will delete them
   fRunMgr->SetUserInitialization(fDetector);
   fRunMgr->SetUserInitialization(fPhyFactory->GetReferencePhysList(fPhyListName));
   fRunMgr->Initialize();
-  fRunMgr->SetUserAction(new DmpSimPrimaryGeneratorAction);      // only Primary Generator is mandatory
-  fRunMgr->SetUserAction(new DmpSimRunAction);
-  fRunMgr->SetUserAction(new DmpSimEventAction);
-  fRunMgr->SetUserAction(new DmpSimTrackingAction);
+  fPriGen = new DmpSimPrimaryGeneratorAction();
+  if(not fPriGen->Initialize()){
+    return false;
+  }
+  fRunAct = new DmpSimRunAction();
+  if(not fRunAct->Initialize()){
+    return false;
+  }
+  fEvtAct = new DmpSimEventAction();
+  if(not fEvtAct->Initialize()){
+    return false;
+  }
+  fTrcAct = new DmpSimTrackingAction();
+  fRunMgr->SetUserAction(fPriGen);      // only Primary Generator is mandatory
+  fRunMgr->SetUserAction(fRunAct);
+  fRunMgr->SetUserAction(fEvtAct);
+  fRunMgr->SetUserAction(fTrcAct);
   return true;
 }
 

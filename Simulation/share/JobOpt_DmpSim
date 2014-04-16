@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpSim, 2014-04-15 16:58:58 chi $
+ *  $Id: JobOpt_DmpSim, 2014-04-16 11:43:23 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
  *-----------------------------------------------------
@@ -18,38 +18,44 @@ if os.environ['DMPSWSYS'] not in sys.path:
 import libDmpCore as DmpCore
 import libDmpSim as  DmpSim
 
-# Set DmpCore
-    ##  Set Algorithm
+#-------------------------------------------------------------------
+# Create Service
+simDataMgr = DmpSim.DmpSimSvcDataMgr()
+simDataMgr.Set("OutDataPath","./test")      # where to save the output. If NOT set will use "./" by defualt
 
-    ##  Set Service
-gDmpSvcMgr = DmpCore.DmpServiceManager.GetInstance()
-svcList = [DmpSim.DmpSimSvcDataMgr(),
-           DmpSim.DmpSimSvcBoot()]
-for aSvc in svcList:
-    gDmpSvcMgr.Append(aSvc)
+simBoot = DmpSim.DmpSimSvcBoot()
+simBoot.Set("Physics","QGSP_BERT")    # or, QGSP_BERT. If NOT set, will use QGSP_BIC. argv = {QGSP_BERT}
+simBoot.Set("Satellite/Gdml",prefix+"/share/Geometry/Sat/Quarter")           # must add satellite gdml files, if NOT set gdml path for subDet, will not construct it
+simBoot.SetSubDet(DmpCore.DmpEDetectorID.kPsd,"Gdml",prefix+"/share/Geometry/Psd/Quarter")
+#simBoot.SetSubDet(DmpCore.DmpEDetectorID.kStk,"Gdml",prefix+"/share/Geometry/Stk/Quarter")   # if NOT set, will not construct this subDet
+simBoot.SetSubDet(DmpCore.DmpEDetectorID.kBgo,"Gdml",prefix+"/share/Geometry/Bgo/Quarter")
+#simBoot.SetSubDet(DmpCore.DmpEDetectorID.kNud,"Gdml",prefix+"/share/Geometry/Nud/Quarter")
+#simBoot.SetSubDet(DmpCore.DmpEDetectorID.kPsd,"Offset",-80)            # if NOT set, will use the defaulted value
 
-# Set options for this job
-svcList[0].Set("OutDataPath","./test")      # where to save the output. If NOT set will use "./" by defualt
-svcList[1].Set("Physics","QGSP_BERT")    # or, QGSP_BERT. If NOT set, will use QGSP_BIC. argv = {QGSP_BERT}
-svcList[1].Set("Satellite/Gdml",prefix+"/share/Geometry/Sat/Quarter")           # must add satellite gdml files, if NOT set gdml path for subDet, will not construct it
-svcList[1].SetSubDet(DmpCore.DmpEDetectorID.kPsd,"Gdml",prefix+"/share/Geometry/Psd/Quarter")
-#svcList[1].SetSubDet(DmpCore.DmpEDetectorID.kStk,"Gdml",prefix+"/share/Geometry/Stk/Quarter")   # if NOT set, will not construct this subDet
-svcList[1].SetSubDet(DmpCore.DmpEDetectorID.kBgo,"Gdml",prefix+"/share/Geometry/Bgo/Quarter")
-#svcList[1].SetSubDet(DmpCore.DmpEDetectorID.kNud,"Gdml",prefix+"/share/Geometry/Nud/Quarter")
-#svcList[1].SetSubDet(DmpCore.DmpEDetectorID.kPsd,"Offset",-80)            # if NOT set, will use the defaulted value
+#-------------------------------------------------------------------
+# Create Algorithm
 
+
+#-------------------------------------------------------------------
 # RUN DmpCore
+    ##  Service Manager
+gDmpSvcMgr = DmpCore.DmpServiceManager.GetInstance()
+gDmpSvcMgr.Append(simBoot)
+gDmpSvcMgr.Append(simDataMgr)
 gDmpSvcMgr.Initialize()
+    ##  Algorithm Manager
 
+#-------------------------------------------------------------------
 # Run job
     ##  Start to run this job (Execute()). Also could use Set("OutDataPath") between 2 Execute()
 for i in range(2):
     note='run-%d'%i
-    svcList[0].Set("OutDataNote",note)  # append note for the next output data. NOT set is okay
-    #DmpSim.Execute(prefix+"/share/TestRelease/Ex_electron.mac")
+    simDataMgr.Set("OutDataNote",note)  # append note for the next output data. NOT set is okay
+    DmpSim.Execute(prefix+"/share/TestRelease/Ex_electron.mac")
 #DmpSim.Execute(prefix+"/share/TestRelease/Ex_proton.mac")     # start a new run, without deleting physics list, detector construction and all user actions.
 #DmpSim.Execute("visual")                # open visual mode, if you don't want to use batch mode as above(input a macro file name in Execute()).
 
+#-------------------------------------------------------------------
 # Quit DmpCore
 gDmpSvcMgr.Finalize()
 

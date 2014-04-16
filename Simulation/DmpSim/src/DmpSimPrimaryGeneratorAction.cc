@@ -17,16 +17,23 @@ DmpSimPrimaryGeneratorAction::DmpSimPrimaryGeneratorAction()
   fGPS = new G4GeneralParticleSource();
   //fGPS->SetNumberOfParticles(1);
   //fGPS->SetParticleDefinition(particle);
-  fDataMgr = (DmpSimSvcDataMgr*)gDmpSvcMgr->Get("Sim/DataManager");
 }
 
+//-------------------------------------------------------------------
 DmpSimPrimaryGeneratorAction::~DmpSimPrimaryGeneratorAction(){
   delete fGPS;
 }
 
+//-------------------------------------------------------------------
 void DmpSimPrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent){
 //std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
   fGPS->GeneratePrimaryVertex(anEvent);
   fDataMgr->UpdatePrimaryParticleInformation(anEvent);
+}
+
+//-------------------------------------------------------------------
+bool DmpSimPrimaryGeneratorAction::Initialize(){
+  fDataMgr = (DmpSimSvcDataMgr*)gDmpSvcMgr->Get("Sim/DataMgr");
+  return fDataMgr;
 }
 

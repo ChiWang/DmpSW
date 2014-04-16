@@ -51,7 +51,7 @@ DmpSimDetector::~DmpSimDetector(){
 G4VPhysicalVolume* DmpSimDetector::Construct(){
   char *dirTmp = getcwd(NULL,NULL);
   if(fSatGdmlPath == "default"){
-     G4cout<<"Error: must setup detector in job option file. DmpSim.SetGdmlPath(DmpDetector.DmpEDetectorID.WhichID,GdmlFilePath)"<<G4endl;
+     G4cout<<"Error: must setup detector in job option file. SetSatGdml(type,GdmlFilePath)"<<G4endl;
      return 0;
   }else{
     chdir(fSatGdmlPath.c_str());

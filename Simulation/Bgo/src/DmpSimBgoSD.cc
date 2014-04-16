@@ -31,7 +31,7 @@ void DmpSimBgoSD::Initialize(G4HCofThisEvent*){
 //-------------------------------------------------------------------
 #include <boost/lexical_cast.hpp>
 G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
-  static TClonesArray *fMSDSet = ((DmpSimSvcDataMgr*)gDmpSvcMgr->Get("Sim/DataManager"))->GetOutCollection(DmpDetector::kBgo);
+  static TClonesArray *fMSDSet = ((DmpSimSvcDataMgr*)gDmpSvcMgr->Get("Sim/DataMgr"))->GetOutCollection(DmpDetector::kBgo);
   G4TouchableHistory *theTouchable = (G4TouchableHistory*)(aStep->GetPreStepPoint()->GetTouchable());
   std::string barName = theTouchable->GetVolume()->GetName();
   barName.assign(barName.end()-4,barName.end());        // get ID

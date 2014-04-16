@@ -19,6 +19,10 @@ public:
   void BeginOfRunAction(const G4Run*);
   void EndOfRunAction(const G4Run*);
   
+public:
+  bool Initialize();
+  bool Finalize()   {return true;}
+
 private:
   DmpSimSvcDataMgr  *fDataMgr;
 };

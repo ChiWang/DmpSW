@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimRunAction.cc, 2014-04-06 14:35:54 chi $
+ *  $Id: DmpSimRunAction.cc, 2014-04-16 11:15:19 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 04/03/2014
 */
@@ -21,7 +21,6 @@ DmpSimRunAction::DmpSimRunAction()
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
-  fDataMgr = (DmpSimSvcDataMgr*)gDmpSvcMgr->Get("Sim/DataManager");
 }
 
 //-------------------------------------------------------------------
@@ -65,6 +64,16 @@ void DmpSimRunAction::EndOfRunAction(const G4Run* aRun){
     CLHEP::HepRandom::showEngineStatus();
   }     
   ***/
+}
+
+//-------------------------------------------------------------------
+bool DmpSimRunAction::Initialize(){
+/*
+ *  if get fDataMgr from gDmpSvcMgr in Constructor, must create service in strict order. So, better get it in Initialize()
+ *
+ */
+  fDataMgr = (DmpSimSvcDataMgr*)gDmpSvcMgr->Get("Sim/DataMgr");
+  return fDataMgr;
 }
 
 

@@ -10,9 +10,12 @@
 #include "DmpVSvc.h"
 
 class G4RunManager;
-class DmpSimDetector;
 class G4PhysListFactory;
-class G4VUserPhysicsList;
+class DmpSimDetector;
+class DmpSimPrimaryGeneratorAction;
+class DmpSimRunAction;
+class DmpSimEventAction;
+class DmpSimTrackingAction;
 
 class DmpSimSvcBoot : public DmpVSvc{
 /*
@@ -45,10 +48,13 @@ public:
 
 private:
   G4RunManager          *fRunMgr;
-  DmpSimDetector        *fDetector;
   G4PhysListFactory     *fPhyFactory;
-  G4VUserPhysicsList    *fPhyList;
   std::string           fPhyListName;       // default is QGSP_BIC
+  DmpSimDetector        *fDetector;
+  DmpSimPrimaryGeneratorAction *fPriGen;
+  DmpSimRunAction       *fRunAct;
+  DmpSimEventAction     *fEvtAct;
+  DmpSimTrackingAction  *fTrcAct;
 
 };
 

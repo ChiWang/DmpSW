@@ -19,6 +19,10 @@ public:
   void BeginOfEventAction(const G4Event*);
   void EndOfEventAction(const G4Event*);
 
+public:
+  bool Initialize();
+  bool Finalize()   {return true;}
+
 private:
   DmpSimSvcDataMgr  *fDataMgr;
   

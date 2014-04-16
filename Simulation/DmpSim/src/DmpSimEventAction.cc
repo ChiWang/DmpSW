@@ -31,7 +31,6 @@ DmpSimEventAction::DmpSimEventAction()
 #ifdef DmpDebug
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
-  fDataMgr = (DmpSimSvcDataMgr*)gDmpSvcMgr->Get("Sim/DataManager");
 // *
 // *  TODO: add digitizer here
 // *
@@ -63,4 +62,11 @@ void DmpSimEventAction::EndOfEventAction(const G4Event *anEvent){
   fDataMgr->Digitize();
   fDataMgr->FillEvent();
 }
+
+//-------------------------------------------------------------------
+bool DmpSimEventAction::Initialize(){
+  fDataMgr = (DmpSimSvcDataMgr*)gDmpSvcMgr->Get("Sim/DataMgr");
+  return fDataMgr;
+}
+
 
