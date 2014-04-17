@@ -36,20 +36,20 @@ protected:
   virtual void AppendThisSignal(const int&,const float&)=0;
 
 protected:
-  std::ifstream     *fFile;
-  DmpRdcSvcLog      *fLog;
-  std::string       fConnectorPath;     // where to read cnct files
-  std::map<int,int> fConnector;         // for all input datas
+  static std::ifstream  *fFile;
+  static DmpRdcSvcLog   *fLog;
+  static DmpEvtHeader   *fEvtHeader;
+
+protected:
+  std::string           fConnectorPath;     // where to read cnct files
+  std::map<int,int>     fConnector;         // for all input datas
     /*
      * Connector: FEE channel <--> Detector
      * fConnector[FEEID*1000+ChannelID][LBSD_ID]
      * LBSD_ID = Layer_id*10000+Bar_id*100+Side_id*10+Dy_id
      *
     */
-
-protected:
-  DmpEvtHeader      *fEvtHeader;
-  TClonesArray      *fMSDSet;           // initialize it in concrete class
+  TClonesArray          *fMSDSet;           // initialize it in concrete class
 
 };
 

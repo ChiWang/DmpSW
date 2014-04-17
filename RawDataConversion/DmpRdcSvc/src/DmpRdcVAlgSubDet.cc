@@ -10,12 +10,14 @@
 #include "DmpRdcVAlgSubDet.h"
 
 //-------------------------------------------------------------------
+std::ifstream* DmpRdcVAlgSubDet::fFile = 0;
+DmpRdcSvcLog*  DmpRdcVAlgSubDet::fLog = 0;
+DmpEvtHeader*  DmpRdcVAlgSubDet::fEvtHeader = 0;
+
+//-------------------------------------------------------------------
 DmpRdcVAlgSubDet::DmpRdcVAlgSubDet(const std::string &n)
  :DmpVAlg(n),
-  fFile(0),
-  fLog(0),
   fConnectorPath("no"),
-  fEvtHeader(0),
   fMSDSet(0)
 {
 }

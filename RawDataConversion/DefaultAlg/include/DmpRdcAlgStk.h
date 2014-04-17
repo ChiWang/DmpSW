@@ -17,6 +17,7 @@ public:
   bool ProcessThisEvent();           // convert one event
 
 private:
+  bool SetupConnector();
   void AppendThisSignal(const int&,const float&);
 
 };

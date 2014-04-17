@@ -15,7 +15,9 @@ class DmpRdcAlgBgo : public DmpRdcVAlgSubDet{
  *
  *      This is the default Rdc Alg of Bgo
  *
- *      User could write a new one, and append it into DmpAlgMgr in JobOpt file. Then, could run the new Alg.
+ *      User could write a new one, and
+ *      append it into DmpAlgMgr in JobOpt file. Then,
+ *      could run the new Alg.
  *
  */
 public:
