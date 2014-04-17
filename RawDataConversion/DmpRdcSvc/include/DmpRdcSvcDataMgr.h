@@ -31,12 +31,12 @@ public:
   void FillEvent();
 
 public:
+  bool OpenInputData();
   std::ifstream* InFileStream() {return fInDataStream;}
   DmpEvtHeader* GetEventHeader() const {return fEvtHeader;}
   TClonesArray* GetOutCollection(DmpDetector::DmpEDetectorID) const;
 
 private:
-  bool SetInputData(const std::string&);
   void ResetEvent();            // delete all elements in TClonesArray
 
 private:
@@ -48,6 +48,7 @@ private:
   TClonesArray      *fBgoOutSet;
   TClonesArray      *fStkOutSet;
   TClonesArray      *fNudOutSet;
+
 };
 
 #endif

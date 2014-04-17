@@ -45,18 +45,14 @@ DmpRdcSvcDataMgr::~DmpRdcSvcDataMgr(){
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcSvcDataMgr::SetInputData(const std::string &dataName){
-  if(fInDataStream->is_open()){
-    fInDataStream->close();
+void DmpRdcSvcDataMgr::Set(const std::string &type, const std::string &argv){
+  if(type == "OutDataPath"){
+    SetOutDataPath(argv);
+  }else if(type == "OutDataNote"){
+    AppendDataNote(argv);
+  }else if(type == "InData"){
+    SetInputData(argv);
   }
-  fInDataStream->open(dataName.c_str(),std::ios::in|std::ios::binary);
-  if(not fInDataStream->good()){
-    std::cerr<<"\nwarning: open "<<dataName<<" failed"<<std::endl;
-    fInDataStream->close();
-    return false;
-  }
-  DmpVDataMgr::SetInputData(dataName);
-  return true;
 }
 
 //-------------------------------------------------------------------
@@ -77,6 +73,20 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
 void DmpRdcSvcDataMgr::FillEvent(){
   fEvtHeader->GenerateTriggerStatus();
   DmpVDataMgr::FillEvent();
+}
+
+//-------------------------------------------------------------------
+bool DmpRdcSvcDataMgr::OpenInputData(){
+  if(fInDataStream->is_open()){
+    fInDataStream->close();
+  }
+  fInDataStream->open(InputData().c_str(),std::ios::in|std::ios::binary);
+  if(not fInDataStream->good()){
+    std::cerr<<"\nwarning: open "<<InputData()<<" failed"<<std::endl;
+    fInDataStream->close();
+    return false;
+  }
+  return true;
 }
 
 //-------------------------------------------------------------------

@@ -20,21 +20,23 @@ class DmpRdcAlgHeader : public DmpVAlg{
  *
  *  This is the default algorithm of DmpRdcHeader.
  *
+ *  if, we re-write DmpEvtHeader, or
+ *  want to write a new Alg. for Header, write a class and override ProcessThisEvent()
  *
  */
 public:
   DmpRdcAlgHeader(const std::string&);
   virtual ~DmpRdcAlgHeader(){}
-  virtual bool Initialize();
+  bool Initialize();
+  bool Finalize() {return true;}
   virtual bool ProcessThisEvent();
-  virtual bool Finalize() {return true;}
 
 protected:
-  std::ifstream     *fFile;
-  DmpRdcSvcLog      *fLog;
+  std::ifstream     *fFile;             // in data stream, for all Alg. of subDet
+  DmpRdcSvcLog      *fLog;              // log status, for all Alg. of subDet
 
 protected:
-  DmpEvtHeader      *fEvtHeader;
+  DmpEvtHeader      *fEvtHeader;        //
 
 };
 

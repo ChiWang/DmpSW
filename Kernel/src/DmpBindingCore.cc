@@ -9,6 +9,7 @@
 #include "DmpRunMode.h"
 #include "DmpVSvc.h"    // included DmpDetectorID.h
 #include "DmpVDataMgr.h"
+#include "DmpVLog.h"
 #include "DmpVAlg.h"
 #include "DmpAlgorithmManager.h"
 #include "DmpServiceManager.h"
@@ -63,11 +64,13 @@ struct DmpVDataMgrWrapper : public DmpVDataMgr, boost::python::wrapper<DmpVDataM
   void BookBranch(){
     this->get_override("BookBranch")();
   }
-  /*
-  void ResetEvent(){
-    this->get_override("ResetEvent")();
+};
+    // Wrap DmpVLog
+struct DmpVLogWrapper : public DmpVLog, boost::python::wrapper<DmpVLog>{
+  DmpVLogWrapper():DmpVLog(){}
+  void Type(const short &id)const{
+    this->get_override("Type")(id);
   }
-  */
 };
 
 //-------------------------------------------------------------------
@@ -99,7 +102,10 @@ BOOST_PYTHON_MODULE(libDmpCore){
   // DmpVDataMgr
   class_<DmpVDataMgrWrapper,boost::noncopyable>("DmpVDataMgr",init<>())
     .def("BookBranch",  pure_virtual(&DmpVDataMgr::BookBranch))
-    //.def("ResetEvent",  pure_virtual(&DmpVDataMgr::ResetEvent))
+  ;
+  // DmpVLog
+  class_<DmpVLogWrapper,boost::noncopyable>("DmpVLog",init<>())
+    .def("Type",    pure_virtual(&DmpVLog::Type))
   ;
   // DmpVAlg
   class_<DmpVAlgWrapper,boost::noncopyable>("DmpVAlg",init<std::string>())

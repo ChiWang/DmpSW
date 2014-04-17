@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgNud.h, 2014-04-17 09:10:34 chi $
+ *  $Id: DmpRdcAlgNud.h, 2014-04-17 10:56:27 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
@@ -23,11 +23,10 @@ class DmpRdcAlgNud : public DmpRdcVAlgSubDet{
 public:
   DmpRdcAlgNud();
   ~DmpRdcAlgNud();
-  bool Initialize();
-  bool ProcessThisEvent();  // convert one event
+  bool ProcessThisEvent();      // convert one event
   
 private:
-  bool SetupConnector();
+  bool InitializeSubDet();      // setup connector, etc.
   void AppendThisSignal(const int&,const float&);
 
 };

@@ -7,9 +7,8 @@
 #include <boost/python.hpp>
 
 // default service of Rdc
-#include "DmpRdcSvcOption.h"
-//#include "DmpRdcSvcLog.h"
-#include "DmpRdcEntrance.h"
+#include "DmpRdcSvcLog.h"
+#include "DmpRdcSvcDataMgr.h"
 // default algorithm of Rdc
 #include "DmpRdcAlgHeader.h"
 #include "DmpRdcAlgPsd.h"
@@ -17,21 +16,26 @@
 #include "DmpRdcAlgBgo.h"
 #include "DmpRdcAlgNud.h"
 
+#include "DmpRdcEntrance.h"
+
 BOOST_PYTHON_MODULE(libDmpRdc){
   using namespace boost::python;
 
-  // DmpRdcSvcOption
-  class_<DmpRdcSvcOption,boost::noncopyable,bases<DmpVOptionSvc> >("DmpRdcSvcOption",init<>());
-
+  // DmpRdcSvcLog
+  class_<DmpRdcSvcLog,boost::noncopyable,bases<DmpVSvc,DmpVLog> >("DmpRdcSvcLog",init<>());
+  // DmpRdcSvcDataMgr
+  class_<DmpRdcSvcDataMgr,boost::noncopyable,bases<DmpVDataMgr,DmpVSvc> >("DmpRdcSvcDataMgr",init<>());
+  // default algorithm
+// *
+// *  TODO: bases include DmpRdcVSubDet???
+// *
+  class_<DmpRdcAlgHeader,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgHeader",init<std::string>());
+  class_<DmpRdcAlgPsd,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgPsd",init<>());
+  class_<DmpRdcAlgStk,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgStk",init<>());
+  class_<DmpRdcAlgBgo,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgBgo",init<>());
+  class_<DmpRdcAlgNud,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgNud",init<>());
   // DmpRdcEntrance
   def("Execute",    DmpCore::RdcExecute);
-
-  // default algorithm
-  class_<DmpRdcAlgHeader,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgHeader",init<std::string>());
-  class_<DmpRdcAlgPsd,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgPsd",init<std::string>());
-  class_<DmpRdcAlgStk,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgStk",init<std::string>());
-  class_<DmpRdcAlgBgo,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgBgo",init<std::string>());
-  class_<DmpRdcAlgNud,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgNud",init<std::string>());
 }
 
 

@@ -9,15 +9,15 @@
 #include "DmpRdcSvcLog.h"
 #include "DmpRdcVAlgSubDet.h"
 
-//-------------------------------------------------------------------
-std::ifstream* DmpRdcVAlgSubDet::fFile = 0;
-DmpRdcSvcLog*  DmpRdcVAlgSubDet::fLog = 0;
-DmpEvtHeader*  DmpRdcVAlgSubDet::fEvtHeader = 0;
 
 //-------------------------------------------------------------------
 DmpRdcVAlgSubDet::DmpRdcVAlgSubDet(const std::string &n)
  :DmpVAlg(n),
+  fFile(0),
+  fLog(0),
+  fEvtHeader(0),
   fConnectorPath("no"),
+  fConnectorDone(false),
   fMSDSet(0)
 {
 }
@@ -30,20 +30,9 @@ bool DmpRdcVAlgSubDet::Initialize(){
   fFile = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->InFileStream();
   fLog = ((DmpRdcSvcLog*)gDmpSvcMgr->Get("Rdc/Log"));
   fEvtHeader = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->GetEventHeader();
-  if(not SetupConnector()){
+  if(not InitializeSubDet()){
     return false;
   }
-  return true;
-}
-
-//-------------------------------------------------------------------
-bool DmpRdcVAlgSubDet::ProcessThisEvent(){
-  if(fConnectorPath == "no") return true;
-  fLog->Type(0);
-//-------------------------------------------------------------------
-// set ProcessThisEvention method here
-//-------------------------------------------------------------------
-  fLog->Type(1);
   return true;
 }
 

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgBgo.cc, 2014-03-21 09:34:01 chi $
+ *  $Id: DmpRdcAlgBgo.cc, 2014-04-17 10:48:48 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
@@ -26,18 +26,11 @@ DmpRdcAlgBgo::~DmpRdcAlgBgo(){
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgBgo::Initialize(){
-  fMSDSet = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->GetOutCollection(DmpDetector::kBgo);
-  if(not DmpRdcVAlgSubDet::Initialize()){
-    return false;
-  }
-  return true;
-}
-
-//-------------------------------------------------------------------
 bool DmpRdcAlgBgo::ProcessThisEvent(){
-  if(fConnectorPath == "no") return true;
-  std::cout<<"\t"<<__PRETTY_FUNCTION__;
+  if(not fConnectorDone){
+    std::cout<<"Error:  Connector not set\t"<<__PRETTY_FUNCTION__<<std::endl;
+    return true;
+  }
   fLog->Type(0);
 //-------------------------------------------------------------------
   static short tmp=0, tmp2=0, nBytes=0;
@@ -86,12 +79,12 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
       }
     }else{
       for(short i=0;i<nBytes;i+=3){     // kCompress
-// *
-// *  TODO: fix me
-// *
         fFile->read((char*)(&tmp),1);
         fFile->read((char*)(&tmp),1);
         fFile->read((char*)(&tmp2),1);
+// *
+// *  TODO: open me
+// *
         //AppendThisSignal(fConnector[feeID*1000+i],tmp*256+tmp2);
       }
     }
@@ -108,7 +101,10 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
 //-------------------------------------------------------------------
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
-bool DmpRdcAlgBgo::SetupConnector(){
+bool DmpRdcAlgBgo::InitializeSubDet(){
+  // get TCloneArray of your subDet
+  fMSDSet = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->GetOutCollection(DmpDetector::kBgo);
+  // setup connector
   if(fConnectorPath == "no"){
     std::cout<<"\n\tNo set connector:\tBgo"<<std::endl;
     return false;
@@ -136,6 +132,7 @@ bool DmpRdcAlgBgo::SetupConnector(){
     }
     cnctFile.close();
   }
+  fConnectorDone = true;
   return true;
 }
 

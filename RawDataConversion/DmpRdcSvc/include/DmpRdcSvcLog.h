@@ -7,7 +7,7 @@
 #ifndef DmpRdcSvcLog_H
 #define DmpRdcSvcLog_H
 
-#include <ifstream>
+#include <fstream>
 
 #include "DmpVLog.h"
 #include "DmpVSvc.h"

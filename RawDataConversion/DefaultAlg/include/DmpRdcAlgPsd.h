@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgPsd.h, 2014-03-21 00:15:46 chi $
+ *  $Id: DmpRdcAlgPsd.h, 2014-04-17 10:56:32 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
@@ -10,14 +10,23 @@
 #include "DmpRdcVAlgSubDet.h"
 
 class DmpRdcAlgPsd : public DmpRdcVAlgSubDet{
+/*
+ *  DmpRdcAlgPsd
+ *
+ *      This is the default Rdc Alg of Psd
+ *
+ *      User could write a new one, and
+ *      append it into DmpAlgMgr in JobOpt file. Then,
+ *      could run the new Alg.
+ *
+ */
 public:
-  DmpRdcAlgPsd(const std::string&);
+  DmpRdcAlgPsd();
   ~DmpRdcAlgPsd();
-  bool Initialize();
-  bool ProcessThisEvent();           // convert one event
+  bool ProcessThisEvent();      // convert one event
 
 private:
-  bool SetupConnector();
+  bool InitializeSubDet();      // setup connector, etc.
   void AppendThisSignal(const int&,const float&);
 
 };

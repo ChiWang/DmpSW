@@ -23,11 +23,10 @@ class DmpRdcAlgBgo : public DmpRdcVAlgSubDet{
 public:
   DmpRdcAlgBgo();
   ~DmpRdcAlgBgo();
-  bool Initialize();
-  bool ProcessThisEvent();  // convert one event
+  bool ProcessThisEvent();      // convert one event
 
 private:
-  bool SetupConnector();
+  bool InitializeSubDet();      // setup connector, etc.
   void AppendThisSignal(const int&,const float&);
 
 };

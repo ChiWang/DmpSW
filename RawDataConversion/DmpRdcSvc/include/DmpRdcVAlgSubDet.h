@@ -7,7 +7,7 @@
 #ifndef DmpRdcVAlgSubDet_H
 #define DmpRdcVAlgSubDet_H
 
-#include <ifstream>
+#include <fstream>
 #include <map>
 
 #include "DmpVAlg.h"
@@ -26,21 +26,18 @@ class DmpRdcVAlgSubDet : public DmpVAlg{
 public:
   DmpRdcVAlgSubDet(const std::string&);
   virtual ~DmpRdcVAlgSubDet(){}
-  virtual bool Initialize();
-  virtual bool ProcessThisEvent();  // convert one event
-  virtual bool Finalize()  {return true;}
-  virtual void Set(const std::string &type,const std::string &argv);
+  bool Initialize();
+  bool Finalize()  {return true;}
+  void Set(const std::string &type,const std::string &argv);
 
 protected:
-  virtual bool SetupConnector()=0;
+  virtual bool InitializeSubDet()=0;        // setup connector, and so on
   virtual void AppendThisSignal(const int&,const float&)=0;
 
 protected:
-  static std::ifstream  *fFile;
-  static DmpRdcSvcLog   *fLog;
-  static DmpEvtHeader   *fEvtHeader;
-
-protected:
+  std::ifstream         *fFile;             // in data stream, for all Alg. of subDet
+  DmpRdcSvcLog          *fLog;              // log status, for all Alg. of subDet
+  DmpEvtHeader          *fEvtHeader;        // all subDet need it
   std::string           fConnectorPath;     // where to read cnct files
   std::map<int,int>     fConnector;         // for all input datas
     /*
@@ -49,7 +46,10 @@ protected:
      * LBSD_ID = Layer_id*10000+Bar_id*100+Side_id*10+Dy_id
      *
     */
-  TClonesArray          *fMSDSet;           // initialize it in concrete class
+  bool                  fConnectorDone;     // mark of Connector
+
+protected:
+  TClonesArray          *fMSDSet;           // initialize it in InitializeSubDet
 
 };
 
