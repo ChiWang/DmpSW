@@ -8,8 +8,6 @@
 
 #include "DmpRunMode.h"
 #include "DmpVSvc.h"    // included DmpDetectorID.h
-#include "DmpVDataMgr.h"
-#include "DmpVLog.h"
 #include "DmpVAlg.h"
 #include "DmpAlgorithmManager.h"
 #include "DmpServiceManager.h"
@@ -58,20 +56,6 @@ struct DmpVSvcWrapper : public DmpVSvc, boost::python::wrapper<DmpVSvc>{
     this->DmpVSvc::Set(type,argv);
   }
 };
-    // Wrap DmpVDataMgr
-struct DmpVDataMgrWrapper : public DmpVDataMgr, boost::python::wrapper<DmpVDataMgr>{
-  DmpVDataMgrWrapper():DmpVDataMgr(){}
-  void BookBranch(){
-    this->get_override("BookBranch")();
-  }
-};
-    // Wrap DmpVLog
-struct DmpVLogWrapper : public DmpVLog, boost::python::wrapper<DmpVLog>{
-  DmpVLogWrapper():DmpVLog(){}
-  void Type(const short &id)const{
-    this->get_override("Type")(id);
-  }
-};
 
 //-------------------------------------------------------------------
 BOOST_PYTHON_MODULE(libDmpCore){
@@ -99,14 +83,6 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .def("Set", &DmpVSvc::Set,  &DmpVSvcWrapper::Default_Set)
     .def("SetSubDet",   &DmpVSvc::SetSubDet)
   ;
-  // DmpVDataMgr
-  class_<DmpVDataMgrWrapper,boost::noncopyable>("DmpVDataMgr",init<>())
-    .def("BookBranch",  pure_virtual(&DmpVDataMgr::BookBranch))
-  ;
-  // DmpVLog
-  class_<DmpVLogWrapper,boost::noncopyable>("DmpVLog",init<>())
-    .def("Type",    pure_virtual(&DmpVLog::Type))
-  ;
   // DmpVAlg
   class_<DmpVAlgWrapper,boost::noncopyable>("DmpVAlg",init<std::string>())
     .def("Initialize",      pure_virtual(&DmpVAlg::Initialize))
@@ -119,21 +95,21 @@ BOOST_PYTHON_MODULE(libDmpCore){
     .def("GetInstance", &DmpAlgorithmManager::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
     .def("Append",  &DmpAlgorithmManager::Append)
-    .def("Replace", &DmpAlgorithmManager::Replace)
-    .def("Get",     &DmpAlgorithmManager::Get,return_value_policy<reference_existing_object>())
-    .def("ListAllElements",&DmpAlgorithmManager::ListAllElements)
+    //.def("Replace", &DmpAlgorithmManager::Replace)
+    //.def("Get",     &DmpAlgorithmManager::Get,return_value_policy<reference_existing_object>())
+    //.def("ListAllElements",&DmpAlgorithmManager::ListAllElements)
     .def("Initialize",  &DmpAlgorithmManager::Initialize)
     .def("Finalize",    &DmpAlgorithmManager::Finalize)
-    .def("Process",     &DmpAlgorithmManager::Process)
+    //.def("Process",     &DmpAlgorithmManager::Process)
   ;
   // DmpServiceManager
   class_<DmpServiceManager,boost::noncopyable>("DmpServiceManager",no_init)
     .def("GetInstance", &DmpServiceManager::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
     .def("Append",  &DmpServiceManager::Append)
-    .def("Replace", &DmpServiceManager::Replace)
-    .def("Get",     &DmpServiceManager::Get,return_value_policy<reference_existing_object>())
-    .def("ListAllElements",&DmpServiceManager::ListAllElements)
+    //.def("Replace", &DmpServiceManager::Replace)
+    //.def("Get",     &DmpServiceManager::Get,return_value_policy<reference_existing_object>())
+    //.def("ListAllElements",&DmpServiceManager::ListAllElements)
     .def("Initialize",  &DmpServiceManager::Initialize)
     .def("Finalize",    &DmpServiceManager::Finalize)
   ;

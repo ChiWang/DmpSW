@@ -20,6 +20,7 @@ DmpRdcVAlgSubDet::DmpRdcVAlgSubDet(const std::string &n)
   fConnectorDone(false),
   fMSDSet(0)
 {
+std::cout<<"DEBUG: name: "<<n<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 }
 
 //-------------------------------------------------------------------

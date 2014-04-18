@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpBindingRdc.cc, 2014-04-10 11:01:47 chi $
+ *  $Id: DmpBindingRdc.cc, 2014-04-18 14:33:35 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
@@ -22,13 +22,10 @@ BOOST_PYTHON_MODULE(libDmpRdc){
   using namespace boost::python;
 
   // DmpRdcSvcLog
-  class_<DmpRdcSvcLog,boost::noncopyable,bases<DmpVSvc,DmpVLog> >("DmpRdcSvcLog",init<>());
+  class_<DmpRdcSvcLog,boost::noncopyable,bases<DmpVSvc> >("DmpRdcSvcLog",init<>());
   // DmpRdcSvcDataMgr
-  class_<DmpRdcSvcDataMgr,boost::noncopyable,bases<DmpVDataMgr,DmpVSvc> >("DmpRdcSvcDataMgr",init<>());
+  class_<DmpRdcSvcDataMgr,boost::noncopyable,bases<DmpVSvc> >("DmpRdcSvcDataMgr",init<>());
   // default algorithm
-// *
-// *  TODO: bases include DmpRdcVSubDet???
-// *
   class_<DmpRdcAlgHeader,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgHeader",init<std::string>());
   class_<DmpRdcAlgPsd,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgPsd",init<>());
   class_<DmpRdcAlgStk,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgStk",init<>());
@@ -36,6 +33,7 @@ BOOST_PYTHON_MODULE(libDmpRdc){
   class_<DmpRdcAlgNud,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgNud",init<>());
   // DmpRdcEntrance
   def("Execute",    DmpCore::RdcExecute);
+
 }
 
 
