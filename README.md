@@ -11,7 +11,7 @@ DAMPE Offline Software for **Beam Test 2012**
 
 DMPSW will uses tools Root, Geant4 and SCons.
 
-Install ROOT
+Install ROOT new
 
         1) download root_v5.34.09.source.tar.gz from http://root.cern.ch/drupal/content/production-version-534
         
