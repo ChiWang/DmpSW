@@ -20,11 +20,6 @@ public:
   virtual void Type(const short&) const=0;      // log type
 
 protected:
-  void SetLevel(const short &i){
-    fLevel = i;
-  }
-
-private:
   short fLevel;
 
 };

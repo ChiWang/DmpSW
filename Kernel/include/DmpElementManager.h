@@ -26,7 +26,7 @@ public:
   DmpElement* Get(const std::string&);
 
 protected:
-  std::string Name() const {return fName;}
+  const std::string& Name() const {return fName;}
 
 protected:
   std::list<DmpElement*>    fElements;
@@ -72,9 +72,9 @@ void DmpElementManager<DmpElement>::Replace(DmpElement *aEle){
 //-------------------------------------------------------------------
 template<typename DmpElement>
 void DmpElementManager<DmpElement>::Append(DmpElement *aEle){
-  std::cout<<fName<<": Appending Element "<<aEle->Name();
+  std::cout<<fName<<":\tappend \t"<<aEle->Name();
   fElements.push_back(aEle);
-  std::cout<<"\t\tSucc."<<std::endl;
+  std::cout<<"\t\tdone"<<std::endl;
 }
 
 //-------------------------------------------------------------------
@@ -91,7 +91,7 @@ template<typename DmpElement>
 bool DmpElementManager<DmpElement>::Initialize(){
   for(typename std::list<DmpElement*>::iterator it = fElements.begin();it != fElements.end();++it){
     if(not (*it)->Initialize()){
-      std::cout<<"Error: Initialize "<<(*it)->Name()<<" false"<<std::endl;
+      std::cout<<"Error: Initialize "<<(*it)->Name()<<" failed"<<std::endl;
       return false;
     }
   }

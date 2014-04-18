@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcSvcDataMgr.cc, 2014-04-10 21:24:55 chi $
+ *  $Id: DmpRdcSvcDataMgr.cc, 2014-04-18 10:30:26 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -25,7 +25,6 @@ DmpRdcSvcDataMgr::DmpRdcSvcDataMgr()
   fBgoOutSet(0),
   fNudOutSet(0)
 {
-  std::cout<<"Setting DmpRdcSvcDataMgr"<<std::endl;
   SetPackageID("Rdc_V1.0_");
   fEvtHeader = new DmpEvtHeader();
   fPsdOutSet = new TClonesArray("DmpEvtPsdMSD",300);
@@ -36,7 +35,6 @@ DmpRdcSvcDataMgr::DmpRdcSvcDataMgr()
 
 //-------------------------------------------------------------------
 DmpRdcSvcDataMgr::~DmpRdcSvcDataMgr(){
-  std::cout<<"Delete DmpRdcSvcDataMgr"<<std::endl;
   delete fEvtHeader;
   fPsdOutSet->Delete(); fPsdOutSet->Clear(); delete fPsdOutSet;
   fStkOutSet->Delete(); fStkOutSet->Clear(); delete fStkOutSet;
@@ -58,7 +56,7 @@ void DmpRdcSvcDataMgr::Set(const std::string &type, const std::string &argv){
 //-------------------------------------------------------------------
 void DmpRdcSvcDataMgr::BookBranch(){
 #ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+std::cout<<"\n\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
   fEvtHeader->Initialize();
   fOutDataTree = new TTree("DAMPE_Raw","ADC");
@@ -77,13 +75,15 @@ void DmpRdcSvcDataMgr::FillEvent(){
 
 //-------------------------------------------------------------------
 bool DmpRdcSvcDataMgr::OpenInputData(){
-  if(fInDataStream->is_open()){
-    fInDataStream->close();
+  if(fInDataStream.is_open()){
+    fInDataStream.close();
   }
-  fInDataStream->open(InputData().c_str(),std::ios::in|std::ios::binary);
-  if(not fInDataStream->good()){
+  //std::string dataName = InputData();
+  //std::cout<<InputData()<<std::endl;
+  fInDataStream.open(InputData().c_str(),std::ios::in|std::ios::binary);
+  if(not fInDataStream.good()){
     std::cerr<<"\nwarning: open "<<InputData()<<" failed"<<std::endl;
-    fInDataStream->close();
+    fInDataStream.close();
     return false;
   }
   return true;

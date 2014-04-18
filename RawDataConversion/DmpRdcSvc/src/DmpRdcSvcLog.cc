@@ -27,19 +27,35 @@ DmpRdcSvcLog::~DmpRdcSvcLog(){
 bool DmpRdcSvcLog::Initialize(){
   fFile = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->InFileStream();
   fEvtHeader = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->GetEventHeader();
+  return true;
 }
 
 //-------------------------------------------------------------------
 #include <boost/lexical_cast.hpp>
 void DmpRdcSvcLog::Set(const std::string &type, const std::string &argv){
   if(type == "Log/Level"){
-    short v = boost::lexical_cast<short>(argv);
-    SetLevel(v);
+    fLevel = boost::lexical_cast<short>(argv);
   }
 }
 
 //-------------------------------------------------------------------
 void DmpRdcSvcLog::Type(const short &x) const {
+/*
+ *  fLevel == 0
+ *      print nothing
+ *
+ *  fLevel == 1
+ *      print Error
+ *
+ *  fLevel > 1
+ *      print all
+ *
+ */
+  if(fLevel == 0){
+    return;
+  }else if(fLevel == 1 && x >= 0){
+    return;
+  }
   static bool prepareForFirstIn = true;
   if(x > 1){    // out convert (subDet)
     std::cout<<" to "<<fFile->tellg()<<"\t---> "<<x<<std::endl;

@@ -72,7 +72,7 @@ void DmpEvtHeader::GenerateTriggerStatus(){
   if(fTrgStatus != 0 && fTrgStatus > -10){  // only one wrong
     fTrgStatus = (fTriggers[wrongID]>0) ? (wrongID*1000+fTriggers[wrongID]):(wrongID*1000-fTriggers[wrongID]);
   }
-  std::cout<<"\tWarning: event triggers not match... "<<fTrgStatus<<"\t"; PrintTime();
+  std::cout<<"\tWarning: triggers of subDet not match. Type("<<fTrgStatus<<")\t"; PrintTime();
   for(wrongID=0;wrongID<DmpDetector::gSubDetNo;++wrongID){
     fTriggers[wrongID] = 0;
   }

@@ -17,7 +17,7 @@
 #include "DmpServiceManager.h"
 
 DmpRdcAlgStk::DmpRdcAlgStk()
- :DmpRdcVAlgSubDet("Rdc/Stk/DefaultAlg")
+ :DmpRdcVAlgSubDet("Stk/Rdc/DefaultAlg")
 {
 }
 
@@ -39,7 +39,6 @@ bool DmpRdcAlgStk::ProcessThisEvent(){
 //-------------------------------------------------------------------
 
   fLog->Type(1);
-  fConnectorDone = true;
   return true;
 }
 
@@ -47,6 +46,7 @@ bool DmpRdcAlgStk::ProcessThisEvent(){
 bool DmpRdcAlgStk::InitializeSubDet(){
   // get TCloneArray of your subDet
   fMSDSet = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->GetOutCollection(DmpDetector::kStk);
+  // setup connector
   if(fConnectorPath == "no"){
     std::cout<<"\n\tNo set connector:\tStk"<<std::endl;
     return true;
@@ -56,6 +56,7 @@ bool DmpRdcAlgStk::InitializeSubDet(){
 // *
 // *  TODO: set method?
 // *
+  fConnectorDone = true;
   return true;
 }
 

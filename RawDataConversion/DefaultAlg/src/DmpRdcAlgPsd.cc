@@ -17,7 +17,7 @@
 #include "DmpServiceManager.h"
 
 DmpRdcAlgPsd::DmpRdcAlgPsd()
- :DmpRdcVAlgSubDet("Rdc/Psd/DefaultAlg")
+ :DmpRdcVAlgSubDet("Psd/Rdc/DefaultAlg")
 {
 }
 
@@ -99,7 +99,6 @@ bool DmpRdcAlgPsd::ProcessThisEvent(){
 //-------------------------------------------------------------------
 
   fLog->Type(nBytes);
-  fConnectorDone = true;
   return true;
 }
 
@@ -117,6 +116,7 @@ bool DmpRdcAlgPsd::InitializeSubDet(){
 // *
 // *  TODO:  check connector right?
 // *
+  fConnectorDone = true;
   return true;
 }
 

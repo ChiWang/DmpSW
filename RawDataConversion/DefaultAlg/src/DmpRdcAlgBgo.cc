@@ -17,7 +17,7 @@
 #include "DmpServiceManager.h"
 
 DmpRdcAlgBgo::DmpRdcAlgBgo()
- :DmpRdcVAlgSubDet("Rdc/Bgo/DefaultAlg")
+ :DmpRdcVAlgSubDet("Bgo/Rdc/DefaultAlg")
 {
 }
 

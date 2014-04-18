@@ -27,9 +27,9 @@ public:
   virtual void SaveOutput();  // save output, for one indata
 
 public:
-  std::string GetOutDataPath() const    {return fOutDataPath;}
-  std::string GetOutDataName() const    {return fOutDataName;}
-  std::string InputData() const     {return fInData;}
+  const std::string& GetOutDataPath() const {return fOutDataPath;}
+  const std::string& GetOutDataName() const {return fOutDataName;}
+  const std::string& InputData()    const   {return fInData;}
 
 protected:
   virtual bool SetInputData(const std::string &n) {fInData = n; return true;}

@@ -28,9 +28,6 @@ DmpVDataMgr::~DmpVDataMgr(){
 
 //-------------------------------------------------------------------
 void DmpVDataMgr::FillEvent(){
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl<<std::endl;
-#endif
   fOutDataTree->Fill();
   ResetEvent();
 }
@@ -41,7 +38,7 @@ void DmpVDataMgr::SaveOutput(){
   TFile *aFile = new TFile((TString)(fOutDataPath+fOutDataName),"recreate");
   fOutDataTree->Write();
   aFile->Close();
-  std::cout<<"Result in : "<<fOutDataPath+fOutDataName<<", entries = "<<fOutDataTree->GetEntries()<<std::endl;
+  std::cout<<"\n===>\tResult in : "<<fOutDataPath+fOutDataName<<", entries = "<<fOutDataTree->GetEntries()<<std::endl<<std::endl;
   delete fOutDataTree;
   delete aFile;
   fNote = "no";

@@ -17,7 +17,7 @@
 #include "DmpServiceManager.h"
 
 DmpRdcAlgNud::DmpRdcAlgNud()
- :DmpRdcVAlgSubDet("Rdc/Nud/DefaultAlg")
+ :DmpRdcVAlgSubDet("Nud/Rdc/DefaultAlg")
 {
 }
 
@@ -73,7 +73,6 @@ bool DmpRdcAlgNud::ProcessThisEvent(){
 //-------------------------------------------------------------------
 
   fLog->Type(nBytes);
-  fConnectorDone = true;
   return true;
 }
 
@@ -91,6 +90,7 @@ bool DmpRdcAlgNud::InitializeSubDet(){
 // *
 // *  TODO: set method?
 // *
+  fConnectorDone = true;
   return true;
 }
 

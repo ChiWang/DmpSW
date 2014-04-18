@@ -28,6 +28,7 @@ bool DmpRdcAlgHeader::Initialize(){
   fFile = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->InFileStream();
   fLog = ((DmpRdcSvcLog*)gDmpSvcMgr->Get("Rdc/Log"));
   fEvtHeader = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->GetEventHeader();
+  return true;
 }
 
 //-------------------------------------------------------------------

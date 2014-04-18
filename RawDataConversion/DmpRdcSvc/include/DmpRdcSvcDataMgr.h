@@ -32,7 +32,7 @@ public:
 
 public:
   bool OpenInputData();
-  std::ifstream* InFileStream() {return fInDataStream;}
+  std::ifstream* InFileStream() {return &fInDataStream;}
   DmpEvtHeader* GetEventHeader() const {return fEvtHeader;}
   TClonesArray* GetOutCollection(DmpDetector::DmpEDetectorID) const;
 
@@ -40,7 +40,7 @@ private:
   void ResetEvent();            // delete all elements in TClonesArray
 
 private:
-  std::ifstream     *fInDataStream; // inFile stream. update it for every binary data
+  std::ifstream     fInDataStream;  // inFile stream. update it for every binary data
 
 private:
   DmpEvtHeader      *fEvtHeader;
