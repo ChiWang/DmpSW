@@ -41,7 +41,7 @@ public:
   void  PrintHit() const;
   void  AddG4Hit(double e,double x,double y,double z);     // only for simulation, invoke from G4Step or Sensitive Detector
   int   GetSDID() const     {return fSDID;}
-  int   SetSDID(int id)     {fSDID = id;}
+  void  SetSDID(int id)     {fSDID = id;}
   double GetEnergy() const  {return fEnergy;}
   void  SetEnergy(double e) {fEnergy = e;}
   short GetUsedSide() const {return fUsedSide;}

@@ -21,9 +21,6 @@ namespace DmpDetector{
     const short kBarNo   = 11;
     const short kSideNo  = 1;
     const short kDyNo    = 3;
-    const short kFEENo   = 6;
-    const short kFEEType = 0;
-    const short kFEEChannelNo = 78;
     /*
     enum DmpEBgoPhase{
       kQuarter,     // 1/4 prototype    >>>> Since 2012 <<<<

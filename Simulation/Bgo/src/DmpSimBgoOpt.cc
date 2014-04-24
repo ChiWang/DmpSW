@@ -9,6 +9,7 @@
 #include "DmpSimSvcBoot.h"
 #include "DmpSimDetector.h"
 
+//-------------------------------------------------------------------
 void DmpSimSvcBoot::SetBgo(const std::string &type,const std::string &argv){
   if(type == "Gdml"){
     fDetector->SetGdml(DmpDetector::kBgo,argv);
