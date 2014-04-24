@@ -18,6 +18,9 @@ DmpRdcVAlgSubDet::DmpRdcVAlgSubDet(const std::string &n)
   fEvtHeader(0),
   fConnectorPath("no"),
   fConnectorDone(false),
+  fFEEType(0),
+  fFEENo(0),
+  fFEEChannelNo(0),
   fMSDSet(0)
 {
 std::cout<<"DEBUG: name: "<<n<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
@@ -38,9 +41,16 @@ bool DmpRdcVAlgSubDet::Initialize(){
 }
 
 //-------------------------------------------------------------------
+#include <boost/lexical_cast.hpp>
 void DmpRdcVAlgSubDet::Set(const std::string &type,const std::string &argv){
   if(type == "CnctPath"){
     fConnectorPath = argv;
+  }else if(type == "FEE/Type"){
+    fFEEType = boost::lexical_cast<short>(argv);
+  }else if(type == "FEE/Number"){
+    fFEENo = boost::lexical_cast<short>(argv);
+  }else if(type == "FEE/ChannelNumber"){
+    fFEEChannelNo = boost::lexical_cast<short>(argv);
   }
 }
 

@@ -19,6 +19,9 @@
 DmpRdcAlgBgo::DmpRdcAlgBgo()
  :DmpRdcVAlgSubDet("Bgo/Rdc/DefaultAlg")
 {
+  fFEEType = 0;
+  fFEENo = 6;
+  fFEEChannelNo = 78;
 }
 
 //-------------------------------------------------------------------
@@ -34,7 +37,7 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
   fLog->Type(0);
 //-------------------------------------------------------------------
   static short tmp=0, tmp2=0, nBytes=0;
-  for (short counts=0;counts<DmpDetector::Bgo::kFEENo;++counts) {
+  for (short counts=0;counts<fFEENo;++counts) {
     fFile->read((char*)(&tmp),1);
     if (tmp!=0xeb) {
       fLog->Type(-1);
@@ -58,9 +61,9 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
     static short feeID = 0;
     feeID = tmp%16;
     if(counts == 0){
-      fEvtHeader->SetRunMode(DmpDetector::kBgo,tmp/16-DmpDetector::Bgo::kFEEType);
+      fEvtHeader->SetRunMode(DmpDetector::kBgo,tmp/16-fFEEType);
     }else{
-      if(fEvtHeader->GetRunMode(DmpDetector::kBgo) != tmp/16-DmpDetector::Bgo::kFEEType){
+      if(fEvtHeader->GetRunMode(DmpDetector::kBgo) != tmp/16-fFEEType){
         fLog->Type(-4);
         return false;
       }
@@ -122,7 +125,7 @@ bool DmpRdcAlgBgo::InitializeSubDet(){
       return false;
     }
     cnctFile>>feeID;
-    for(short s=0;s<DmpDetector::Bgo::kFEEChannelNo;++s){
+    for(short s=0;s<fFEEChannelNo;++s){
       cnctFile>>channelID;
       cnctFile>>layerID;
       cnctFile>>barID;

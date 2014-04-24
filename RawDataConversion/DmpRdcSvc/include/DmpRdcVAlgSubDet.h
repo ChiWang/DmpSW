@@ -26,9 +26,9 @@ class DmpRdcVAlgSubDet : public DmpVAlg{
 public:
   DmpRdcVAlgSubDet(const std::string&);
   virtual ~DmpRdcVAlgSubDet(){}
+  virtual void Set(const std::string &type,const std::string &argv);
   bool Initialize();
   bool Finalize()  {return true;}
-  void Set(const std::string &type,const std::string &argv);
 
 protected:
   virtual bool InitializeSubDet()=0;        // setup connector, and so on
@@ -47,6 +47,9 @@ protected:
      *
     */
   bool                  fConnectorDone;     // mark of Connector
+  short                 fFEEType;           // FEE type of this subDet
+  short                 fFEENo;             // number of FEE
+  short                 fFEEChannelNo;      // channel number in one FEE
 
 protected:
   TClonesArray          *fMSDSet;           // initialize it in InitializeSubDet
