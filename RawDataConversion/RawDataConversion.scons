@@ -17,7 +17,7 @@ useBoostPython(env)
 #useOpenMP(env)
 
 # include
-env.Prepend(CPPPATH='DefaultAlg/include')
+env.Prepend(CPPPATH='AlgBT2012/include')
 env.Prepend(CPPPATH='DmpRdcSvc/include')
 
 # Use other top-1 package
@@ -31,9 +31,9 @@ env.Prepend(CPPPATH=P2Path+'/DmpEvent/include')
 for key in subDetectors:
     includeDir=P2Path+"/"+key+'/include'
     env.Prepend(CPPPATH=[includeDir])
+env.Prepend(LIBS=['DmpEvent'])
+env.Prepend(LIBPATH=[P2Path])
 
-env.Prepend(LIBS=['DmpCore','DmpEvent'])
-env.Prepend(LIBPATH=[P1Path,P2Path])
 # Add boost filesyetem
 env.Append(LIBS=['boost_filesystem-mt'])
 

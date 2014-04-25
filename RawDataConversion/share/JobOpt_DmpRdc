@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpRdc, 2014-04-18 14:35:59 chi $
+ *  $Id: JobOpt_DmpRdc, 2014-04-25 15:57:36 DAMPE/USTC $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 11/03/2014
  *-----------------------------------------------------
@@ -12,6 +12,7 @@
 # Load lib. of DAMPE software
 import os
 import sys
+sys.setdlopenflags(0x100|0x2)
 prefix=os.getenv('DMPSWSYS')
 if os.environ['DMPSWSYS'] not in sys.path:
     sys.path.append(prefix+'/lib')
