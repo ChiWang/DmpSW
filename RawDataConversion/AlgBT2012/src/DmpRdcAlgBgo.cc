@@ -1,7 +1,8 @@
 /*
- *  $Id: DmpRdcAlgBgo.cc, 2014-04-17 10:48:48 chi $
+ *  $Id: DmpRdcAlgBgo.cc, 2014-04-24 22:45:59 DAMPE/USTC $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
+ *    Yifeng WEI (weiyf@mail.ustc.edu.cn) 24/04/2014
 */
 
 #include <iostream>
@@ -78,7 +79,7 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
       for(short i=0;i<nBytes;i+=2){     // k0Compress
         fFile->read((char*)(&tmp),1);
         fFile->read((char*)(&tmp2),1);
-        AppendThisSignal(fConnector[feeID*1000+i],tmp*256+tmp2);
+        AppendThisSignal(fConnector[feeID*1000+i/2],tmp*256+tmp2);
       }
     }else{
       for(short i=0;i<nBytes;i+=3){     // kCompress
@@ -88,7 +89,7 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
 // *
 // *  TODO: open me
 // *
-        //AppendThisSignal(fConnector[feeID*1000+i],tmp*256+tmp2);
+        //AppendThisSignal(fConnector[feeID*1000+xx],tmp*256+tmp2);
       }
     }
     fFile->read((char*)(&tmp),1);       // 2 bytes for 0x0000
