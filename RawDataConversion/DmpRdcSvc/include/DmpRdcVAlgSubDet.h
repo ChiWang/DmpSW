@@ -47,9 +47,6 @@ protected:
      *
     */
   bool                  fConnectorDone;     // mark of Connector
-  short                 fFEEType;           // FEE type of this subDet
-  short                 fFEENo;             // number of FEE
-  short                 fFEEChannelNo;      // channel number in one FEE
 
 protected:
   TClonesArray          *fMSDSet;           // initialize it in InitializeSubDet

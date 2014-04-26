@@ -17,7 +17,7 @@ useBoostPython(env)
 #useOpenMP(env)
 
 # include
-env.Prepend(CPPPATH='AlgBT2012/include')
+env.Prepend(CPPPATH='AlgPrototype2014/include')
 env.Prepend(CPPPATH='DmpRdcSvc/include')
 
 # Use other top-1 package

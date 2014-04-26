@@ -12,7 +12,8 @@ EOF
 prefix=$DMPSWSYS
 
 #   list all libraries of DMPSW
-libs=""
+libs="-lDmpCore -lDmpEvent"
+:<<EOF
 for file in `ls ${prefix}/lib`;do
   if [[ ${file} = *libDmp* && ${file} = *.so* ]];then
     file=${file/lib/-l}
@@ -20,6 +21,7 @@ for file in `ls ${prefix}/lib`;do
     libs="$libs $file"
   fi
 done
+EOF
 
 #-----------------------------------------------------------------------
 # function help

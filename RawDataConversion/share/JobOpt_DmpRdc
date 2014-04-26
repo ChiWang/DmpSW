@@ -59,7 +59,8 @@ gDmpAlgMgr.Initialize()
 # Run job
     ##  Start to run this job (Execute()). Also could use Set("outDataPath") between 2 Execute()
 rdcDataMgr.Set("OutDataNote","ProTest")   # set tag for the next output data. NOT set is okay
-rdcDataMgr.Set("InData",prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
+#rdcDataMgr.Set("InData",prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
+rdcDataMgr.Set("InData",prefix+"/share/TestRelease/Ex_Data_20140417235702_BGO_20140418-000421.bin")
 DmpRdc.Execute()
 #rdcDataMgr.Set("InData",prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
 #DmpRdc.Execute()

@@ -18,11 +18,10 @@
 #include "DmpServiceManager.h"
 
 DmpRdcAlgBgo::DmpRdcAlgBgo()
- :DmpRdcVAlgSubDet("Bgo/Rdc/DefaultAlg")
+ :DmpRdcVAlgSubDet("Bgo/Rdc/DefaultAlg"),
+  fFEEType(0),
+  fFEENo(6)
 {
-  fFEEType = 0;
-  fFEENo = 6;
-  fFEEChannelNo = 78;
 }
 
 //-------------------------------------------------------------------
@@ -115,7 +114,7 @@ bool DmpRdcAlgBgo::InitializeSubDet(){
   }else{
     std::cout<<"\n\tSetting connector:\tBgo";
   }
-  short feeID=0, channelID=0, layerID=0, barID=0, sideID=0, dyID=0;
+  short feeID=0, channelNo=0, channelID=0, layerID=0, barID=0, sideID=0, dyID=0;
   boost::filesystem::directory_iterator end_iter;
   for(boost::filesystem::directory_iterator iter(fConnectorPath);iter!=end_iter;++iter){
     if(iter->path().extension() != ".cnct") continue;
@@ -126,7 +125,8 @@ bool DmpRdcAlgBgo::InitializeSubDet(){
       return false;
     }
     cnctFile>>feeID;
-    for(short s=0;s<fFEEChannelNo;++s){
+    cnctFile>>channelNo;
+    for(short s=0;s<channelNo;++s){
       cnctFile>>channelID;
       cnctFile>>layerID;
       cnctFile>>barID;
