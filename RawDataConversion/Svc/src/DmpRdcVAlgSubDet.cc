@@ -42,8 +42,6 @@ bool DmpRdcVAlgSubDet::Initialize(){
 void DmpRdcVAlgSubDet::Set(const std::string &type,const std::string &argv){
   if(type == "CnctPath"){
     fConnectorPath = argv;
-  }else if(type == "FEE/Number"){
-    fFEENo = boost::lexical_cast<short>(argv);
   }
 }
 

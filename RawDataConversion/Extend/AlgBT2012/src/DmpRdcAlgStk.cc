@@ -12,8 +12,8 @@
 #include "DmpEvtStkMSD.h"
 #include "DmpEvtHeader.h"
 #include "DmpRdcAlgStk.h"
-#include "DmpRdcSvcDataMgr.h"
-#include "DmpRdcSvcLog.h"
+#include "Rdc/DmpRdcSvcDataMgr.h"
+#include "Rdc/DmpRdcSvcLog.h"
 #include "DmpServiceManager.h"
 
 DmpRdcAlgStk::DmpRdcAlgStk()

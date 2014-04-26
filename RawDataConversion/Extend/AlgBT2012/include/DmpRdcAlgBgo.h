@@ -7,7 +7,7 @@
 #ifndef DmpRdcAlgBgo_H
 #define DmpRdcAlgBgo_H
 
-#include "DmpRdcVAlgSubDet.h"
+#include "Rdc/DmpRdcVAlgSubDet.h"
 
 class DmpRdcAlgBgo : public DmpRdcVAlgSubDet{
 /*

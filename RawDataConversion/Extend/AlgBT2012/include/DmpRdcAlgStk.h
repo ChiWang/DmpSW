@@ -1,19 +1,19 @@
 /*
- *  $Id: DmpRdcAlgPsd.h, 2014-04-17 10:56:32 chi $
+ *  $Id: DmpRdcAlgStk.h, 2014-04-17 11:11:48 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
 
-#ifndef DmpRdcAlgPsd_H
-#define DmpRdcAlgPsd_H
+#ifndef DmpRdcAlgStk_H
+#define DmpRdcAlgStk_H
 
-#include "DmpRdcVAlgSubDet.h"
+#include "Rdc/DmpRdcVAlgSubDet.h"
 
-class DmpRdcAlgPsd : public DmpRdcVAlgSubDet{
+class DmpRdcAlgStk : public DmpRdcVAlgSubDet{
 /*
- *  DmpRdcAlgPsd
+ *  DmpRdcAlgStk
  *
- *      This is the default Rdc Alg of Psd
+ *      This is the default Rdc Alg of Stk
  *
  *      User could write a new one, and
  *      append it into DmpAlgMgr in JobOpt file. Then,
@@ -21,8 +21,8 @@ class DmpRdcAlgPsd : public DmpRdcVAlgSubDet{
  *
  */
 public:
-  DmpRdcAlgPsd();
-  ~DmpRdcAlgPsd();
+  DmpRdcAlgStk();
+  ~DmpRdcAlgStk();
   bool ProcessThisEvent();      // convert one event
 
 private:

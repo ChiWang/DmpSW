@@ -45,7 +45,7 @@ cat > $1/SConstruct <<EOF
 
 import os
 
-target='$1'
+target='Dmp$1'
 
 print "---> compiling: %s\n" % target
 #--------------------------------------------------------------------

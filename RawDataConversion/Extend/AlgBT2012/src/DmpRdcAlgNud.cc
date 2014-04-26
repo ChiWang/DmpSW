@@ -12,8 +12,8 @@
 #include "DmpEvtNudMSD.h"
 #include "DmpEvtHeader.h"
 #include "DmpRdcAlgNud.h"
-#include "DmpRdcSvcDataMgr.h"
-#include "DmpRdcSvcLog.h"
+#include "Rdc/DmpRdcSvcDataMgr.h"
+#include "Rdc/DmpRdcSvcLog.h"
 #include "DmpServiceManager.h"
 
 DmpRdcAlgNud::DmpRdcAlgNud()

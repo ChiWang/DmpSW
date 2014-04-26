@@ -17,8 +17,8 @@ useBoostPython(env)
 #useOpenMP(env)
 
 # include
-env.Prepend(CPPPATH='AlgPrototype2014/include')
-env.Prepend(CPPPATH='DmpRdcSvc/include')
+env.Prepend(CPPPATH='Svc/include')
+env.Prepend(CPPPATH='Alg/include')
 
 # Use other top-1 package
 #--------------------------------------------------------------------
@@ -40,7 +40,7 @@ env.Append(LIBS=['boost_filesystem-mt'])
 # install share
 #--------------------------------------------------------------------
 ProcessThisDir("share/Connector/",prefix+"/share/Connector/")
-ProcessThisDir("DmpRdcSvc/include/",prefix+"/include/Rdc")
+ProcessThisDir("Svc/include/",prefix+"/include/Rdc")
 
 # main build
 #--------------------------------------------------------------------

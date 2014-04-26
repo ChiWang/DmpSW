@@ -5,8 +5,8 @@
 */
 
 #include "DmpServiceManager.h"
-#include "DmpRdcSvcDataMgr.h"
-#include "DmpRdcSvcLog.h"
+#include "Rdc/DmpRdcSvcDataMgr.h"
+#include "Rdc/DmpRdcSvcLog.h"
 #include "DmpEvtHeader.h"
 #include "DmpRdcAlgHeader.h"
 

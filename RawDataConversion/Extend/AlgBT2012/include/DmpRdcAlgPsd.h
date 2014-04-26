@@ -1,19 +1,19 @@
 /*
- *  $Id: DmpRdcAlgNud.h, 2014-04-17 10:56:27 chi $
+ *  $Id: DmpRdcAlgPsd.h, 2014-04-17 10:56:32 chi $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
 
-#ifndef DmpRdcAlgNud_H
-#define DmpRdcAlgNud_H
+#ifndef DmpRdcAlgPsd_H
+#define DmpRdcAlgPsd_H
 
-#include "DmpRdcVAlgSubDet.h"
+#include "Rdc/DmpRdcVAlgSubDet.h"
 
-class DmpRdcAlgNud : public DmpRdcVAlgSubDet{
+class DmpRdcAlgPsd : public DmpRdcVAlgSubDet{
 /*
- *  DmpRdcAlgNud
+ *  DmpRdcAlgPsd
  *
- *      This is the default Rdc Alg of Nud
+ *      This is the default Rdc Alg of Psd
  *
  *      User could write a new one, and
  *      append it into DmpAlgMgr in JobOpt file. Then,
@@ -21,10 +21,10 @@ class DmpRdcAlgNud : public DmpRdcVAlgSubDet{
  *
  */
 public:
-  DmpRdcAlgNud();
-  ~DmpRdcAlgNud();
+  DmpRdcAlgPsd();
+  ~DmpRdcAlgPsd();
   bool ProcessThisEvent();      // convert one event
-  
+
 private:
   bool InitializeSubDet();      // setup connector, etc.
   void AppendThisSignal(const int&,const float&);
