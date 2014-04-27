@@ -33,13 +33,11 @@ void DmpSimRunAction::BeginOfRunAction(const G4Run *aRun){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"Run ID = "<<aRun->GetRunID()<<std::endl;
   fDataMgr->BookBranch(); 
 // *  TODO: engine not works...
-/*
   //Random Engine
-  CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);
+  //CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);
   G4long seed = time((time_t*)NULL);
   CLHEP::HepRandom::setTheSeed(seed);
   CLHEP::HepRandom::showEngineStatus(); 
-  */
 
 #ifdef G4VIS_USE
   if(G4VVisManager::GetConcreteInstance()){
