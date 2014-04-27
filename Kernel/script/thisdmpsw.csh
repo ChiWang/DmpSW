@@ -1,6 +1,6 @@
 #! /bin/tcsh
 #+
-#+  $Id: thisdmpsw.csh, 2014-04-26 22:25:00 DAMPE $
+#+  $Id: thisdmpsw.csh, 2014-04-27 10:51:41 DAMPE $
 #+  Author(s):
 #+    Chi WANG (chiwang@mail.ustc.edu.cn) 01/10/2013
 #+-----------------------------------------------------------------------
@@ -16,6 +16,7 @@ if ( ! ($?DMPSWSYS) ) then
   unset thisDmpSW
   setenv DMPSWWORK "$HOME/dmpwork"
   setenv PATH $DMPSWSYS/bin:$PATH
+  setenv PYTHONPATH $DMPSWSYS/lib:$DMPSWWORK/lib:$PYTHONPATH
   if ( ($?LD_LIBRARY_PATH) ) then
     setenv LD_LIBRARY_PATH $DMPSWSYS/lib:$DMPSWWORK/lib:$LD_LIBRARY_PATH
   else if ( ($?DYLD_LIBRARY_PATH) ) then        # Mac OS

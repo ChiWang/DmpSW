@@ -13,13 +13,10 @@
 import os
 import sys
 sys.setdlopenflags(0x100|0x2)
-prefix=os.getenv('DMPSWSYS')
-if os.environ['DMPSWSYS'] not in sys.path:
-    sys.path.append(prefix+'/lib')
-
 import libDmpCore as DmpCore
 import libDmpSim as  DmpSim
 
+prefix=os.getenv('DMPSWSYS')
 #-------------------------------------------------------------------
 # Create Service
 simDataMgr = DmpSim.DmpSimSvcDataMgr()
