@@ -22,6 +22,7 @@ DmpRdcAlgBgo::DmpRdcAlgBgo()
   fFEEType(0),
   fFEENo(6)
 {
+std::cout<<"DEBUG: (for 2014)"<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 }
 
 //-------------------------------------------------------------------

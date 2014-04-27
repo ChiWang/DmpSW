@@ -13,7 +13,6 @@
 #include "DmpRdcAlgNud.h"
 
 
-//BOOST_PYTHON_MODULE(libDmpRdc){
 BOOST_PYTHON_MODULE(libDmpRdcBT2012){
   using namespace boost::python;
 

@@ -9,7 +9,8 @@ Import("*")     # import all vars from SConstruct
 print "\t\t\t invoke %s\n" % os.path.abspath("./")
 #--------------------------------------------------------------------
 
-target='DmpRdc'
+targetSvc='DmpRdcSvc'
+targetAlg='DmpRdcAlg'
 env = envBase.Clone()
 useRoot(env)
 #useCLHEP(env)
@@ -44,7 +45,10 @@ ProcessThisDir("Svc/include/",prefix+"/include/Rdc")
 
 # main build
 #--------------------------------------------------------------------
-goal=env.SharedLibrary(target,Glob('./*/src/*.cc'))
-Default(env.InstallAs(prefix+"/lib/lib"+target+".so",goal))
-
+    #+ Serivce
+goal=env.SharedLibrary(targetSvc,Glob('./Svc/src/*.cc'))
+Default(env.InstallAs(prefix+"/lib/lib"+targetSvc+".so",goal))
+    #+ Algorithm
+goal2=env.SharedLibrary(targetAlg,Glob('./Alg/src/*.cc'))
+Default(env.InstallAs(prefix+"/lib/lib"+targetAlg+".so",goal2))
 
