@@ -176,6 +176,20 @@ DmpDetector::DmpERunMode DmpEvtRdcHeader::GetRunMode(const DmpDetector::DmpEDete
 }
 
 //-------------------------------------------------------------------
+DmpRdcHeaderSubDet* DmpEvtRdcHeader::GetDetector(const DmpDetector::DmpEDetectorID &id) const {
+  switch (id){
+    case DmpDetector::kPsd:
+       return fPsd;
+    case DmpDetector::kStk:
+       return fStk;
+    case DmpDetector::kBgo:
+       return fBgo;
+    case DmpDetector::kNud:
+       return fNud;
+  }
+}
+
+//-------------------------------------------------------------------
 void DmpEvtRdcHeader::Reset(){
   fSec = 0;
   fMillisec = 0;
@@ -186,5 +200,4 @@ void DmpEvtRdcHeader::Reset(){
   fBgo->Reset();
   fNud->Reset();
 }
-
 

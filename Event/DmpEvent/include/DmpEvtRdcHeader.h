@@ -76,6 +76,7 @@ public:
   short GetTrigger(const DmpDetector::DmpEDetectorID &id) const; // if not match, return -1;
   void  SetRunMode(const DmpDetector::DmpEDetectorID &id, const short &m);
   DmpDetector::DmpERunMode GetRunMode(const DmpDetector::DmpEDetectorID &id) const;
+  DmpRdcHeaderSubDet* GetDetector(const DmpDetector::DmpEDetectorID &id) const;
   void Reset();
 
 private:
