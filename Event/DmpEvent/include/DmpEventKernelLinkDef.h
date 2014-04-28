@@ -11,6 +11,11 @@
 #pragma link off all functions;
 #pragma link off all namespaces;
 
+#pragma link C++ class DmpRdcHeaderSubDet+;
+#pragma link C++ class DmpEvtRdcHeader+;
+// *
+// *  TODO: choose one, EvtHeader and EvtRdcHeader
+// *
 #pragma link C++ class DmpEvtHeader+;
 #pragma link C++ class DmpEvtSimPrimaryParticle+;
 
