@@ -12,7 +12,7 @@
 #include "DmpVDataMgr.h"
 #include "DmpVSvc.h"
 
-class DmpEvtHeader;
+class DmpEvtRdcHeader;
 class TClonesArray;
 
 class DmpRdcSvcDataMgr : public DmpVSvc, public DmpVDataMgr{
@@ -33,7 +33,7 @@ public:
 public:
   bool OpenInputData();
   std::ifstream* InFileStream() {return &fInDataStream;}
-  DmpEvtHeader* GetEventHeader() const {return fEvtHeader;}
+  DmpEvtRdcHeader* GetEventHeader() const {return fEvtHeader;}
   TClonesArray* GetOutCollection(DmpDetector::DmpEDetectorID) const;
 
 private:
@@ -43,7 +43,7 @@ private:
   std::ifstream     fInDataStream;  // inFile stream. update it for every binary data
 
 private:
-  DmpEvtHeader      *fEvtHeader;
+  DmpEvtRdcHeader   *fEvtHeader;
   TClonesArray      *fPsdOutSet;
   TClonesArray      *fBgoOutSet;
   TClonesArray      *fStkOutSet;

@@ -7,12 +7,12 @@
 #include "DmpServiceManager.h"
 #include "DmpRdcSvcDataMgr.h"
 #include "DmpRdcSvcLog.h"
-#include "DmpEvtHeader.h"
+#include "DmpEvtRdcHeader.h"
 #include "DmpRdcAlgHeader.h"
 
 //-------------------------------------------------------------------
-DmpRdcAlgHeader::DmpRdcAlgHeader(const std::string &n)
- :DmpVAlg(n),
+DmpRdcAlgHeader::DmpRdcAlgHeader()
+ :DmpVAlg("Header/2014"),
   fFile(0),
   fLog(0),
   fEvtHeader(0)
@@ -34,6 +34,7 @@ bool DmpRdcAlgHeader::Initialize(){
 //-------------------------------------------------------------------
 bool DmpRdcAlgHeader::ProcessThisEvent(){
   fLog->Type(0);
+//std::cout<<"\tfrom "<<fFile->tellg();
 //-------------------------------------------------------------------
   static short tmp=0;
   fFile->read((char*)(&tmp),1);
@@ -44,10 +45,12 @@ bool DmpRdcAlgHeader::ProcessThisEvent(){
   if (tmp!=0x08)    return false;
   fFile->read((char*)(&tmp),1);
   if (tmp!=0x13)    return false;
-  fEvtHeader->CountThisEvent();    // find a science data header 0xe225 0813
   fFile->read((char*)(&tmp),1);      // this needed
   fFile->read((char*)(&tmp),1);      // trigger
-  fEvtHeader->SetTrigger(DmpDetector::kWhole,tmp);
+// *
+// *  TODO: trigger max != 4096??
+// *
+  fEvtHeader->SetTrigger(tmp);
   fFile->read((char*)(&tmp),1);      // Datalength
   fFile->read((char*)(&tmp),1);      // Datalength
   for (short index=0;index<8;++index) {     // size = 8
@@ -56,6 +59,7 @@ bool DmpRdcAlgHeader::ProcessThisEvent(){
   }
 //-------------------------------------------------------------------
   fLog->Type(1);
+//std::cout<<" to "<<fFile->tellg()<<std::endl;
   return true;
 }
 

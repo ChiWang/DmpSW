@@ -21,8 +21,8 @@ public:
   ~DmpEvtRdcBgoMSD();
   int   GetSDID() const {return fSDID;}
   void  SetSDID(const int &id) {fSDID = id;}
-  void  SetSignal(const int &value,const short &sideID,const short &dyID); 
-  int   GetSignal(const short &sideID,const short &dyID);
+  void  SetSignal(const int &value,const short &side_dyID); 
+  int   GetSignal(const short &side_dyID) const;
 
 private:
   int   fSDID;          // unique sensitive detector(minimum detector unit) ID. For Bgo, fSDID =  layerID*100 + barID. layerID = {0~13}, barID = {0~21}

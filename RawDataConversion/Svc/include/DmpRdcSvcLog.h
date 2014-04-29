@@ -12,7 +12,7 @@
 #include "DmpVLog.h"
 #include "DmpVSvc.h"
 
-class DmpEvtHeader;
+class DmpEvtRdcHeader;
 
 class DmpRdcSvcLog : public DmpVSvc, public DmpVLog{
 /*
@@ -34,7 +34,7 @@ private:
 
 private:
   std::ifstream     *fFile;
-  DmpEvtHeader      *fEvtHeader;
+  DmpEvtRdcHeader      *fEvtHeader;
 
 };
 

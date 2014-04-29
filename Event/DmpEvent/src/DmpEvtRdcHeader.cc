@@ -9,34 +9,21 @@
 #include "DmpEvtRdcHeader.h"
 
 ClassImp(DmpRdcHeaderSubDet)
-ClassImp(DmpEvtRdcHeader)
 
 //-------------------------------------------------------------------
 DmpRdcHeaderSubDet::DmpRdcHeaderSubDet()
  :fTrigger(-1),
-  fRunMode(DmpDetector::kUnknow),
-  fNFee(1)
+  fRunMode(DmpDetector::kUnknow)
 {
-  fSubStatus.push_back(0);
-}
-
-//-------------------------------------------------------------------
-DmpRdcHeaderSubDet::DmpRdcHeaderSubDet(const short &nFee)
- :fTrigger(-1),
-  fRunMode(DmpDetector::kUnknow),
-  fNFee(nFee)
-{
-  fSubStatus.push_back(0);
 }
 
 //-------------------------------------------------------------------
 DmpRdcHeaderSubDet::~DmpRdcHeaderSubDet(){
-
 }
 
 //-------------------------------------------------------------------
 bool DmpRdcHeaderSubDet::IsGoodEvent() const {
-  if(fSubStatus.size() == 1 && fSubStatus[0] == 0){
+  if(fErrors.size() == 1 && fErrors[0] == 0){
     return true;
   }
   return false;
@@ -46,10 +33,10 @@ bool DmpRdcHeaderSubDet::IsGoodEvent() const {
 void DmpRdcHeaderSubDet::Reset(){
   fTrigger = -1;
   fRunMode = DmpDetector::kUnknow;
-  fSubStatus.resize(1);
-  fSubStatus[0] = 0;
+  fErrors.erase(fErrors.begin(),fErrors.end());
 }
 
+ClassImp(DmpEvtRdcHeader)
 //-------------------------------------------------------------------
 DmpEvtRdcHeader::DmpEvtRdcHeader()
  :fSec(0),
@@ -63,7 +50,7 @@ DmpEvtRdcHeader::DmpEvtRdcHeader()
 {
   fPsd = new DmpRdcHeaderSubDet();
   fStk = new DmpRdcHeaderSubDet();
-  fBgo = new DmpRdcHeaderSubDet(16);
+  fBgo = new DmpRdcHeaderSubDet();
   fNud = new DmpRdcHeaderSubDet();
 }
 
@@ -112,71 +99,15 @@ void DmpEvtRdcHeader::GenerateStatus(){
 }
 
 //-------------------------------------------------------------------
-void DmpEvtRdcHeader::SetTrigger(const DmpDetector::DmpEDetectorID &id, const short &v){
-  switch (id){
-    case DmpDetector::kPsd:
-      fPsd->SetTrigger(v);
-      break;
-    case DmpDetector::kStk:
-      fStk->SetTrigger(v);
-      break;
-    case DmpDetector::kBgo:
-      fBgo->SetTrigger(v);
-      break;
-    case DmpDetector::kNud:
-      fNud->SetTrigger(v);
-      break;
+short DmpEvtRdcHeader::Trigger() const {
+  if(fStatus>0){
+    return -1;
   }
+  return fTrigger;
 }
 
 //-------------------------------------------------------------------
-short DmpEvtRdcHeader::GetTrigger(const DmpDetector::DmpEDetectorID &id) const {
-  switch (id){
-    case DmpDetector::kPsd:
-       return fPsd->Trigger();
-    case DmpDetector::kStk:
-       return fStk->Trigger();
-    case DmpDetector::kBgo:
-       return fBgo->Trigger();
-    case DmpDetector::kNud:
-       return fNud->Trigger();
-  }
-}
-
-//-------------------------------------------------------------------
-void DmpEvtRdcHeader::SetRunMode(const DmpDetector::DmpEDetectorID &id, const  short &m){
-  switch (id){
-    case DmpDetector::kPsd:
-       fPsd->SetRunMode((DmpDetector::DmpERunMode)m);
-       break;
-    case DmpDetector::kStk:
-       fStk->SetRunMode((DmpDetector::DmpERunMode)m);
-       break;
-    case DmpDetector::kBgo:
-       fBgo->SetRunMode((DmpDetector::DmpERunMode)m);
-       break;
-    case DmpDetector::kNud:
-       fNud->SetRunMode((DmpDetector::DmpERunMode)m);
-       break;
-  }
-}
-
-//-------------------------------------------------------------------
-DmpDetector::DmpERunMode DmpEvtRdcHeader::GetRunMode(const DmpDetector::DmpEDetectorID &id) const {
-  switch (id){
-    case DmpDetector::kPsd:
-       return fPsd->RunMode();
-    case DmpDetector::kStk:
-       return fStk->RunMode();
-    case DmpDetector::kBgo:
-       return fBgo->RunMode();
-    case DmpDetector::kNud:
-       return fNud->RunMode();
-  }
-}
-
-//-------------------------------------------------------------------
-DmpRdcHeaderSubDet* DmpEvtRdcHeader::GetDetector(const DmpDetector::DmpEDetectorID &id) const {
+DmpRdcHeaderSubDet* DmpEvtRdcHeader::Detector(const DmpDetector::DmpEDetectorID &id) const {
   switch (id){
     case DmpDetector::kPsd:
        return fPsd;
@@ -200,4 +131,5 @@ void DmpEvtRdcHeader::Reset(){
   fBgo->Reset();
   fNud->Reset();
 }
+
 

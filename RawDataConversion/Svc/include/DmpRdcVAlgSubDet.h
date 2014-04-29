@@ -13,7 +13,7 @@
 #include "DmpVAlg.h"
 
 class TClonesArray;
-class DmpEvtHeader;
+class DmpEvtRdcHeader;
 class DmpRdcSvcLog;
 
 class DmpRdcVAlgSubDet : public DmpVAlg{
@@ -37,7 +37,7 @@ protected:
 protected:
   std::ifstream         *fFile;             // in data stream, for all Alg. of subDet
   DmpRdcSvcLog          *fLog;              // log status, for all Alg. of subDet
-  DmpEvtHeader          *fEvtHeader;        // all subDet need it
+  DmpEvtRdcHeader          *fEvtHeader;        // all subDet need it
   std::string           fConnectorPath;     // where to read cnct files
   std::map<int,int>     fConnector;         // for all input datas
     /*

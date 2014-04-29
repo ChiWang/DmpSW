@@ -17,19 +17,15 @@ DmpEvtRdcBgoMSD::~DmpEvtRdcBgoMSD(){
 }
 
 //-------------------------------------------------------------------
-void DmpEvtRdcBgoMSD::SetSignal(const int &value,const short &sideID,const short &dyID){
-// *
-// *  TODO: check all fDyID
-// *
-  fDyID.push_back(sideID*10+dyID);
+void DmpEvtRdcBgoMSD::SetSignal(const int &value,const short &side_dyID){
+  fDyID.push_back(side_dyID);
   fDyValue.push_back(value);
 }
 
 //-------------------------------------------------------------------
-int DmpEvtRdcBgoMSD::GetSignal(const short &sideID,const short &dyID){
-  short id = sideID*10 + dyID;
+int DmpEvtRdcBgoMSD::GetSignal(const short &side_dyID) const{
   for(short i=0;i<fDyID.size();++i){
-    if(fDyID[i] == id){
+    if(fDyID[i] == side_dyID){
       return fDyValue[i];
     }
   }

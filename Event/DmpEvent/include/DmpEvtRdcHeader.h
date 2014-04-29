@@ -22,36 +22,32 @@ public:
     k_CRC = 3,
   };
   DmpRdcHeaderSubDet();
-  DmpRdcHeaderSubDet(const short &nFee);
   ~DmpRdcHeaderSubDet();
   void SetTrigger(const short &t) {fTrigger = t;}
   const short& Trigger() const {return fTrigger;}
-  void SetRunMode(DmpDetector::DmpERunMode m) {fRunMode = m;}
+  void SetRunMode(const short &m) {fRunMode = (DmpDetector::DmpERunMode)m;}
   DmpDetector::DmpERunMode RunMode() const {return fRunMode;}
-  void SetStatus(const short &FeeID,const FeeErrorType &type) {fSubStatus.push_back(FeeID*10+type);}  // finish one Fee, call it
+  void SetErrorLog(const short &FeeID,const FeeErrorType &type) {fErrors.push_back(FeeID*10+type);}
   bool IsGoodEvent() const;
-  std::vector<short> Error() const {return fSubStatus;}
+  std::vector<short> Errors() const {return fErrors;}
   void Reset();
 
 private:
-  short fTrigger;                       // trigger
+  short     fTrigger;                   // trigger
   DmpDetector::DmpERunMode  fRunMode;   // mode
-  std::vector<short>        fSubStatus;
+  std::vector<short>        fErrors;    // all errors infor.
   /*
-   * fSubStatus[0] is for global check
+   * fErrors[0] is for global check
    *    good event:         0
    *    triggers not match: -1
    *    lost FEE:           -x0 (some one not find eb90. x = find_n_Fee - total_Fee)
    *
-   * fSubStatus[i] is for a single Fee
+   * fErrors[i] is for a single Fee
    *    not find eb90:      1 + last_Fee_ID*10
    *    data length error:  2 + Fee_ID*10
    *    CRC error:          3 + Fee_ID*10
    *
    */
-
-private:
-  short fNFee;  //! not save me
 
   ClassDef(DmpRdcHeaderSubDet,1)
 };
@@ -71,13 +67,13 @@ public:
   void  SetTime(const short&,const short&);
   void  PrintTime()const;       // only Rdc use it
   void  GenerateStatus();
+  void  SetTrigger(const short &v) {fTrigger = v;}
+  void  Reset();
+  long  Second() const {return fSec;}
+  short Millisecond() const {return fMillisec;}
+  short Trigger() const;
   short Status() const {return fStatus;}
-  void  SetTrigger(const DmpDetector::DmpEDetectorID &id, const short &v);
-  short GetTrigger(const DmpDetector::DmpEDetectorID &id) const; // if not match, return -1;
-  void  SetRunMode(const DmpDetector::DmpEDetectorID &id, const short &m);
-  DmpDetector::DmpERunMode GetRunMode(const DmpDetector::DmpEDetectorID &id) const;
-  DmpRdcHeaderSubDet* GetDetector(const DmpDetector::DmpEDetectorID &id) const;
-  void Reset();
+  DmpRdcHeaderSubDet* Detector(const DmpDetector::DmpEDetectorID &id) const;
 
 private:
   long      fSec;           // second
@@ -87,7 +83,7 @@ private:
   /*
    * Error type:
    *    right:          all bits = 0
-   *    trigger check:
+   *    trigger check:  > 0 trigger error
    *        Psd != Bgo: fStatus.bit[0] = 1
    *        Stk != Bgo: fStatus.bit[1] = 1
    *        Nud != Bgo: fStatus.bit[2] = 1

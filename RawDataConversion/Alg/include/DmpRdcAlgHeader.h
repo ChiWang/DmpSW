@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgHeader.h, 2014-04-16 17:20:15 chi $
+ *  $Id: DmpRdcAlgHeader.h, 2014-04-28 16:16:47 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 19/03/2014
 */
@@ -12,7 +12,7 @@
 #include "DmpVAlg.h"
 
 class DmpRdcSvcLog;
-class DmpEvtHeader;
+class DmpEvtRdcHeader;
 
 class DmpRdcAlgHeader : public DmpVAlg{
 /*
@@ -20,12 +20,9 @@ class DmpRdcAlgHeader : public DmpVAlg{
  *
  *  This is the default algorithm of DmpRdcHeader.
  *
- *  if, we re-write DmpEvtHeader, or
- *  want to write a new Alg. for Header, write a class and override ProcessThisEvent()
- *
  */
 public:
-  DmpRdcAlgHeader(const std::string&);
+  DmpRdcAlgHeader();
   virtual ~DmpRdcAlgHeader(){}
   bool Initialize();
   bool Finalize() {return true;}
@@ -36,7 +33,7 @@ protected:
   DmpRdcSvcLog      *fLog;              // log status, for all Alg. of subDet
 
 protected:
-  DmpEvtHeader      *fEvtHeader;        //
+  DmpEvtRdcHeader   *fEvtHeader;        //
 
 };
 

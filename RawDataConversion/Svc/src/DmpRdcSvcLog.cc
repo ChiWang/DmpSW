@@ -9,7 +9,7 @@
 #include "DmpServiceManager.h"
 #include "DmpRdcSvcDataMgr.h"
 #include "DmpRdcSvcLog.h"
-#include "DmpEvtHeader.h"
+#include "DmpEvtRdcHeader.h"
 
 //-------------------------------------------------------------------
 DmpRdcSvcLog::DmpRdcSvcLog()
@@ -73,12 +73,12 @@ void DmpRdcSvcLog::Type(const short &x) const {
       }
       break;
     case -1:
-      std::cout<<"\tError: not find 0xeb\t";
+      std::cout<<"\tError: not find 0xeb90\t";
       PrintLocation();
       prepareForFirstIn = true;
       break;
     case -2:
-      std::cout<<"\tError: not find 0x90\t";
+      std::cout<<"\tError: data length float\t";
       PrintLocation();
       prepareForFirstIn = true;
       break;
@@ -99,12 +99,11 @@ void DmpRdcSvcLog::Type(const short &x) const {
 //-------------------------------------------------------------------
 void DmpRdcSvcLog::PrintLocation() const{
   static short tmp = 0;
-  std::cout<<"Location: ";
-  for(short i=0;i<5;++i){
+  std::cout<<"Location: ("<<fFile->tellg()<<") ";
+  for(short i=0;i<3;++i){
     fFile->read((char*)(&tmp),1);
-    std::cout<<" "<<std::hex<<tmp<<std::dec;
+    std::cout<<std::hex<<tmp<<std::dec<<" ";
   }
-  std::cout<<"\t";
   fEvtHeader->PrintTime();
 }
 

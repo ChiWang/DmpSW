@@ -9,10 +9,10 @@
 #include "TTree.h"
 #include "TClonesArray.h"
 
-#include "DmpEvtHeader.h"
+#include "DmpEvtRdcHeader.h"
 #include "DmpEvtPsdMSD.h"
 #include "DmpEvtStkMSD.h"
-#include "DmpEvtBgoMSD.h"
+#include "DmpEvtRdcBgoMSD.h"
 #include "DmpEvtNudMSD.h"
 #include "DmpRdcSvcDataMgr.h"
 
@@ -26,10 +26,10 @@ DmpRdcSvcDataMgr::DmpRdcSvcDataMgr()
   fNudOutSet(0)
 {
   SetPackageID("Rdc_V1.0_");
-  fEvtHeader = new DmpEvtHeader();
+  fEvtHeader = new DmpEvtRdcHeader();
   fPsdOutSet = new TClonesArray("DmpEvtPsdMSD",300);
   fStkOutSet = new TClonesArray("DmpEvtStkMSD",300);
-  fBgoOutSet = new TClonesArray("DmpEvtBgoMSD",300);
+  fBgoOutSet = new TClonesArray("DmpEvtRdcBgoMSD",300);
   fNudOutSet = new TClonesArray("DmpEvtNudMSD",300);
 }
 
@@ -58,9 +58,8 @@ void DmpRdcSvcDataMgr::BookBranch(){
 #ifdef DmpDebug
 std::cout<<"\n\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 #endif
-  fEvtHeader->Initialize();
   fOutDataTree = new TTree("DAMPE_Raw","ADC");
-  fOutDataTree->Branch("EventHeader","DmpEvtHeader",&fEvtHeader,32000,2);
+  fOutDataTree->Branch("EventHeader","DmpEvtRdcHeader",&fEvtHeader,32000,2);
   fOutDataTree->Branch("Psd",fPsdOutSet,32000,2);
   fOutDataTree->Branch("Stk",fStkOutSet,32000,2);
   fOutDataTree->Branch("Bgo",fBgoOutSet,32000,2);
@@ -69,7 +68,7 @@ std::cout<<"\n\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__
 
 //-------------------------------------------------------------------
 void DmpRdcSvcDataMgr::FillEvent(){
-  fEvtHeader->GenerateTriggerStatus();
+  fEvtHeader->GenerateStatus();
   DmpVDataMgr::FillEvent();
 }
 
@@ -91,6 +90,7 @@ bool DmpRdcSvcDataMgr::OpenInputData(){
 
 //-------------------------------------------------------------------
 void DmpRdcSvcDataMgr::ResetEvent(){
+  fEvtHeader->Reset();
   fPsdOutSet->Delete(); fPsdOutSet->Clear();
   fStkOutSet->Delete(); fStkOutSet->Clear();
   fBgoOutSet->Delete(); fBgoOutSet->Clear();
