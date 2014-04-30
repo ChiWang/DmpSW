@@ -4,8 +4,6 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/04/2014
 */
 
-#include "DmpAlgorithmManager.h"
-#include "DmpServiceManager.h"
 #include "DmpKernel.h"
 
 //-------------------------------------------------------------------

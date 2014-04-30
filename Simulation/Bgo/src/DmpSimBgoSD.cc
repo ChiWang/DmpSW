@@ -9,10 +9,10 @@
 #include "G4Step.hh"
 #include "G4TouchableHistory.hh"
 
-#include "DmpEvtBgoMSD.h"
 #include "DmpSimBgoSD.h"
+#include "DmpEvtMCBgoMSD.h"
 #include "DmpSimSvcDataMgr.h"
-#include "DmpServiceManager.h"
+#include "DmpKernel.h"
 
 //-------------------------------------------------------------------
 DmpSimBgoSD::DmpSimBgoSD(G4String name)
@@ -26,33 +26,33 @@ DmpSimBgoSD::~DmpSimBgoSD(){
 
 //-------------------------------------------------------------------
 void DmpSimBgoSD::Initialize(G4HCofThisEvent*){
+  fMSDSet = ((DmpSimSvcDataMgr*)gKernel->ServiceManager()->Get("Sim/DataMgr"))->GetOutCollection(DmpDetector::kBgo);
 }
 
 //-------------------------------------------------------------------
 #include <boost/lexical_cast.hpp>
 G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
-  static TClonesArray *fMSDSet = ((DmpSimSvcDataMgr*)gDmpSvcMgr->Get("Sim/DataMgr"))->GetOutCollection(DmpDetector::kBgo);
+  //static TClonesArray *fMSDSet = ((DmpSimSvcDataMgr*)gKernel->ServiceManager()->Get("Sim/DataMgr"))->GetOutCollection(DmpDetector::kBgo);
   G4TouchableHistory *theTouchable = (G4TouchableHistory*)(aStep->GetPreStepPoint()->GetTouchable());
   std::string barName = theTouchable->GetVolume()->GetName();
   barName.assign(barName.end()-4,barName.end());        // get ID
   int barID = boost::lexical_cast<int>(barName);
   int index = -1;
   for(int i=0;i<fMSDSet->GetEntriesFast();++i){
-    if(((DmpEvtBgoMSD*)fMSDSet->At(i))->GetSDID() == barID){
+    if(((DmpEvtMCBgoMSD*)fMSDSet->At(i))->GetSDID() == barID){
       index = i;
       break;
     }
   }
-  static DmpEvtBgoMSD *aMSD = 0;
+  static DmpEvtMCBgoMSD *aMSD = 0;
   if(index < 0){
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tnew bar has hits = "<<barID<<std::endl;
-#endif
-    //aMSD = (DmpEvtBgoMSD*)fMSDSet->ConstructedAt(fMSDSet->GetEntriesFast());
-    aMSD = (DmpEvtBgoMSD*)fMSDSet->New(fMSDSet->GetEntriesFast());
+    if(gKernel->OutDegubInfor()){
+      std::cout<<"DEBUG: "<<__PRETTY_FUNCTION__<<"\tnew bar has hits = "<<barID<<std::endl;
+    }
+    aMSD = (DmpEvtMCBgoMSD*)fMSDSet->New(fMSDSet->GetEntriesFast());
     aMSD->SetSDID(barID);
   }else{
-    aMSD = (DmpEvtBgoMSD*)fMSDSet->At(index);
+    aMSD = (DmpEvtMCBgoMSD*)fMSDSet->At(index);
   }
   G4ThreeVector position = aStep->GetPreStepPoint()->GetPosition();
   aMSD->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,position.x()/cm,position.y()/cm,position.z()/cm);

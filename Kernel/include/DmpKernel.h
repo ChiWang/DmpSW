@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpKernel.h, 2014-04-30 10:35:31 DAMPE $
+ *  $Id: DmpKernel.h, 2014-04-30 23:18:38 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/04/2014
 */
@@ -7,8 +7,8 @@
 #ifndef DmpKernel_H
 #define DmpKernel_H
 
-class DmpAlgorithmManager;
-class DmpServiceManager;
+#include "DmpAlgorithmManager.h"
+#include "DmpServiceManager.h"
 
 class DmpKernel{
 /*

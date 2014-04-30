@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpAlgorithmManager.h, 2014-04-10 20:18:04 chi $
+ *  $Id: DmpAlgorithmManager.h, 2014-04-30 23:19:47 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/03/2014
 */
@@ -29,9 +29,6 @@ private:
   DmpAlgorithmManager();
 
 };
-
-//-------------------------------------------------------------------
-extern DmpAlgorithmManager  *gDmpAlgMgr;
 
 #endif
 

@@ -7,12 +7,13 @@
 #include "G4GeneralParticleSource.hh"
 
 #include "DmpSimPrimaryGeneratorAction.h"
+#include "DmpEvtMCPrimaryParticle.h"
 #include "DmpSimSvcDataMgr.h"
-#include "DmpServiceManager.h"
+#include "DmpKernel.h"
 
 DmpSimPrimaryGeneratorAction::DmpSimPrimaryGeneratorAction()
  :fGPS(0),
-  fDataMgr(0)
+  fPrimaryParticle(0)
 {
   fGPS = new G4GeneralParticleSource();
   //fGPS->SetNumberOfParticles(1);
@@ -26,14 +27,17 @@ DmpSimPrimaryGeneratorAction::~DmpSimPrimaryGeneratorAction(){
 
 //-------------------------------------------------------------------
 void DmpSimPrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent){
-//std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
   fGPS->GeneratePrimaryVertex(anEvent);
-  fDataMgr->UpdatePrimaryParticleInformation(anEvent);
+// *
+// *  TODO: recorde primary particle information
+// *
+  //fPrimaryParticle->SetXXXX();
+  fPrimaryParticle->SetPDGCode(anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode());
 }
 
 //-------------------------------------------------------------------
 bool DmpSimPrimaryGeneratorAction::Initialize(){
-  fDataMgr = (DmpSimSvcDataMgr*)gDmpSvcMgr->Get("Sim/DataMgr");
-  return fDataMgr;
+  fPrimaryParticle = ((DmpSimSvcDataMgr*)gKernel->ServiceManager()->Get("Sim/DataMgr"))->GetPrimaryParticle();
+  return fPrimaryParticle;
 }
 

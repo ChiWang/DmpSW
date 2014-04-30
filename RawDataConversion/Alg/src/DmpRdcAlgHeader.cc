@@ -4,10 +4,9 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 19/03/2014
 */
 
-#include "DmpServiceManager.h"
-#include "DmpRdcSvcDataMgr.h"
-#include "DmpEvtRdcHeader.h"
 #include "DmpRdcAlgHeader.h"
+#include "DmpEvtRdcHeader.h"
+#include "DmpRdcSvcDataMgr.h"
 #include "DmpKernel.h"
 
 //-------------------------------------------------------------------
@@ -24,8 +23,8 @@ bool DmpRdcAlgHeader::Initialize(){
 // *  TODO:     1.  check Get a 0?
 //              2.  fFile will update if set a new data??
 // *
-  fFile = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->InFileStream();
-  fEvtHeader = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->GetEventHeader();
+  fFile = ((DmpRdcSvcDataMgr*)gKernel->ServiceManager()->Get("Rdc/DataMgr"))->InFileStream();
+  fEvtHeader = ((DmpRdcSvcDataMgr*)gKernel->ServiceManager()->Get("Rdc/DataMgr"))->GetEventHeader();
   return true;
 }
 

@@ -1,5 +1,5 @@
 '''
- *  $Id: SConstruct, 2014-03-07 15:22:10 chi $
+ *  $Id: SConstruct, 2014-04-30 17:44:25 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 24/02/2014
  *---------------------------------------------------
@@ -73,11 +73,6 @@ else:
 prefix=os.path.abspath(prefix)
 print "install DMPSW into: ",prefix
 subDetectors=['Psd','Stk','Bgo','Nud']
-
-# special C++ flags for debug
-#--------------------------------------------------------------------
-if int(ARGUMENTS.get('debug',1)):
-    envBase.Append(CCFLAGS = ['-g','-DDmpDebug'])
 
 # invoke *.scons file of top-1 packages
 #--------------------------------------------------------------------

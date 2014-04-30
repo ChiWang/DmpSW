@@ -15,11 +15,11 @@
 #endif
 #include "DmpSimEntrance.h"
 #include "DmpSimSvcDataMgr.h"
-#include "DmpServiceManager.h"
+#include "DmpKernel.h"
 
 //-------------------------------------------------------------------
 void DmpCore::SimExecute(){
-  std::string inData = ((DmpSimSvcDataMgr*)gDmpSvcMgr->Get("Sim/DataMgr"))->InputData();
+  std::string inData = ((DmpSimSvcDataMgr*)gKernel->ServiceManager()->Get("Sim/DataMgr"))->InputData();
   // UI interface manager
   G4UImanager *uiMgr = G4UImanager::GetUIpointer();
   if(inData == "no"){   // interactive mode: define UI session

@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpRdc_TestKernel, 2014-04-30 16:46:24 DAMPE $
+ *  $Id: JobOpt_DmpRdc, 2014-04-30 20:29:26 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 11/03/2014
  *-----------------------------------------------------
@@ -21,7 +21,7 @@ prefix=os.getenv('DMPSWSYS')
 dmpKernel = DmpCore.DmpKernel.GetInstance()
 dmpSvcMgr = dmpKernel.ServiceManager()
 dmpAlgMgr = dmpKernel.AlgorithmManager()
-#dmpKernel.SetLogLevel(7)
+dmpKernel.SetLogLevel(0)
 '''
   /*
    * LogLevel

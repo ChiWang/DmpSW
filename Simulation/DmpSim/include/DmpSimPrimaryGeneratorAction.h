@@ -10,7 +10,7 @@
 #include "G4VUserPrimaryGeneratorAction.hh"
 
 class G4GeneralParticleSource;
-class DmpSimSvcDataMgr;
+class DmpEvtMCPrimaryParticle;
 
 class DmpSimPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction{
 public:
@@ -25,8 +25,7 @@ public:
 
 private:
   G4GeneralParticleSource   *fGPS;
-  DmpSimSvcDataMgr          *fDataMgr;
-
+  DmpEvtMCPrimaryParticle   *fPrimaryParticle;
 };
 
 #endif

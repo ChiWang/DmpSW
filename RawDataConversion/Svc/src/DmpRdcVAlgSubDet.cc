@@ -4,10 +4,9 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
 
-#include "DmpServiceManager.h"
 #include "DmpRdcSvcDataMgr.h"
 #include "DmpRdcVAlgSubDet.h"
-
+#include "DmpKernel.h"
 
 //-------------------------------------------------------------------
 DmpRdcVAlgSubDet::DmpRdcVAlgSubDet(const std::string &n)
@@ -26,8 +25,8 @@ bool DmpRdcVAlgSubDet::Initialize(){
 // *
 // *  TODO:     1.  check Get a 0?
 //              2.  fFile will update if set a new data??
-  fFile = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->InFileStream();
-  fEvtHeader = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->GetEventHeader();
+  fFile = ((DmpRdcSvcDataMgr*)gKernel->ServiceManager()->Get("Rdc/DataMgr"))->InFileStream();
+  fEvtHeader = ((DmpRdcSvcDataMgr*)gKernel->ServiceManager()->Get("Rdc/DataMgr"))->GetEventHeader();
   if(not InitializeSubDet()){
     return false;
   }

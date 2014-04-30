@@ -40,9 +40,6 @@ void DmpSimSvcBoot::Set(const std::string &type,const std::string &argv){
 
 //-------------------------------------------------------------------
 bool DmpSimSvcBoot::Initialize(){
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-#endif
   fRunMgr = new G4RunManager();
   fPhyFactory = new G4PhysListFactory();
   // NOT delete them in destructor, since G4RunManager will delete them
@@ -50,17 +47,11 @@ std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<st
   fRunMgr->SetUserInitialization(fPhyFactory->GetReferencePhysList(fPhyListName));
   fRunMgr->Initialize();
   fPriGen = new DmpSimPrimaryGeneratorAction();
-  if(not fPriGen->Initialize()){
-    return false;
-  }
+  if(not fPriGen->Initialize()) return false;
   fRunAct = new DmpSimRunAction();
-  if(not fRunAct->Initialize()){
-    return false;
-  }
+  if(not fRunAct->Initialize()) return false;
   fEvtAct = new DmpSimEventAction();
-  if(not fEvtAct->Initialize()){
-    return false;
-  }
+  if(not fEvtAct->Initialize()) return false;
   fTrcAct = new DmpSimTrackingAction();
   fRunMgr->SetUserAction(fPriGen);      // only Primary Generator is mandatory
   fRunMgr->SetUserAction(fRunAct);

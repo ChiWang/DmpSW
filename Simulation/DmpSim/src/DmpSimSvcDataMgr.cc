@@ -9,11 +9,10 @@
 
 #include "G4Event.hh"
 
-#include "DmpEvtSimPrimaryParticle.h"
-#include "DmpEvtHeader.h"
+#include "DmpEvtMCPrimaryParticle.h"
 #include "DmpEvtPsdMSD.h"
 #include "DmpEvtStkMSD.h"
-#include "DmpEvtBgoMSD.h"
+#include "DmpEvtMCBgoMSD.h"
 #include "DmpEvtNudMSD.h"
 #include "DmpSimSvcDataMgr.h"
 
@@ -21,18 +20,16 @@
 DmpSimSvcDataMgr::DmpSimSvcDataMgr()
  :DmpVSvc("Sim/DataMgr"),
   fPrimaryParticle(0),
-  fEvtHeader(0),
   fPsdOutSet(0),
   fStkOutSet(0),
   fBgoOutSet(0),
   fNudOutSet(0)
 {
   SetPackageID("Sim_V1.0_");
-  fPrimaryParticle = new DmpEvtSimPrimaryParticle();
-  fEvtHeader = new DmpEvtHeader();
+  fPrimaryParticle = new DmpEvtMCPrimaryParticle();
   fPsdOutSet = new TClonesArray("DmpEvtPsdMSD",300);
   fStkOutSet = new TClonesArray("DmpEvtStkMSD",300);
-  fBgoOutSet = new TClonesArray("DmpEvtBgoMSD",300);
+  fBgoOutSet = new TClonesArray("DmpEvtMCBgoMSD",300);
   fNudOutSet = new TClonesArray("DmpEvtNudMSD",300);
   std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 }
@@ -40,7 +37,6 @@ DmpSimSvcDataMgr::DmpSimSvcDataMgr()
 //-------------------------------------------------------------------
 DmpSimSvcDataMgr::~DmpSimSvcDataMgr(){
   delete fPrimaryParticle;
-  delete fEvtHeader;
   fPsdOutSet->Delete(); fPsdOutSet->Clear(); delete fPsdOutSet;
   fStkOutSet->Delete(); fStkOutSet->Clear(); delete fStkOutSet;
   fBgoOutSet->Delete(); fBgoOutSet->Clear(); delete fBgoOutSet;
@@ -60,17 +56,12 @@ void DmpSimSvcDataMgr::Set(const std::string &type, const std::string &argv){
 
 //-------------------------------------------------------------------
 void DmpSimSvcDataMgr::BookBranch(){
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-#endif
 // *
 // *  TODO:  for primary particle
 // *
   //fPrimaryParticle->Reset();
-  fEvtHeader->Initialize();
   fOutDataTree = new TTree("DAMPE_Raw","Simulation");
-  fOutDataTree->Branch("PrimaryParticle","DmpEvtSimPrimaryParticle",&fPrimaryParticle,32000,2);
-  fOutDataTree->Branch("EventHeader","DmpEvtHeader",&fEvtHeader,32000,2);
+  fOutDataTree->Branch("PrimaryParticle","DmpEvtMCPrimaryParticle",&fPrimaryParticle,32000,2);
   fOutDataTree->Branch("Psd",fPsdOutSet,32000,2);
   fOutDataTree->Branch("Stk",fStkOutSet,32000,2);
   fOutDataTree->Branch("Bgo",fBgoOutSet,32000,2);
@@ -97,14 +88,6 @@ void DmpSimSvcDataMgr::ResetEvent(){
   fStkOutSet->Delete(); fStkOutSet->Clear();
   fBgoOutSet->Delete(); fBgoOutSet->Clear();
   fNudOutSet->Delete(); fNudOutSet->Clear();
-}
-
-//-------------------------------------------------------------------
-void DmpSimSvcDataMgr::UpdatePrimaryParticleInformation(const G4Event *anEvent){
-// *
-// *  TODO: Use DataManager to save informations of parimary particle
-// *
-//  fPrimaryParticle->SetXXX();
 }
 
 //-------------------------------------------------------------------

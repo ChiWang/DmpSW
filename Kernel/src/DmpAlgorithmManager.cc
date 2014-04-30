@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpAlgorithmManager.cc, 2014-04-08 10:27:47 chi $
+ *  $Id: DmpAlgorithmManager.cc, 2014-04-30 23:19:30 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/03/2014
 */
@@ -25,7 +25,4 @@ bool DmpAlgorithmManager::Process(){
   }
   return true;
 }
-
-//-------------------------------------------------------------------
-DmpAlgorithmManager *gDmpAlgMgr = DmpAlgorithmManager::GetInstance();
 

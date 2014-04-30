@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpServiceManager.cc, 2014-04-10 20:31:12 chi $
+ *  $Id: DmpServiceManager.cc, 2014-04-30 23:18:13 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 15/03/2014
 */
@@ -17,8 +17,5 @@ DmpServiceManager::DmpServiceManager()
 DmpServiceManager::~DmpServiceManager(){
   std::cout<<"DMPSW Kernerl: deleting "<<Name();
 }
-
-//-------------------------------------------------------------------
-DmpServiceManager *gDmpSvcMgr = DmpServiceManager::GetInstance();
 
 

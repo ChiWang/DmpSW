@@ -12,32 +12,29 @@
 
 #include "DmpSimRunAction.h"
 #include "DmpSimSvcDataMgr.h"
-#include "DmpServiceManager.h"
+#include "DmpKernel.h"
 
 //-------------------------------------------------------------------
 DmpSimRunAction::DmpSimRunAction()
  :fDataMgr(0)
 {
-#ifdef DmpDebug
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-#endif
 }
 
 //-------------------------------------------------------------------
 DmpSimRunAction::~DmpSimRunAction(){
-//std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 }
 
 //-------------------------------------------------------------------
 void DmpSimRunAction::BeginOfRunAction(const G4Run *aRun){
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"Run ID = "<<aRun->GetRunID()<<std::endl;
+  if(gKernel->OutDebugInfor()){
+    std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"Run ID = "<<aRun->GetRunID()<<std::endl;
+  }
   fDataMgr->BookBranch(); 
 // *  TODO: engine not works...
-  //Random Engine
   //CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);
   G4long seed = time((time_t*)NULL);
   CLHEP::HepRandom::setTheSeed(seed);
-  CLHEP::HepRandom::showEngineStatus(); 
+  //CLHEP::HepRandom::showEngineStatus(); 
 
 #ifdef G4VIS_USE
   if(G4VVisManager::GetConcreteInstance()){
@@ -57,17 +54,13 @@ void DmpSimRunAction::EndOfRunAction(const G4Run* aRun){
     fileName << "run" << runNumber << "end.rndm";
     CLHEP::HepRandom::saveEngineStatus(fileName.str().c_str()); 
     CLHEP::HepRandom::showEngineStatus();
-  }     
+  }
   ***/
 }
 
 //-------------------------------------------------------------------
 bool DmpSimRunAction::Initialize(){
-/*
- *  if get fDataMgr from gDmpSvcMgr in Constructor, must create service in strict order. So, better get it in Initialize()
- *
- */
-  fDataMgr = (DmpSimSvcDataMgr*)gDmpSvcMgr->Get("Sim/DataMgr");
+  fDataMgr = (DmpSimSvcDataMgr*)gKernel->ServiceManager()->Get("Sim/DataMgr");
   return fDataMgr;
 }
 

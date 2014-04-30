@@ -11,8 +11,7 @@
 #include "DmpVSvc.h"
 
 class G4Event;
-class DmpEvtSimPrimaryParticle;
-class DmpEvtHeader;
+class DmpEvtMCPrimaryParticle;
 class TClonesArray;
 
 class DmpSimSvcDataMgr : public DmpVSvc, public DmpVDataMgr{
@@ -30,18 +29,15 @@ public:
   void BookBranch();            // invoked from BeginOfRunAction()
 
 public:
-  DmpEvtHeader* GetEventHeader() const  {return fEvtHeader;}
   TClonesArray* GetOutCollection(DmpDetector::DmpEDetectorID) const;
-  DmpEvtSimPrimaryParticle* GetPrimaryParticle() const {return fPrimaryParticle;}
-  void UpdatePrimaryParticleInformation(const G4Event*);    // invoked from GeneratePrimaries()
+  DmpEvtMCPrimaryParticle* GetPrimaryParticle() const {return fPrimaryParticle;}
   void Digitize();              // invoked from EndOfEventAction(), before FillEvent()
 
 private:
   void ResetEvent();            // delete all elements in TClonesArray
 
 private:
-  DmpEvtSimPrimaryParticle  *fPrimaryParticle;
-  DmpEvtHeader  *fEvtHeader;
+  DmpEvtMCPrimaryParticle  *fPrimaryParticle;
   TClonesArray  *fPsdOutSet;
   TClonesArray  *fBgoOutSet;
   TClonesArray  *fStkOutSet;

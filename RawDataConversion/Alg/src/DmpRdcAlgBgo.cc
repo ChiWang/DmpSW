@@ -11,10 +11,9 @@
 
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcMSD.h"
-#include "DmpRdcAlgBgo.h"
 #include "DmpRdcSvcDataMgr.h"
-#include "DmpServiceManager.h"
 #include "DmpKernel.h"
+#include "DmpRdcAlgBgo.h"
 
 DmpRdcAlgBgo::DmpRdcAlgBgo()
  :DmpRdcVAlgSubDet("Bgo/Rdc/2014"),
@@ -123,7 +122,7 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
 #include <boost/filesystem/operations.hpp>
 bool DmpRdcAlgBgo::InitializeSubDet(){
   // get TCloneArray of your subDet
-  fMSDSet = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->GetOutCollection(DmpDetector::kBgo);
+  fMSDSet = ((DmpRdcSvcDataMgr*)gKernel->ServiceManager()->Get("Rdc/DataMgr"))->GetOutCollection(DmpDetector::kBgo);
   // setup connector
   if(fConnectorPath == "no"){
     std::cout<<"\n\tNo set connector:\tBgo"<<std::endl;

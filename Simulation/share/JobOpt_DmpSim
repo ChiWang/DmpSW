@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpSim, 2014-04-16 15:58:34 chi $
+ *  $Id: JobOpt_DmpSim, 2014-04-30 20:34:38 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
  *-----------------------------------------------------
@@ -17,6 +17,23 @@ import libDmpCore as DmpCore
 import libDmpSim as  DmpSim
 
 prefix=os.getenv('DMPSWSYS')
+dmpKernel = DmpCore.DmpKernel.GetInstance()
+dmpSvcMgr = dmpKernel.ServiceManager()
+dmpAlgMgr = dmpKernel.AlgorithmManager()
+#dmpKernel.SetLogLevel(7)
+'''
+  /*
+   * LogLevel
+   *    0:      nothing
+   *    1:      debug
+   *    2:      warning
+   *    3:      warning + debug
+   *    4:      error
+   *    5:      error + debug
+   *    6:      error + warning. If NOT SetLogLevel(), will use me
+   *    7:      error + warning + debug
+   */
+'''
 #-------------------------------------------------------------------
 # Create Service
 simDataMgr = DmpSim.DmpSimSvcDataMgr()
@@ -29,25 +46,23 @@ simBoot.SetSubDet(DmpCore.DmpEDetectorID.kPsd,"Gdml",prefix+"/share/Geometry/Psd
 #simBoot.SetSubDet(DmpCore.DmpEDetectorID.kStk,"Gdml",prefix+"/share/Geometry/Stk/Quarter")   # if NOT set, will not construct this subDet
 simBoot.SetSubDet(DmpCore.DmpEDetectorID.kBgo,"Gdml",prefix+"/share/Geometry/Bgo/Quarter")
 #simBoot.SetSubDet(DmpCore.DmpEDetectorID.kNud,"Gdml",prefix+"/share/Geometry/Nud/Quarter")
-simBoot.SetSubDet(DmpCore.DmpEDetectorID.kPsd,"Offset","-60")            # if NOT set, will use the defaulted value
+#simBoot.SetSubDet(DmpCore.DmpEDetectorID.kPsd,"Offset","-60")            # if NOT set, will use the defaulted value
 
 #-------------------------------------------------------------------
-# Create Algorithm
-
-
-#-------------------------------------------------------------------
-# RUN DmpCore
+# Set service and algorithm into Kernel
     ##  Service Manager
-gDmpSvcMgr = DmpCore.DmpServiceManager.GetInstance()
-gDmpSvcMgr.Append(simBoot)
-gDmpSvcMgr.Append(simDataMgr)
-gDmpSvcMgr.Initialize()
+dmpSvcMgr.Append(simBoot)
+dmpSvcMgr.Append(simDataMgr)
     ##  Algorithm Manager
+
+#-------------------------------------------------------------------
+# Boot
+dmpKernel.Initialize()
 
 #-------------------------------------------------------------------
 # Run job
     ##  Start to run this job (Execute())
-for i in range(2):  # could start a new run, without deleting physics list, detector construction and all user actions.
+for i in range(1):  # could start a new run, without deleting physics list, detector construction and all user actions.
     note='run-%d'%i
     simDataMgr.Set("InData",prefix+"/share/TestRelease/Ex_electron.mac")
     simDataMgr.Set("OutDataNote",note)  # append note for the next output data. NOT set is okay. Also could use Set("OutDataPath")
@@ -55,7 +70,7 @@ for i in range(2):  # could start a new run, without deleting physics list, dete
 #DmpSim.Execute()                # run visual mode. if NOT set a input macro file by simDataMgr.Set("InData",aFile)
 
 #-------------------------------------------------------------------
-# Quit DmpCore
-gDmpSvcMgr.Finalize()
+# Quit
+dmpKernel.Finalize()
 
 

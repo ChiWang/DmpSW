@@ -1,26 +1,26 @@
 /*
- *  $Id: DmpRdcEntrance.cc, 2014-04-17 11:31:06 chi $
+ *  $Id: DmpRdcEntrance.cc, 2014-04-30 23:25:33 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
 #include "DmpRdcEntrance.h"
 #include "DmpRdcSvcDataMgr.h"
-#include "DmpServiceManager.h"
-#include "DmpAlgorithmManager.h"
+#include "DmpKernel.h"
 
 //-------------------------------------------------------------------
 void DmpCore::RdcExecute(){
-  static DmpRdcSvcDataMgr *gRdcDataMgr = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"));
+  DmpRdcSvcDataMgr *dmpRdcDataMgr = (DmpRdcSvcDataMgr*)gKernel->ServiceManager()->Get("Rdc/DataMgr");
+  DmpAlgorithmManager *dmpAlgMgr = gKernel->AlgorithmManager();
   // open file
-  if(not gRdcDataMgr->OpenInputData()) return;
+  if(not dmpRdcDataMgr->OpenInputData()) return;
   // convert and save output
-  gRdcDataMgr->BookBranch();
-  for(long i=0;!gRdcDataMgr->InFileStream()->eof();++i){
-    if(not gDmpAlgMgr->Process())  continue;
-    gRdcDataMgr->FillEvent();
+  dmpRdcDataMgr->BookBranch();
+  for(long i=0;!dmpRdcDataMgr->InFileStream()->eof();++i){
+    if(not dmpAlgMgr->Process())  continue;
+    dmpRdcDataMgr->FillEvent();
   }
-  gRdcDataMgr->SaveOutput();
+  dmpRdcDataMgr->SaveOutput();
 }
 
 

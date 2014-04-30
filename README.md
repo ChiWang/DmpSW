@@ -348,10 +348,4 @@ These directories (or link) below are in "/prefix"
 
 1.  All personal test must in "test" directory, you can create "test" directory at wherever you need. Then other people will not waste their time on checking test.
 
-2.  We set define macro "DmpDebug" in SConstruct, in order to help debug. For instance, add the 3 lines below in your code:
-
-    #ifdef DmpDebug
-        std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-    #endif
-
 

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpServiceManager.h, 2014-03-15 09:46:52 chi $
+ *  $Id: DmpServiceManager.h, 2014-04-30 23:19:25 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 15/03/2014
 */
@@ -28,9 +28,6 @@ private:
   DmpServiceManager();
 
 };
-
-//-------------------------------------------------------------------
-extern DmpServiceManager  *gDmpSvcMgr;
 
 #endif
 
