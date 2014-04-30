@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcSvcDataMgr.cc, 2014-04-18 10:30:26 chi $
+ *  $Id: DmpRdcSvcDataMgr.cc, 2014-04-30 09:09:23 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -10,10 +10,7 @@
 #include "TClonesArray.h"
 
 #include "DmpEvtRdcHeader.h"
-#include "DmpEvtPsdMSD.h"
-#include "DmpEvtStkMSD.h"
-#include "DmpEvtRdcBgoMSD.h"
-#include "DmpEvtNudMSD.h"
+#include "DmpEvtRdcMSD.h"
 #include "DmpRdcSvcDataMgr.h"
 
 //-------------------------------------------------------------------
@@ -27,10 +24,10 @@ DmpRdcSvcDataMgr::DmpRdcSvcDataMgr()
 {
   SetPackageID("Rdc_V1.0_");
   fEvtHeader = new DmpEvtRdcHeader();
-  fPsdOutSet = new TClonesArray("DmpEvtPsdMSD",300);
-  fStkOutSet = new TClonesArray("DmpEvtStkMSD",300);
-  fBgoOutSet = new TClonesArray("DmpEvtRdcBgoMSD",300);
-  fNudOutSet = new TClonesArray("DmpEvtNudMSD",300);
+  fPsdOutSet = new TClonesArray("DmpEvtRdcMSD",300);
+  fStkOutSet = new TClonesArray("DmpEvtRdcMSD",300);
+  fBgoOutSet = new TClonesArray("DmpEvtRdcMSD",300);
+  fNudOutSet = new TClonesArray("DmpEvtRdcMSD",300);
 }
 
 //-------------------------------------------------------------------
@@ -70,6 +67,7 @@ std::cout<<"\n\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__
 void DmpRdcSvcDataMgr::FillEvent(){
   fEvtHeader->GenerateStatus();
   DmpVDataMgr::FillEvent();
+  ResetEvent();
 }
 
 //-------------------------------------------------------------------

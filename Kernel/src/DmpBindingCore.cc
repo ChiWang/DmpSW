@@ -11,6 +11,7 @@
 #include "DmpVAlg.h"
 #include "DmpAlgorithmManager.h"
 #include "DmpServiceManager.h"
+#include "DmpKernel.h"
 
 //-------------------------------------------------------------------
     // Wrap DmpVAlg
@@ -92,26 +93,34 @@ BOOST_PYTHON_MODULE(libDmpCore){
   ;
   // DmpAlgorithmManager
   class_<DmpAlgorithmManager,boost::noncopyable>("DmpAlgorithmManager",no_init)
-    .def("GetInstance", &DmpAlgorithmManager::GetInstance,return_value_policy<reference_existing_object>())
-    .staticmethod("GetInstance")
+// *
+// *  TODO:  only keep Append
+// *
     .def("Append",  &DmpAlgorithmManager::Append)
     //.def("Replace", &DmpAlgorithmManager::Replace)
     //.def("Get",     &DmpAlgorithmManager::Get,return_value_policy<reference_existing_object>())
-    //.def("ListAllElements",&DmpAlgorithmManager::ListAllElements)
-    .def("Initialize",  &DmpAlgorithmManager::Initialize)
-    .def("Finalize",    &DmpAlgorithmManager::Finalize)
-    //.def("Process",     &DmpAlgorithmManager::Process)
+    .def("ListAllElements",&DmpAlgorithmManager::ListAllElements)
   ;
   // DmpServiceManager
   class_<DmpServiceManager,boost::noncopyable>("DmpServiceManager",no_init)
-    .def("GetInstance", &DmpServiceManager::GetInstance,return_value_policy<reference_existing_object>())
-    .staticmethod("GetInstance")
+// *
+// *  TODO:     only keep Append
+// *
     .def("Append",  &DmpServiceManager::Append)
     //.def("Replace", &DmpServiceManager::Replace)
     //.def("Get",     &DmpServiceManager::Get,return_value_policy<reference_existing_object>())
-    //.def("ListAllElements",&DmpServiceManager::ListAllElements)
-    .def("Initialize",  &DmpServiceManager::Initialize)
-    .def("Finalize",    &DmpServiceManager::Finalize)
+    .def("ListAllElements",&DmpServiceManager::ListAllElements)
+  ;
+  // DmpKernel
+  class_<DmpKernel,boost::noncopyable>("DmpKernel",no_init)
+    .def("GetInstance", &DmpKernel::GetInstance,return_value_policy<reference_existing_object>())
+    .staticmethod("GetInstance")
+    .def("Initialize",  &DmpKernel::Initialize)
+    .def("Run",         &DmpKernel::Run)
+    .def("Finalize",    &DmpKernel::Finalize)
+    .def("SetLogLevel", &DmpKernel::SetLogLevel)
+    .def("AlgorithmManager",    &DmpKernel::AlgorithmManager,return_value_policy<reference_existing_object>())
+    .def("ServiceManager",      &DmpKernel::ServiceManager,return_value_policy<reference_existing_object>())
   ;
 }
 

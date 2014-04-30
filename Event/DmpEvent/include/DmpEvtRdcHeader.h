@@ -14,38 +14,49 @@
 
 //-------------------------------------------------------------------
 class DmpRdcHeaderSubDet : public TObject{
+/*
+ *  DmpRdcHeaderSubDet
+ *
+ *      this class used to recored subDet Header
+ *
+ */
 public:
-  enum FeeErrorType{
-    k_good = 0,
-    k_eb90 = 1,
-    k_datalength = 2,
-    k_CRC = 3,
+  enum DataErrorType{
+    Good = 0,
+    NotFind_0xeb = 1,
+    NotFind_0x90 = 2,
+    NotMatch_RunMode = 3,
+    Wrong_DataLength = 4,
+    NotMatch_Trigger = 5,
+    Wrong_CRC = 6,
   };
   DmpRdcHeaderSubDet();
   ~DmpRdcHeaderSubDet();
-  void SetTrigger(const short &t) {fTrigger = t;}
+  void  SetTrigger(const short &t) {fTrigger = t;}
+  void  SetRunMode(const short &m) {fRunMode = (DmpDetector::DmpERunMode)m;}
+  void  SetErrorLog(const short &FeeID,const DataErrorType &type);
+  void  Reset();
   const short& Trigger() const {return fTrigger;}
-  void SetRunMode(const short &m) {fRunMode = (DmpDetector::DmpERunMode)m;}
   DmpDetector::DmpERunMode RunMode() const {return fRunMode;}
-  void SetErrorLog(const short &FeeID,const FeeErrorType &type) {fErrors.push_back(FeeID*10+type);}
-  bool IsGoodEvent() const;
+  bool  IsGoodEvent() const;
   std::vector<short> Errors() const {return fErrors;}
-  void Reset();
 
 private:
   short     fTrigger;                   // trigger
   DmpDetector::DmpERunMode  fRunMode;   // mode
   std::vector<short>        fErrors;    // all errors infor.
   /*
-   * fErrors[0] is for global check
+   * fErrors[0] is for global check, check all Fee stauts of this subDet
    *    good event:         0
-   *    triggers not match: -1
-   *    lost FEE:           -x0 (some one not find eb90. x = find_n_Fee - total_Fee)
+   *    triggers match?
+   *    run mode match?
+   *    lost FEE?
    *
    * fErrors[i] is for a single Fee
-   *    not find eb90:      1 + last_Fee_ID*10
-   *    data length error:  2 + Fee_ID*10
-   *    CRC error:          3 + Fee_ID*10
+   *    not find 0xeb:      1 + last_Fee_ID*10
+   *    not find 0x90:      2 + last_Fee_ID*10
+   *    data length error:  3 + Fee_ID*10
+   *    CRC error:          4 + Fee_ID*10
    *
    */
 
@@ -65,7 +76,6 @@ public:
   ~DmpEvtRdcHeader();
 
   void  SetTime(const short&,const short&);
-  void  PrintTime()const;       // only Rdc use it
   void  GenerateStatus();
   void  SetTrigger(const short &v) {fTrigger = v;}
   void  Reset();
@@ -74,6 +84,9 @@ public:
   short Trigger() const;
   short Status() const {return fStatus;}
   DmpRdcHeaderSubDet* Detector(const DmpDetector::DmpEDetectorID &id) const;
+
+public:
+  static void  PrintTime();       // only Rdc use it
 
 private:
   long      fSec;           // second
@@ -95,7 +108,7 @@ private:
   DmpRdcHeaderSubDet *fNud; // header infor. of subDet
 
 private:    // variables below will not save into root file
-  short     fTime[8];       //! not save
+  static short     fTime[8];       //! not save
   /*
    *    8 bytes from satellite
    *    fTime[0~5] = second

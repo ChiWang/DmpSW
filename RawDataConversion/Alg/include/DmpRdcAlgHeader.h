@@ -11,7 +11,6 @@
 
 #include "DmpVAlg.h"
 
-class DmpRdcSvcLog;
 class DmpEvtRdcHeader;
 
 class DmpRdcAlgHeader : public DmpVAlg{
@@ -30,7 +29,6 @@ public:
 
 protected:
   std::ifstream     *fFile;             // in data stream, for all Alg. of subDet
-  DmpRdcSvcLog      *fLog;              // log status, for all Alg. of subDet
 
 protected:
   DmpEvtRdcHeader   *fEvtHeader;        //

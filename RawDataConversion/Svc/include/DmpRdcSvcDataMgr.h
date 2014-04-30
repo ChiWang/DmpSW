@@ -37,7 +37,7 @@ public:
   TClonesArray* GetOutCollection(DmpDetector::DmpEDetectorID) const;
 
 private:
-  void ResetEvent();            // delete all elements in TClonesArray
+  void ResetEvent();    // delete all elements in TClonesArray
 
 private:
   std::ifstream     fInDataStream;  // inFile stream. update it for every binary data

@@ -13,6 +13,7 @@
 
 #pragma link C++ class DmpRdcHeaderSubDet+;
 #pragma link C++ class DmpEvtRdcHeader+;
+#pragma link C++ class DmpEvtRdcMSD+;
 // *
 // *  TODO: choose one, EvtHeader and EvtRdcHeader
 // *

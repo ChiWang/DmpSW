@@ -16,13 +16,11 @@
  */
 namespace DmpDetector{
   namespace Psd{
-    const short kPlaneNo = 1;
-    const short kBarNo   = 11;
+    const short kPlaneNo = 2;
+    const short kBarNo   = 24;
     const short kRefBarNo= 2;
     const short kSideNo  = 2;
     const short kDyNo    = 2;
-    const short kFEENo   = 1;
-    const short kFEEType = 1;
   }
 }
 

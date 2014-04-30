@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcVAlgSubDet.h, 2014-04-17 00:18:53 chi $
+ *  $Id: DmpRdcVAlgSubDet.h, 2014-04-30 09:12:40 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 20/03/2014
 */
@@ -14,7 +14,6 @@
 
 class TClonesArray;
 class DmpEvtRdcHeader;
-class DmpRdcSvcLog;
 
 class DmpRdcVAlgSubDet : public DmpVAlg{
 /*
@@ -36,8 +35,7 @@ protected:
 
 protected:
   std::ifstream         *fFile;             // in data stream, for all Alg. of subDet
-  DmpRdcSvcLog          *fLog;              // log status, for all Alg. of subDet
-  DmpEvtRdcHeader          *fEvtHeader;        // all subDet need it
+  DmpEvtRdcHeader       *fEvtHeader;        // all subDet need it
   std::string           fConnectorPath;     // where to read cnct files
   std::map<int,int>     fConnector;         // for all input datas
     /*

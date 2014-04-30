@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpRdc, 2014-04-29 15:09:54 DAMPE $
+ *  $Id: JobOpt_DmpRdc_TestKernel, 2014-04-30 16:46:24 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 11/03/2014
  *-----------------------------------------------------
@@ -15,43 +15,57 @@ import sys
 sys.setdlopenflags(0x100|0x2)
 import libDmpCore as DmpCore
 import libDmpRdcSvc as DmpRdcSvc
-import libDmpRdc as  DmpRdc
+import libDmpRdcAlg as DmpRdcAlg
 
 prefix=os.getenv('DMPSWSYS')
+dmpKernel = DmpCore.DmpKernel.GetInstance()
+dmpSvcMgr = dmpKernel.ServiceManager()
+dmpAlgMgr = dmpKernel.AlgorithmManager()
+#dmpKernel.SetLogLevel(7)
+'''
+  /*
+   * LogLevel
+   *    0:      nothing
+   *    1:      debug
+   *    2:      warning
+   *    3:      warning + debug
+   *    4:      error
+   *    5:      error + debug
+   *    6:      error + warning. If NOT SetLogLevel(), will use me
+   *    7:      error + warning + debug
+   */
+'''
 #-------------------------------------------------------------------
 # Create Service
 rdcDataMgr = DmpRdcSvc.DmpRdcSvcDataMgr()
 rdcDataMgr.Set("OutDataPath","./test")      # where to save the output. If NOT set will use "./" by defualt
-rdcLog = DmpRdcSvc.DmpRdcSvcLog()
-rdcLog.Set("Log/Level","1")                 # 0: nothing. 1: error infor. >1 everything
 
 #-------------------------------------------------------------------
 # Create Algorithm
-rdcAlgHed = DmpRdcAlg.DmpRdcAlgHeader("RdcAlgHeader")
-rdcAlgPsd = DmpRdcAlg.DmpRdcAlgPsd()
-rdcAlgNud = DmpRdcAlg.DmpRdcAlgNud()
+rdcAlgHed = DmpRdcAlg.DmpRdcAlgHeader()
+#rdcAlgPsd = DmpRdcAlg.DmpRdcAlgPsd()
+#rdcAlgNud = DmpRdcAlg.DmpRdcAlgNud()
 rdcAlgBgo = DmpRdcAlg.DmpRdcAlgBgo()
-rdcAlgStk = DmpRdcAlg.DmpRdcAlgStk()
-rdcAlgPsd.Set("CnctPath",prefix+"/share/Connector/Psd/Quarter")
-rdcAlgNud.Set("CnctPath",prefix+"/share/Connector/Nud/Quarter")
-rdcAlgBgo.Set("CnctPath",prefix+"/share/Connector/Bgo/Quarter")
-rdcAlgStk.Set("CnctPath",prefix+"/share/Connector/Stk/Quarter")
+#rdcAlgStk = DmpRdcAlg.DmpRdcAlgStk()
+#rdcAlgPsd.Set("CnctPath",prefix+"/share/Connector/Psd/Quarter")
+#rdcAlgNud.Set("CnctPath",prefix+"/share/Connector/Nud/Quarter")
+rdcAlgBgo.Set("CnctPath",prefix+"/share/Connector/Bgo/Prototype")
+#rdcAlgStk.Set("CnctPath",prefix+"/share/Connector/Stk/Quarter")
 
 #-------------------------------------------------------------------
-# RUN DmpCore
+# Set service and algorithm into Kernel
     ##  Service Manager
-gDmpSvcMgr = DmpCore.DmpServiceManager.GetInstance()
-gDmpSvcMgr.Append(rdcDataMgr)
-gDmpSvcMgr.Append(rdcLog)
-gDmpSvcMgr.Initialize()
+dmpSvcMgr.Append(rdcDataMgr)
     ##  Algorithm Manager (Append order is important)
-gDmpAlgMgr = DmpCore.DmpAlgorithmManager.GetInstance()
-gDmpAlgMgr.Append(rdcAlgHed)
-gDmpAlgMgr.Append(rdcAlgNud)
-gDmpAlgMgr.Append(rdcAlgPsd)
-gDmpAlgMgr.Append(rdcAlgBgo)
-#gDmpAlgMgr.Append(rdcAlgStk)
-gDmpAlgMgr.Initialize()
+dmpAlgMgr.Append(rdcAlgHed)
+#dmpAlgMgr.Append(rdcAlgNud)
+#dmpAlgMgr.Append(rdcAlgPsd)
+dmpAlgMgr.Append(rdcAlgBgo)
+#dmpAlgMgr.Append(rdcAlgStk)
+
+#-------------------------------------------------------------------
+# Boot
+dmpKernel.Initialize()
 
 #-------------------------------------------------------------------
 # Run job
@@ -64,7 +78,7 @@ DmpRdcSvc.Execute()
 #DmpRdc.Execute()
 
 #-------------------------------------------------------------------
-# Quit DmpCore
-gDmpAlgMgr.Finalize()
+# Quit
+dmpKernel.Finalize()
 
 

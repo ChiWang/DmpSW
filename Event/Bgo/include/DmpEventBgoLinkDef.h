@@ -10,11 +10,6 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
-#pragma link C++ class DmpEvtRdcBgoMSD+;
-
-// *
-// *  TODO: delete old event classes(DmpEvtBgoPMT, DmpEvtBgoMSD) for Rdc and Sim.  Need to define new event class for sim.
-// *
 #pragma link C++ struct DmpEvtBgoPMT+;
 #pragma link C++ class DmpEvtBgoMSD+;
 #pragma link C++ class DmpEvtBgoShower+;

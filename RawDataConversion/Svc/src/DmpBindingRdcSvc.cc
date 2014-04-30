@@ -11,7 +11,6 @@
 // *
 #include "DmpRdcEntrance.h"
 // default service of Rdc
-#include "DmpRdcSvcLog.h"
 #include "DmpRdcSvcDataMgr.h"
 
 BOOST_PYTHON_MODULE(libDmpRdcSvc){
@@ -20,8 +19,6 @@ BOOST_PYTHON_MODULE(libDmpRdcSvc){
   // DmpRdcEntrance
   def("Execute",    DmpCore::RdcExecute);
 
-  // DmpRdcSvcLog
-  class_<DmpRdcSvcLog,boost::noncopyable,bases<DmpVSvc> >("DmpRdcSvcLog",init<>());
   // DmpRdcSvcDataMgr
   class_<DmpRdcSvcDataMgr,boost::noncopyable,bases<DmpVSvc> >("DmpRdcSvcDataMgr",init<>());
 

@@ -9,20 +9,18 @@
 
 #include "TClonesArray.h"
 
-#include "DmpDetectorBgo.h"
-#include "DmpEvtRdcBgoMSD.h"
 #include "DmpEvtRdcHeader.h"
+#include "DmpEvtRdcMSD.h"
 #include "DmpRdcAlgBgo.h"
 #include "DmpRdcSvcDataMgr.h"
-#include "DmpRdcSvcLog.h"
 #include "DmpServiceManager.h"
+#include "DmpKernel.h"
 
 DmpRdcAlgBgo::DmpRdcAlgBgo()
  :DmpRdcVAlgSubDet("Bgo/Rdc/2014"),
   fFEEType(0),
   fFEENo(16)
 {
-std::cout<<"DEBUG: (for 2014)"<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 }
 
 //-------------------------------------------------------------------
@@ -31,41 +29,46 @@ DmpRdcAlgBgo::~DmpRdcAlgBgo(){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBgo::ProcessThisEvent(){
+  static bool firstIn = true;
+  if(gKernel->OutDebugInfor() && firstIn){
+    std::cout<<"DEBUG: "<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
+    firstIn = false;
+  }
   if(not fConnectorDone){
     std::cout<<"Error:  Connector not set\t"<<__PRETTY_FUNCTION__<<std::endl;
     return true;
   }
-  fLog->Type(0);
-  fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(0,DmpRdcHeaderSubDet::k_good);       // the first element for whole subDet
+// *
+// *  TODO: SetErrorLog wrong
+// *
+  fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(0,DmpRdcHeaderSubDet::Good);       // the first element for whole subDet
 //-------------------------------------------------------------------
-  static short data=0, data2=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
-  for(short counts=0;counts<fFEENo;++counts){
+  static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0, data=0, data2=0;
+  for(std::size_t counts=0;counts<fFEENo;++counts){
     fFile->read((char*)(&data),1);
     if(data != 0xeb){
-std::cout<<" xxzz1 = "<<std::hex<<data<<std::dec<<" tellg = "<<fFile->tellg()<<std::endl;
+      fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(counts+1,DmpRdcHeaderSubDet::NotFind_0xeb);
       return false;
     }
     fFile->read((char*)(&data),1);
     if(data != 0x90){
-std::cout<<" xxzz2 = "<<std::hex<<data<<std::dec<<" tellg = "<<fFile->tellg()<<std::endl;
-      fLog->Type(-1);
-      fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(counts+1,DmpRdcHeaderSubDet::k_eb90);
+      fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(counts+1,DmpRdcHeaderSubDet::NotFind_0x90);
       return false;
     }
-    fFile->read((char*)(&data),1);       // reserved 1 byte
-    fFile->read((char*)(&data),1);       // run mode and FEE ID
+    fFile->read((char*)(&data),1);      // reserved 1 byte
+    fFile->read((char*)(&data),1);      // run mode and FEE ID
     feeID = data%16;
     if(counts == 0){
       fEvtHeader->Detector(DmpDetector::kBgo)->SetRunMode(data/16-fFEEType);
     }else{
       if(fEvtHeader->Detector(DmpDetector::kBgo)->RunMode() != data/16-fFEEType){
-        fLog->Type(-4);
+        fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(counts+1,DmpRdcHeaderSubDet::NotMatch_RunMode);
         return false;
       }
     }
-    fFile->read((char*)(&data),1);       // data length, 2 bytes
+    fFile->read((char*)(&data),1);      // data length, 2 bytes
     fFile->read((char*)(&data2),1);
-    nBytes = data*256+data2-2-2-2;        // 2 bytes for data length, 2 bytes for trigger, 2 bytes for CRC
+    nBytes = data*256+data2-2-2-2;      // 2 bytes for data length, 2 bytes for trigger, 2 bytes for CRC
 // *
 // *  TODO: check data length
 // *
@@ -84,29 +87,34 @@ std::cout<<" xxzz2 = "<<std::hex<<data<<std::dec<<" tellg = "<<fFile->tellg()<<s
         fFile->read((char*)(&data2),1);
         if(fConnector[feeID*1000+channelID] != 0){
           AppendThisSignal(fConnector[feeID*1000+channelID],data*256+data2);
-        //}else{
-          //std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<" FeeID = "<<feeID<<" cha = "<<channelID<<" physi = "<<data*256+data2<<std::endl;
+        }else{
+          if(gKernel->OutErrorInfor()){
+            std::cout<<"Error: "<<__PRETTY_FUNCTION__<<" Connector Key Wrong. FeeID("<<feeID<<") Channel("<<channelID<<") ADC("<<data*256+data2<<")"<<std::endl;
+          }
         }
       }
       if(nBytes%3){     // nBytes%3 == 1
         fFile->read((char*)(&data),1);
       }
     }
-    fFile->read((char*)(&data),1);       // trigger status
-    fFile->read((char*)(&data),1);       // trigger
+    fFile->read((char*)(&data),1);      // trigger status
+    fFile->read((char*)(&data),1);      // trigger
     if(counts == 0){
       fEvtHeader->Detector(DmpDetector::kBgo)->SetTrigger(data);
     }else{
       if(fEvtHeader->Detector(DmpDetector::kBgo)->Trigger() != data){
-        fLog->Type(-3);
+        fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(counts+1,DmpRdcHeaderSubDet::NotMatch_Trigger);
         return false;
       }
     }
-    fFile->read((char*)(&data),1);       // 2 bytes for CRC
-    fFile->read((char*)(&data),1);       // must spplit them, 2 bytes for CRC
+    fFile->read((char*)(&data),1);      // 2 bytes for CRC
+    fFile->read((char*)(&data),1);      // must spplit them, 2 bytes for CRC
   }
 //-------------------------------------------------------------------
-  fLog->Type(nSignal);
+  if(gKernel->OutDebugInfor()){
+    std::cout<<" to "<<fFile->tellg()<<"\t---> signalNo = "<<nSignal<<std::endl;
+    firstIn = true;
+  }
   return true;
 }
 
@@ -154,21 +162,21 @@ bool DmpRdcAlgBgo::InitializeSubDet(){
 
 //-------------------------------------------------------------------
 void DmpRdcAlgBgo::AppendThisSignal(const int &id, const float &v){
-  static DmpEvtRdcBgoMSD *aMSD = 0;
+  static DmpEvtRdcMSD *aMSD = 0;
   static short i=0, barID=0;
   int index = -1;
   barID = id/100;
   for(i=0;i<fMSDSet->GetEntriesFast();++i){
-    if(((DmpEvtRdcBgoMSD*)fMSDSet->At(i))->GetSDID() == barID){
+    if(((DmpEvtRdcMSD*)fMSDSet->At(i))->GetSDID() == barID){
       index = i;
     }
   }
   if(index < 0){
     index = fMSDSet->GetEntriesFast();
-    aMSD = (DmpEvtRdcBgoMSD*)fMSDSet->ConstructedAt(index);
+    aMSD = (DmpEvtRdcMSD*)fMSDSet->ConstructedAt(index);
     aMSD->SetSDID(barID);
   }else{
-    aMSD = (DmpEvtRdcBgoMSD*)fMSDSet->At(index);
+    aMSD = (DmpEvtRdcMSD*)fMSDSet->At(index);
   }
   aMSD->SetSignal(v,id%100);
 }
