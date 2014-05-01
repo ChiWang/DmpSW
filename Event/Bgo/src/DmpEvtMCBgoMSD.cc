@@ -1,11 +1,10 @@
 /*
- *  $Id: DmpEvtMCBgoMSD.cc, 2014-04-30 21:08:38 DAMPE $
+ *  $Id: DmpEvtMCBgoMSD.cc, 2014-05-01 21:18:52 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
 
 #include "DmpEvtMCBgoMSD.h"
-#include "DmpDetectorBgo.h"
 
 ClassImp(DmpEvtMCBgoMSD)
 

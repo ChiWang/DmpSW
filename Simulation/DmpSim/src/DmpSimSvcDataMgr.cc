@@ -10,10 +10,10 @@
 #include "G4Event.hh"
 
 #include "DmpEvtMCPrimaryParticle.h"
-#include "DmpEvtPsdMSD.h"
-#include "DmpEvtStkMSD.h"
+#include "DmpEvtMCPsdMSD.h"
+#include "DmpEvtMCStkMSD.h"
 #include "DmpEvtMCBgoMSD.h"
-#include "DmpEvtNudMSD.h"
+#include "DmpEvtMCNudMSD.h"
 #include "DmpSimSvcDataMgr.h"
 
 //-------------------------------------------------------------------
@@ -27,11 +27,10 @@ DmpSimSvcDataMgr::DmpSimSvcDataMgr()
 {
   SetPackageID("Sim_V1.0_");
   fPrimaryParticle = new DmpEvtMCPrimaryParticle();
-  fPsdOutSet = new TClonesArray("DmpEvtPsdMSD",300);
-  fStkOutSet = new TClonesArray("DmpEvtStkMSD",300);
+  fPsdOutSet = new TClonesArray("DmpEvtMCPsdMSD",300);
+  fStkOutSet = new TClonesArray("DmpEvtMCStkMSD",300);
   fBgoOutSet = new TClonesArray("DmpEvtMCBgoMSD",300);
-  fNudOutSet = new TClonesArray("DmpEvtNudMSD",300);
-  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+  fNudOutSet = new TClonesArray("DmpEvtMCNudMSD",300);
 }
 
 //-------------------------------------------------------------------

@@ -1,13 +1,8 @@
-/*=====================================================================
- *   File:   DmpEvent_Psd_LinkDef.h
- *   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    13/12/2013
- *---------------------------------------------------------------------
- *   Description:
- *
- *---------------------------------------------------------------------
- *   History:
- *                           Last update:  13/12/2013   12:40:40
-=====================================================================*/
+/*
+ *  $Id: DmpEventPsdLinkDef.h, 2014-05-01 20:55:15 DAMPE $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
+*/
 
 #ifdef __CINT__
 
@@ -15,6 +10,6 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
-#pragma link C++ class DmpEvtPsdMSD+;
+#pragma link C++ class DmpEvtMCPsdMSD+;
 
 #endif

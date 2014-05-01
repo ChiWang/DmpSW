@@ -1,37 +1,27 @@
 /*
- *  $Id: DmpEvtStkMSD.cc, 2014-04-05 15:12:22 chi $
+ *  $Id: DmpEvtMCStkMSD.cc, 2014-05-01 21:19:20 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
 
-#include "DmpEvtStkMSD.h"
-#include "DmpDetectorStk.h"
+#include "DmpEvtMCStkMSD.h"
 
-ClassImp(DmpEvtStkMSD)
+ClassImp(DmpEvtMCStkMSD)
 
 //------------------------------------------------------------------------------
-DmpEvtStkMSD::DmpEvtStkMSD()
+DmpEvtMCStkMSD::DmpEvtMCStkMSD()
  :fSDID(0),
-  fEnergy(0),
-  fUsedSide(0)
+  fEnergy(0)
 {
-  for (int i=0;i<3;++i) fPosition[i]=0;
+  for (short i=0;i<3;++i) fPosition[i]=0;
 }
 
 //------------------------------------------------------------------------------
-DmpEvtStkMSD::~DmpEvtStkMSD(){
+DmpEvtMCStkMSD::~DmpEvtMCStkMSD(){
 }
 
 //-------------------------------------------------------------------
-void DmpEvtStkMSD::Reset(){
-
-}
-
-//------------------------------------------------------------------------------
-void DmpEvtStkMSD::PrintHit() const{
-}
-
-void DmpEvtStkMSD::AddThisHit(double e, double x, double y, double z){
+void DmpEvtMCStkMSD::AddG4Hit(const double &e,const double &x,const double &y,const double &z){
   double totE = e + fEnergy;
   double nX = (e*x + fEnergy*fPosition[0])/totE;
   double nY = (e*y + fEnergy*fPosition[1])/totE;
@@ -41,3 +31,5 @@ void DmpEvtStkMSD::AddThisHit(double e, double x, double y, double z){
   fPosition[2] = nZ;
   fEnergy = totE;
 }
+
+

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEvtRdcMSD.h, 2014-04-29 22:31:58 DAMPE $
+ *  $Id: DmpEvtRdcMSD.h, 2014-05-01 21:19:32 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 24/04/2014
 */

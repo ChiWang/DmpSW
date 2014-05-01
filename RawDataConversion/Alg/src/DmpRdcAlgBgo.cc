@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgBgo.cc, 2014-04-26 09:58:29 DAMPE $
+ *  $Id: DmpRdcAlgBgo.cc, 2014-05-01 17:40:39 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
  *    Yifeng WEI (weiyf@mail.ustc.edu.cn) 24/04/2014
@@ -34,7 +34,9 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
     firstIn = false;
   }
   if(not fConnectorDone){
-    std::cout<<"Error:  Connector not set\t"<<__PRETTY_FUNCTION__<<std::endl;
+    if(gKernel->PrintError()){
+      std::cout<<"Error:  Connector not set\t"<<__PRETTY_FUNCTION__<<std::endl;
+    }
     return true;
   }
 // *
