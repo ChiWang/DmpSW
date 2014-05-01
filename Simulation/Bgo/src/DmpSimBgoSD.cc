@@ -46,7 +46,7 @@ G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
   }
   static DmpEvtMCBgoMSD *aMSD = 0;
   if(index < 0){
-    if(gKernel->OutDebugInfor()){
+    if(gKernel->PrintDebug()){
       std::cout<<"DEBUG: "<<__PRETTY_FUNCTION__<<"\tnew bar has hits = "<<barID<<std::endl;
     }
     aMSD = (DmpEvtMCBgoMSD*)fMSDSet->New(fMSDSet->GetEntriesFast());

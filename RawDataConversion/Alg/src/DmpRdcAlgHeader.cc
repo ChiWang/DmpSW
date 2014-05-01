@@ -31,7 +31,7 @@ bool DmpRdcAlgHeader::Initialize(){
 //-------------------------------------------------------------------
 bool DmpRdcAlgHeader::ProcessThisEvent(){
   static bool firstIn = true;
-  if(gKernel->OutDebugInfor() && firstIn){
+  if(gKernel->PrintDebug() && firstIn){
     std::cout<<"\nDEBUG: "<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
     firstIn = false;
   }
@@ -58,7 +58,7 @@ bool DmpRdcAlgHeader::ProcessThisEvent(){
     fEvtHeader->SetTime(index,tmp);
   }
 //-------------------------------------------------------------------
-  if(gKernel->OutDebugInfor()){
+  if(gKernel->PrintDebug()){
     std::cout<<" to "<<fFile->tellg()<<std::endl;
     firstIn = true;
   }

@@ -49,7 +49,7 @@ bool DmpKernel::Finalize(){
 }
 
 //-------------------------------------------------------------------
-bool DmpKernel::OutErrorInfor() const {
+bool DmpKernel::PrintError() const {
   if((fLogLevel%8)/4 == 1){
     return true;
   }
@@ -57,7 +57,7 @@ bool DmpKernel::OutErrorInfor() const {
 }
 
 //-------------------------------------------------------------------
-bool DmpKernel::OutWarningInfor() const {
+bool DmpKernel::PrintWarning() const {
   if((fLogLevel%4)/2 == 1){
     return true;
   }
@@ -65,7 +65,7 @@ bool DmpKernel::OutWarningInfor() const {
 }
 
 //-------------------------------------------------------------------
-bool DmpKernel::OutDebugInfor() const {
+bool DmpKernel::PrintDebug() const {
   if(fLogLevel%2 == 1){
     return true;
   }

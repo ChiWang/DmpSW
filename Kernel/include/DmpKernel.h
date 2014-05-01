@@ -34,9 +34,9 @@ public:     // binding functions
   DmpServiceManager*    ServiceManager() const {return fSvcMgr;}
 
 public:
-  bool OutErrorInfor() const;
-  bool OutWarningInfor() const;
-  bool OutDebugInfor() const;
+  bool PrintError() const;
+  bool PrintWarning() const;
+  bool PrintDebug() const;
 
 private:
   DmpKernel();

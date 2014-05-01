@@ -29,15 +29,13 @@ public:
   void Set(const std::string&, const std::string&);
   void BookBranch();
   void FillEvent();
+  void ResetEvent();    // delete all elements in TClonesArray
 
 public:
   bool OpenInputData();
   std::ifstream* InFileStream() {return &fInDataStream;}
   DmpEvtRdcHeader* GetEventHeader() const {return fEvtHeader;}
   TClonesArray* GetOutCollection(DmpDetector::DmpEDetectorID) const;
-
-private:
-  void ResetEvent();    // delete all elements in TClonesArray
 
 private:
   std::ifstream     fInDataStream;  // inFile stream. update it for every binary data

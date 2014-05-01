@@ -29,7 +29,7 @@ DmpRdcAlgBgo::~DmpRdcAlgBgo(){
 //-------------------------------------------------------------------
 bool DmpRdcAlgBgo::ProcessThisEvent(){
   static bool firstIn = true;
-  if(gKernel->OutDebugInfor() && firstIn){
+  if(gKernel->PrintDebug() && firstIn){
     std::cout<<"DEBUG: "<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
     firstIn = false;
   }
@@ -87,7 +87,7 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
         if(fConnector[feeID*1000+channelID] != 0){
           AppendThisSignal(fConnector[feeID*1000+channelID],data*256+data2);
         }else{
-          if(gKernel->OutErrorInfor()){
+          if(gKernel->PrintError()){
             std::cout<<"Error: "<<__PRETTY_FUNCTION__<<" Connector Key Wrong. FeeID("<<feeID<<") Channel("<<channelID<<") ADC("<<data*256+data2<<")"<<std::endl;
           }
         }
@@ -110,7 +110,7 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
     fFile->read((char*)(&data),1);      // must spplit them, 2 bytes for CRC
   }
 //-------------------------------------------------------------------
-  if(gKernel->OutDebugInfor()){
+  if(gKernel->PrintDebug()){
     std::cout<<" to "<<fFile->tellg()<<"\t---> signalNo = "<<nSignal<<std::endl;
     firstIn = true;
   }

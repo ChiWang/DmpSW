@@ -25,7 +25,7 @@ DmpRdcHeaderSubDet::~DmpRdcHeaderSubDet(){
 //-------------------------------------------------------------------
 void DmpRdcHeaderSubDet::SetErrorLog(const short &FeeID,const DataErrorType &type){
   fErrors.push_back(FeeID*10 + type);
-  if(gKernel->OutErrorInfor()){
+  if(gKernel->PrintError()){
     switch(type){
       case NotFind_0xeb:
         std::cout<<"\tError: not find 0xeb\t";

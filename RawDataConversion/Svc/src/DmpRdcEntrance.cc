@@ -19,6 +19,7 @@ void DmpCore::RdcExecute(){
   for(long i=0;!dmpRdcDataMgr->InFileStream()->eof();++i){
     if(not dmpAlgMgr->Process())  continue;
     dmpRdcDataMgr->FillEvent();
+    dmpRdcDataMgr->ResetEvent();
   }
   dmpRdcDataMgr->SaveOutput();
 }

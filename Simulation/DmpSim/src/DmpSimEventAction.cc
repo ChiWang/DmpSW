@@ -43,7 +43,7 @@ DmpSimEventAction::~DmpSimEventAction(){
 
 //-------------------------------------------------------------------
 void DmpSimEventAction::BeginOfEventAction(const G4Event *anEvent){
-  if(gKernel->OutDebugInfor()){
+  if(gKernel->PrintDebug()){
     std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tEvent ID = "<<anEvent->GetEventID()<<std::endl;
   }
 }
@@ -52,6 +52,7 @@ void DmpSimEventAction::BeginOfEventAction(const G4Event *anEvent){
 void DmpSimEventAction::EndOfEventAction(const G4Event *anEvent){
   fDataMgr->Digitize();
   fDataMgr->FillEvent();
+  fDataMgr->ResetEvent();
 }
 
 //-------------------------------------------------------------------

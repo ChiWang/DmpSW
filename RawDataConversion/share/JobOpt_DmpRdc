@@ -21,7 +21,7 @@ prefix=os.getenv('DMPSWSYS')
 dmpKernel = DmpCore.DmpKernel.GetInstance()
 dmpSvcMgr = dmpKernel.ServiceManager()
 dmpAlgMgr = dmpKernel.AlgorithmManager()
-dmpKernel.SetLogLevel(0)
+dmpKernel.SetLogLevel(7)
 '''
   /*
    * LogLevel

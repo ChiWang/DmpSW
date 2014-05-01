@@ -27,14 +27,12 @@ public:
   bool Finalize()   {return true;}
   void Set(const std::string&, const std::string&);
   void BookBranch();            // invoked from BeginOfRunAction()
+  void ResetEvent();            // delete all elements in TClonesArray
 
 public:
   TClonesArray* GetOutCollection(DmpDetector::DmpEDetectorID) const;
   DmpEvtMCPrimaryParticle* GetPrimaryParticle() const {return fPrimaryParticle;}
   void Digitize();              // invoked from EndOfEventAction(), before FillEvent()
-
-private:
-  void ResetEvent();            // delete all elements in TClonesArray
 
 private:
   DmpEvtMCPrimaryParticle  *fPrimaryParticle;

@@ -53,7 +53,7 @@ void DmpRdcSvcDataMgr::Set(const std::string &type, const std::string &argv){
 
 //-------------------------------------------------------------------
 void DmpRdcSvcDataMgr::BookBranch(){
-  if(gKernel->OutDebugInfor()){
+  if(gKernel->PrintDebug()){
     std::cout<<"\n\nDEBUG: "<<__PRETTY_FUNCTION__<<std::endl;
   }
   fOutDataTree = new TTree("DAMPE_Raw","ADC");
@@ -68,7 +68,6 @@ void DmpRdcSvcDataMgr::BookBranch(){
 void DmpRdcSvcDataMgr::FillEvent(){
   fEvtHeader->GenerateStatus();
   DmpVDataMgr::FillEvent();
-  ResetEvent();
 }
 
 //-------------------------------------------------------------------
