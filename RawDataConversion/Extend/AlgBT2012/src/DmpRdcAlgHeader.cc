@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgHeader.cc, 2014-05-01 17:33:16 DAMPE $
+ *  $Id: DmpRdcAlgHeader.cc, 2014-05-02 14:41:21 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 19/03/2014
 */
@@ -11,10 +11,14 @@
 
 //-------------------------------------------------------------------
 DmpRdcAlgHeader::DmpRdcAlgHeader()
- :DmpVAlg("Header/BT2012"),
+ :DmpVAlg("Header/Rdc/BT2012"),
   fFile(0),
   fEvtHeader(0)
 {
+}
+
+//-------------------------------------------------------------------
+DmpRdcAlgHeader::~DmpRdcAlgHeader(){
 }
 
 //-------------------------------------------------------------------

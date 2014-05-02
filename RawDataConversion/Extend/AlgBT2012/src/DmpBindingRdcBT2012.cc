@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpBindingRdcBT2012.cc, 2014-05-01 17:27:17 DAMPE $
+ *  $Id: DmpBindingRdcBT2012.cc, 2014-05-02 12:22:02 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
@@ -17,7 +17,7 @@ BOOST_PYTHON_MODULE(libDmpRdcBT2012){
   using namespace boost::python;
 
   // default algorithm
-  class_<DmpRdcAlgHeader,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgHeader",init<std::string>());
+  class_<DmpRdcAlgHeader,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgHeader",init<>());
   class_<DmpRdcAlgPsd,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgPsd",init<>());
   class_<DmpRdcAlgStk,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgStk",init<>());
   class_<DmpRdcAlgBgo,boost::noncopyable,bases<DmpVAlg> >("DmpRdcAlgBgo",init<>());

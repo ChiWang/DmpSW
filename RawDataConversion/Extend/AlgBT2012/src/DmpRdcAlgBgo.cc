@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgBgo.cc, 2014-05-01 17:40:40 DAMPE $
+ *  $Id: DmpRdcAlgBgo.cc, 2014-05-02 13:03:46 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
  *    Yifeng WEI (weiyf@mail.ustc.edu.cn) 24/04/2014
@@ -42,64 +42,71 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
 // *
 // *  TODO: SetErrorLog wrong
 // *
+  fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(0,DmpRdcHeaderSubDet::Good);       // the first element for whole subDet
 //-------------------------------------------------------------------
-  static short tmp=0, tmp2=0, nBytes=0;
-  for (short counts=0;counts<fFEENo;++counts) {
-    fFile->read((char*)(&tmp),1);
-    if (tmp!=0xeb) {
+  static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0, data=0, data2=0;
+  for (feeCounts=0;feeCounts<fFEENo;++feeCounts) {
+    fFile->read((char*)(&data),1);
+    if (data!=0xeb) {
+      fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(feeCounts+1,DmpRdcHeaderSubDet::NotFind_0xeb);
       return false;
     }
-    fFile->read((char*)(&tmp),1);
-    if (tmp!=0x90) {
+    fFile->read((char*)(&data),1);
+    if (data!=0x90) {
+      fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(feeCounts+1,DmpRdcHeaderSubDet::NotFind_0x90);
       return false;
     }
-    fFile->read((char*)(&tmp),1);       // trigger
-    if(counts == 0){
-      fEvtHeader->SetTrigger(DmpDetector::kBgo,tmp);
+    fFile->read((char*)(&data),1);       // trigger
+    if(feeCounts == 0){
+      fEvtHeader->Detector(DmpDetector::kBgo)->SetTrigger(data);
     }else{
-      if(fEvtHeader->GetTrigger(DmpDetector::kBgo) != tmp){
+      if(fEvtHeader->Detector(DmpDetector::kBgo)->Trigger() != data){
+        fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(feeCounts+1,DmpRdcHeaderSubDet::NotMatch_Trigger);
         return false;
       }
     }
-    fFile->read((char*)(&tmp),1);       // run mode and FEE ID
-    static short feeID = 0;
-    feeID = tmp%16;
-    if(counts == 0){
-      fEvtHeader->SetRunMode(DmpDetector::kBgo,tmp/16-fFEEType);
+    fFile->read((char*)(&data),1);       // run mode and FEE ID
+    feeID = data%16;
+    if(feeCounts == 0){
+      fEvtHeader->Detector(DmpDetector::kBgo)->SetRunMode(data/16-fFEEType);
     }else{
-      if(fEvtHeader->GetRunMode(DmpDetector::kBgo) != tmp/16-fFEEType){
+      if(fEvtHeader->Detector(DmpDetector::kBgo)->RunMode() != data/16-fFEEType){
+        fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(feeID,DmpRdcHeaderSubDet::NotMatch_RunMode);
         return false;
       }
     }
-    fFile->read((char*)(&tmp),1);       // data length, 2 bytes
-    fFile->read((char*)(&tmp2),1);
-    nBytes = tmp*256+tmp2-2-2-2;        // 2 bytes for data length, 2 bytes for 0x0000, 2 bytes for CRC
+    fFile->read((char*)(&data),1);       // data length, 2 bytes
+    fFile->read((char*)(&data2),1);
+    nBytes = data*256+data2-2-2-2;        // 2 bytes for data length, 2 bytes for 0x0000, 2 bytes for CRC
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
-    if(fEvtHeader->GetRunMode(DmpDetector::kBgo) == DmpDetector::k0Compress){
-      for(short i=0;i<nBytes;i+=2){     // k0Compress
-        fFile->read((char*)(&tmp),1);
-        fFile->read((char*)(&tmp2),1);
-        AppendThisSignal(fConnector[feeID*1000+i/2],tmp*256+tmp2);
+    if(fEvtHeader->Detector(DmpDetector::kBgo)->RunMode() == DmpDetector::k0Compress){
+      nSignal = nBytes/2;
+      for(short i=0;i<nSignal;++i){     // k0Compress
+        fFile->read((char*)(&data),1);
+        fFile->read((char*)(&data2),1);
+        AppendThisSignal(fConnector[feeID*1000+i],data*256+data2);
       }
     }else{
-      for(short i=0;i<nBytes;i+=3){     // kCompress
-        fFile->read((char*)(&tmp),1);
-        fFile->read((char*)(&tmp),1);
-        fFile->read((char*)(&tmp2),1);
-// *
-// *  TODO: open me
-// *
-        //AppendThisSignal(fConnector[feeID*1000+xx],tmp*256+tmp2);
+      nSignal = nBytes/3;
+      for(short i=0;i<nSignal;++i){     // kCompress
+        fFile->read((char*)(&channelID),1);
+        fFile->read((char*)(&data),1);
+        fFile->read((char*)(&data2),1);
+        AppendThisSignal(fConnector[feeID*1000+channelID],data*256+data2);
       }
     }
-    fFile->read((char*)(&tmp),1);       // 2 bytes for 0x0000
-    fFile->read((char*)(&tmp),1);       // must split them, 2 bytes for 0x0000
-    fFile->read((char*)(&tmp),1);       // 2 bytes for CRC
-    fFile->read((char*)(&tmp),1);       // must spplit them, 2 bytes for CRC
+    fFile->read((char*)(&data),1);       // 2 bytes for 0x0000
+    fFile->read((char*)(&data),1);       // must split them, 2 bytes for 0x0000
+    fFile->read((char*)(&data),1);       // 2 bytes for CRC
+    fFile->read((char*)(&data),1);       // must spplit them, 2 bytes for CRC
   }
 //-------------------------------------------------------------------
+  if(gKernel->PrintDebug()){
+    std::cout<<" to "<<fFile->tellg()<<"\t---> signalNo = "<<nSignal<<std::endl;
+    firstIn = true;
+  }
   return true;
 }
 
@@ -146,7 +153,7 @@ bool DmpRdcAlgBgo::InitializeSubDet(){
 }
 
 //-------------------------------------------------------------------
-void DmpRdcAlgBgo::AppendThisSignal(const int &id, const float &v){
+void DmpRdcAlgBgo::AppendThisSignal(const int &id, const int &v){
   static DmpEvtRdcMSD *aMSD = 0;
   static short i=0, barID=0;
   int index = -1;

@@ -27,7 +27,7 @@ public:
 
 private:
   bool InitializeSubDet();      // setup connector, etc.
-  void AppendThisSignal(const int&,const float&);
+  void AppendThisSignal(const int&,const int&);
 
 private:
   short     fFEEType;           // FEE type of this subDet

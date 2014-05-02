@@ -1,10 +1,10 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpRdc, 2014-04-30 20:29:26 DAMPE $
+ *  $Id: JobOpt_DmpRdcBT2012, 2014-05-02 16:15:32 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 11/03/2014
  *-----------------------------------------------------
- *          Example of how to run Rdc of DAMPE
+ *      Example of how to run Rdc of DAMPE. BT2012
  *-----------------------------------------------------
 '''
 
@@ -15,7 +15,7 @@ import sys
 sys.setdlopenflags(0x100|0x2)
 import libDmpCore as DmpCore
 import libDmpRdcSvc as DmpRdcSvc
-import libDmpRdcAlg as DmpRdcAlg
+import libDmpRdcBT2012 as DmpRdcAlg
 
 prefix=os.getenv('DMPSWSYS')
 dmpKernel = DmpCore.DmpKernel.GetInstance()
@@ -43,13 +43,13 @@ rdcDataMgr.Set("OutDataPath","./test")      # where to save the output. If NOT s
 #-------------------------------------------------------------------
 # Create Algorithm
 rdcAlgHed = DmpRdcAlg.DmpRdcAlgHeader()
-#rdcAlgPsd = DmpRdcAlg.DmpRdcAlgPsd()
-#rdcAlgNud = DmpRdcAlg.DmpRdcAlgNud()
+rdcAlgPsd = DmpRdcAlg.DmpRdcAlgPsd()
+rdcAlgNud = DmpRdcAlg.DmpRdcAlgNud()
 rdcAlgBgo = DmpRdcAlg.DmpRdcAlgBgo()
 #rdcAlgStk = DmpRdcAlg.DmpRdcAlgStk()
-#rdcAlgPsd.Set("CnctPath",prefix+"/share/Connector/Psd/Quarter")
-#rdcAlgNud.Set("CnctPath",prefix+"/share/Connector/Nud/Quarter")
-rdcAlgBgo.Set("CnctPath",prefix+"/share/Connector/Bgo/Prototype")
+rdcAlgPsd.Set("CnctPath",prefix+"/share/Connector/Psd/Quarter")
+rdcAlgNud.Set("CnctPath",prefix+"/share/Connector/Nud/Quarter")
+rdcAlgBgo.Set("CnctPath",prefix+"/share/Connector/Bgo/Quarter")
 #rdcAlgStk.Set("CnctPath",prefix+"/share/Connector/Stk/Quarter")
 
 #-------------------------------------------------------------------
@@ -58,8 +58,8 @@ rdcAlgBgo.Set("CnctPath",prefix+"/share/Connector/Bgo/Prototype")
 dmpSvcMgr.Append(rdcDataMgr)
     ##  Algorithm Manager (Append order is important)
 dmpAlgMgr.Append(rdcAlgHed)
-#dmpAlgMgr.Append(rdcAlgNud)
-#dmpAlgMgr.Append(rdcAlgPsd)
+dmpAlgMgr.Append(rdcAlgNud)
+dmpAlgMgr.Append(rdcAlgPsd)
 dmpAlgMgr.Append(rdcAlgBgo)
 #dmpAlgMgr.Append(rdcAlgStk)
 
@@ -71,8 +71,8 @@ dmpKernel.Initialize()
 # Run job
     ##  Start to run this job (Execute()). Also could use Set("outDataPath") between 2 Execute()
 rdcDataMgr.Set("OutDataNote","ProTest")   # set tag for the next output data. NOT set is okay
-#rdcDataMgr.Set("InData",prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
-rdcDataMgr.Set("InData",prefix+"/share/TestRelease/Ex_Data_20140417235702_BGO_20140418-000421.bin")
+rdcDataMgr.Set("InData",prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
+#rdcDataMgr.Set("InData",prefix+"/share/TestRelease/Ex_Data_20140417235702_BGO_20140418-000421.bin")
 #rdcDataMgr.Set("InData","/home/zhzhy/CombinedRun_Nanjing201404/Data_2014_4_17_23_57_02_BGO_20140418-000421.bin")
 DmpRdcSvc.Execute()
 #rdcDataMgr.Set("InData",prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")

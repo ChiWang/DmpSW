@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgNud.h, 2014-05-01 17:26:43 DAMPE $
+ *  $Id: DmpRdcAlgNud.h, 2014-05-02 14:16:48 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
@@ -27,7 +27,10 @@ public:
 
 private:
   bool InitializeSubDet();      // setup connector, etc.
-  void AppendThisSignal(const int&,const float&);
+  void AppendThisSignal(const int&,const int&);
+
+private:
+  short     fFEEType;           // FEE type of this subDet
 
 };
 

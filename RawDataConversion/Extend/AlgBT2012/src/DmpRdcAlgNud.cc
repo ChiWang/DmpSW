@@ -8,16 +8,15 @@
 
 #include "TClonesArray.h"
 
-#include "DmpDetectorNud.h"
-#include "DmpEvtNudMSD.h"
-#include "DmpEvtHeader.h"
-#include "DmpRdcAlgNud.h"
+#include "DmpEvtRdcHeader.h"
+#include "DmpEvtRdcMSD.h"
 #include "Rdc/DmpRdcSvcDataMgr.h"
-#include "Rdc/DmpRdcSvcLog.h"
-#include "DmpServiceManager.h"
+#include "DmpKernel.h"
+#include "DmpRdcAlgNud.h"
 
 DmpRdcAlgNud::DmpRdcAlgNud()
- :DmpRdcVAlgSubDet("Nud/Rdc/DefaultAlg")
+ :DmpRdcVAlgSubDet("Nud/Rdc/BT2012"),
+  fFEEType(2)
 {
 }
 
@@ -27,65 +26,83 @@ DmpRdcAlgNud::~DmpRdcAlgNud(){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgNud::ProcessThisEvent(){
+  static bool firstIn = true;
+  if(gKernel->PrintDebug() && firstIn){
+    std::cout<<"DEBUG: "<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
+    firstIn = false;
+  }
   if(not fConnectorDone){
-    std::cout<<"Error:  Connector not set\t"<<__PRETTY_FUNCTION__<<std::endl;
+    if(gKernel->PrintError()){
+      std::cout<<"Error:  Connector not set\t"<<__PRETTY_FUNCTION__<<std::endl;
+    }
     return true;
   }
-  fLog->Type(0);
+// *
+// *  TODO: SetErrorLog wrong
+// *
+  fEvtHeader->Detector(DmpDetector::kNud)->SetErrorLog(0,DmpRdcHeaderSubDet::Good);       // the first element for whole subDet
 //-------------------------------------------------------------------
 // *
 // *  TODO: check conversion Nud
 // *
-  static short tmp=0, tmp2=0, nBytes=0;
-  fFile->read((char*)(&tmp),1);
-  if (tmp!=0xeb) {
-    fLog->Type(-1);
+  static short feeID=0, nBytes=0, nSignal=0, data=0, data2=0;
+  fFile->read((char*)(&data),1);
+  if(data!=0xeb){
+    fEvtHeader->Detector(DmpDetector::kNud)->SetErrorLog(0,DmpRdcHeaderSubDet::NotFind_0xeb);
     return false;
   }
-  fFile->read((char*)(&tmp),1);
-  if (tmp!=0x90) {
-    fLog->Type(-2);
+  fFile->read((char*)(&data),1);
+  if (data!=0x90) {
+    fEvtHeader->Detector(DmpDetector::kNud)->SetErrorLog(0,DmpRdcHeaderSubDet::NotFind_0x90);
     return false;
   }
-  fFile->read((char*)(&tmp),1);     // trigger
-  fEvtHeader->SetTrigger(DmpDetector::kNud,tmp);
-  fFile->read((char*)(&tmp),1);     // run mode and FEE ID
-  static short feeID = 0;
-  feeID = tmp%16;
-  fEvtHeader->SetRunMode(DmpDetector::kNud,tmp/16-DmpDetector::Nud::kFEEType);
-  fFile->read((char*)(&tmp),1);     // data length, 2 Bytes
-  fFile->read((char*)(&tmp2),1);
-  nBytes = tmp*256+tmp2-2-2;            // 2 bytes for data length, 2 bytes for CRC
+  fFile->read((char*)(&data),1);     // trigger
+  fEvtHeader->Detector(DmpDetector::kNud)->SetTrigger(data);
+  fFile->read((char*)(&data),1);     // run mode and FEE ID
+  feeID = data%16;
+  fEvtHeader->Detector(DmpDetector::kNud)->SetRunMode(data/16-fFEEType);
+  fFile->read((char*)(&data),1);     // data length, 2 Bytes
+  fFile->read((char*)(&data2),1);
+  nBytes = data*256+data2-2-2;            // 2 bytes for data length, 2 bytes for CRC
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
   //if (fEvtHeader->GetRunMode(DmpDetector::kNud) == DmpDetector::k0Compress) 
-  for(short i=0;i<nBytes;i+=2){     // k0Compress
-    fFile->read((char*)(&tmp),1);
-    fFile->read((char*)(&tmp2),1);
+  if(fEvtHeader->Detector(DmpDetector::kNud)->RunMode() == DmpDetector::k0Compress){
+    nSignal = nBytes/2;
+    for(short i=0;i<nSignal;++i){     // k0Compress
+      fFile->read((char*)(&data),1);
+      fFile->read((char*)(&data2),1);
 // *
 // *  TODO: store impfore into hits
 // *
     //fMSDSet->
+    }
+  }else{
+    nSignal = nBytes/3;
+    for(short i=0;i<nSignal;++i){     // kCompress
+    }
   }
-  fFile->read((char*)(&tmp),1);     // 2 bytes for CRC
-  fFile->read((char*)(&tmp),1);     // 2 bytes for CRC, MUST split them
+  fFile->read((char*)(&data),1);     // 2 bytes for CRC
+  fFile->read((char*)(&data),1);     // 2 bytes for CRC, MUST split them
 //-------------------------------------------------------------------
-
-  fLog->Type(nBytes);
+  if(gKernel->PrintDebug()){
+    std::cout<<" to "<<fFile->tellg()<<"\t---> signalNo = "<<nSignal<<std::endl;
+    firstIn = true;
+  }
   return true;
 }
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgNud::InitializeSubDet(){
   // get TCloneArray of your subDet
-  fMSDSet = ((DmpRdcSvcDataMgr*)gDmpSvcMgr->Get("Rdc/DataMgr"))->GetOutCollection(DmpDetector::kNud);
+  fMSDSet = ((DmpRdcSvcDataMgr*)gKernel->ServiceManager()->Get("Rdc/DataMgr"))->GetOutCollection(DmpDetector::kNud);
   // setup connector
   if(fConnectorPath == "no"){
     std::cout<<"\n\tNo set connector:\tNud"<<std::endl;
     return false;
   }else{
-    std::cout<<"\n\tSetting connector:\tNud";
+    std::cout<<"\n\tSetting connector:\tNud"<<std::endl;
   }
 // *
 // *  TODO: set method?
@@ -95,10 +112,9 @@ bool DmpRdcAlgNud::InitializeSubDet(){
 }
 
 //-------------------------------------------------------------------
-void DmpRdcAlgNud::AppendThisSignal(const int &id,const float &v){
+void DmpRdcAlgNud::AppendThisSignal(const int &id,const int &v){
 // *
 // *  TODO: example bgo
 // *
-
 }
 

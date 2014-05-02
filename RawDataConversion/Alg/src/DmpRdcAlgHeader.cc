@@ -11,7 +11,7 @@
 
 //-------------------------------------------------------------------
 DmpRdcAlgHeader::DmpRdcAlgHeader()
- :DmpVAlg("Header/2014"),
+ :DmpVAlg("Header/Rdc/2014"),
   fFile(0),
   fEvtHeader(0)
 {

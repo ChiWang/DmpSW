@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgHeader2.h, 2014-05-01 16:57:26 DAMPE $
+ *  $Id: DmpRdcAlgHeader.h, 2014-05-02 14:38:06 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 19/03/2014
 */
@@ -22,7 +22,7 @@ class DmpRdcAlgHeader : public DmpVAlg{
  */
 public:
   DmpRdcAlgHeader();
-  virtual ~DmpRdcAlgHeader(){}
+  virtual ~DmpRdcAlgHeader();
   bool Initialize();
   bool Finalize() {return true;}
   virtual bool ProcessThisEvent();

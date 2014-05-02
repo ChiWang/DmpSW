@@ -45,25 +45,25 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
   fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(0,DmpRdcHeaderSubDet::Good);       // the first element for whole subDet
 //-------------------------------------------------------------------
   static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0, data=0, data2=0;
-  for(std::size_t counts=0;counts<fFEENo;++counts){
+  for(feeCounts=0;feeCounts<fFEENo;++feeCounts){
     fFile->read((char*)(&data),1);
     if(data != 0xeb){
-      fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(counts+1,DmpRdcHeaderSubDet::NotFind_0xeb);
+      fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(feeCounts+1,DmpRdcHeaderSubDet::NotFind_0xeb);
       return false;
     }
     fFile->read((char*)(&data),1);
     if(data != 0x90){
-      fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(counts+1,DmpRdcHeaderSubDet::NotFind_0x90);
+      fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(feeCounts+1,DmpRdcHeaderSubDet::NotFind_0x90);
       return false;
     }
     fFile->read((char*)(&data),1);      // reserved 1 byte
     fFile->read((char*)(&data),1);      // run mode and FEE ID
     feeID = data%16;
-    if(counts == 0){
+    if(feeCounts == 0){
       fEvtHeader->Detector(DmpDetector::kBgo)->SetRunMode(data/16-fFEEType);
     }else{
       if(fEvtHeader->Detector(DmpDetector::kBgo)->RunMode() != data/16-fFEEType){
-        fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(counts+1,DmpRdcHeaderSubDet::NotMatch_RunMode);
+        fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(feeID,DmpRdcHeaderSubDet::NotMatch_RunMode);
         return false;
       }
     }
@@ -100,11 +100,11 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
     }
     fFile->read((char*)(&data),1);      // trigger status
     fFile->read((char*)(&data),1);      // trigger
-    if(counts == 0){
+    if(feeCounts == 0){
       fEvtHeader->Detector(DmpDetector::kBgo)->SetTrigger(data);
     }else{
       if(fEvtHeader->Detector(DmpDetector::kBgo)->Trigger() != data){
-        fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(counts+1,DmpRdcHeaderSubDet::NotMatch_Trigger);
+        fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(feeCounts+1,DmpRdcHeaderSubDet::NotMatch_Trigger);
         return false;
       }
     }
@@ -162,7 +162,7 @@ bool DmpRdcAlgBgo::InitializeSubDet(){
 }
 
 //-------------------------------------------------------------------
-void DmpRdcAlgBgo::AppendThisSignal(const int &id, const float &v){
+void DmpRdcAlgBgo::AppendThisSignal(const int &id, const int &v){
   static DmpEvtRdcMSD *aMSD = 0;
   static short i=0, barID=0;
   int index = -1;

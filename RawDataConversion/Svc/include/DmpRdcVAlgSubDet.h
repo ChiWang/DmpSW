@@ -31,7 +31,7 @@ public:
 
 protected:
   virtual bool InitializeSubDet()=0;        // setup connector, and so on
-  virtual void AppendThisSignal(const int&,const float&)=0;
+  virtual void AppendThisSignal(const int&,const int&)=0;
 
 protected:
   std::ifstream         *fFile;             // in data stream, for all Alg. of subDet

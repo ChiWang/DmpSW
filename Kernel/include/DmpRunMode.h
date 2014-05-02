@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRunMode.h, 2014-03-19 09:56:02 chi $
+ *  $Id: DmpRunMode.h, 2014-05-02 14:20:16 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
