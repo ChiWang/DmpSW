@@ -6,7 +6,7 @@ DMPSW
 
 ##  Requirement
 
-DMPSW will uses tools Root, Geant4 Boost and SCons. You must install them firstly follow the guide below if you do not have them.
+DMPSW will uses tools Root, Geant4 Boost and SCons. You must install them firstly by following the guide below if you do not have them.
 
 Install ROOT
 
