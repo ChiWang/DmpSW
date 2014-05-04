@@ -4,14 +4,11 @@ DMPSW
 > *  TODO: Update readme.   (marked by TODO)
 > *
 
-DAMPE Offline Software for **Beam Test 2012**
-[TODO](https://github.com/ChiWang/DmpSW/wiki)
-
 ##  Requirement
 
-DMPSW will uses tools Root, Geant4 and SCons.
+DMPSW will uses tools Root, Geant4 Boost and SCons. You must install them firstly follow the guide below if you do not have them.
 
-Install ROOT new
+Install ROOT
 
         1) download root_v5.34.09.source.tar.gz from http://root.cern.ch/drupal/content/production-version-534
         
