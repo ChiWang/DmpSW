@@ -41,6 +41,9 @@ Install Geant4
         
         Note: because of the datafile it takes up to an hour to config and install.
 
+Install Boost
+
+
 Install SCons
 
         1) download scons-2.3.0.tar.gz from http://www.scons.org/download.php
