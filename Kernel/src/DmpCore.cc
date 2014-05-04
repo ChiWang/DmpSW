@@ -1,13 +1,13 @@
 /*
- *  $Id: DmpKernel.cc, 2014-04-30 10:35:21 DAMPE $
+ *  $Id: DmpCore.cc, 2014-05-04 15:14:58 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/04/2014
 */
 
-#include "DmpKernel.h"
+#include "DmpCore.h"
 
 //-------------------------------------------------------------------
-DmpKernel::DmpKernel()
+DmpCore::DmpCore()
  :fAlgMgr(0),
   fSvcMgr(0),
   fLogLevel(6)
@@ -17,11 +17,11 @@ DmpKernel::DmpKernel()
 }
 
 //-------------------------------------------------------------------
-DmpKernel::~DmpKernel(){
+DmpCore::~DmpCore(){
 }
 
 //-------------------------------------------------------------------
-bool DmpKernel::Initialize(){
+bool DmpCore::Initialize(){
   if(not fSvcMgr->Initialize()){
     return false;
   }
@@ -31,7 +31,7 @@ bool DmpKernel::Initialize(){
 }
 
 //-------------------------------------------------------------------
-bool DmpKernel::Run(){
+bool DmpCore::Run(){
 // *
 // *  TODO:  how to
 // *
@@ -39,7 +39,7 @@ bool DmpKernel::Run(){
 }
 
 //-------------------------------------------------------------------
-bool DmpKernel::Finalize(){
+bool DmpCore::Finalize(){
   if(not fSvcMgr->Finalize()){
     return false;
   }
@@ -49,7 +49,7 @@ bool DmpKernel::Finalize(){
 }
 
 //-------------------------------------------------------------------
-bool DmpKernel::PrintError() const {
+bool DmpCore::PrintError() const {
   if((fLogLevel%8)/4 == 1){
     return true;
   }
@@ -57,7 +57,7 @@ bool DmpKernel::PrintError() const {
 }
 
 //-------------------------------------------------------------------
-bool DmpKernel::PrintWarning() const {
+bool DmpCore::PrintWarning() const {
   if((fLogLevel%4)/2 == 1){
     return true;
   }
@@ -65,7 +65,7 @@ bool DmpKernel::PrintWarning() const {
 }
 
 //-------------------------------------------------------------------
-bool DmpKernel::PrintDebug() const {
+bool DmpCore::PrintDebug() const {
   if(fLogLevel%2 == 1){
     return true;
   }
@@ -73,6 +73,6 @@ bool DmpKernel::PrintDebug() const {
 }
 
 //-------------------------------------------------------------------
-DmpKernel *gKernel = DmpKernel::GetInstance();
+DmpCore *gCore = DmpCore::GetInstance();
 
 

@@ -1,28 +1,28 @@
 /*
- *  $Id: DmpKernel.h, 2014-04-30 23:18:38 DAMPE $
+ *  $Id: DmpCore.h, 2014-05-04 15:33:11 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/04/2014
 */
 
-#ifndef DmpKernel_H
-#define DmpKernel_H
+#ifndef DmpCore_H
+#define DmpCore_H
 
 #include "DmpAlgorithmManager.h"
 #include "DmpServiceManager.h"
 
-class DmpKernel{
+class DmpCore{
 /*
- *  DmpKernel
+ *  DmpCore
  *
- *      Kernel of DAMPE software. It's a singleton in one job.
+ *      Core of DAMPE software. It's a singleton in one job.
  *
  */
 public:
-  static DmpKernel* GetInstance(){
-    static DmpKernel instance;
+  static DmpCore* GetInstance(){
+    static DmpCore instance;
     return &instance;
   }
-  ~DmpKernel();
+  ~DmpCore();
 
 public:     // binding functions
   bool Initialize();            // execute all elements' Initialize() in all *Mgr
@@ -39,9 +39,14 @@ public:
   bool PrintDebug() const;
 
 private:
-  DmpKernel();
+  DmpCore();
 
 private:
+// *
+// *  TODO:     add 2 variables
+//          1.  max event number, process how many event?
+//          2.  time window, only event in this time range
+// *
   DmpAlgorithmManager   *fAlgMgr;
   DmpServiceManager     *fSvcMgr;
   short                 fLogLevel;
@@ -60,7 +65,7 @@ private:
 };
 
 //-------------------------------------------------------------------
-extern DmpKernel  *gKernel;
+extern DmpCore  *gCore;
 
 #endif
 

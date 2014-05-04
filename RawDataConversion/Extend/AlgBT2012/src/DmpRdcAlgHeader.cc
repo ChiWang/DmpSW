@@ -7,7 +7,7 @@
 #include "DmpRdcAlgHeader.h"
 #include "DmpEvtRdcHeader.h"
 #include "Rdc/DmpRdcSvcDataMgr.h"
-#include "DmpKernel.h"
+#include "DmpCore.h"
 
 //-------------------------------------------------------------------
 DmpRdcAlgHeader::DmpRdcAlgHeader()
@@ -27,15 +27,15 @@ bool DmpRdcAlgHeader::Initialize(){
 // *  TODO:     1.  check Get a 0?
 //              2.  fFile will update if set a new data??
 // *
-  fFile = ((DmpRdcSvcDataMgr*)gKernel->ServiceManager()->Get("Rdc/DataMgr"))->InFileStream();
-  fEvtHeader = ((DmpRdcSvcDataMgr*)gKernel->ServiceManager()->Get("Rdc/DataMgr"))->GetEventHeader();
+  fFile = ((DmpRdcSvcDataMgr*)gCore->ServiceManager()->Get("Rdc/DataMgr"))->InFileStream();
+  fEvtHeader = ((DmpRdcSvcDataMgr*)gCore->ServiceManager()->Get("Rdc/DataMgr"))->GetEventHeader();
   return true;
 }
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgHeader::ProcessThisEvent(){
   static bool firstIn = true;
-  if(gKernel->PrintDebug() && firstIn){
+  if(gCore->PrintDebug() && firstIn){
     std::cout<<"\nDEBUG: "<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
     firstIn = false;
   }
@@ -59,7 +59,7 @@ bool DmpRdcAlgHeader::ProcessThisEvent(){
     fEvtHeader->SetTime(index,tmp);
   }
 //-------------------------------------------------------------------
-  if(gKernel->PrintDebug()){
+  if(gCore->PrintDebug()){
     std::cout<<" to "<<fFile->tellg()<<std::endl;
     firstIn = true;
   }

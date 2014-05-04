@@ -11,7 +11,7 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcMSD.h"
 #include "Rdc/DmpRdcSvcDataMgr.h"
-#include "DmpKernel.h"
+#include "DmpCore.h"
 #include "DmpRdcAlgStk.h"
 
 DmpRdcAlgStk::DmpRdcAlgStk()
@@ -28,12 +28,12 @@ DmpRdcAlgStk::~DmpRdcAlgStk(){
 //-------------------------------------------------------------------
 bool DmpRdcAlgStk::ProcessThisEvent(){
   static bool firstIn = true;
-  if(gKernel->PrintDebug() && firstIn){
+  if(gCore->PrintDebug() && firstIn){
     std::cout<<"DEBUG: "<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
     firstIn = false;
   }
   if(not fConnectorDone){
-    if(gKernel->PrintError()){
+    if(gCore->PrintError()){
       std::cout<<"Error:  Connector not set\t"<<__PRETTY_FUNCTION__<<std::endl;
     }
     return true;
@@ -49,7 +49,7 @@ bool DmpRdcAlgStk::ProcessThisEvent(){
 // *  TODO: conversion bgo
 // *
 //-------------------------------------------------------------------
-  if(gKernel->PrintDebug()){
+  if(gCore->PrintDebug()){
     std::cout<<" to "<<fFile->tellg()<<"\t---> signalNo = "<<nSignal<<std::endl;
     firstIn = true;
   }
@@ -59,7 +59,7 @@ bool DmpRdcAlgStk::ProcessThisEvent(){
 //-------------------------------------------------------------------
 bool DmpRdcAlgStk::InitializeSubDet(){
   // get TCloneArray of your subDet
-  fMSDSet = ((DmpRdcSvcDataMgr*)gKernel->ServiceManager()->Get("Rdc/DataMgr"))->GetOutCollection(DmpDetector::kPsd);
+  fMSDSet = ((DmpRdcSvcDataMgr*)gCore->ServiceManager()->Get("Rdc/DataMgr"))->GetOutCollection(DmpDetector::kPsd);
   // setup connector
   if(fConnectorPath == "no"){
     std::cout<<"\n\tNo set connector:\tStk"<<std::endl;

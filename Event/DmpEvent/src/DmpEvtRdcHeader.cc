@@ -7,7 +7,7 @@
 #include <iostream>
 
 #include "DmpEvtRdcHeader.h"
-#include "DmpKernel.h"
+#include "DmpCore.h"
 
 ClassImp(DmpRdcHeaderSubDet)
 
@@ -25,7 +25,7 @@ DmpRdcHeaderSubDet::~DmpRdcHeaderSubDet(){
 //-------------------------------------------------------------------
 void DmpRdcHeaderSubDet::SetErrorLog(const short &FeeID,const DataErrorType &type){
   fErrors.push_back(FeeID*10 + type);
-  if(gKernel->PrintError()){
+  if(gCore->PrintError()){
     switch(type){
       case NotFind_0xeb:
         std::cout<<"\tError: not find 0xeb\t";
@@ -47,12 +47,16 @@ void DmpRdcHeaderSubDet::SetErrorLog(const short &FeeID,const DataErrorType &typ
             DmpEvtRdcHeader::PrintTime();
     }
   }
+  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<" "<<fErrors[fErrors.size()-1]<<std::endl;
 }
 
 //-------------------------------------------------------------------
 void DmpRdcHeaderSubDet::Reset(){
   fTrigger = -1;
   fRunMode = DmpDetector::kUnknow;
+  for(short i=0;i<fErrors.size();++i){
+    std::cout<<"i = "<<i<<" v = "<<fErrors[i]<<std::endl;
+  }
   fErrors.erase(fErrors.begin(),fErrors.end());
 }
 

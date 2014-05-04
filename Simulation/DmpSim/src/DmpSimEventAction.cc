@@ -21,7 +21,7 @@
 */
 #include "DmpSimEventAction.h"
 #include "DmpSimSvcDataMgr.h"
-#include "DmpKernel.h"
+#include "DmpCore.h"
 
 //-------------------------------------------------------------------
 DmpSimEventAction::DmpSimEventAction()
@@ -43,7 +43,7 @@ DmpSimEventAction::~DmpSimEventAction(){
 
 //-------------------------------------------------------------------
 void DmpSimEventAction::BeginOfEventAction(const G4Event *anEvent){
-  if(gKernel->PrintDebug()){
+  if(gCore->PrintDebug()){
     std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tEvent ID = "<<anEvent->GetEventID()<<std::endl;
   }
 }
@@ -57,7 +57,7 @@ void DmpSimEventAction::EndOfEventAction(const G4Event *anEvent){
 
 //-------------------------------------------------------------------
 bool DmpSimEventAction::Initialize(){
-  fDataMgr = (DmpSimSvcDataMgr*)gKernel->ServiceManager()->Get("Sim/DataMgr");
+  fDataMgr = (DmpSimSvcDataMgr*)gCore->ServiceManager()->Get("Sim/DataMgr");
   return fDataMgr;
 }
 

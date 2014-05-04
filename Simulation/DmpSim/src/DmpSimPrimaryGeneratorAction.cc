@@ -9,7 +9,7 @@
 #include "DmpSimPrimaryGeneratorAction.h"
 #include "DmpEvtMCPrimaryParticle.h"
 #include "DmpSimSvcDataMgr.h"
-#include "DmpKernel.h"
+#include "DmpCore.h"
 
 DmpSimPrimaryGeneratorAction::DmpSimPrimaryGeneratorAction()
  :fGPS(0),
@@ -37,7 +37,7 @@ void DmpSimPrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent){
 
 //-------------------------------------------------------------------
 bool DmpSimPrimaryGeneratorAction::Initialize(){
-  fPrimaryParticle = ((DmpSimSvcDataMgr*)gKernel->ServiceManager()->Get("Sim/DataMgr"))->GetPrimaryParticle();
+  fPrimaryParticle = ((DmpSimSvcDataMgr*)gCore->ServiceManager()->Get("Sim/DataMgr"))->GetPrimaryParticle();
   return fPrimaryParticle;
 }
 

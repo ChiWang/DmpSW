@@ -12,7 +12,7 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcMSD.h"
 #include "DmpRdcSvcDataMgr.h"
-#include "DmpKernel.h"
+#include "DmpCore.h"
 #include "DmpRdcAlgBgo.h"
 
 DmpRdcAlgBgo::DmpRdcAlgBgo()
@@ -29,12 +29,12 @@ DmpRdcAlgBgo::~DmpRdcAlgBgo(){
 //-------------------------------------------------------------------
 bool DmpRdcAlgBgo::ProcessThisEvent(){
   static bool firstIn = true;
-  if(gKernel->PrintDebug() && firstIn){
+  if(gCore->PrintDebug() && firstIn){
     std::cout<<"DEBUG: "<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
     firstIn = false;
   }
   if(not fConnectorDone){
-    if(gKernel->PrintError()){
+    if(gCore->PrintError()){
       std::cout<<"Error:  Connector not set\t"<<__PRETTY_FUNCTION__<<std::endl;
     }
     return true;
@@ -89,7 +89,7 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
         if(fConnector[feeID*1000+channelID] != 0){
           AppendThisSignal(fConnector[feeID*1000+channelID],data*256+data2);
         }else{
-          if(gKernel->PrintError()){
+          if(gCore->PrintError()){
             std::cout<<"Error: "<<__PRETTY_FUNCTION__<<" Connector Key Wrong. FeeID("<<feeID<<") Channel("<<channelID<<") ADC("<<data*256+data2<<")"<<std::endl;
           }
         }
@@ -112,7 +112,7 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
     fFile->read((char*)(&data),1);      // must spplit them, 2 bytes for CRC
   }
 //-------------------------------------------------------------------
-  if(gKernel->PrintDebug()){
+  if(gCore->PrintDebug()){
     std::cout<<" to "<<fFile->tellg()<<"\t---> signalNo = "<<nSignal<<std::endl;
     firstIn = true;
   }
@@ -124,7 +124,7 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
 #include <boost/filesystem/operations.hpp>
 bool DmpRdcAlgBgo::InitializeSubDet(){
   // get TCloneArray of your subDet
-  fMSDSet = ((DmpRdcSvcDataMgr*)gKernel->ServiceManager()->Get("Rdc/DataMgr"))->GetOutCollection(DmpDetector::kBgo);
+  fMSDSet = ((DmpRdcSvcDataMgr*)gCore->ServiceManager()->Get("Rdc/DataMgr"))->GetOutCollection(DmpDetector::kBgo);
   // setup connector
   if(fConnectorPath == "no"){
     std::cout<<"\n\tNo set connector:\tBgo"<<std::endl;

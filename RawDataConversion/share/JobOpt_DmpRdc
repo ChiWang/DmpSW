@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpRdc, 2014-04-30 20:29:26 DAMPE $
+ *  $Id: JobOpt_DmpRdc, 2014-05-04 15:42:54 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 11/03/2014
  *-----------------------------------------------------
@@ -13,15 +13,15 @@
 import os
 import sys
 sys.setdlopenflags(0x100|0x2)
-import libDmpCore as DmpCore
+import libDmpKernel as DmpKernel
 import libDmpRdcSvc as DmpRdcSvc
 import libDmpRdcAlg as DmpRdcAlg
 
 prefix=os.getenv('DMPSWSYS')
-dmpKernel = DmpCore.DmpKernel.GetInstance()
-dmpSvcMgr = dmpKernel.ServiceManager()
-dmpAlgMgr = dmpKernel.AlgorithmManager()
-dmpKernel.SetLogLevel(7)
+dmpCore = DmpKernel.DmpCore.GetInstance()
+dmpSvcMgr = dmpCore.ServiceManager()
+dmpAlgMgr = dmpCore.AlgorithmManager()
+dmpCore.SetLogLevel(7)
 '''
   /*
    * LogLevel
@@ -65,7 +65,7 @@ dmpAlgMgr.Append(rdcAlgBgo)
 
 #-------------------------------------------------------------------
 # Boot
-dmpKernel.Initialize()
+dmpCore.Initialize()
 
 #-------------------------------------------------------------------
 # Run job
@@ -80,6 +80,6 @@ DmpRdcSvc.Execute()
 
 #-------------------------------------------------------------------
 # Quit
-dmpKernel.Finalize()
+dmpCore.Finalize()
 
 

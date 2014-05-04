@@ -7,7 +7,7 @@
 #ifndef DmpSimEntrance_H
 #define DmpSimEntrance_H
 
-namespace DmpCore{
+namespace DmpEntrance{
   void SimExecute();
 }
 

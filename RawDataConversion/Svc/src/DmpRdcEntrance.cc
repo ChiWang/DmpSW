@@ -1,17 +1,17 @@
 /*
- *  $Id: DmpRdcEntrance.cc, 2014-04-30 23:25:33 DAMPE $
+ *  $Id: DmpRdcEntrance.cc, 2014-05-04 15:28:15 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
 #include "DmpRdcEntrance.h"
 #include "DmpRdcSvcDataMgr.h"
-#include "DmpKernel.h"
+#include "DmpCore.h"
 
 //-------------------------------------------------------------------
-void DmpCore::RdcExecute(){
-  DmpRdcSvcDataMgr *dmpRdcDataMgr = (DmpRdcSvcDataMgr*)gKernel->ServiceManager()->Get("Rdc/DataMgr");
-  DmpAlgorithmManager *dmpAlgMgr = gKernel->AlgorithmManager();
+void DmpEntrance::RdcExecute(){
+  DmpRdcSvcDataMgr *dmpRdcDataMgr = (DmpRdcSvcDataMgr*)gCore->ServiceManager()->Get("Rdc/DataMgr");
+  DmpAlgorithmManager *dmpAlgMgr = gCore->AlgorithmManager();
   // open file
   if(not dmpRdcDataMgr->OpenInputData()) return;
   // convert and save output

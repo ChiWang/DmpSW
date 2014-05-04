@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpBindingCore.cc, 2014-04-11 21:54:40 chi $
+ *  $Id: DmpBindingKernel.cc, 2014-05-04 15:31:47 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
@@ -11,7 +11,7 @@
 #include "DmpVAlg.h"
 #include "DmpAlgorithmManager.h"
 #include "DmpServiceManager.h"
-#include "DmpKernel.h"
+#include "DmpCore.h"
 
 //-------------------------------------------------------------------
     // Wrap DmpVAlg
@@ -59,7 +59,7 @@ struct DmpVSvcWrapper : public DmpVSvc, boost::python::wrapper<DmpVSvc>{
 };
 
 //-------------------------------------------------------------------
-BOOST_PYTHON_MODULE(libDmpCore){
+BOOST_PYTHON_MODULE(libDmpKernel){
   using namespace boost::python;
   // DmpRunMode
   enum_<DmpDetector::DmpERunMode>("DmpERunMode")
@@ -111,16 +111,16 @@ BOOST_PYTHON_MODULE(libDmpCore){
     //.def("Get",     &DmpServiceManager::Get,return_value_policy<reference_existing_object>())
     .def("ListAllElements",&DmpServiceManager::ListAllElements)
   ;
-  // DmpKernel
-  class_<DmpKernel,boost::noncopyable>("DmpKernel",no_init)
-    .def("GetInstance", &DmpKernel::GetInstance,return_value_policy<reference_existing_object>())
+  // DmpCore
+  class_<DmpCore,boost::noncopyable>("DmpCore",no_init)
+    .def("GetInstance", &DmpCore::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
-    .def("Initialize",  &DmpKernel::Initialize)
-    .def("Run",         &DmpKernel::Run)
-    .def("Finalize",    &DmpKernel::Finalize)
-    .def("SetLogLevel", &DmpKernel::SetLogLevel)
-    .def("AlgorithmManager",    &DmpKernel::AlgorithmManager,return_value_policy<reference_existing_object>())
-    .def("ServiceManager",      &DmpKernel::ServiceManager,return_value_policy<reference_existing_object>())
+    .def("Initialize",  &DmpCore::Initialize)
+    .def("Run",         &DmpCore::Run)
+    .def("Finalize",    &DmpCore::Finalize)
+    .def("SetLogLevel", &DmpCore::SetLogLevel)
+    .def("AlgorithmManager",    &DmpCore::AlgorithmManager,return_value_policy<reference_existing_object>())
+    .def("ServiceManager",      &DmpCore::ServiceManager,return_value_policy<reference_existing_object>())
   ;
 }
 

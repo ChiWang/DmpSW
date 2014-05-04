@@ -17,7 +17,7 @@ BOOST_PYTHON_MODULE(libDmpRdcSvc){
   using namespace boost::python;
 
   // DmpRdcEntrance
-  def("Execute",    DmpCore::RdcExecute);
+  def("Execute",    DmpEntrance::RdcExecute);
 
   // DmpRdcSvcDataMgr
   class_<DmpRdcSvcDataMgr,boost::noncopyable,bases<DmpVSvc> >("DmpRdcSvcDataMgr",init<>());

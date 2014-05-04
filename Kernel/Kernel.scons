@@ -9,7 +9,7 @@ Import("*")     # import all vars from SConstruct
 print "\t\t\t invoke %s\n" % os.path.abspath("./")
 #--------------------------------------------------------------------
 
-target='DmpCore'
+target='DmpKernel'
 env = envBase.Clone()
 useRoot(env)
 #useGeant4(env)

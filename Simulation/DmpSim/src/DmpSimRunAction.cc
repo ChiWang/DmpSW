@@ -12,7 +12,7 @@
 
 #include "DmpSimRunAction.h"
 #include "DmpSimSvcDataMgr.h"
-#include "DmpKernel.h"
+#include "DmpCore.h"
 
 //-------------------------------------------------------------------
 DmpSimRunAction::DmpSimRunAction()
@@ -26,7 +26,7 @@ DmpSimRunAction::~DmpSimRunAction(){
 
 //-------------------------------------------------------------------
 void DmpSimRunAction::BeginOfRunAction(const G4Run *aRun){
-  if(gKernel->PrintDebug()){
+  if(gCore->PrintDebug()){
     std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"Run ID = "<<aRun->GetRunID()<<std::endl;
   }
   fDataMgr->BookBranch(); 
@@ -60,7 +60,7 @@ void DmpSimRunAction::EndOfRunAction(const G4Run* aRun){
 
 //-------------------------------------------------------------------
 bool DmpSimRunAction::Initialize(){
-  fDataMgr = (DmpSimSvcDataMgr*)gKernel->ServiceManager()->Get("Sim/DataMgr");
+  fDataMgr = (DmpSimSvcDataMgr*)gCore->ServiceManager()->Get("Sim/DataMgr");
   return fDataMgr;
 }
 

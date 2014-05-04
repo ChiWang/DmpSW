@@ -12,7 +12,7 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcMSD.h"
 #include "DmpRdcSvcDataMgr.h"
-#include "DmpKernel.h"
+#include "DmpCore.h"
 
 //-------------------------------------------------------------------
 DmpRdcSvcDataMgr::DmpRdcSvcDataMgr()
@@ -53,7 +53,7 @@ void DmpRdcSvcDataMgr::Set(const std::string &type, const std::string &argv){
 
 //-------------------------------------------------------------------
 void DmpRdcSvcDataMgr::BookBranch(){
-  if(gKernel->PrintDebug()){
+  if(gCore->PrintDebug()){
     std::cout<<"\n\nDEBUG: "<<__PRETTY_FUNCTION__<<std::endl;
   }
   fOutDataTree = new TTree("DAMPE_Raw","ADC");
