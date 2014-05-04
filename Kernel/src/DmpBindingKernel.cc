@@ -119,6 +119,7 @@ BOOST_PYTHON_MODULE(libDmpKernel){
     .def("Run",         &DmpCore::Run)
     .def("Finalize",    &DmpCore::Finalize)
     .def("SetLogLevel", &DmpCore::SetLogLevel)
+    .def("SetMaxEventNumber", &DmpCore::SetMaxEventNumber)
     .def("AlgorithmManager",    &DmpCore::AlgorithmManager,return_value_policy<reference_existing_object>())
     .def("ServiceManager",      &DmpCore::ServiceManager,return_value_policy<reference_existing_object>())
   ;

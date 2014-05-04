@@ -29,6 +29,7 @@ public:     // binding functions
   bool Run();                   // run one job
   bool Finalize();              // execute all elements' Finalize() in all *Mgr
   void SetLogLevel(const short &l) {fLogLevel = l;}
+  void SetMaxEventNumber(const long &i) {fMaxEventNo = i;}
 
   DmpAlgorithmManager*  AlgorithmManager() const {return fAlgMgr;}
   DmpServiceManager*    ServiceManager() const {return fSvcMgr;}
@@ -47,9 +48,9 @@ private:
 //          1.  max event number, process how many event?
 //          2.  time window, only event in this time range
 // *
-  DmpAlgorithmManager   *fAlgMgr;
-  DmpServiceManager     *fSvcMgr;
-  short                 fLogLevel;
+  DmpAlgorithmManager   *fAlgMgr;       // algorithm manager, singleton
+  DmpServiceManager     *fSvcMgr;       // service manager, singleton
+  short                 fLogLevel;      // log level
   /*
    * fLogLevel
    *     types: {error(4) | warning(2) | debug(1)}
@@ -62,6 +63,7 @@ private:
    *    6:      error + warning
    *    7:      error + warning + debug
    */
+  long                  fMaxEventNo;    // run how many event
 };
 
 //-------------------------------------------------------------------

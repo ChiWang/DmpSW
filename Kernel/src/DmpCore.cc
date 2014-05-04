@@ -10,7 +10,8 @@
 DmpCore::DmpCore()
  :fAlgMgr(0),
   fSvcMgr(0),
-  fLogLevel(6)
+  fLogLevel(6),
+  fMaxEventNo(-1)
 {
   fAlgMgr = DmpAlgorithmManager::GetInstance();
   fSvcMgr = DmpServiceManager::GetInstance();
