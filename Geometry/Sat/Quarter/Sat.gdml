@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
 <!DOCTYPE gdml[
-<!ENTITY parameter SYSTEM "parameter.xml">
 <!ENTITY materials SYSTEM "../../Schema/materials.xml">
 ]>
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
 
-  &parameter;
   &materials;
 
   <solids>
-   <box lunit="mm" name="World_box" x="world_size" y="world_size" z="world_size" />
+   <box lunit="mm" name="World_box" x="1000" y="1000" z="1000" />
   </solids>
 
   <structure>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE gdml[
+<!ENTITY parameter SYSTEM "parameter.xml">
+<!ENTITY materials SYSTEM "../../Schema/materials.xml">
+]>
+
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
+<!--
+     File name: Sat.gdml
+     version:0.1 (for prototype)
+     Author(s):
+        Yifeng WEI (weiyf@mail.ustc.edu.cn) 25-10-2013
+     Description:This GDML file is DAMPE detector geometry description fot satellite
+-->
+
+  &parameter;
+  &materials;
+
+ <solids>
+  <!--World:110600*110600*98065mm-->
+  <box lunit="mm" name="World_box"   x="2000" y="2000" z="2000" />
+  <!--<box lunit="mm" name="Payload_box" x="4000" y="4000" z="4000" />-->  
+ </solids>
+
+ <structure>
+  
+  <volume name="World" >
+   <materialref ref="Vacuum" />
+   <solidref ref="World_box" />     
+    
+    <!-- SAT -->
+    <physvol>
+      <file name="kx-b1.gdml"/> 
+      <position name="sat_adjust_position1" x="sat_adjust_x_position" y="sat_adjust_y_position" z="sat_adjust_z_position" unit="mm"/>
+    </physvol>
+    <!--
+    [> PSD <]
+    <physvol>
+     <file name="./Geometry/PSD.gdml" />
+     <position name="psd_pos" unit="mm" x="0" y="0" z="psd_z_offset" />     
+    </physvol> 
+    [> STK <]    
+    <physvol>
+     <file name="./Geometry/STK.gdml" />
+     <position name="stk_pos" unit="mm" x="0" y="0" z="stk_z_offset" />     
+    </physvol>
+    [> BGO <] 
+    <physvol>
+     <file name="./Geometry/BGO.gdml" />
+     <position name="bgo_pos" unit="mm" x="0" y="0" z="bgo_z_offset" />     
+    </physvol>    
+    [> NUD <]
+    <physvol>
+     <file name="./Geometry/NUD.gdml" />
+     <position name="nud_pos" unit="mm" x="0" y="0" z="nud_z_offset" />     
+    </physvol>  
+    -->
+  </volume>
+ </structure>
+
+ <setup name="Default" version="1.0" >
+  <world ref="World" />
+ </setup>
+
+
+</gdml>
+
