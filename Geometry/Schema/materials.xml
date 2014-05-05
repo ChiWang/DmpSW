@@ -1,16 +1,11 @@
 <!--DAMPE materials-->
 
   <materials>
-  <!--Vacuum-->
+    <!--define element-->
     <element name="videRef" formula="VACUUM" Z="1">
      <atom value="1."/>
     </element>
-    <material formula=" " name="Vacuum">
-     <D value="1.e-25" unit="g/cm3" />
-     <fraction n="1.0" ref="videRef" />
-    </material>
 
-    <!--define element-->
     <element Z="32" formula="Ge" name="Ge" >
      <atom value="72.63" />
     </element>
@@ -36,6 +31,12 @@
     </element>
 
     <!--define material-->
+    <!--Vacuum-->
+    <material formula=" " name="Vacuum">
+     <D value="1.e-25" unit="g/cm3" />
+     <fraction n="1.0" ref="videRef" />
+    </material>
+
     <!--BGO-->
     <material name="BGO" formula="Bi4Ge3O12" >
      <D value="7.13" unit="g/cm3" />
@@ -51,6 +52,34 @@
      <composite n="1" ref="O" />
      <composite n="2" ref="C" />
      <composite n="6" ref="H" />
+    </material>
+
+    <!--Al-->
+    <material name="Al" Z="13.0" >
+     <D value="2.70" />
+     <atom value="26.98" />
+    </material>
+
+    <!--Carbon Fiber-->
+    <material name="CarbonFiber" formula="CH2" >
+     <D value="1.62" unit="g/cm3" />
+     <composite n="1" ref="C" />
+     <composite n="2" ref="H" />
+    </material>
+
+    <!--Glass-->
+    <material name="glass" formula="SiO2" >
+     <D value="2.5" unit="g/cm3" />
+     <composite n="1" ref="Si" />
+     <composite n="2" ref="O" />
+    </material>
+
+    <!--PMT-->
+    <material name="pmt-mix" state="solid">
+     <D value="2.524" unit="g/cm3"/>
+     <fraction n="0.7" ref="Al"/>
+     <fraction n="0.2" ref="glass"/>
+     <fraction n="0.1" ref="sylgard170"/>
     </material>
 
   </materials>

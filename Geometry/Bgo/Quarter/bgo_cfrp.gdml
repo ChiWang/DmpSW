@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE gdml[
+<!ENTITY materials SYSTEM "../../Schema/materials.xml">
+]>
+
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
+
+  &materials;
 
   <define>
     <position name="bgo_cfrp_v0" unit="mm" x="157" y="200" z="157.5"/>
@@ -1991,26 +1997,6 @@
     <position name="bgo_cfrp_v1986" unit="mm" x="157" y="112" z="157.5"/>
     <position name="bgo_cfrp_v1987" unit="mm" x="157" y="104.999992370605" z="157.5"/>
   </define>
-
-  <materials>
-
-   <element Z="6" formula="C" name="C" >
-    <atom value="12.011" />
-   </element>
-
-   <element Z="1" formula="H" name="H" >
-    <atom value="1.008" />
-   </element>
-
-   <!--Carbon Fiber-->
-   <material name="CarbonFiber" formula="CH2" >
-    <D value="1.62" unit="g/cm3" />
-    <composite n="1" ref="C" />
-    <composite n="2" ref="H" />
-   </material>
-
-
-  </materials>
 
   <solids>
     <tessellated aunit="deg" lunit="mm" name="bgo_cfrp0x932c20">
