@@ -10,7 +10,6 @@
   &materials;
 
   <solids>
-
    <box lunit="mm" name="detector_box" x="BGOdetectorX" y="BGOdetectorY" z="BGOdetectorZ" />
    <box lunit="mm" name="BGO_bar_box" x="BGObarX" y="BGObarY" z="BGObarZ" />
    <box lunit="mm" name="BGO_with_Gap_box" x="BGOwithgapX" y="BGOwithgapY" z="BGOwithgapZ" />
@@ -20,7 +19,6 @@
 
   <structure>
    <!--BGO bar-->
- 
    <volume name="BGO_bar_vol" >
     <materialref ref="BGO" />
     <solidref ref="BGO_bar_box" />
@@ -49,7 +47,6 @@
        <offset value="0" unit="mm"/>
       </replicate_along_axis>
      </replicavol>
-
    </volume>
 
    <!--BGO plane-->
@@ -849,12 +846,10 @@
 -->
 
    </volume>
-
   </structure>
 
   <setup name="Default" version="1.0" >
    <world ref="Bgo_detector_vol" />
   </setup>
-
 
 </gdml>
