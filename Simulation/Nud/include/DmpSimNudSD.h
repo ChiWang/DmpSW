@@ -1,42 +1,34 @@
+/*
+ *  $Id: DmpSimNudSD.h, 2014-03-04 21:25:49 chi $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/03/2014
+*/
+
 #ifndef DmpSimNudSD_H
 #define DmpSimNudSD_H
 
 #include "G4VSensitiveDetector.hh"
-#include "globals.hh"
 
-class DmpDetectorConstruction;
-class G4HCofThisEvent;
-class G4Step;
-#include "DmpSimNudHit.h"
+class TClonesArray;
 
 class DmpSimNudSD : public G4VSensitiveDetector{
+/*
+ *  DmpSimNudSD
+ *
+ *  update fDataMan->UpdateThisHit(SubDet_ID) in ProcessHits()
+ *
+ */
 public:
   DmpSimNudSD(G4String);
   ~DmpSimNudSD();
+  G4bool ProcessHits(G4Step*,G4TouchableHistory*);
   
   void Initialize(G4HCofThisEvent*);
-  G4bool ProcessHits(G4Step* astep,G4TouchableHistory*);
   void EndOfEvent(G4HCofThisEvent*);
 
 private:
-//  DmpSimNudHitsCollection*  NUDHitCollection;  
-   DmpSimNudHitsCollection*  NUDHitCollection0;  
-   DmpSimNudHitsCollection*  NUDHitCollection1;  
-   DmpSimNudHitsCollection*  NUDHitCollection2;  
-   DmpSimNudHitsCollection*  NUDHitCollection3;   
-  DmpDetectorConstruction* dmpDetector;
- // G4int *HitID;
-  G4int *HitID0;
-  G4int *HitID1;
-  G4int *HitID2;
-  G4int *HitID3;
-  G4double EdepTime[150];
-
-  G4int NbOfNUDStrips; 
-  G4int NbOfNUDTimeIntervals; 
-  G4double TimeInterval; 
+  TClonesArray      *fMSDSet;
 };
 
 #endif
-
 

@@ -31,3 +31,8 @@ void DmpEvtMCNudMSD::AddG4Hit(const double &e,const double &x,const double &y,co
   fPosition[2] = nZ;
   fEnergy = totE;
 }
+
+//-------------------------------------------------------------------
+void DmpEvtMCNudMSD::SetTime(const long &t){
+  fTime.push_back(t);
+}

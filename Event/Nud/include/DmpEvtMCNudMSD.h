@@ -22,7 +22,7 @@ public:
   ~DmpEvtMCNudMSD();
   void  SetSDID(const short &id)   {fSDID = id;}
   void  AddG4Hit(const double &e,const double &x,const double &y,const double &z);     // invoke from G4Step or Sensitive Detector
-  void  SetTime(const long&) 
+  void  SetTime(const long&); 
   const short&  GetSDID() const    {return fSDID;}
   const double& GetEnergy() const  {return fEnergy;}
   double* GetPosition() {return fPosition;}
@@ -32,7 +32,7 @@ private:
   short     fSDID;          // unique sensitive detector(minimum detector unit) ID. Nud bar ID. fSDID =  layerID*100 + barID
   double    fEnergy;        // unit MeV
   double    fPosition[3];   // unit cm
-  long      fTime[2];       // milliscond
+  std::vector<long>      fTime;       // milliscond
 
   ClassDef(DmpEvtMCNudMSD,1)
 };
