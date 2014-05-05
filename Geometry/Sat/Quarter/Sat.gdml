@@ -11,12 +11,78 @@
 
   <solids>
    <box lunit="mm" name="World_box" x="world_size" y="world_size" z="world_size" />
+   <box lunit="mm" name="Plastic_Scintillator_box" x="200" y="200" z="55" />
+   <box lunit="mm" name="MM1_box" x="140" y="140" z="2.5" />
+   <box lunit="mm" name="MM2_box" x="120" y="120" z="2.5" />
+   <box lunit="mm" name="MM_box" x="140" y="140" z="47" />
   </solids>
 
   <structure>
+
+   <volume name="MM1_vol" >
+    <materialref ref="FR4" />
+    <solidref ref="MM1_box" />
+   </volume>
+
+   <volume name="MM2_vol" >
+    <materialref ref="FR4" />
+    <solidref ref="MM2_box" />
+   </volume>
+
+   <volume name="MicroMegas" >
+    <materialref ref="Vacuum"/>
+    <solidref ref="MM_box" />
+
+     <physvol name="MM1" >
+      <volumeref ref="MM1_vol" />
+      <position name="MM1_Pos" unit="mm" x="0" y="0" z="-22.75" />
+     </physvol>
+
+     <physvol name="MM2" >
+      <volumeref ref="MM2_vol" />
+      <position name="MM2_Pos" unit="mm" x="0" y="0" z="-8.75" />
+     </physvol>
+
+     <physvol name="MM3" >
+      <volumeref ref="MM2_vol" />
+      <position name="MM3_Pos" unit="mm" x="0" y="0" z="8.75" />
+     </physvol>
+
+     <physvol name="MM4" >
+      <volumeref ref="MM1_vol" />
+      <position name="MM4_Pos" unit="mm" x="0" y="0" z="22.75" />
+     </physvol>
+
+   </volume>
+
+   <volume name="Plastic_Scintillator_vol" >
+    <materialref ref="PSDmaterial_Sci0x9d1cb80"/>
+    <solidref ref="Plastic_Scintillator_box" />
+   </volume>
+
    <volume name="World" >
     <materialref ref="Vacuum" />
     <solidref ref="World_box" />
+
+    <physvol name="Plastic_Scintillator" >
+     <volumeref ref="Plastic_Scintillator_vol" />
+     <position name="PS_Pos" unit="mm" x="0" y="0" z="-1500." />
+    </physvol>
+
+    <physvol name="MicroMegas_1" >
+     <volumeref ref="MicroMegas" />
+     <position name="MMG1_Pos" unit="mm" x="0" y="0" z="-300." />
+    </physvol>
+
+    <physvol name="MicroMegas_2" >
+     <volumeref ref="MicroMegas" />
+     <position name="MMG2_Pos" unit="mm" x="0" y="0" z="-500." />
+    </physvol>
+    <physvol name="MicroMegas_3" >
+     <volumeref ref="MicroMegas" />
+     <position name="MMG3_Pos" unit="mm" x="0" y="0" z="-700." />
+    </physvol>
+
 <!--
      <physvol>
       <file name="./Bgo/Quarter/Bgo.gdml" />

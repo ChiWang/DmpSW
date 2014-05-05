@@ -2,7 +2,7 @@
 
   <define>
    <!--world-->
-   <constant name="world_size" value="1000" />
+   <constant name="world_size" value="10000" />
 
    <position name="BGO_offset" unit="mm" x="0" y="0" z="200" />
    <position name="PSD_offset" unit="mm" x="0" y="0" z="-33.4" />
