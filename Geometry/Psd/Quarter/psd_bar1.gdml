@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE gdml[
+<!ENTITY materials SYSTEM "../../Schema/materials.xml">
+]>
+
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
+
+  &materials;
 
   <define>
     <position name="psd_bar1_v0" unit="mm" x="-178" y="-26.0387802124023" z="4.25"/>
@@ -63,39 +69,6 @@
     <position name="psd_bar1_v58" unit="mm" x="182" y="-24.8999996185303" z="4.04863696821384e-13"/>
     <position name="psd_bar1_v59" unit="mm" x="182" y="-26.0387802124023" z="4.25"/>
   </define>
-
-  <materials>
-
-    <!-- Plastic Scintillator -->
-    <isotope N="1" Z="1" name="H10x9d1d4f0">
-      <atom unit="g/mole" value="1.00782503081372"/>
-    </isotope>
-    <isotope N="2" Z="1" name="H20x9d1ce40">
-      <atom unit="g/mole" value="2.01410199966617"/>
-    </isotope>
-    <element name="H0x9d1ce78">
-      <fraction n="0.999885" ref="H10x9d1d4f0"/>
-      <fraction n="0.000115" ref="H20x9d1ce40"/>
-    </element>
-    <isotope N="12" Z="6" name="C120x9d1ccd8">
-      <atom unit="g/mole" value="12"/>
-    </isotope>
-    <isotope N="13" Z="6" name="C130x9d1cd18">
-      <atom unit="g/mole" value="13.0034"/>
-    </isotope>
-    <element name="C0x9d1cd50">
-      <fraction n="0.9893" ref="C120x9d1ccd8"/>
-      <fraction n="0.0107" ref="C130x9d1cd18"/>
-    </element>
-    <material name="PSDmaterial_Sci0x9d1cb80" state="solid">
-      <MEE unit="eV" value="64.7"/>
-      <D unit="g/cm3" value="1.032"/>
-      <fraction n="0.085" ref="H0x9d1ce78"/>
-      <fraction n="0.915" ref="C0x9d1cd50"/>
-    </material>
-    
-
-  </materials>
 
   <solids>
     <tessellated aunit="deg" lunit="mm" name="psd_bar10x1db27b0">

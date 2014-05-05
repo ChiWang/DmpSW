@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE gdml[
+<!ENTITY materials SYSTEM "../../Schema/materials.xml">
+]>
+
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
+
+  &materials;
 
   <define>
     <position name="psd_cfrp_v0" unit="mm" x="280" y="-33.3999977111816" z="152"/>
@@ -107,25 +113,6 @@
     <position name="psd_cfrp_v102" unit="mm" x="-150" y="-13.4000005722046" z="263"/>
     <position name="psd_cfrp_v103" unit="mm" x="154" y="-13.4000005722046" z="-263"/>
   </define>
-
-  <materials>
-
-   <element Z="6" formula="C" name="C" >
-    <atom value="12.011" />
-   </element>
-
-   <element Z="1" formula="H" name="H" >
-    <atom value="1.008" />
-   </element>
-
-   <!--Carbon Fiber-->
-   <material name="CarbonFiber" formula="CH2" >
-    <D value="1.62" unit="g/cm3" />
-    <composite n="1" ref="C" />
-    <composite n="2" ref="H" />
-   </material>
-
-  </materials>
 
   <solids>
     <tessellated aunit="deg" lunit="mm" name="psd_cfrp0x21c0e70">

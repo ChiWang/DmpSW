@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE gdml[
+<!ENTITY materials SYSTEM "../../Schema/materials.xml">
+]>
+
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
+
+  &materials;
 
   <define>
     <position name="psd_Al_v0" unit="mm" x="179" y="-13.4000005722046" z="278"/>
@@ -489,16 +495,6 @@
     <position name="psd_Al_v484" unit="mm" x="-295.330108642578" y="-58.4000015258789" z="154.5"/>
     <position name="psd_Al_v485" unit="mm" x="-293.5" y="-58.4000015258789" z="152.669906616211"/>
   </define>
-
-  <materials>
-
-  <!--Al-->
-  <material name="Al" Z="13.0" >
-   <D value="2.70" />
-   <atom value="26.98" />
-  </material>
-
-  </materials>
 
   <solids>
     <tessellated aunit="deg" lunit="mm" name="psd_Al0x25a58e0">
