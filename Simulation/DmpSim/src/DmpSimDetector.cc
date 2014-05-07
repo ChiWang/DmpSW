@@ -56,6 +56,7 @@ G4VPhysicalVolume* DmpSimDetector::Construct(){
   }else{
     chdir(fSatGdmlPath.c_str());
     fSatParser->Read("Sat.gdml");
+    std::cout<<" Reading "<<fSatGdmlPath<<" Sat.gdml"<<std::endl;
     fSatPhyVolume = fSatParser->GetWorldVolume();
   }
   if(fGdmlPath[DmpDetector::kPsd] != "default"){
