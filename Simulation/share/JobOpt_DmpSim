@@ -46,7 +46,7 @@ simBoot.Set("Satellite/Gdml",prefix+"/share/Geometry/Sat/"+phase)           # mu
 simBoot.SetSubDet(DmpKernel.DmpEDetectorID.kPsd,"Gdml",prefix+"/share/Geometry/Psd/"+phase)
 #simBoot.SetSubDet(DmpKernel.DmpEDetectorID.kStk,"Gdml",prefix+"/share/Geometry/Stk/"+phase)   # if NOT set, will not construct this subDet
 simBoot.SetSubDet(DmpKernel.DmpEDetectorID.kBgo,"Gdml",prefix+"/share/Geometry/Bgo/"+phase)
-#simBoot.SetSubDet(DmpKernel.DmpEDetectorID.kNud,"Gdml",prefix+"/share/Geometry/Nud/"+phase)
+simBoot.SetSubDet(DmpKernel.DmpEDetectorID.kNud,"Gdml",prefix+"/share/Geometry/Nud/"+phase)
 #simBoot.SetSubDet(DmpKernel.DmpEDetectorID.kPsd,"Offset","-60")            # if NOT set, will use the defaulted value
 
 #-------------------------------------------------------------------
