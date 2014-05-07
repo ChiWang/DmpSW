@@ -6,3 +6,4 @@
    <constant name="sat_adjust_y_position" value="0"/>    <!-- mm -->
    <constant name="sat_adjust_z_position" value="0"/>    <!-- mm -->
 </define>
+

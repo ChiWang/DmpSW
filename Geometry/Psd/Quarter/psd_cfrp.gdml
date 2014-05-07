@@ -5,8 +5,6 @@
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
 
-  &materials;
-
   <define>
     <position name="psd_cfrp_v0" unit="mm" x="280" y="-33.3999977111816" z="152"/>
     <position name="psd_cfrp_v1" unit="mm" x="280" y="-33.3999977111816" z="170"/>
@@ -113,6 +111,8 @@
     <position name="psd_cfrp_v102" unit="mm" x="-150" y="-13.4000005722046" z="263"/>
     <position name="psd_cfrp_v103" unit="mm" x="154" y="-13.4000005722046" z="-263"/>
   </define>
+
+  &materials;
 
   <solids>
     <tessellated aunit="deg" lunit="mm" name="psd_cfrp0x21c0e70">

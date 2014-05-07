@@ -6,16 +6,19 @@
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
 
+<!--define-->
   &parameter;
+
+<!--materials-->
   &materials;
 
+<!--solids-->
   <solids>
    <box lunit="mm" name="Psd_detector_box" x="PSDdetectorX" y="PSDdetectorY" z="PSDdetectorZ" />
   </solids>
 
   <structure>
-   
-   <volume name="Psd_detector_vol" >
+   <volume name="Psd_DetLV" >
     <materialref ref="Vacuum" />
     <solidref ref="Psd_detector_box" />
 
@@ -36,7 +39,6 @@
       <positionref ref="psdCAD_pos" />
       <rotationref ref="psdCAD_Rot" />
      </physvol>
-
 
      <!--psd bar array-->
      <!--layer 0-->
@@ -129,7 +131,6 @@
       <position name="psdbar014_pos" x="0" y="7*PSDbarX" z="-33.4" />
       <rotationref ref="psdCAD_Rot" />
      </physvol>
-
 
      <!--layer 1-->
      <physvol name="psd_bar100">
@@ -227,7 +228,7 @@
   </structure>
 
   <setup name="Default" version="1.0" >
-   <world ref="Psd_detector_vol" />
+   <world ref="Psd_DetLV" />
   </setup>
 
 </gdml>

@@ -11,7 +11,9 @@ ClassImp(DmpEvtMCNudMSD)
 //------------------------------------------------------------------------------
 DmpEvtMCNudMSD::DmpEvtMCNudMSD()
  :fSDID(0),
-  fEnergy(0)
+  fEnergy(0),
+  fTimeFirstStep(0),
+  fTimeLastStep(0)
 {
   for (short i=0;i<3;++i) fPosition[i]=0;
 }
@@ -32,7 +34,3 @@ void DmpEvtMCNudMSD::AddG4Hit(const double &e,const double &x,const double &y,co
   fEnergy = totE;
 }
 
-//-------------------------------------------------------------------
-void DmpEvtMCNudMSD::SetTime(const long &t){
-  fTime.push_back(t);
-}

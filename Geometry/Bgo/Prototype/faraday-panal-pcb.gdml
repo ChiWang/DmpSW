@@ -6,8 +6,6 @@
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
 
-  &materials;
-
   <define>
     <position name="faraday-panal-pcb_v0" unit="mm" x="429.5" y="-55.75" z="113.249992370605"/>
     <position name="faraday-panal-pcb_v1" unit="mm" x="429.5" y="-55.75" z="99.25"/>
@@ -3690,6 +3688,8 @@
     <position name="faraday-panal-pcb_v3678" unit="mm" x="-429.5" y="-63.75" z="-173.75"/>
     <position name="faraday-panal-pcb_v3679" unit="mm" x="-429.5" y="-63.75" z="-183.75"/>
   </define>
+
+  &materials;
 
   <solids>
     <tessellated aunit="deg" lunit="mm" name="faraday-panal-pcb0x13f7ca0">

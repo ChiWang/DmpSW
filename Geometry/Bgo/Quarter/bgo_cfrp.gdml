@@ -5,8 +5,7 @@
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
 
-  &materials;
-
+<!--define-->
   <define>
     <position name="bgo_cfrp_v0" unit="mm" x="157" y="200" z="157.5"/>
     <position name="bgo_cfrp_v1" unit="mm" x="157" y="200" z="200"/>
@@ -1998,6 +1997,10 @@
     <position name="bgo_cfrp_v1987" unit="mm" x="157" y="104.999992370605" z="157.5"/>
   </define>
 
+<!--materials-->
+  &materials;
+
+<!--solids-->
   <solids>
     <tessellated aunit="deg" lunit="mm" name="bgo_cfrp0x932c20">
       <triangular vertex1="bgo_cfrp_v0" vertex2="bgo_cfrp_v1" vertex3="bgo_cfrp_v2"/>
@@ -6503,6 +6506,7 @@
     </tessellated>
   </solids>
 
+<!--structure-->
   <structure>
     <volume name="bgo_cfrp0x9332c0">
       <materialref ref="CarbonFiber"/>
@@ -6510,6 +6514,7 @@
     </volume>
   </structure>
 
+<!--setup-->
   <setup name="Default" version="1.0">
     <world ref="bgo_cfrp0x9332c0"/>
   </setup>

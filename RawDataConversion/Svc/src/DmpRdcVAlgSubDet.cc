@@ -33,7 +33,7 @@ bool DmpRdcVAlgSubDet::Initialize(){
 }
 
 //-------------------------------------------------------------------
-#include <boost/lexical_cast.hpp>
+//#include <boost/lexical_cast.hpp>
 void DmpRdcVAlgSubDet::Set(const std::string &type,const std::string &argv){
   if(type == "CnctPath"){
     fConnectorPath = argv;

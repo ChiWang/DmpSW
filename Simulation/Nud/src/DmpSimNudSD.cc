@@ -38,12 +38,12 @@ G4bool DmpSimNudSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
 // *
   //static TClonesArray *fMSDSet = ((DmpSimSvcDataMgr*)gCore->ServiceManager()->Get("Sim/DataMgr"))->GetOutCollection(DmpDetector::kNud);
   G4TouchableHistory *theTouchable = (G4TouchableHistory*)(aStep->GetPreStepPoint()->GetTouchable());
-  std::string barName = theTouchable->GetVolume()->GetName();
-  barName.assign(barName.end()-4,barName.end());        // get ID
-  int barID = boost::lexical_cast<int>(barName);
+  std::string blockName = theTouchable->GetVolume()->GetName();
+  blockName.assign(blockName.end()-4,blockName.end());        // get ID
+  short blockID = boost::lexical_cast<short>(blockName);
   int index = -1;
   for(int i=0;i<fMSDSet->GetEntriesFast();++i){
-    if(((DmpEvtMCNudMSD*)fMSDSet->At(i))->GetSDID() == barID){
+    if(((DmpEvtMCNudMSD*)fMSDSet->At(i))->GetSDID() == blockID){
       index = i;
       break;
     }
@@ -51,18 +51,20 @@ G4bool DmpSimNudSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
   static DmpEvtMCNudMSD *aMSD = 0;
   if(index < 0){
     if(gCore->PrintDebug()){
-      std::cout<<"DEBUG: "<<__PRETTY_FUNCTION__<<"\tnew bar has hits = "<<barID<<std::endl;
+      std::cout<<"DEBUG: "<<__PRETTY_FUNCTION__<<"\tnew block has hits = "<<blockID<<std::endl;
     }
     aMSD = (DmpEvtMCNudMSD*)fMSDSet->New(fMSDSet->GetEntriesFast());
-    aMSD->SetSDID(barID);
+    aMSD->SetSDID(blockID);
   }else{
     aMSD = (DmpEvtMCNudMSD*)fMSDSet->At(index);
   }
   G4ThreeVector position = aStep->GetPreStepPoint()->GetPosition();
   aMSD->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,position.x()/cm,position.y()/cm,position.z()/cm);
-// *
-// *  TODO:  add time:(first time and last time at here??)
-// *
+  if(aMSD->GetStartTime()){
+    aMSD->SetStopTime(aStep->GetPreStepPoint()->GetGlobalTime());
+  }else{
+    aMSD->SetStartTime(aStep->GetPreStepPoint()->GetGlobalTime());
+  }
 }
 
 //-------------------------------------------------------------------

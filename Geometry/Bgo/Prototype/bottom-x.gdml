@@ -6,8 +6,6 @@
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
 
-  &materials;
-
   <define>
     <position name="bottom-x_v0" unit="mm" x="-42.4264106750488" y="-214.25" z="-5.80046298637171e-06"/>
     <position name="bottom-x_v1" unit="mm" x="-42.1422004699707" y="-212.75" z="0.284197181463242"/>
@@ -274,6 +272,8 @@
     <position name="bottom-x_v262" unit="mm" x="2.31078910827637" y="-215.249984741211" z="40.115608215332"/>
     <position name="bottom-x_v263" unit="mm" x="3.5355339050293" y="-214.25" z="38.890869140625"/>
   </define>
+
+  &materials;
 
   <solids>
     <tessellated aunit="deg" lunit="mm" name="bottom-x0x1042f10">

@@ -5,8 +5,6 @@
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
 
-  &materials;
-
   <define>
     <position name="bgo_Al_v0" unit="mm" x="-178" y="104.999992370605" z="-179.5"/>
     <position name="bgo_Al_v1" unit="mm" x="-178" y="111" z="-179.5"/>
@@ -1945,6 +1943,8 @@
     <position name="bgo_Al_v1934" unit="mm" x="189" y="233.999984741211" z="199.5"/>
     <position name="bgo_Al_v1935" unit="mm" x="189" y="244" z="199.5"/>
   </define>
+
+  &materials;
 
   <solids>
     <tessellated aunit="deg" lunit="mm" name="bgo_Al0x2048c60">
@@ -5601,7 +5601,7 @@
 
   <structure>
     <volume name="bgo_Al0x21cacc0">
-      <materialref ref="Al"/>
+      <materialref ref="Aluminum"/>
       <solidref ref="bgo_Al0x2048c60"/>
     </volume>
   </structure>

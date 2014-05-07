@@ -5,8 +5,6 @@
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
 
-  &materials;
-
   <define>
     <position name="psd_bar1_v0" unit="mm" x="-178" y="-26.0387802124023" z="4.25"/>
     <position name="psd_bar1_v1" unit="mm" x="-178" y="-24.8999996185303" z="4.00048023136909e-13"/>
@@ -69,6 +67,8 @@
     <position name="psd_bar1_v58" unit="mm" x="182" y="-24.8999996185303" z="4.04863696821384e-13"/>
     <position name="psd_bar1_v59" unit="mm" x="182" y="-26.0387802124023" z="4.25"/>
   </define>
+
+  &materials;
 
   <solids>
     <tessellated aunit="deg" lunit="mm" name="psd_bar10x1db27b0">

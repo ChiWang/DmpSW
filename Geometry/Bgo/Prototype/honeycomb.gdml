@@ -6,8 +6,6 @@
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
 
-  &materials;
-
   <define>
     <position name="honeycomb_v0" unit="mm" x="-285.429992675781" y="-244.250015258789" z="-243"/>
     <position name="honeycomb_v1" unit="mm" x="-312" y="-244.250015258789" z="-243"/>
@@ -50,6 +48,8 @@
     <position name="honeycomb_v38" unit="mm" x="-243" y="-244.250015258789" z="-312"/>
     <position name="honeycomb_v39" unit="mm" x="-243" y="-211.25" z="-312"/>
   </define>
+
+  &materials;
 
   <solids>
     <tessellated aunit="deg" lunit="mm" name="honeycomb0x809300">

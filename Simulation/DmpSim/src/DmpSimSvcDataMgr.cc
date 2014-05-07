@@ -25,7 +25,7 @@ DmpSimSvcDataMgr::DmpSimSvcDataMgr()
   fBgoOutSet(0),
   fNudOutSet(0)
 {
-  SetPackageID("Sim_V1.0_");
+  SetPackageID("SimV1.1_");
   fPrimaryParticle = new DmpEvtMCPrimaryParticle();
   fPsdOutSet = new TClonesArray("DmpEvtMCPsdMSD",300);
   fStkOutSet = new TClonesArray("DmpEvtMCStkMSD",300);

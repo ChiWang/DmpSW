@@ -32,9 +32,10 @@ void DmpSimBgoSD::Initialize(G4HCofThisEvent*){
 //-------------------------------------------------------------------
 #include <boost/lexical_cast.hpp>
 G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
-  //static TClonesArray *fMSDSet = ((DmpSimSvcDataMgr*)gCore->ServiceManager()->Get("Sim/DataMgr"))->GetOutCollection(DmpDetector::kBgo);
   G4TouchableHistory *theTouchable = (G4TouchableHistory*)(aStep->GetPreStepPoint()->GetTouchable());
-  std::string barName = theTouchable->GetVolume()->GetName();
+  std::string barName = theTouchable->GetVolume(1)->GetName();
+  //std::cout<<"name = "<<barName<<std::endl;
+  //return false;
   barName.assign(barName.end()-4,barName.end());        // get ID
   int barID = boost::lexical_cast<int>(barName);
   int index = -1;
@@ -56,6 +57,7 @@ G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
   }
   G4ThreeVector position = aStep->GetPreStepPoint()->GetPosition();
   aMSD->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,position.x()/cm,position.y()/cm,position.z()/cm);
+  return true;
 }
 
 //-------------------------------------------------------------------

@@ -6,8 +6,6 @@
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
 
-  &materials;
-
   <define>
     <position name="cfrp_v0" unit="mm" x="243" y="-228.749984741211" z="318.401916503906"/>
     <position name="cfrp_v1" unit="mm" x="243" y="-230.25" z="318"/>
@@ -10220,6 +10218,8 @@
     <position name="cfrp_v10208" unit="mm" x="-247.499984741211" y="-194.5" z="-350"/>
     <position name="cfrp_v10209" unit="mm" x="-220" y="-194.5" z="-350"/>
   </define>
+
+  &materials;
 
   <solids>
     <tessellated aunit="deg" lunit="mm" name="cfrp0x281e800">

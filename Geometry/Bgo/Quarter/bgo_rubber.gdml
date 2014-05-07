@@ -5,8 +5,6 @@
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
 
-  &materials;
-
   <define>
     <position name="bgo_rubber_v0" unit="mm" x="36.0932693481445" y="27.75" z="150"/>
     <position name="bgo_rubber_v1" unit="mm" x="40" y="23" z="150"/>
@@ -11625,6 +11623,8 @@
     <position name="bgo_rubber_v11614" unit="mm" x="41.5" y="53" z="200"/>
     <position name="bgo_rubber_v11615" unit="mm" x="41.5" y="53" z="208"/>
   </define>
+
+  &materials;
 
   <solids>
     <tessellated aunit="deg" lunit="mm" name="bgo_rubber0x1ee9650">

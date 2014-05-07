@@ -60,9 +60,11 @@ void DmpVDataMgr::SetOutDataPath(const std::string &argv){
 void DmpVDataMgr::SetOutDataName(){
   boost::filesystem::path inpath(fInData);
   if(fNote == "no"){
-    fOutDataName = fPgkID+TimeStamp()+"_"+inpath.stem()+".root";
+    fOutDataName = fPgkID+inpath.stem()+".root";
+    //fOutDataName = fPgkID+TimeStamp()+inpath.stem()+".root";
   }else{
-    fOutDataName = fPgkID+TimeStamp()+"_"+inpath.stem()+"_"+fNote+".root";
+    fOutDataName = fPgkID+inpath.stem()+"_"+fNote+".root";
+    //fOutDataName = fPgkID+TimeStamp()+inpath.stem()+"_"+fNote+".root";
   }
 }
 
@@ -74,7 +76,7 @@ std::string DmpVDataMgr::TimeStamp(){
   time(&now);
   p = localtime(&now);
   char timeStamp[20];
-  strftime(timeStamp,99,"%Y%m%d%H%M%S",p);
+  strftime(timeStamp,99,"%Y%m%d%H%M%S_",p);
   return timeStamp;
 }
 

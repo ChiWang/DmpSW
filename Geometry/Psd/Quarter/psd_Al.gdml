@@ -5,8 +5,6 @@
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Schema/gdml.xsd">
 
-  &materials;
-
   <define>
     <position name="psd_Al_v0" unit="mm" x="179" y="-13.4000005722046" z="278"/>
     <position name="psd_Al_v1" unit="mm" x="172" y="-13.4000005722046" z="278"/>
@@ -495,6 +493,8 @@
     <position name="psd_Al_v484" unit="mm" x="-295.330108642578" y="-58.4000015258789" z="154.5"/>
     <position name="psd_Al_v485" unit="mm" x="-293.5" y="-58.4000015258789" z="152.669906616211"/>
   </define>
+
+  &materials;
 
   <solids>
     <tessellated aunit="deg" lunit="mm" name="psd_Al0x25a58e0">
@@ -1459,7 +1459,7 @@
 
   <structure>
     <volume name="psd_Al0x2598fc0">
-      <materialref ref="Al"/>
+      <materialref ref="Aluminum"/>
       <solidref ref="psd_Al0x25a58e0"/>
     </volume>
   </structure>

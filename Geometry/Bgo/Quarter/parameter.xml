@@ -1,6 +1,6 @@
 <!--Beam Test 2012 parameters-->
 
-  <define>
+<define>
    <!--BGO parameter-->
    <constant name="BGOdetectorX" value="536"/>
    <constant name="BGOdetectorY" value="536"/>
@@ -8,20 +8,16 @@
    <constant name="BGObarX" value="25"/>
    <constant name="BGObarY" value="300"/>
    <constant name="BGObarZ" value="25"/>
-   <constant name="BGOwithgapX" value="26"/>
-   <constant name="BGOwithgapY" value="300"/>
-   <constant name="BGOwithgapZ" value="26"/>
 
    <constant name="BGO_NbOfCALLayers" value="12"/>
    <constant name="BGO_NbOfCALLayerBars" value="11"/>
    <constant name="BGO_NbOfCALBars" value="132"/>
    <constant name="BGO_CALBarsSeparation" value="2.5"/>
-   <constant name="BGO_CALLayerSeparation" value="4"/>
 
    <rotation name="BGObar_Rot" unit="deg" x="0" y="0" z="-90"/>
 
    <position name="bgoCAD_pos" unit="mm" x="0" y="0" z="200" />
    <rotation name="bgoCAD_Rot" unit="deg" x="90" y="0" z="0"/>
-  </define>
+</define>
 
 

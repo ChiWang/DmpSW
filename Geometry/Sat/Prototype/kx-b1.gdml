@@ -2352,7 +2352,7 @@
     <position name="kx-b1-STL_v2346" unit="mm" x="474.549987792969" y="-543.75" z="550.825317382812"/>
   </define>
 
-    <materials>
+  <materials>
     <element name="aluminum" formula="Al" Z="13"> 
        <atom value="26.98"/>   
     </element>
@@ -7004,9 +7004,9 @@
     </volume>
   </structure>
 
-
   <setup name="Default" version="1.0">
     <world ref="kx-b1"/>
   </setup>
 
 </gdml>
+
