@@ -61,8 +61,8 @@ G4VPhysicalVolume* DmpSimDetector::Construct(){
   }
   if(fGdmlPath[DmpDetector::kPsd] != "default"){
     chdir(fGdmlPath[DmpDetector::kPsd].c_str());
-    fParser[DmpDetector::kPsd] = new G4GDMLParser();
     std::cout<<" Reading "<<fGdmlPath[DmpDetector::kPsd]<<" Psd.gdml"<<std::endl;
+    fParser[DmpDetector::kPsd] = new G4GDMLParser();
     fParser[DmpDetector::kPsd]->Read("Psd.gdml");
     fPhyVolume[DmpDetector::kPsd] = new G4PVPlacement(0,
                     G4ThreeVector(0,0,fOffset[DmpDetector::kPsd]),
@@ -74,8 +74,8 @@ G4VPhysicalVolume* DmpSimDetector::Construct(){
   }
   if(fGdmlPath[DmpDetector::kStk] != "default"){
     chdir(fGdmlPath[DmpDetector::kStk].c_str());
-    fParser[DmpDetector::kStk] = new G4GDMLParser();
     std::cout<<" Reading "<<fGdmlPath[DmpDetector::kStk]<<" Stk.gdml"<<std::endl;
+    fParser[DmpDetector::kStk] = new G4GDMLParser();
     fParser[DmpDetector::kStk]->Read("Stk.gdml");
     fPhyVolume[DmpDetector::kStk] = new G4PVPlacement(0,
                     G4ThreeVector(0,0,fOffset[DmpDetector::kStk]),
@@ -87,8 +87,8 @@ G4VPhysicalVolume* DmpSimDetector::Construct(){
   }
   if(fGdmlPath[DmpDetector::kBgo] != "default"){
     chdir(fGdmlPath[DmpDetector::kBgo].c_str());
-    fParser[DmpDetector::kBgo] = new G4GDMLParser();
     std::cout<<" Reading "<<fGdmlPath[DmpDetector::kBgo]<<" Bgo.gdml"<<std::endl;
+    fParser[DmpDetector::kBgo] = new G4GDMLParser();
     fParser[DmpDetector::kBgo]->Read("Bgo.gdml");
     fPhyVolume[DmpDetector::kBgo] = new G4PVPlacement(0,
                     G4ThreeVector(0,0,fOffset[DmpDetector::kBgo]),
@@ -101,8 +101,8 @@ G4VPhysicalVolume* DmpSimDetector::Construct(){
   if(fGdmlPath[DmpDetector::kNud] != "default"){
     chdir(fGdmlPath[DmpDetector::kNud].c_str());
     fParser[DmpDetector::kNud] = new G4GDMLParser();
-    fParser[DmpDetector::kNud]->Read("Nud.gdml");
     std::cout<<" Reading "<<fGdmlPath[DmpDetector::kNud]<<" Nud.gdml"<<std::endl;
+    fParser[DmpDetector::kNud]->Read("Nud.gdml");
     fPhyVolume[DmpDetector::kNud] = new G4PVPlacement(0,
                     G4ThreeVector(0,0,fOffset[DmpDetector::kNud]),
                     "Nud",
