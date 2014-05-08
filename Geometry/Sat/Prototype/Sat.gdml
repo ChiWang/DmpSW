@@ -34,7 +34,7 @@
       <solidref ref="World_box" />     
       <physvol>     <!-- SAT -->
         <file name="kx-b1.gdml"/> 
-        <position name="sat_adjust_position1" x="sat_adjust_x_position" y="sat_adjust_y_position" z="sat_adjust_z_position" unit="mm"/>
+        <position name="sat_adjust_position1" x="300" y="0" z="0" unit="mm"/>
       </physvol>
     </volume>
   </structure>
