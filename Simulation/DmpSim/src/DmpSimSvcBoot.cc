@@ -32,9 +32,8 @@ DmpSimSvcBoot::~DmpSimSvcBoot(){
 void DmpSimSvcBoot::Set(const std::string &type,const std::string &argv){
   if(type == "Physics"){
     fPhyListName = argv;
-  }else if(type == "Satellite/Gdml"){
-  //}else if(type.find("Satellite/Gdml") != std::string::npos){
-    fDetector->SetSatGdml(argv);
+  }else if(type == "Gdml"){
+    fDetector->SetGdml(argv);
   }
 }
 

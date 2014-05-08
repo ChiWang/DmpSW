@@ -39,10 +39,10 @@ public:
    *        argv = any
    *
    */
-  void SetPsd(const std::string &type,const std::string &argv);
-  void SetStk(const std::string &type,const std::string &argv);
-  void SetBgo(const std::string &type,const std::string &argv);
-  void SetNud(const std::string &type,const std::string &argv);
+  void SetPsd(const std::string &type,const std::string &argv){;}
+  void SetStk(const std::string &type,const std::string &argv){;}
+  void SetBgo(const std::string &type,const std::string &argv){;}
+  void SetNud(const std::string &type,const std::string &argv){;}
   bool Initialize();
   bool Finalize();
 

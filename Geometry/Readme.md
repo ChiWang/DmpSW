@@ -3,17 +3,15 @@
 
 ##  Schema
 
-    all gdml files will read gdml.xsd
+    1.  gdml*.xsd comes from: "http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd",
+        all gdml files in subDet will read it
 
-##  Sat
+    2.  materials.xml stored all materials for DAMPE
 
-    structure of Satellite, without detectors
+##  BT2012
 
-##  Psd
+    all gdml files for Beam tes 2012
 
-##  Stk
+##  Prototype
 
-##  Bgo
-
-##  Nud
-
+    all gdml files for prototype 2014

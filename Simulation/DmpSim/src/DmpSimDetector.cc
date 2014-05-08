@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimDetector.cc, 2014-04-14 13:05:14 chi $
+ *  $Id: DmpSimDetector.cc, 2014-05-08 11:44:50 DAMPE $
  *  Author(s):
  *    Xin WU (Xin.Wu@cern.cn)   11/07/2013
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 26/02/2014
@@ -21,108 +21,62 @@
 
 //-------------------------------------------------------------------
 DmpSimDetector::DmpSimDetector()
- :fSatGdmlPath("default"),
-  fSatParser(0),
-  fSatPhyVolume(0)
+ :fGdmlPath("default"),
+  fParser(0),
+  fPhyVolume(0)
 {
-  fSatParser = new G4GDMLParser();
-  for (short i=0;i<DmpDetector::gSubDetNo;++i){
-    fGdmlPath[i]="default";
-    fParser[i] = 0;
-    fPhyVolume[i] = 0;
-  }
-  fOffset[DmpDetector::kPsd] = -33.4;
-  fOffset[DmpDetector::kStk] = 0;
-  fOffset[DmpDetector::kBgo] = 200;
-  fOffset[DmpDetector::kNud] = 0;
+  fParser = new G4GDMLParser();
 }
 
 //-------------------------------------------------------------------
 DmpSimDetector::~DmpSimDetector(){
-  delete fSatParser;
-  for (short i=0;i<DmpDetector::gSubDetNo;++i){
-    if(fParser[i] != 0){
-      delete fParser[i];
-    }
-  }
+  delete fParser;
 }
 
 //-------------------------------------------------------------------
 G4VPhysicalVolume* DmpSimDetector::Construct(){
   char *dirTmp = getcwd(NULL,NULL);
-  if(fSatGdmlPath == "default"){
-     G4cout<<"Error: must setup detector in job option file. SetSatGdml(type,GdmlFilePath)"<<G4endl;
+  if(fGdmlPath == "default"){
+     G4cout<<"Error: must setup detector in job option file. SetGdml(GdmlFilePath)"<<G4endl;
      return 0;
   }else{
-    chdir(fSatGdmlPath.c_str());
-    std::cout<<" Reading "<<fSatGdmlPath<<" Sat.gdml"<<std::endl;
-    fSatParser->Read("Sat.gdml");
-    fSatPhyVolume = fSatParser->GetWorldVolume();
-  }
-  if(fGdmlPath[DmpDetector::kPsd] != "default"){
-    chdir(fGdmlPath[DmpDetector::kPsd].c_str());
-    fParser[DmpDetector::kPsd] = new G4GDMLParser();
-    std::cout<<" Reading "<<fGdmlPath[DmpDetector::kPsd]<<" Psd.gdml"<<std::endl;
-    fParser[DmpDetector::kPsd]->Read("Psd.gdml");
-    fPhyVolume[DmpDetector::kPsd] = new G4PVPlacement(0,
-                    G4ThreeVector(0,0,fOffset[DmpDetector::kPsd]),
-                    "Psd",
-                    fParser[DmpDetector::kPsd]->GetVolume("Psd_DetLV"),
-                    fSatPhyVolume,
-                    false,
-                    0);
-  }
-  if(fGdmlPath[DmpDetector::kStk] != "default"){
-    chdir(fGdmlPath[DmpDetector::kStk].c_str());
-    fParser[DmpDetector::kStk] = new G4GDMLParser();
-    std::cout<<" Reading "<<fGdmlPath[DmpDetector::kStk]<<" Stk.gdml"<<std::endl;
-    fParser[DmpDetector::kStk]->Read("Stk.gdml");
-    fPhyVolume[DmpDetector::kStk] = new G4PVPlacement(0,
-                    G4ThreeVector(0,0,fOffset[DmpDetector::kStk]),
-                    "Stk",
-                    fParser[DmpDetector::kStk]->GetVolume("Stk_DetLV"),
-                    fSatPhyVolume,
-                    false,
-                    0);
-  }
-  if(fGdmlPath[DmpDetector::kBgo] != "default"){
-    chdir(fGdmlPath[DmpDetector::kBgo].c_str());
-    fParser[DmpDetector::kBgo] = new G4GDMLParser();
-    std::cout<<" Reading "<<fGdmlPath[DmpDetector::kBgo]<<" Bgo.gdml"<<std::endl;
-    fParser[DmpDetector::kBgo]->Read("Bgo.gdml");
-    fPhyVolume[DmpDetector::kBgo] = new G4PVPlacement(0,
-                    G4ThreeVector(0,0,fOffset[DmpDetector::kBgo]),
-                    "Bgo",
-                    fParser[DmpDetector::kBgo]->GetVolume("Bgo_DetLV"),
-                    fSatPhyVolume,
-                    false,
-                    0);
-  }
-  if(fGdmlPath[DmpDetector::kNud] != "default"){
-    chdir(fGdmlPath[DmpDetector::kNud].c_str());
-    fParser[DmpDetector::kNud] = new G4GDMLParser();
-    std::cout<<" Reading "<<fGdmlPath[DmpDetector::kNud]<<" Nud.gdml"<<std::endl;
-    fParser[DmpDetector::kNud]->Read("Nud.gdml");
-    fPhyVolume[DmpDetector::kNud] = new G4PVPlacement(0,
-                    G4ThreeVector(0,0,fOffset[DmpDetector::kNud]),
-                    "Nud",
-                    fParser[DmpDetector::kNud]->GetVolume("Nud_DetLV"),
-                    fSatPhyVolume,
-                    false,
-                    0);
+    chdir(fGdmlPath.c_str());
+    fParser->Read("DAMPE.gdml");
+    fPhyVolume = fParser->GetWorldVolume();
   }
   chdir(dirTmp);
   // *
   // *  TODO: set SD of SubDet at here
   // *
   G4SDManager *mgrSD = G4SDManager::GetSDMpointer();
-  if(fParser[DmpDetector::kBgo]){
+  if(fParser->GetVolume("Psd_DetLV")){
+    std::cout<<" Setting Sensitive Detector of Psd"<<std::endl;
+    /*DmpSimPsdSD *psdSD = new DmpSimPsdSD("PsdSD");
+    mgrSD->AddNewDetector(psdSD);
+    fParser->GetVolume("Psd_StripLV")->SetSensitiveDetector(psdSD);*/
+  }
+  /*
+  if(fParser->GetVolume("Stk_DetLV")){
+    std::cout<<" Setting Sensitive Detector of Stk"<<std::endl;
+    DmpSimStkSD *stkSD = new DmpSimStkSD("StkSD");
+    mgrSD->AddNewDetector(stkSD);
+    fParser->GetVolume("Stk_StripLV")->SetSensitiveDetector(stkSD);
+  }
+  */
+  if(fParser->GetVolume("Bgo_DetLV")){
+    std::cout<<" Setting Sensitive Detector of Bgo"<<std::endl;
     DmpSimBgoSD *bgoSD = new DmpSimBgoSD("BgoSD");
     mgrSD->AddNewDetector(bgoSD);
-    fParser[DmpDetector::kBgo]->GetVolume("Bgo_BarLV")->SetSensitiveDetector(bgoSD);
+    fParser->GetVolume("Bgo_BarLV")->SetSensitiveDetector(bgoSD);
+  }
+  if(fParser->GetVolume("Nud_DetLV")){
+    std::cout<<" Setting Sensitive Detector of Nud"<<std::endl;
+    /*DmpSimNudSD *nudSD = new DmpSimNudSD("NudSD");
+    mgrSD->AddNewDetector(nudSD);
+    fParser->GetVolume("Nud_StripLV")->SetSensitiveDetector(nudSD);*/
   }
 
-  return fSatPhyVolume;
+  return fPhyVolume;
 }
 
 

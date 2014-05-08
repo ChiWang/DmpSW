@@ -1,5 +1,5 @@
 /* 
- *  $Id: DmpSimDetector.h, 2014-04-14 14:04:27 chi $
+ *  $Id: DmpSimDetector.h, 2014-05-08 11:44:48 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 26/02/2014
 */
@@ -21,20 +21,13 @@ public:
   DmpSimDetector();
   ~DmpSimDetector();
   G4VPhysicalVolume* Construct();
-  void SetSatGdml(const std::string &argv) {fSatGdmlPath = argv;}
-  void SetGdml(DmpDetector::DmpEDetectorID id,const std::string &argv) {fGdmlPath[id] = argv;}
-  void SetOffset(DmpDetector::DmpEDetectorID id,const float &v) {fOffset[id] = v;}
+  void SetGdml(const std::string &argv) {fGdmlPath = argv;}
 
 private:
-  std::string            fSatGdmlPath;       // must set it in JobOpt file
-  G4GDMLParser          *fSatParser;
-  G4VPhysicalVolume     *fSatPhyVolume;
+  std::string           fGdmlPath;          // must set it in JobOpt file
+  G4GDMLParser          *fParser;
+  G4VPhysicalVolume     *fPhyVolume;
 
-private:
-  std::string           fGdmlPath[DmpDetector::gSubDetNo];
-  G4GDMLParser          *fParser[DmpDetector::gSubDetNo];
-  G4VPhysicalVolume     *fPhyVolume[DmpDetector::gSubDetNo];
-  float         fOffset[DmpDetector::gSubDetNo];        // sudDet center --> Sat center
 };
 
 #endif
