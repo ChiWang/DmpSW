@@ -40,6 +40,7 @@ G4bool DmpSimNudSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
   for(short i=0;i<fMSDSet->GetEntriesFast();++i){
     if(((DmpEvtMCNudMSD*)fMSDSet->At(i))->GetSDID() == blockID){
       aMSD = (DmpEvtMCNudMSD*)fMSDSet->At(i);
+      aMSD->SetStopTime(aStep->GetPreStepPoint()->GetGlobalTime()/ns);
       break;
     }
   }
@@ -49,10 +50,6 @@ G4bool DmpSimNudSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
     }
     aMSD = (DmpEvtMCNudMSD*)fMSDSet->New(fMSDSet->GetEntriesFast());
     aMSD->SetSDID(blockID);
-  }
-  if(aMSD->GetStartTime()){ // must before AddG4Hit
-    aMSD->SetStopTime(aStep->GetPreStepPoint()->GetGlobalTime()/ns);
-  }else{
     aMSD->SetStartTime(aStep->GetPreStepPoint()->GetGlobalTime()/ns);
   }
   G4ThreeVector position = aStep->GetPreStepPoint()->GetPosition();
