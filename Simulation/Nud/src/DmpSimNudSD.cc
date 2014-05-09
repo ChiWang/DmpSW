@@ -46,7 +46,7 @@ G4bool DmpSimNudSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
   }
   if(aMSD == 0){
     if(gCore->PrintDebug()){
-      std::cout<<"DEBUG: "<<__PRETTY_FUNCTION__<<"\tnew block has hits = "<<blockID<<std::endl;
+      std::cout<<"DEBUG: "<<__PRETTY_FUNCTION__<<"\thit a new block: "<<blockID<<std::endl;
     }
     aMSD = (DmpEvtMCNudMSD*)fMSDSet->New(fMSDSet->GetEntriesFast());
     aMSD->SetSDID(blockID);
