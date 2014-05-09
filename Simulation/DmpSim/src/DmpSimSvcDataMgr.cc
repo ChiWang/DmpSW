@@ -59,7 +59,7 @@ void DmpSimSvcDataMgr::BookBranch(){
 // *  TODO:  for primary particle
 // *
   //fPrimaryParticle->Reset();
-  fOutDataTree = new TTree("DAMPE_Raw","Simulation");
+  fOutDataTree = new TTree("DAMPE_MCTruth","Simulation");
   fOutDataTree->Branch("PrimaryParticle","DmpEvtMCPrimaryParticle",&fPrimaryParticle,32000,2);
   fOutDataTree->Branch("Psd",fPsdOutSet,32000,2);
   fOutDataTree->Branch("Stk",fStkOutSet,32000,2);
