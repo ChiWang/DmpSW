@@ -30,7 +30,7 @@ DmpSimSvcDataMgr::DmpSimSvcDataMgr()
   fPsdOutSet = new TClonesArray("DmpEvtMCPsdMSD",300);
   fStkOutSet = new TClonesArray("DmpEvtMCStkMSD",300);
   fBgoOutSet = new TClonesArray("DmpEvtMCBgoMSD",300);
-  fNudOutSet = new TClonesArray("DmpEvtMCNudMSD",300);
+  fNudOutSet = new TClonesArray("DmpEvtMCNudMSD",4);
 }
 
 //-------------------------------------------------------------------

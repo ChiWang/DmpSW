@@ -27,7 +27,7 @@ public:
   const long& GetStartTime() const  {return fTimeFirstStep;}
   const long& GetStopTime() const   {return fTimeLastStep;}
   std::vector<double> GetEnergy() const   {return fEnergy;}
-  std::vector<double> GetPosition(const std::string&) const;
+  std::vector<double> GetPosition(const std::string &axis) const;   // axis = {x|y|z}
 
 public:
   static void SetDeltaTime(const short &t) {fDeltaTime = t;}
