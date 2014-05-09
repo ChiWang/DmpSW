@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimNudSD.cc, 2014-05-05 15:50:07 DAMPE $
+ *  $Id: DmpSimNudSD.cc, 2014-05-09 11:07:41 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/03/2014
 */
@@ -32,39 +32,32 @@ void DmpSimNudSD::Initialize(G4HCofThisEvent*){
 //-------------------------------------------------------------------
 #include <boost/lexical_cast.hpp>
 G4bool DmpSimNudSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
-// *
-// *  TODO:  check Gdml file of Nud,
-// block ID ??
-// *
-  //static TClonesArray *fMSDSet = ((DmpSimSvcDataMgr*)gCore->ServiceManager()->Get("Sim/DataMgr"))->GetOutCollection(DmpDetector::kNud);
   G4TouchableHistory *theTouchable = (G4TouchableHistory*)(aStep->GetPreStepPoint()->GetTouchable());
   std::string blockName = theTouchable->GetVolume()->GetName();
-  blockName.assign(blockName.end()-4,blockName.end());        // get ID
+  blockName.assign(blockName.end()-1,blockName.end());        // get ID
   short blockID = boost::lexical_cast<short>(blockName);
-  int index = -1;
-  for(int i=0;i<fMSDSet->GetEntriesFast();++i){
+  DmpEvtMCNudMSD *aMSD = 0;
+  for(short i=0;i<fMSDSet->GetEntriesFast();++i){
     if(((DmpEvtMCNudMSD*)fMSDSet->At(i))->GetSDID() == blockID){
-      index = i;
+      aMSD = (DmpEvtMCNudMSD*)fMSDSet->At(i);
       break;
     }
   }
-  static DmpEvtMCNudMSD *aMSD = 0;
-  if(index < 0){
+  if(aMSD == 0){
     if(gCore->PrintDebug()){
       std::cout<<"DEBUG: "<<__PRETTY_FUNCTION__<<"\tnew block has hits = "<<blockID<<std::endl;
     }
     aMSD = (DmpEvtMCNudMSD*)fMSDSet->New(fMSDSet->GetEntriesFast());
     aMSD->SetSDID(blockID);
+  }
+  if(aMSD->GetStartTime()){ // must before AddG4Hit
+    aMSD->SetStopTime(aStep->GetPreStepPoint()->GetGlobalTime()/ns);
   }else{
-    aMSD = (DmpEvtMCNudMSD*)fMSDSet->At(index);
+    aMSD->SetStartTime(aStep->GetPreStepPoint()->GetGlobalTime()/ns);
   }
   G4ThreeVector position = aStep->GetPreStepPoint()->GetPosition();
-  aMSD->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,position.x()/cm,position.y()/cm,position.z()/cm);
-  if(aMSD->GetStartTime()){
-    aMSD->SetStopTime(aStep->GetPreStepPoint()->GetGlobalTime());
-  }else{
-    aMSD->SetStartTime(aStep->GetPreStepPoint()->GetGlobalTime());
-  }
+  aMSD->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,position.x()/mm,position.y()/mm,position.z()/mm);
+  return true;
 }
 
 //-------------------------------------------------------------------

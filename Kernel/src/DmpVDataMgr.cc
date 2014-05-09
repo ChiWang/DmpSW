@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpVDataMgr.cc, 2014-04-12 17:22:05 chi $
+ *  $Id: DmpVDataMgr.cc, 2014-05-09 11:44:30 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -60,11 +60,11 @@ void DmpVDataMgr::SetOutDataPath(const std::string &argv){
 void DmpVDataMgr::SetOutDataName(){
   boost::filesystem::path inpath(fInData);
   if(fNote == "no"){
-    fOutDataName = fPgkID+inpath.stem()+".root";
-    //fOutDataName = fPgkID+TimeStamp()+inpath.stem()+".root";
+    //fOutDataName = fPgkID+inpath.stem()+".root";
+    fOutDataName = fPgkID+TimeStamp()+inpath.stem()+".root";
   }else{
-    fOutDataName = fPgkID+inpath.stem()+"_"+fNote+".root";
-    //fOutDataName = fPgkID+TimeStamp()+inpath.stem()+"_"+fNote+".root";
+    //fOutDataName = fPgkID+inpath.stem()+"_"+fNote+".root";
+    fOutDataName = fPgkID+TimeStamp()+inpath.stem()+"_"+fNote+".root";
   }
 }
 

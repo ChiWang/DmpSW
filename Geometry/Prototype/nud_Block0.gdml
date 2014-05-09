@@ -218,7 +218,7 @@
   </solids>
 
   <structure>
-    <volume name="Block0">
+    <volume name="Nud_Block0LV">
       <materialref ref="BC254"/>
       <solidref ref="EJ25401_solid"/>
       <auxiliary auxtype="Color" auxvalue="blue"/>
@@ -226,7 +226,8 @@
   </structure>
 
   <setup name="Default" version="1.0">
-    <world ref="Block0"/>
+    <world ref="Nud_Block0LV"/>
   </setup>
 
 </gdml>
+

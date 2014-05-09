@@ -17,7 +17,7 @@
 //#include "DmpSimPsdSD.h"
 //#include "DmpSimStkSD.h"
 #include "DmpSimBgoSD.h"
-//#include "DmpSimNudSD.h"
+#include "DmpSimNudSD.h"
 
 //-------------------------------------------------------------------
 DmpSimDetector::DmpSimDetector()
@@ -71,9 +71,12 @@ G4VPhysicalVolume* DmpSimDetector::Construct(){
   }
   if(fParser->GetVolume("Nud_DetLV")){
     std::cout<<" Setting Sensitive Detector of Nud"<<std::endl;
-    /*DmpSimNudSD *nudSD = new DmpSimNudSD("NudSD");
+    DmpSimNudSD *nudSD = new DmpSimNudSD("NudSD");
     mgrSD->AddNewDetector(nudSD);
-    fParser->GetVolume("Nud_StripLV")->SetSensitiveDetector(nudSD);*/
+    fParser->GetVolume("Nud_Block0LV")->SetSensitiveDetector(nudSD);
+    fParser->GetVolume("Nud_Block1LV")->SetSensitiveDetector(nudSD);
+    fParser->GetVolume("Nud_Block2LV")->SetSensitiveDetector(nudSD);
+    fParser->GetVolume("Nud_Block3LV")->SetSensitiveDetector(nudSD);
   }
 
   return fPhyVolume;

@@ -28,7 +28,7 @@ public:
 private:
   short     fSDID;          // unique sensitive detector(minimum detector unit) ID. Stk bar ID. fSDID =  layerID*100 + barID
   double    fEnergy;        // unit MeV
-  double    fPosition[3];   // unit cm
+  double    fPosition[3];   // unit mm
 
   ClassDef(DmpEvtMCStkMSD,1)
 };

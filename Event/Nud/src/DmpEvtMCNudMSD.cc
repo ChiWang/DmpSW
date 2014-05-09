@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEvtMCNudMSD.cc, 2014-05-01 21:19:01 DAMPE $
+ *  $Id: DmpEvtMCNudMSD.cc, 2014-05-09 11:07:39 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
@@ -9,13 +9,17 @@
 ClassImp(DmpEvtMCNudMSD)
 
 //------------------------------------------------------------------------------
+short DmpEvtMCNudMSD::fDeltaTime = 500; // default, 500ns
+
 DmpEvtMCNudMSD::DmpEvtMCNudMSD()
  :fSDID(0),
-  fEnergy(0),
   fTimeFirstStep(0),
   fTimeLastStep(0)
 {
-  for (short i=0;i<3;++i) fPosition[i]=0;
+  fEnergy.push_back(0);
+  fPositionX.push_back(0);
+  fPositionY.push_back(0);
+  fPositionZ.push_back(0);
 }
 
 //------------------------------------------------------------------------------
@@ -24,13 +28,34 @@ DmpEvtMCNudMSD::~DmpEvtMCNudMSD(){
 
 //-------------------------------------------------------------------
 void DmpEvtMCNudMSD::AddG4Hit(const double &e,const double &x,const double &y,const double &z){
-  double totE = e + fEnergy;
-  double nX = (e*x + fEnergy*fPosition[0])/totE;
-  double nY = (e*y + fEnergy*fPosition[1])/totE;
-  double nZ = (e*z + fEnergy*fPosition[2])/totE;
-  fPosition[0] = nX;
-  fPosition[1] = nY;
-  fPosition[2] = nZ;
-  fEnergy = totE;
+// *
+// *  TODO:  Bug???
+//          Step 0 ~ Step N belongs to one track, but they are not continuous time
+// *
+  if((fTimeLastStep - fTimeFirstStep) < fDeltaTime*fEnergy.size()){
+    int index = fEnergy.size()-1;
+    double totE = e + fEnergy[index];
+    fPositionX[index] = (e*x + fEnergy[index]*fPositionX[index])/totE;
+    fPositionY[index] = (e*y + fEnergy[index]*fPositionY[index])/totE;
+    fPositionZ[index] = (e*z + fEnergy[index]*fPositionZ[index])/totE;
+    fEnergy[index] = totE;
+  }else{
+    fEnergy.push_back(e);
+    fPositionX.push_back(x);
+    fPositionY.push_back(y);
+    fPositionZ.push_back(z);
+  }
 }
+
+//-------------------------------------------------------------------
+std::vector<double> DmpEvtMCNudMSD::GetPosition(const std::string &n) const{
+  if("x" == n){
+    return fPositionX;
+  }else if("y" == n){
+    return fPositionY;
+  }else if("z" == n){
+    return fPositionZ;
+  }
+}
+
 

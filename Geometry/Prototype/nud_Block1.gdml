@@ -218,14 +218,14 @@
   </solids>
 
   <structure>
-    <volume name="Block1">
+    <volume name="Nud_Block1LV">
       <materialref ref="BC254"/>
       <solidref ref="EJ25402_solid"/>
     </volume>
   </structure>
 
   <setup name="Default" version="1.0">
-    <world ref="Block1"/>
+    <world ref="Nud_Block1LV"/>
   </setup>
 
 </gdml>

@@ -38,25 +38,22 @@ G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
   //return false;
   barName.assign(barName.end()-4,barName.end());        // get ID
   int barID = boost::lexical_cast<int>(barName);
-  int index = -1;
+  DmpEvtMCBgoMSD *aMSD = 0;
   for(int i=0;i<fMSDSet->GetEntriesFast();++i){
     if(((DmpEvtMCBgoMSD*)fMSDSet->At(i))->GetSDID() == barID){
-      index = i;
+      aMSD = (DmpEvtMCBgoMSD*)fMSDSet->At(i);
       break;
     }
   }
-  static DmpEvtMCBgoMSD *aMSD = 0;
-  if(index < 0){
+  if(aMSD == 0){
     if(gCore->PrintDebug()){
       std::cout<<"DEBUG: "<<__PRETTY_FUNCTION__<<"\tnew bar has hits = "<<barID<<std::endl;
     }
     aMSD = (DmpEvtMCBgoMSD*)fMSDSet->New(fMSDSet->GetEntriesFast());
     aMSD->SetSDID(barID);
-  }else{
-    aMSD = (DmpEvtMCBgoMSD*)fMSDSet->At(index);
   }
   G4ThreeVector position = aStep->GetPreStepPoint()->GetPosition();
-  aMSD->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,position.x()/cm,position.y()/cm,position.z()/cm);
+  aMSD->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,position.x()/mm,position.y()/mm,position.z()/mm);
   return true;
 }
 

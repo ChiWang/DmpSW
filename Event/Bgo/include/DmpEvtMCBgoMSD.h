@@ -14,7 +14,6 @@ class DmpEvtMCBgoMSD : public TObject{
  *  DmpEvtMCBgoMSD
  *  
  *  One DmpEvtMCBgoMSD is a response of one Bgo Bar.
- *  The class DmpEvtRaw is a collection of DmpEvtMCBgoMSDs and other sub-dets' hit collection
 */
 public:
   DmpEvtMCBgoMSD();
@@ -28,7 +27,7 @@ public:
 private:
   short     fSDID;          // unique sensitive detector(minimum detector unit) ID. Bgo bar ID. fSDID =  layerID*100 + barID
   double    fEnergy;        // unit MeV
-  double    fPosition[3];   // unit cm
+  double    fPosition[3];   // unit mm
 
   ClassDef(DmpEvtMCBgoMSD,1)
 };

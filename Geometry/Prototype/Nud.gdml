@@ -27,19 +27,19 @@
       <solidref ref="NUD_box"/>
       
       <!-- Sensitive detector  -->
-      <physvol>
+      <physvol name="Nud_BlockPV_0">
         <file name="nud_Block0.gdml"/> 
         <position name="Block0_pos" x="nud_adjust_x_position" y="nud_adjust_y_position" z="nud_adjust_z_position" unit="mm"/>
       </physvol>   
-      <physvol>
+      <physvol name="Nud_BlockPV_1">
         <file name="nud_Block1.gdml"/>
         <position name="Block1_pos" x="nud_adjust_x_position" y="nud_adjust_y_position" z="nud_adjust_z_position" unit="mm"/>  
       </physvol>  
-      <physvol>       
+      <physvol name="Nud_BlockPV_2">
         <file name="nud_Block2.gdml"/>
         <position name="Block2_pos" x="nud_adjust_x_position" y="nud_adjust_y_position" z="nud_adjust_z_position" unit="mm"/>              
       </physvol>        
-      <physvol>
+      <physvol name="Nud_BlockPV_3">
         <file name="nud_Block3.gdml"/>
         <position name="Block3_pos" x="nud_adjust_x_position" y="nud_adjust_y_position" z="nud_adjust_z_position" unit="mm"/>             
       </physvol> 

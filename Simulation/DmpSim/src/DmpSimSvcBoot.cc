@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimSvcBoot.cc, 2014-04-15 21:27:23 chi $
+ *  $Id: DmpSimSvcBoot.cc, 2014-05-09 10:12:45 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 12/04/2014
 */
@@ -29,11 +29,15 @@ DmpSimSvcBoot::~DmpSimSvcBoot(){
 }
 
 //-------------------------------------------------------------------
+#include <boost/lexical_cast.hpp>
+#include <DmpEvtMCNudMSD.h>
 void DmpSimSvcBoot::Set(const std::string &type,const std::string &argv){
   if(type == "Physics"){
     fPhyListName = argv;
   }else if(type == "Gdml"){
     fDetector->SetGdml(argv);
+  }else if(type == "Nud/DeltaTime"){
+    DmpEvtMCNudMSD::SetDeltaTime(boost::lexical_cast<short>(argv));
   }
 }
 
