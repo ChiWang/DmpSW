@@ -16,10 +16,6 @@ DmpEvtMCNudMSD::DmpEvtMCNudMSD()
   fTimeFirstStep(0),
   fTimeLastStep(0)
 {
-  fEnergy.push_back(0);
-  fPositionX.push_back(0);
-  fPositionY.push_back(0);
-  fPositionZ.push_back(0);
 }
 
 //------------------------------------------------------------------------------
@@ -33,17 +29,20 @@ void DmpEvtMCNudMSD::AddG4Hit(const double &e,const double &x,const double &y,co
 //          Step 0 ~ Step N belongs to one track, but they are not continuous time
 // *
   if((fTimeLastStep - fTimeFirstStep) < fDeltaTime*fEnergy.size()){
+  }
+  if((fTimeLastStep - fTimeFirstStep) < 0 // first step in this block of this event
+  || (fTimeLastStep - fTimeFirstStep) > fDeltaTime*fEnergy.size()){ // first step in a new time range(resolution is fDeltaTime)
+    fEnergy.push_back(e);
+    fPositionX.push_back(x);
+    fPositionY.push_back(y);
+    fPositionZ.push_back(z);
+  }else{
     int index = fEnergy.size()-1;
     double totE = e + fEnergy[index];
     fPositionX[index] = (e*x + fEnergy[index]*fPositionX[index])/totE;
     fPositionY[index] = (e*y + fEnergy[index]*fPositionY[index])/totE;
     fPositionZ[index] = (e*z + fEnergy[index]*fPositionZ[index])/totE;
     fEnergy[index] = totE;
-  }else{
-    fEnergy.push_back(e);
-    fPositionX.push_back(x);
-    fPositionY.push_back(y);
-    fPositionZ.push_back(z);
   }
 }
 
