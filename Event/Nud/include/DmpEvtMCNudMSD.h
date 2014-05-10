@@ -28,6 +28,7 @@ public:
 
 public:
   static void SetDeltaTime(const short &t) {fDeltaTime = t;}
+  static short GetDeltaTime() const {return fDeltaTime;}
 
 private:
   static short  fDeltaTime;     //! sum energy (position) of all G4Step in fDeltaTime, and puth it into vector
