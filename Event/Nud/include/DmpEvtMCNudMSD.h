@@ -20,29 +20,23 @@ public:
   DmpEvtMCNudMSD();
   ~DmpEvtMCNudMSD();
   void  SetSDID(const short &id)    {fSDID = id;}
-  void  AddG4Hit(const double &e,const double &x,const double &y,const double &z);     // invoke from G4Step or Sensitive Detector
-  void  SetStartTime(const long &t) {fTimeFirstStep = t;}
-  void  SetStopTime(const long &t)  {fTimeLastStep = t;}
+  void  AddG4Hit(const double &e,const double &t);     // invoke from G4Step or Sensitive Detector
   const short&  GetSDID() const     {return fSDID;}
-  const long& GetStartTime() const  {return fTimeFirstStep;}
-  const long& GetStopTime() const   {return fTimeLastStep;}
+  const double& GetStartTime() const  {return fMinTime;}
+  const double& GetStopTime() const   {return fMaxTime;}
   std::vector<double> GetEnergy() const   {return fEnergy;}
-  std::vector<double> GetPosition(const std::string &axis) const;   // axis = {x|y|z}
 
 public:
   static void SetDeltaTime(const short &t) {fDeltaTime = t;}
 
 private:
-  static short     fDeltaTime;     //! sum energy (position) of all G4Step in fDeltaTime, and puth it into vector
+  static short  fDeltaTime;     //! sum energy (position) of all G4Step in fDeltaTime, and puth it into vector
 
 private:
   short     fSDID;          // unique sensitive detector(minimum detector unit) ID. Nud bar ID. fSDID =  layerID*100 + barID
   std::vector<double>    fEnergy;       // unit MeV
-  std::vector<double>    fPositionX;    // unit mm
-  std::vector<double>    fPositionY;    // unit mm
-  std::vector<double>    fPositionZ;    // unit mm
-  long      fTimeFirstStep; // unit nanosecond. Time of the first G4Step in this SD
-  long      fTimeLastStep;  // unit nanosecond. Time of the last G4Step in this SD
+  double    fMinTime;       // unit nanosecond. All G4Step in this SD, which has the minmum time
+  double    fMaxTime;       // unit nanosecond. All G4Step in this SD, which has the maxmum time
 
   ClassDef(DmpEvtMCNudMSD,1)
 };
