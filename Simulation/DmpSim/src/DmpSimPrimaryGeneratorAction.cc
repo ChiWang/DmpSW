@@ -28,11 +28,15 @@ DmpSimPrimaryGeneratorAction::~DmpSimPrimaryGeneratorAction(){
 //-------------------------------------------------------------------
 void DmpSimPrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent){
   fGPS->GeneratePrimaryVertex(anEvent);
-// *
-// *  TODO: recorde primary particle information
-// *
-  //fPrimaryParticle->SetXXXX();
-  fPrimaryParticle->SetPDGCode(anEvent->GetPrimaryVertex()->GetPrimary()->GetPDGcode());
+  // Set information of current event
+  fPrimaryParticle->SetEventID(anEvent->GetEventID());
+  G4PrimaryVertex  *primaryVertex = anEvent->GetPrimaryVertex();
+  fPrimaryParticle->SetPosition(primaryVertex->GetX0(),primaryVertex->GetY0(),primaryVertex->GetZ0());
+  G4PrimaryParticle *primaryParticle = primaryVertex->GetPrimary();
+  fPrimaryParticle->SetPDGCode(primaryParticle->GetPDGcode());
+  fPrimaryParticle->SetMass(primaryParticle->GetMass());
+  fPrimaryParticle->SetCharge(primaryParticle->GetCharge());
+  fPrimaryParticle->SetMomentum(primaryParticle->GetPx(),primaryParticle->GetPy(),primaryParticle->GetPz());
 }
 
 //-------------------------------------------------------------------

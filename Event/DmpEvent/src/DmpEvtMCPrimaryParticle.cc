@@ -8,13 +8,29 @@
 
 ClassImp(DmpEvtMCPrimaryParticle)
 
+//-------------------------------------------------------------------
 DmpEvtMCPrimaryParticle::DmpEvtMCPrimaryParticle()
- :fType(0),
-  fVertexRadius(0),
-  fSpectrumType(0),
-  fMaxEnergy(0)
+ :fEventID(0),
+  fPosX(0),
+  fPosY(0),
+  fPosZ(0),
+  fPDGCode(0),
+  fMass(0),
+  fCharge(0),
+  fPx(0),
+  fPy(0),
+  fPz(0)
 {}
 
+//-------------------------------------------------------------------
 DmpEvtMCPrimaryParticle::~DmpEvtMCPrimaryParticle(){
+
+}
+
+//-------------------------------------------------------------------
+double DmpEvtMCPrimaryParticle::GetEnergy() const {
+// *
+// *  TODO: 
+// *
 
 }
