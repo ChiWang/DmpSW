@@ -5,7 +5,7 @@
 #/gps/particle proton
 /gps/pos/type Plane 
 /gps/pos/shape Square
-/gps/pos/centre 0. 0. -5.5001 mm
+/gps/pos/centre 10. 10. -360.0 mm
 /gps/pos/halfx 0.02475 mm
 /gps/pos/halfy 0.02475 mm
 /gps/ang/type cos 

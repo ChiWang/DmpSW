@@ -45,6 +45,10 @@ G4VPhysicalVolume* DmpSimDetector::Construct(){
     fPhyVolume = fParser->GetWorldVolume();
   }
   chdir(dirTmp);
+// *
+// *  TODO:  set structure invisable
+// *
+
   // *
   // *  TODO: set SD of SubDet at here
   // *
