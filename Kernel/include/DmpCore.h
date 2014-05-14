@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpCore.h, 2014-05-04 15:33:11 DAMPE $
+ *  $Id: DmpCore.h, 2014-05-14 09:46:15 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/04/2014
 */
@@ -30,7 +30,12 @@ public:     // binding functions
   bool Finalize();              // execute all elements' Finalize() in all *Mgr
   void SetLogLevel(const short &l) {fLogLevel = l;}
   void SetMaxEventNumber(const long &i) {fMaxEventNo = i;}
+  void SetTimeWindow(const std::string &type, const int &YMD, const int &HMS);
 
+  const int& StartYearMonthDay() const  {return fStartYMD;}
+  const int& StopYearMonthDay() const   {return fStopYMD;}
+  const int& StartHourMinuteSecond() const  {return fStartHMS;}
+  const int& StopHourMinuteSecond() const   {return fStopHMS;}
   DmpAlgorithmManager*  AlgorithmManager() const {return fAlgMgr;}
   DmpServiceManager*    ServiceManager() const {return fSvcMgr;}
 
@@ -43,11 +48,6 @@ private:
   DmpCore();
 
 private:
-// *
-// *  TODO:     add 2 variables
-//          1.  max event number, process how many event?
-//          2.  time window, only event in this time range
-// *
   DmpAlgorithmManager   *fAlgMgr;       // algorithm manager, singleton
   DmpServiceManager     *fSvcMgr;       // service manager, singleton
   short                 fLogLevel;      // log level
@@ -64,6 +64,10 @@ private:
    *    7:      error + warning + debug
    */
   long                  fMaxEventNo;    // run how many event
+  int                   fStartYMD;      // start time. year, month, day. Default is 20130101
+  int                   fStopYMD;       // start time. year, month, day. Default value 30130101
+  int                   fStartHMS;      // start time. hour, minute, second. default 000000
+  int                   fStopHMS;       // start time. hour, minute, second. defalut 000000
 };
 
 //-------------------------------------------------------------------

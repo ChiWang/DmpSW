@@ -11,7 +11,11 @@ DmpCore::DmpCore()
  :fAlgMgr(0),
   fSvcMgr(0),
   fLogLevel(6),
-  fMaxEventNo(-1)
+  fMaxEventNo(-1),
+  fStartYMD(20130101),
+  fStopYMD(30130101),
+  fStartHMS(0),
+  fStopHMS(0)
 {
   fAlgMgr = DmpAlgorithmManager::GetInstance();
   fSvcMgr = DmpServiceManager::GetInstance();
@@ -46,6 +50,17 @@ bool DmpCore::Finalize(){
   }
   if(not fAlgMgr->Finalize()){
     return false;
+  }
+}
+
+//-------------------------------------------------------------------
+void DmpCore::SetTimeWindow(const std::string &type,const int &YMD,const int &HMS){
+  if(type == "start"){
+    fStartYMD = YMD;
+    fStartHMS = HMS;
+  }else if(type == "stop"){
+    fStopYMD = YMD;
+    fStopHMS = HMS;
   }
 }
 

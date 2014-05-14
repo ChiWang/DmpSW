@@ -1,6 +1,6 @@
 #! /bin/bash
 :<<EOF
- *  $Id: dmpNewAlg, 2014-04-26 21:55:08 DAMPE $
+ *  $Id: dmpNewAlg, 2014-05-14 08:14:42 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 26/04/2014
  *-----------------------------------------------------
@@ -125,7 +125,7 @@ if [ $# != 1 ];then
 fi
 
 # layout
-mkdir -p $1/include $1/src >&/dev/null
+mkdir -p $1/include $1/src $1/share >&/dev/null
 
 Readme $1
 SConstruct $1
