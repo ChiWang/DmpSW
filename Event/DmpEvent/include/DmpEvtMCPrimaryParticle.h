@@ -19,35 +19,46 @@ class DmpEvtMCPrimaryParticle : public TObject{
 public:
   DmpEvtMCPrimaryParticle();
   ~DmpEvtMCPrimaryParticle();
-  void SetEventID(const long &i){fEventID = i;}
+  void SetEventID(const long &i) {fEventID = i;}
+  void SetTime(const double &t) {fTime = t;}
   void SetPosition(const double &x, const double &y, const double &z) {fPosX = x; fPosY = y; fPosZ = z;}
+  void SetDirection(const double &x, const double &y, const double &z) {fDirectionX = x; fDirectionY = y; fDirectionZ = z;}
+  void SetKineticEnergy(const double &e) {fKineticE = e;}
   void SetPDGCode(const int &c) {fPDGCode = c;}
   void SetMass(const double &m) {fMass = m;}
   void SetCharge(const double &c) {fCharge = c;}
-  void SetMomentum(const double &x, const double &y, const double &z) {fPx = x; fPy = y; fPz = z;}
-  const long& GetEventID() const {return fEventID;}
-  const double& GetPositionX() const {return fPosX;}
-  const double& GetPositionY() const {return fPosY;}
-  const double& GetPositionZ() const {return fPosZ;}
-  const int& GetPDGcode() const {return fPDGCode;}
-  const double& GetMass() const {return fMass;}
-  const double& GetCharge() const {return fCharge;}
-  const double& GetPx() const {return fPx;}
-  const double& GetPy() const {return fPy;}
-  const double& GetPz() const {return fPz;}
-  double GetEnergy() const;
+  void SetComponent(const int &lep, const int &bar) {fLeptonNo = lep; fBaryonNo = bar;}
+
+  const long& EventID() const {return fEventID;}
+  const double& Time() const {return fTime;}
+  const double& PositionX() const {return fPosX;}
+  const double& PositionY() const {return fPosY;}
+  const double& PositionZ() const {return fPosZ;}
+  const double& DirectionX() const {return fDirectionX;}
+  const double& DirectionY() const {return fDirectionY;}
+  const double& DirectionZ() const {return fDirectionZ;}
+  const double& KineticEnergy() const {return fKineticE;}
+  const int& PDGcode() const {return fPDGCode;}
+  const double& Mass() const {return fMass;}
+  const double& Charge() const {return fCharge;}
+  const int& LeptonNumber() const {return fLeptonNo;}
+  const int& BaryonNumber() const {return fBaryonNo;}
 
 private:
   long      fEventID;       // event ID
-  double    fPosX;          // X position of primary vertex
-  double    fPosY;          // Y position
-  double    fPosZ;          // Z position
-  int       fPDGCode;       // PDG code of primary particle
-  double    fMass;          // mass of primary particle
-  double    fCharge;        // charge of primary particle
-  double    fPx;            // momentum X axis of primary particle
-  double    fPy;            // momentum Y axis of primary particle
-  double    fPz;            // momentum Z axis of primary particle
+  double    fTime;          //! nanosecond, always = 0
+  double    fPosX;          // X position. mm
+  double    fPosY;          // Y position. mm
+  double    fPosZ;          // Z position. mm
+  double    fDirectionX;    // momentum direction X
+  double    fDirectionY;    // momentum direction Y
+  double    fDirectionZ;    // momentum direction Z
+  double    fKineticE;      // kinetic energy. MeV
+  int       fPDGCode;       // PDG code
+  double    fMass;          // mass. MeV
+  double    fCharge;        // charge
+  int       fLeptonNo;      // lepton number
+  int       fBaryonNo;      // baryon number
 
   ClassDef(DmpEvtMCPrimaryParticle,1)
 };

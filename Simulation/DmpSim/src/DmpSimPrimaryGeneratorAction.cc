@@ -30,13 +30,15 @@ void DmpSimPrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent){
   fGPS->GeneratePrimaryVertex(anEvent);
   // Set information of current event
   fPrimaryParticle->SetEventID(anEvent->GetEventID());
-  G4PrimaryVertex  *primaryVertex = anEvent->GetPrimaryVertex();
-  fPrimaryParticle->SetPosition(primaryVertex->GetX0(),primaryVertex->GetY0(),primaryVertex->GetZ0());
-  G4PrimaryParticle *primaryParticle = primaryVertex->GetPrimary();
-  fPrimaryParticle->SetPDGCode(primaryParticle->GetPDGcode());
-  fPrimaryParticle->SetMass(primaryParticle->GetMass());
-  fPrimaryParticle->SetCharge(primaryParticle->GetCharge());
-  fPrimaryParticle->SetMomentum(primaryParticle->GetPx(),primaryParticle->GetPy(),primaryParticle->GetPz());
+  fPrimaryParticle->SetTime(fGPS->GetParticleTime());
+  fPrimaryParticle->SetPosition(fGPS->GetParticlePosition().x(),fGPS->GetParticlePosition().y(),fGPS->GetParticlePosition().z());
+  fPrimaryParticle->SetDirection(fGPS->GetParticleMomentumDirection().x(),fGPS->GetParticleMomentumDirection().y(),fGPS->GetParticleMomentumDirection().z());
+  fPrimaryParticle->SetKineticEnergy(fGPS->GetParticleEnergy());
+  G4ParticleDefinition *primaryParticle = fGPS->GetParticleDefinition();
+  fPrimaryParticle->SetPDGCode(primaryParticle->GetPDGEncoding());
+  fPrimaryParticle->SetMass(primaryParticle->GetPDGMass());
+  fPrimaryParticle->SetCharge(primaryParticle->GetPDGCharge());
+  fPrimaryParticle->SetComponent(primaryParticle->GetLeptonNumber(),primaryParticle->GetBaryonNumber());
 }
 
 //-------------------------------------------------------------------

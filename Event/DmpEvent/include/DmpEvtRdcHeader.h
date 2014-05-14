@@ -79,10 +79,10 @@ public:
   void  GenerateStatus();
   void  SetTrigger(const short &v) {fTrigger = v;}
   void  Reset();
-  long  Second() const {return fSec;}
-  short Millisecond() const {return fMillisec;}
-  short Trigger() const;
-  short Status() const {return fStatus;}
+  const long& Second() const {return fSec;}
+  const short& Millisecond() const {return fMillisec;}
+  const short& Trigger() const;
+  const short& Status() const {return fStatus;}
   DmpRdcHeaderSubDet* Detector(const DmpDetector::DmpEDetectorID &id) const;
 
 public:

@@ -3,19 +3,19 @@
 /gps/source/add 1  
 /gps/particle e- 
 #/gps/particle proton
-/gps/pos/type Plane 
+/gps/pos/type Plane
 /gps/pos/shape Square
 /gps/pos/centre 10. 10. -500.0 mm
-/gps/pos/halfx 0.02475 mm
-/gps/pos/halfy 0.02475 mm
-/gps/ang/type cos 
-/gps/ang/mintheta 0.00 deg 
-/gps/ang/maxtheta 0.0010 deg
-/gps/ene/type Lin 
-/gps/ene/min 500. MeV 
-/gps/ene/max 500.00000001 MeV 
-/gps/ene/gradient 0. 
+/gps/pos/halfx 10. mm
+/gps/pos/halfy 10. mm
+/gps/ang/type cos
+/gps/ang/mintheta 0.00 deg
+/gps/ang/maxtheta 20.0010 deg
+/gps/ene/type Lin
+/gps/ene/min 500. MeV
+/gps/ene/max 50.0 GeV
+#/gps/ene/gradient 0.
 /gps/ene/intercept 1.
 
-/run/beamOn 300
+/run/beamOn 100
 

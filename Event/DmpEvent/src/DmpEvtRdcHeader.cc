@@ -147,7 +147,7 @@ void DmpEvtRdcHeader::Reset(){
 }
 
 //-------------------------------------------------------------------
-short DmpEvtRdcHeader::Trigger() const {
+const short& DmpEvtRdcHeader::Trigger() const {
   if(fStatus>0){
     return -1;
   }
@@ -167,5 +167,4 @@ DmpRdcHeaderSubDet* DmpEvtRdcHeader::Detector(const DmpDetector::DmpEDetectorID 
        return fNud;
   }
 }
-
 
