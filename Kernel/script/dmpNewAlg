@@ -68,6 +68,8 @@ env.Prepend(CPPPATH=['./include'])
 
 #-------------------------------------------------------------------
 # main build
+#env.Program(target,Glob("./src/*.cc"))
+#Default(env.InstallAs(os.environ['DMPSWWORK']+'/bin/'+target,goal))
 goal=env.SharedLibrary(target,Glob('./src/*.cc'))
 Default(env.InstallAs(os.environ['DMPSWWORK']+'/lib/libDmp'+target+".so",goal))
 

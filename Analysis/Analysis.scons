@@ -1,14 +1,8 @@
-#=====================================================================
-#   File:   Analysis.scons
-#   Author: Chi WANG  (chiwang@mail.ustc.edu.cn)    24/07/2013
-#---------------------------------------------------------------------
-#   Description:
-#       This file is invoked by ../SConstruct
-#
-#---------------------------------------------------------------------
-#   History:
-#                           Last update:  22/01/2014   23:03:14
-#=====================================================================
+'''
+ *  $Id: Analysis.scons, 2014-05-14 17:28:47 DAMPE $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 24/07/2013
+'''
 
 import os
 Import("*")     # import all vars from SConstruct
