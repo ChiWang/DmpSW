@@ -12,8 +12,8 @@
 /gps/ang/mintheta 0.00 deg
 /gps/ang/maxtheta 20.0010 deg
 /gps/ene/type Lin
-/gps/ene/min 150. GeV 
-/gps/ene/max 150.00000001 GeV 
+/gps/ene/min 150. MeV
+/gps/ene/max 50.0 GeV
 #/gps/ene/gradient 0.
 /gps/ene/intercept 1.
 
