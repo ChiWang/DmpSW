@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEventBgoLinkDef.h, 2014-04-24 10:30:11 chi $
+ *  $Id: DmpEventBgoLinkDef.h, 2014-05-16 01:45:06 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -12,11 +12,11 @@
 
 #pragma link C++ class DmpEvtMCBgoMSD+;
 #pragma link C++ class DmpEvtBgoShower+;
-// *
-// *  TODO: add calibration classes at here
-// *
-#pragma link C++ struct DmpCalBgoPMT+;
-#pragma link C++ struct DmpCalBgoMSD+;
+//-------------------------------------------------------------------
+// for Calibration
+#pragma link C++ class DmpCalDataBgoMSDMip+;
+#pragma link C++ class DmpCalDataBgoMSDPed+;
+#pragma link C++ class DmpCalDataBgoMSDRel+;
 
 #endif
 
