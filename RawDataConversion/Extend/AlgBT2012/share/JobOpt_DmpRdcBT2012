@@ -50,10 +50,10 @@ rdcAlgPsd = DmpRdcAlg.DmpRdcAlgPsd()
 rdcAlgNud = DmpRdcAlg.DmpRdcAlgNud()
 rdcAlgBgo = DmpRdcAlg.DmpRdcAlgBgo()
 #rdcAlgStk = DmpRdcAlg.DmpRdcAlgStk()
-rdcAlgPsd.Set("CnctPath",prefix+"/share/Connector/Psd/Quarter")
-rdcAlgNud.Set("CnctPath",prefix+"/share/Connector/Nud/Quarter")
-rdcAlgBgo.Set("CnctPath",prefix+"/share/Connector/Bgo/Quarter")
-#rdcAlgStk.Set("CnctPath",prefix+"/share/Connector/Stk/Quarter")
+rdcAlgPsd.Set("CnctPath",prefix+"/share/Connector/Psd/EM")
+rdcAlgNud.Set("CnctPath",prefix+"/share/Connector/Nud/EM")
+rdcAlgBgo.Set("CnctPath",prefix+"/share/Connector/Bgo/EM")
+#rdcAlgStk.Set("CnctPath",prefix+"/share/Connector/Stk/EM")
 
 #-------------------------------------------------------------------
 # Set service and algorithm into Kernel

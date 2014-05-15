@@ -8,10 +8,10 @@
 
     2.  materials.xml stored all materials for DAMPE
 
-##  BT2012
+##  EM
 
-    all gdml files for Beam tes 2012
+    all gdml files for Beam test 2012. Electronnical Module
 
-##  Prototype
+##  EQM
 
-    all gdml files for prototype 2014
+    all gdml files for  type 2014

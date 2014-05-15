@@ -11,9 +11,11 @@ ClassImp(DmpEvtMCBgoMSD)
 //------------------------------------------------------------------------------
 DmpEvtMCBgoMSD::DmpEvtMCBgoMSD()
  :fSDID(0),
-  fEnergy(0)
+  fEnergy(0),
+  fPosX(0),
+  fPosY(0),
+  fPosZ(0)
 {
-  for (short i=0;i<3;++i) fPosition[i]=0;
 }
 
 //------------------------------------------------------------------------------
@@ -23,9 +25,9 @@ DmpEvtMCBgoMSD::~DmpEvtMCBgoMSD(){
 //-------------------------------------------------------------------
 void DmpEvtMCBgoMSD::AddG4Hit(const double &e,const double &x,const double &y,const double &z){
   double totE = e + fEnergy;
-  fPosition[0] = (e*x + fEnergy*fPosition[0])/totE;
-  fPosition[1] = (e*y + fEnergy*fPosition[1])/totE;
-  fPosition[2] = (e*z + fEnergy*fPosition[2])/totE;
+  fPosX = (e*x + fEnergy*fPosX)/totE;
+  fPosY = (e*y + fEnergy*fPosY)/totE;
+  fPosZ = (e*z + fEnergy*fPosZ)/totE;
   fEnergy = totE;
 }
 
