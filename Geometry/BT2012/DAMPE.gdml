@@ -15,7 +15,7 @@
 
 <!--solids-->
   <solids>
-   <box lunit="mm" name="World_Box" x="1000" y="1000" z="1000" />
+   <box lunit="mm" name="World_Box" x="3000" y="3000" z="3000" />
    <box lunit="mm" name="TriggerPS_Box" x="200" y="200" z="55" />   <!--plastic scintillator in front to geneerate trigger-->
    <box lunit="mm" name="MM_PcbABox" x="140" y="140" z="2.5" />     <!--A type PCB of MecroMegas-->
    <box lunit="mm" name="MM_PcbBBox" x="120" y="120" z="2.5" />     <!--B type PCB of MecroMegas-->
@@ -102,9 +102,10 @@
       <position unit="mm" x="0" y="0" z="200"/>
     </physvol>
 
-    <physvol name="Nud_Det">    <!--TODO-->
-      <volumeref ref="TriggerPS_LV" />
-      <!--<file name="Nud.gdml"/>-->
+    <physvol name="Nud_Det">
+    <!--NOTE-->
+    <!--This is not the Nud of BT 2012, just used prototype of 2014-->
+      <file name="Nud.gdml"/>
       <position unit="mm" x="0" y="0" z="600"/>
     </physvol>
 
