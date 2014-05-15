@@ -17,7 +17,7 @@ DmpEvtRdcMSD::~DmpEvtRdcMSD(){
 }
 
 //-------------------------------------------------------------------
-void DmpEvtRdcMSD::SetSignal(const int &value,const short &signalID){
+void DmpEvtRdcMSD::SetSignal(const int &signalID,const short &value){
   fSignalID.push_back(signalID);
   fSignalValue.push_back(value);
 }

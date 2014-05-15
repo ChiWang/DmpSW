@@ -44,7 +44,8 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
 // *
   fEvtHeader->Detector(DmpDetector::kBgo)->SetErrorLog(0,DmpRdcHeaderSubDet::Good);       // the first element for whole subDet
 //-------------------------------------------------------------------
-  static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0, data=0, data2=0;
+  static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
+  static unsigned short data=0, data2=0;
   for (feeCounts=0;feeCounts<fFEENo;++feeCounts) {
     fFile->read((char*)(&data),1);
     if (data!=0xeb) {
@@ -86,7 +87,7 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
       for(short i=0;i<nSignal;++i){     // k0Compress
         fFile->read((char*)(&data),1);
         fFile->read((char*)(&data2),1);
-        AppendThisSignal(fConnector[feeID*1000+i],data*256+data2);
+        AppendThisSignal(fConnector[feeID*1000+i],(data*256+data2)&0x3fff);
       }
     }else{
       nSignal = nBytes/3;
@@ -94,7 +95,7 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
         fFile->read((char*)(&channelID),1);
         fFile->read((char*)(&data),1);
         fFile->read((char*)(&data2),1);
-        AppendThisSignal(fConnector[feeID*1000+channelID],data*256+data2);
+        AppendThisSignal(fConnector[feeID*1000+channelID],(data*256+data2)&0x3fff);
       }
     }
     fFile->read((char*)(&data),1);       // 2 bytes for 0x0000
@@ -170,7 +171,7 @@ void DmpRdcAlgBgo::AppendThisSignal(const int &id, const int &v){
   }else{
     aMSD = (DmpEvtRdcMSD*)fMSDSet->At(index);
   }
-  aMSD->SetSignal(v,id%100);
+  aMSD->SetSignal(id%100,v);
 }
 
 
