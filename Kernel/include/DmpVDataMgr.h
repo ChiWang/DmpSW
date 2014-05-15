@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpVDataMgr.h, 2014-04-12 17:22:37 chi $
+ *  $Id: DmpVDataMgr.h, 2014-05-15 22:37:51 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */

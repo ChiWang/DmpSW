@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEvtRdcHeader.cc, 2014-04-30 10:54:36 DAMPE $
+ *  $Id: DmpEvtRdcHeader.cc, 2014-05-15 22:39:41 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 28/04/2014
 */
@@ -7,7 +7,6 @@
 #include <iostream>
 
 #include "DmpEvtRdcHeader.h"
-#include "DmpCore.h"
 
 ClassImp(DmpRdcHeaderSubDet)
 
@@ -25,37 +24,35 @@ DmpRdcHeaderSubDet::~DmpRdcHeaderSubDet(){
 //-------------------------------------------------------------------
 void DmpRdcHeaderSubDet::SetErrorLog(const short &FeeID,const DataErrorType &type){
   fErrors.push_back(FeeID*10 + type);
-  if(gCore->PrintError()){
-    switch(type){
-      case NotFind_0xeb:
-        std::cout<<"\tError: not find 0xeb\t";
-        break;
-      case NotFind_0x90:
-        std::cout<<"\tError: not find 0x90\t";
-        break;
-      case Wrong_DataLength:
-        std::cout<<"\tError: data length float\t";
-        break;
-      case NotMatch_RunMode:
-        std::cout<<"\tError: run mode not match\t";
-        break;
-      case NotMatch_Trigger:
-        std::cout<<"\tError: trigger not match\t";
-        break;
-    }
-    if(type != Good){
-            DmpEvtRdcHeader::PrintTime();
-    }
+  switch(type){
+    case NotFind_0xeb:
+      std::cout<<"\tError: not find 0xeb\t";
+      break;
+    case NotFind_0x90:
+      std::cout<<"\tError: not find 0x90\t";
+      break;
+    case Wrong_DataLength:
+      std::cout<<"\tError: data length float\t";
+      break;
+    case NotMatch_RunMode:
+      std::cout<<"\tError: run mode not match\t";
+      break;
+    case NotMatch_Trigger:
+      std::cout<<"\tError: trigger not match\t";
+      break;
   }
-  std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<" "<<fErrors[fErrors.size()-1]<<std::endl;
+  if(type != Good){
+          DmpEvtRdcHeader::PrintTime();
+  }
 }
 
 //-------------------------------------------------------------------
 void DmpRdcHeaderSubDet::Reset(){
   fTrigger = -1;
   fRunMode = DmpDetector::kUnknow;
+  std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"fErrors.size = "<<fErrors.size();
   for(short i=0;i<fErrors.size();++i){
-    std::cout<<"i = "<<i<<" v = "<<fErrors[i]<<std::endl;
+    std::cout<<" fErrors["<<i<<"] = "<<fErrors[i];
   }
   fErrors.erase(fErrors.begin(),fErrors.end());
 }
@@ -147,7 +144,7 @@ void DmpEvtRdcHeader::Reset(){
 }
 
 //-------------------------------------------------------------------
-const short& DmpEvtRdcHeader::Trigger() const {
+short DmpEvtRdcHeader::Trigger() const {
   if(fStatus>0){
     return -1;
   }

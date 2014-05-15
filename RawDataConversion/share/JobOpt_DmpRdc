@@ -35,6 +35,9 @@ dmpCore.SetLogLevel(7)
    *    7:      error + warning + debug
    */
 '''
+#dmpCore.SetTimeWindow("start",2013,1,1,0,0,0)       # if NOT set, start from 0 second
+#dmpCore.SetTimeWindow("stop",2016,1,1,0,0,0)        # if NOT set, end at 2113.01.01
+
 #-------------------------------------------------------------------
 # Create Service
 rdcDataMgr = DmpRdcSvc.DmpRdcSvcDataMgr()

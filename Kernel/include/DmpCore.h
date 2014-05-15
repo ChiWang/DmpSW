@@ -30,12 +30,9 @@ public:     // binding functions
   bool Finalize();              // execute all elements' Finalize() in all *Mgr
   void SetLogLevel(const short &l) {fLogLevel = l;}
   void SetMaxEventNumber(const long &i) {fMaxEventNo = i;}
-  void SetTimeWindow(const std::string &type, const int &YMD, const int &HMS);
+  void SetTimeWindow(const std::string &type,const short &year,const short &month,const short &day,const short &hour,const short &minute,const short &second);
+  bool EventInTimeWindow(const long &second) const;
 
-  const int& StartYearMonthDay() const  {return fStartYMD;}
-  const int& StopYearMonthDay() const   {return fStopYMD;}
-  const int& StartHourMinuteSecond() const  {return fStartHMS;}
-  const int& StopHourMinuteSecond() const   {return fStopHMS;}
   DmpAlgorithmManager*  AlgorithmManager() const {return fAlgMgr;}
   DmpServiceManager*    ServiceManager() const {return fSvcMgr;}
 
@@ -64,10 +61,8 @@ private:
    *    7:      error + warning + debug
    */
   long                  fMaxEventNo;    // run how many event
-  int                   fStartYMD;      // start time. year, month, day. Default is 20130101
-  int                   fStopYMD;       // start time. year, month, day. Default value 30130101
-  int                   fStartHMS;      // start time. hour, minute, second. default 000000
-  int                   fStopHMS;       // start time. hour, minute, second. defalut 000000
+  long                  fStartTime;     // unit: second. start time of time window
+  long                  fStopTime;      // unit: second. stop time of time window
 };
 
 //-------------------------------------------------------------------

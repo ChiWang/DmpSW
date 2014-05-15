@@ -81,7 +81,7 @@ public:
   void  Reset();
   const long& Second() const {return fSec;}
   const short& Millisecond() const {return fMillisec;}
-  const short& Trigger() const;
+  short Trigger() const;
   const short& Status() const {return fStatus;}
   DmpRdcHeaderSubDet* Detector(const DmpDetector::DmpEDetectorID &id) const;
 
