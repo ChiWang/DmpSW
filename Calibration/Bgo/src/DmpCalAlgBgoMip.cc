@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpCalAlgBgoMip.cc, 2014-04-04 16:51:57 chi $
+ *  $Id: DmpCalAlgBgoMip.cc, 2014-05-16 01:53:38 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 17/10/2013
 */

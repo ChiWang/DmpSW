@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcVAlgSubDet.cc, 2014-04-06 20:13:17 chi $
+ *  $Id: DmpRdcVAlgSubDet.cc, 2014-05-16 01:58:15 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */

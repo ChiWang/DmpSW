@@ -1,17 +1,23 @@
 /*
- *  $Id: DmpCalAlgBgoPed.h, 2014-04-04 21:27:08 chi $
+ *  $Id: DmpCalAlgBgoPed.h, 2014-05-16 01:56:32 DAMPE $
  *  Author(s):
- *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/04/2014
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/05/2014
 */
 
 #ifndef DmpCalAlgBgoPed_H
 #define DmpCalAlgBgoPed_H
 
-#include "DmpVAlgorithm.h"
+#include "DmpVAlg.h"
 
-class DmpCalAlgBgoPed : public DmpVAlgorithm{
+class TClonesArray;
+
+class DmpCalAlgBgoPed : public DmpVAl{
+/*
+ *  DmpCalAlgBgoPed
+ *
+ */
 public:
-  DmpCalAlgBgoPed(const std::string&);
+  DmpCalAlgBgoPed();
   ~DmpCalAlgBgoPed();
   bool Initialize();
   bool Finalize();

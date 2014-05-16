@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpCalBgoDataManager.h, 2014-04-06 10:10:15 chi $
+ *  $Id: DmpCalBgoDataManager.h, 2014-05-16 01:53:27 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 04/04/2014
 */

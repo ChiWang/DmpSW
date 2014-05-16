@@ -34,6 +34,7 @@ bool DmpCore::Initialize(){
   if(not fAlgMgr->Initialize()){
     return false;
   }
+  return true;
 }
 
 //-------------------------------------------------------------------
@@ -41,6 +42,7 @@ bool DmpCore::Run(){
 // *
 // *  TODO:  how to
 // *
+  return true;
 }
 
 //-------------------------------------------------------------------
@@ -51,6 +53,7 @@ bool DmpCore::Finalize(){
   if(not fAlgMgr->Finalize()){
     return false;
   }
+  return true;
 }
 
 //-------------------------------------------------------------------

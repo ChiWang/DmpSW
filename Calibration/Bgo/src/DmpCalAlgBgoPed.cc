@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpCalAlgBgoPed.cc, 2014-04-03 16:37:05 chi $
+ *  $Id: DmpCalAlgBgoPed.cc, 2014-05-16 01:53:56 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/04/2014
 */
@@ -11,18 +11,13 @@
 #include "DmpEvtBgoHit.h"
 
 //-------------------------------------------------------------------
-DmpCalAlgBgoPed::DmpCalAlgBgoPed(const std::string &n)
- :DmpVAlgorithm(n)
+DmpCalAlgBgoPed::DmpCalAlgBgoPed()
+ :DmpVAlgorithm("Cal/Bgo/Ped")
 {
 }
 
 //-------------------------------------------------------------------
-DmpCalAlgBgoPed::~DmpCalAlgBgoPed(){
-}
-
-//-------------------------------------------------------------------
 bool DmpCalAlgBgoPed::Initialize(){
-
 }
 
 //-------------------------------------------------------------------
@@ -31,7 +26,6 @@ bool DmpCalAlgBgoPed::Finalize(){
 
 //-------------------------------------------------------------------
 bool DmpCalAlgBgoPed::ProcessThisEvent(){
-
 }
 
 
