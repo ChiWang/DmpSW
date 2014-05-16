@@ -17,17 +17,20 @@ DmpEvtRdcMSD::~DmpEvtRdcMSD(){
 }
 
 //-------------------------------------------------------------------
-void DmpEvtRdcMSD::SetSignal(const int &signalID,const short &value){
+void DmpEvtRdcMSD::SetSignal(const short &signalID,const int &value){
   fSignalID.push_back(signalID);
   fSignalValue.push_back(value);
 }
 
 //-------------------------------------------------------------------
 int DmpEvtRdcMSD::GetSignal(const short &signalID) const{
+  short index = 0;
   for(short i=0;i<fSignalID.size();++i){
     if(fSignalID[i] == signalID){
-      return fSignalValue[i];
+      index = i;
+      break;
     }
   }
+  return (index == 0)?-100:fSignalValue[index];
 }
 

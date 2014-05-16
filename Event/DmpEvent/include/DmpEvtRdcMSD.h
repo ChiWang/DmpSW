@@ -27,7 +27,7 @@ public:
   ~DmpEvtRdcMSD();
   short GetSDID() const {return fSDID;}
   void  SetSDID(const short &id) {fSDID = id;}
-  void  SetSignal(const int &value,const short &signalID); 
+  void  SetSignal(const short &signalID,const int &value);
   int   GetSignal(const short &signalID) const;
 
 private:
