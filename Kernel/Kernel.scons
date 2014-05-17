@@ -21,7 +21,7 @@ useBoostPython(env)
 includeDir='./include'
 env.Prepend(CPPPATH=[includeDir])
 # Add boost filesyetem
-env.Append(LIBS=['boost_filesystem-mt'])
+env.Append(LIBS=['boost_filesystem'])
 
 # install share
 #--------------------------------------------------------------------

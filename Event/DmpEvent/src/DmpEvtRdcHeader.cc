@@ -40,6 +40,9 @@ void DmpRdcHeaderSubDet::SetErrorLog(const short &FeeID,const DataErrorType &typ
     case NotMatch_Trigger:
       std::cout<<"\tError: trigger not match\t";
       break;
+    case Wrong_CRC:
+      std::cout<<"\tError: CRC wrong\t";
+      break;
   }
   if(type != Good){
           DmpEvtRdcHeader::PrintTime();

@@ -61,10 +61,10 @@ void DmpVDataMgr::SetOutDataName(){
   boost::filesystem::path inpath(fInData);
   if(fNote == "no"){
     //fOutDataName = fPgkID+inpath.stem()+".root";
-    fOutDataName = fPgkID+TimeStamp()+inpath.stem()+".root";
+    fOutDataName = fPgkID+TimeStamp()+inpath.stem().string()+".root";
   }else{
     //fOutDataName = fPgkID+inpath.stem()+"_"+fNote+".root";
-    fOutDataName = fPgkID+TimeStamp()+inpath.stem()+"_"+fNote+".root";
+    fOutDataName = fPgkID+TimeStamp()+inpath.stem().string()+"_"+fNote+".root";
   }
 }
 

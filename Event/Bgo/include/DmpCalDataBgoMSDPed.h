@@ -26,7 +26,7 @@ public:
       }
     }
   }
-  ~DmpCalDataBgoMSDPed();
+  ~DmpCalDataBgoMSDPed(){}
   void SetPedestal(const short &sideID, const short &dyID, const float &m, const float &s){
     fMean[sideID][(dyID-2)/3] = m;
     fSigma[sideID][(dyID-2)/3] = s;

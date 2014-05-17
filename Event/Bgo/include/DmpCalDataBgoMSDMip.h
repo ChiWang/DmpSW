@@ -24,7 +24,7 @@ public:
       fSigmaAdc[i] = 0;
     }
   }
-  ~DmpCalDataBgoMSDMip();
+  ~DmpCalDataBgoMSDMip(){}
   void SetMipAdc(const short &sideID, const float &m, const float &s){
     fMeanAdc[sideID] = m;
     fSigmaAdc[sideID] = s;

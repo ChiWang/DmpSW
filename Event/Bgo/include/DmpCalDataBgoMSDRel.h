@@ -26,7 +26,7 @@ public:
       }
     }
   }
-  ~DmpCalDataBgoMSDRel();
+  ~DmpCalDataBgoMSDRel(){}
   void SetRelation(const short &sideID, const short &theSmallerDyID, const float &s, const float &i){
     fSlope[sideID][(theSmallerDyID-2)/3] = s;
     fIntercept[sideID][(theSmallerDyID-2)/3] = i;
