@@ -43,6 +43,14 @@ Install Geant4
 
 Install Boost
 
+        1) yum install python-devel
+
+        2) download boost-*.tar.gz from http://www.boost.org/users/download/#live
+
+        3) install it
+
+            3.1) ./bootstrap.sh
+            3.2) ./b2 install --prefix=/usr --libdir=/usr/lib(or_lib64) --includefir=/usr/include --build-type=minimal variant=release
 
 Install SCons
 
