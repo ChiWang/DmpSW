@@ -13,6 +13,7 @@
 #include "DmpEvtRdcMSD.h"
 #include "Rdc/DmpRdcSvcDataMgr.h"
 #include "DmpCore.h"
+#include "DmpLog.h"
 #include "DmpRdcAlgBgo.h"
 
 DmpRdcAlgBgo::DmpRdcAlgBgo()
@@ -29,14 +30,12 @@ DmpRdcAlgBgo::~DmpRdcAlgBgo(){
 //-------------------------------------------------------------------
 bool DmpRdcAlgBgo::ProcessThisEvent(){
   static bool firstIn = true;
-  if(gCore->PrintDebug() && firstIn){
-    std::cout<<"DEBUG: "<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
+  if(firstIn){
+    LogDebug<<"\tfrom "<<fFile->tellg();
     firstIn = false;
   }
   if(not fConnectorDone){
-    if(gCore->PrintError()){
-      std::cout<<"Error:  Connector not set\t"<<__PRETTY_FUNCTION__<<std::endl;
-    }
+    LogError<<"Connector not set\t"<<std::endl;
     return true;
   }
 // *
@@ -105,8 +104,8 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
     fFile->read((char*)(&data),1);       // must spplit them, 2 bytes for CRC
   }
 //-------------------------------------------------------------------
-  if(gCore->PrintDebug()){
-    std::cout<<" to "<<fFile->tellg()<<"\t---> signalNo = "<<nSignal<<std::endl;
+  if(not firstIn){
+    LogDebug<<" to "<<fFile->tellg()<<"\t---> signalNo = "<<nSignal<<std::endl;
     firstIn = true;
   }
   return true;

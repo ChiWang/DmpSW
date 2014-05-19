@@ -13,6 +13,7 @@
 #include "DmpSimRunAction.h"
 #include "DmpSimSvcDataMgr.h"
 #include "DmpCore.h"
+#include "DmpLog.h"
 
 //-------------------------------------------------------------------
 DmpSimRunAction::DmpSimRunAction()
@@ -26,9 +27,7 @@ DmpSimRunAction::~DmpSimRunAction(){
 
 //-------------------------------------------------------------------
 void DmpSimRunAction::BeginOfRunAction(const G4Run *aRun){
-  if(gCore->PrintDebug()){
-    std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"Run ID = "<<aRun->GetRunID()<<std::endl;
-  }
+  LogInfor<<"Run ID = "<<aRun->GetRunID()<<std::endl;
   fDataMgr->BookBranch(); 
 // *  TODO: engine not works...
   //CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);

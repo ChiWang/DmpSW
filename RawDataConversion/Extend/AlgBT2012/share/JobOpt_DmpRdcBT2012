@@ -21,18 +21,27 @@ prefix=os.getenv('DMPSWSYS')
 dmpCore = DmpKernel.DmpCore.GetInstance()
 dmpSvcMgr = dmpCore.ServiceManager()
 dmpAlgMgr = dmpCore.AlgorithmManager()
-dmpCore.SetLogLevel(7)      # If NOT, will use 6
+dmpCore.SetLogLevel(0)      # If NOT, will use 12
 '''
   /*
    * LogLevel
+   *     types: {error(8) | warning(4) | information(2) | debug(1)}
    *    0:      nothing
    *    1:      debug
-   *    2:      warning
-   *    3:      warning + debug
-   *    4:      error
-   *    5:      error + debug
-   *    6:      error + warning
-   *    7:      error + warning + debug
+   *    2:      infor.
+   *    3:      debug + infor.
+   *    4:      warning
+   *    5:      warning + debug
+   *    6:      warning + infor.
+   *    7:      warning + infor. + debug
+   *    8:      error
+   *    9:      error + debug
+   *    10:     error + infor.
+   *    11:     error + infor. + debug
+   *    12:     error + warning
+   *    13:     error + warning + debug
+   *    14:     error + warning + infor.
+   *    15:     error + warning + infor. + debug
    */
 '''
 #dmpCore.SetTimeWindow("start",2013,1,1,0,0,0)       # if NOT set, start from 0 second

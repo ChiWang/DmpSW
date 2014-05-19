@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimBgoSD.cc, 2014-03-04 22:43:18 chi $
+ *  $Id: DmpSimBgoSD.cc, 2014-05-19 12:03:10 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/03/2014
 */
@@ -13,6 +13,7 @@
 #include "DmpEvtMCBgoMSD.h"
 #include "DmpSimSvcDataMgr.h"
 #include "DmpCore.h"
+#include "DmpLog.h"
 
 //-------------------------------------------------------------------
 DmpSimBgoSD::DmpSimBgoSD(G4String name)
@@ -46,9 +47,7 @@ G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
     }
   }
   if(aMSD == 0){
-    if(gCore->PrintDebug()){
-      std::cout<<"DEBUG: "<<__PRETTY_FUNCTION__<<"\thit a new bar: "<<barID<<std::endl;
-    }
+    LogDebug<<"\thit a new bar: "<<barID<<std::endl;
     aMSD = (DmpEvtMCBgoMSD*)fMSDSet->New(fMSDSet->GetEntriesFast());
     aMSD->SetSDID(barID);
   }

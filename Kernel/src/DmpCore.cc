@@ -7,12 +7,12 @@
 #include <time.h>
 
 #include "DmpCore.h"
+#include "DmpLog.h"
 
 //-------------------------------------------------------------------
 DmpCore::DmpCore()
  :fAlgMgr(0),
   fSvcMgr(0),
-  fLogLevel(6),
   fMaxEventNo(-1),
   fStartTime(0),
   fStopTime(0)
@@ -57,6 +57,11 @@ bool DmpCore::Finalize(){
 }
 
 //-------------------------------------------------------------------
+void DmpCore::SetLogLevel(const short &level)const{
+  DmpLog::SetLogLevel(level);
+}
+
+//-------------------------------------------------------------------
 void DmpCore::SetTimeWindow(const std::string &type,const short &year,const short &month,const short &day,const short &hour,const short &minute,const short &second){
   struct tm launchT;    // 20130101 000000
   launchT.tm_year = 113;    // since 1900
@@ -81,30 +86,6 @@ void DmpCore::SetTimeWindow(const std::string &type,const short &year,const shor
 //-------------------------------------------------------------------
 bool DmpCore::EventInTimeWindow(const long &t) const{
   if(fStartTime < t && t < fStopTime){
-    return true;
-  }
-  return false;
-}
-
-//-------------------------------------------------------------------
-bool DmpCore::PrintError() const{
-  if((fLogLevel%8)/4 == 1){
-    return true;
-  }
-  return false;
-}
-
-//-------------------------------------------------------------------
-bool DmpCore::PrintWarning() const{
-  if((fLogLevel%4)/2 == 1){
-    return true;
-  }
-  return false;
-}
-
-//-------------------------------------------------------------------
-bool DmpCore::PrintDebug() const{
-  if(fLogLevel%2 == 1){
     return true;
   }
   return false;

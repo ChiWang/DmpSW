@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include "DmpEvtRdcHeader.h"
+#include "DmpLog.h"
 
 ClassImp(DmpRdcHeaderSubDet)
 
@@ -26,22 +27,22 @@ void DmpRdcHeaderSubDet::SetErrorLog(const short &FeeID,const DataErrorType &typ
   fErrors.push_back(FeeID*10 + type);
   switch(type){
     case NotFind_0xeb:
-      std::cout<<"\tError: not find 0xeb\t";
+      LogError<<"\tnot find 0xeb\t";
       break;
     case NotFind_0x90:
-      std::cout<<"\tError: not find 0x90\t";
+      LogError<<"\tnot find 0x90\t";
       break;
     case Wrong_DataLength:
-      std::cout<<"\tError: data length float\t";
+      LogError<<"\tdata length float\t";
       break;
     case NotMatch_RunMode:
-      std::cout<<"\tError: run mode not match\t";
+      LogError<<"\trun mode not match\t";
       break;
     case NotMatch_Trigger:
-      std::cout<<"\tError: trigger not match\t";
+      LogError<<"\ttrigger not match\t";
       break;
     case Wrong_CRC:
-      std::cout<<"\tError: CRC wrong\t";
+      LogError<<"\tCRC wrong\t";
       break;
   }
   if(type != Good){
@@ -53,9 +54,8 @@ void DmpRdcHeaderSubDet::SetErrorLog(const short &FeeID,const DataErrorType &typ
 void DmpRdcHeaderSubDet::Reset(){
   fTrigger = -1;
   fRunMode = DmpDetector::kUnknow;
-  std::cout<<"\nDEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"fErrors.size = "<<fErrors.size();
   for(short i=0;i<fErrors.size();++i){
-    std::cout<<" fErrors["<<i<<"] = "<<fErrors[i];
+    LogDebug<<" fErrors["<<i<<"] = "<<fErrors[i];
   }
   fErrors.erase(fErrors.begin(),fErrors.end());
 }

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgHeader.cc, 2014-05-01 17:33:18 DAMPE $
+ *  $Id: DmpRdcAlgHeader.cc, 2014-05-19 12:32:53 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 19/03/2014
 */
@@ -8,6 +8,7 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpRdcSvcDataMgr.h"
 #include "DmpCore.h"
+#include "DmpLog.h"
 
 //-------------------------------------------------------------------
 DmpRdcAlgHeader::DmpRdcAlgHeader()
@@ -31,8 +32,8 @@ bool DmpRdcAlgHeader::Initialize(){
 //-------------------------------------------------------------------
 bool DmpRdcAlgHeader::ProcessThisEvent(){
   static bool firstIn = true;
-  if(gCore->PrintDebug() && firstIn){
-    std::cout<<"\nDEBUG: "<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
+  if(firstIn){
+    LogDebug<<"\tfrom "<<fFile->tellg();
     firstIn = false;
   }
 //-------------------------------------------------------------------
@@ -58,8 +59,8 @@ bool DmpRdcAlgHeader::ProcessThisEvent(){
     fEvtHeader->SetTime(index,tmp);
   }
 //-------------------------------------------------------------------
-  if(gCore->PrintDebug()){
-    std::cout<<" to "<<fFile->tellg()<<std::endl;
+  if(not firstIn){
+    LogDebug<<" to "<<fFile->tellg()<<std::endl;
     firstIn = true;
   }
   return true;

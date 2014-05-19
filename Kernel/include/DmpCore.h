@@ -28,7 +28,27 @@ public:     // binding functions
   bool Initialize();            // execute all elements' Initialize() in all *Mgr
   bool Run();                   // run one job
   bool Finalize();              // execute all elements' Finalize() in all *Mgr
-  void SetLogLevel(const short &l) {fLogLevel = l;}
+  void SetLogLevel(const short &level)const;
+  /*
+   * LogLevel
+   *     types: {error(8) | warning(4) | information(2) | debug(1)}
+   *    0:      nothing
+   *    1:      debug
+   *    2:      infor.
+   *    3:      debug + infor.
+   *    4:      warning
+   *    5:      warning + debug
+   *    6:      warning + infor.
+   *    7:      warning + infor. + debug
+   *    8:      error
+   *    9:      error + debug
+   *    10:     error + infor.
+   *    11:     error + infor. + debug
+   *    12:     error + warning
+   *    13:     error + warning + debug
+   *    14:     error + warning + infor.
+   *    15:     error + warning + infor. + debug
+   */
   void SetMaxEventNumber(const long &i) {fMaxEventNo = i;}
   void SetTimeWindow(const std::string &type,const short &year,const short &month,const short &day,const short &hour,const short &minute,const short &second);
   bool EventInTimeWindow(const long &second) const;
@@ -36,30 +56,12 @@ public:     // binding functions
   DmpAlgorithmManager*  AlgorithmManager() const {return fAlgMgr;}
   DmpServiceManager*    ServiceManager() const {return fSvcMgr;}
 
-public:
-  bool PrintError() const;
-  bool PrintWarning() const;
-  bool PrintDebug() const;
-
 private:
   DmpCore();
 
 private:
   DmpAlgorithmManager   *fAlgMgr;       // algorithm manager, singleton
   DmpServiceManager     *fSvcMgr;       // service manager, singleton
-  short                 fLogLevel;      // log level
-  /*
-   * fLogLevel
-   *     types: {error(4) | warning(2) | debug(1)}
-   *    0:      nothing
-   *    1:      debug
-   *    2:      warning
-   *    3:      warning + debug
-   *    4:      error
-   *    5:      error + debug
-   *    6:      error + warning
-   *    7:      error + warning + debug
-   */
   long                  fMaxEventNo;    // run how many event
   long                  fStartTime;     // unit: second. start time of time window
   long                  fStopTime;      // unit: second. stop time of time window

@@ -1,9 +1,0 @@
-
-Import('prefix')
-
-# invoke *scons in top-3 directory
-subScript=[]
-for key in ['Pedestal','Relation','Mip']:
-    subScript=subScript+[key+'/'+key+'.scons']
-SConscript(subScript,exports='prefix')
-

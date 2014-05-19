@@ -1,9 +1,44 @@
+'''
+ *  $Id: Calibration.scons, 2014-05-19 09:59:42 DAMPE $
+ *  Author(s):
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 19/05/2014
+'''
 
-Import('prefix')
+import os
+Import("*")     # import all vars from SConstruct
+print "\t\t\t invoke %s\n" % os.path.abspath("./")
+#--------------------------------------------------------------------
 
-# invoke top-2 directories' SConscript
-subScript=[]
+env = envBase.Clone()
+useRoot(env)
+#useCLHEP(env)
+useBoostPython(env)
+#useOpenMP(env)
+
+# Use other top-1 package
+#--------------------------------------------------------------------
+    #+  Kernel
+P1Path='../Kernel'
+env.Prepend(CPPPATH=[P1Path+'/include'])
+    #+  Event
+P2Path='../Event'
+env.Prepend(CPPPATH=P2Path+'/DmpEvent/include')
 for key in subDetectors:
-    subScript=subScript+[key+'/'+key+'.scons']
-SConscript(subScript,exports='prefix')
+    includeDir=P2Path+"/"+key+'/include'
+    env.Prepend(CPPPATH=[includeDir])
+env.Prepend(LIBS=['DmpEvent'])
+env.Prepend(LIBPATH=[P2Path])
+
+# Add boost filesyetem
+#env.Append(LIBS=['boost_filesystem'])
+
+# main build
+#--------------------------------------------------------------------
+for key in subDetectors:
+    target='DmpCal'+key
+    # include
+    env.Prepend(CPPPATH=key+'/include')
+    goal=env.SharedLibrary(target,Glob(key+'/src/*.cc'))
+    Default(env.InstallAs(prefix+"/lib/lib"+target+".so",goal))
+
 

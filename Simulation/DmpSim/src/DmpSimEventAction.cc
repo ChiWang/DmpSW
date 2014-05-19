@@ -22,6 +22,7 @@
 #include "DmpSimEventAction.h"
 #include "DmpSimSvcDataMgr.h"
 #include "DmpCore.h"
+#include "DmpLog.h"
 
 //-------------------------------------------------------------------
 DmpSimEventAction::DmpSimEventAction()
@@ -43,9 +44,7 @@ DmpSimEventAction::~DmpSimEventAction(){
 
 //-------------------------------------------------------------------
 void DmpSimEventAction::BeginOfEventAction(const G4Event *anEvent){
-  if(gCore->PrintDebug()){
-    std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"\tEvent ID = "<<anEvent->GetEventID()<<std::endl;
-  }
+  LogDebug<<"\tEvent ID = "<<anEvent->GetEventID()<<std::endl;
 }
 
 //-------------------------------------------------------------------

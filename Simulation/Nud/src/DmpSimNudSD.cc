@@ -13,6 +13,7 @@
 #include "DmpEvtMCNudMSD.h"
 #include "DmpSimSvcDataMgr.h"
 #include "DmpCore.h"
+#include "DmpLog.h"
 
 //-------------------------------------------------------------------
 DmpSimNudSD::DmpSimNudSD(G4String name)
@@ -44,9 +45,7 @@ G4bool DmpSimNudSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
     }
   }
   if(aMSD == 0){
-    if(gCore->PrintDebug()){
-      std::cout<<"DEBUG: "<<__PRETTY_FUNCTION__<<"\thit a new block: "<<blockID<<std::endl;
-    }
+    LogDebug<<"\thit a new block: "<<blockID<<std::endl;
     aMSD = (DmpEvtMCNudMSD*)fMSDSet->New(fMSDSet->GetEntriesFast());
     aMSD->SetSDID(blockID);
   }

@@ -13,6 +13,7 @@
 #include "DmpEvtRdcMSD.h"
 #include "DmpRdcSvcDataMgr.h"
 #include "DmpCore.h"
+#include "DmpLog.h"
 #include "DmpRdcAlgBgo.h"
 
 DmpRdcAlgBgo::DmpRdcAlgBgo()
@@ -29,14 +30,12 @@ DmpRdcAlgBgo::~DmpRdcAlgBgo(){
 //-------------------------------------------------------------------
 bool DmpRdcAlgBgo::ProcessThisEvent(){
   static bool firstIn = true;
-  if(gCore->PrintDebug() && firstIn){
-    std::cout<<"DEBUG: "<<__PRETTY_FUNCTION__<<"\tfrom "<<fFile->tellg();
+  if(firstIn){
+    LogDebug<<"\tfrom "<<fFile->tellg();
     firstIn = false;
   }
   if(not fConnectorDone){
-    if(gCore->PrintError()){
-      std::cout<<"Error:  Connector not set\t"<<__PRETTY_FUNCTION__<<std::endl;
-    }
+    LogError"Connector not set\t"<<std::endl;
     return true;
   }
 // *
@@ -91,9 +90,7 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
         if(fConnector[feeID*1000+channelID] != 0){
           AppendThisSignal(fConnector[feeID*1000+channelID],data*256+data2);
         }else{
-          if(gCore->PrintError()){
-            std::cout<<"Error: "<<__PRETTY_FUNCTION__<<" Connector Key Wrong. FeeID("<<feeID<<") Channel("<<channelID<<") ADC("<<data*256+data2<<")"<<std::endl;
-          }
+          LogError<<"Connector Key Wrong. FeeID("<<feeID<<") Channel("<<channelID<<") ADC("<<data*256+data2<<")"<<std::endl;
         }
       }
       if(nBytes%3){     // nBytes%3 == 1
@@ -114,8 +111,8 @@ bool DmpRdcAlgBgo::ProcessThisEvent(){
     fFile->read((char*)(&data),1);      // must spplit them, 2 bytes for CRC
   }
 //-------------------------------------------------------------------
-  if(gCore->PrintDebug()){
-    std::cout<<" to "<<fFile->tellg()<<"\t---> signalNo = "<<nSignal<<std::endl;
+  if(not firstIn){
+    LogDebug<<" to "<<fFile->tellg()<<"\t---> signalNo = "<<nSignal<<std::endl;
     firstIn = true;
   }
   return true;

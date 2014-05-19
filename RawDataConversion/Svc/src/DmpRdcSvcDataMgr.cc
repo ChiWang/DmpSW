@@ -12,7 +12,7 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcMSD.h"
 #include "DmpRdcSvcDataMgr.h"
-#include "DmpCore.h"
+#include "DmpLog.h"
 
 //-------------------------------------------------------------------
 DmpRdcSvcDataMgr::DmpRdcSvcDataMgr()
@@ -53,9 +53,7 @@ void DmpRdcSvcDataMgr::Set(const std::string &type, const std::string &argv){
 
 //-------------------------------------------------------------------
 void DmpRdcSvcDataMgr::BookBranch(){
-  if(gCore->PrintDebug()){
-    std::cout<<"\n\nDEBUG: "<<__PRETTY_FUNCTION__<<std::endl;
-  }
+  LogInfor<<"Book branch"<<std::endl;
   fOutDataTree = new TTree("DAMPE_Raw","ADC");
   fOutDataTree->Branch("EventHeader","DmpEvtRdcHeader",&fEvtHeader,32000,2);
   fOutDataTree->Branch("Psd",fPsdOutSet,32000,2);
