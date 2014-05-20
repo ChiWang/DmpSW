@@ -14,7 +14,7 @@ namespace DmpDetector{
     kStk = 1,
     kBgo = 2,
     kNud = 3,
-    kWhole = gSubDetNo,
+    kWhole = gSubDetNo
   };
 }
 

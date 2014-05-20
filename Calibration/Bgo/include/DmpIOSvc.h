@@ -30,7 +30,7 @@ public:
   const std::string& InputData()    const   {return fInData;}
 
 protected:
-  virtual bool SetInputData(const std::string &n) {fInData = n; return true;}
+  virtual bool SetInputData(const std::string &n);
   void SetOutDataPath(const std::string&);
   void AppendDataNote(const std::string &n) {fNote = n;}
   void SetPackageID(const std::string &n) {fPgkID += n;}
@@ -43,9 +43,13 @@ protected:
   TTree         *fOutDataTree;  // create and delete in concrete data manager class
 
 private:
-  std::string   fInData;        // path + name. For one data
+  std::vector<std::string>      fInFileName;
+  std::vector<TFile*>           fInRootFile;    // in root files pointer
+
   std::string   fOutDataPath;   // for all output datas
   std::string   fOutDataName;   //
+  TFile         *fOutRootFile;  // output one root file
+
   std::string   fPgkID;         // package id, add this in out data name
   std::string   fNote;          // add note in the out data name
 };
