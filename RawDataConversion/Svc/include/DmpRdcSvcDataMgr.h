@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcSvcDataMgr.h, 2014-04-16 17:14:10 chi $
+ *  $Id: DmpRdcSvcDataMgr.h, 2014-05-20 14:32:48 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -47,7 +47,6 @@ private:
   TClonesArray      *fBgoOutSet;
   TClonesArray      *fStkOutSet;
   TClonesArray      *fNudOutSet;
-
 };
 
 #endif
