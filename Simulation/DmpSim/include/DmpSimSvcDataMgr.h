@@ -9,6 +9,7 @@
 
 #include "DmpVDataMgr.h"
 #include "DmpVSvc.h"
+#include "DmpDetectorID.h"
 
 class G4Event;
 class DmpEvtMCPrimaryParticle;

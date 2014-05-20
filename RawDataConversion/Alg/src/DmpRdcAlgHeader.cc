@@ -8,7 +8,6 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpRdcSvcDataMgr.h"
 #include "DmpCore.h"
-#include "DmpLog.h"
 
 //-------------------------------------------------------------------
 DmpRdcAlgHeader::DmpRdcAlgHeader()

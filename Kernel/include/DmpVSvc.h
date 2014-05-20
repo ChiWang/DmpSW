@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpVSvc.h, 2014-05-16 02:06:15 DAMPE $
+ *  $Id: DmpVSvc.h, 2014-05-20 10:47:27 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 10/04/2014
 */
@@ -8,7 +8,7 @@
 #define DmpVSvc_H
 
 #include <string>
-#include "DmpDetectorID.h"
+#include "DmpLog.h"
 
 class DmpVSvc{
 /*
@@ -21,32 +21,14 @@ class DmpVSvc{
 public:
   DmpVSvc(const std::string &n):fName(n){}
   virtual ~DmpVSvc(){}
-
-public:
   virtual bool Initialize()=0;
   virtual bool Finalize()=0;
+
+public:
   virtual void Set(const std::string&,const std::string&){}    // for global options, binding me
 
 public:
   const std::string& Name() const {return fName;}
-  // for SubDet options, binding me
-  void SetSubDet(DmpDetector::DmpEDetectorID id,const std::string &type,const std::string &argv){
-    if(id == DmpDetector::kPsd){
-      SetPsd(type,argv);
-    }else if(id == DmpDetector::kStk){
-      SetStk(type,argv);
-    }else if(id == DmpDetector::kBgo){
-      SetBgo(type,argv);
-    }else if(id == DmpDetector::kNud){
-      SetNud(type,argv);
-    }
-  }
-
-protected:
-  virtual void SetPsd(const std::string &type,const std::string &argv){}
-  virtual void SetStk(const std::string &type,const std::string &argv){}
-  virtual void SetBgo(const std::string &type,const std::string &argv){}
-  virtual void SetNud(const std::string &type,const std::string &argv){}
 
 private:
   std::string   fName;

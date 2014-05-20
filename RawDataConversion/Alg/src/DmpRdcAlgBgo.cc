@@ -13,7 +13,6 @@
 #include "DmpEvtRdcMSD.h"
 #include "DmpRdcSvcDataMgr.h"
 #include "DmpCore.h"
-#include "DmpLog.h"
 #include "DmpRdcAlgBgo.h"
 
 DmpRdcAlgBgo::DmpRdcAlgBgo()

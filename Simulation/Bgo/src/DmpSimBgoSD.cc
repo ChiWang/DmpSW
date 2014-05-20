@@ -13,7 +13,6 @@
 #include "DmpEvtMCBgoMSD.h"
 #include "DmpSimSvcDataMgr.h"
 #include "DmpCore.h"
-#include "DmpLog.h"
 
 //-------------------------------------------------------------------
 DmpSimBgoSD::DmpSimBgoSD(G4String name)

@@ -12,7 +12,6 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcMSD.h"
 #include "DmpRdcSvcDataMgr.h"
-#include "DmpLog.h"
 
 //-------------------------------------------------------------------
 DmpRdcSvcDataMgr::DmpRdcSvcDataMgr()

@@ -7,7 +7,8 @@
 #include <boost/python.hpp>
 
 #include "DmpRunMode.h"
-#include "DmpVSvc.h"    // included DmpDetectorID.h
+#include "DmpDetectorID.h"
+#include "DmpVSvc.h"
 #include "DmpVAlg.h"
 #include "DmpAlgorithmManager.h"
 #include "DmpServiceManager.h"
@@ -82,7 +83,6 @@ BOOST_PYTHON_MODULE(libDmpKernel){
     .def("Initialize",  pure_virtual(&DmpVSvc::Initialize))
     .def("Finalize",    pure_virtual(&DmpVSvc::Finalize))
     .def("Set", &DmpVSvc::Set,  &DmpVSvcWrapper::Default_Set)
-    .def("SetSubDet",   &DmpVSvc::SetSubDet)
   ;
   // DmpVAlg
   class_<DmpVAlgWrapper,boost::noncopyable>("DmpVAlg",init<std::string>())

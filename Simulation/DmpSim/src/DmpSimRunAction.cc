@@ -13,7 +13,6 @@
 #include "DmpSimRunAction.h"
 #include "DmpSimSvcDataMgr.h"
 #include "DmpCore.h"
-#include "DmpLog.h"
 
 //-------------------------------------------------------------------
 DmpSimRunAction::DmpSimRunAction()

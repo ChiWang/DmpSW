@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpVAlg.h, 2014-04-12 16:34:15 chi $
+ *  $Id: DmpVAlg.h, 2014-05-20 10:35:28 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/03/2014
 */
@@ -8,6 +8,7 @@
 #define DmpVAlg_H
 
 #include <string>
+#include "DmpLog.h"
 
 class DmpVAlg{
 /*
@@ -23,6 +24,8 @@ public:
   virtual bool Initialize()=0;
   virtual bool ProcessThisEvent()=0;
   virtual bool Finalize()=0;
+
+public:
   virtual void Set(const std::string&,const std::string&){}    // for options, binding me
 
 public:

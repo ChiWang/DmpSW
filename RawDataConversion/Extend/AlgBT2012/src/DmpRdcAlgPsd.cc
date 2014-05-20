@@ -12,7 +12,6 @@
 #include "DmpEvtRdcMSD.h"
 #include "Rdc/DmpRdcSvcDataMgr.h"
 #include "DmpCore.h"
-#include "DmpLog.h"
 #include "DmpRdcAlgPsd.h"
 
 DmpRdcAlgPsd::DmpRdcAlgPsd()

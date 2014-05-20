@@ -13,7 +13,6 @@
 #include "DmpEvtMCNudMSD.h"
 #include "DmpSimSvcDataMgr.h"
 #include "DmpCore.h"
-#include "DmpLog.h"
 
 //-------------------------------------------------------------------
 DmpSimNudSD::DmpSimNudSD(G4String name)

@@ -4,6 +4,9 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 19/05/2014
 */
 
+#ifndef DmpLog_H
+#define DmpLog_H
+
 #include <iostream>
 #include <iomanip>
 
@@ -53,4 +56,4 @@ namespace DmpLog{
 #define LogError if(DmpLog::PrintError) \
     std::cout<<std::setiosflags(std::ios::left)<<std::setw(12)<<"  ERROR: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"  "
 
-
+#endif

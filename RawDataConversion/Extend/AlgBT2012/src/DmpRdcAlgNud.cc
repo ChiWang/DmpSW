@@ -12,7 +12,6 @@
 #include "DmpEvtRdcMSD.h"
 #include "Rdc/DmpRdcSvcDataMgr.h"
 #include "DmpCore.h"
-#include "DmpLog.h"
 #include "DmpRdcAlgNud.h"
 
 DmpRdcAlgNud::DmpRdcAlgNud()
