@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpDetectorID.h, 2014-03-19 09:54:34 chi $
+ *  $Id: DmpDetectorID.h, 2014-05-27 20:09:00 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */

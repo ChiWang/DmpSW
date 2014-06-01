@@ -11,10 +11,11 @@ bool DmpLog::PrintInfor = false;
 bool DmpLog::PrintWarning = true;
 bool DmpLog::PrintError = true;
 
+//-------------------------------------------------------------------
 void DmpLog::SetLogLevel(const short &LogLevel){
-  PrintDebug = LogLevel%2/Debug;
-  PrintInfor = (LogLevel%4)/Infor;
-  PrintWarning = (LogLevel%8)/Warning;
-  PrintError = (LogLevel%16)/Error;
+  PrintDebug = (LogLevel%10)/Debug;
+  PrintInfor = (LogLevel%100)/Infor;
+  PrintWarning = (LogLevel%1000)/Warning;
+  PrintError = (LogLevel%10000)/Error;
 }
 

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimBgoSD.h, 2014-03-04 21:25:49 chi $
+ *  $Id: DmpSimBgoSD.h, 2014-05-22 17:04:23 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/03/2014
 */
@@ -15,11 +15,9 @@ class DmpSimBgoSD : public G4VSensitiveDetector{
 /*
  *  DmpSimBgoSD
  *
- *  update fDataMan->UpdateThisHit(SubDet_ID) in ProcessHits()
- *
  */
 public:
-  DmpSimBgoSD(G4String);
+  DmpSimBgoSD();
   ~DmpSimBgoSD();
   G4bool ProcessHits(G4Step*,G4TouchableHistory*);
   
@@ -27,7 +25,8 @@ public:
   void EndOfEvent(G4HCofThisEvent*);
 
 private:
-  TClonesArray      *fMSDSet;
+  TClonesArray      *fBarSet;
+
 };
 
 #endif

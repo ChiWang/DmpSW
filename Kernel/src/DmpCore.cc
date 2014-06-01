@@ -7,7 +7,7 @@
 #include <time.h>
 
 #include "DmpCore.h"
-#include "DmpLog.h"
+#include "DmpIOSvc.h"
 
 //-------------------------------------------------------------------
 DmpCore::DmpCore()
@@ -15,10 +15,12 @@ DmpCore::DmpCore()
   fSvcMgr(0),
   fMaxEventNo(-1),
   fStartTime(0),
-  fStopTime(0)
+  fStopTime(0),
+  fInitializeDone(false)
 {
   fAlgMgr = DmpAlgorithmManager::GetInstance();
   fSvcMgr = DmpServiceManager::GetInstance();
+  fSvcMgr->Append(DmpIOSvc::GetInstance());
   SetTimeWindow("stop",2113,1,1,0,0,0);
 }
 
@@ -27,32 +29,36 @@ DmpCore::~DmpCore(){
 }
 
 //-------------------------------------------------------------------
-bool DmpCore::Initialize(){
-  if(not fSvcMgr->Initialize()){
-    return false;
+bool DmpCore::Initialise(){
+  if(not fSvcMgr->Initialise()) return false;
+  if(not fAlgMgr->Initialise()) return false;
+  if(-1 == fMaxEventNo){
+    fMaxEventNo = 1234567890;
   }
-  if(not fAlgMgr->Initialize()){
-    return false;
-  }
+  fInitializeDone = true;
   return true;
 }
 
 //-------------------------------------------------------------------
 bool DmpCore::Run(){
+  if(not fInitializeDone) return false;
 // *
-// *  TODO:  how to
+// *  TODO: use cut of time range??
 // *
+  for(long i=0;i<fMaxEventNo;++i){
+    LogDebug<<"event ID = "<<i<<std::endl;
+    if(not fAlgMgr->ProcessOneEvent()){
+      return false;
+    }
+    DmpIOSvc::GetInstance()->FillEvent();
+  }
   return true;
 }
 
 //-------------------------------------------------------------------
 bool DmpCore::Finalize(){
-  if(not fSvcMgr->Finalize()){
-    return false;
-  }
-  if(not fAlgMgr->Finalize()){
-    return false;
-  }
+  fAlgMgr->Finalize();
+  fSvcMgr->Finalize();
   return true;
 }
 

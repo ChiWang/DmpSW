@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimPrimaryGeneratorAction.h, 2014-03-03 23:06:32 chi $
+ *  $Id: DmpSimPrimaryGeneratorAction.h, 2014-05-24 12:43:19 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/03/2014
 */
@@ -20,7 +20,6 @@ public:
   void GeneratePrimaries(G4Event*);
 
 public:
-  bool Initialize();
   bool Finalize()   {return true;}
 
 private:

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimNudSD.cc, 2014-05-09 11:07:41 DAMPE $
+ *  $Id: DmpSimNudSD.cc, 2014-05-22 17:37:48 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/03/2014
 */
@@ -11,22 +11,22 @@
 
 #include "DmpSimNudSD.h"
 #include "DmpEvtMCNudMSD.h"
-#include "DmpSimSvcDataMgr.h"
-#include "DmpCore.h"
+#include "DmpIOSvc.h"
 
 //-------------------------------------------------------------------
-DmpSimNudSD::DmpSimNudSD(G4String name)
- :G4VSensitiveDetector(name)
+DmpSimNudSD::DmpSimNudSD()
+ :G4VSensitiveDetector("NudSD"),
+  fBlockSet(0)
 {
+  fBlockSet = new TClonesArray("DmpEvtMCNudMSD",4);
+  DmpIOSvc::GetInstance()->AddBranch("MCTruth/Nud",fBlockSet);
 }
 
 //-------------------------------------------------------------------
 DmpSimNudSD::~DmpSimNudSD(){
-}
-
-//-------------------------------------------------------------------
-void DmpSimNudSD::Initialize(G4HCofThisEvent*){
-  fMSDSet = ((DmpSimSvcDataMgr*)gCore->ServiceManager()->Get("Sim/DataMgr"))->GetOutCollection(DmpDetector::kNud);
+  fBlockSet->Delete();
+  fBlockSet->Clear();
+  delete fBlockSet;
 }
 
 //-------------------------------------------------------------------
@@ -36,20 +36,29 @@ G4bool DmpSimNudSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
   std::string blockName = theTouchable->GetVolume()->GetName();
   blockName.assign(blockName.end()-1,blockName.end());        // get ID
   short blockID = boost::lexical_cast<short>(blockName);
-  DmpEvtMCNudMSD *aMSD = 0;
-  for(short i=0;i<fMSDSet->GetEntriesFast();++i){
-    if(((DmpEvtMCNudMSD*)fMSDSet->At(i))->GetSDID() == blockID){
-      aMSD = (DmpEvtMCNudMSD*)fMSDSet->At(i);
+  DmpEvtMCNudMSD *aBlock = 0;
+  for(short i=0;i<fBlockSet->GetEntriesFast();++i){
+    if(((DmpEvtMCNudMSD*)fBlockSet->At(i))->GetSDID() == blockID){
+      aBlock = (DmpEvtMCNudMSD*)fBlockSet->At(i);
       break;
     }
   }
-  if(aMSD == 0){
+  if(aBlock == 0){
     LogDebug<<"\thit a new block: "<<blockID<<std::endl;
-    aMSD = (DmpEvtMCNudMSD*)fMSDSet->New(fMSDSet->GetEntriesFast());
-    aMSD->SetSDID(blockID);
+    aBlock = (DmpEvtMCNudMSD*)fBlockSet->New(fBlockSet->GetEntriesFast());
+    aBlock->SetSDID(blockID);
   }
-  aMSD->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,aStep->GetPreStepPoint()->GetGlobalTime()/ns);
+  aBlock->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,aStep->GetPreStepPoint()->GetGlobalTime()/ns);
   return true;
+}
+
+//-------------------------------------------------------------------
+void DmpSimNudSD::Initialize(G4HCofThisEvent*){
+// *
+// *  TODO:  after DmpIOSvc filled this event?
+// *
+  fBlockSet->Delete();
+  fBlockSet->Clear();
 }
 
 //-------------------------------------------------------------------

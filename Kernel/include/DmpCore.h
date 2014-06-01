@@ -25,33 +25,21 @@ public:
   ~DmpCore();
 
 public:     // binding functions
-  bool Initialize();            // execute all elements' Initialize() in all *Mgr
+  bool Initialise();            // execute all elements' Initialise() in all *Mgr
   bool Run();                   // run one job
   bool Finalize();              // execute all elements' Finalize() in all *Mgr
+
+public:
   void SetLogLevel(const short &level)const;
   /*
    * LogLevel
-   *     types: {error(8) | warning(4) | information(2) | debug(1)}
-   *    0:      nothing
-   *    1:      debug
-   *    2:      infor.
-   *    3:      debug + infor.
-   *    4:      warning
-   *    5:      warning + debug
-   *    6:      warning + infor.
-   *    7:      warning + infor. + debug
-   *    8:      error
-   *    9:      error + debug
-   *    10:     error + infor.
-   *    11:     error + infor. + debug
-   *    12:     error + warning
-   *    13:     error + warning + debug
-   *    14:     error + warning + infor.
-   *    15:     error + warning + infor. + debug
+   *     types: {error(1000) | warning(100) | information(10) | debug(1)}
    */
   void SetMaxEventNumber(const long &i) {fMaxEventNo = i;}
   void SetTimeWindow(const std::string &type,const short &year,const short &month,const short &day,const short &hour,const short &minute,const short &second);
+  const long& GetMaxEventNumber() const {return fMaxEventNo;}
   bool EventInTimeWindow(const long &second) const;
+  const bool& InitialiseDone() const {return fInitializeDone;}
 
   DmpAlgorithmManager*  AlgorithmManager() const {return fAlgMgr;}
   DmpServiceManager*    ServiceManager() const {return fSvcMgr;}
@@ -65,6 +53,9 @@ private:
   long                  fMaxEventNo;    // run how many event
   long                  fStartTime;     // unit: second. start time of time window
   long                  fStopTime;      // unit: second. stop time of time window
+
+private:
+  bool      fInitializeDone;        // default is false
 };
 
 //-------------------------------------------------------------------

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEvtRdcHeader.h, 2014-05-05 14:07:06 DAMPE $
+ *  $Id: DmpEvtRdcHeader.h, 2014-05-29 21:41:45 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -13,57 +13,6 @@
 #include "DmpRunMode.h"
 
 //-------------------------------------------------------------------
-class DmpRdcHeaderSubDet : public TObject{
-/*
- *  DmpRdcHeaderSubDet
- *
- *      this class used to recored subDet Header
- *
- */
-public:
-  enum DataErrorType{
-    Good = 0,
-    NotFind_0xeb = 1,
-    NotFind_0x90 = 2,
-    NotMatch_RunMode = 3,
-    Wrong_DataLength = 4,
-    NotMatch_Trigger = 5,
-    Wrong_CRC = 6,
-  };
-  DmpRdcHeaderSubDet();
-  ~DmpRdcHeaderSubDet();
-  void  SetTrigger(const short &t) {fTrigger = t;}
-  void  SetRunMode(const short &m) {fRunMode = (DmpDetector::DmpERunMode)m;}
-  void  SetErrorLog(const short &FeeID,const DataErrorType &type);
-  void  Reset();
-  const short& Trigger() const {return fTrigger;}
-  DmpDetector::DmpERunMode RunMode() const {return fRunMode;}
-  bool  IsGoodEvent() const;
-  std::vector<short> Errors() const {return fErrors;}
-
-private:
-  short     fTrigger;                   // trigger
-  DmpDetector::DmpERunMode  fRunMode;   // mode
-  std::vector<short>        fErrors;    // all errors infor.
-  /*
-   * fErrors[0] is for global check, check all Fee stauts of this subDet
-   *    good event:         0
-   *    triggers match?
-   *    run mode match?
-   *    lost FEE?
-   *
-   * fErrors[i] is for a single Fee
-   *    not find 0xeb:      1 + last_Fee_ID*10
-   *    not find 0x90:      2 + last_Fee_ID*10
-   *    data length error:  3 + Fee_ID*10
-   *    CRC error:          4 + Fee_ID*10
-   *
-   */
-
-  ClassDef(DmpRdcHeaderSubDet,1)
-};
-
-//-------------------------------------------------------------------
 class DmpEvtRdcHeader : public TObject{
 /*
  * DmpEvtRdcHeader
@@ -75,40 +24,47 @@ public:
   DmpEvtRdcHeader();
   ~DmpEvtRdcHeader();
 
+  enum DataErrorType{
+    Good = 0,
+    NotFind_0xeb = 1,
+    NotFind_0x90 = 2,
+    NotMatch_RunMode = 3,
+    Wrong_DataLength = 4,
+    NotMatch_Trigger = 5,
+    Wrong_CRC = 6
+  };
+  void  SetErrorLog(DmpDetector::DmpEDetectorID id,const short &FeeID,const DataErrorType &type);
   void  SetTime(const short&,const short&);
-  void  GenerateStatus();
-  void  SetTrigger(const short &v) {fTrigger = v;}
+  //void  GenerateStatus();
+  void  SetTrigger(DmpDetector::DmpEDetectorID id,const short &v);
+  void  SetRunMode(DmpDetector::DmpEDetectorID id,const short &v);
   void  Reset();
-  const long& Second() const {return fSec;}
-  const short& Millisecond() const {return fMillisec;}
-  short Trigger() const;
-  const short& Status() const {return fStatus;}
-  DmpRdcHeaderSubDet* Detector(const DmpDetector::DmpEDetectorID &id) const;
-
-public:
-  static void  PrintTime();       // only Rdc use it
+  const long& GetSecond() const {return fSec;}
+  const short& GetMillisecond() const {return fMillisec;}
+  std::vector<short> GetStatus() const {return fStatus;}
+  short GetTrigger(DmpDetector::DmpEDetectorID id = DmpDetector::kWhole) const;
+  short GetRunMode(DmpDetector::DmpEDetectorID) const;
 
 private:
   long      fSec;           // second
   short     fMillisec;      // millisecond
-  short     fTrigger;       // satellite trigger
-  short     fStatus;        // status for this event
+  std::vector<short>    fTrigger;       // 4 subDet + satellite trigger
+  std::vector<short>    fRunMode;
+  std::vector<short>    fStatus;        // status for this event
   /*
-   * Error type:
-   *    right:          all bits = 0
-   *    trigger check:  > 0 trigger error
-   *        Psd != Bgo: fStatus.bit[0] = 1
-   *        Stk != Bgo: fStatus.bit[1] = 1
-   *        Nud != Bgo: fStatus.bit[2] = 1
-   *        Sat != Bgo: fStatus.bit[3] = 1
+   * fStatus[0] is for global check, check all subDet
+   *    good event:         0
+   *    triggers match?
+   *    run mode match?
+   *
+   * fStatus[i] is for subDet
+   *    not find 0xeb:      1 + last_Fee_ID*10
+   *    not find 0x90:      2 + last_Fee_ID*10
+   *    data length error:  3 + Fee_ID*10
+   *    CRC error:          4 + Fee_ID*10
+   *
    */
-  DmpRdcHeaderSubDet *fPsd; // header infor. of subDet
-  DmpRdcHeaderSubDet *fStk; // header infor. of subDet
-  DmpRdcHeaderSubDet *fBgo; // header infor. of subDet
-  DmpRdcHeaderSubDet *fNud; // header infor. of subDet
-
-private:    // variables below will not save into root file
-  static short     fTime[8];       //! not save
+  short     fTime[8];       //! not save
   /*
    *    8 bytes from satellite
    *    fTime[0~5] = second

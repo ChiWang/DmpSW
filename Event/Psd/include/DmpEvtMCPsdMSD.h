@@ -21,14 +21,21 @@ public:
   ~DmpEvtMCPsdMSD();
   void  SetSDID(const short &id)   {fSDID = id;}
   void  AddG4Hit(const double &e,const double &x,const double &y,const double &z);     // invoke from G4Step or Sensitive Detector
+  void  SetBackTrackID(const int&);
   const short&  GetSDID() const    {return fSDID;}
   const double& GetEnergy() const  {return fEnergy;}
-  double* GetPosition() {return fPosition;}
+  const double& PositionX() const  {return fPosX;}
+  const double& PositionY() const  {return fPosY;}
+  const double& PositionZ() const  {return fPosZ;}
+  std::vector<int>  GetBackTrackID() const {return fBackTrackID;}
 
 private:
   short     fSDID;          // unique sensitive detector(minimum detector unit) ID. Psd bar ID. fSDID =  layerID*100 + barID
   double    fEnergy;        // unit MeV
-  double    fPosition[3];   // unit mm
+  double    fPosX;          // unit mm, position x
+  double    fPosY;          // unit mm, position y
+  double    fPosZ;          // unit mm, position z
+  std::vector<int>  fBackTrackID;   // ID of back track
 
   ClassDef(DmpEvtMCPsdMSD,1)
 };

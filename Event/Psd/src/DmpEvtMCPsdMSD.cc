@@ -11,9 +11,11 @@ ClassImp(DmpEvtMCPsdMSD)
 //------------------------------------------------------------------------------
 DmpEvtMCPsdMSD::DmpEvtMCPsdMSD()
  :fSDID(0),
-  fEnergy(0)
+  fEnergy(0),
+  fPosX(0),
+  fPosY(0),
+  fPosZ(0)
 {
-  for (short i=0;i<3;++i) fPosition[i]=0;
 }
 
 //------------------------------------------------------------------------------
@@ -23,13 +25,17 @@ DmpEvtMCPsdMSD::~DmpEvtMCPsdMSD(){
 //-------------------------------------------------------------------
 void DmpEvtMCPsdMSD::AddG4Hit(const double &e,const double &x,const double &y,const double &z){
   double totE = e + fEnergy;
-  double nX = (e*x + fEnergy*fPosition[0])/totE;
-  double nY = (e*y + fEnergy*fPosition[1])/totE;
-  double nZ = (e*z + fEnergy*fPosition[2])/totE;
-  fPosition[0] = nX;
-  fPosition[1] = nY;
-  fPosition[2] = nZ;
+  fPosX = (e*x + fEnergy*fPosX)/totE;
+  fPosY = (e*y + fEnergy*fPosY)/totE;
+  fPosZ = (e*z + fEnergy*fPosZ)/totE;
   fEnergy = totE;
 }
 
+//-------------------------------------------------------------------
+void DmpEvtMCPsdMSD::SetBackTrackID(const int &id){
+  for(int i=0;i<fBackTrackID.size();++i){
+    if(id == fBackTrackID[i]) return;
+  }
+  fBackTrackID.push_back(id);
+}
 

@@ -10,33 +10,44 @@
 #include "G4GDMLParser.hh"
 #include "G4SDManager.hh"
 
-// *
-// *  TODO: add SD of Psd, Stk and Nud
-// *
 #include "DmpSimDetector.h"
-//#include "DmpSimPsdSD.h"
-//#include "DmpSimStkSD.h"
+#include "DmpSimPsdSD.h"
+#include "DmpSimStkSD.h"
 #include "DmpSimBgoSD.h"
 #include "DmpSimNudSD.h"
 
 //-------------------------------------------------------------------
+std::string DmpSimDetector::fGdmlPath = "NO";
+
+//-------------------------------------------------------------------
 DmpSimDetector::DmpSimDetector()
- :fGdmlPath("default"),
-  fParser(0),
-  fPhyVolume(0)
+ :fParser(0),
+  fPhyVolume(0),
+  fPsdSD(0),
+  fStkSD(0),
+  fBgoSD(0),
+  fNudSD(0)
 {
   fParser = new G4GDMLParser();
+  fPsdSD = new DmpSimPsdSD();
+  fStkSD = new DmpSimStkSD();
+  fBgoSD = new DmpSimBgoSD();
+  fNudSD = new DmpSimNudSD();
 }
 
 //-------------------------------------------------------------------
 DmpSimDetector::~DmpSimDetector(){
   delete fParser;
+  delete fPsdSD;
+  delete fStkSD;
+  delete fBgoSD;
+  delete fNudSD;
 }
 
 //-------------------------------------------------------------------
 G4VPhysicalVolume* DmpSimDetector::Construct(){
   char *dirTmp = getcwd(NULL,NULL);
-  if(fGdmlPath == "default"){
+  if(fGdmlPath == "NO"){
      G4cout<<"Error: must setup detector in job option file. SetGdml(GdmlFilePath)"<<G4endl;
      return 0;
   }else{
@@ -55,32 +66,30 @@ G4VPhysicalVolume* DmpSimDetector::Construct(){
   G4SDManager *mgrSD = G4SDManager::GetSDMpointer();
   if(fParser->GetVolume("Psd_DetLV")){
     std::cout<<" Setting Sensitive Detector of Psd"<<std::endl;
-    /*DmpSimPsdSD *psdSD = new DmpSimPsdSD("PsdSD");
-    mgrSD->AddNewDetector(psdSD);
-    fParser->GetVolume("Psd_StripLV")->SetSensitiveDetector(psdSD);*/
+    /*
+    mgrSD->AddNewDetector(fPsdSD);
+    fParser->GetVolume("Psd_StripLV")->SetSensitiveDetector(fPsdSD);
+    */
   }
   /*
   if(fParser->GetVolume("Stk_DetLV")){
     std::cout<<" Setting Sensitive Detector of Stk"<<std::endl;
-    DmpSimStkSD *stkSD = new DmpSimStkSD("StkSD");
-    mgrSD->AddNewDetector(stkSD);
-    fParser->GetVolume("Stk_StripLV")->SetSensitiveDetector(stkSD);
+    mgrSD->AddNewDetector(fStkSD);
+    fParser->GetVolume("Stk_StripLV")->SetSensitiveDetector(fStkSD);
   }
   */
   if(fParser->GetVolume("Bgo_DetLV")){
     std::cout<<" Setting Sensitive Detector of Bgo"<<std::endl;
-    DmpSimBgoSD *bgoSD = new DmpSimBgoSD("BgoSD");
-    mgrSD->AddNewDetector(bgoSD);
-    fParser->GetVolume("Bgo_BarLV")->SetSensitiveDetector(bgoSD);
+    mgrSD->AddNewDetector(fBgoSD);
+    fParser->GetVolume("Bgo_BarLV")->SetSensitiveDetector(fBgoSD);
   }
   if(fParser->GetVolume("Nud_DetLV")){
     std::cout<<" Setting Sensitive Detector of Nud"<<std::endl;
-    DmpSimNudSD *nudSD = new DmpSimNudSD("NudSD");
-    mgrSD->AddNewDetector(nudSD);
-    fParser->GetVolume("Nud_Block0LV")->SetSensitiveDetector(nudSD);
-    fParser->GetVolume("Nud_Block1LV")->SetSensitiveDetector(nudSD);
-    fParser->GetVolume("Nud_Block2LV")->SetSensitiveDetector(nudSD);
-    fParser->GetVolume("Nud_Block3LV")->SetSensitiveDetector(nudSD);
+    mgrSD->AddNewDetector(fNudSD);
+    fParser->GetVolume("Nud_Block0LV")->SetSensitiveDetector(fNudSD);
+    fParser->GetVolume("Nud_Block1LV")->SetSensitiveDetector(fNudSD);
+    fParser->GetVolume("Nud_Block2LV")->SetSensitiveDetector(fNudSD);
+    fParser->GetVolume("Nud_Block3LV")->SetSensitiveDetector(fNudSD);
   }
 
   return fPhyVolume;

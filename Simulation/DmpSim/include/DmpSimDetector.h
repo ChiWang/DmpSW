@@ -11,6 +11,10 @@
 #include "DmpDetectorID.h"
 
 class G4GDMLParser;
+class DmpSimPsdSD;
+class DmpSimStkSD;
+class DmpSimBgoSD;
+class DmpSimNudSD;
 
 class DmpSimDetector : public G4VUserDetectorConstruction{
 /*
@@ -21,12 +25,18 @@ public:
   DmpSimDetector();
   ~DmpSimDetector();
   G4VPhysicalVolume* Construct();
-  void SetGdml(const std::string &argv) {fGdmlPath = argv;}
+  static void SetGdml(const std::string &argv) {fGdmlPath = argv;}
 
 private:
-  std::string           fGdmlPath;          // must set it in JobOpt file
-  G4GDMLParser          *fParser;
-  G4VPhysicalVolume     *fPhyVolume;
+  static std::string       fGdmlPath;          // must set it in JobOpt file
+  G4GDMLParser      *fParser;
+  G4VPhysicalVolume *fPhyVolume;
+
+private:
+  DmpSimPsdSD       *fPsdSD;
+  DmpSimStkSD       *fStkSD;
+  DmpSimBgoSD       *fBgoSD;
+  DmpSimNudSD       *fNudSD;
 
 };
 

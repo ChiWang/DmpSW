@@ -7,6 +7,7 @@
 #ifndef DmpVSvc_H
 #define DmpVSvc_H
 
+#include <map>
 #include <string>
 #include "DmpLog.h"
 
@@ -21,7 +22,7 @@ class DmpVSvc{
 public:
   DmpVSvc(const std::string &n):fName(n){}
   virtual ~DmpVSvc(){}
-  virtual bool Initialize()=0;
+  virtual bool Initialise()=0;
   virtual bool Finalize()=0;
 
 public:
@@ -29,6 +30,9 @@ public:
 
 public:
   const std::string& Name() const {return fName;}
+
+protected:
+  std::map<std::string,short>   OptMap; // a map of set options
 
 private:
   std::string   fName;

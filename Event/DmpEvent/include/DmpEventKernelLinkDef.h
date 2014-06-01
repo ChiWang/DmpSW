@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEventKernelLinkDef.h, 2014-03-22 02:28:01 chi $
+ *  $Id: DmpEventKernelLinkDef.h, 2014-05-29 21:43:12 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -11,7 +11,6 @@
 #pragma link off all functions;
 #pragma link off all namespaces;
 // Rdc
-#pragma link C++ class DmpRdcHeaderSubDet+;
 #pragma link C++ class DmpEvtRdcHeader+;
 #pragma link C++ class DmpEvtRdcMSD+;
 // simulation

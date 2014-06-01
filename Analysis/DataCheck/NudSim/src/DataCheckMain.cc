@@ -26,7 +26,7 @@ int main(int argc, char* argv[]){
   }
 
   TFile *aFile = new TFile(argv[1]);
-  TTree *aTree = (TTree*)aFile->Get("DAMPE_MCTruth");
+  TTree *aTree = dynamic_cast<TTree*>(aFile->Get("DAMPE_MCTruth"));
   TClonesArray *nud_Set = new TClonesArray("DmpEvtMCNudMSD",5);
   DmpEvtMCNudMSD  *aMSD = 0;
   aTree->SetBranchAddress("Nud",&nud_Set);

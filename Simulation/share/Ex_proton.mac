@@ -11,12 +11,10 @@
 /gps/pos/halfy 10. mm
 /gps/ang/type cos
 /gps/ang/mintheta 0.00 deg
-/gps/ang/maxtheta 20.0010 deg
+/gps/ang/maxtheta 10.0010 deg
 /gps/ene/type Lin
 /gps/ene/min 5. GeV
 /gps/ene/max 50.0 GeV
 #/gps/ene/gradient 0.
 /gps/ene/intercept 1.
-
-/run/beamOn 100
 

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimPrimaryGeneratorAction.cc, 2014-03-17 20:37:33 chi $
+ *  $Id: DmpSimPrimaryGeneratorAction.cc, 2014-05-24 12:42:06 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/03/2014
 */
@@ -8,7 +8,7 @@
 
 #include "DmpSimPrimaryGeneratorAction.h"
 #include "DmpEvtMCPrimaryParticle.h"
-#include "DmpSimSvcDataMgr.h"
+#include "DmpIOSvc.h"
 #include "DmpCore.h"
 
 DmpSimPrimaryGeneratorAction::DmpSimPrimaryGeneratorAction()
@@ -18,11 +18,17 @@ DmpSimPrimaryGeneratorAction::DmpSimPrimaryGeneratorAction()
   fGPS = new G4GeneralParticleSource();
   //fGPS->SetNumberOfParticles(1);
   //fGPS->SetParticleDefinition(particle);
+  fPrimaryParticle = new DmpEvtMCPrimaryParticle();
+  /*
+   *    add a new branch "PrimaryParticle" into the tree "MCTruth" by the pointer "fPrimaryParticle" of the event class "DmpEvtMCPrimaryParticle"
+   */
+  DmpIOSvc::GetInstance()->AddBranch("MCTruth/PrimaryParticle/DmpEvtMCPrimaryParticle",fPrimaryParticle);
 }
 
 //-------------------------------------------------------------------
 DmpSimPrimaryGeneratorAction::~DmpSimPrimaryGeneratorAction(){
   delete fGPS;
+  delete fPrimaryParticle;
 }
 
 //-------------------------------------------------------------------
@@ -39,11 +45,5 @@ void DmpSimPrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent){
   fPrimaryParticle->SetMass(primaryParticle->GetPDGMass());
   fPrimaryParticle->SetCharge(primaryParticle->GetPDGCharge());
   fPrimaryParticle->SetComponent(primaryParticle->GetLeptonNumber(),primaryParticle->GetBaryonNumber());
-}
-
-//-------------------------------------------------------------------
-bool DmpSimPrimaryGeneratorAction::Initialize(){
-  fPrimaryParticle = ((DmpSimSvcDataMgr*)gCore->ServiceManager()->Get("Sim/DataMgr"))->GetPrimaryParticle();
-  return fPrimaryParticle;
 }
 

@@ -29,6 +29,9 @@ for tmp in os.listdir(includeDir):
     if "./" not in tmp[0] and "Binding" not in tmp:
         Default(Command(prefix+'/include/'+tmp,includeDir+'/'+tmp,Copy("$TARGET","$SOURCE")))
 for tmp in os.listdir('./script'):
+    if "DMPSW.py" in tmp:
+        Default(Command(prefix+'/lib/'+tmp,'./script/'+tmp,Copy("$TARGET","$SOURCE")))
+        continue
     if "." not in tmp[0] and "Readme" not in tmp:
         Default(Command(prefix+'/bin/'+tmp,'./script/'+tmp,Copy("$TARGET","$SOURCE")))
 

@@ -1,5 +1,5 @@
 '''
- *  $Id: RawDataConversion.scons, 2014-04-30 17:40:58 DAMPE $
+ *  $Id: RawDataConversion.scons, 2014-05-30 21:31:21 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 '''
@@ -9,8 +9,8 @@ Import("*")     # import all vars from SConstruct
 print "\t\t\t invoke %s\n" % os.path.abspath("./")
 #--------------------------------------------------------------------
 
-targetSvc='DmpRdcSvc'
-targetAlg='DmpRdcAlg'
+targetBT='DmpRdcBT2012'
+targetEQM='DmpRdcEQM'
 env = envBase.Clone()
 useRoot(env)
 #useCLHEP(env)
@@ -18,8 +18,8 @@ useBoostPython(env)
 #useOpenMP(env)
 
 # include
-env.Prepend(CPPPATH='Svc/include')
-env.Prepend(CPPPATH='Alg/include')
+env.Prepend(CPPPATH='AlgBT2012/include')
+env.Prepend(CPPPATH='AlgEQM/include')
 
 # Use other top-1 package
 #--------------------------------------------------------------------
@@ -40,15 +40,16 @@ env.Append(LIBS=['boost_filesystem'])
 
 # install share
 #--------------------------------------------------------------------
-ProcessThisDir("share/Connector/",prefix+"/share/Connector/")
-ProcessThisDir("Svc/include/",prefix+"/include/Rdc")
+ProcessThisDir("AlgBT2012/share/Connector/",prefix+"/share/Connector/")
+ProcessThisDir("AlgEQM/share/Connector/",prefix+"/share/Connector/")
+#ProcessThisDir("Svc/include/",prefix+"/include/Rdc")
 
 # main build
 #--------------------------------------------------------------------
     #+ Serivce
-goal=env.SharedLibrary(targetSvc,Glob('./Svc/src/*.cc'))
-Default(env.InstallAs(prefix+"/lib/lib"+targetSvc+".so",goal))
+goal=env.SharedLibrary(targetBT,Glob('./AlgBT2012/src/*.cc'))
+Default(env.InstallAs(prefix+"/lib/lib"+targetBT+".so",goal))
     #+ Algorithm
-goal2=env.SharedLibrary(targetAlg,Glob('./Alg/src/*.cc'))
-Default(env.InstallAs(prefix+"/lib/lib"+targetAlg+".so",goal2))
+goal2=env.SharedLibrary(targetEQM,Glob('./AlgEQM/src/*.cc'))
+Default(env.InstallAs(prefix+"/lib/lib"+targetEQM+".so",goal2))
 

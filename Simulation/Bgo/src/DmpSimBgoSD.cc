@@ -11,22 +11,22 @@
 
 #include "DmpSimBgoSD.h"
 #include "DmpEvtMCBgoMSD.h"
-#include "DmpSimSvcDataMgr.h"
-#include "DmpCore.h"
+#include "DmpIOSvc.h"
 
 //-------------------------------------------------------------------
-DmpSimBgoSD::DmpSimBgoSD(G4String name)
- :G4VSensitiveDetector(name)
+DmpSimBgoSD::DmpSimBgoSD()
+ :G4VSensitiveDetector("BgoSD"),
+  fBarSet(0)
 {
+  fBarSet = new TClonesArray("DmpEvtMCBgoMSD",300);
+  DmpIOSvc::GetInstance()->AddBranch("MCTruth/Bgo",fBarSet);
 }
 
 //-------------------------------------------------------------------
 DmpSimBgoSD::~DmpSimBgoSD(){
-}
-
-//-------------------------------------------------------------------
-void DmpSimBgoSD::Initialize(G4HCofThisEvent*){
-  fMSDSet = ((DmpSimSvcDataMgr*)gCore->ServiceManager()->Get("Sim/DataMgr"))->GetOutCollection(DmpDetector::kBgo);
+  fBarSet->Delete();
+  fBarSet->Clear();
+  delete fBarSet;
 }
 
 //-------------------------------------------------------------------
@@ -34,25 +34,32 @@ void DmpSimBgoSD::Initialize(G4HCofThisEvent*){
 G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
   G4TouchableHistory *theTouchable = (G4TouchableHistory*)(aStep->GetPreStepPoint()->GetTouchable());
   std::string barName = theTouchable->GetVolume(1)->GetName();
-  //std::cout<<"name = "<<barName<<std::endl;
-  //return false;
   barName.assign(barName.end()-4,barName.end());        // get ID
   int barID = boost::lexical_cast<int>(barName);
-  DmpEvtMCBgoMSD *aMSD = 0;
-  for(int i=0;i<fMSDSet->GetEntriesFast();++i){
-    if(((DmpEvtMCBgoMSD*)fMSDSet->At(i))->GetSDID() == barID){
-      aMSD = (DmpEvtMCBgoMSD*)fMSDSet->At(i);
+  DmpEvtMCBgoMSD *aBar = 0;
+  for(int i=0;i<fBarSet->GetEntriesFast();++i){
+    if(((DmpEvtMCBgoMSD*)fBarSet->At(i))->GetSDID() == barID){
+      aBar = (DmpEvtMCBgoMSD*)fBarSet->At(i);
       break;
     }
   }
-  if(aMSD == 0){
+  if(aBar == 0){
     LogDebug<<"\thit a new bar: "<<barID<<std::endl;
-    aMSD = (DmpEvtMCBgoMSD*)fMSDSet->New(fMSDSet->GetEntriesFast());
-    aMSD->SetSDID(barID);
+    aBar = (DmpEvtMCBgoMSD*)fBarSet->New(fBarSet->GetEntriesFast());
+    aBar->SetSDID(barID);
   }
   G4ThreeVector position = aStep->GetPreStepPoint()->GetPosition();
-  aMSD->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,position.x()/mm,position.y()/mm,position.z()/mm);
+  aBar->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,position.x()/mm,position.y()/mm,position.z()/mm);
   return true;
+}
+
+//-------------------------------------------------------------------
+void DmpSimBgoSD::Initialize(G4HCofThisEvent*){
+// *
+// *  TODO:  after DmpIOSvc filled this event?
+// *
+  fBarSet->Delete();
+  fBarSet->Clear();
 }
 
 //-------------------------------------------------------------------

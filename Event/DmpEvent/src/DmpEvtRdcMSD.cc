@@ -24,13 +24,13 @@ void DmpEvtRdcMSD::SetSignal(const short &signalID,const int &value){
 
 //-------------------------------------------------------------------
 int DmpEvtRdcMSD::GetSignal(const short &signalID) const{
-  short index = 0;
+  short index = -1;
   for(short i=0;i<fSignalID.size();++i){
     if(fSignalID[i] == signalID){
       index = i;
       break;
     }
   }
-  return (index == 0)?-100:fSignalValue[index];
+  return (index == -1)?-100:fSignalValue[index];
 }
 

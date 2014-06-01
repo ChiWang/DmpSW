@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimNudSD.h, 2014-03-04 21:25:49 chi $
+ *  $Id: DmpSimNudSD.h, 2014-05-22 17:15:53 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 03/03/2014
 */
@@ -19,7 +19,7 @@ class DmpSimNudSD : public G4VSensitiveDetector{
  *
  */
 public:
-  DmpSimNudSD(G4String);
+  DmpSimNudSD();
   ~DmpSimNudSD();
   G4bool ProcessHits(G4Step*,G4TouchableHistory*);
   
@@ -27,7 +27,7 @@ public:
   void EndOfEvent(G4HCofThisEvent*);
 
 private:
-  TClonesArray      *fMSDSet;
+  TClonesArray      *fBlockSet;
 };
 
 #endif

@@ -19,7 +19,7 @@ DmpAlgorithmManager::~DmpAlgorithmManager(){
 }
 
 //-------------------------------------------------------------------
-bool DmpAlgorithmManager::Process(){
+bool DmpAlgorithmManager::ProcessOneEvent(){
   for(std::list<DmpVAlg*>::iterator it = fElements.begin();it != fElements.end();++it){
     if(not (*it)->ProcessThisEvent())  return false;
   }

@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpSim, 2014-05-08 13:55:39 DAMPE $
+ *  $Id: JobOpt_DmpSim, 2014-05-27 17:09:16 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
  *-----------------------------------------------------
@@ -9,74 +9,39 @@
 '''
 
 #-------------------------------------------------------------------
-# Load lib. of DAMPE software
-import os
-import sys
-sys.setdlopenflags(0x100|0x2)
-import libDmpKernel as DmpKernel
-import libDmpSim as  DmpSim
+import DMPSW                    # Load DAMPE software
+import libDmpSim as  DmpSim     # Load your lib.
 
-prefix=os.getenv('DMPSWSYS')
-dmpCore = DmpKernel.DmpCore.GetInstance()
-dmpSvcMgr = dmpCore.ServiceManager()
-dmpAlgMgr = dmpCore.AlgorithmManager()
-dmpCore.SetLogLevel(0)      # If NOT, will use 12
+#-------------------------------------------------------------------
+# Global setting
+DMPSW.Core.SetMaxEventNumber(10)
+DMPSW.Core.SetLogLevel(1111)      # If NOT set, will use 1100
 '''
   /*
    * LogLevel
-   *     types: {error(8) | warning(4) | information(2) | debug(1)}
-   *    0:      nothing
-   *    1:      debug
-   *    2:      infor.
-   *    3:      debug + infor.
-   *    4:      warning
-   *    5:      warning + debug
-   *    6:      warning + infor.
-   *    7:      warning + infor. + debug
-   *    8:      error
-   *    9:      error + debug
-   *    10:     error + infor.
-   *    11:     error + infor. + debug
-   *    12:     error + warning
-   *    13:     error + warning + debug
-   *    14:     error + warning + infor.
-   *    15:     error + warning + infor. + debug
+   *     types: {error(1000) | warning(100) | information(10) | debug(1)}
    */
 '''
-#-------------------------------------------------------------------
-# Create Service
-simDataMgr = DmpSim.DmpSimSvcDataMgr()
-simDataMgr.Set("OutDataPath","./test")      # where to save the output. If NOT set will use "./" by defualt
-
-simBoot = DmpSim.DmpSimSvcBoot()
-#simBoot.Set("Physics","QGSP_BERT")          # If NOT set, will use QGSP_BIC. argv = {QGSP_BERT,QGSP_BERT_HP, and so on}
-simBoot.Set("Gdml",prefix+"/share/Geometry/EQM/")     # must set the path
 
 #-------------------------------------------------------------------
-# Set service and algorithm into Kernel
-    ##  Service Manager
-dmpSvcMgr.Append(simBoot)
-dmpSvcMgr.Append(simDataMgr)
-    ##  Algorithm Manager
+# IOSvc options
+DMPSW.IOSvc.Set("OutData/Path","./test")    # where to save the output. If NOT set will use "./" by defualt
+DMPSW.IOSvc.Set("OutData/Tag","Sim")    # append note for the next output data. NOT set is okay. Also could use Set("OutDataPath")
 
 #-------------------------------------------------------------------
-# Boot
-dmpCore.Initialize()
+# Creat user's service or algorithm
+simRunMgr = DmpSim.DmpSimAlgRunManager()
+#simRunMgr.Set("Physics","QGSP_BERT")  # If NOT set, will use QGSP_BIC. argv = {QGSP_BERT,QGSP_BERT_HP, and so on}
+simRunMgr.Set("Gdml",DMPSW.prefix+"/share/Geometry/EQM/")     # must set the path
+simRunMgr.Set("MacFile",DMPSW.prefix+"/share/TestRelease/Ex_electron.mac") # if NOT set, will invoke vis. mode
+#-------------------------------------------------------------------
+# Append user's service or algorithm into Kernel
+DMPSW.AlgMgr.Append(simRunMgr)
 
 #-------------------------------------------------------------------
 # Run job
-    ##  Start to run this job (Execute())
-for i in range(1):  # could start a new run, without deleting physics list, detector construction and all user actions.
-    note='run-%d'%i
-    simDataMgr.Set("InData",prefix+"/share/TestRelease/Ex_electron.mac")
-    simDataMgr.Set("OutDataNote",note)  # append note for the next output data. NOT set is okay. Also could use Set("OutDataPath")
-    DmpSim.Execute()
-#simDataMgr.Set("InData",prefix+"/share/TestRelease/Ex_proton.mac")
-#DmpSim.Execute()
-#DmpSim.Execute()                # run visual mode. if NOT set a input macro file by simDataMgr.Set("InData",aFile)
-
-#-------------------------------------------------------------------
-# Quit
-dmpCore.Finalize()
+DMPSW.Core.Initialise()
+DMPSW.Core.Run()
+DMPSW.Core.Finalize()
 
 

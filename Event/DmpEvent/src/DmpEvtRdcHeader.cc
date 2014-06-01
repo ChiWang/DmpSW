@@ -1,30 +1,31 @@
 /*
- *  $Id: DmpEvtRdcHeader.cc, 2014-05-15 22:39:41 DAMPE $
+ *  $Id: DmpEvtRdcHeader.cc, 2014-05-29 21:41:42 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 28/04/2014
 */
 
-#include <iostream>
-
 #include "DmpEvtRdcHeader.h"
 #include "DmpLog.h"
 
-ClassImp(DmpRdcHeaderSubDet)
+ClassImp(DmpEvtRdcHeader)
 
 //-------------------------------------------------------------------
-DmpRdcHeaderSubDet::DmpRdcHeaderSubDet()
- :fTrigger(-1),
-  fRunMode(DmpDetector::kUnknow)
+DmpEvtRdcHeader::DmpEvtRdcHeader()
+ :fSec(0),
+  fMillisec(0)
 {
+  for(short i=0;i<8;++i){
+    fTime[i] = 0;
+  }
 }
 
 //-------------------------------------------------------------------
-DmpRdcHeaderSubDet::~DmpRdcHeaderSubDet(){
+DmpEvtRdcHeader::~DmpEvtRdcHeader(){
 }
 
 //-------------------------------------------------------------------
-void DmpRdcHeaderSubDet::SetErrorLog(const short &FeeID,const DataErrorType &type){
-  fErrors.push_back(FeeID*10 + type);
+void DmpEvtRdcHeader::SetErrorLog(DmpDetector::DmpEDetectorID id,const short &FeeID,const DataErrorType &type){
+  fStatus.push_back(id*1000 + FeeID*10 + type);
   switch(type){
     case NotFind_0xeb:
       LogError<<"\tnot find 0xeb\t";
@@ -45,57 +46,11 @@ void DmpRdcHeaderSubDet::SetErrorLog(const short &FeeID,const DataErrorType &typ
       LogError<<"\tCRC wrong\t";
       break;
   }
-  if(type != Good){
-          DmpEvtRdcHeader::PrintTime();
+  std::cout<<"Time: ";
+  for(std::size_t i=0;i<8;++i){
+    std::cout<<" "<<std::hex<<fTime[i];
   }
-}
-
-//-------------------------------------------------------------------
-void DmpRdcHeaderSubDet::Reset(){
-  fTrigger = -1;
-  fRunMode = DmpDetector::kUnknow;
-  for(short i=0;i<fErrors.size();++i){
-    LogDebug<<" fErrors["<<i<<"] = "<<fErrors[i];
-  }
-  fErrors.erase(fErrors.begin(),fErrors.end());
-}
-
-//-------------------------------------------------------------------
-bool DmpRdcHeaderSubDet::IsGoodEvent() const {
-  if(fErrors.size() == 1 && fErrors[0] == 0){
-    return true;
-  }
-  return false;
-}
-
-ClassImp(DmpEvtRdcHeader)
-
-//-------------------------------------------------------------------
-short DmpEvtRdcHeader::fTime[8]={0};
-
-//-------------------------------------------------------------------
-DmpEvtRdcHeader::DmpEvtRdcHeader()
- :fSec(0),
-  fMillisec(0),
-  fTrigger(-1),
-  fStatus(0),
-  fPsd(0),
-  fStk(0),
-  fBgo(0),
-  fNud(0)
-{
-  fPsd = new DmpRdcHeaderSubDet();
-  fStk = new DmpRdcHeaderSubDet();
-  fBgo = new DmpRdcHeaderSubDet();
-  fNud = new DmpRdcHeaderSubDet();
-}
-
-//-------------------------------------------------------------------
-DmpEvtRdcHeader::~DmpEvtRdcHeader(){
-  delete fPsd;
-  delete fStk;
-  delete fBgo;
-  delete fNud;
+  std::cout<<std::dec<<std::endl;
 }
 
 //-------------------------------------------------------------------
@@ -109,62 +64,53 @@ void DmpEvtRdcHeader::SetTime(const short &n,const short &v){
 }
 
 //-------------------------------------------------------------------
-void DmpEvtRdcHeader::PrintTime(){
-  std::cout<<"Time: ";
-  for(std::size_t i=0;i<8;++i){
-    std::cout<<" "<<std::hex<<fTime[i];
-  }
-  std::cout<<std::dec<<std::endl;
+void DmpEvtRdcHeader::SetTrigger(DmpDetector::DmpEDetectorID id, const short &v){
+  fTrigger.push_back(id*1000 + v);
 }
 
 //-------------------------------------------------------------------
-void DmpEvtRdcHeader::GenerateStatus(){
-  static short nTrg[DmpDetector::gSubDetNo];
-  nTrg[0] = fBgo->Trigger() - fPsd->Trigger();
-  nTrg[1] = fBgo->Trigger() - fStk->Trigger();
-  nTrg[2] = fBgo->Trigger() - fNud->Trigger();
-  nTrg[3] = fBgo->Trigger() - fTrigger;
-  for(std::size_t i=0;i<DmpDetector::gSubDetNo;++i){
-    if(nTrg[i] == 0) continue;
-    short v=1;
-    for(std::size_t n=0;n<i;++n){
-      v = v*2;
-    }
-    fStatus += v;
-  }
+void DmpEvtRdcHeader::SetRunMode(DmpDetector::DmpEDetectorID id, const short &v){
+  fRunMode.push_back(id*1000 + v);
 }
 
 //-------------------------------------------------------------------
 void DmpEvtRdcHeader::Reset(){
   fSec = 0;
   fMillisec = 0;
-  fTrigger = -1;
-  fStatus = 0;
-  fPsd->Reset();
-  fStk->Reset();
-  fBgo->Reset();
-  fNud->Reset();
+  fTrigger.resize(0);
+  fRunMode.resize(0);
+  fStatus.resize(1,0);
 }
 
 //-------------------------------------------------------------------
-short DmpEvtRdcHeader::Trigger() const {
-  if(fStatus>0){
-    return -1;
+short DmpEvtRdcHeader::GetTrigger(DmpDetector::DmpEDetectorID id) const{
+  short trg = fTrigger[0]%1000;
+  if(id == DmpDetector::kWhole){
+    for(short i=1;i<fTrigger.size();++i){
+      if(trg != fTrigger[i]%1000){
+        LogError<<"triggers not match"<<std::endl;
+        return -1;
+      }
+    }
+  }else{
+    for(short i=0;i<fTrigger.size();++i){
+      if(id == fTrigger[i]/1000){
+        trg = fTrigger[i]%1000;
+        break;
+      }
+    }
   }
-  return fTrigger;
+  return trg;
 }
 
 //-------------------------------------------------------------------
-DmpRdcHeaderSubDet* DmpEvtRdcHeader::Detector(const DmpDetector::DmpEDetectorID &id) const {
-  switch (id){
-    case DmpDetector::kPsd:
-       return fPsd;
-    case DmpDetector::kStk:
-       return fStk;
-    case DmpDetector::kBgo:
-       return fBgo;
-    case DmpDetector::kNud:
-       return fNud;
+short DmpEvtRdcHeader::GetRunMode(DmpDetector::DmpEDetectorID id) const{
+  for(short i=0;i<fRunMode.size();++i){
+    if(id == fRunMode[i]/1000){
+      return fRunMode[i]%1000;
+    }
   }
+  return -1;
 }
+
 

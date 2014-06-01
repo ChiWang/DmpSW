@@ -18,4 +18,3 @@ DmpServiceManager::~DmpServiceManager(){
   std::cout<<"DMPSW Kernerl: deleting "<<Name();
 }
 
-

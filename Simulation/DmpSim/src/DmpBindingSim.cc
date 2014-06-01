@@ -6,19 +6,13 @@
 
 #include <boost/python.hpp>
 
-#include "DmpSimSvcBoot.h"
-#include "DmpSimSvcDataMgr.h"
-#include "DmpSimEntrance.h"
+#include "DmpSimAlgRunManager.h"
 
 BOOST_PYTHON_MODULE(libDmpSim){
   using namespace boost::python;
 
-  // DmpSimSvcBoot
-  class_<DmpSimSvcBoot,boost::noncopyable,bases<DmpVSvc> >("DmpSimSvcBoot",init<>());
-  // DmpSimSvcDataMgr
-  class_<DmpSimSvcDataMgr,boost::noncopyable,bases<DmpVSvc> >("DmpSimSvcDataMgr",init<>());
-  // DmpSimEntrance
-  def("Execute",        DmpEntrance::SimExecute);
+  // DmpSimAlgRunManager
+  class_<DmpSimAlgRunManager,boost::noncopyable,bases<DmpVAlg> >("DmpSimAlgRunManager",init<>());
 
 }
 
