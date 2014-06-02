@@ -44,7 +44,7 @@ G4bool DmpSimNudSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
     }
   }
   if(aBlock == 0){
-    LogDebug<<"\thit a new block: "<<blockID<<std::endl;
+    DmpLogDebug<<"\thit a new block: "<<blockID<<DmpLogEndl;
     aBlock = (DmpEvtMCNudMSD*)fBlockSet->New(fBlockSet->GetEntriesFast());
     aBlock->SetSDID(blockID);
   }

@@ -46,7 +46,7 @@ bool DmpCore::Run(){
 // *  TODO: use cut of time range??
 // *
   for(long i=0;i<fMaxEventNo;++i){
-    LogDebug<<"event ID = "<<i<<std::endl;
+    DmpLogDebug<<"event ID = "<<i<<DmpLogEndl;
     if(not fAlgMgr->ProcessOneEvent()){
       return false;
     }
@@ -63,8 +63,11 @@ bool DmpCore::Finalize(){
 }
 
 //-------------------------------------------------------------------
-void DmpCore::SetLogLevel(const short &level)const{
-  DmpLog::SetLogLevel(level);
+void DmpCore::SetLogLevel(const std::string &l, const short &s){
+  DmpLog::SetLogLevel(l);
+  if(1 == s){
+    DmpLog::ShowFunctionHeader();
+  }
 }
 
 //-------------------------------------------------------------------

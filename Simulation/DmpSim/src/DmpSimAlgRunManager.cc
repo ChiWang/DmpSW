@@ -32,7 +32,7 @@ DmpSimAlgRunManager::DmpSimAlgRunManager()
 //-------------------------------------------------------------------
 DmpSimAlgRunManager::~DmpSimAlgRunManager(){
   delete fPhyFactory;
-  LogDebug<<std::endl;
+  DmpLogDebug<<DmpLogEndl;
 }
 
 //-------------------------------------------------------------------
@@ -40,7 +40,7 @@ DmpSimAlgRunManager::~DmpSimAlgRunManager(){
 #include <DmpEvtMCNudMSD.h>
 void DmpSimAlgRunManager::Set(const std::string &type,const std::string &argv){
   if(OptMap.find(type) == OptMap.end()){
-    LogError<<" No argument type "<<type<<std::endl;
+    DmpLogError<<" No argument type "<<type<<DmpLogEndl;
   }
   switch (OptMap[type]){
     case 0:
@@ -118,7 +118,7 @@ bool DmpSimAlgRunManager::Initialise(){
       ConstructScoringWorlds();
       RunInitialization();
     }else{
-      LogError<<"G4RunManager::Initialize() failed"<<std::endl;
+      DmpLogError<<"G4RunManager::Initialize() failed"<<DmpLogEndl;
       return false;
     }
 // *

@@ -47,7 +47,7 @@ G4bool DmpSimPsdSD::ProcessHits(G4Step *aStep, G4TouchableHistory*){
     }
   }
   if(aStrip == 0){
-    LogDebug<<"\thit a new strip: "<<stripID<<std::endl;
+    DmpLogDebug<<"\thit a new strip: "<<stripID<<DmpLogEndl;
     aStrip = (DmpEvtMCPsdMSD*)fStripSet->New(fStripSet->GetEntriesFast());
     aStrip->SetSDID(stripID);
   }

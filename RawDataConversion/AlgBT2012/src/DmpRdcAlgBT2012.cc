@@ -37,7 +37,7 @@ DmpRdcAlgBT2012::~DmpRdcAlgBT2012(){
 #include "boost/lexical_cast.hpp"
 void DmpRdcAlgBT2012::Set(const std::string &type, const std::string &argv){
   if(OptMap.find(type) == OptMap.end()){
-    LogError<<"No argument type: "<<type<<std::endl;
+    DmpLogError<<"No argument type: "<<type<<DmpLogEndl;
   }
   switch (OptMap[type]){
     case 0:
@@ -88,7 +88,7 @@ void DmpRdcAlgBT2012::Set(const std::string &type, const std::string &argv){
 bool DmpRdcAlgBT2012::Initialise(){
   fFile.open(fInDataName.c_str(),std::ios::in|std::ios::binary);
   if(not fFile.good()){
-    LogError<<"Open "<<fInDataName<<" failed"<<std::endl;
+    DmpLogError<<"Open "<<fInDataName<<" failed"<<DmpLogEndl;
     fFile.close();
     fInDataName = "WRONG";
     return false;
@@ -104,7 +104,7 @@ bool DmpRdcAlgBT2012::Initialise(){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::ProcessThisEvent(){
-  LogDebug<<std::endl;
+  DmpLogDebug<<DmpLogEndl;
   bool oneEvtDone = false;
   while(not oneEvtDone){
     if(fFile.tellg() < 0)   return false;
@@ -164,7 +164,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventHeader(){
   }
 //-------------------------------------------------------------------
   outPos = fFile.tellg();
-  LogDebug<<"from "<<inPos<<" to "<<outPos<<std::endl;
+  DmpLogDebug<<"from "<<inPos<<" to "<<outPos<<DmpLogEndl;
   return true;
 }
 

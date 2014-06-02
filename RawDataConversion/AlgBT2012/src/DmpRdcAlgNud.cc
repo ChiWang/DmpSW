@@ -14,10 +14,10 @@
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::InitialiseNud(){
   if(fCNCTPathNud == "NO"){
-    LogWarning<<"No set connector:\tNud"<<std::endl;
+    DmpLogWarning<<"No set connector:\tNud"<<DmpLogEndl;
     return true;
   }else{
-    LogInfor<<"Setting connector:\tNud"<<std::endl;
+    DmpLogInfo<<"Setting connector:\tNud"<<DmpLogEndl;
   }
   // setup connector
 // *
@@ -43,13 +43,13 @@ bool DmpRdcAlgBT2012::ProcessThisEventNud(){
   static unsigned short data2=0;
   fFile.read((char*)(&data),1);
   if(data!=0xeb){
-    LogError<<std::endl;
+    DmpLogError<<DmpLogEndl;
     fEvtHeader->SetErrorLog(DmpDetector::kNud,0,DmpEvtRdcHeader::NotFind_0xeb);
     return false;
   }
   fFile.read((char*)(&data),1);
   if (data!=0x90) {
-    LogError<<std::endl;
+    DmpLogError<<DmpLogEndl;
     fEvtHeader->SetErrorLog(DmpDetector::kNud,0,DmpEvtRdcHeader::NotFind_0x90);
     return false;
   }
@@ -84,7 +84,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventNud(){
   fFile.read((char*)(&data),1);     // 2 bytes for CRC, MUST split them
 //-------------------------------------------------------------------
   outPos = fFile.tellg();
-  LogDebug<<"from "<<inPos<<" to "<<outPos<<"\t---> signalNo = "<<nSignal<<std::endl;
+  DmpLogDebug<<"from "<<inPos<<" to "<<outPos<<"\t---> signalNo = "<<nSignal<<DmpLogEndl;
   return true;
 }
 

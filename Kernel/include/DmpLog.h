@@ -1,7 +1,8 @@
 /*
- *  $Id: DmpLog.h, 2014-05-19 12:03:07 DAMPE $
+ *  $Id: DmpLog.h, 2014-06-02 14:35:42 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 19/05/2014
+ *    Andrii Tykhonov (Andrii.Tykhonov@cern.ch) 22/05/2014
 */
 
 #ifndef DmpLog_H
@@ -12,33 +13,36 @@
 
 namespace DmpLog{
   enum{
-    Debug = 1,
-    Infor = 10,
-    Warning = 100,
-    Error = 1000
+    NONE    = 0, //
+    ERROR   = 1, // ERROR
+    WARNING = 2, // ERROR, WARNING
+    INFO    = 3, // ERROR, WARNING, INFO
+    DEBUG   = 4  // ERROR, WARNING, INFO, DEBUG
   };
-  void SetLogLevel(const short &l);
-  /*
-   * LogLevel
-   *     types: {error(1000) | warning(100) | information(10) | debug(1)}
-   */
-  extern bool PrintDebug;
-  extern bool PrintInfor;
-  extern bool PrintWarning;
-  extern bool PrintError;
+
+//-------------------------------------------------------------------
+  void SetLogLevel(const std::string &l);
+  void ShowFunctionHeader();
+
+//-------------------------------------------------------------------
+  extern short  logLevel;
+  extern bool   logShowFunctionHeader;
 }
 
-#define LogDebug if(DmpLog::PrintDebug) \
-    std::cout<<std::setiosflags(std::ios::left)<<std::setw(12)<<"  DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"  "
+#define DmpLogDebug   if(DmpLog::logLevel >= DmpLog::DEBUG) \
+  std::cout<<std::setw(12)<<"DEBUG:   ["<<(DmpLog::logShowFunctionHeader?__PRETTY_FUNCTION__:"")<<"] "
 
-#define LogInfor if(DmpLog::PrintInfor) \
-    std::cout<<std::setiosflags(std::ios::left)<<std::setw(12)<<"  INFOR: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"  "
+#define DmpLogInfo    if(DmpLog::logLevel >= DmpLog::INFO)\
+  std::cout<<std::setw(12)<<"INFO:    ["<<(DmpLog::logShowFunctionHeader?__PRETTY_FUNCTION__:"")<<"] "
 
-#define LogWarning if(DmpLog::PrintWarning) \
-    std::cout<<std::setiosflags(std::ios::left)<<std::setw(12)<<"  WARNING: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"  "
+#define DmpLogWarning if(DmpLog::logLevel >= DmpLog::WARNING)\
+  std::cout<<std::setw(12)<<"WARNING: ["<<(DmpLog::logShowFunctionHeader?__PRETTY_FUNCTION__:"")<<"] "
 
-#define LogError if(DmpLog::PrintError) \
-    std::cout<<std::setiosflags(std::ios::left)<<std::setw(12)<<"  ERROR: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"  "
+#define DmpLogError if(DmpLog::logLevel >= DmpLog::ERROR)\
+  std::cout<<std::setw(12)<<"ERROR:   ["<<(DmpLog::logShowFunctionHeader?__PRETTY_FUNCTION__:"")<<"] "
+
+#define DmpLogEndl std::endl
 
 #endif
+
 

@@ -14,10 +14,10 @@
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::InitialiseStk(){
   if(fCNCTPathStk == "NO"){
-    LogWarning<<"No set connector:\tStk"<<std::endl;
+    DmpLogWarning<<"No set connector:\tStk"<<DmpLogEndl;
     return true;
   }else{
-    LogInfor<<"Setting connector:\tStk"<<std::endl;
+    DmpLogInfo<<"Setting connector:\tStk"<<DmpLogEndl;
   }
   // setup connector
 // *
@@ -44,7 +44,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventStk(){
 // *
 //-------------------------------------------------------------------
   outPos = fFile.tellg();
-  LogDebug<<"from "<<inPos<<" to "<<outPos<<"\t---> signalNo = "<<nSignal<<std::endl;
+  DmpLogDebug<<"from "<<inPos<<" to "<<outPos<<"\t---> signalNo = "<<nSignal<<DmpLogEndl;
   return true;
 }
 

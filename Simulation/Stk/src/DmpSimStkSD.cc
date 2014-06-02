@@ -44,7 +44,7 @@ G4bool DmpSimStkSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
     }
   }
   if(aBar == 0){
-    LogDebug<<"\thit a new bar: "<<barID<<std::endl;
+    DmpLogDebug<<"\thit a new bar: "<<barID<<DmpLogEndl;
     aBar = (DmpEvtMCStkMSD*)fLadderSet->New(fLadderSet->GetEntriesFast());
     aBar->SetSDID(barID);
   }

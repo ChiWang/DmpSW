@@ -14,10 +14,10 @@
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::InitialisePsd(){
   if(fCNCTPathPsd == "NO"){
-    LogWarning<<"No set connector:\tPsd"<<std::endl;
+    DmpLogWarning<<"No set connector:\tPsd"<<DmpLogEndl;
     return true;
   }else{
-    LogInfor<<"Setting connector:\tPsd"<<std::endl;
+    DmpLogInfo<<"Setting connector:\tPsd"<<DmpLogEndl;
   }
   // setup connector
 // *
@@ -42,13 +42,13 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
   for(feeCounts=0;feeCounts<fFEENoPsd;++feeCounts){
     fFile.read((char*)(&data),1);
     if (data!=0xeb) {
-      LogError<<"value "<<std::hex<<data<<std::dec<<std::endl;
+      DmpLogError<<"value "<<std::hex<<data<<std::dec<<DmpLogEndl;
       fEvtHeader->SetErrorLog(DmpDetector::kPsd,feeCounts+1,DmpEvtRdcHeader::NotFind_0xeb);
       return false;
     }
     fFile.read((char*)(&data),1);
     if (data!=0x90) {
-      LogError<<std::endl;
+      DmpLogError<<DmpLogEndl;
       fEvtHeader->SetErrorLog(DmpDetector::kPsd,feeCounts+1,DmpEvtRdcHeader::NotFind_0x90);
       return false;
     }
@@ -57,7 +57,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
       fEvtHeader->SetTrigger(DmpDetector::kPsd,data);
     }else{
       if(fEvtHeader->GetTrigger(DmpDetector::kPsd) != data){
-        LogError<<std::endl;
+        DmpLogError<<DmpLogEndl;
         fEvtHeader->SetErrorLog(DmpDetector::kPsd,feeCounts+1,DmpEvtRdcHeader::NotMatch_Trigger);
         return false;
       }
@@ -68,7 +68,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
       fEvtHeader->SetRunMode(DmpDetector::kPsd,data/16-fFEETypePsd);
     }else{
       if(fEvtHeader->GetRunMode(DmpDetector::kPsd) != data/16-fFEETypePsd){
-        LogError<<std::endl;
+        DmpLogError<<DmpLogEndl;
         fEvtHeader->SetErrorLog(DmpDetector::kPsd,feeID,DmpEvtRdcHeader::NotMatch_RunMode);
         return false;
       }
@@ -102,7 +102,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
   }
 //-------------------------------------------------------------------
   outPos = fFile.tellg();
-  LogDebug<<"from "<<inPos<<" to "<<outPos<<"\t---> signalNo = "<<nSignal<<std::endl;
+  DmpLogDebug<<"from "<<inPos<<" to "<<outPos<<"\t---> signalNo = "<<nSignal<<DmpLogEndl;
   return true;
 }
 

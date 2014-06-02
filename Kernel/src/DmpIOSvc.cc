@@ -35,7 +35,7 @@ DmpIOSvc::~DmpIOSvc(){
 #include <sys/stat.h>       // mkdir()
 void DmpIOSvc::Set(const std::string &option,const std::string &argv){
   if(OptMap.find(option) == OptMap.end()){
-    LogError<<"No argument type: "<<option<<std::endl;
+    DmpLogError<<"No argument type: "<<option<<DmpLogEndl;
   }
   switch (OptMap[option]){
     case 0:
@@ -82,7 +82,7 @@ void DmpIOSvc::Set(const std::string &option,const std::string &argv){
       }else if("on" == argv){
         fUseTimestamp = true;
       }else{
-        LogWarning<<"Wrong option("<<argv<<") of Timestamp. Right choose: {on | off}"<<std::endl;
+        DmpLogWarning<<"Wrong option("<<argv<<") of Timestamp. Right choose: {on | off}"<<DmpLogEndl;
       }
       break;
     }
@@ -92,7 +92,7 @@ void DmpIOSvc::Set(const std::string &option,const std::string &argv){
 //-------------------------------------------------------------------
 bool DmpIOSvc::Initialise(){
   if("WRONG_0" == fOutFilePath){
-    LogError<<"Can not set \'output file as a input file\' and \'output path\' at the same time"<<std::endl;
+    DmpLogError<<"Can not set \'output file as a input file\' and \'output path\' at the same time"<<DmpLogEndl;
     return false;
   }
   if("INPUT" != fOutFileName){
@@ -106,14 +106,14 @@ bool DmpIOSvc::Initialise(){
 bool DmpIOSvc::Finalize(){
   if(not gCore->InitialiseDone()) return false;
   if("INPUT" != fOutFileName){
-    LogInfor<<"Result in "<<fOutFilePath+fOutFileName<<std::endl;
+    DmpLogInfo<<"Result in "<<fOutFilePath+fOutFileName<<DmpLogEndl;
     fOutRootFile = new TFile((TString)(fOutFilePath+fOutFileName),"recreate");
   }else{
-    LogInfor<<"Result in the input file: "<<fOutFilePath<<std::endl;
+    DmpLogInfo<<"Result in the input file: "<<fOutFilePath<<DmpLogEndl;
     fOutRootFile->cd();
   }
   for(short i=0;i<fOutTreeSet.size();++i){
-    LogInfor<<"\tTree: "<<fOutTreeSet[i]->GetName()<<", entries = "<<fOutTreeSet[i]->GetEntries()<<std::endl;
+    DmpLogInfo<<"\tTree: "<<fOutTreeSet[i]->GetName()<<", entries = "<<fOutTreeSet[i]->GetEntries()<<DmpLogEndl;
     fOutTreeSet[i]->Write();
     delete fOutTreeSet[i];
   }
@@ -125,7 +125,7 @@ bool DmpIOSvc::Finalize(){
     fInRootFile[i]->Close();
     delete fInRootFile[i];
   }
-  LogDebug<<std::endl;
+  DmpLogDebug<<DmpLogEndl;
   return true;
 }
 
@@ -134,7 +134,7 @@ void DmpIOSvc::FillEvent(){
   for(short i=0;i<fOutTreeSet.size();++i){
     fOutTreeSet[i]->Fill();
   }
-  LogInfor<<"\tFill event "<<fOutTreeSet[0]->GetEntries()<<std::endl;
+  DmpLogInfo<<"\tFill event "<<fOutTreeSet[0]->GetEntries()<<DmpLogEndl;
 }
 
 //-------------------------------------------------------------------
@@ -167,7 +167,7 @@ TTree* DmpIOSvc::GetTree(const std::string &rootFileName,const std::string &tree
     }
   }
   if(-1 == index){
-    LogError<<"not has the input root file "<<rootFileName<<std::endl;
+    DmpLogError<<"not has the input root file "<<rootFileName<<DmpLogEndl;
     return 0;
   }
   TTree *tree = dynamic_cast<TTree*>(fInRootFile[index]->Get(treeName.c_str()));

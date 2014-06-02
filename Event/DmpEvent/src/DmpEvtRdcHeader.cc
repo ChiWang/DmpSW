@@ -28,22 +28,22 @@ void DmpEvtRdcHeader::SetErrorLog(DmpDetector::DmpEDetectorID id,const short &Fe
   fStatus.push_back(id*1000 + FeeID*10 + type);
   switch(type){
     case NotFind_0xeb:
-      LogError<<"\tnot find 0xeb\t";
+      DmpLogError<<"\tnot find 0xeb\t";
       break;
     case NotFind_0x90:
-      LogError<<"\tnot find 0x90\t";
+      DmpLogError<<"\tnot find 0x90\t";
       break;
     case Wrong_DataLength:
-      LogError<<"\tdata length float\t";
+      DmpLogError<<"\tdata length float\t";
       break;
     case NotMatch_RunMode:
-      LogError<<"\trun mode not match\t";
+      DmpLogError<<"\trun mode not match\t";
       break;
     case NotMatch_Trigger:
-      LogError<<"\ttrigger not match\t";
+      DmpLogError<<"\ttrigger not match\t";
       break;
     case Wrong_CRC:
-      LogError<<"\tCRC wrong\t";
+      DmpLogError<<"\tCRC wrong\t";
       break;
   }
   std::cout<<"Time: ";
@@ -88,7 +88,7 @@ short DmpEvtRdcHeader::GetTrigger(DmpDetector::DmpEDetectorID id) const{
   if(id == DmpDetector::kWhole){
     for(short i=1;i<fTrigger.size();++i){
       if(trg != fTrigger[i]%1000){
-        LogError<<"triggers not match"<<std::endl;
+        DmpLogError<<"triggers not match"<<DmpLogEndl;
         return -1;
       }
     }
