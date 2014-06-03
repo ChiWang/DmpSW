@@ -15,7 +15,7 @@ import libDmpSim as  DmpSim     # Load your lib.
 #-------------------------------------------------------------------
 # Global setting
 DMPSW.Core.SetMaxEventNumber(10)
-DMPSW.Core.SetLogLevel("Debug",1)      # Option = {Error | Warning | Info | Debug}. If NOT set, will use Info.
+DMPSW.Core.SetLogLevel("Debug")      # Option = {Error | Warning | Info | Debug}. If NOT set, will use Info.
 
 #-------------------------------------------------------------------
 # IOSvc options

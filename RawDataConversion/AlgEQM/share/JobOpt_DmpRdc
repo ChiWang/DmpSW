@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpRdc, 2014-05-04 15:42:54 DAMPE $
+ *  $Id: JobOpt_DmpRdc, 2014-06-03 11:03:23 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 11/03/2014
  *-----------------------------------------------------
@@ -15,13 +15,7 @@ import libDmpRdcEQM as DmpRdcAlg
 #-------------------------------------------------------------------
 # Global setting
 DMPSW.Core.SetMaxEventNumber(1000)
-DMPSW.Core.SetLogLevel(1111)      # If NOT set, will use 1100
-'''
-  /*
-   * LogLevel
-   *     types: {error(1000) | warning(100) | information(10) | debug(1)}
-   */
-'''
+DMPSW.Core.SetLogLevel("Debug")      # Option = {Error | Warning | Info | Debug}. If NOT set, will use Info.
 #DMPSW.Core.SetTimeWindow("start",2013,1,1,0,0,0)       # if NOT set, start from 0 second
 #DMPSW.Core.SetTimeWindow("stop",2016,1,1,0,0,0)        # if NOT set, end at 2113.01.01
 
@@ -41,10 +35,6 @@ rdcAlgEQM.Set("BinaryFile",DMPSW.prefix+"/share/TestRelease/Ex_BGO_ScienceData_2
 rdcAlgEQM.Set("BinaryFile",DMPSW.prefix+"/share/TestRelease/Ex_Data_20140417235702_BGO_20140418-000421.bin")
 
 #-------------------------------------------------------------------
-#rdcDataMgr.Set("InData",prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
-#rdcDataMgr.Set("InData","/home/zhzhy/CombinedRun_Nanjing201404/Data_2014_4_17_23_57_02_BGO_20140418-000421.bin")
-#-------------------------------------------------------------------
-
 # Append user's service or algorithm into Kernel
 DMPSW.AlgMgr.Append(rdcAlgEQM)
 
@@ -53,5 +43,4 @@ DMPSW.AlgMgr.Append(rdcAlgEQM)
 DMPSW.Core.Initialise()
 DMPSW.Core.Run()
 DMPSW.Core.Finalize()
-
 
