@@ -32,11 +32,8 @@ DmpSimPsdSD::~DmpSimPsdSD(){
 //-------------------------------------------------------------------
 #include <boost/lexical_cast.hpp>
 G4bool DmpSimPsdSD::ProcessHits(G4Step *aStep, G4TouchableHistory*){
-  G4TouchableHistory* theTouchable = (G4TouchableHistory*)(aStep->GetPreStepPoint()->GetTouchable());
-// *
-// *  TODO:  GetVolume(level is right?)
-// *
-  std::string stripName = theTouchable->GetVolume(1)->GetName();
+  G4TouchableHistory *theTouchable = (G4TouchableHistory*)(aStep->GetPreStepPoint()->GetTouchable());
+  std::string stripName = theTouchable->GetVolume()->GetName();
   stripName.assign(stripName.end()-3,stripName.end());        // get ID
   short stripID = boost::lexical_cast<short>(stripName);
   DmpEvtMCPsdMSD *aStrip = 0;
@@ -53,10 +50,9 @@ G4bool DmpSimPsdSD::ProcessHits(G4Step *aStep, G4TouchableHistory*){
   }
   G4ThreeVector position = aStep->GetPreStepPoint()->GetPosition();
   aStrip->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,position.x()/mm,position.y()/mm,position.z()/mm);
-  if(aStep->GetPreStepPoint()->GetMomentum().z() < 0){
-    aStrip->SetBackTrackID(aStep->GetTrack()->GetTrackID());
+  if(aStep->GetPreStepPoint()->GetMomentum().z() < 0){  // back track
+    aStrip->SetBackTrackID(aStep->GetTrack()->GetTrackID(),aStep->GetTrack()->GetVertexPosition().z(),aStep->GetTotalEnergyDeposit()/MeV);
   }
-  
   return true;
 }
 

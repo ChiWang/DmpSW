@@ -66,10 +66,9 @@ G4VPhysicalVolume* DmpSimDetector::Construct(){
   G4SDManager *mgrSD = G4SDManager::GetSDMpointer();
   if(fParser->GetVolume("Psd_DetLV")){
     std::cout<<" Setting Sensitive Detector of Psd"<<std::endl;
-    /*
     mgrSD->AddNewDetector(fPsdSD);
-    fParser->GetVolume("Psd_StripLV")->SetSensitiveDetector(fPsdSD);
-    */
+    fParser->GetVolume("Psd_Strip0LV")->SetSensitiveDetector(fPsdSD);
+    fParser->GetVolume("Psd_Strip1LV")->SetSensitiveDetector(fPsdSD);
   }
   /*
   if(fParser->GetVolume("Stk_DetLV")){

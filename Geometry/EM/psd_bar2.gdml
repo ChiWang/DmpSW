@@ -192,14 +192,14 @@
   </solids>
 
   <structure>
-    <volume name="psd_bar2">
+    <volume name="Psd_Strip1LV">
       <materialref ref="PSDmaterial_Sci0x9d1cb80"/>
       <solidref ref="psd_bar20x13e7800"/>
     </volume>
   </structure>
 
   <setup name="Default" version="1.0">
-    <world ref="psd_bar2"/>
+    <world ref="Psd_Strip1LV"/>
   </setup>
 
 </gdml>
