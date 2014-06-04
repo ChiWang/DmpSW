@@ -42,6 +42,8 @@ env.Append(LIBS=['boost_filesystem'])
 #--------------------------------------------------------------------
 ProcessThisDir("AlgBT2012/share/Connector/",prefix+"/share/Connector/")
 ProcessThisDir("AlgEQM/share/Connector/",prefix+"/share/Connector/")
+for key in ['JobOpt_DmpRdcBT2012','Ex_BGO_ScienceData_20121002212322.dat','Ex_ScienceData_20121005164959.dat']:
+    Default(Command(prefix+"/share/TestRelease/"+key,'AlgBT2012/share/'+key,Copy("$TARGET","$SOURCE")))
 #ProcessThisDir("Svc/include/",prefix+"/include/Rdc")
 
 # main build

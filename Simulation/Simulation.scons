@@ -42,10 +42,12 @@ env.Prepend(LIBPATH=[P2Path])
 
 # install share
 #--------------------------------------------------------------------
+Default(Command(prefix+'/share/Simulation/Readme.md','./share/Readme.md',Copy("$TARGET","$SOURCE")))
 for tmp in os.listdir('./share'):
-    Default(Command(prefix+'/share/Simulation/Readme.md','./share/Readme.md',Copy("$TARGET","$SOURCE")))
     if "." not in tmp[0] and "DmpSim" in tmp and ".mac"  in tmp:
         Default(Command(prefix+'/share/Simulation/'+tmp,'./share/'+tmp,Copy("$TARGET","$SOURCE")))
+    if "Ex_" in tmp or "Job"  in tmp:
+        Default(Command(prefix+'/share/TestRelease/'+tmp,'./share/'+tmp,Copy("$TARGET","$SOURCE")))
 # main build
 #--------------------------------------------------------------------
 #goal=env.Program(target,Glob('./*/src/*.cc'))
