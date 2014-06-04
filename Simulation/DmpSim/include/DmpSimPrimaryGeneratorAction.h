@@ -19,9 +19,6 @@ public:
   
   void GeneratePrimaries(G4Event*);
 
-public:
-  bool Finalize()   {return true;}
-
 private:
   G4GeneralParticleSource   *fGPS;
   DmpEvtMCPrimaryParticle   *fPrimaryParticle;

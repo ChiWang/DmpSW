@@ -63,7 +63,7 @@ bool DmpCore::Finalize(){
 }
 
 //-------------------------------------------------------------------
-void DmpCore::SetLogLevel(const std::string &l, const short &s){
+void DmpCore::SetLogLevel(const std::string &l, const short &s)const{
   DmpLog::SetLogLevel(l);
   if(1 == s){
     DmpLog::ShowFunctionHeader();

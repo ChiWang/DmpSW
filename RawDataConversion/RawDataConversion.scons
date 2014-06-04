@@ -50,6 +50,6 @@ ProcessThisDir("AlgEQM/share/Connector/",prefix+"/share/Connector/")
 goal=env.SharedLibrary(targetBT,Glob('./AlgBT2012/src/*.cc'))
 Default(env.InstallAs(prefix+"/lib/lib"+targetBT+".so",goal))
     #+ Algorithm
-goal2=env.SharedLibrary(targetEQM,Glob('./AlgEQM/src/*.cc'))
-Default(env.InstallAs(prefix+"/lib/lib"+targetEQM+".so",goal2))
+#goal2=env.SharedLibrary(targetEQM,Glob('./AlgEQM/src/*.cc'))
+#Default(env.InstallAs(prefix+"/lib/lib"+targetEQM+".so",goal2))
 

@@ -30,7 +30,7 @@ public:     // binding functions
   bool Finalize();              // execute all elements' Finalize() in all *Mgr
 
 public:
-  void SetLogLevel(const std::string&, const short &s=0);
+  void SetLogLevel(const std::string&, const short &s=0) const;
   void SetMaxEventNumber(const long &i) {fMaxEventNo = i;}
   void SetTimeWindow(const std::string &type,const short &year,const short &month,const short &day,const short &hour,const short &minute,const short &second);
   const long& GetMaxEventNumber() const {return fMaxEventNo;}
