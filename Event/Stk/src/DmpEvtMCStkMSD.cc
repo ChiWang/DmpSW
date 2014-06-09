@@ -1,35 +1,55 @@
 /*
- *  $Id: DmpEvtMCStkMSD.cc, 2014-05-01 21:19:20 DAMPE $
+ *  $Id: DmpEvtMCStkMSD.cc, 2014-06-09 14:18:26 DAMPE $
  *  Author(s):
- *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
+ *    Chi WANG (chiwang@mail.ustc.edu.cn) 05/06/2014
 */
 
 #include "DmpEvtMCStkMSD.h"
 
-ClassImp(DmpEvtMCStkMSD)
-
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------
 DmpEvtMCStkMSD::DmpEvtMCStkMSD()
- :fSDID(0),
-  fEnergy(0)
+ :fSDID(0)
 {
-  for (short i=0;i<3;++i) fPosition[i]=0;
 }
 
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------
 DmpEvtMCStkMSD::~DmpEvtMCStkMSD(){
 }
 
 //-------------------------------------------------------------------
-void DmpEvtMCStkMSD::AddG4Hit(const double &e,const double &x,const double &y,const double &z){
-  double totE = e + fEnergy;
-  double nX = (e*x + fEnergy*fPosition[0])/totE;
-  double nY = (e*y + fEnergy*fPosition[1])/totE;
-  double nZ = (e*z + fEnergy*fPosition[2])/totE;
-  fPosition[0] = nX;
-  fPosition[1] = nY;
-  fPosition[2] = nZ;
-  fEnergy = totE;
+void  DmpEvtMCStkMSD::AddG4Hit(const double &e,const int &trackID, bool isBackTrack){
+  if(isBackTrack){
+    if(fBwdTrack.find(trackID) != fBwdTrack.end()){
+      fBwdTrack[trackID] += e;
+    }else{
+      fBwdTrack.insert(std::make_pair(trackID,e));
+    }
+  }else{
+    if(fFwdTrack.find(trackID) != fFwdTrack.end()){
+      fFwdTrack[trackID] += e;
+    }else{
+      fFwdTrack.insert(std::make_pair(trackID,e));
+    }
+  }
 }
 
+//-------------------------------------------------------------------
+double DmpEvtMCStkMSD::GetTotalEnergy(short type) const{
+  double FwdE = 0, BwdE = 0;
+  double value = 0;
+  for(std::map<int,double>::const_iterator it=fFwdTrack.begin(); it!=fFwdTrack.end(); ++it){
+    FwdE += it->second;
+  }
+  for(std::map<int,double>::const_iterator it=fBwdTrack.begin(); it!=fBwdTrack.end(); ++it){
+    BwdE += it->second;
+  }
+  if(1 == type){
+    value = FwdE;
+  }else if(-1 == type){
+    value = BwdE;
+  }else{
+    value = FwdE + BwdE;
+  }
+  return value;
+}
 

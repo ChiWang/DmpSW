@@ -38,12 +38,11 @@
 
  <structure>
 
-  <volume name="STK_detector_vol" >
+  <volume name="Stk_DetLV" >
    <materialref ref="Vacuum" />
    <solidref ref="STK_detector_box" />      
       
       <!-- Supporting structures -->
-      
       <physvol>
         <file name="stk_corners.gdml"/> 
         <position name="stk_corners_pos" x="stk_adjust_x_position" y="stk_adjust_y_position" z="stk_adjust_z_position" unit="mm"/>
@@ -94,7 +93,7 @@
 
 
  <setup name="Default" version="1.0" >
-  <world ref="STK_detector_vol" />
+  <world ref="Stk_DetLV" />
  </setup>
 
 

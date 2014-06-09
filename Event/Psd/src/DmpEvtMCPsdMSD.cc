@@ -33,7 +33,7 @@ void DmpEvtMCPsdMSD::AddG4Hit(const double &e,const double &x,const double &y,co
 
 //-------------------------------------------------------------------
 #include <iostream>
-void DmpEvtMCPsdMSD::SetBackTrackID(const int &id,const double &p,const double &e){
+void DmpEvtMCPsdMSD::SetBackTrack(const int &id,const double &p,const double &e){
   for(int i=0;i<fBackTrackID.size();++i){
     if(id == fBackTrackID[i]){
       fBTDepositedE[i] += e;

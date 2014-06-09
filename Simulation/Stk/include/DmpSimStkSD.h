@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpSimStkSD.h, 2014-05-25 09:29:31 DAMPE $
+ *  $Id: DmpSimStkSD.h, 2014-06-05 21:42:24 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/05/2014
 */
@@ -25,7 +25,7 @@ public:
   void EndOfEvent(G4HCofThisEvent*);
 
 private:
-  TClonesArray      *fLadderSet;
+  TClonesArray      *fStripSet;
 };
 
 #endif

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEvtMCStkMSD.h, 2014-04-30 21:16:44 DAMPE $
+ *  $Id: DmpEvtMCStkMSD.h, 2014-06-09 11:12:27 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
@@ -7,31 +7,31 @@
 #ifndef DmpEvtMCStkMSD_H
 #define DmpEvtMCStkMSD_H
 
+#include <map>
 #include "TObject.h"
 
 class DmpEvtMCStkMSD : public TObject{
 /*
  *  DmpEvtMCStkMSD
- *  
- *  One DmpEvtMCStkMSD is a response of one Stk Bar.
- *  The class DmpEvtRaw is a collection of DmpEvtMCStkMSDs and other sub-dets' hit collection
+ *
+ *      This class used to descrip a Stk strip.
 */
 public:
   DmpEvtMCStkMSD();
   ~DmpEvtMCStkMSD();
-  void  SetSDID(const short &id)   {fSDID = id;}
-  void  AddG4Hit(const double &e,const double &x,const double &y,const double &z);     // invoke from G4Step or Sensitive Detector
-  const short&  GetSDID() const    {return fSDID;}
-  const double& GetEnergy() const  {return fEnergy;}
-  double* GetPosition() {return fPosition;}
+  void  SetSDID(const int &id)   {fSDID = id;}
+  int   GetSDID() const {return fSDID;}
+  void  AddG4Hit(const double &e, const int &trackID, bool isBackTrack=false);
+  double GetTotalEnergy(short type=0) const;
 
 private:
-  short     fSDID;          // unique sensitive detector(minimum detector unit) ID. Stk bar ID. fSDID =  layerID*100 + barID
-  double    fEnergy;        // unit MeV
-  double    fPosition[3];   // unit mm
+  int       fSDID;          // Stk strip ID. fSDID =  layerID*100000 +block*10000 + ladder*1000 + stripID
+  std::map<int,double>   fFwdTrack;     // forward track. key is ID, value is total energy(unit MeV) deposited in this strip
+  std::map<int,double>   fBwdTrack;     // backward track. key is ID, value is total energy(unit MeV) deposited in this strip
 
   ClassDef(DmpEvtMCStkMSD,1)
 };
 
 #endif
+
 

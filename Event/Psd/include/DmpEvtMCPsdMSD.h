@@ -20,7 +20,7 @@ public:
   ~DmpEvtMCPsdMSD();
   void  SetSDID(const short &id)   {fSDID = id;}
   void  AddG4Hit(const double &e,const double &x,const double &y,const double &z);     // invoke from G4Step or Sensitive Detector
-  void  SetBackTrackID(const int&,const double&,const double&);
+  void  SetBackTrack(const int&,const double&,const double&);
   const short&  GetSDID() const    {return fSDID;}
   const double& GetEnergy() const  {return fEnergy;}
   const double& PositionX() const  {return fPosX;}
