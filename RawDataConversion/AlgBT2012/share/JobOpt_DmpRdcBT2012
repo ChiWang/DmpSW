@@ -14,7 +14,7 @@ import libDmpRdcBT2012 as DmpRdcAlg
 
 #-------------------------------------------------------------------
 # Global setting
-DMPSW.Core.SetMaxEventNumber(100)  # If NOT set, will use 1234567890
+#DMPSW.Core.SetMaxEventNumber(100)  # If NOT set, will use 1234567890
 DMPSW.Core.SetLogLevel("Debug")      # Option = {Error | Warning | Info | Debug}. If NOT set, will use Info.
 #DMPSW.Core.SetTimeWindow("start",2013,1,1,0,0,0)       # if NOT set, start from 0 second
 #DMPSW.Core.SetTimeWindow("stop",2016,1,1,0,0,0)        # if NOT set, end at 2113.01.01
@@ -23,16 +23,17 @@ DMPSW.Core.SetLogLevel("Debug")      # Option = {Error | Warning | Info | Debug}
 # IOSvc Service
 DMPSW.IOSvc.Set("OutData/Path","./test")      # where to save the output. If NOT set will use "./" by defualt
 DMPSW.IOSvc.Set("OutData/Tag","Rdc")    # append note for the next output data. NOT set is okay. Also could use Set("OutDataPath")
+DMPSW.IOSvc.Set("OutData/Timestamp","off")    # if NOT set, will use timestamp
 
 #-------------------------------------------------------------------
 # Creat user's service or algorithm
 rdcAlgBT = DmpRdcAlg.DmpRdcAlgBT2012()
-rdcAlgBT.Set("Psd/Connector",DMPSW.prefix+"/share/Connector/Bgo/EM")
+#rdcAlgBT.Set("Psd/Connector",DMPSW.prefix+"/share/Connector/Bgo/EM")
 #rdcAlgBT.Set("Stk/Connector",DMPSW.prefix+"/share/Connector/Bgo/EM")
 rdcAlgBT.Set("Bgo/Connector",DMPSW.prefix+"/share/Connector/Bgo/EM")
-rdcAlgBT.Set("Nud/Connector",DMPSW.prefix+"/share/Connector/Bgo/EM")
-rdcAlgBT.Set("BinaryFile",DMPSW.prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
-#rdcAlgBT.Set("BinaryFile",DMPSW.prefix+"/share/TestRelease/Ex_BGO_ScienceData_20121002212322.dat")
+#rdcAlgBT.Set("Nud/Connector",DMPSW.prefix+"/share/Connector/Bgo/EM")
+#rdcAlgBT.Set("BinaryFile",DMPSW.prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
+rdcAlgBT.Set("BinaryFile",DMPSW.prefix+"/share/TestRelease/Ex_BGO_ScienceData_20121002212322.dat")
 
 #-------------------------------------------------------------------
 # Append user's service or algorithm into Kernel

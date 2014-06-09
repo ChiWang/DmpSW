@@ -23,6 +23,7 @@ DMPSW.Core.SetLogLevel("Debug")      # Option = {Error | Warning | Info | Debug}
 # IOSvc options
 DMPSW.IOSvc.Set("OutData/Path","./test")    # where to save the output. If NOT set will use "./" by defualt
 DMPSW.IOSvc.Set("OutData/Tag","Rdc")    # append note for the next output data. NOT set is okay. Also could use Set("OutDataPath")
+DMPSW.IOSvc.Set("OutData/Timestamp","off")    # if NOT set, will use timestamp
 
 #-------------------------------------------------------------------
 # Creat user's service or algorithm

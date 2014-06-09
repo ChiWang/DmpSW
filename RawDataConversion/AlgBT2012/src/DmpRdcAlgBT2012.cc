@@ -107,7 +107,6 @@ bool DmpRdcAlgBT2012::ProcessThisEvent(){
   DmpLogDebug<<DmpLogEndl;
   bool oneEvtDone = false;
   while(not oneEvtDone){
-    if(fFile.tellg() < 0)   return false;
     if(not ProcessThisEventHeader()) continue;
     if(fCNCTDoneNud){
       if(not ProcessThisEventNud())  continue;
@@ -120,6 +119,10 @@ bool DmpRdcAlgBT2012::ProcessThisEvent(){
     }
     if(fCNCTDoneStk){
       if(not ProcessThisEventStk())  continue;
+    }
+    if(fFile.tellg() < 0){
+      DmpLogInfo<<"not fill the last event"<<DmpLogEndl;
+      return false;
     }
     oneEvtDone = true;
   }

@@ -82,7 +82,8 @@ void DmpIOSvc::Set(const std::string &option,const std::string &argv){
       }else if("on" == argv){
         fUseTimestamp = true;
       }else{
-        DmpLogWarning<<"Wrong option("<<argv<<") of Timestamp. Right choose: {on | off}"<<DmpLogEndl;
+        DmpLogWarning<<"Wrong option("<<argv<<") of Timestamp. using the default option off}"<<DmpLogEndl;
+        fUseTimestamp = false;
       }
       break;
     }

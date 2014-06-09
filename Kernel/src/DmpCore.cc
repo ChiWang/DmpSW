@@ -47,10 +47,11 @@ bool DmpCore::Run(){
 // *
   for(long i=0;i<fMaxEventNo;++i){
     DmpLogDebug<<"event ID = "<<i<<DmpLogEndl;
-    if(not fAlgMgr->ProcessOneEvent()){
+    if(fAlgMgr->ProcessOneEvent()){
+      DmpIOSvc::GetInstance()->FillEvent();
+    }else{
       return false;
     }
-    DmpIOSvc::GetInstance()->FillEvent();
   }
   return true;
 }
