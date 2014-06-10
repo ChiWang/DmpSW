@@ -41,7 +41,7 @@ DMPSW.AlgMgr.Append(rdcAlgEQM)
 
 #-------------------------------------------------------------------
 # Run job
-DMPSW.Core.Initialise()
+DMPSW.Core.Initialize()
 DMPSW.Core.Run()
 DMPSW.Core.Finalize()
 

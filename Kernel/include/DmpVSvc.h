@@ -22,7 +22,7 @@ class DmpVSvc{
 public:
   DmpVSvc(const std::string &n):fName(n){}
   virtual ~DmpVSvc(){}
-  virtual bool Initialise()=0;
+  virtual bool Initialize()=0;
   virtual bool Finalize()=0;
 
 public:

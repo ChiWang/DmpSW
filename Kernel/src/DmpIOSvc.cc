@@ -91,7 +91,7 @@ void DmpIOSvc::Set(const std::string &option,const std::string &argv){
 }
 
 //-------------------------------------------------------------------
-bool DmpIOSvc::Initialise(){
+bool DmpIOSvc::Initialize(){
   if("WRONG_0" == fOutFilePath){
     DmpLogError<<"Can not set \'output file as a input file\' and \'output path\' at the same time"<<DmpLogEndl;
     return false;
@@ -105,7 +105,7 @@ bool DmpIOSvc::Initialise(){
 //-------------------------------------------------------------------
 //  Save output
 bool DmpIOSvc::Finalize(){
-  if(not gCore->InitialiseDone()) return false;
+  if(not gCore->InitializeDone()) return false;
   if("INPUT" != fOutFileName){
     DmpLogInfo<<"Result in "<<fOutFilePath+fOutFileName<<DmpLogEndl;
     fOutRootFile = new TFile((TString)(fOutFilePath+fOutFileName),"recreate");

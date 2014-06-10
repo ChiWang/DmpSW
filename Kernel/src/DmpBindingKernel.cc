@@ -18,8 +18,8 @@
     // Wrap DmpVAlg
 struct DmpVAlgWrapper : public DmpVAlg, boost::python::wrapper<DmpVAlg>{
   DmpVAlgWrapper(const std::string &n):DmpVAlg(n){}
-  bool Initialise(){
-    return this->get_override("Initialise")();
+  bool Initialize(){
+    return this->get_override("Initialize")();
   }
   bool ProcessThisEvent(){
     return this->get_override("ProcessThisEvent")();
@@ -41,8 +41,8 @@ struct DmpVAlgWrapper : public DmpVAlg, boost::python::wrapper<DmpVAlg>{
     // Wrap DmpVSvc
 struct DmpVSvcWrapper : public DmpVSvc, boost::python::wrapper<DmpVSvc>{
   DmpVSvcWrapper(const std::string &n):DmpVSvc(n){}
-  bool Initialise(){
-    return this->get_override("Initialise")();
+  bool Initialize(){
+    return this->get_override("Initialize")();
   }
   bool Finalize(){
     return this->get_override("Finalize")();
@@ -83,13 +83,13 @@ BOOST_PYTHON_MODULE(libDmpKernel){
   ;
   // DmpVSvc
   class_<DmpVSvcWrapper,boost::noncopyable>("DmpVSvc",init<std::string>())
-    .def("Initialise",  pure_virtual(&DmpVSvc::Initialise))
+    .def("Initialize",  pure_virtual(&DmpVSvc::Initialize))
     .def("Finalize",    pure_virtual(&DmpVSvc::Finalize))
     .def("Set", &DmpVSvc::Set,  &DmpVSvcWrapper::Default_Set)
   ;
   // DmpVAlg
   class_<DmpVAlgWrapper,boost::noncopyable>("DmpVAlg",init<std::string>())
-    .def("Initialise",      pure_virtual(&DmpVAlg::Initialise))
+    .def("Initialize",      pure_virtual(&DmpVAlg::Initialize))
     .def("ProcessThisEvent",pure_virtual(&DmpVAlg::ProcessThisEvent))
     .def("Finalize",        pure_virtual(&DmpVAlg::Finalize))
     .def("Set", &DmpVAlg::Set,  &DmpVAlgWrapper::Default_Set)
@@ -118,7 +118,7 @@ BOOST_PYTHON_MODULE(libDmpKernel){
   class_<DmpCore,boost::noncopyable>("DmpCore",no_init)
     .def("GetInstance", &DmpCore::GetInstance,return_value_policy<reference_existing_object>())
     .staticmethod("GetInstance")
-    .def("Initialise",  &DmpCore::Initialise)
+    .def("Initialize",  &DmpCore::Initialize)
     .def("Run",         &DmpCore::Run)
     .def("Finalize",    &DmpCore::Finalize)
     .def("SetLogLevel", &DmpCore::SetLogLevel, SetLogLevel_Wrap())

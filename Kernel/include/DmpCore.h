@@ -25,7 +25,7 @@ public:
   ~DmpCore();
 
 public:     // binding functions
-  bool Initialise();            // execute all elements' Initialise() in all *Mgr
+  bool Initialize();            // execute all elements' Initialize() in all *Mgr
   bool Run();                   // run one job
   bool Finalize();              // execute all elements' Finalize() in all *Mgr
 
@@ -35,7 +35,7 @@ public:
   void SetTimeWindow(const std::string &type,const short &year,const short &month,const short &day,const short &hour,const short &minute,const short &second);
   const long& GetMaxEventNumber() const {return fMaxEventNo;}
   bool EventInTimeWindow(const long &second) const;
-  const bool& InitialiseDone() const {return fInitializeDone;}
+  const bool& InitializeDone() const {return fInitializeDone;}
 
   DmpAlgorithmManager*  AlgorithmManager() const {return fAlgMgr;}
   DmpServiceManager*    ServiceManager() const {return fSvcMgr;}

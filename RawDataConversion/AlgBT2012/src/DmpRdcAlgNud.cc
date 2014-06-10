@@ -12,7 +12,7 @@
 #include "DmpIOSvc.h"
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgBT2012::InitialiseNud(){
+bool DmpRdcAlgBT2012::InitializeNud(){
   if(fCNCTPathNud == "NO"){
     DmpLogWarning<<"No set connector:\tNud"<<DmpLogEndl;
     return true;

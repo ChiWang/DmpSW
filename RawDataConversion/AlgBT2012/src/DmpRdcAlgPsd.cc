@@ -12,7 +12,7 @@
 #include "DmpIOSvc.h"
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgBT2012::InitialisePsd(){
+bool DmpRdcAlgBT2012::InitializePsd(){
   if(fCNCTPathPsd == "NO"){
     DmpLogWarning<<"No set connector:\tPsd"<<DmpLogEndl;
     return true;

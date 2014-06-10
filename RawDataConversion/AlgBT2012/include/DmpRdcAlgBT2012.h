@@ -23,7 +23,7 @@ public:
   DmpRdcAlgBT2012();
   ~DmpRdcAlgBT2012();
   void Set(const std::string&,const std::string&);
-  bool Initialise();
+  bool Initialize();
   bool ProcessThisEvent();
   bool Finalize();
 
@@ -40,7 +40,7 @@ private:    // Bgo
   bool              fCNCTDoneBgo;   // setup connector succeed
   short             fFEETypeBgo;    // fee type of Bgo
   short             fFEENoBgo;      // FEE number of Bgo
-  bool InitialiseBgo();
+  bool InitializeBgo();
   bool ProcessThisEventBgo();
   void AppendSignalBgo(const int&,const int&);
   bool FinalizeBgo();
@@ -52,7 +52,7 @@ private:    // Psd
   bool              fCNCTDonePsd;
   short             fFEETypePsd;
   short             fFEENoPsd;
-  bool InitialisePsd();
+  bool InitializePsd();
   bool ProcessThisEventPsd();
   void AppendSignalPsd(const int&,const int&);
   bool FinalizePsd();
@@ -63,7 +63,7 @@ private:    // Nud
   std::map<int,int> fMapNud;
   bool              fCNCTDoneNud;
   short             fFEETypeNud;
-  bool InitialiseNud();
+  bool InitializeNud();
   bool ProcessThisEventNud();
   void AppendSignalNud(const int&,const int&);
   bool FinalizeNud();
@@ -75,7 +75,7 @@ private:    // Stk
   bool              fCNCTDoneStk;
   short             fFEETypeStk;
   short             fFEENoStk;
-  bool InitialiseStk();
+  bool InitializeStk();
   bool ProcessThisEventStk();
   void AppendSignalStk(const int&,const int&);
   bool FinalizeStk();

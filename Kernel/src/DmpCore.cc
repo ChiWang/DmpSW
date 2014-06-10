@@ -29,9 +29,9 @@ DmpCore::~DmpCore(){
 }
 
 //-------------------------------------------------------------------
-bool DmpCore::Initialise(){
-  if(not fSvcMgr->Initialise()) return false;
-  if(not fAlgMgr->Initialise()) return false;
+bool DmpCore::Initialize(){
+  if(not fSvcMgr->Initialize()) return false;
+  if(not fAlgMgr->Initialize()) return false;
   if(-1 == fMaxEventNo){
     fMaxEventNo = 1234567890;
   }

@@ -12,7 +12,7 @@
 #include "DmpIOSvc.h"
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgBT2012::InitialiseStk(){
+bool DmpRdcAlgBT2012::InitializeStk(){
   if(fCNCTPathStk == "NO"){
     DmpLogWarning<<"No set connector:\tStk"<<DmpLogEndl;
     return true;

@@ -23,7 +23,7 @@ public:
     return &instance;
   }
   ~DmpAlgorithmManager();
-  bool ProcessOneEvent();       // Process one event
+  bool ProcessOneEvent();
 
 private:
   DmpAlgorithmManager();

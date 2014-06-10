@@ -35,7 +35,7 @@ public:
   }
   virtual ~DmpIOSvc();
   void Set(const std::string&,const std::string&);
-  bool Initialise();
+  bool Initialize();
   bool Finalize();
 
 public:

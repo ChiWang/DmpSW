@@ -85,7 +85,7 @@ void DmpRdcAlgBT2012::Set(const std::string &type, const std::string &argv){
 }
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgBT2012::Initialise(){
+bool DmpRdcAlgBT2012::Initialize(){
   fFile.open(fInDataName.c_str(),std::ios::in|std::ios::binary);
   if(not fFile.good()){
     DmpLogError<<"Open "<<fInDataName<<" failed"<<DmpLogEndl;
@@ -95,10 +95,10 @@ bool DmpRdcAlgBT2012::Initialise(){
   }
   fEvtHeader = new DmpEvtRdcHeader();
   DmpIOSvc::GetInstance()->AddBranch("Rdc/EventHeader/DmpEvtRdcHeader",fEvtHeader);
-  if(not InitialisePsd())   return false;
-  if(not InitialiseStk())   return false;
-  if(not InitialiseBgo())   return false;
-  if(not InitialiseNud())   return false;
+  if(not InitializePsd())   return false;
+  if(not InitializeStk())   return false;
+  if(not InitializeBgo())   return false;
+  if(not InitializeNud())   return false;
   return true;
 }
 

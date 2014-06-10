@@ -22,7 +22,7 @@ class DmpVAlg{
 public:
   DmpVAlg(const std::string &n):fName(n){}
   virtual ~DmpVAlg(){}
-  virtual bool Initialise()=0;
+  virtual bool Initialize()=0;
   virtual bool ProcessThisEvent()=0;
   virtual bool Finalize()=0;
 

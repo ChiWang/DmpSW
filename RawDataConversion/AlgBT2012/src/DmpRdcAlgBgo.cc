@@ -15,7 +15,7 @@
 //-------------------------------------------------------------------
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
-bool DmpRdcAlgBT2012::InitialiseBgo(){
+bool DmpRdcAlgBT2012::InitializeBgo(){
   if(fCNCTPathBgo == "NO"){
     DmpLogWarning<<"No set connector:\tBgo"<<DmpLogEndl;
     return true;

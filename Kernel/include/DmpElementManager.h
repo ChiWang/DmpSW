@@ -21,7 +21,7 @@ public:
   void Replace(DmpElement*);
   void Append(DmpElement*);
   void ListAllElements();
-  bool Initialise();
+  bool Initialize();
   bool Finalize();
   DmpElement* Get(const std::string&);
 
@@ -88,10 +88,10 @@ void DmpElementManager<DmpElement>::ListAllElements(){
 
 //-------------------------------------------------------------------
 template<typename DmpElement>
-bool DmpElementManager<DmpElement>::Initialise(){
+bool DmpElementManager<DmpElement>::Initialize(){
   for(typename std::list<DmpElement*>::iterator it = fElements.begin();it != fElements.end();++it){
-    if(not (*it)->Initialise()){
-      std::cout<<"Error: Initialise "<<(*it)->Name()<<" failed"<<std::endl;
+    if(not (*it)->Initialize()){
+      std::cout<<"Error: Initialize "<<(*it)->Name()<<" failed"<<std::endl;
       return false;
     }
   }

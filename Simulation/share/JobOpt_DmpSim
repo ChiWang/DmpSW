@@ -21,20 +21,24 @@ DMPSW.Core.SetLogLevel("Debug")      # Option = {Error | Warning | Info | Debug}
 # IOSvc options
 DMPSW.IOSvc.Set("OutData/Path","./test")    # where to save the output. If NOT set will use "./" by defualt
 DMPSW.IOSvc.Set("OutData/Tag","Sim")    # append note for the next output data. NOT set is okay. Also could use Set("OutDataPath")
+#DMPSW.IOSvc.Set("OutData/Timestamp","off")    # if NOT set, will use timestamp
 
 #-------------------------------------------------------------------
 # Creat user's service or algorithm
-simRunMgr = DmpSim.DmpSimAlgRunManager()
-#simRunMgr.Set("Physics","QGSP_BERT")  # If NOT set, will use QGSP_BIC. argv = {QGSP_BERT,QGSP_BERT_HP, and so on}
-simRunMgr.Set("Gdml",DMPSW.prefix+"/share/Geometry/EQM/")     # must set the path
-simRunMgr.Set("MacFile",DMPSW.prefix+"/share/TestRelease/Ex_electron.mac") # if NOT set, will invoke vis. mode
+simAlg = DmpSim.DmpSimAlg()
+#simAlg.Set("Physics","QGSP_BERT")  # If NOT set, will use QGSP_BIC. argv = {QGSP_BERT,QGSP_BERT_HP, and so on}
+#simAlg.Set("Nud/DeltaTime","200")   # if NOT set, will use 100 as default
+simAlg.Set("Gdml",DMPSW.prefix+"/share/Geometry/EQM/")     # must set the path
+simAlg.Set("MacFile",DMPSW.prefix+"/share/TestRelease/Ex_electron.mac") # if NOT set, will invoke vis. mode
+#simAlg.Set("Seed","200")   # if NOT set, will use current time
+
 #-------------------------------------------------------------------
 # Append user's service or algorithm into Kernel
-DMPSW.AlgMgr.Append(simRunMgr)
+DMPSW.AlgMgr.Append(simAlg)
 
 #-------------------------------------------------------------------
 # Run job
-DMPSW.Core.Initialise()
+DMPSW.Core.Initialize()
 DMPSW.Core.Run()
 DMPSW.Core.Finalize()
 

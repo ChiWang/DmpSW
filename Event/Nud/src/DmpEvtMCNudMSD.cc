@@ -9,7 +9,7 @@
 ClassImp(DmpEvtMCNudMSD)
 
 //------------------------------------------------------------------------------
-short DmpEvtMCNudMSD::fDeltaTime = 50; // default, 500ns
+short DmpEvtMCNudMSD::fDeltaTime = 100; // default, 100ns
 
 DmpEvtMCNudMSD::DmpEvtMCNudMSD()
  :fSDID(0),
