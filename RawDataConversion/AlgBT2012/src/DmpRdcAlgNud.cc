@@ -33,8 +33,6 @@ bool DmpRdcAlgBT2012::InitialiseNud(){
 bool DmpRdcAlgBT2012::ProcessThisEventNud(){
   fNudBlockSet->Delete();
   fNudBlockSet->Clear();
-  static int inPos = 0, outPos = 0;
-  inPos = fFile.tellg();
 //-------------------------------------------------------------------
 // *
 // *  TODO: check conversion Nud
@@ -67,6 +65,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventNud(){
   //if (fEvtHeader->GetRunMode(DmpDetector::kNud) == DmpDetector::k0Compress) 
   if(fEvtHeader->GetRunMode(DmpDetector::kNud) == DmpDetector::k0Compress){
     nSignal = nBytes/2;
+    DmpLogDebug<<"\t---> signalNo = "<<nSignal<<DmpLogEndl;
     for(short i=0;i<nSignal;++i){     // k0Compress
       fFile.read((char*)(&data),1);
       fFile.read((char*)(&data2),1);
@@ -77,14 +76,13 @@ bool DmpRdcAlgBT2012::ProcessThisEventNud(){
     }
   }else{
     nSignal = nBytes/3;
+    DmpLogDebug<<"\t---> signalNo = "<<nSignal<<DmpLogEndl;
     for(short i=0;i<nSignal;++i){     // kCompress
     }
   }
   fFile.read((char*)(&data),1);     // 2 bytes for CRC
   fFile.read((char*)(&data),1);     // 2 bytes for CRC, MUST split them
 //-------------------------------------------------------------------
-  outPos = fFile.tellg();
-  DmpLogDebug<<"from "<<inPos<<" to "<<outPos<<"\t---> signalNo = "<<nSignal<<DmpLogEndl;
   return true;
 }
 

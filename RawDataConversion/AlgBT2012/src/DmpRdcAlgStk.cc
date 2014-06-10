@@ -33,8 +33,6 @@ bool DmpRdcAlgBT2012::InitialiseStk(){
 bool DmpRdcAlgBT2012::ProcessThisEventStk(){
   fStkLadderSet->Delete();
   fStkLadderSet->Clear();
-  static int inPos = 0, outPos = 0;
-  inPos = fFile.tellg();
 //-------------------------------------------------------------------
   static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0, data=0;
   static unsigned short data2=0;
@@ -43,8 +41,6 @@ bool DmpRdcAlgBT2012::ProcessThisEventStk(){
 // *  TODO: conversion bgo
 // *
 //-------------------------------------------------------------------
-  outPos = fFile.tellg();
-  DmpLogDebug<<"from "<<inPos<<" to "<<outPos<<"\t---> signalNo = "<<nSignal<<DmpLogEndl;
   return true;
 }
 

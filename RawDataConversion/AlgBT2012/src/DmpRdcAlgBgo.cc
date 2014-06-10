@@ -58,8 +58,6 @@ bool DmpRdcAlgBT2012::InitialiseBgo(){
 bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
   fBgoBarSet->Delete();
   fBgoBarSet->Clear();
-  static int inPos = 0, outPos = 0;
-  inPos = fFile.tellg();
 //-------------------------------------------------------------------
   static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
   static short data=0;
@@ -125,8 +123,6 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
     fFile.read((char*)(&data),1);       // must spplit them, 2 bytes for CRC
   }
 //-------------------------------------------------------------------
-  outPos = fFile.tellg();
-  DmpLogDebug<<"from "<<inPos<<" to "<<outPos<<"\t---> signalNo = "<<nSignal<<DmpLogEndl;
   return true;
 }
 

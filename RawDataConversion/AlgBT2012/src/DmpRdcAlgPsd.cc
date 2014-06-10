@@ -33,8 +33,6 @@ bool DmpRdcAlgBT2012::InitialisePsd(){
 bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
   fPsdStripSet->Delete();
   fPsdStripSet->Clear();
-  static int inPos = 0, outPos = 0;
-  inPos = fFile.tellg();
 //-------------------------------------------------------------------
   static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
   static short data=0;
@@ -81,6 +79,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
 // *
     if(fEvtHeader->GetRunMode(DmpDetector::kPsd) == DmpDetector::k0Compress){
       nSignal = nBytes/2;
+      DmpLogDebug<<"\t---> signalNo = "<<nSignal<<DmpLogEndl;
       for(short i=0;i<nSignal;++i){     // k0Compress
         fFile.read((char*)(&data),1);
         fFile.read((char*)(&data2),1);
@@ -88,6 +87,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
       }
     }else{
       nSignal = nBytes/3;
+      DmpLogDebug<<"\t---> signalNo = "<<nSignal<<DmpLogEndl;
       for(short i=0;i<nSignal;++i){     // kCompress
         fFile.read((char*)(&channelID),1);
         fFile.read((char*)(&data),1);
@@ -101,8 +101,6 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
     fFile.read((char*)(&data),1);       // must spplit them, 2 bytes for CRC
   }
 //-------------------------------------------------------------------
-  outPos = fFile.tellg();
-  DmpLogDebug<<"from "<<inPos<<" to "<<outPos<<"\t---> signalNo = "<<nSignal<<DmpLogEndl;
   return true;
 }
 

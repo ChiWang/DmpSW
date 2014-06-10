@@ -107,21 +107,51 @@ bool DmpRdcAlgBT2012::ProcessThisEvent(){
   DmpLogDebug<<DmpLogEndl;
   bool oneEvtDone = false;
   while(not oneEvtDone){
-    if(not ProcessThisEventHeader()) continue;
+    DmpLogDebug<<"from "<<fFile.tellg();
+    if(ProcessThisEventHeader()){
+      DmpLogDebug<<"to "<<fFile.tellg()<<DmpLogEndl;
+    }else{
+      DmpLogDebug<<"to "<<fFile.tellg()<<DmpLogEndl;
+      continue;
+    }
     if(fCNCTDoneNud){
-      if(not ProcessThisEventNud())  continue;
+      DmpLogDebug<<"[Nud] from "<<fFile.tellg();
+      if(ProcessThisEventNud()){
+        DmpLogDebug<<"to "<<fFile.tellg()<<DmpLogEndl;
+      }else{
+        DmpLogDebug<<"to "<<fFile.tellg()<<DmpLogEndl;
+        continue;
+      }
     }
     if(fCNCTDonePsd){
-      if(not ProcessThisEventPsd())  continue;
+      DmpLogDebug<<"[Psd] from "<<fFile.tellg();
+      if(ProcessThisEventPsd()){
+        DmpLogDebug<<"to "<<fFile.tellg()<<DmpLogEndl;
+      }else{
+        DmpLogDebug<<"to "<<fFile.tellg()<<DmpLogEndl;
+        continue;
+      }
     }
     if(fCNCTDoneBgo){
-      if(not ProcessThisEventBgo())  continue;
+      DmpLogDebug<<"[Bgo] from "<<fFile.tellg();
+      if(ProcessThisEventBgo()){
+        DmpLogDebug<<"to "<<fFile.tellg()<<DmpLogEndl;
+      }else{
+        DmpLogDebug<<"to "<<fFile.tellg()<<DmpLogEndl;
+        continue;
+      }
     }
     if(fCNCTDoneStk){
-      if(not ProcessThisEventStk())  continue;
+      DmpLogDebug<<"[Stk] from "<<fFile.tellg();
+      if(ProcessThisEventStk()){
+        DmpLogDebug<<"to "<<fFile.tellg()<<DmpLogEndl;
+      }else{
+        DmpLogDebug<<"to "<<fFile.tellg()<<DmpLogEndl;
+        continue;
+      }
     }
     if(fFile.tellg() < 0){
-      DmpLogInfo<<"not fill the last event"<<DmpLogEndl;
+      DmpLogDebug<<"not fill the last event"<<DmpLogEndl;
       return false;
     }
     oneEvtDone = true;
@@ -143,10 +173,8 @@ bool DmpRdcAlgBT2012::Finalize(){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::ProcessThisEventHeader(){
-  static int inPos = 0, outPos = 0;
-  inPos = fFile.tellg();
-//-------------------------------------------------------------------
   fEvtHeader->Reset();
+//-------------------------------------------------------------------
   static short tmp=0;
   fFile.read((char*)(&tmp),1);
   if (tmp!=0xe2)    return false;
@@ -166,8 +194,6 @@ bool DmpRdcAlgBT2012::ProcessThisEventHeader(){
     fEvtHeader->SetTime(index,tmp);
   }
 //-------------------------------------------------------------------
-  outPos = fFile.tellg();
-  DmpLogDebug<<"from "<<inPos<<" to "<<outPos<<DmpLogEndl;
   return true;
 }
 
