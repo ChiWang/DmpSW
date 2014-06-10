@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEvtMCPsdMSD.cc, 2014-05-01 21:19:08 DAMPE $
+ *  $Id: DmpEvtMCPsdMSD.cc, 2014-06-10 16:35:35 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
@@ -33,18 +33,12 @@ void DmpEvtMCPsdMSD::AddG4Hit(const double &e,const double &x,const double &y,co
 
 //-------------------------------------------------------------------
 #include <iostream>
-void DmpEvtMCPsdMSD::SetBackTrack(const int &id,const double &p,const double &e){
-  for(int i=0;i<fBackTrackID.size();++i){
-    if(id == fBackTrackID[i]){
-      fBTDepositedE[i] += e;
-      if(p != fBackTrackPosZ[i]){
-        std::cout<<"xxxx"<<std::endl;
-      }
-      return;
-    }
+void DmpEvtMCPsdMSD::SetBackTrack(const int &id,const double &e){
+  if(fBackTrack.find(id) != fBackTrack.end()){
+    fBackTrack[id] += e;
+  }else{
+    fBackTrack.insert(std::make_pair(id,e));
+    std::cout<<"[Psd] new back track id = "<<id<<std::endl;
   }
-  fBackTrackID.push_back(id);
-  fBackTrackPosZ.push_back(p);
-  fBTDepositedE.push_back(e);
 }
 
