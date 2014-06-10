@@ -104,10 +104,10 @@ bool DmpRdcAlgBT2012::Initialise(){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::ProcessThisEvent(){
-  DmpLogDebug<<DmpLogEndl;
   bool oneEvtDone = false;
   while(not oneEvtDone){
-    DmpLogDebug<<"from "<<fFile.tellg();
+    if(fFile.tellg() < 0) return false;
+    DmpLogDebug<<"[Header] from "<<fFile.tellg();
     if(ProcessThisEventHeader()){
       DmpLogDebug<<"to "<<fFile.tellg()<<DmpLogEndl;
     }else{
