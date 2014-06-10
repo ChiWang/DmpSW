@@ -25,7 +25,7 @@ DmpEvtRdcHeader::~DmpEvtRdcHeader(){
 
 //-------------------------------------------------------------------
 void DmpEvtRdcHeader::SetErrorLog(DmpDetector::DmpEDetectorID id,const short &FeeID,const DataErrorType &type){
-  fStatus.push_back(id*1000 + FeeID*10 + type);
+  fStatus.insert(std::make_pair(id*100+FeeID,type));
   switch(type){
     case NotFind_0xeb:
       DmpLogError<<"\tnot find 0xeb\t";
@@ -64,53 +64,47 @@ void DmpEvtRdcHeader::SetTime(const short &n,const short &v){
 }
 
 //-------------------------------------------------------------------
-void DmpEvtRdcHeader::SetTrigger(DmpDetector::DmpEDetectorID id, const short &v){
-  fTrigger.push_back(id*1000 + v);
-}
-
-//-------------------------------------------------------------------
-void DmpEvtRdcHeader::SetRunMode(DmpDetector::DmpEDetectorID id, const short &v){
-  fRunMode.push_back(id*1000 + v);
-}
-
-//-------------------------------------------------------------------
 void DmpEvtRdcHeader::Reset(){
   fSec = 0;
   fMillisec = 0;
-  fTrigger.resize(0);
-  fRunMode.resize(0);
-  fStatus.resize(1,0);
+  fTrigger.clear();
+  fRunMode.clear();
+  fStatus.clear();
+  fStatus.insert(std::make_pair(DmpDetector::kWhole,0));
+}
+
+//-------------------------------------------------------------------
+bool DmpEvtRdcHeader::IsGoodEvent() const{
+  if(0 == fStatus.find(DmpDetector::kWhole)->second){
+    return true;
+  }
+  return false;
 }
 
 //-------------------------------------------------------------------
 short DmpEvtRdcHeader::GetTrigger(DmpDetector::DmpEDetectorID id) const{
-  short trg = fTrigger[0]%1000;
+  if(fTrigger.find(id) == fTrigger.end()){
+    DmpLogError<<"No detector ID "<<id<<DmpLogEndl;
+    return -1;
+  }
   if(id == DmpDetector::kWhole){
-    for(short i=1;i<fTrigger.size();++i){
-      if(trg != fTrigger[i]%1000){
+    for(std::map<short,short>::const_iterator it=fTrigger.begin();it!=fTrigger.end();++it){
+      if(it->second != fTrigger.find(id)->second){
         DmpLogError<<"triggers not match"<<DmpLogEndl;
         return -1;
       }
     }
-  }else{
-    for(short i=0;i<fTrigger.size();++i){
-      if(id == fTrigger[i]/1000){
-        trg = fTrigger[i]%1000;
-        break;
-      }
-    }
   }
-  return trg;
+  return fTrigger.find(id)->second;
 }
 
 //-------------------------------------------------------------------
 short DmpEvtRdcHeader::GetRunMode(DmpDetector::DmpEDetectorID id) const{
-  for(short i=0;i<fRunMode.size();++i){
-    if(id == fRunMode[i]/1000){
-      return fRunMode[i]%1000;
-    }
+  if(fRunMode.find(id) == fRunMode.end()){
+    DmpLogError<<"No detector ID "<<id<<DmpLogEndl;
+    return -1;
   }
-  return -1;
+  return fRunMode.find(id)->second;
 }
 
 

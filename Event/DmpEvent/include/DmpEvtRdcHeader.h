@@ -7,6 +7,8 @@
 #ifndef DmpEvtRdcHeader_H
 #define DmpEvtRdcHeader_H
 
+
+#include <map>
 #include "TObject.h"
 
 #include "DmpDetectorID.h"
@@ -36,32 +38,31 @@ public:
   void  SetErrorLog(DmpDetector::DmpEDetectorID id,const short &FeeID,const DataErrorType &type);
   void  SetTime(const short&,const short&);
   //void  GenerateStatus();
-  void  SetTrigger(DmpDetector::DmpEDetectorID id,const short &v);
-  void  SetRunMode(DmpDetector::DmpEDetectorID id,const short &v);
+  void  SetTrigger(DmpDetector::DmpEDetectorID id,const short &v)   {fTrigger.insert(std::make_pair(id,v));}
+  void  SetRunMode(DmpDetector::DmpEDetectorID id,const short &v)   {fRunMode.insert(std::make_pair(id,v));}
   void  Reset();
+  bool  IsGoodEvent() const;
   const long& GetSecond() const {return fSec;}
   const short& GetMillisecond() const {return fMillisec;}
-  std::vector<short> GetStatus() const {return fStatus;}
+  std::map<short,short> GetStatus() const {return fStatus;}
   short GetTrigger(DmpDetector::DmpEDetectorID id = DmpDetector::kWhole) const;
   short GetRunMode(DmpDetector::DmpEDetectorID) const;
 
 private:
   long      fSec;           // second
   short     fMillisec;      // millisecond
-  std::vector<short>    fTrigger;       // 4 subDet + satellite trigger
-  std::vector<short>    fRunMode;
-  std::vector<short>    fStatus;        // status for this event
+  std::map<short,short>     fTrigger;       // 4 subDet + satellite trigger
+  std::map<short,short>     fRunMode;
+  std::map<short,short>     fStatus;        // status for this event
   /*
-   * fStatus[0] is for global check, check all subDet
+   * fStatus[DmpDetector::kWhole] is for global check, check all subDet
    *    good event:         0
    *    triggers match?
    *    run mode match?
    *
-   * fStatus[i] is for subDet
-   *    not find 0xeb:      1 + last_Fee_ID*10
-   *    not find 0x90:      2 + last_Fee_ID*10
-   *    data length error:  3 + Fee_ID*10
-   *    CRC error:          4 + Fee_ID*10
+   * fStatus[key] is for Fee of subDet
+   *    key = subDet ID * 100 + Fee ID
+   *    value = DataErrorType
    *
    */
   short     fTime[8];       //! not save
