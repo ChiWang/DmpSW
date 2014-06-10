@@ -41,13 +41,11 @@ bool DmpRdcAlgBT2012::ProcessThisEventNud(){
   static unsigned short data2=0;
   fFile.read((char*)(&data),1);
   if(data!=0xeb){
-    DmpLogError<<DmpLogEndl;
     fEvtHeader->SetErrorLog(DmpDetector::kNud,0,DmpEvtRdcHeader::NotFind_0xeb);
     return false;
   }
   fFile.read((char*)(&data),1);
   if (data!=0x90) {
-    DmpLogError<<DmpLogEndl;
     fEvtHeader->SetErrorLog(DmpDetector::kNud,0,DmpEvtRdcHeader::NotFind_0x90);
     return false;
   }

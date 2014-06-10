@@ -46,7 +46,6 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
     }
     fFile.read((char*)(&data),1);
     if (data!=0x90) {
-      DmpLogError<<DmpLogEndl;
       fEvtHeader->SetErrorLog(DmpDetector::kPsd,feeCounts+1,DmpEvtRdcHeader::NotFind_0x90);
       return false;
     }
@@ -55,7 +54,6 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
       fEvtHeader->SetTrigger(DmpDetector::kPsd,data);
     }else{
       if(fEvtHeader->GetTrigger(DmpDetector::kPsd) != data){
-        DmpLogError<<DmpLogEndl;
         fEvtHeader->SetErrorLog(DmpDetector::kPsd,feeCounts+1,DmpEvtRdcHeader::NotMatch_Trigger);
         return false;
       }
@@ -66,7 +64,6 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
       fEvtHeader->SetRunMode(DmpDetector::kPsd,data/16-fFEETypePsd);
     }else{
       if(fEvtHeader->GetRunMode(DmpDetector::kPsd) != data/16-fFEETypePsd){
-        DmpLogError<<DmpLogEndl;
         fEvtHeader->SetErrorLog(DmpDetector::kPsd,feeID,DmpEvtRdcHeader::NotMatch_RunMode);
         return false;
       }

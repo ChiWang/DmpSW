@@ -65,13 +65,11 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
   for (feeCounts=0;feeCounts<fFEENoBgo;++feeCounts) {
     fFile.read((char*)(&data),1);
     if (data!=0xeb) {
-      DmpLogError<<DmpLogEndl;
       fEvtHeader->SetErrorLog(DmpDetector::kBgo,feeCounts+1,DmpEvtRdcHeader::NotFind_0xeb);
       return false;
     }
     fFile.read((char*)(&data),1);
     if (data!=0x90) {
-      DmpLogError<<DmpLogEndl;
       fEvtHeader->SetErrorLog(DmpDetector::kBgo,feeCounts+1,DmpEvtRdcHeader::NotFind_0x90);
       return false;
     }
@@ -90,7 +88,6 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
       fEvtHeader->SetRunMode(DmpDetector::kBgo,data/16-fFEETypeBgo);
     }else{
       if(fEvtHeader->GetRunMode(DmpDetector::kBgo) != data/16-fFEETypeBgo){
-        DmpLogError<<DmpLogEndl;
         fEvtHeader->SetErrorLog(DmpDetector::kBgo,feeID,DmpEvtRdcHeader::NotMatch_RunMode);
         return false;
       }
