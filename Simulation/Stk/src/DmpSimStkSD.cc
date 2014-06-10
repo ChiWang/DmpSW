@@ -51,12 +51,10 @@ G4bool DmpSimStkSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
     aStrip = (DmpEvtMCStkMSD*)fStripSet->New(fStripSet->GetEntriesFast());
     aStrip->SetSDID(stripID);
   }
-  int trackID = aStep->GetTrack()->GetTrackID();
-  double e = aStep->GetTotalEnergyDeposit()/MeV;
+  G4ThreeVector position = aStep->GetPreStepPoint()->GetPosition();
+  aStrip->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,position.x()/mm,position.y()/mm,position.z()/mm);
   if(aStep->GetPreStepPoint()->GetMomentumDirection().z() < 0){
-    aStrip->AddG4Hit(e,trackID,true);
-  }else{
-    aStrip->AddG4Hit(e,trackID,false);
+    aStrip->SetBackTrack(aStep->GetTrack()->GetTrackID(),aStep->GetTotalEnergyDeposit()/MeV);
   }
   return true;
 }

@@ -30,7 +30,7 @@ simAlg = DmpSim.DmpSimAlg()
 #simAlg.Set("Nud/DeltaTime","200")   # if NOT set, will use 100 as default
 simAlg.Set("Gdml",DMPSW.prefix+"/share/Geometry/EQM/")     # must set the path
 simAlg.Set("MacFile",DMPSW.prefix+"/share/TestRelease/Ex_electron.mac") # if NOT set, will invoke vis. mode
-#simAlg.Set("Seed","200")   # if NOT set, will use current time
+#simAlg.Set("Seed","1402391184")   # if NOT set, will use current time
 
 #-------------------------------------------------------------------
 # Append user's service or algorithm into Kernel

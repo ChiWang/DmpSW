@@ -8,7 +8,11 @@
 
 //-------------------------------------------------------------------
 DmpEvtMCStkMSD::DmpEvtMCStkMSD()
- :fSDID(0)
+ :fSDID(0),
+  fEnergy(0),
+  fPosX(0),
+  fPosY(0),
+  fPosZ(0)
 {
 }
 
@@ -17,39 +21,23 @@ DmpEvtMCStkMSD::~DmpEvtMCStkMSD(){
 }
 
 //-------------------------------------------------------------------
-void  DmpEvtMCStkMSD::AddG4Hit(const double &e,const int &trackID, bool isBackTrack){
-  if(isBackTrack){
-    if(fBwdTrack.find(trackID) != fBwdTrack.end()){
-      fBwdTrack[trackID] += e;
-    }else{
-      fBwdTrack.insert(std::make_pair(trackID,e));
-    }
-  }else{
-    if(fFwdTrack.find(trackID) != fFwdTrack.end()){
-      fFwdTrack[trackID] += e;
-    }else{
-      fFwdTrack.insert(std::make_pair(trackID,e));
-    }
-  }
+void  DmpEvtMCStkMSD::AddG4Hit(const double &e,const double& x,const double &y,const double &z){
+  double totE = e + fEnergy;
+  fPosX = (e*x + fEnergy*fPosX)/totE;
+  fPosY = (e*y + fEnergy*fPosY)/totE;
+  fPosZ = (e*z + fEnergy*fPosZ)/totE;
+  fEnergy = totE;
 }
 
 //-------------------------------------------------------------------
-double DmpEvtMCStkMSD::GetTotalEnergy(short type) const{
-  double FwdE = 0, BwdE = 0;
-  double value = 0;
-  for(std::map<int,double>::const_iterator it=fFwdTrack.begin(); it!=fFwdTrack.end(); ++it){
-    FwdE += it->second;
-  }
-  for(std::map<int,double>::const_iterator it=fBwdTrack.begin(); it!=fBwdTrack.end(); ++it){
-    BwdE += it->second;
-  }
-  if(1 == type){
-    value = FwdE;
-  }else if(-1 == type){
-    value = BwdE;
+#include <iostream>
+void DmpEvtMCStkMSD::SetBackTrack(const int &id,const double &e){
+  if(fBackTrack.find(id) != fBackTrack.end()){
+    fBackTrack[id] += e;
   }else{
-    value = FwdE + BwdE;
+    fBackTrack.insert(std::make_pair(id,e));
+    std::cout<<"[Stk] new back track id = "<<id<<std::endl;
   }
-  return value;
 }
+
 

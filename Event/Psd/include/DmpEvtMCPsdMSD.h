@@ -31,7 +31,7 @@ public:
 
 private:
   short     fSDID;          // unique sensitive detector(minimum detector unit) ID. Psd strip ID. fSDID =  layerID*100 + stripID
-  double    fEnergy;        // unit MeV
+  double    fEnergy;        // total e. unit MeV
   double    fPosX;          // unit mm, position x
   double    fPosY;          // unit mm, position y
   double    fPosZ;          // unit mm, position z

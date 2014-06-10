@@ -20,14 +20,22 @@ public:
   DmpEvtMCStkMSD();
   ~DmpEvtMCStkMSD();
   void  SetSDID(const int &id)   {fSDID = id;}
-  int   GetSDID() const {return fSDID;}
-  void  AddG4Hit(const double &e, const int &trackID, bool isBackTrack=false);
-  double GetTotalEnergy(short type=0) const;
+  void  AddG4Hit(const double &e,const double &x,const double &y,const double &z);     // invoke from G4Step or Sensitive Detector
+  void  SetBackTrack(const int&,const double&);
+  const int&  GetSDID() const {return fSDID;}
+  const double& GetEnergy() const {return fEnergy;}
+  const double& PositionX() const  {return fPosX;}
+  const double& PositionY() const  {return fPosY;}
+  const double& PositionZ() const  {return fPosZ;}
+  std::map<int,double>  GetBackTrack() const {return fBackTrack;}
 
 private:
   int       fSDID;          // Stk strip ID. fSDID =  layerID*100000 +block*10000 + ladder*1000 + stripID
-  std::map<int,double>   fFwdTrack;     // forward track. key is ID, value is total energy(unit MeV) deposited in this strip
-  std::map<int,double>   fBwdTrack;     // backward track. key is ID, value is total energy(unit MeV) deposited in this strip
+  double    fEnergy;        // total e. unit MeV
+  double    fPosX;          // unit mm, position x
+  double    fPosY;          // unit mm, position y
+  double    fPosZ;          // unit mm, position z
+  std::map<int,double>   fBackTrack;     // backward track. key is ID, value is total energy(unit MeV) deposited in this strip
 
   ClassDef(DmpEvtMCStkMSD,1)
 };
