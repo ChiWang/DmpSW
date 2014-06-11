@@ -21,8 +21,7 @@ namespace DmpLog{
   };
 
 //-------------------------------------------------------------------
-  void SetLogLevel(const std::string &l);
-  void ShowFunctionHeader();
+  void SetLogLevel(const std::string&,bool);
 
 //-------------------------------------------------------------------
   extern short  logLevel;
@@ -30,16 +29,16 @@ namespace DmpLog{
 }
 
 #define DmpLogDebug   if(DmpLog::logLevel >= DmpLog::DEBUG) \
-  std::cout<<std::setw(12)<<"DEBUG:   ["<<(DmpLog::logShowFunctionHeader?__PRETTY_FUNCTION__:"")<<"] "
+  std::cout<<"  DEBUG:   ["<<(DmpLog::logShowFunctionHeader?__PRETTY_FUNCTION__:"")<<"] "
 
 #define DmpLogInfo    if(DmpLog::logLevel >= DmpLog::INFO)\
-  std::cout<<std::setw(12)<<"INFO:    ["<<(DmpLog::logShowFunctionHeader?__PRETTY_FUNCTION__:"")<<"] "
+  std::cout<<"  INFO:    ["<<(DmpLog::logShowFunctionHeader?__PRETTY_FUNCTION__:"")<<"] "
 
 #define DmpLogWarning if(DmpLog::logLevel >= DmpLog::WARNING)\
-  std::cout<<std::setw(12)<<"WARNING: ["<<(DmpLog::logShowFunctionHeader?__PRETTY_FUNCTION__:"")<<"] "
+  std::cout<<"  WARNING: ["<<(DmpLog::logShowFunctionHeader?__PRETTY_FUNCTION__:"")<<"] "
 
 #define DmpLogError if(DmpLog::logLevel >= DmpLog::ERROR)\
-  std::cout<<std::setw(12)<<"ERROR:   ["<<(DmpLog::logShowFunctionHeader?__PRETTY_FUNCTION__:"")<<"] "
+  std::cout<<"  ERROR:   ["<<(DmpLog::logShowFunctionHeader?__PRETTY_FUNCTION__:"")<<"] "
 
 #define DmpLogEndl std::endl
 

@@ -11,7 +11,7 @@ short DmpLog::logLevel  = DmpLog::INFO;
 bool DmpLog::logShowFunctionHeader = false;
 
 //-------------------------------------------------------------------
-void DmpLog::SetLogLevel(const std::string &myLogLevel){
+void DmpLog::SetLogLevel(const std::string &myLogLevel,bool show){
   if(myLogLevel == "NONE" || myLogLevel == "None" || myLogLevel == "none"){
     DmpLog::logLevel = DmpLog::NONE;
   }else if(myLogLevel == "ERROR" || myLogLevel == "Error" || myLogLevel == "error"){
@@ -26,11 +26,7 @@ void DmpLog::SetLogLevel(const std::string &myLogLevel){
     std::cout<<"\n\n\n\n\n[DmpLog::SetLogLevel] Unrecognized logging option - setting the default value = INFO\n\n\n\n\n"<<std::endl;
     DmpLog::logLevel = DmpLog::INFO;
   }
-}
-
-//-------------------------------------------------------------------
-void DmpLog::ShowFunctionHeader(){
-  DmpLog::logShowFunctionHeader = true;
+  DmpLog::logShowFunctionHeader = show;
 }
 
 

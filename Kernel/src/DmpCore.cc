@@ -21,7 +21,7 @@ DmpCore::DmpCore()
   fAlgMgr = DmpAlgorithmManager::GetInstance();
   fSvcMgr = DmpServiceManager::GetInstance();
   fSvcMgr->Append(DmpIOSvc::GetInstance());
-  SetTimeWindow("stop",2113,1,1,0,0,0);
+  SetTimeWindow("stop",21130101,0);
 }
 
 //-------------------------------------------------------------------
@@ -30,6 +30,9 @@ DmpCore::~DmpCore(){
 
 //-------------------------------------------------------------------
 bool DmpCore::Initialize(){
+  //*
+  //* Important! First, initialize servises, then algorithms
+  //*
   if(not fSvcMgr->Initialize()) return false;
   if(not fAlgMgr->Initialize()) return false;
   if(-1 == fMaxEventNo){
@@ -58,21 +61,25 @@ bool DmpCore::Run(){
 
 //-------------------------------------------------------------------
 bool DmpCore::Finalize(){
+  //*
+  //* Important! First, finalize algorithms, then services!
+  //*
   fAlgMgr->Finalize();
   fSvcMgr->Finalize();
   return true;
 }
 
 //-------------------------------------------------------------------
-void DmpCore::SetLogLevel(const std::string &l, const short &s)const{
-  DmpLog::SetLogLevel(l);
+void DmpCore::SetLogLevel(const std::string &l,const short &s)const{
   if(1 == s){
-    DmpLog::ShowFunctionHeader();
+    DmpLog::SetLogLevel(l,true);
+  }else{
+    DmpLog::SetLogLevel(l,false);
   }
 }
 
 //-------------------------------------------------------------------
-void DmpCore::SetTimeWindow(const std::string &type,const short &year,const short &month,const short &day,const short &hour,const short &minute,const short &second){
+void DmpCore::SetTimeWindow(const std::string &type,const int &YMD,const int &HMS){
   struct tm launchT;    // 20130101 000000
   launchT.tm_year = 113;    // since 1900
   launchT.tm_mon = 0;       // 0 ~ 11
@@ -82,13 +89,21 @@ void DmpCore::SetTimeWindow(const std::string &type,const short &year,const shor
   launchT.tm_sec = 0;       // 0 ~ 60
   if(type == "start"){
     struct tm startT;
-    startT.tm_year = year-1900; startT.tm_mon = month-1;    startT.tm_mday = day;
-    startT.tm_hour = hour;      startT.tm_min = minute;     startT.tm_sec = second;
+    startT.tm_year = (YMD/10000)-1900;
+    startT.tm_mon = (YMD%10000)/10-1;
+    startT.tm_mday = YMD%10;
+    startT.tm_hour = HMS/10000;
+    startT.tm_min = (HMS%10000)/10;
+    startT.tm_sec = HMS%10;
     fStartTime = difftime(mktime(&startT),mktime(&launchT));
   }else if(type == "stop"){
     struct tm stopT;
-    stopT.tm_year = year-1900;  stopT.tm_mon = month-1; stopT.tm_mday = day;
-    stopT.tm_hour = hour;       stopT.tm_min = minute;  stopT.tm_sec = second;
+    stopT.tm_year = (YMD/10000)-1900;
+    stopT.tm_mon = (YMD%10000)/10-1;
+    stopT.tm_mday = YMD%10;
+    stopT.tm_hour = HMS/10000;
+    stopT.tm_min = (HMS%10000)/10;
+    stopT.tm_sec = HMS%10;
     fStopTime = difftime(mktime(&stopT),mktime(&launchT));
   }
 }

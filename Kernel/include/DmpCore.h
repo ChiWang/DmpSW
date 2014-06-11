@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpCore.h, 2014-05-14 09:46:15 DAMPE $
+ *  $Id: DmpCore.h, 2014-06-11 09:34:13 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/04/2014
 */
@@ -32,7 +32,7 @@ public:     // binding functions
 public:
   void SetLogLevel(const std::string&, const short &s=0) const;
   void SetMaxEventNumber(const long &i) {fMaxEventNo = i;}
-  void SetTimeWindow(const std::string &type,const short &year,const short &month,const short &day,const short &hour,const short &minute,const short &second);
+  void SetTimeWindow(const std::string &type,const int &YMD,const int &HMS);
   const long& GetMaxEventNumber() const {return fMaxEventNo;}
   bool EventInTimeWindow(const long &second) const;
   const bool& InitializeDone() const {return fInitializeDone;}

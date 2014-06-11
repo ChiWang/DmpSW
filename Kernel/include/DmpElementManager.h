@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpElementManager.h, 2014-04-11 23:43:14 chi $
+ *  $Id: DmpElementManager.h, 2014-06-11 14:38:06 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 26/03/2014
 */
