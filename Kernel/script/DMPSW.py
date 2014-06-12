@@ -15,10 +15,10 @@ import sys
 sys.setdlopenflags(0x100|0x2)
 import libDmpKernel as DmpKernel
 
-prefix=os.getenv('DMPSWSYS')
 Core = DmpKernel.DmpCore.GetInstance()
 SvcMgr = Core.ServiceManager()
 AlgMgr = Core.AlgorithmManager()
+prefix=os.getenv('DMPSWSYS')
 IOSvc = SvcMgr.Get("DmpIOSvc")
 
 

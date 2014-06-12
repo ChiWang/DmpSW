@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgBT2012.cc, 2014-05-27 20:59:09 DAMPE $
+ *  $Id: DmpRdcAlgBT2012.cc, 2014-06-11 21:21:17 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 27/05/2014
 */

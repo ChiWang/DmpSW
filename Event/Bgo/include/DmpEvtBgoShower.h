@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEvtBgoShower.h, 2014-03-02 23:15:09 chi $
+ *  $Id: DmpEvtBgoShower.h, 2014-06-11 21:56:42 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */

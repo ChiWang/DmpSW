@@ -8,7 +8,7 @@
 #define DmpIOSvc_H
 
 #include <vector>
-#include <fstream>
+//#include <fstream>
 
 #include "boost/algorithm/string.hpp"
 
@@ -33,7 +33,7 @@ public:
     static DmpIOSvc instance;
     return &instance;
   }
-  virtual ~DmpIOSvc();
+  ~DmpIOSvc();
   void Set(const std::string&,const std::string&);
   bool Initialize();
   bool Finalize();

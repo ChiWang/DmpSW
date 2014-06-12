@@ -48,10 +48,8 @@ for key in ['JobOpt_DmpRdcBT2012','Ex_BGO_ScienceData_20121002212322.dat','Ex_Sc
 
 # main build
 #--------------------------------------------------------------------
-    #+ Serivce
 goal=env.SharedLibrary(targetBT,Glob('./AlgBT2012/src/*.cc'))
 Default(env.InstallAs(prefix+"/lib/lib"+targetBT+".so",goal))
-    #+ Algorithm
 #goal2=env.SharedLibrary(targetEQM,Glob('./AlgEQM/src/*.cc'))
 #Default(env.InstallAs(prefix+"/lib/lib"+targetEQM+".so",goal2))
 

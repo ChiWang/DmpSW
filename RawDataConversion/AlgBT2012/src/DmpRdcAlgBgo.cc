@@ -100,6 +100,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
 // *
     if(fEvtHeader->GetRunMode(DmpDetector::kBgo) == DmpDetector::k0Compress){
       nSignal = nBytes/2;
+      DmpLogDebug<<"\t---> signalNo = "<<nSignal<<DmpLogEndl;
       for(short i=0;i<nSignal;++i){     // k0Compress
         fFile.read((char*)(&data),1);
         fFile.read((char*)(&data2),1);
@@ -107,6 +108,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
       }
     }else{
       nSignal = nBytes/3;
+      DmpLogDebug<<"\t---> signalNo = "<<nSignal<<DmpLogEndl;
       for(short i=0;i<nSignal;++i){     // kCompress
         fFile.read((char*)(&channelID),1);
         fFile.read((char*)(&data),1);

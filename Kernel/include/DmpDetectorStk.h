@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpDetectorStk.h, 2014-03-11 18:46:42 chi $
+ *  $Id: DmpDetectorStk.h, 2014-06-11 20:47:26 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
@@ -7,19 +7,12 @@
 #ifndef DmpDetectorStk_H
 #define DmpDetectorStk_H
 
-/*  >>> Example Bgo <<<
- *  add any phase for yourself detector one day later
- *
- *  and set the unstable variables into your phase.
- *
- */
 namespace DmpDetector{
-  namespace Stk{            //Sub-detector  Stk parameters 
+  namespace Stk{
     const short kPlaneNo = 6;
-    const short kBarNo   = 11;
-    const short kRefBarNo= 2;
-    const short kSideNo  = 1;
-    const short kDyNo    = 3;
+    const short kBlockNo = 4;
+    const short kLadderNo= 4;
+    const short kStripNo = 768;
   }
 }
 

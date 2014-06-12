@@ -13,10 +13,10 @@ target='DmpSim'
 env = envBase.Clone()
 useRoot(env)
 useGeant4(env)
+useBoostPython(env)
 env.Prepend(CPPFLAGS = '-DG4VIS_USE')
 env.Append(CPPFLAGS = ' -DG4UI_USE')
 env.Append(CPPFLAGS = ' -DG4VIS_USE_OPENGLX')
-useBoostPython(env)
 #useCLHEP(env)
 #useOpenMP(env)
 
@@ -54,5 +54,7 @@ for tmp in os.listdir('./share'):
 #Default(env.InstallAs(prefix+'/bin/'+target,goal))
 goal=env.SharedLibrary(target,Glob('./*/src/*.cc'))
 Default(env.InstallAs(prefix+"/lib/lib"+target+".so",goal))
+if env['PLATFORM'] == 'darwin':         # MacOs
+    Default(env.InstallAs(prefix+"/lib/lib"+target+".dylib",goal))
 
 

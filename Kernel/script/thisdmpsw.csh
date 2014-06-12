@@ -15,12 +15,13 @@ if ( ! ($?DMPSWSYS) ) then
   setenv DMPSWSYS "`cd ${thisDmpSW};pwd`"
   unset thisDmpSW
   setenv DMPSWWORK "$HOME/dmpwork"
-  setenv PATH $DMPSWSYS/bin:$PATH
-  setenv PYTHONPATH $DMPSWSYS/lib:$DMPSWWORK/lib:$PYTHONPATH
+  setenv PATH ${DMPSWSYS}/bin:${PATH}
+  setenv PYTHONPATH ${DMPSWSYS}/lib:${DMPSWWORK}/lib:${PYTHONPATH}
   if ( ($?LD_LIBRARY_PATH) ) then
-    setenv LD_LIBRARY_PATH $DMPSWSYS/lib:$DMPSWWORK/lib:$LD_LIBRARY_PATH
-  else if ( ($?DYLD_LIBRARY_PATH) ) then        # Mac OS
-    setenv DYLD_LIBRARY_PATH $DMPSWSYS/lib:$DMPSWWORK/lib:$DYLD_LIBRARY_PATH
+    setenv LD_LIBRARY_PATH ${DMPSWSYS}/lib:${DMPSWWORK}/lib:${LD_LIBRARY_PATH}
+  endif
+  if ( ($?DYLD_LIBRARY_PATH) ) then        # Mac OS
+    setenv DYLD_LIBRARY_PATH ${DMPSWSYS}/lib:${DMPSWWORK}/lib:${DYLD_LIBRARY_PATH}
   endif
 endif
 

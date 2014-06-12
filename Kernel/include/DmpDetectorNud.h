@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpDetectorNud.h, 2014-03-12 11:25:35 chi $
+ *  $Id: DmpDetectorNud.h, 2014-06-11 20:46:09 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
 */
@@ -7,13 +7,6 @@
 #ifndef DmpDetectorNud_H
 #define DmpDetectorNud_H
 
-/*  >>> Example Bgo <<<
- *  set only one phase.
- *
- *  If you want to use anything in run time job option files,
- *  bind them in the DmpDetectorSubDetID.cc file
- *
- */
 namespace DmpDetector{
   namespace Nud{            //Sub-detector  Nud parameters                             
     const short kPlaneNo = 1;

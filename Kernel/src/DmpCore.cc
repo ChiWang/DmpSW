@@ -8,6 +8,7 @@
 
 #include "DmpCore.h"
 #include "DmpIOSvc.h"
+#include "DmpRandom.h"
 
 //-------------------------------------------------------------------
 DmpCore::DmpCore()
@@ -106,6 +107,14 @@ void DmpCore::SetTimeWindow(const std::string &type,const int &YMD,const int &HM
     stopT.tm_sec = HMS%10;
     fStopTime = difftime(mktime(&stopT),mktime(&launchT));
   }
+}
+
+//-------------------------------------------------------------------
+void DmpCore::SetRandomSeed(long seed)const{
+  if(seed == 0){
+    seed = time((time_t*)NULL);
+  }
+  DmpRandom::SetSeed(seed);
 }
 
 //-------------------------------------------------------------------

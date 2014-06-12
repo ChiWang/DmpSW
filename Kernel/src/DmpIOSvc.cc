@@ -33,6 +33,7 @@ DmpIOSvc::~DmpIOSvc(){
 
 //-------------------------------------------------------------------
 #include <sys/stat.h>       // mkdir()
+#include "boost/lexical_cast.hpp"
 void DmpIOSvc::Set(const std::string &option,const std::string &argv){
   if(OptMap.find(option) == OptMap.end()){
     DmpLogError<<"No argument type: "<<option<<DmpLogEndl;
@@ -96,17 +97,20 @@ bool DmpIOSvc::Initialize(){
     DmpLogError<<"Can not set \'output file as a input file\' and \'output path\' at the same time"<<DmpLogEndl;
     return false;
   }
-  if("INPUT" != fOutFileName){
-    fOutFileName = fTag + fInFileTag + Timestamp() +".root";
-  }
   return true;
 }
 
 //-------------------------------------------------------------------
 //  Save output
+#include "DmpRandom.h"
 bool DmpIOSvc::Finalize(){
   if(not gCore->InitializeDone()) return false;
   if("INPUT" != fOutFileName){
+    if(DmpRandom::fActive){
+      fOutFileName = fTag + fInFileTag + Timestamp() +"_Seed-"+boost::lexical_cast<std::string>(DmpRandom::GetSeed())+".root";
+    }else{
+      fOutFileName = fTag + fInFileTag + Timestamp() +".root";
+    }
     DmpLogInfo<<"Result in "<<fOutFilePath+fOutFileName<<DmpLogEndl;
     fOutRootFile = new TFile((TString)(fOutFilePath+fOutFileName),"recreate");
   }else{

@@ -26,15 +26,13 @@ DmpSimAlg::DmpSimAlg()
   fPhyFactory(0),
   fMacFile("VIS"),
   fPhyListName("QGSP_BIC"),
-  fEventID(0),
-  fSeed(0)
+  fEventID(0)
 {
   fPhyFactory = new G4PhysListFactory();
   OptMap.insert(std::make_pair("Physics",0));
   OptMap.insert(std::make_pair("Gdml",1));
   OptMap.insert(std::make_pair("Nud/DeltaTime",2));
   OptMap.insert(std::make_pair("MacFile",3));
-  OptMap.insert(std::make_pair("Seed",4));
 }
 
 //-------------------------------------------------------------------
@@ -71,20 +69,14 @@ void DmpSimAlg::Set(const std::string &type,const std::string &argv){
       fMacFile = argv;
       break;
     }
-    case 4:
-    {// Seed
-      fSeed = boost::lexical_cast<long>(argv);
-      std::cout<<" [seed] "<<fSeed<<DmpLogEndl;
-      break;
-    }
   }
 }
 
 //-------------------------------------------------------------------
-#include <time.h>
-#include "CLHEP/Random/Random.h"
 #include <stdlib.h>     // getenv()
 bool DmpSimAlg::Initialize(){
+// set random seed
+  gCore->SetRandomSeed();
 // set G4 kernel
   fSimRunMgr = new DmpSimRunManager();
   fSimRunMgr->SetUserInitialization(fPhyFactory->GetReferencePhysList(fPhyListName));
@@ -92,15 +84,6 @@ bool DmpSimAlg::Initialize(){
   fSimRunMgr->SetUserInitialization(new DmpSimDetector());
   fSimRunMgr->SetUserAction(new DmpSimTrackingAction());
   fSimRunMgr->Initialize();
-// set random seed
-  if(0 == fSeed){
-    long seed = time((time_t*)NULL);
-    CLHEP::HepRandom::setTheSeed(seed);
-    std::cout<<" [seed] "<<seed<<DmpLogEndl;
-    //CLHEP::HepRandom::showEngineStatus(); 
-  }else{
-    CLHEP::HepRandom::setTheSeed(fSeed);
-  }
 // boot simulation
   if("VIS" == fMacFile){    // vis mode
     G4UImanager *uiMgr = G4UImanager::GetUIpointer();

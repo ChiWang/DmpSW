@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEventKernelLinkDef.h, 2014-05-29 21:43:12 DAMPE $
+ *  $Id: DmpEventKernelLinkDef.h, 2014-06-11 22:06:35 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */

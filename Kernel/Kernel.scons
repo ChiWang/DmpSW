@@ -1,5 +1,5 @@
 '''
- *  $Id: Kernel.scons, 2014-03-07 15:31:57 chi $
+ *  $Id: Kernel.scons, 2014-06-11 21:10:34 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 24/07/2013
 '''
@@ -13,7 +13,7 @@ target='DmpKernel'
 env = envBase.Clone()
 useRoot(env)
 #useGeant4(env)
-#useCLHEP(env)
+useCLHEP(env)
 useBoostPython(env)
 #useOpenMP(env)
 
@@ -39,5 +39,7 @@ for tmp in os.listdir('./script'):
 #--------------------------------------------------------------------
 goal=env.SharedLibrary(target,Glob('./src/*.cc'))
 Default(env.InstallAs(prefix+'/lib/lib'+target+".so",goal))
+if env['PLATFORM'] == 'darwin':         # MacOs
+    Default(env.InstallAs(prefix+'/lib/lib'+target+".dylib",goal))
 
 

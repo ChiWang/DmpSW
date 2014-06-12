@@ -8,17 +8,11 @@
 #define DmpDetectorBgo_H
 
 namespace DmpDetector{
-/*
- *  only set one phase.
- *
- *  If you want to use anything in run time job option files,
- *  bind them in the DmpDetectorSubDetID.cc file
- *
- */
+
   namespace Bgo{
     const short kPlaneNo = 7;
-    const short kRefBarNo= 2;
     const short kBarNo   = 22;
+    const short kRefBarNo= 2;
     const short kSideNo  = 2;
     const short kDyNo    = 3;
   }

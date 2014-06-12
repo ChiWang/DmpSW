@@ -33,7 +33,6 @@ private:
   std::string           fMacFile;
   std::string           fPhyListName;   // default is QGSP_BIC
   long                  fEventID;
-  long                  fSeed;          // repeat one job, by setting the same seed
 
 };
 

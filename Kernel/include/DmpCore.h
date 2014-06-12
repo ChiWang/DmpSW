@@ -31,6 +31,7 @@ public:     // binding functions
 
 public:
   void SetLogLevel(const std::string&, const short &s=0) const;
+  void SetRandomSeed(long seed=0) const;
   void SetMaxEventNumber(const long &i) {fMaxEventNo = i;}
   void SetTimeWindow(const std::string &type,const int &YMD,const int &HMS);
   const long& GetMaxEventNumber() const {return fMaxEventNo;}
