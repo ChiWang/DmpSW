@@ -107,7 +107,7 @@ bool DmpIOSvc::Finalize(){
   if(not gCore->InitializeDone()) return false;
   if("INPUT" != fOutFileName){
     if(DmpRandom::fActive){
-      fOutFileName = fTag + fInFileTag + Timestamp() +"_Seed-"+boost::lexical_cast<std::string>(DmpRandom::GetSeed())+".root";
+      fOutFileName = fTag + fInFileTag + Timestamp() +"_Seed_"+boost::lexical_cast<std::string>(DmpRandom::GetSeed())+".root";
     }else{
       fOutFileName = fTag + fInFileTag + Timestamp() +".root";
     }
