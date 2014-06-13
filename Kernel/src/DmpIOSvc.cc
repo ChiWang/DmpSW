@@ -41,20 +41,22 @@ void DmpIOSvc::Set(const std::string &option,const std::string &argv){
   switch (OptMap[option]){
     case 0:
     {// InData/Read
-      fInRootFile.insert(std::make_pair(argv,new TFile(argv.c_str(),"read")));
-      InFileTag(argv);
+      fInDataName=argv;
+// *
+// *  TODO: 
+// *
+      //InFileTag(argv);
       break;
     }
     case 1:
     {// InData/Update
-      fInRootFile.insert(std::make_pair(argv,new TFile(argv.c_str(),"update")));
+      //fInRootFile.insert(std::make_pair(argv,new TFile(argv.c_str(),"update")));
+      fInDataName = argv;
+      fOutFileName = "INPUT";
       if("./" != fOutFilePath){
         fOutFilePath = "WRONG_0";
         return;
       }
-      fOutFilePath = argv;
-      fOutFileName = "INPUT";
-      fOutRootFile = fInRootFile[argv];
       break;
     }
     case 2:
@@ -97,6 +99,9 @@ bool DmpIOSvc::Initialize(){
     DmpLogError<<"Can not set \'output file as a input file\' and \'output path\' at the same time"<<DmpLogEndl;
     return false;
   }
+// *
+// *  TODO:  open input root file
+// *
   return true;
 }
 
@@ -115,6 +120,7 @@ bool DmpIOSvc::Finalize(){
     fOutRootFile = new TFile((TString)(fOutFilePath+fOutFileName),"recreate");
   }else{
     DmpLogInfo<<"Result in the input file: "<<fOutFilePath<<DmpLogEndl;
+    fOutRootFile = fInRootFile;
     fOutRootFile->cd();
   }
   for(short i=0;i<fOutTreeSet.size();++i){
@@ -126,10 +132,14 @@ bool DmpIOSvc::Finalize(){
     fOutRootFile->Close();
     delete fOutRootFile;
   }
+  /*
   for(std::map<std::string,TFile*>::iterator it=fInRootFile.begin(); it!=fInRootFile.end(); ++it){
     it->second->Close();
     delete it->second;
   }
+  */
+  fInRootFile->Close();
+  delete fInRootFile;
   DmpLogDebug<<DmpLogEndl;
   return true;
 }
@@ -163,12 +173,14 @@ std::string DmpIOSvc::Timestamp(){
 }
 
 //-------------------------------------------------------------------
-TTree* DmpIOSvc::GetTree(const std::string &rootFileName,const std::string &treeName)const{
+TTree* DmpIOSvc::GetTree(const std::string &treeName)const{
+        /*
   if(fInRootFile.find(rootFileName) == fInRootFile.end()){
     DmpLogError<<"not has the input root file "<<rootFileName<<DmpLogEndl;
     return 0;
   }
-  TTree *tree = dynamic_cast<TTree*>(fInRootFile.find(rootFileName)->second->Get(treeName.c_str()));
+  */
+  TTree *tree = dynamic_cast<TTree*>(fInRootFile->Get(treeName.c_str()));
   return tree;
 }
 

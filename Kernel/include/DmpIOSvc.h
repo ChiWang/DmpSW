@@ -7,7 +7,7 @@
 #ifndef DmpIOSvc_H
 #define DmpIOSvc_H
 
-#include <map>
+//#include <map>
 #include "boost/algorithm/string.hpp"
 
 #include "TTree.h"
@@ -24,7 +24,7 @@ class DmpIOSvc : public DmpVSvc{
  *
  *      it's the first element in DmpServiceManager
  *      it's a singleton for eanch job
- *      only output one root file
+ *      only one input and one output one root file
  */
 public:
   static DmpIOSvc* GetInstance(){
@@ -90,11 +90,13 @@ public:
 private:
   DmpIOSvc();
   std::string Timestamp();
-  TTree* GetTree(const std::string &rootFileName,const std::string &treeName)const;
+  TTree* GetTree(const std::string &treeName)const;
   TTree* BookTree(const std::string &treeName);
 
 private:
-  std::map<std::string,TFile*>   fInRootFile;
+  //std::map<std::string,TFile*>   fInRootFile;
+  std::string           fInDataName;
+  TFile                 *fInRootFile;
 
 private:
   std::string           fOutFilePath;       // file path. default is "./". if is input file, set "INPUT"
