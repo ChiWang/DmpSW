@@ -32,7 +32,6 @@ DmpIOSvc::~DmpIOSvc(){
 }
 
 //-------------------------------------------------------------------
-#include <sys/stat.h>       // mkdir()
 #include "boost/lexical_cast.hpp"
 void DmpIOSvc::Set(const std::string &option,const std::string &argv){
   if(OptMap.find(option) == OptMap.end()){
@@ -51,7 +50,6 @@ void DmpIOSvc::Set(const std::string &option,const std::string &argv){
         fOutFilePath = "WRONG_0";
         return;
       }
-      //fInRootFile.insert(std::make_pair(argv,new TFile(argv.c_str(),"update")));
       fInDataName = argv;
       fOutFileName = "INPUT";
       break;
@@ -81,7 +79,7 @@ void DmpIOSvc::Set(const std::string &option,const std::string &argv){
       }else if("on" == argv){
         fUseTimestamp = true;
       }else{
-        DmpLogWarning<<"Wrong option("<<argv<<") of Timestamp. using the default option off}"<<DmpLogEndl;
+        DmpLogWarning<<"Wrong value("<<argv<<") for Timestamp received. Available options are: { on | off }"<<DmpLogEndl;
         fUseTimestamp = false;
       }
       break;
@@ -96,14 +94,12 @@ bool DmpIOSvc::Initialize(){
     return false;
   }
   fInRootFile = new TFile(fInDataName.c_str(),"update");
-// *
-// *  TODO:  open input root file
-// *
   return true;
 }
 
 //-------------------------------------------------------------------
 //  Save output
+#include <sys/stat.h>       // mkdir()
 #include "DmpRandom.h"
 bool DmpIOSvc::Finalize(){
   mkdir(fOutFilePath.c_str(),0755);
@@ -130,12 +126,6 @@ bool DmpIOSvc::Finalize(){
     fOutRootFile->Close();
     delete fOutRootFile;
   }
-  /*
-  for(std::map<std::string,TFile*>::iterator it=fInRootFile.begin(); it!=fInRootFile.end(); ++it){
-    it->second->Close();
-    delete it->second;
-  }
-  */
   fInRootFile->Close();
   delete fInRootFile;
   DmpLogDebug<<DmpLogEndl;
@@ -147,10 +137,15 @@ void DmpIOSvc::FillEvent(){
   for(short i=0;i<fOutTreeSet.size();++i){
     fOutTreeSet[i]->Fill();
   }
-  DmpLogInfo<<"\tFill event "<<fOutTreeSet[0]->GetEntries()<<DmpLogEndl;
+  DmpLogDebug<<"\tFill event "<<fOutTreeSet[0]->GetEntries()<<DmpLogEndl;
 }
 
 //-------------------------------------------------------------------
+#include <boost/filesystem/path.hpp>
+void DmpIOSvc::InFileTag(const std::string &filename){
+  boost::filesystem::path inpath(filename);
+  fInFileTag += "_"+inpath.stem().string();
+}
 
 //-------------------------------------------------------------------
 #include <time.h>
@@ -167,12 +162,6 @@ std::string DmpIOSvc::Timestamp(){
 
 //-------------------------------------------------------------------
 TTree* DmpIOSvc::GetTree(const std::string &treeName)const{
-        /*
-  if(fInRootFile.find(rootFileName) == fInRootFile.end()){
-    DmpLogError<<"not has the input root file "<<rootFileName<<DmpLogEndl;
-    return 0;
-  }
-  */
   TTree *tree = dynamic_cast<TTree*>(fInRootFile->Get(treeName.c_str()));
   return tree;
 }
@@ -192,11 +181,4 @@ TTree* DmpIOSvc::BookTree(const std::string &treeName){
   }
   return fOutTreeSet[index];
 }
-
-#include <boost/filesystem/path.hpp>
-void DmpIOSvc::InFileTag(const std::string &filename){
-  boost::filesystem::path inpath(filename);
-  fInFileTag += "_"+inpath.stem().string();
-}
-
 

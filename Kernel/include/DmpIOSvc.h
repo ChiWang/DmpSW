@@ -75,9 +75,9 @@ public:
     std::vector<std::string> pathLevel;
     boost::split(pathLevel,path,boost::is_any_of("/"));
     if(2 == pathLevel.size()){    // book branch for TClonesArray
-      BookTree(pathLevel[0])->Branch(pathLevel[1].c_str(),dataPtr,32000,9);
+      BookTree(pathLevel[0])->Branch(pathLevel[1].c_str(),dataPtr,32000,2);
     }else if( 3 == pathLevel.size()){ // book branch for event class
-      BookTree(pathLevel[0])->Branch(pathLevel[1].c_str(),pathLevel[2].c_str(),&dataPtr,32000,9);
+      BookTree(pathLevel[0])->Branch(pathLevel[1].c_str(),pathLevel[2].c_str(),&dataPtr,32000,2);
     }else{
       DmpLogError<<"path ("<<path<<") should be TreeName/BranchName or TreeName/Branch/EventClassName"<<DmpLogEndl;
       return false;
