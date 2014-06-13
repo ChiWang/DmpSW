@@ -42,18 +42,18 @@ public:
   /*
    * setBranchAddress by the pointer of event class or TClonesArray.
    *
-   *    path = RootFileName/TreeName/BranchName
+   *    path = TreeName/BranchName
    *
    */
     std::vector<std::string> pathLevel;
     boost::split(pathLevel,path,boost::is_any_of("/"));
-    if(3 != pathLevel.size()){
-      DmpLogError<<"path ("<<path<<") should be RootFileName/TreeName/BranchName"<<DmpLogEndl;
+    if(2 != pathLevel.size()){
+      DmpLogError<<"path ("<<path<<") should be TreeName/BranchName"<<DmpLogEndl;
       return false;
     }
-    TTree *tree = GetTree(pathLevel[0],pathLevel[1]);
+    TTree *tree = GetTree(pathLevel[0]);
     if(tree){
-      tree->SetBranchAddress(pathLevel[2].c_str(),&dataPtr);
+      tree->SetBranchAddress(pathLevel[1].c_str(),&dataPtr);
     }else{
       return false;
     }
@@ -94,7 +94,6 @@ private:
   TTree* BookTree(const std::string &treeName);
 
 private:
-  //std::map<std::string,TFile*>   fInRootFile;
   std::string           fInDataName;
   TFile                 *fInRootFile;
 

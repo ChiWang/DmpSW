@@ -42,26 +42,23 @@ void DmpIOSvc::Set(const std::string &option,const std::string &argv){
     case 0:
     {// InData/Read
       fInDataName=argv;
-// *
-// *  TODO: 
-// *
-      //InFileTag(argv);
+      InFileTag(argv);
       break;
     }
     case 1:
     {// InData/Update
-      //fInRootFile.insert(std::make_pair(argv,new TFile(argv.c_str(),"update")));
-      fInDataName = argv;
-      fOutFileName = "INPUT";
       if("./" != fOutFilePath){
         fOutFilePath = "WRONG_0";
         return;
       }
+      //fInRootFile.insert(std::make_pair(argv,new TFile(argv.c_str(),"update")));
+      fInDataName = argv;
+      fOutFileName = "INPUT";
       break;
     }
     case 2:
-    {// OutData/Path 
-      if("./" != fOutFilePath){
+    {// OutData/Path
+      if("INPUT" == fOutFileName){
         fOutFilePath = "WRONG_0";
         return;
       }
@@ -70,7 +67,6 @@ void DmpIOSvc::Set(const std::string &option,const std::string &argv){
       }else{
         fOutFilePath = argv + "/";
       }
-      mkdir(fOutFilePath.c_str(),0755);
       break;
     }
     case 3:
@@ -99,6 +95,7 @@ bool DmpIOSvc::Initialize(){
     DmpLogError<<"Can not set \'output file as a input file\' and \'output path\' at the same time"<<DmpLogEndl;
     return false;
   }
+  fInRootFile = new TFile(fInDataName.c_str(),"update");
 // *
 // *  TODO:  open input root file
 // *
@@ -109,8 +106,13 @@ bool DmpIOSvc::Initialize(){
 //  Save output
 #include "DmpRandom.h"
 bool DmpIOSvc::Finalize(){
+  mkdir(fOutFilePath.c_str(),0755);
   if(not gCore->InitializeDone()) return false;
-  if("INPUT" != fOutFileName){
+  if("INPUT" == fOutFileName){
+    DmpLogInfo<<"Result in the input file: "<<fOutFilePath<<DmpLogEndl;
+    fOutRootFile = fInRootFile;
+    fOutRootFile->cd();
+  }else{
     if(DmpRandom::fActive){
       fOutFileName = fTag + fInFileTag + Timestamp() +"_Seed_"+boost::lexical_cast<std::string>(DmpRandom::GetSeed())+".root";
     }else{
@@ -118,10 +120,6 @@ bool DmpIOSvc::Finalize(){
     }
     DmpLogInfo<<"Result in "<<fOutFilePath+fOutFileName<<DmpLogEndl;
     fOutRootFile = new TFile((TString)(fOutFilePath+fOutFileName),"recreate");
-  }else{
-    DmpLogInfo<<"Result in the input file: "<<fOutFilePath<<DmpLogEndl;
-    fOutRootFile = fInRootFile;
-    fOutRootFile->cd();
   }
   for(short i=0;i<fOutTreeSet.size();++i){
     DmpLogInfo<<"\tTree: "<<fOutTreeSet[i]->GetName()<<", entries = "<<fOutTreeSet[i]->GetEntries()<<DmpLogEndl;
@@ -153,11 +151,6 @@ void DmpIOSvc::FillEvent(){
 }
 
 //-------------------------------------------------------------------
-#include <boost/filesystem/path.hpp>
-void DmpIOSvc::InFileTag(const std::string &filename){
-  boost::filesystem::path inpath(filename);
-  fInFileTag += "_"+inpath.stem().string();
-}
 
 //-------------------------------------------------------------------
 #include <time.h>
@@ -200,5 +193,10 @@ TTree* DmpIOSvc::BookTree(const std::string &treeName){
   return fOutTreeSet[index];
 }
 
+#include <boost/filesystem/path.hpp>
+void DmpIOSvc::InFileTag(const std::string &filename){
+  boost::filesystem::path inpath(filename);
+  fInFileTag += "_"+inpath.stem().string();
+}
 
 
