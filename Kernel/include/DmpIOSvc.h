@@ -7,9 +7,7 @@
 #ifndef DmpIOSvc_H
 #define DmpIOSvc_H
 
-#include <vector>
-//#include <fstream>
-
+#include <map>
 #include "boost/algorithm/string.hpp"
 
 #include "TTree.h"
@@ -96,7 +94,7 @@ private:
   TTree* BookTree(const std::string &treeName);
 
 private:
-  std::vector<TFile*>   fInRootFile;
+  std::map<std::string,TFile*>   fInRootFile;
 
 private:
   std::string           fOutFilePath;       // file path. default is "./". if is input file, set "INPUT"

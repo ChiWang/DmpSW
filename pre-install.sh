@@ -1,6 +1,6 @@
 #! /bin/bash
 :<<EOF
- *  $Id: pre-install.sh, 2014-03-22 14:28:38 chi $
+ *  $Id: pre-install.sh, 2014-06-12 21:42:00 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 26/12/2013
  *---------------------------------------------------

@@ -10,6 +10,7 @@
 #include "DmpVAlg.h"
 
 class TClonesArray;
+class TH1F;
 
 class DmpCalAlgBgoPed : public DmpVAl{
 /*
@@ -20,8 +21,12 @@ public:
   DmpCalAlgBgoPed();
   ~DmpCalAlgBgoPed();
   bool Initialize();
-  bool Finalize();
   bool ProcessThisEvent();  // get entry and fill
+  bool Finalize();
+
+private:
+  std::vector<TH1F*>    fHist1FSet;
+  TClonesArray          *fBgoBarSet;
 
 };
 

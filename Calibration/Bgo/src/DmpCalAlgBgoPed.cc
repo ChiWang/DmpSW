@@ -9,6 +9,9 @@
 #include "DmpCalAlgBgoPed.h"
 #include "DmpEventRaw.h"
 #include "DmpEvtBgoHit.h"
+#include "DmpIOSvc.h"
+#include "TFile.h"
+#include "TH1F.h"
 
 //-------------------------------------------------------------------
 DmpCalAlgBgoPed::DmpCalAlgBgoPed()
@@ -18,14 +21,17 @@ DmpCalAlgBgoPed::DmpCalAlgBgoPed()
 
 //-------------------------------------------------------------------
 bool DmpCalAlgBgoPed::Initialize(){
-}
-
-//-------------------------------------------------------------------
-bool DmpCalAlgBgoPed::Finalize(){
+  DmpIOSvc::GetInstance()->ReadBranch();
 }
 
 //-------------------------------------------------------------------
 bool DmpCalAlgBgoPed::ProcessThisEvent(){
 }
 
+//-------------------------------------------------------------------
+bool DmpCalAlgBgoPed::Finalize(){
+// *
+// *  TODO: save output
+// *
+}
 

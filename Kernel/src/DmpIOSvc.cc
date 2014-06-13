@@ -41,20 +41,20 @@ void DmpIOSvc::Set(const std::string &option,const std::string &argv){
   switch (OptMap[option]){
     case 0:
     {// InData/Read
-      fInRootFile.push_back(new TFile(argv.c_str()));
+      fInRootFile.insert(std::make_pair(argv,new TFile(argv.c_str(),"read")));
       InFileTag(argv);
       break;
     }
     case 1:
     {// InData/Update
-      fInRootFile.push_back(new TFile(argv.c_str(),"update"));
+      fInRootFile.insert(std::make_pair(argv,new TFile(argv.c_str(),"update")));
       if("./" != fOutFilePath){
         fOutFilePath = "WRONG_0";
         return;
       }
       fOutFilePath = argv;
       fOutFileName = "INPUT";
-      fOutRootFile = fInRootFile[fInRootFile.size()-1];
+      fOutRootFile = fInRootFile[argv];
       break;
     }
     case 2:
@@ -126,9 +126,9 @@ bool DmpIOSvc::Finalize(){
     fOutRootFile->Close();
     delete fOutRootFile;
   }
-  for(short i=0;i<fInRootFile.size(); ++i){
-    fInRootFile[i]->Close();
-    delete fInRootFile[i];
+  for(std::map<std::string,TFile*>::iterator it=fInRootFile.begin(); it!=fInRootFile.end(); ++it){
+    it->second->Close();
+    delete it->second;
   }
   DmpLogDebug<<DmpLogEndl;
   return true;
@@ -164,18 +164,11 @@ std::string DmpIOSvc::Timestamp(){
 
 //-------------------------------------------------------------------
 TTree* DmpIOSvc::GetTree(const std::string &rootFileName,const std::string &treeName)const{
-  short index = -1;
-  for(short i= 0;i<fInRootFile.size();++i){
-    if(rootFileName == fInRootFile[i]->GetName()){
-      index = i;
-      break;
-    }
-  }
-  if(-1 == index){
+  if(fInRootFile.find(rootFileName) == fInRootFile.end()){
     DmpLogError<<"not has the input root file "<<rootFileName<<DmpLogEndl;
     return 0;
   }
-  TTree *tree = dynamic_cast<TTree*>(fInRootFile[index]->Get(treeName.c_str()));
+  TTree *tree = dynamic_cast<TTree*>(fInRootFile.find(rootFileName)->second->Get(treeName.c_str()));
   return tree;
 }
 
