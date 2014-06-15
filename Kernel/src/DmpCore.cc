@@ -53,8 +53,6 @@ bool DmpCore::Run(){
     DmpLogDebug<<"event ID = "<<i<<DmpLogEndl;
     if(fAlgMgr->ProcessOneEvent()){
       DmpIOSvc::GetInstance()->FillEvent();
-    }else{
-      return false;
     }
   }
   return true;
