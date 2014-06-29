@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpLog.h, 2014-06-02 14:35:42 DAMPE $
+ *  $Id: DmpLog.h, 2014-06-27 10:49:29 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 19/05/2014
  *    Andrii Tykhonov (Andrii.Tykhonov@cern.ch) 22/05/2014
@@ -21,24 +21,23 @@ namespace DmpLog{
   };
 
 //-------------------------------------------------------------------
-  void SetLogLevel(const std::string&,bool);
+  void SetLogLevel(const std::string&);
 
 //-------------------------------------------------------------------
   extern short  logLevel;
-  extern bool   logShowFunctionHeader;
 }
 
 #define DmpLogDebug   if(DmpLog::logLevel >= DmpLog::DEBUG) \
   std::cout<<"  DEBUG:   ["<<__PRETTY_FUNCTION__<<"("<<__LINE__<<")"<<"]  "
 
 #define DmpLogInfo    if(DmpLog::logLevel >= DmpLog::INFO)\
-  std::cout<<"  INFO:    ["<<(DmpLog::logShowFunctionHeader?__PRETTY_FUNCTION__:"")<<"]  "
+  std::cout<<"  INFO:    "
 
 #define DmpLogWarning if(DmpLog::logLevel >= DmpLog::WARNING)\
-  std::cout<<"  WARNING: ["<<(DmpLog::logShowFunctionHeader?__PRETTY_FUNCTION__:"")<<"]  "
+  std::cout<<"  WARNING: "
 
 #define DmpLogError if(DmpLog::logLevel >= DmpLog::ERROR)\
-  std::cout<<"  ERROR:   ["<<(DmpLog::logShowFunctionHeader?__PRETTY_FUNCTION__:"")<<"]  "
+  std::cout<<"  ERROR:   "
 
 #define DmpLogEndl std::endl
 

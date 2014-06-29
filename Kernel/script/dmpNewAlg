@@ -1,6 +1,6 @@
 #! /bin/bash
 :<<EOF
- *  $Id: dmpNewAlg, 2014-05-14 08:14:42 DAMPE $
+ *  $Id: dmpNewAlg, 2014-06-29 15:34:52 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 26/04/2014
  *-----------------------------------------------------
@@ -20,7 +20,7 @@ exit 1
 #-------------------------------------------------------------------
 Readme(){
 cat > $1/Readme.md <<EOF
-        Algorithm of DMPSW:    $1
+        Algorithm of DMPSW:    DmpAlg$1
 >--------------------------------------------
 
 Note:
@@ -45,7 +45,7 @@ cat > $1/SConstruct <<EOF
 
 import os
 
-target='Dmp$1'
+target='DmpAlg$1'
 
 print "---> compiling: %s\n" % target
 #--------------------------------------------------------------------
@@ -64,14 +64,14 @@ env.Append(LIBS=['boost_python'])
 # include dir. and external libs
 env.Prepend(CPPPATH=['./include'])
 # Add boost filesyetem
-#env.Append(LIBS=['boost_filesystem-mt'])
+#env.Append(LIBS=['boost_filesystem'])
 
 #-------------------------------------------------------------------
 # main build
 #env.Program(target,Glob("./src/*.cc"))
 #Default(env.InstallAs(os.environ['DMPSWWORK']+'/bin/'+target,goal))
 goal=env.SharedLibrary(target,Glob('./src/*.cc'))
-Default(env.InstallAs(os.environ['DMPSWWORK']+'/lib/libDmp'+target+".so",goal))
+Default(env.InstallAs(os.environ['DMPSWWORK']+'/lib/lib'+target+".so",goal))
 
 EOF
 }
@@ -80,12 +80,12 @@ EOF
 Binding(){
 cat > $1/src/Dmp${1}Binding.cc <<EOF
 #include <boost/python.hpp>
-#include "Dmp$1.h"
+#include "DmpAlg$1.h"
 
-BOOST_PYTHON_MODULE(libDmp$1){
+BOOST_PYTHON_MODULE(libDmpAlg$1){
   using namespace boost::python;
 
-  class_<Dmp$1,boost::noncopyable,bases<DmpVAlg> >("Dmp$1",init<std::string>());
+  class_<DmpAlg$1,boost::noncopyable,bases<DmpVAlg> >("DmpAlg$1",init<>());
 }
 
 EOF
@@ -93,25 +93,26 @@ EOF
 
 #-------------------------------------------------------------------
 HeaderFile(){
-cat > $1/include/Dmp${1}.h <<EOF
-
-#ifndef Dmp${1}_H
-#define Dmp${1}_H
+cat > $1/include/DmpAlg${1}.h <<EOF
+#ifndef DmpAlg${1}_H
+#define DmpAlg${1}_H
 
 #include "DmpVAlg.h"
 
-class Dmp${1} : public DmpVAlg{
+class DmpAlg${1} : public DmpVAlg{
 /*
- *  Dmp${1}
+ *  DmpAlg${1}
  *
  */
 public:
-  Dmp${1}(const std::string&);
-  ~Dmp${1}();
+  DmpAlg${1}();
+  ~DmpAlg${1}();
 
-  virtual bool Initialize();
-  virtual bool ProcessThisEvent();
-  virtual bool Finalize();
+  //void Set(const std::string &type,const std::string &value);
+  // if you need to set some options for your algorithm at tun time. Overload Set()
+  bool Initialize();
+  bool ProcessThisEvent();
+  bool Finalize();
 
 };
 

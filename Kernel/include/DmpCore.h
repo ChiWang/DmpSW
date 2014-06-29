@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpCore.h, 2014-06-11 09:34:13 DAMPE $
+ *  $Id: DmpCore.h, 2014-06-27 09:56:59 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/04/2014
 */
@@ -30,29 +30,37 @@ public:     // binding functions
   bool Finalize();              // execute all elements' Finalize() in all *Mgr
 
 public:
-  void SetLogLevel(const std::string&, const short &s=0) const;
-  void SetRandomSeed(long seed=0) const;
   void SetMaxEventNumber(const long &i) {fMaxEventNo = i;}
   void SetTimeWindow(const std::string &type,const int &YMD,const int &HMS);
   const long& GetMaxEventNumber() const {return fMaxEventNo;}
   bool EventInTimeWindow(const long &second) const;
   const bool& InitializeDone() const {return fInitializeDone;}
 
+public:
+  void Set(const std::string &type,const std::string &value);
   DmpAlgorithmManager*  AlgorithmManager() const {return fAlgMgr;}
   DmpServiceManager*    ServiceManager() const {return fSvcMgr;}
 
+public:
+  void TerminateRun()   {fTerminateRun = true;} // call me in algorithms
+
 private:
   DmpCore();
+  long DeltaTime(const std::string&)const;
 
 private:
   DmpAlgorithmManager   *fAlgMgr;       // algorithm manager, singleton
   DmpServiceManager     *fSvcMgr;       // service manager, singleton
+  std::string           fLaunchTime;    // lauch time, 20130101-0000
   long                  fMaxEventNo;    // run how many event
   long                  fStartTime;     // unit: second. start time of time window
   long                  fStopTime;      // unit: second. stop time of time window
 
 private:
   bool      fInitializeDone;        // default is false
+  bool      fTerminateRun;          // concrete algorithm could set this value
+  std::map<std::string,short>    OptMap; // option map
+
 };
 
 //-------------------------------------------------------------------

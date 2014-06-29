@@ -22,9 +22,9 @@ env.Append(CPPFLAGS = ' -DG4VIS_USE_OPENGLX')
 
 # include
 env.Prepend(CPPPATH='DmpSim/include')
-for key in subDetectors:
-    includeDir=key+'/include'
-    env.Prepend(CPPPATH=[includeDir])
+#for key in subDetectors:
+#    includeDir=key+'/include'
+#    env.Prepend(CPPPATH=[includeDir])
 
 # Use other top-1 package
 #--------------------------------------------------------------------

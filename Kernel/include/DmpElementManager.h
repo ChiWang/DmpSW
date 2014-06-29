@@ -42,7 +42,8 @@ template<typename DmpElement>
 DmpElementManager<DmpElement>::DmpElementManager(const std::string &n)
  :fName(n)
 {
-  std::cout<<"---> DmpCore:\tCreate "<<fName;
+  //std::cout<<"---> DmpCore:\tCreate "<<fName;
+  //
 }
 
 //-------------------------------------------------------------------
@@ -54,7 +55,8 @@ DmpElementManager<DmpElement>::~DmpElementManager(){
     delete (*it);
   }
   */
-  std::cout<<"\t\tDone\n"<<std::endl;
+  //std::cout<<"\t\tDone\n"<<std::endl;
+  //
 }
 
 //-------------------------------------------------------------------
@@ -72,17 +74,16 @@ void DmpElementManager<DmpElement>::Replace(DmpElement *aEle){
 //-------------------------------------------------------------------
 template<typename DmpElement>
 void DmpElementManager<DmpElement>::Append(DmpElement *aEle){
-  std::cout<<fName<<":\tappend \t"<<aEle->Name();
+  std::cout<<"  ["<<fName<<"] Adding element: "<<aEle->Name()<<std::endl;
   fElements.push_back(aEle);
-  std::cout<<"\t\tdone"<<std::endl;
 }
 
 //-------------------------------------------------------------------
 template<typename DmpElement>
 void DmpElementManager<DmpElement>::ListAllElements(){
-  std::cout<<"There are "<<fElements.size()<<" elements in "<<fName<<std::endl;
+  std::cout<<"There are "<<fElements.size()<<" elements in "<<fName<<std::endl;;
   for(typename std::list<DmpElement*>::iterator it = fElements.begin();it != fElements.end();++it){
-    std::cout<<"\t\tname : "<<(*it)->Name()<<std::endl;
+    std::cout<<"    name"<<(*it)->Name()<<std::endl;
   }
 }
 
@@ -91,7 +92,7 @@ template<typename DmpElement>
 bool DmpElementManager<DmpElement>::Initialize(){
   for(typename std::list<DmpElement*>::iterator it = fElements.begin();it != fElements.end();++it){
     if(not (*it)->Initialize()){
-      std::cout<<"Error: Initialize "<<(*it)->Name()<<" failed"<<std::endl;
+      std::cout<<"  ERROR:  ["<<fName<<"] Initialize "<<(*it)->Name()<<" failed"<<std::endl;
       return false;
     }
   }
@@ -103,8 +104,8 @@ template<typename DmpElement>
 bool DmpElementManager<DmpElement>::Finalize(){
   for(typename std::list<DmpElement*>::iterator it = fElements.begin();it != fElements.end();++it){
     if(not (*it)->Finalize()){
-       continue;
-      //return false;
+      std::cout<<"  ERROR:  ["<<fName<<"] Finalize "<<(*it)->Name()<<" failed"<<std::endl;
+      // Do not need to return false
     }
   }
   return true;

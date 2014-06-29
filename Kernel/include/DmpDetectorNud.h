@@ -8,7 +8,7 @@
 #define DmpDetectorNud_H
 
 namespace DmpDetector{
-  namespace Nud{            //Sub-detector  Nud parameters                             
+  namespace Nud{
     const short kPlaneNo = 1;
     const short kBlockNo = 4;
     const short kSideNo  = 1;

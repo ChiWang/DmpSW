@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpAlgorithmManager.cc, 2014-04-30 23:19:30 DAMPE $
+ *  $Id: DmpAlgorithmManager.cc, 2014-06-27 10:51:39 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 25/03/2014
 */
@@ -8,14 +8,14 @@
 
 //-------------------------------------------------------------------
 DmpAlgorithmManager::DmpAlgorithmManager()
- :DmpElementManager<DmpVAlg>("Algorithm Manager")
+ :DmpElementManager<DmpVAlg>("Algorithm manager")
 {
-  std::cout<<"\t\tDone\n"<<std::endl;
+  std::cout<<"===>  "<<Name()<<" created"<<std::endl;
 }
 
 //-------------------------------------------------------------------
 DmpAlgorithmManager::~DmpAlgorithmManager(){
-  std::cout<<"DMPSW Kernerl: deleting "<<Name();
+  std::cout<<"===>  "<<Name()<<" deleted"<<std::endl;
 }
 
 //-------------------------------------------------------------------

@@ -59,9 +59,8 @@ struct DmpVSvcWrapper : public DmpVSvc, boost::python::wrapper<DmpVSvc>{
   }
 };
 
-//-------------------------------------------------------------------
-BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(SetLogLevel_Wrap,DmpCore::SetLogLevel,1,2)
-BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(SetRandomSeed_Wrap,DmpCore::SetRandomSeed,0,1)
+//BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(SetLogLevel_Wrap,DmpCore::SetLogLevel,1,2)
+//BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(SetRandomSeed_Wrap,DmpCore::SetRandomSeed,0,1)
 
 //-------------------------------------------------------------------
 BOOST_PYTHON_MODULE(libDmpKernel){
@@ -122,10 +121,10 @@ BOOST_PYTHON_MODULE(libDmpKernel){
     .def("Initialize",  &DmpCore::Initialize)
     .def("Run",         &DmpCore::Run)
     .def("Finalize",    &DmpCore::Finalize)
-    .def("SetLogLevel", &DmpCore::SetLogLevel, SetLogLevel_Wrap())
-    .def("SetRandomSeed",&DmpCore::SetRandomSeed, SetRandomSeed_Wrap())
-    .def("SetMaxEventNumber", &DmpCore::SetMaxEventNumber)
-    .def("SetTimeWindow", &DmpCore::SetTimeWindow)
+    .def("Set", &DmpCore::Set)
+    //.def("SetLogLevel", &DmpCore::SetLogLevel, SetLogLevel_Wrap())
+    //.def("SetMaxEventNumber", &DmpCore::SetMaxEventNumber)
+    //.def("SetRandomSeed",&DmpCore::SetRandomSeed, SetRandomSeed_Wrap())
     .def("AlgorithmManager",    &DmpCore::AlgorithmManager,return_value_policy<reference_existing_object>())
     .def("ServiceManager",      &DmpCore::ServiceManager,return_value_policy<reference_existing_object>())
   ;

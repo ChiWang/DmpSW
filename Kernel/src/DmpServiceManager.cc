@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpServiceManager.cc, 2014-04-30 23:18:13 DAMPE $
+ *  $Id: DmpServiceManager.cc, 2014-06-27 10:52:28 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 15/03/2014
 */
@@ -8,13 +8,13 @@
 
 //-------------------------------------------------------------------
 DmpServiceManager::DmpServiceManager()
- :DmpElementManager<DmpVSvc>("Service Manager")
+ :DmpElementManager<DmpVSvc>("Service manager")
 {
-  std::cout<<"\t\tDone\n"<<std::endl;
+  std::cout<<"===>  "<<Name()<<" created"<<std::endl;
 }
 
 //-------------------------------------------------------------------
 DmpServiceManager::~DmpServiceManager(){
-  std::cout<<"DMPSW Kernerl: deleting "<<Name();
+  std::cout<<"===>  "<<Name()<<" deleted"<<std::endl;
 }
 

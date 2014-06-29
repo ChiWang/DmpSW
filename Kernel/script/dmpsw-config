@@ -1,6 +1,6 @@
 #! /bin/bash
 :<<EOF
- *  $Id: dmpsw-config, 2014-03-22 14:31:13 chi $
+ *  $Id: dmpsw-config, 2014-06-29 15:35:13 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 30/07/2014
  *---------------------------------------------------
