@@ -35,18 +35,18 @@ public:
     NotMatch_Trigger = 5,
     Wrong_CRC = 6
   };
-  void  SetErrorLog(DmpDetector::DmpEDetectorID id,const short &FeeID,const DataErrorType &type);
+  void  SetErrorLog(DmpDetectorID::Type id,const short &FeeID,const DataErrorType &type);
   void  SetTime(const short&,const short&);
   //void  GenerateStatus();
-  void  SetTrigger(DmpDetector::DmpEDetectorID id,const short &v)   {fTrigger.insert(std::make_pair(id,v));}
-  void  SetRunMode(DmpDetector::DmpEDetectorID id,const short &v)   {fRunMode.insert(std::make_pair(id,v));}
+  void  SetTrigger(DmpDetectorID::Type id,const short &v)   {fTrigger.insert(std::make_pair(id,v));}
+  void  SetRunMode(DmpDetectorID::Type id,const short &v)   {fRunMode.insert(std::make_pair(id,v));}
   void  Reset();
   bool  IsGoodEvent() const;
   const long& GetSecond() const {return fSec;}
   const short& GetMillisecond() const {return fMillisec;}
   std::map<short,short> GetStatus() const {return fStatus;}
-  short GetTrigger(DmpDetector::DmpEDetectorID id = DmpDetector::kWhole) const;
-  short GetRunMode(DmpDetector::DmpEDetectorID) const;
+  short GetTrigger(DmpDetectorID::Type id = DmpDetectorID::kWhole) const;
+  short GetRunMode(DmpDetectorID::Type) const;
 
 private:
   long      fSec;           // second

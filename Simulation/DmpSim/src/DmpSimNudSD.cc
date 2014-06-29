@@ -19,14 +19,17 @@ DmpSimNudSD::DmpSimNudSD()
   fBlockSet(0)
 {
   fBlockSet = new TClonesArray("DmpEvtMCNudMSD",4);
+// *
+// *  TODO:  check Register status
+// *
   DmpRootIOSvc::GetInstance()->RegisterObject("Event/MCTruth/Nud",fBlockSet);
 }
 
 //-------------------------------------------------------------------
 DmpSimNudSD::~DmpSimNudSD(){
-  fBlockSet->Delete();
-  fBlockSet->Clear();
-  delete fBlockSet;
+  //fBlockSet->Delete();
+  //fBlockSet->Clear();
+  //delete fBlockSet;
 }
 
 //-------------------------------------------------------------------

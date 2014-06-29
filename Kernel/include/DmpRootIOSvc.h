@@ -62,7 +62,6 @@ typedef std::map<std::string, TTree*>  DmpTreeSet;          // key is "Folder/Tr
   DmpTreeSet    fInMetaTreeSet;     // metadata, entries = 1
   std::vector<std::string>  fWriteListEvt;      // to fOutEvtTreeSet
   std::vector<std::string>  fWriteListMeta;     // to fOutMetaTreeSet
-  bool          fWriteListOk;       // path level must be Tree/Branch
   DmpTreeSet    fOutEvtTreeSet;     // event data, entries >= 1 for one job
   DmpTreeSet    fOutMetaTreeSet;    // metadata, one entry for whole job
 
@@ -103,7 +102,7 @@ template<typename T> bool DmpRootIOSvc::RegisterObject(const std::string &path,c
           //fOutEvtTreeSet[temp[0]+"/"+temp[1]]->SetDirectory((TDirectory*));
         }
         fOutEvtTreeSet[treeName]->Branch(temp[2].c_str(),className.c_str(),&dataPtr,32000,2);
-        DmpLogInfo<<"add new branch "<<path<<DmpLogEndl;
+        DmpLogInfo<<"[DmpRootIOSvc::RegisterObject] add new branch "<<path<<DmpLogEndl;
         break;
       }
     }
@@ -119,7 +118,7 @@ template<typename T> bool DmpRootIOSvc::RegisterObject(const std::string &path,c
           fOutMetaTreeSet.insert(std::make_pair(treeName,new TTree(temp[1].c_str(),temp[1].c_str())));
         }
         fOutMetaTreeSet[treeName]->Branch(temp[2].c_str(),className.c_str(),&dataPtr,32000,2);
-        DmpLogInfo<<"add new branch "<<path<<DmpLogEndl;
+        DmpLogInfo<<"[DmpRootIOSvc::RegisterObject] add new branch "<<path<<DmpLogEndl;
         break;
       }
     }
@@ -159,7 +158,7 @@ template<typename T> bool DmpRootIOSvc::RegisterObject(const std::string &path,T
           fOutEvtTreeSet.insert(std::make_pair(treeName,new TTree(temp[1].c_str(),temp[1].c_str())));
         }
         fOutEvtTreeSet[treeName]->Branch(temp[2].c_str(),dataPtr,32000,2);
-        DmpLogInfo<<"add new branch "<<path<<DmpLogEndl;
+        DmpLogInfo<<"[DmpRootIOSvc::RegisterObject] add new branch "<<path<<DmpLogEndl;
         break;
       }
     }
@@ -175,7 +174,7 @@ template<typename T> bool DmpRootIOSvc::RegisterObject(const std::string &path,T
           fOutMetaTreeSet.insert(std::make_pair(treeName,new TTree(temp[1].c_str(),temp[1].c_str())));
         }
         fOutMetaTreeSet[treeName]->Branch(temp[2].c_str(),dataPtr,32000,2);
-        DmpLogInfo<<"add new branch "<<path<<DmpLogEndl;
+        DmpLogInfo<<"[DmpRootIOSvc::RegisterObject] add new branch "<<path<<DmpLogEndl;
         break;
       }
     }

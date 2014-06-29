@@ -16,8 +16,7 @@
 DmpRootIOSvc::DmpRootIOSvc()
  :DmpVSvc("DmpRootIOSvc"),
   fInRootFile(0),
-  fOutRootFile(0),
-  fWriteListOk(true)
+  fOutRootFile(0)
 {
   fInFileName = "NOIN";
   fOutFileName = "NOOUT";
@@ -46,7 +45,8 @@ void DmpRootIOSvc::Set(const std::string &option,const std::string &argv){
     case 1: // InData/Update
     {
       if("NOOUT" != fOutFileName.string()){
-        fOutFileName = "WRONG_0";
+        DmpLogError<<"Can not set \'InData/Update\' after \'OutData/FileName\'"<<DmpLogEndl;
+        fIniStatus = false;
         return;
       }
       fInFileName = argv;
@@ -56,7 +56,8 @@ void DmpRootIOSvc::Set(const std::string &option,const std::string &argv){
     case 2: // OutData/FileName 
     {
       if(fInFileName.string() == fOutFileName.string()){
-        fOutFileName = "WRONG_0";
+        DmpLogError<<"Can not set \'OutData/FileName\' after \'InData/Update\'"<<DmpLogEndl;
+        fIniStatus = false;
         return;
       }
       fOutFileName = argv;
@@ -70,8 +71,8 @@ void DmpRootIOSvc::Set(const std::string &option,const std::string &argv){
         std::vector<std::string>  temp;
         boost::split(temp,tempList[i],boost::is_any_of("/"));
         if(3 != temp.size()){
-          fWriteListOk = false;
           DmpLogError<<"Wrong path of writing data: "<<tempList[i]<<DmpLogEndl;
+          fIniStatus = false;
           return;
         }
         if("Event" == temp[0]){
@@ -79,12 +80,11 @@ void DmpRootIOSvc::Set(const std::string &option,const std::string &argv){
         }else if("Metadata" == temp[0]){
           fWriteListMeta.push_back(tempList[i]);
         }else{
-          fWriteListOk = false;
           DmpLogError<<"Wrong path of writing data: "<<tempList[i]<<DmpLogEndl;
+          fIniStatus = false;
           return;
         }
       }
-      fWriteListOk = true;
       break;
     }
   }
@@ -93,18 +93,14 @@ void DmpRootIOSvc::Set(const std::string &option,const std::string &argv){
 //-------------------------------------------------------------------
 bool DmpRootIOSvc::Initialize(){
   DmpLogDebug<<"[DmpRootIOSvc::Initialize] initialization... "<<DmpLogEndl;  
-  if(not fWriteListOk){
-    DmpLogError<<"Write list error..."<<DmpLogEndl;
-    return false;
-  }
-  if("WRONG_0" == fOutFileName.string()){
-    DmpLogError<<"Can not set \'Indata/Update\' and \'OutData/FileName\' at the same time"<<DmpLogEndl;
-    return false;
+  if(false == fIniStatus){
+    return fIniStatus;
   }
   if("NOIN" != fInFileName.string()){
     if(".root" != fInFileName.extension()){
       DmpLogError<<"input data is not a root file... "<<fInFileName.string()<<DmpLogEndl;
-      return false;
+      fIniStatus = false;
+      return fIniStatus;
     }
     DmpLogInfo<<"input data: "<<fInFileName.string()<<DmpLogEndl;
     if(fInFileName.string() == fOutFileName.string()){
@@ -129,7 +125,7 @@ bool DmpRootIOSvc::Initialize(){
     }
   }
   DmpLogDebug<<"[DmpRootIOSvc::Initialize] ... initialization done "<<DmpLogEndl;  
-  return true;
+  return fIniStatus;
 }
 
 //-------------------------------------------------------------------

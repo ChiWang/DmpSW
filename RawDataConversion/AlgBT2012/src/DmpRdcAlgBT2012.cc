@@ -89,18 +89,19 @@ bool DmpRdcAlgBT2012::Initialize(){
   if(not fFile.good()){
     DmpLogError<<"Open "<<fInDataName<<" failed"<<DmpLogEndl;
     fFile.close();
-    fInDataName = "WRONG";
-    return false;
+    fIniStatus = false;
+    return fIniStatus;
   }
   fEvtHeader = new DmpEvtRdcHeader();
   if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/EventHeader","DmpEvtRdcHeader",fEvtHeader)){
-    return false;
+    fIniStatus = false;
+    return fIniStatus;
   }
-  if(not InitializePsd())   return false;
-  if(not InitializeStk())   return false;
-  if(not InitializeBgo())   return false;
-  if(not InitializeNud())   return false;
-  return true;
+  InitializePsd();
+  InitializeStk();
+  InitializeBgo();
+  InitializeNud();
+  return fIniStatus;
 }
 
 //-------------------------------------------------------------------
@@ -188,7 +189,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventHeader(){
   if (tmp!=0x13)    return false;
   fFile.read((char*)(&tmp),1);      // this needed
   fFile.read((char*)(&tmp),1);      // trigger
-  fEvtHeader->SetTrigger(DmpDetector::kWhole,tmp);
+  fEvtHeader->SetTrigger(DmpDetectorID::kWhole,tmp);
   fFile.read((char*)(&tmp),1);      // Datalength
   fFile.read((char*)(&tmp),1);      // Datalength
   for(std::size_t index=0;index<8;++index){     // size = 8

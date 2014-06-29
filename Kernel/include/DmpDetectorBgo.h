@@ -8,7 +8,6 @@
 #define DmpDetectorBgo_H
 
 namespace DmpDetector{
-
   namespace Bgo{
     const short kPlaneNo = 7;
     const short kBarNo   = 22;

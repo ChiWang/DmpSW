@@ -12,10 +12,10 @@
 #include "DmpRootIOSvc.h"
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgBT2012::InitializeStk(){
+void DmpRdcAlgBT2012::InitializeStk(){
   if(fCNCTPathStk == "NO"){
     DmpLogWarning<<"No set connector:\tStk"<<DmpLogEndl;
-    return true;
+    return;
   }else{
     DmpLogInfo<<"Setting connector:\tStk"<<DmpLogEndl;
   }
@@ -26,9 +26,9 @@ bool DmpRdcAlgBT2012::InitializeStk(){
   fCNCTDoneStk = true;
   fStkLadderSet = new TClonesArray("DmpEvtRdcMSD",90); // TODO ,size ??
   if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Stk",fStkLadderSet)){
-    return false;
+    fIniStatus = false;
+    return;
   }
-  return true;
 }
 
 //-------------------------------------------------------------------

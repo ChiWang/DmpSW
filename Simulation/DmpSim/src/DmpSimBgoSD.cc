@@ -19,14 +19,17 @@ DmpSimBgoSD::DmpSimBgoSD()
   fBarSet(0)
 {
   fBarSet = new TClonesArray("DmpEvtMCBgoMSD",300);
+// *
+// *  TODO:  check Register status
+// *
   DmpRootIOSvc::GetInstance()->RegisterObject("Event/MCTruth/Bgo",fBarSet);
 }
 
 //-------------------------------------------------------------------
 DmpSimBgoSD::~DmpSimBgoSD(){
-  fBarSet->Delete();
-  fBarSet->Clear();
-  delete fBarSet;
+  //fBarSet->Delete();
+  //fBarSet->Clear();
+  //delete fBarSet;
 }
 
 //-------------------------------------------------------------------

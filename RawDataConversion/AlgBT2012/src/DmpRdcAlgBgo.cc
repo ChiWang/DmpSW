@@ -15,10 +15,10 @@
 //-------------------------------------------------------------------
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
-bool DmpRdcAlgBT2012::InitializeBgo(){
+void DmpRdcAlgBT2012::InitializeBgo(){
   if(fCNCTPathBgo == "NO"){
     DmpLogWarning<<"No set connector:\tBgo"<<DmpLogEndl;
-    return true;
+    return;
   }else{
     DmpLogInfo<<"Setting connector:\tBgo"<<DmpLogEndl;
   }
@@ -31,7 +31,8 @@ bool DmpRdcAlgBT2012::InitializeBgo(){
     if (not cnctFile.good()){
       DmpLogError<<"\t\treading cnct file ("<<iter->path().string()<<") failed"<<DmpLogEndl;
       cnctFile.close();
-      return false;
+      fIniStatus = false;
+      return;
     }else{
       std::cout<<"\t\treading cnct file: "<<iter->path().string();
     }
@@ -51,9 +52,9 @@ bool DmpRdcAlgBT2012::InitializeBgo(){
   fCNCTDoneBgo = true;
   fBgoBarSet = new TClonesArray("DmpEvtRdcMSD",300);
   if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Bgo",fBgoBarSet)){
-    return false;
+    fIniStatus = false;
+    return;
   }
-  return true;
 }
 
 //-------------------------------------------------------------------
@@ -68,30 +69,30 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
   for (feeCounts=0;feeCounts<fFEENoBgo;++feeCounts) {
     fFile.read((char*)(&data),1);
     if (data!=0xeb) {
-      fEvtHeader->SetErrorLog(DmpDetector::kBgo,feeCounts+1,DmpEvtRdcHeader::NotFind_0xeb);
+      fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeCounts+1,DmpEvtRdcHeader::NotFind_0xeb);
       return false;
     }
     fFile.read((char*)(&data),1);
     if (data!=0x90) {
-      fEvtHeader->SetErrorLog(DmpDetector::kBgo,feeCounts+1,DmpEvtRdcHeader::NotFind_0x90);
+      fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeCounts+1,DmpEvtRdcHeader::NotFind_0x90);
       return false;
     }
     fFile.read((char*)(&data),1);       // trigger
     if(feeCounts == 0){
-      fEvtHeader->SetTrigger(DmpDetector::kBgo,data);
+      fEvtHeader->SetTrigger(DmpDetectorID::kBgo,data);
     }else{
-      if(fEvtHeader->GetTrigger(DmpDetector::kBgo) != data){
-        fEvtHeader->SetErrorLog(DmpDetector::kBgo,feeCounts+1,DmpEvtRdcHeader::NotMatch_Trigger);
+      if(fEvtHeader->GetTrigger(DmpDetectorID::kBgo) != data){
+        fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeCounts+1,DmpEvtRdcHeader::NotMatch_Trigger);
         return false;
       }
     }
     fFile.read((char*)(&data),1);       // run mode and FEE ID
     feeID = data%16;
     if(feeCounts == 0){
-      fEvtHeader->SetRunMode(DmpDetector::kBgo,data/16-fFEETypeBgo);
+      fEvtHeader->SetRunMode(DmpDetectorID::kBgo,data/16-fFEETypeBgo);
     }else{
-      if(fEvtHeader->GetRunMode(DmpDetector::kBgo) != data/16-fFEETypeBgo){
-        fEvtHeader->SetErrorLog(DmpDetector::kBgo,feeID,DmpEvtRdcHeader::NotMatch_RunMode);
+      if(fEvtHeader->GetRunMode(DmpDetectorID::kBgo) != data/16-fFEETypeBgo){
+        fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeID,DmpEvtRdcHeader::NotMatch_RunMode);
         return false;
       }
     }
@@ -101,7 +102,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
-    if(fEvtHeader->GetRunMode(DmpDetector::kBgo) == DmpDetector::k0Compress){
+    if(fEvtHeader->GetRunMode(DmpDetectorID::kBgo) == DmpRunMode::k0Compress){
       nSignal = nBytes/2;
       DmpLogDebug<<"\tFEE ID "<<feeID<<" signalNo = "<<nSignal<<DmpLogEndl;
       for(short i=0;i<nSignal;++i){     // k0Compress

@@ -12,10 +12,10 @@
 #include "DmpRootIOSvc.h"
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgBT2012::InitializeNud(){
+void DmpRdcAlgBT2012::InitializeNud(){
   if(fCNCTPathNud == "NO"){
     DmpLogWarning<<"No set connector:\tNud"<<DmpLogEndl;
-    return true;
+    return;
   }else{
     DmpLogInfo<<"Setting connector:\tNud"<<DmpLogEndl;
   }
@@ -26,9 +26,9 @@ bool DmpRdcAlgBT2012::InitializeNud(){
   fCNCTDoneNud = true;
   fNudBlockSet = new TClonesArray("DmpEvtRdcMSD",5);
   if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Nud",fNudBlockSet)){
-    return false;
+    fIniStatus = false;
+    return;
   }
-  return true;
 }
 
 //-------------------------------------------------------------------
@@ -44,27 +44,27 @@ bool DmpRdcAlgBT2012::ProcessThisEventNud(){
   static unsigned short data2=0;
   fFile.read((char*)(&data),1);
   if(data!=0xeb){
-    fEvtHeader->SetErrorLog(DmpDetector::kNud,0,DmpEvtRdcHeader::NotFind_0xeb);
+    fEvtHeader->SetErrorLog(DmpDetectorID::kNud,0,DmpEvtRdcHeader::NotFind_0xeb);
     return false;
   }
   fFile.read((char*)(&data),1);
   if (data!=0x90) {
-    fEvtHeader->SetErrorLog(DmpDetector::kNud,0,DmpEvtRdcHeader::NotFind_0x90);
+    fEvtHeader->SetErrorLog(DmpDetectorID::kNud,0,DmpEvtRdcHeader::NotFind_0x90);
     return false;
   }
   fFile.read((char*)(&data),1);     // trigger
-  fEvtHeader->SetTrigger(DmpDetector::kNud,data);
+  fEvtHeader->SetTrigger(DmpDetectorID::kNud,data);
   fFile.read((char*)(&data),1);     // run mode and FEE ID
   feeID = data%16;
-  fEvtHeader->SetRunMode(DmpDetector::kNud,data/16-fFEETypeNud);
+  fEvtHeader->SetRunMode(DmpDetectorID::kNud,data/16-fFEETypeNud);
   fFile.read((char*)(&data),1);     // data length, 2 Bytes
   fFile.read((char*)(&data2),1);
   nBytes = data*256+data2-2-2;            // 2 bytes for data length, 2 bytes for CRC
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
-  //if (fEvtHeader->GetRunMode(DmpDetector::kNud) == DmpDetector::k0Compress) 
-  if(fEvtHeader->GetRunMode(DmpDetector::kNud) == DmpDetector::k0Compress){
+  //if (fEvtHeader->GetRunMode(DmpDetectorID::kNud) == DmpDetectorID::k0Compress) 
+  if(fEvtHeader->GetRunMode(DmpDetectorID::kNud) == DmpRunMode::k0Compress){
     nSignal = nBytes/2;
     DmpLogDebug<<"\t---> signalNo = "<<nSignal<<DmpLogEndl;
     for(short i=0;i<nSignal;++i){     // k0Compress

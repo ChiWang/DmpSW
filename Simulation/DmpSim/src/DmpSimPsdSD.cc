@@ -19,14 +19,17 @@ DmpSimPsdSD::DmpSimPsdSD()
   fStripSet(0)
 {
   fStripSet = new TClonesArray("DmpEvtMCPsdMSD",90);
+// *
+// *  TODO:  check Register status
+// *
   DmpRootIOSvc::GetInstance()->RegisterObject("Event/MCTruth/Psd",fStripSet);
 }
 
 //-------------------------------------------------------------------
 DmpSimPsdSD::~DmpSimPsdSD(){
-  fStripSet->Delete();
-  fStripSet->Clear();
-  delete fStripSet;
+  //fStripSet->Delete();
+  //fStripSet->Clear();
+  //delete fStripSet;
 }
 
 //-------------------------------------------------------------------

@@ -32,13 +32,13 @@ void DmpEvtMCPsdMSD::AddG4Hit(const double &e,const double &x,const double &y,co
 }
 
 //-------------------------------------------------------------------
-#include <iostream>
+//#include <iostream>
 void DmpEvtMCPsdMSD::SetBackTrack(const int &id,const double &e){
   if(fBackTrack.find(id) != fBackTrack.end()){
     fBackTrack[id] += e;
   }else{
     fBackTrack.insert(std::make_pair(id,e));
-    std::cout<<"[Psd] new back track id = "<<id<<std::endl;
+    //std::cout<<"[Psd] new back track id = "<<id<<std::endl;
   }
 }
 

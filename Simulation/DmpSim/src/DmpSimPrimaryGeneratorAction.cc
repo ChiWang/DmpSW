@@ -19,7 +19,7 @@ DmpSimPrimaryGeneratorAction::DmpSimPrimaryGeneratorAction()
   //fGPS->SetNumberOfParticles(1);
   //fGPS->SetParticleDefinition(particle);
   fPrimaryParticle = new DmpEvtMCPrimaryParticle();
-  DmpRootIOSvc::GetInstance()->RegisterObject("MCTruth/PrimaryParticle","DmpEvtMCPrimaryParticle",fPrimaryParticle);
+  DmpRootIOSvc::GetInstance()->RegisterObject("Event/MCTruth/PrimaryParticle","DmpEvtMCPrimaryParticle",fPrimaryParticle);
 }
 
 //-------------------------------------------------------------------

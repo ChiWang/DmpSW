@@ -66,20 +66,20 @@ struct DmpVSvcWrapper : public DmpVSvc, boost::python::wrapper<DmpVSvc>{
 BOOST_PYTHON_MODULE(libDmpKernel){
   using namespace boost::python;
   // DmpRunMode
-  enum_<DmpDetector::DmpERunMode>("DmpERunMode")
-    .value("kUnknow",   DmpDetector::kUnknow)
-    .value("k0Compress",DmpDetector::k0Compress)
-    .value("kCompress", DmpDetector::kCompress)
-    .value("kCalPed",   DmpDetector::kCalPed)
-    .value("kCalADC",   DmpDetector::kCalADC)
+  enum_<DmpRunMode::Type>("DmpRunMode")
+    .value("kUnknow",   DmpRunMode::kUnknow)
+    .value("k0Compress",DmpRunMode::k0Compress)
+    .value("kCompress", DmpRunMode::kCompress)
+    .value("kCalPed",   DmpRunMode::kCalPed)
+    .value("kCalDAC",   DmpRunMode::kCalDAC)
   ;
   // DmpDetectorID
-  enum_<DmpDetector::DmpEDetectorID>("DmpEDetectorID")
-    .value("kPsd",  DmpDetector::kPsd)
-    .value("kStk",  DmpDetector::kStk)
-    .value("kBgo",  DmpDetector::kBgo)
-    .value("kNud",  DmpDetector::kNud)
-    .value("kWhole",DmpDetector::kWhole)
+  enum_<DmpDetectorID::Type>("DmpDetectorID")
+    .value("kPsd",  DmpDetectorID::kPsd)
+    .value("kStk",  DmpDetectorID::kStk)
+    .value("kBgo",  DmpDetectorID::kBgo)
+    .value("kNud",  DmpDetectorID::kNud)
+    .value("kWhole",DmpDetectorID::kWhole)
   ;
   // DmpVSvc
   class_<DmpVSvcWrapper,boost::noncopyable>("DmpVSvc",init<std::string>())

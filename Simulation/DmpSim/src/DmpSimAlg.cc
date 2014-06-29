@@ -116,7 +116,7 @@ bool DmpSimAlg::Initialize(){
       return false;
     }
   }
-  return true;
+  return fIniStatus;
 }
 
 //-------------------------------------------------------------------

@@ -12,10 +12,10 @@
 #include "DmpRootIOSvc.h"
 
 //-------------------------------------------------------------------
-bool DmpRdcAlgBT2012::InitializePsd(){
+void DmpRdcAlgBT2012::InitializePsd(){
   if(fCNCTPathPsd == "NO"){
     DmpLogWarning<<"No set connector:\tPsd"<<DmpLogEndl;
-    return true;
+    return;
   }else{
     DmpLogInfo<<"Setting connector:\tPsd"<<DmpLogEndl;
   }
@@ -26,9 +26,9 @@ bool DmpRdcAlgBT2012::InitializePsd(){
   fCNCTDonePsd = true;
   fPsdStripSet = new TClonesArray("DmpEvtRdcMSD",90);
   if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Psd",fPsdStripSet)){
-    return false;
+    fIniStatus = false;
+    return;
   }
-  return true;
 }
 
 //-------------------------------------------------------------------
@@ -44,30 +44,30 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
     fFile.read((char*)(&data),1);
     if (data!=0xeb) {
       DmpLogError<<"value "<<std::hex<<data<<std::dec<<DmpLogEndl;
-      fEvtHeader->SetErrorLog(DmpDetector::kPsd,feeCounts+1,DmpEvtRdcHeader::NotFind_0xeb);
+      fEvtHeader->SetErrorLog(DmpDetectorID::kPsd,feeCounts+1,DmpEvtRdcHeader::NotFind_0xeb);
       return false;
     }
     fFile.read((char*)(&data),1);
     if (data!=0x90) {
-      fEvtHeader->SetErrorLog(DmpDetector::kPsd,feeCounts+1,DmpEvtRdcHeader::NotFind_0x90);
+      fEvtHeader->SetErrorLog(DmpDetectorID::kPsd,feeCounts+1,DmpEvtRdcHeader::NotFind_0x90);
       return false;
     }
     fFile.read((char*)(&data),1);       // trigger
     if(feeCounts == 0){
-      fEvtHeader->SetTrigger(DmpDetector::kPsd,data);
+      fEvtHeader->SetTrigger(DmpDetectorID::kPsd,data);
     }else{
-      if(fEvtHeader->GetTrigger(DmpDetector::kPsd) != data){
-        fEvtHeader->SetErrorLog(DmpDetector::kPsd,feeCounts+1,DmpEvtRdcHeader::NotMatch_Trigger);
+      if(fEvtHeader->GetTrigger(DmpDetectorID::kPsd) != data){
+        fEvtHeader->SetErrorLog(DmpDetectorID::kPsd,feeCounts+1,DmpEvtRdcHeader::NotMatch_Trigger);
         return false;
       }
     }
     fFile.read((char*)(&data),1);       // run mode and FEE ID
     feeID = data%16;
     if(feeCounts == 0){
-      fEvtHeader->SetRunMode(DmpDetector::kPsd,data/16-fFEETypePsd);
+      fEvtHeader->SetRunMode(DmpDetectorID::kPsd,data/16-fFEETypePsd);
     }else{
-      if(fEvtHeader->GetRunMode(DmpDetector::kPsd) != data/16-fFEETypePsd){
-        fEvtHeader->SetErrorLog(DmpDetector::kPsd,feeID,DmpEvtRdcHeader::NotMatch_RunMode);
+      if(fEvtHeader->GetRunMode(DmpDetectorID::kPsd) != data/16-fFEETypePsd){
+        fEvtHeader->SetErrorLog(DmpDetectorID::kPsd,feeID,DmpEvtRdcHeader::NotMatch_RunMode);
         return false;
       }
     }
@@ -77,7 +77,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
-    if(fEvtHeader->GetRunMode(DmpDetector::kPsd) == DmpDetector::k0Compress){
+    if(fEvtHeader->GetRunMode(DmpDetectorID::kPsd) == DmpRunMode::k0Compress){
       nSignal = nBytes/2;
       DmpLogDebug<<"\t---> signalNo = "<<nSignal<<DmpLogEndl;
       for(short i=0;i<nSignal;++i){     // k0Compress

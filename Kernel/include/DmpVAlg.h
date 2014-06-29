@@ -20,7 +20,7 @@ class DmpVAlg{
  *
  */
 public:
-  DmpVAlg(const std::string &n):fName(n){}
+  DmpVAlg(const std::string &n):fName(n),fIniStatus(true){}
   virtual ~DmpVAlg(){}
   virtual bool Initialize()=0;
   virtual bool ProcessThisEvent()=0;
@@ -32,6 +32,7 @@ public:
 
 protected:
   std::map<std::string,short>   OptMap; // a map of set options
+  bool          fIniStatus;     // status of initialization
 
 private:
   std::string   fName;

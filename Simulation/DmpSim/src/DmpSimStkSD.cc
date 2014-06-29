@@ -19,14 +19,17 @@ DmpSimStkSD::DmpSimStkSD()
   fStripSet(0)
 {
   fStripSet = new TClonesArray("DmpEvtMCStkMSD",74000); // strips number = layer(6) * block(4) * ladder(4) * strip(384*2)
+// *
+// *  TODO:  check Register status
+// *
   DmpRootIOSvc::GetInstance()->RegisterObject("Event/MCTruth/Stk",fStripSet);
 }
 
 //-------------------------------------------------------------------
 DmpSimStkSD::~DmpSimStkSD(){
-  fStripSet->Delete();
-  fStripSet->Clear();
-  delete fStripSet;
+  //fStripSet->Delete();
+  //fStripSet->Clear();
+  //delete fStripSet;
 }
 
 //-------------------------------------------------------------------

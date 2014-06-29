@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpSim, 2014-06-29 21:00:11 DAMPE $
+ *  $Id: JobOpt_DmpSim, 2014-06-29 23:16:07 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
  *-----------------------------------------------------
@@ -14,24 +14,23 @@ import libDmpSim as  DmpSim     # Load your lib.
 
 #-------------------------------------------------------------------
 # Global setting
-DMPSW.Core.Set("EventNumber","100")     # If NOT set, will use 1234567890
+DMPSW.Core.Set("EventNumber","10")     # If NOT set, will use 1234567890
 #DMPSW.Core.Set("StartTime","20130101-0000")     # if NOT set, start from launch time
 #DMPSW.Core.Set("StopTime","20160101-0000")      # if NOT set, end at 2113.01.01
 #DMPSW.Core.Set("LogLevel","Debug")      # Value = {Error | Warning | Info | Debug}. If NOT set, will use Info.
 
 #-------------------------------------------------------------------
 # RootIOSvc options
-DMPSW.IOSvc.Set("OutData/Path","./test")    # where to save the output. If NOT set will use "./" by defualt
-DMPSW.IOSvc.Set("OutData/Tag","Sim")    # append note for the next output data. NOT set is okay. Also could use Set("OutDataPath")
-#DMPSW.IOSvc.Set("OutData/Timestamp","off")    # if NOT set, will use timestamp
+DMPSW.RootIOSvc.Set("OutData/FileName","./DmpSimData.root")        # must set it, if NOT set, will not save anything
+DMPSW.RootIOSvc.Set("OutData/Write","Event/MCTruth/PrimaryParticle;Event/MCTruth/Bgo")  # split by ;
 
 #-------------------------------------------------------------------
 # Creat user's service or algorithm
 simAlg = DmpSim.DmpSimAlg()
 #simAlg.Set("Physics","QGSP_BERT")  # If NOT set, will use QGSP_BIC. argv = {QGSP_BERT,QGSP_BERT_HP, and so on}
 #simAlg.Set("Nud/DeltaTime","200")   # if NOT set, will use 100 as default
-simAlg.Set("Gdml",DMPSW.prefix+"/share/Geometry/EQM/")     # must set the path
-simAlg.Set("MacFile",DMPSW.prefix+"/share/TestRelease/Ex_electron.mac") # if NOT set, will invoke vis. mode
+simAlg.Set("Gdml",DMPSW.SysPath+"/share/Geometry/EQM")     # must set the path
+simAlg.Set("MacFile",DMPSW.SysPath+"/share/TestRelease/Ex_electron.mac") # if NOT set, will invoke vis. mode
 
 #-------------------------------------------------------------------
 # Append user's service or algorithm into Kernel
