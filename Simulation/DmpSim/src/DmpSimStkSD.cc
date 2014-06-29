@@ -11,7 +11,7 @@
 
 #include "DmpSimStkSD.h"
 #include "DmpEvtMCStkMSD.h"
-#include "DmpIOSvc.h"
+#include "DmpRootIOSvc.h"
 
 //-------------------------------------------------------------------
 DmpSimStkSD::DmpSimStkSD()
@@ -19,7 +19,7 @@ DmpSimStkSD::DmpSimStkSD()
   fStripSet(0)
 {
   fStripSet = new TClonesArray("DmpEvtMCStkMSD",74000); // strips number = layer(6) * block(4) * ladder(4) * strip(384*2)
-  DmpIOSvc::GetInstance()->AddBranch("MCTruth/Stk",fStripSet);
+  DmpRootIOSvc::GetInstance()->RegisterObject("MCTruth/Stk",fStripSet);
 }
 
 //-------------------------------------------------------------------

@@ -8,7 +8,7 @@
 
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcMSD.h"
-#include "DmpIOSvc.h"
+#include "DmpRootIOSvc.h"
 #include "DmpRdcAlgBT2012.h"
 
 //-------------------------------------------------------------------
@@ -43,7 +43,7 @@ void DmpRdcAlgBT2012::Set(const std::string &type, const std::string &argv){
     case 0:
     {// BinaryFile
       fInDataName = argv;
-      DmpIOSvc::GetInstance()->InFileTag(argv);
+      DmpRootIOSvc::GetInstance()->InFileTag(argv);
       break;
     }
     case 1:
@@ -94,7 +94,7 @@ bool DmpRdcAlgBT2012::Initialize(){
     return false;
   }
   fEvtHeader = new DmpEvtRdcHeader();
-  DmpIOSvc::GetInstance()->AddBranch("Rdc/EventHeader/DmpEvtRdcHeader",fEvtHeader);
+  DmpRootIOSvc::GetInstance()->AddBranch("Rdc/EventHeader/DmpEvtRdcHeader",fEvtHeader);
   if(not InitializePsd())   return false;
   if(not InitializeStk())   return false;
   if(not InitializeBgo())   return false;

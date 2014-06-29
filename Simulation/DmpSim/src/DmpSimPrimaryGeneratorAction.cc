@@ -8,7 +8,7 @@
 
 #include "DmpSimPrimaryGeneratorAction.h"
 #include "DmpEvtMCPrimaryParticle.h"
-#include "DmpIOSvc.h"
+#include "DmpRootIOSvc.h"
 #include "DmpCore.h"
 
 DmpSimPrimaryGeneratorAction::DmpSimPrimaryGeneratorAction()
@@ -19,10 +19,7 @@ DmpSimPrimaryGeneratorAction::DmpSimPrimaryGeneratorAction()
   //fGPS->SetNumberOfParticles(1);
   //fGPS->SetParticleDefinition(particle);
   fPrimaryParticle = new DmpEvtMCPrimaryParticle();
-  /*
-   *    add a new branch "PrimaryParticle" into the tree "MCTruth" by the pointer "fPrimaryParticle" of the event class "DmpEvtMCPrimaryParticle"
-   */
-  DmpIOSvc::GetInstance()->AddBranch("MCTruth/PrimaryParticle/DmpEvtMCPrimaryParticle",fPrimaryParticle);
+  DmpRootIOSvc::GetInstance()->RegisterObject("MCTruth/PrimaryParticle","DmpEvtMCPrimaryParticle",fPrimaryParticle);
 }
 
 //-------------------------------------------------------------------

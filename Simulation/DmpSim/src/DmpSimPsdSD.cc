@@ -11,7 +11,7 @@
 
 #include "DmpSimPsdSD.h"
 #include "DmpEvtMCPsdMSD.h"
-#include "DmpIOSvc.h"
+#include "DmpRootIOSvc.h"
 
 //-------------------------------------------------------------------
 DmpSimPsdSD::DmpSimPsdSD()
@@ -19,7 +19,7 @@ DmpSimPsdSD::DmpSimPsdSD()
   fStripSet(0)
 {
   fStripSet = new TClonesArray("DmpEvtMCPsdMSD",90);
-  DmpIOSvc::GetInstance()->AddBranch("MCTruth/Psd",fStripSet);
+  DmpRootIOSvc::GetInstance()->RegisterObject("MCTruth/Psd",fStripSet);
 }
 
 //-------------------------------------------------------------------

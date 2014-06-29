@@ -11,7 +11,7 @@
 
 #include "DmpSimBgoSD.h"
 #include "DmpEvtMCBgoMSD.h"
-#include "DmpIOSvc.h"
+#include "DmpRootIOSvc.h"
 
 //-------------------------------------------------------------------
 DmpSimBgoSD::DmpSimBgoSD()
@@ -19,7 +19,7 @@ DmpSimBgoSD::DmpSimBgoSD()
   fBarSet(0)
 {
   fBarSet = new TClonesArray("DmpEvtMCBgoMSD",300);
-  DmpIOSvc::GetInstance()->AddBranch("MCTruth/Bgo",fBarSet);
+  DmpRootIOSvc::GetInstance()->RegisterObject("MCTruth/Bgo",fBarSet);
 }
 
 //-------------------------------------------------------------------
@@ -56,7 +56,7 @@ G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
 //-------------------------------------------------------------------
 void DmpSimBgoSD::Initialize(G4HCofThisEvent*){
 // *
-// *  TODO:  after DmpIOSvc filled this event?
+// *  TODO:  after DmpRootIOSvc filled this event?
 // *
   fBarSet->Delete();
   fBarSet->Clear();

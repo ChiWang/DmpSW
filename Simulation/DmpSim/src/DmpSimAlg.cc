@@ -76,7 +76,7 @@ void DmpSimAlg::Set(const std::string &type,const std::string &argv){
 #include <stdlib.h>     // getenv()
 bool DmpSimAlg::Initialize(){
 // set random seed
-  gCore->SetRandomSeed();
+  gCore->Set("Seed","Time");
 // set G4 kernel
   fSimRunMgr = new DmpSimRunManager();
   fSimRunMgr->SetUserInitialization(fPhyFactory->GetReferencePhysList(fPhyListName));

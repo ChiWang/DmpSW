@@ -11,7 +11,7 @@
 
 #include "DmpSimNudSD.h"
 #include "DmpEvtMCNudMSD.h"
-#include "DmpIOSvc.h"
+#include "DmpRootIOSvc.h"
 
 //-------------------------------------------------------------------
 DmpSimNudSD::DmpSimNudSD()
@@ -19,7 +19,7 @@ DmpSimNudSD::DmpSimNudSD()
   fBlockSet(0)
 {
   fBlockSet = new TClonesArray("DmpEvtMCNudMSD",4);
-  DmpIOSvc::GetInstance()->AddBranch("MCTruth/Nud",fBlockSet);
+  DmpRootIOSvc::GetInstance()->RegisterObject("MCTruth/Nud",fBlockSet);
 }
 
 //-------------------------------------------------------------------
@@ -55,7 +55,7 @@ G4bool DmpSimNudSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
 //-------------------------------------------------------------------
 void DmpSimNudSD::Initialize(G4HCofThisEvent*){
 // *
-// *  TODO:  after DmpIOSvc filled this event?
+// *  TODO:  after DmpRootIOSvc filled this event?
 // *
   fBlockSet->Delete();
   fBlockSet->Clear();

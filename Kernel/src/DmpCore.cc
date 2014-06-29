@@ -33,7 +33,7 @@ DmpCore::DmpCore()
   OptMap.insert(std::make_pair("EventNumber",1));   // value: any number
   OptMap.insert(std::make_pair("StartTime", 2));    // value: format 20131231-1430
   OptMap.insert(std::make_pair("StopTime",  3));    // value: format 20131231-1430
-  //OptMap.insert(std::make_pair("Seed",  4));        // value: any number
+  OptMap.insert(std::make_pair("Seed",  4));        // value: any number
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 }
 
