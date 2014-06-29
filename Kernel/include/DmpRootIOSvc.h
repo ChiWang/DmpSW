@@ -7,6 +7,7 @@
 #ifndef DmpRootIOSvc_H
 #define DmpRootIOSvc_H
 
+#include <boost/filesystem.hpp>     // path
 #include <boost/algorithm/string.hpp>
 #include "TTree.h"
 #include "TFile.h"
@@ -52,10 +53,9 @@ private:
 
 private:
 typedef std::map<std::string, TTree*>  DmpTreeSet;          // key is "Folder/Tree"
-  std::string   fInFileName;        // include path
+  boost::filesystem::path   fInFileName;        // include path
+  boost::filesystem::path   fOutFileName;       // include path. If is input file, set "INPUT"
   TFile         *fInRootFile;
-  std::string   fOutFilePath;       // file path. default is "./". if is input file, set "INPUT"
-  std::string   fOutFileName;       // file name. if is input file, set "INPUT"
   TFile         *fOutRootFile;
   DmpTreeSet    fInEvtTreeSet;      // event data, entries >=1
   std::map<std::string,long>    fInEvtEntries;      // entries of each input event tree
@@ -149,7 +149,6 @@ template<typename T> bool DmpRootIOSvc::RegisterObject(const std::string &path,T
   // check write list, if yes, create a branch
   if("Event" == temp[0]){
     for(short i=0;i<fWriteListEvt.size();++i){
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"path = "<<fWriteListEvt[i]<<std::endl;
       if(path == fWriteListEvt[i]){
         std::string treeName = temp[0]+"/"+temp[1];
         if(fOutEvtTreeSet.find(treeName) == fOutEvtTreeSet.end()){
