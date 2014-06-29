@@ -18,8 +18,8 @@ useBoostPython(env)
 #useOpenMP(env)
 
 # include
-env.Prepend(CPPPATH='AlgBT2012/include')
-env.Prepend(CPPPATH='AlgEQM/include')
+env.Prepend(CPPPATH='DmpRdc/BT2012/include')
+env.Prepend(CPPPATH='DmpRdc/EQM/include')
 
 # Use other top-1 package
 #--------------------------------------------------------------------
@@ -40,16 +40,16 @@ env.Append(LIBS=['boost_filesystem'])
 
 # install share
 #--------------------------------------------------------------------
-ProcessThisDir("AlgBT2012/share/Connector/",prefix+"/share/Connector/")
-ProcessThisDir("AlgEQM/share/Connector/",prefix+"/share/Connector/")
+ProcessThisDir("DmpRdc/BT2012/share/Connector/",prefix+"/share/Connector/")
+ProcessThisDir("DmpRdc/EQM/share/Connector/",prefix+"/share/Connector/")
 for key in ['JobOpt_DmpRdcBT2012','Ex_BGO_ScienceData_20121002212322.dat','Ex_ScienceData_20121005164959.dat']:
-    Default(Command(prefix+"/share/TestRelease/"+key,'AlgBT2012/share/'+key,Copy("$TARGET","$SOURCE")))
+    Default(Command(prefix+"/share/TestRelease/"+key,'DmpRdc/BT2012/share/'+key,Copy("$TARGET","$SOURCE")))
 #ProcessThisDir("Svc/include/",prefix+"/include/Rdc")
 
 # main build
 #--------------------------------------------------------------------
-goal=env.SharedLibrary(targetBT,Glob('./AlgBT2012/src/*.cc'))
+goal=env.SharedLibrary(targetBT,Glob('./DmpRdc/BT2012/src/*.cc'))
 Default(env.InstallAs(prefix+"/lib/lib"+targetBT+".so",goal))
-#goal2=env.SharedLibrary(targetEQM,Glob('./AlgEQM/src/*.cc'))
+#goal2=env.SharedLibrary(targetEQM,Glob('./DmpRdc/EQM/src/*.cc'))
 #Default(env.InstallAs(prefix+"/lib/lib"+targetEQM+".so",goal2))
 
