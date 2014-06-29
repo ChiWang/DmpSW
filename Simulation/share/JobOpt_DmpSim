@@ -21,8 +21,8 @@ DMPSW.Core.Set("EventNumber","10")     # If NOT set, will use 1234567890
 
 #-------------------------------------------------------------------
 # RootIOSvc options
-DMPSW.RootIOSvc.Set("OutData/FileName","./DmpSimData.root")        # must set it, if NOT set, will not save anything
-DMPSW.RootIOSvc.Set("OutData/Write","Event/MCTruth/PrimaryParticle;Event/MCTruth/Bgo")  # split by ;
+DMPSW.RootIOSvc.Set("OutData/FileName","./test/DmpSimData.root")        # must set it, if NOT set, will not save anything
+DMPSW.RootIOSvc.Set("OutData/Write","Event/MCTruth/PrimaryParticle;Event/MCTruth/Bgo;Event/MCTruth/Psd;Event/MCTruth/Nud")  # split by ;
 
 #-------------------------------------------------------------------
 # Creat user's service or algorithm
