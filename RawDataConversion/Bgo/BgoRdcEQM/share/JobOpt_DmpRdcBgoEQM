@@ -14,7 +14,7 @@ import libDmpAlgBgoRdcEQM as DmpRdcAlg
 
 #-------------------------------------------------------------------
 # Global setting
-#DMPSW.Core.Set("EventNumber","100")     # If NOT set, will use 1234567890
+DMPSW.Core.Set("EventNumber","10")     # If NOT set, will use 1234567890
 #DMPSW.Core.Set("StartTime","20130101-0000")     # if NOT set, start from launch time
 #DMPSW.Core.Set("StopTime","20160101-0000")      # if NOT set, end at 2113.01.01
 #DMPSW.Core.Set("LogLevel","Debug")      # Value = {Error | Warning | Info | Debug}. If NOT set, will use Info.
