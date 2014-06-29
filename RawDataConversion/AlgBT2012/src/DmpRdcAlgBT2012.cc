@@ -43,7 +43,6 @@ void DmpRdcAlgBT2012::Set(const std::string &type, const std::string &argv){
     case 0:
     {// BinaryFile
       fInDataName = argv;
-      DmpRootIOSvc::GetInstance()->InFileTag(argv);
       break;
     }
     case 1:
@@ -94,7 +93,9 @@ bool DmpRdcAlgBT2012::Initialize(){
     return false;
   }
   fEvtHeader = new DmpEvtRdcHeader();
-  DmpRootIOSvc::GetInstance()->AddBranch("Rdc/EventHeader/DmpEvtRdcHeader",fEvtHeader);
+  if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/EventHeader","DmpEvtRdcHeader",fEvtHeader)){
+    return false;
+  }
   if(not InitializePsd())   return false;
   if(not InitializeStk())   return false;
   if(not InitializeBgo())   return false;
@@ -103,11 +104,14 @@ bool DmpRdcAlgBT2012::Initialize(){
 }
 
 //-------------------------------------------------------------------
+#include "DmpCore.h"
 bool DmpRdcAlgBT2012::ProcessThisEvent(){
   bool oneEvtDone = false;
   while(not oneEvtDone){
-    if(fFile.tellg() < 0) return false;
-    DmpLogDebug<<"[Header] from "<<fFile.tellg();
+    if(fFile.tellg() < 0){
+      gCore->TerminateRun();
+      return false;
+    }
     if(ProcessThisEventHeader()){
       DmpLogDebug<<"to "<<fFile.tellg()<<DmpLogEndl;
     }else{
@@ -115,7 +119,6 @@ bool DmpRdcAlgBT2012::ProcessThisEvent(){
       continue;
     }
     if(fCNCTDoneNud){
-      DmpLogDebug<<"[Nud] from "<<fFile.tellg();
       if(ProcessThisEventNud()){
         DmpLogDebug<<"to "<<fFile.tellg()<<DmpLogEndl;
       }else{
@@ -124,7 +127,6 @@ bool DmpRdcAlgBT2012::ProcessThisEvent(){
       }
     }
     if(fCNCTDonePsd){
-      DmpLogDebug<<"[Psd] from "<<fFile.tellg();
       if(ProcessThisEventPsd()){
         DmpLogDebug<<"to "<<fFile.tellg()<<DmpLogEndl;
       }else{
@@ -133,7 +135,6 @@ bool DmpRdcAlgBT2012::ProcessThisEvent(){
       }
     }
     if(fCNCTDoneBgo){
-      DmpLogDebug<<"[Bgo] from "<<fFile.tellg();
       if(ProcessThisEventBgo()){
         DmpLogDebug<<"to "<<fFile.tellg()<<DmpLogEndl;
       }else{
@@ -142,7 +143,6 @@ bool DmpRdcAlgBT2012::ProcessThisEvent(){
       }
     }
     if(fCNCTDoneStk){
-      DmpLogDebug<<"[Stk] from "<<fFile.tellg();
       if(ProcessThisEventStk()){
         DmpLogDebug<<"to "<<fFile.tellg()<<DmpLogEndl;
       }else{
@@ -152,6 +152,7 @@ bool DmpRdcAlgBT2012::ProcessThisEvent(){
     }
     if(fFile.tellg() < 0){
       DmpLogDebug<<"not fill the last event"<<DmpLogEndl;
+      gCore->TerminateRun();
       return false;
     }
     oneEvtDone = true;
@@ -161,7 +162,7 @@ bool DmpRdcAlgBT2012::ProcessThisEvent(){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::Finalize(){
-  if("WRONG" != fInDataName && "NO" != fInDataName){
+  if(fEvtHeader){
     delete fEvtHeader;
   }
   FinalizePsd();
@@ -173,9 +174,10 @@ bool DmpRdcAlgBT2012::Finalize(){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::ProcessThisEventHeader(){
+  static short tmp=0;
   fEvtHeader->Reset();
 //-------------------------------------------------------------------
-  static short tmp=0;
+  DmpLogDebug<<"[Header] from "<<fFile.tellg();
   fFile.read((char*)(&tmp),1);
   if (tmp!=0xe2)    return false;
   fFile.read((char*)(&tmp),1);

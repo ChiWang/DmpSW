@@ -9,7 +9,7 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcMSD.h"
 #include "DmpRdcAlgBT2012.h"
-#include "DmpIOSvc.h"
+#include "DmpRootIOSvc.h"
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::InitializeStk(){
@@ -25,7 +25,9 @@ bool DmpRdcAlgBT2012::InitializeStk(){
 // *
   fCNCTDoneStk = true;
   fStkLadderSet = new TClonesArray("DmpEvtRdcMSD",90); // TODO ,size ??
-  DmpIOSvc::GetInstance()->AddBranch("Rdc/Stk",fStkLadderSet);
+  if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Stk",fStkLadderSet)){
+    return false;
+  }
   return true;
 }
 
@@ -33,6 +35,7 @@ bool DmpRdcAlgBT2012::InitializeStk(){
 bool DmpRdcAlgBT2012::ProcessThisEventStk(){
   fStkLadderSet->Delete();
   fStkLadderSet->Clear();
+  DmpLogDebug<<"[Stk] from "<<fFile.tellg();
 //-------------------------------------------------------------------
   static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0, data=0;
   static unsigned short data2=0;
@@ -53,7 +56,9 @@ void DmpRdcAlgBT2012::AppendSignalStk(const int &id,const int &v){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::FinalizeStk(){
-  if(fCNCTDoneStk){
+  if(fStkLadderSet){
+    fStkLadderSet->Delete();
+    fStkLadderSet->Clear();
     delete fStkLadderSet;
   }
   return true;

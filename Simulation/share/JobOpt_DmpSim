@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpSim, 2014-06-02 23:14:16 DAMPE $
+ *  $Id: JobOpt_DmpSim, 2014-06-29 21:00:11 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 07/03/2014
  *-----------------------------------------------------
@@ -14,12 +14,13 @@ import libDmpSim as  DmpSim     # Load your lib.
 
 #-------------------------------------------------------------------
 # Global setting
-DMPSW.Core.SetMaxEventNumber(10)
-DMPSW.Core.SetLogLevel("Debug")         # Option = {Error | Warning | Info | Debug}. If NOT set, will use Info.
-DMPSW.Core.SetRandomSeed(1402554577)    # if NOT set, will use current time
+DMPSW.Core.Set("EventNumber","100")     # If NOT set, will use 1234567890
+#DMPSW.Core.Set("StartTime","20130101-0000")     # if NOT set, start from launch time
+#DMPSW.Core.Set("StopTime","20160101-0000")      # if NOT set, end at 2113.01.01
+#DMPSW.Core.Set("LogLevel","Debug")      # Value = {Error | Warning | Info | Debug}. If NOT set, will use Info.
 
 #-------------------------------------------------------------------
-# IOSvc options
+# RootIOSvc options
 DMPSW.IOSvc.Set("OutData/Path","./test")    # where to save the output. If NOT set will use "./" by defualt
 DMPSW.IOSvc.Set("OutData/Tag","Sim")    # append note for the next output data. NOT set is okay. Also could use Set("OutDataPath")
 #DMPSW.IOSvc.Set("OutData/Timestamp","off")    # if NOT set, will use timestamp

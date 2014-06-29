@@ -148,7 +148,6 @@ template<typename T> bool DmpRootIOSvc::RegisterObject(const std::string &path,T
   fTempDataBuf_TClonesArray.insert(std::make_pair(path,dataPtr));
   // check write list, if yes, create a branch
   if("Event" == temp[0]){
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"path = "<<path<<std::endl;
     for(short i=0;i<fWriteListEvt.size();++i){
 std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<"path = "<<fWriteListEvt[i]<<std::endl;
       if(path == fWriteListEvt[i]){

@@ -1,6 +1,6 @@
 #! /usr/bin/python
 '''
- *  $Id: JobOpt_DmpRdcBT2012, 2014-05-29 11:03:06 DAMPE $
+ *  $Id: JobOpt_DmpRdcBT2012, 2014-06-29 21:00:10 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 11/03/2014
  *-----------------------------------------------------
@@ -14,26 +14,27 @@ import libDmpRdcBT2012 as DmpRdcAlg
 
 #-------------------------------------------------------------------
 # Global setting
-DMPSW.Core.SetMaxEventNumber(100)  # If NOT set, will use 1234567890
-#DMPSW.Core.SetLogLevel("Debug",1)      # Option = {Error | Warning | Info | Debug}. If NOT set, will use Info.
-#DMPSW.Core.SetTimeWindow("start",2013,1,1,0,0,0)       # if NOT set, start from 0 second
-#DMPSW.Core.SetTimeWindow("stop",2016,1,1,0,0,0)        # if NOT set, end at 2113.01.01
+DMPSW.Core.Set("EventNumber","100")     # If NOT set, will use 1234567890
+#DMPSW.Core.Set("StartTime","20130101-0000")     # if NOT set, start from launch time
+#DMPSW.Core.Set("StopTime","20160101-0000")      # if NOT set, end at 2113.01.01
+#DMPSW.Core.Set("LogLevel","Debug")      # Value = {Error | Warning | Info | Debug}. If NOT set, will use Info.
 
 #-------------------------------------------------------------------
-# IOSvc Service
-DMPSW.IOSvc.Set("OutData/Path","./test")    # where to save the output. If NOT set will use "./" by defualt
-DMPSW.IOSvc.Set("OutData/Tag","Rdc")    # append note for the next output data. NOT set is okay. Also could use Set("OutDataPath")
-DMPSW.IOSvc.Set("OutData/Timestamp","off")  # if NOT set, will use timestamp
+# RootIOSvc Service
+#DMPSW.RootIOSvc.Set("InData/Update","DmpRdcData")        # save output into input root file, if you really need
+#DMPSW.RootIOSvc.Set("OutData/Path","./test4")    # If NOT set will use "./"
+DMPSW.RootIOSvc.Set("OutData/FileName","DmpRdcData")        # must set it, if NOT set, will not save anything
+DMPSW.RootIOSvc.Set("OutData/Write","Event/Rdc/EventHeader;Event/Rdc/Bgo")  # split by ;
 
 #-------------------------------------------------------------------
 # Creat user's service or algorithm
 rdcAlgBT = DmpRdcAlg.DmpRdcAlgBT2012()
-#rdcAlgBT.Set("Psd/Connector",DMPSW.prefix+"/share/Connector/Psd/EM")
-#rdcAlgBT.Set("Stk/Connector",DMPSW.prefix+"/share/Connector/Stk/EM")
-rdcAlgBT.Set("Bgo/Connector",DMPSW.prefix+"/share/Connector/Bgo/EM")
-#rdcAlgBT.Set("Nud/Connector",DMPSW.prefix+"/share/Connector/Nud/EM")
-#rdcAlgBT.Set("BinaryFile",DMPSW.prefix+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
-rdcAlgBT.Set("BinaryFile",DMPSW.prefix+"/share/TestRelease/Ex_BGO_ScienceData_20121002212322.dat")
+#rdcAlgBT.Set("Psd/Connector",DMPSW.SysPath+"/share/Connector/Psd/EM")
+#rdcAlgBT.Set("Stk/Connector",DMPSW.SysPath+"/share/Connector/Stk/EM")
+rdcAlgBT.Set("Bgo/Connector",DMPSW.SysPath+"/share/Connector/Bgo/EM")
+#rdcAlgBT.Set("Nud/Connector",DMPSW.SysPath+"/share/Connector/Nud/EM")
+#rdcAlgBT.Set("BinaryFile",DMPSW.SysPath+"/share/TestRelease/Ex_ScienceData_20121005164959.dat")
+rdcAlgBT.Set("BinaryFile",DMPSW.SysPath+"/share/TestRelease/Ex_BGO_ScienceData_20121002212322.dat")
 
 #-------------------------------------------------------------------
 # Append user's service or algorithm into Kernel
@@ -44,4 +45,5 @@ DMPSW.AlgMgr.Append(rdcAlgBT)
 DMPSW.Core.Initialize()
 DMPSW.Core.Run()
 DMPSW.Core.Finalize()
+
 

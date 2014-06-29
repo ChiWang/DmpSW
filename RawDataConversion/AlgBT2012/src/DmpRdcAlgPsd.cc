@@ -9,7 +9,7 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcMSD.h"
 #include "DmpRdcAlgBT2012.h"
-#include "DmpIOSvc.h"
+#include "DmpRootIOSvc.h"
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::InitializePsd(){
@@ -25,7 +25,9 @@ bool DmpRdcAlgBT2012::InitializePsd(){
 // *
   fCNCTDonePsd = true;
   fPsdStripSet = new TClonesArray("DmpEvtRdcMSD",90);
-  DmpIOSvc::GetInstance()->AddBranch("Rdc/Psd",fPsdStripSet);
+  if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Psd",fPsdStripSet)){
+    return false;
+  }
   return true;
 }
 
@@ -33,6 +35,7 @@ bool DmpRdcAlgBT2012::InitializePsd(){
 bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
   fPsdStripSet->Delete();
   fPsdStripSet->Clear();
+  DmpLogDebug<<"[Psd] from "<<fFile.tellg();
 //-------------------------------------------------------------------
   static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
   static short data=0;
@@ -110,7 +113,9 @@ void DmpRdcAlgBT2012::AppendSignalPsd(const int &id,const int &v){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::FinalizePsd(){
-  if(fCNCTDonePsd){
+  if(fPsdStripSet){
+    fPsdStripSet->Delete();
+    fPsdStripSet->Clear();
     delete fPsdStripSet;
   }
   return true;

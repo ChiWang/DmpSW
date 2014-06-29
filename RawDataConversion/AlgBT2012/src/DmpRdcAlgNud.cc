@@ -9,7 +9,7 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcMSD.h"
 #include "DmpRdcAlgBT2012.h"
-#include "DmpIOSvc.h"
+#include "DmpRootIOSvc.h"
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::InitializeNud(){
@@ -25,7 +25,9 @@ bool DmpRdcAlgBT2012::InitializeNud(){
 // *
   fCNCTDoneNud = true;
   fNudBlockSet = new TClonesArray("DmpEvtRdcMSD",5);
-  DmpIOSvc::GetInstance()->AddBranch("Rdc/Nud",fNudBlockSet);
+  if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Nud",fNudBlockSet)){
+    return false;
+  }
   return true;
 }
 
@@ -33,6 +35,7 @@ bool DmpRdcAlgBT2012::InitializeNud(){
 bool DmpRdcAlgBT2012::ProcessThisEventNud(){
   fNudBlockSet->Delete();
   fNudBlockSet->Clear();
+  DmpLogDebug<<"[Nud] from "<<fFile.tellg();
 //-------------------------------------------------------------------
 // *
 // *  TODO: check conversion Nud
@@ -93,7 +96,9 @@ void DmpRdcAlgBT2012::AppendSignalNud(const int &id,const int &v){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::FinalizeNud(){
-  if(fCNCTDoneNud){
+  if(fNudBlockSet){
+    fNudBlockSet->Delete();
+    fNudBlockSet->Clear();
     delete fNudBlockSet;
   }
   return true;

@@ -19,7 +19,7 @@ DmpSimNudSD::DmpSimNudSD()
   fBlockSet(0)
 {
   fBlockSet = new TClonesArray("DmpEvtMCNudMSD",4);
-  DmpRootIOSvc::GetInstance()->RegisterObject("MCTruth/Nud",fBlockSet);
+  DmpRootIOSvc::GetInstance()->RegisterObject("Event/MCTruth/Nud",fBlockSet);
 }
 
 //-------------------------------------------------------------------

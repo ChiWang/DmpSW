@@ -19,7 +19,7 @@ DmpSimBgoSD::DmpSimBgoSD()
   fBarSet(0)
 {
   fBarSet = new TClonesArray("DmpEvtMCBgoMSD",300);
-  DmpRootIOSvc::GetInstance()->RegisterObject("MCTruth/Bgo",fBarSet);
+  DmpRootIOSvc::GetInstance()->RegisterObject("Event/MCTruth/Bgo",fBarSet);
 }
 
 //-------------------------------------------------------------------

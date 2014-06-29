@@ -31,6 +31,6 @@ WorkPath = os.getenv('DMPSWWORK')
 
 #-------------------------------------------------------------------
 # get important service
-RootIOSvc = SvcMgr.Get("DmpIOSvc")
+RootIOSvc = SvcMgr.Get("DmpRootIOSvc")
 
 

@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgBgo.cc, 2014-05-28 11:01:14 DAMPE $
+ *  $Id: DmpRdcAlgBgo.cc, 2014-06-29 20:42:16 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
  *    Yifeng WEI (weiyf@mail.ustc.edu.cn) 24/04/2014
@@ -10,7 +10,7 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcMSD.h"
 #include "DmpRdcAlgBT2012.h"
-#include "DmpIOSvc.h"
+#include "DmpRootIOSvc.h"
 
 //-------------------------------------------------------------------
 #include <boost/filesystem/path.hpp>
@@ -50,7 +50,9 @@ bool DmpRdcAlgBT2012::InitializeBgo(){
   }
   fCNCTDoneBgo = true;
   fBgoBarSet = new TClonesArray("DmpEvtRdcMSD",300);
-  DmpIOSvc::GetInstance()->AddBranch("Rdc/Bgo",fBgoBarSet);
+  if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Bgo",fBgoBarSet)){
+    return false;
+  }
   return true;
 }
 
@@ -58,6 +60,7 @@ bool DmpRdcAlgBT2012::InitializeBgo(){
 bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
   fBgoBarSet->Delete();
   fBgoBarSet->Clear();
+  DmpLogDebug<<"[Bgo] from "<<fFile.tellg();
 //-------------------------------------------------------------------
   static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
   static short data=0;
@@ -148,7 +151,9 @@ void DmpRdcAlgBT2012::AppendSignalBgo(const int &id, const int &v){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::FinalizeBgo(){
-  if(fCNCTDoneBgo){
+  if(fBgoBarSet){
+    fBgoBarSet->Delete();
+    fBgoBarSet->Clear();
     delete fBgoBarSet;
   }
   return true;

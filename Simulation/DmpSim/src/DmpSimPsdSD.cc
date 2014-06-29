@@ -19,7 +19,7 @@ DmpSimPsdSD::DmpSimPsdSD()
   fStripSet(0)
 {
   fStripSet = new TClonesArray("DmpEvtMCPsdMSD",90);
-  DmpRootIOSvc::GetInstance()->RegisterObject("MCTruth/Psd",fStripSet);
+  DmpRootIOSvc::GetInstance()->RegisterObject("Event/MCTruth/Psd",fStripSet);
 }
 
 //-------------------------------------------------------------------
