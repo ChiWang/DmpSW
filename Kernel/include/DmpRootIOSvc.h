@@ -38,7 +38,7 @@ public:
   bool Finalize();
 
 public:
-  TObject* ReadObject(const std::string &path);  // if path/dataPtr not in any data buffer, use dataPtr to read a branch;
+  TObject* ReadObject(const std::string &path);  // if path/dataPtr not in any data buffer, use dataPtr to read a branch from input rootfile;
   template<typename T> bool RegisterObject(const std::string &path,const std::string &className,T *&dataPtr);  // path = Folder/Tree/Branch
   template<typename T> bool RegisterObject(const std::string &path,T *&dataPtr);   // path = Folder/Tree/Branch
   void PrepareMetaData();   // invoke in DmpCore::Run(), in the beginning
