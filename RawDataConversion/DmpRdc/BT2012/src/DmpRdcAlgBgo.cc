@@ -60,7 +60,6 @@ void DmpRdcAlgBT2012::InitializeBgo(){
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
   fBgoBarSet->Delete();
-  fBgoBarSet->Clear();
   DmpLogDebug<<"[Bgo] from "<<fFile.tellg();
 //-------------------------------------------------------------------
   static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
@@ -154,7 +153,6 @@ void DmpRdcAlgBT2012::AppendSignalBgo(const int &id, const int &v){
 bool DmpRdcAlgBT2012::FinalizeBgo(){
   if(fBgoBarSet){
     fBgoBarSet->Delete();
-    fBgoBarSet->Clear();
     delete fBgoBarSet;
   }
   return true;

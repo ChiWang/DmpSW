@@ -34,7 +34,6 @@ void DmpRdcAlgBT2012::InitializeStk(){
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::ProcessThisEventStk(){
   fStkLadderSet->Delete();
-  fStkLadderSet->Clear();
   DmpLogDebug<<"[Stk] from "<<fFile.tellg();
 //-------------------------------------------------------------------
   static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0, data=0;
@@ -58,7 +57,6 @@ void DmpRdcAlgBT2012::AppendSignalStk(const int &id,const int &v){
 bool DmpRdcAlgBT2012::FinalizeStk(){
   if(fStkLadderSet){
     fStkLadderSet->Delete();
-    fStkLadderSet->Clear();
     delete fStkLadderSet;
   }
   return true;

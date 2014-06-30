@@ -86,7 +86,6 @@ bool DmpAlgBgoRdcEQM::Finalize(){
   }
   if(fBgoBarSet){
     fBgoBarSet->Delete();
-    fBgoBarSet->Clear();
     delete fBgoBarSet;
   }
   return true;
@@ -195,8 +194,7 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
   static unsigned short data2=0;
 //-------------------------------------------------------------------
   fBgoBarSet->Delete();
-  fBgoBarSet->Clear();
-   DmpLogDebug<<"[Bgo] from "<<fInFilePtr.tellg();
+  DmpLogDebug<<"[Bgo] from "<<fInFilePtr.tellg();
 //-------------------------------------------------------------------
   for(feeCounts=0;feeCounts<16;++feeCounts){
     fInFilePtr.read((char*)(&data),1);

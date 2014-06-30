@@ -34,7 +34,6 @@ void DmpRdcAlgBT2012::InitializeNud(){
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::ProcessThisEventNud(){
   fNudBlockSet->Delete();
-  fNudBlockSet->Clear();
   DmpLogDebug<<"[Nud] from "<<fFile.tellg();
 //-------------------------------------------------------------------
 // *
@@ -98,7 +97,6 @@ void DmpRdcAlgBT2012::AppendSignalNud(const int &id,const int &v){
 bool DmpRdcAlgBT2012::FinalizeNud(){
   if(fNudBlockSet){
     fNudBlockSet->Delete();
-    fNudBlockSet->Clear();
     delete fNudBlockSet;
   }
   return true;
