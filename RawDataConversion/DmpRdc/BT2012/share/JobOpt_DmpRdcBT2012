@@ -22,7 +22,7 @@ DMPSW.Core.Set("EventNumber","100")     # If NOT set, will use 1234567890
 #-------------------------------------------------------------------
 # RootIOSvc Service
 #DMPSW.RootIOSvc.Set("InData/Update","DmpRdcData.root")        # save output into input root file, if you really need
-DMPSW.RootIOSvc.Set("OutData/FileName","./DmpRdcData.root")        # must set it, if NOT set, will not save anything
+DMPSW.RootIOSvc.Set("OutData/FileName","./test/DmpRdcData.root")        # must set it, if NOT set, will not save anything
 DMPSW.RootIOSvc.Set("OutData/Write","Event/Rdc/EventHeader;Event/Rdc/Bgo")  # split by ;
 
 #-------------------------------------------------------------------
