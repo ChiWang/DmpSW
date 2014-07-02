@@ -23,7 +23,7 @@ DmpRootIOSvc::DmpRootIOSvc()
   OptMap.insert(std::make_pair("InData/Read",   0));
   OptMap.insert(std::make_pair("InData/Update", 1));
   OptMap.insert(std::make_pair("OutData/FileName",  2));
-  OptMap.insert(std::make_pair("OutData/Write", 3));
+  OptMap.insert(std::make_pair("OutData/WriteList", 3));
 }
 
 //-------------------------------------------------------------------
@@ -63,7 +63,7 @@ void DmpRootIOSvc::Set(const std::string &option,const std::string &argv){
       fOutFileName = argv;
       break;
     }
-    case 3: // OutData/Write
+    case 3: // OutData/WriteList
     {
       std::vector<std::string>  tempList;
       boost::split(tempList,argv,boost::is_any_of(";"));
