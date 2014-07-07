@@ -30,8 +30,6 @@ public:     // binding functions
   bool Finalize();              // execute all elements' Finalize() in all *Mgr
 
 public:
-  void SetMaxEventNumber(const long &i) {fMaxEventNo = i;}
-  void SetTimeWindow(const std::string &type,const int &YMD,const int &HMS);
   const long& GetMaxEventNumber() const {return fMaxEventNo;}
   bool EventInTimeWindow(const long &second) const;
   const bool& InitializeDone() const {return fInitializeDone;}
