@@ -232,7 +232,7 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
         fInFilePtr.read((char*)(&data),1);
         fInFilePtr.read((char*)(&data2),1);
         if(fCNCTMapBgo[feeID*1000+channelID] != 0){
-          AppendThisSignal(fCNCTMapBgo[feeID*1000+channelID],(data*256+data2)&0x3fff);
+          AppendThisSignal(fCNCTMapBgo[feeID*1000+channelID],data*256+data2);
         }else{
           DmpLogError<<"Connector Key Wrong. FeeID("<<feeID<<") Channel("<<channelID<<") ADC("<<data*256+data2<<")"<<DmpLogEndl;
         }
@@ -246,7 +246,7 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
       for(short i=0;i<nSignal;++i){     // k0Compress
         fInFilePtr.read((char*)(&data),1);
         fInFilePtr.read((char*)(&data2),1);
-        AppendThisSignal(fCNCTMapBgo[feeID*1000+i],(data*256+data2)&0x3fff);
+        AppendThisSignal(fCNCTMapBgo[feeID*1000+i],data*256+data2);
       }
     }
     fInFilePtr.read((char*)(&data),1);      // trigger status
