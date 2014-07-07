@@ -224,15 +224,7 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
 // *
 // *  TODO: check data length
 // *
-    if(fEvtHeader->GetRunMode(DmpDetectorID::kBgo) == DmpRunMode::k0Compress){
-      nSignal = nBytes/2;
-      DmpLogDebug<<"\tFEE ID "<<feeID<<" signalNo = "<<nSignal<<DmpLogEndl;
-      for(short i=0;i<nSignal;++i){     // k0Compress
-        fInFilePtr.read((char*)(&data),1);
-        fInFilePtr.read((char*)(&data2),1);
-        AppendThisSignal(fCNCTMapBgo[feeID*1000+i],(data*256+data2)&0x3fff);
-      }
-    }else{
+    if(fEvtHeader->GetRunMode(DmpDetectorID::kBgo) == DmpRunMode::kCompress){
       nSignal = nBytes/3;
       DmpLogDebug<<"\tFEE ID "<<feeID<<" signalNo = "<<nSignal<<DmpLogEndl;
       for(short i=0;i<nSignal;++i){     // kCompress
@@ -247,6 +239,14 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
       }
       if(nBytes%3){     // nBytes%3 == 1
         fInFilePtr.read((char*)(&data),1);
+      }
+    }else{
+      nSignal = nBytes/2;
+      DmpLogDebug<<"\tFEE ID "<<feeID<<" signalNo = "<<nSignal<<DmpLogEndl;
+      for(short i=0;i<nSignal;++i){     // k0Compress
+        fInFilePtr.read((char*)(&data),1);
+        fInFilePtr.read((char*)(&data2),1);
+        AppendThisSignal(fCNCTMapBgo[feeID*1000+i],(data*256+data2)&0x3fff);
       }
     }
     fInFilePtr.read((char*)(&data),1);      // trigger status
