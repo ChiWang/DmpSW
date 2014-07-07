@@ -190,30 +190,32 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventHeader(){
 bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
   static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
   static short feeTypeBgo = 0;
-  static short data=0;
-  static unsigned short data2=0;
+  static char data=0;
+  static unsigned char data2=0;
+  //static short data=0;
+  //static unsigned short data2=0;
 //-------------------------------------------------------------------
   fBgoBarSet->Delete();
   DmpLogDebug<<"[Bgo] from "<<fInFilePtr.tellg();
 //-------------------------------------------------------------------
   for(feeCounts=0;feeCounts<16;++feeCounts){
-    fInFilePtr.read((char*)(&data),1);
-    if(data != 0xeb){
+    fInFilePtr.read((char*)(&data2),1);
+    if(data2 != 0xeb){
       fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeCounts+1,DmpEvtRdcHeader::NotFind_0xeb);
       return false;
     }
-    fInFilePtr.read((char*)(&data),1);
-    if(data != 0x90){
+    fInFilePtr.read((char*)(&data2),1);
+    if(data2 != 0x90){
       fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeCounts+1,DmpEvtRdcHeader::NotFind_0x90);
       return false;
     }
-    fInFilePtr.read((char*)(&data),1);      // reserved 1 byte
-    fInFilePtr.read((char*)(&data),1);      // run mode and FEE ID
-    feeID = data%16;
+    fInFilePtr.read((char*)(&data2),1);      // reserved 1 byte
+    fInFilePtr.read((char*)(&data2),1);      // run mode and FEE ID
+    feeID = data2%16;
     if(feeCounts == 0){
-      fEvtHeader->SetRunMode(DmpDetectorID::kBgo,data/16-feeTypeBgo);
+      fEvtHeader->SetRunMode(DmpDetectorID::kBgo,data2/16-feeTypeBgo);
     }else{
-      if(fEvtHeader->GetRunMode(DmpDetectorID::kBgo) != data/16-feeTypeBgo){
+      if(fEvtHeader->GetRunMode(DmpDetectorID::kBgo) != data2/16-feeTypeBgo){
         fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeID,DmpEvtRdcHeader::NotMatch_RunMode);
         return false;
       }
@@ -238,7 +240,7 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
         }
       }
       if(nBytes%3){     // nBytes%3 == 1
-        fInFilePtr.read((char*)(&data),1);
+        fInFilePtr.read((char*)(&data2),1);
       }
     }else{
       nSignal = nBytes/2;
@@ -249,18 +251,18 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
         AppendThisSignal(fCNCTMapBgo[feeID*1000+i],data*256+data2);
       }
     }
-    fInFilePtr.read((char*)(&data),1);      // trigger status
-    fInFilePtr.read((char*)(&data),1);      // trigger
+    fInFilePtr.read((char*)(&data2),1);      // trigger status
+    fInFilePtr.read((char*)(&data2),1);      // trigger
     if(feeCounts == 0){
-      fEvtHeader->SetTrigger(DmpDetectorID::kBgo,data);
+      fEvtHeader->SetTrigger(DmpDetectorID::kBgo,data2);
     }else{
-      if(fEvtHeader->GetTrigger(DmpDetectorID::kBgo) != data){
+      if(fEvtHeader->GetTrigger(DmpDetectorID::kBgo) != data2){
         fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeCounts+1,DmpEvtRdcHeader::NotMatch_Trigger);
         return false;
       }
     }
-    fInFilePtr.read((char*)(&data),1);      // 2 bytes for CRC
-    fInFilePtr.read((char*)(&data),1);      // must spplit them, 2 bytes for CRC
+    fInFilePtr.read((char*)(&data2),1);      // 2 bytes for CRC
+    fInFilePtr.read((char*)(&data2),1);      // must spplit them, 2 bytes for CRC
   }
 //-------------------------------------------------------------------
   return true;
