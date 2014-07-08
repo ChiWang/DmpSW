@@ -34,7 +34,7 @@ foreach subDir (`ls $package`)
     continue
   endif
   pushd $package/$subDir >&/dev/null
-  \rm ./*/Dictionary*
+  \rm -f ./*/Dictionary*
   ./createDictionary
   popd >&/dev/null
 end
