@@ -17,7 +17,7 @@ if [ ! $DMPSWSYS ];then
   fi
   export DMPSWWORK=$HOME/dmpwork
   export PATH=$DMPSWSYS/bin:$PATH
-  export PYTHONPATH=$DMPSWSYS/lib:$DMPSWWORK/lib:$PYTHONPATH
+  export PYTHONPATH=$DMPSWWORK/lib:$DMPSWSYS/lib:$PYTHONPATH
   if [ $LD_LIBRARY_PATH ];then
     export LD_LIBRARY_PATH=$DMPSWSYS/lib:$DMPSWWORK/lib:$LD_LIBRARY_PATH
   fi

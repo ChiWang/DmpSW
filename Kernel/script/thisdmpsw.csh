@@ -16,7 +16,7 @@ if ( ! ($?DMPSWSYS) ) then
   unset thisDmpSW
   setenv DMPSWWORK "$HOME/dmpwork"
   setenv PATH ${DMPSWSYS}/bin:${PATH}
-  setenv PYTHONPATH ${DMPSWSYS}/lib:${DMPSWWORK}/lib:${PYTHONPATH}
+  setenv PYTHONPATH ${DMPSWWORK}/lib:${DMPSWSYS}/lib:${PYTHONPATH}
   if ( ($?LD_LIBRARY_PATH) ) then
     setenv LD_LIBRARY_PATH ${DMPSWSYS}/lib:${DMPSWWORK}/lib:${LD_LIBRARY_PATH}
   endif
