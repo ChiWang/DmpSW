@@ -41,13 +41,19 @@ CheckEnv ROOTSYS G4INSTALL G4LIB_USE_GDML
 package="Event"
 echo "---->   Creating Dictionary..."
 for subDir in `ls ./${package}`;do
+        echo 1
   if [[ ! -d $package/$subDir ]];then
     continue
   fi
+        echo 2
   pushd $package/$subDir 1>/dev/null
-  \rm ./*/Dictionary* 2>/dev/null
+        echo 3
+  /bin/rm -f ./*/Dictionary* >&/dev/null
+        echo 4
   ./createDictionary
+        echo 5
   popd  1>/dev/null
+        echo 6
 done
 
 
