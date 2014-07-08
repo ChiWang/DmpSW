@@ -13,7 +13,7 @@ target='DmpKernel'
 env = envBase.Clone()
 useRoot(env)
 #useGeant4(env)
-useCLHEP(env)
+#useCLHEP(env)
 useBoostPython(env)
 #useOpenMP(env)
 
