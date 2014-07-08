@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpCore.cc, 2014-06-27 11:14:01 DAMPE $
+ *  $Id: DmpCore.cc, 2014-07-08 09:06:35 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/04/2014
 */
@@ -8,7 +8,6 @@
 
 #include "DmpCore.h"
 #include "DmpRootIOSvc.h"
-#include "DmpRandom.h"
 
 //-------------------------------------------------------------------
 DmpCore::DmpCore()
@@ -33,7 +32,6 @@ DmpCore::DmpCore()
   OptMap.insert(std::make_pair("EventNumber",1));   // value: any number
   OptMap.insert(std::make_pair("StartTime", 2));    // value: format 20131231-1430
   OptMap.insert(std::make_pair("StopTime",  3));    // value: format 20131231-1430
-  OptMap.insert(std::make_pair("Seed",  4));        // value: any number
 }
 
 //-------------------------------------------------------------------
@@ -130,17 +128,6 @@ void DmpCore::Set(const std::string &type,const std::string &value){
     case 3: // StopTime
     {
       fStopTime = DeltaTime(value);
-      break;
-    }
-    case 4: // Seed
-    {
-      long seed = 0;
-      if("time" == value || "TIME" == value || "Time" == value){
-        seed = time((time_t*)NULL);
-      }else{
-        seed = boost::lexical_cast<long>(value);
-      }
-      DmpRandom::SetSeed(seed);
       break;
     }
   }
