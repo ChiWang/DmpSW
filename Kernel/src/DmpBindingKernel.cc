@@ -96,21 +96,15 @@ BOOST_PYTHON_MODULE(libDmpKernel){
   ;
   // DmpAlgorithmManager
   class_<DmpAlgorithmManager,boost::noncopyable>("DmpAlgorithmManager",no_init)
-// *
-// *  TODO:  only keep Append
-// *
     .def("Append",  &DmpAlgorithmManager::Append)
-    //.def("Replace", &DmpAlgorithmManager::Replace)
+    .def("Delete",  &DmpAlgorithmManager::Delete)
     //.def("Get",     &DmpAlgorithmManager::Get,return_value_policy<reference_existing_object>())
     .def("ListAllElements",&DmpAlgorithmManager::ListAllElements)
   ;
   // DmpServiceManager
   class_<DmpServiceManager,boost::noncopyable>("DmpServiceManager",no_init)
-// *
-// *  TODO:     only keep Append
-// *
     .def("Append",  &DmpServiceManager::Append)
-    //.def("Replace", &DmpServiceManager::Replace)
+    .def("Delete", &DmpServiceManager::Delete)
     .def("Get",     &DmpServiceManager::Get,return_value_policy<reference_existing_object>())
     .def("ListAllElements",&DmpServiceManager::ListAllElements)
   ;

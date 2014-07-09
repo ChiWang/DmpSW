@@ -18,7 +18,7 @@ public:
   virtual ~DmpElementManager();
 
 public:
-  void Replace(DmpElement*);
+  void Delete(const std::string&);
   void Append(DmpElement*);
   void ListAllElements();
   bool Initialize();
@@ -61,12 +61,12 @@ DmpElementManager<DmpElement>::~DmpElementManager(){
 
 //-------------------------------------------------------------------
 template<typename DmpElement>
-void DmpElementManager<DmpElement>::Replace(DmpElement *aEle){
-  std::string name = aEle->Name();
+void DmpElementManager<DmpElement>::Delete(const std::string &name){
   for(typename std::list<DmpElement*>::iterator it = fElements.begin();it != fElements.end();++it){
     if((*it)->Name() == name){
+      std::cout<<"  ["<<fName<<"] Deleting element: "<<name<<std::endl;
       delete (*it);
-      (*it) = aEle;
+      return;
     }
   }
 }
