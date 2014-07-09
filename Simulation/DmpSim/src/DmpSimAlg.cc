@@ -37,11 +37,8 @@ DmpSimAlg::DmpSimAlg()
 
 //-------------------------------------------------------------------
 DmpSimAlg::~DmpSimAlg(){
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
   delete fPhyFactory;
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
   //delete fSimRunMgr;
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
 }
 
 //-------------------------------------------------------------------

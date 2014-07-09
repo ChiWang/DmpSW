@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpVAlg.h, 2014-05-20 10:35:28 DAMPE $
+ *  $Id: DmpVAlg.h, 2014-07-08 14:42:53 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/03/2014
 */

@@ -49,6 +49,7 @@ private:
   DmpRootIOSvc();
   void SaveMetadata();
   void SaveEventdata();
+  void SaveCalibrationResult();
   bool NewBranchInInputTree(const std::string &t)const;
 
 private:

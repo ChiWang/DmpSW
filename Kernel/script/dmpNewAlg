@@ -78,7 +78,7 @@ EOF
 
 #-------------------------------------------------------------------
 Binding(){
-cat > $1/src/Dmp${1}Binding.cc <<EOF
+cat > $1/src/DmpAlg${1}Binding.cc <<EOF
 #include <boost/python.hpp>
 #include "DmpAlg$1.h"
 

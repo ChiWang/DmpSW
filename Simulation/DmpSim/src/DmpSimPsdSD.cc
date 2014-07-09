@@ -27,9 +27,8 @@ DmpSimPsdSD::DmpSimPsdSD()
 
 //-------------------------------------------------------------------
 DmpSimPsdSD::~DmpSimPsdSD(){
-  //fStripSet->Delete();
-  //fStripSet->Clear();
-  //delete fStripSet;
+  fStripSet->Delete();
+  delete fStripSet;
 }
 
 //-------------------------------------------------------------------
@@ -63,7 +62,6 @@ G4bool DmpSimPsdSD::ProcessHits(G4Step *aStep, G4TouchableHistory*){
 //-------------------------------------------------------------------
 void DmpSimPsdSD::Initialize(G4HCofThisEvent*){
   fStripSet->Delete();
-  fStripSet->Clear();
 }
 
 //-------------------------------------------------------------------

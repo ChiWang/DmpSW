@@ -43,7 +43,6 @@ DmpElementManager<DmpElement>::DmpElementManager(const std::string &n)
  :fName(n)
 {
   //std::cout<<"---> DmpCore:\tCreate "<<fName;
-  //
 }
 
 //-------------------------------------------------------------------
@@ -56,7 +55,6 @@ DmpElementManager<DmpElement>::~DmpElementManager(){
   }
   */
   //std::cout<<"\t\tDone\n"<<std::endl;
-  //
 }
 
 //-------------------------------------------------------------------

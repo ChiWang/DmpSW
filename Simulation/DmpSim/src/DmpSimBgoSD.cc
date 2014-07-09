@@ -27,9 +27,8 @@ DmpSimBgoSD::DmpSimBgoSD()
 
 //-------------------------------------------------------------------
 DmpSimBgoSD::~DmpSimBgoSD(){
-  //fBarSet->Delete();
-  //fBarSet->Clear();
-  //delete fBarSet;
+  fBarSet->Delete();
+  delete fBarSet;
 }
 
 //-------------------------------------------------------------------
@@ -62,7 +61,6 @@ void DmpSimBgoSD::Initialize(G4HCofThisEvent*){
 // *  TODO:  after DmpRootIOSvc filled this event?
 // *
   fBarSet->Delete();
-  fBarSet->Clear();
 }
 
 //-------------------------------------------------------------------

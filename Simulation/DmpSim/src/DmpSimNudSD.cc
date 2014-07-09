@@ -27,9 +27,8 @@ DmpSimNudSD::DmpSimNudSD()
 
 //-------------------------------------------------------------------
 DmpSimNudSD::~DmpSimNudSD(){
-  //fBlockSet->Delete();
-  //fBlockSet->Clear();
-  //delete fBlockSet;
+  fBlockSet->Delete();
+  delete fBlockSet;
 }
 
 //-------------------------------------------------------------------
@@ -61,7 +60,6 @@ void DmpSimNudSD::Initialize(G4HCofThisEvent*){
 // *  TODO:  after DmpRootIOSvc filled this event?
 // *
   fBlockSet->Delete();
-  fBlockSet->Clear();
 }
 
 //-------------------------------------------------------------------

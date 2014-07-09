@@ -38,7 +38,6 @@ void DmpAlgBgoRdcEQM::Set(const std::string &type,const std::string &value){
     case 0:
     {// BinaryFile
       fInDataName = value;
-      //DmpRootIOSvc::GetInstance()->InFileTag(value);
       break;
     }
     case 1:
@@ -192,8 +191,6 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
   static short feeTypeBgo = 0;
   static char data=0;
   static unsigned char data2=0;
-  //static short data=0;
-  //static unsigned short data2=0;
 //-------------------------------------------------------------------
   fBgoBarSet->Delete();
   DmpLogDebug<<"[Bgo] from "<<fInFilePtr.tellg();

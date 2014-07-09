@@ -122,6 +122,7 @@ bool DmpRootIOSvc::Initialize(){
       fOutRootFile = new TFile(fOutFileName.string().c_str(),"RECREATE");
       fOutRootFile->mkdir("Event");
       fOutRootFile->mkdir("Metadata");
+      fOutRootFile->mkdir("Calibration");
     }
   }
   DmpLogDebug<<"[DmpRootIOSvc::Initialize] ... initialization done "<<DmpLogEndl;  
