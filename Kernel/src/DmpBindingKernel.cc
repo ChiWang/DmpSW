@@ -103,7 +103,7 @@ BOOST_PYTHON_MODULE(libDmpKernel){
   // DmpServiceManager
   class_<DmpServiceManager,boost::noncopyable>("DmpServiceManager",no_init)
     .def("Append",  &DmpServiceManager::Append)
-    .def("Delete", &DmpServiceManager::Delete)
+    .def("Delete",  &DmpServiceManager::Delete)
     .def("Get",     &DmpServiceManager::Get,return_value_policy<reference_existing_object>())
     .def("ListAllElements",&DmpServiceManager::ListAllElements)
   ;
