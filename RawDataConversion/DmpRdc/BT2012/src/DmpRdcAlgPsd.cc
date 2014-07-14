@@ -62,6 +62,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
     }
     fFile.read((char*)(&data),1);       // run mode and FEE ID
     feeID = data%16;
+    /*
     if(feeCounts == 0){
       fEvtHeader->SetRunMode(DmpDetectorID::kPsd,data/16-fFEETypePsd);
     }else{
@@ -70,6 +71,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
         return false;
       }
     }
+    */
     fFile.read((char*)(&data),1);       // data length, 2 bytes
     fFile.read((char*)(&data2),1);
     nBytes = data*256+data2-2-2-2;        // 2 bytes for data length, 2 bytes for 0x0000, 2 bytes for CRC

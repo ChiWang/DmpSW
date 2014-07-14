@@ -87,6 +87,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
     }
     fFile.read((char*)(&data),1);       // run mode and FEE ID
     feeID = data%16;
+    /*
     if(feeCounts == 0){
       fEvtHeader->SetRunMode(DmpDetectorID::kBgo,data/16-fFEETypeBgo);
     }else{
@@ -95,21 +96,14 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
         return false;
       }
     }
+    */
     fFile.read((char*)(&data),1);       // data length, 2 bytes
     fFile.read((char*)(&data2),1);
     nBytes = data*256+data2-2-2-2;        // 2 bytes for data length, 2 bytes for 0x0000, 2 bytes for CRC
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
-    if(fEvtHeader->GetRunMode(DmpDetectorID::kBgo) == DmpRunMode::k0Compress){
-      nSignal = nBytes/2;
-      DmpLogDebug<<"\tFEE ID "<<feeID<<" signalNo = "<<nSignal<<DmpLogEndl;
-      for(short i=0;i<nSignal;++i){     // k0Compress
-        fFile.read((char*)(&data),1);
-        fFile.read((char*)(&data2),1);
-        AppendSignalBgo(fMapBgo[feeID*1000+i],(data*256+data2)&0x3fff);
-      }
-    }else{
+    if(fEvtHeader->GetRunMode(DmpDetectorID::kBgo) == DmpRunMode::kCompress){
       nSignal = nBytes/3;
       DmpLogDebug<<"\tFEE ID "<<feeID<<" signalNo = "<<nSignal<<DmpLogEndl;
       for(short i=0;i<nSignal;++i){     // kCompress
@@ -117,6 +111,14 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
         fFile.read((char*)(&data),1);
         fFile.read((char*)(&data2),1);
         AppendSignalBgo(fMapBgo[feeID*1000+channelID],(data*256+data2)&0x3fff);
+      }
+    }else{
+      nSignal = nBytes/2;
+      DmpLogDebug<<"\tFEE ID "<<feeID<<" signalNo = "<<nSignal<<DmpLogEndl;
+      for(short i=0;i<nSignal;++i){     // k0Compress
+        fFile.read((char*)(&data),1);
+        fFile.read((char*)(&data2),1);
+        AppendSignalBgo(fMapBgo[feeID*1000+i],(data*256+data2)&0x3fff);
       }
     }
     fFile.read((char*)(&data),1);       // 2 bytes for 0x0000

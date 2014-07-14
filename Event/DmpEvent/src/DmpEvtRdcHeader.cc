@@ -36,9 +36,9 @@ void DmpEvtRdcHeader::SetErrorLog(DmpDetectorID::Type id,const short &FeeID,cons
     case Wrong_DataLength:
       DmpLogError<<"\tdata length float\t";
       break;
-    case NotMatch_RunMode:
-      DmpLogError<<"\trun mode not match\t";
-      break;
+    //case NotMatch_RunMode:
+    //  DmpLogError<<"\trun mode not match\t";
+    //  break;
     case NotMatch_Trigger:
       DmpLogError<<"\ttrigger not match\t";
       break;

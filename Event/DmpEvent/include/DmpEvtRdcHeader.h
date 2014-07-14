@@ -30,7 +30,7 @@ public:
     Good = 0,
     NotFind_0xeb = 1,
     NotFind_0x90 = 2,
-    NotMatch_RunMode = 3,
+    //NotMatch_RunMode = 3,
     Wrong_DataLength = 4,
     NotMatch_Trigger = 5,
     Wrong_CRC = 6

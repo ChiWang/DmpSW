@@ -209,6 +209,7 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
     fInFilePtr.read((char*)(&data2),1);      // reserved 1 byte
     fInFilePtr.read((char*)(&data2),1);      // run mode and FEE ID
     feeID = data2%16;
+    /*
     if(feeCounts == 0){
       fEvtHeader->SetRunMode(DmpDetectorID::kBgo,data2/16-feeTypeBgo);
     }else{
@@ -217,6 +218,7 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
         return false;
       }
     }
+    */
     fInFilePtr.read((char*)(&data),1);      // data length, 2 bytes
     fInFilePtr.read((char*)(&data2),1);
     nBytes = data*256+data2-2-2-2;      // 2 bytes for data length, 2 bytes for trigger, 2 bytes for CRC
