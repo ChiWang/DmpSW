@@ -173,14 +173,17 @@ TObject* DmpRootIOSvc::ReadObject(const std::string &path){
     if(fInEvtTreeSet.find(treeName) == fInEvtTreeSet.end()){
       fInEvtTreeSet.insert(std::make_pair(treeName,(TTree*)fInRootFile->Get(treeName.c_str())));
       fInEvtEntries.insert(std::make_pair(treeName,fInEvtTreeSet[treeName]->GetEntries()));
-    }else{
-      if(not fInEvtTreeSet[treeName]->GetListOfBranches()->FindObject(temp[2].c_str())){
-        DmpLogError<<"the branch "<<temp[2]<<" not in "<<treeName<<DmpLogEndl;
-        return 0;
-      }
-      fInEvtTreeSet[treeName]->SetBranchAddress(temp[2].c_str(),&dataPtr);
-      fInputDataBuf.insert(std::make_pair(path,dataPtr));
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
     }
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+    if(not fInEvtTreeSet[treeName]->GetListOfBranches()->FindObject(temp[2].c_str())){
+      DmpLogError<<"the branch "<<temp[2]<<" not in "<<treeName<<DmpLogEndl;
+      return 0;
+    }
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+    fInEvtTreeSet[treeName]->SetBranchAddress(temp[2].c_str(),&dataPtr);
+    fInputDataBuf.insert(std::make_pair(path,dataPtr));
+std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
   }
   return dataPtr;
 }
