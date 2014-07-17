@@ -7,6 +7,9 @@
 #ifndef DmpEvtRdcMSD_H
 #define DmpEvtRdcMSD_H
 
+// *
+// *  TODO:  delete this class, 4 sub-detector should write their own Rdc event clas
+// *
 #include "TObject.h"
 
 class DmpEvtRdcMSD : public TObject{

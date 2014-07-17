@@ -24,6 +24,7 @@ public:
   short GetLayerID() const {return fGlobalBarID/100;}
   short GetBarID() const {return fGlobalBarID%100;}   // in one layer
   short GetGlobalBarID() const {return fGlobalBarID;} // in whole layer
+  std::vector<short> GetDynodeID() const {return fDynodeID;}
   void  SetGlobalBarID(const short &id) {fGlobalBarID = id;}  // in whole layer
   void  SetSignal(const short &GlobalFeeChannelID,const short &dynodeID,const int &value);
   int   GetSignal(const short &dynodeID) const;
