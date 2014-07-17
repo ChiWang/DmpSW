@@ -1,16 +1,16 @@
 /*
- *  $Id: DmpEvtMCBgoMSD.cc, 2014-05-01 21:18:52 DAMPE $
+ *  $Id: DmpEvtMCBgoBar.cc, 2014-07-17 15:34:26 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
 
-#include "DmpEvtMCBgoMSD.h"
+#include "DmpEvtMCBgoBar.h"
 
-ClassImp(DmpEvtMCBgoMSD)
+ClassImp(DmpEvtMCBgoBar)
 
 //------------------------------------------------------------------------------
-DmpEvtMCBgoMSD::DmpEvtMCBgoMSD()
- :fSDID(0),
+DmpEvtMCBgoBar::DmpEvtMCBgoBar()
+ :fGlobalBarID(0),
   fEnergy(0),
   fPosX(0),
   fPosY(0),
@@ -19,11 +19,11 @@ DmpEvtMCBgoMSD::DmpEvtMCBgoMSD()
 }
 
 //------------------------------------------------------------------------------
-DmpEvtMCBgoMSD::~DmpEvtMCBgoMSD(){
+DmpEvtMCBgoBar::~DmpEvtMCBgoBar(){
 }
 
 //-------------------------------------------------------------------
-void DmpEvtMCBgoMSD::AddG4Hit(const double &e,const double &x,const double &y,const double &z){
+void DmpEvtMCBgoBar::AddG4Hit(const double &e,const double &x,const double &y,const double &z){
   double totE = e + fEnergy;
   fPosX = (e*x + fEnergy*fPosX)/totE;
   fPosY = (e*y + fEnergy*fPosY)/totE;

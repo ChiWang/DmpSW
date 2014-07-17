@@ -41,7 +41,7 @@ private:
 
 private:
   TClonesArray      *fBgoBarSet;        // Bgo output. out data
-  std::map<int,int> fCNCTMapBgo;        // map of connector
+  std::map<short,int> fCNCTMapBgo;      // map of connector
   std::string       fCNCTPathBgo;       // connector path
   bool              fCNCTDoneBgo;       // connector setted?
 

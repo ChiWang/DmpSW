@@ -28,7 +28,7 @@ DMPSW.RootIOSvc.Set("OutData/WriteList","Event/Rdc/EventHeader;Event/Rdc/Bgo")  
 #-------------------------------------------------------------------
 # Creat user's service or algorithm
 rdcBgoEQM = DmpRdcAlg.DmpAlgBgoRdcEQM()
-rdcBgoEQM.Set("BinaryFile","./CombinedRun_v2.1/A2data0020140502-152313_BGO.txt")
+rdcBgoEQM.Set("BinaryFile","./Ex_Data_20140417235702_BGO_20140418-000421.bin")
 rdcBgoEQM.Set("Connector",DMPSW.WorkPath+"/share/Connector/Bgo/EQM")
 
 #-------------------------------------------------------------------

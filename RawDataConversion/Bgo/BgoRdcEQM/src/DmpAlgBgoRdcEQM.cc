@@ -7,7 +7,7 @@
 #include "TClonesArray.h"
 
 #include "DmpEvtRdcHeader.h"
-#include "DmpEvtRdcMSD.h"
+#include "DmpEvtRdcBgoBar.h"
 #include "DmpAlgBgoRdcEQM.h"
 #include "DmpRootIOSvc.h"
 
@@ -70,7 +70,7 @@ bool DmpAlgBgoRdcEQM::Initialize(){
     fIniStatus = false;
     return fIniStatus;
   }
-  fBgoBarSet = new TClonesArray("DmpEvtRdcMSD",300);
+  fBgoBarSet = new TClonesArray("DmpEvtRdcBgoBar",300);
   if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Bgo",fBgoBarSet)){
     fIniStatus = false;
     return fIniStatus;
@@ -209,9 +209,10 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
     fInFilePtr.read((char*)(&data2),1);      // reserved 1 byte
     fInFilePtr.read((char*)(&data2),1);      // run mode and FEE ID
     feeID = data2%16;
-    /*
     if(feeCounts == 0){
       fEvtHeader->SetRunMode(DmpDetectorID::kBgo,data2/16-feeTypeBgo);
+    }
+    /*
     }else{
       if(fEvtHeader->GetRunMode(DmpDetectorID::kBgo) != data2/16-feeTypeBgo){
         fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeID,DmpEvtRdcHeader::NotMatch_RunMode);
@@ -232,11 +233,7 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
         fInFilePtr.read((char*)(&channelID),1);
         fInFilePtr.read((char*)(&data),1);
         fInFilePtr.read((char*)(&data2),1);
-        if(fCNCTMapBgo[feeID*1000+channelID] != 0){
-          AppendThisSignal(fCNCTMapBgo[feeID*1000+channelID],data*256+data2);
-        }else{
-          DmpLogError<<"Connector Key Wrong. FeeID("<<feeID<<") Channel("<<channelID<<") ADC("<<data*256+data2<<")"<<DmpLogEndl;
-        }
+        AppendThisSignal(feeID*1000+channelID,data*256+data2);
       }
       if(nBytes%3){     // nBytes%3 == 1
         fInFilePtr.read((char*)(&data2),1);
@@ -247,7 +244,7 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
       for(short i=0;i<nSignal;++i){     // k0Compress
         fInFilePtr.read((char*)(&data),1);
         fInFilePtr.read((char*)(&data2),1);
-        AppendThisSignal(fCNCTMapBgo[feeID*1000+i],data*256+data2);
+        AppendThisSignal(feeID*1000+i,data*256+data2);
       }
     }
     fInFilePtr.read((char*)(&data2),1);      // trigger status
@@ -268,23 +265,28 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
 }
 
 //-------------------------------------------------------------------
-void DmpAlgBgoRdcEQM::AppendThisSignal(const int &id, const int &v){
-  static DmpEvtRdcMSD *aMSD = 0;
-  static short i=0, barID=0;
+void DmpAlgBgoRdcEQM::AppendThisSignal(const int &globalFeeChannelID, const int &v){
+  static DmpEvtRdcBgoBar *aBgoBar = 0;
+  static short i=0, globalBarID=0;
+  if(fCNCTMapBgo[globalFeeChannelID] == 0){
+    DmpLogError<<"Connector Key Wrong. Global Fee Channel ID: "<<globalFeeChannelID<<". ADC = "<<v<<DmpLogEndl;
+    return;
+  }else{
+    globalBarID = fCNCTMapBgo[globalFeeChannelID]/100;
+  }
   int index = -1;
-  barID = id/100;
   for(i=0;i<fBgoBarSet->GetEntriesFast();++i){
-    if(((DmpEvtRdcMSD*)fBgoBarSet->At(i))->GetSDID() == barID){
+    if(((DmpEvtRdcBgoBar*)fBgoBarSet->At(i))->GetGlobalBarID() == globalBarID){
       index = i;
     }
   }
   if(index < 0){
     index = fBgoBarSet->GetEntriesFast();
-    aMSD = (DmpEvtRdcMSD*)fBgoBarSet->ConstructedAt(index);
-    aMSD->SetSDID(barID);
+    aBgoBar = (DmpEvtRdcBgoBar*)fBgoBarSet->ConstructedAt(index);
+    aBgoBar->SetGlobalBarID(globalBarID);
   }else{
-    aMSD = (DmpEvtRdcMSD*)fBgoBarSet->At(index);
+    aBgoBar = (DmpEvtRdcBgoBar*)fBgoBarSet->At(index);
   }
-  aMSD->SetSignal(id%100,v);
+  aBgoBar->SetSignal(globalFeeChannelID,fCNCTMapBgo[globalFeeChannelID]%100,v);
 }
 

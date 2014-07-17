@@ -8,7 +8,7 @@
 #include "TClonesArray.h"
 
 #include "DmpEvtRdcHeader.h"
-#include "DmpEvtRdcMSD.h"
+#include "DmpEvtRdcBgoBar.h"
 #include "DmpRdcAlgBT2012.h"
 #include "DmpRootIOSvc.h"
 
@@ -50,7 +50,7 @@ void DmpRdcAlgBT2012::InitializeBgo(){
     std::cout<<" Done. ID = "<<feeID<<"\tN_channel = "<<channelNo<<std::endl;
   }
   fCNCTDoneBgo = true;
-  fBgoBarSet = new TClonesArray("DmpEvtRdcMSD",300);
+  fBgoBarSet = new TClonesArray("DmpEvtRdcBgoBar",300);
   if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Bgo",fBgoBarSet)){
     fIniStatus = false;
     return;
@@ -87,9 +87,10 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
     }
     fFile.read((char*)(&data),1);       // run mode and FEE ID
     feeID = data%16;
-    /*
     if(feeCounts == 0){
       fEvtHeader->SetRunMode(DmpDetectorID::kBgo,data/16-fFEETypeBgo);
+    }
+    /*
     }else{
       if(fEvtHeader->GetRunMode(DmpDetectorID::kBgo) != data/16-fFEETypeBgo){
         fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeID,DmpEvtRdcHeader::NotMatch_RunMode);
@@ -110,7 +111,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
         fFile.read((char*)(&channelID),1);
         fFile.read((char*)(&data),1);
         fFile.read((char*)(&data2),1);
-        AppendSignalBgo(fMapBgo[feeID*1000+channelID],(data*256+data2)&0x3fff);
+        AppendSignalBgo(feeID*1000+channelID,(data*256+data2)&0x3fff);
       }
     }else{
       nSignal = nBytes/2;
@@ -118,7 +119,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
       for(short i=0;i<nSignal;++i){     // k0Compress
         fFile.read((char*)(&data),1);
         fFile.read((char*)(&data2),1);
-        AppendSignalBgo(fMapBgo[feeID*1000+i],(data*256+data2)&0x3fff);
+        AppendSignalBgo(feeID*1000+i,(data*256+data2)&0x3fff);
       }
     }
     fFile.read((char*)(&data),1);       // 2 bytes for 0x0000
@@ -131,24 +132,29 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
 }
 
 //-------------------------------------------------------------------
-void DmpRdcAlgBT2012::AppendSignalBgo(const int &id, const int &v){
-  static DmpEvtRdcMSD *aMSD = 0;
-  static short i=0, barID=0;
+void DmpRdcAlgBT2012::AppendSignalBgo(const int &globalFeeChannelID, const int &v){
+  static DmpEvtRdcBgoBar *aBgoBar = 0;
+  static short i=0, globalBarID=0;
+  if(fMapBgo[globalFeeChannelID] == 0){
+    DmpLogError<<"Connector Key Wrong. Global Fee Channel ID: "<<globalFeeChannelID<<". ADC = "<<v<<DmpLogEndl;
+    return;
+  }else{
+    globalBarID = fMapBgo[globalFeeChannelID]/100;
+  }
   int index = -1;
-  barID = id/100;
   for(i=0;i<fBgoBarSet->GetEntriesFast();++i){
-    if(((DmpEvtRdcMSD*)fBgoBarSet->At(i))->GetSDID() == barID){
+    if(((DmpEvtRdcBgoBar*)fBgoBarSet->At(i))->GetGlobalBarID() == globalBarID){
       index = i;
     }
   }
   if(index < 0){
     index = fBgoBarSet->GetEntriesFast();
-    aMSD = (DmpEvtRdcMSD*)fBgoBarSet->ConstructedAt(index);
-    aMSD->SetSDID(barID);
+    aBgoBar = (DmpEvtRdcBgoBar*)fBgoBarSet->ConstructedAt(index);
+    aBgoBar->SetGlobalBarID(globalBarID);
   }else{
-    aMSD = (DmpEvtRdcMSD*)fBgoBarSet->At(index);
+    aBgoBar = (DmpEvtRdcBgoBar*)fBgoBarSet->At(index);
   }
-  aMSD->SetSignal(id%100,v);
+  aBgoBar->SetSignal(globalFeeChannelID,fMapBgo[globalFeeChannelID]%100,v);
 }
 
 //-------------------------------------------------------------------

@@ -10,7 +10,7 @@
 #include "G4TouchableHistory.hh"
 
 #include "DmpSimBgoSD.h"
-#include "DmpEvtMCBgoMSD.h"
+#include "DmpEvtMCBgoBar.h"
 #include "DmpRootIOSvc.h"
 
 //-------------------------------------------------------------------
@@ -18,7 +18,7 @@ DmpSimBgoSD::DmpSimBgoSD()
  :G4VSensitiveDetector("BgoSD"),
   fBarSet(0)
 {
-  fBarSet = new TClonesArray("DmpEvtMCBgoMSD",300);
+  fBarSet = new TClonesArray("DmpEvtMCBgoBar",300);
 // *
 // *  TODO:  check Register status
 // *
@@ -38,17 +38,17 @@ G4bool DmpSimBgoSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
   std::string barName = theTouchable->GetVolume(1)->GetName();
   barName.assign(barName.end()-4,barName.end());        // get ID
   int barID = boost::lexical_cast<int>(barName);
-  DmpEvtMCBgoMSD *aBar = 0;
+  DmpEvtMCBgoBar *aBar = 0;
   for(int i=0;i<fBarSet->GetEntriesFast();++i){
-    if(((DmpEvtMCBgoMSD*)fBarSet->At(i))->GetSDID() == barID){
-      aBar = (DmpEvtMCBgoMSD*)fBarSet->At(i);
+    if(((DmpEvtMCBgoBar*)fBarSet->At(i))->GetGlobalBarID() == barID){
+      aBar = (DmpEvtMCBgoBar*)fBarSet->At(i);
       break;
     }
   }
   if(aBar == 0){
     DmpLogDebug<<"\thit a new bar: "<<barID<<DmpLogEndl;
-    aBar = (DmpEvtMCBgoMSD*)fBarSet->New(fBarSet->GetEntriesFast());
-    aBar->SetSDID(barID);
+    aBar = (DmpEvtMCBgoBar*)fBarSet->New(fBarSet->GetEntriesFast());
+    aBar->SetGlobalBarID(barID);
   }
   G4ThreeVector position = aStep->GetPreStepPoint()->GetPosition();
   aBar->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,position.x()/mm,position.y()/mm,position.z()/mm);

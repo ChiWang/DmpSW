@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEventBgoLinkDef.h, 2014-05-16 01:45:06 DAMPE $
+ *  $Id: DmpEventBgoLinkDef.h, 2014-07-17 15:35:02 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -10,7 +10,8 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
-#pragma link C++ class DmpEvtMCBgoMSD+;
+#pragma link C++ class DmpEvtRdcBgoBar+;
+#pragma link C++ class DmpEvtMCBgoBar+;
 #pragma link C++ class DmpEvtBgoShower+;
 //-------------------------------------------------------------------
 // for Calibration
