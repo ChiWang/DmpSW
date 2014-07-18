@@ -68,7 +68,7 @@ bool DmpCore::Run(){
 // *
   DmpRootIOSvc::GetInstance()->PrepareMetaData();
   while(not fTerminateRun){
-    if(fCurrentEventID%1000 == 0){
+    if(fCurrentEventID%5000 == 0){
       std::cout<<"\t [DmpCore::Run] event ID = "<<fCurrentEventID<<std::endl;
     }
     if(DmpRootIOSvc::GetInstance()->PrepareEvent(fCurrentEventID)){
