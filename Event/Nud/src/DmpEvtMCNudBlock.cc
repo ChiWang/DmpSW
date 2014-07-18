@@ -1,29 +1,29 @@
 /*
- *  $Id: DmpEvtMCNudMSD.cc, 2014-05-09 11:07:39 DAMPE $
+ *  $Id: DmpEvtMCNudBlock.cc, 2014-07-18 09:59:24 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
 
-#include "DmpEvtMCNudMSD.h"
+#include "DmpEvtMCNudBlock.h"
 
-ClassImp(DmpEvtMCNudMSD)
+ClassImp(DmpEvtMCNudBlock)
 
 //------------------------------------------------------------------------------
-short DmpEvtMCNudMSD::fDeltaTime = 100; // default, 100ns
+short DmpEvtMCNudBlock::fDeltaTime = 100; // default, 100ns
 
-DmpEvtMCNudMSD::DmpEvtMCNudMSD()
- :fSDID(0),
+DmpEvtMCNudBlock::DmpEvtMCNudBlock()
+ :fGlobalBlockID(0),
   fMinTime(9000),
   fMaxTime(0)
 {
 }
 
 //------------------------------------------------------------------------------
-DmpEvtMCNudMSD::~DmpEvtMCNudMSD(){
+DmpEvtMCNudBlock::~DmpEvtMCNudBlock(){
 }
 
 //-------------------------------------------------------------------
-void DmpEvtMCNudMSD::AddG4Hit(const double &e,const double &t){
+void DmpEvtMCNudBlock::AddG4Hit(const double &e,const double &t){
   if(fMinTime > t){
     fMinTime = t;
   }

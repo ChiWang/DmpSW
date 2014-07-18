@@ -10,7 +10,7 @@
 #include "G4TouchableHistory.hh"
 
 #include "DmpSimNudSD.h"
-#include "DmpEvtMCNudMSD.h"
+#include "DmpEvtMCNudBlock.h"
 #include "DmpRootIOSvc.h"
 
 //-------------------------------------------------------------------
@@ -18,7 +18,7 @@ DmpSimNudSD::DmpSimNudSD()
  :G4VSensitiveDetector("NudSD"),
   fBlockSet(0)
 {
-  fBlockSet = new TClonesArray("DmpEvtMCNudMSD",4);
+  fBlockSet = new TClonesArray("DmpEvtMCNudBlock",4);
 // *
 // *  TODO:  check Register status
 // *
@@ -38,17 +38,17 @@ G4bool DmpSimNudSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
   std::string blockName = theTouchable->GetVolume()->GetName();
   blockName.assign(blockName.end()-1,blockName.end());        // get ID
   short blockID = boost::lexical_cast<short>(blockName);
-  DmpEvtMCNudMSD *aBlock = 0;
+  DmpEvtMCNudBlock *aBlock = 0;
   for(short i=0;i<fBlockSet->GetEntriesFast();++i){
-    if(((DmpEvtMCNudMSD*)fBlockSet->At(i))->GetSDID() == blockID){
-      aBlock = (DmpEvtMCNudMSD*)fBlockSet->At(i);
+    if(((DmpEvtMCNudBlock*)fBlockSet->At(i))->GetBlockID() == blockID){
+      aBlock = (DmpEvtMCNudBlock*)fBlockSet->At(i);
       break;
     }
   }
   if(aBlock == 0){
     DmpLogDebug<<"\thit a new block: "<<blockID<<DmpLogEndl;
-    aBlock = (DmpEvtMCNudMSD*)fBlockSet->New(fBlockSet->GetEntriesFast());
-    aBlock->SetSDID(blockID);
+    aBlock = (DmpEvtMCNudBlock*)fBlockSet->New(fBlockSet->GetEntriesFast());
+    aBlock->SetBlockID(blockID);
   }
   aBlock->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,aStep->GetPreStepPoint()->GetGlobalTime()/ns);
   return true;

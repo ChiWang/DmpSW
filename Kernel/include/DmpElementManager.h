@@ -60,6 +60,9 @@ DmpElementManager<DmpElement>::~DmpElementManager(){
 //-------------------------------------------------------------------
 template<typename DmpElement>
 void DmpElementManager<DmpElement>::Delete(const std::string &name){
+// *
+// *  TODO: how to delete a element which was been created in python script
+// *
   for(typename std::list<DmpElement*>::iterator it = fElements.begin();it != fElements.end();++it){
     if((*it)->Name() == name){
       std::cout<<"  ["<<fName<<"] Deleting element: "<<name<<std::endl;

@@ -43,7 +43,7 @@ DmpSimAlg::~DmpSimAlg(){
 
 //-------------------------------------------------------------------
 #include <boost/lexical_cast.hpp>
-#include "DmpEvtMCNudMSD.h"
+#include "DmpEvtMCNudBlock.h"
 void DmpSimAlg::Set(const std::string &type,const std::string &argv){
   if(OptMap.find(type) == OptMap.end()){
     DmpLogError<<" No argument type "<<type<<DmpLogEndl;
@@ -61,7 +61,7 @@ void DmpSimAlg::Set(const std::string &type,const std::string &argv){
     }
     case 2:
     {// Nud/DeltaTime
-      DmpEvtMCNudMSD::SetDeltaTime(boost::lexical_cast<short>(argv));
+      DmpEvtMCNudBlock::SetDeltaTime(boost::lexical_cast<short>(argv));
       break;
     }
     case 3:

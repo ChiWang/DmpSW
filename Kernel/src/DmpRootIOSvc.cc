@@ -120,9 +120,13 @@ bool DmpRootIOSvc::Initialize(){
         boost::filesystem::create_directories(fOutFileName.parent_path());
       }
       fOutRootFile = new TFile(fOutFileName.string().c_str(),"RECREATE");
-      fOutRootFile->mkdir("Event");
-      fOutRootFile->mkdir("Metadata");
-      fOutRootFile->mkdir("Calibration");
+      if(0 != fWriteListEvt.size()){
+        fOutRootFile->mkdir("Event");
+      }
+      if(0 != fWriteListMeta.size()){
+        fOutRootFile->mkdir("Metadata");
+      }
+      //fOutRootFile->mkdir("Calibration");
     }
   }
   DmpLogDebug<<"[DmpRootIOSvc::Initialize] ... initialization done "<<DmpLogEndl;  

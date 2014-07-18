@@ -20,7 +20,7 @@ DmpEvtRdcBgoBar::~DmpEvtRdcBgoBar(){
 void DmpEvtRdcBgoBar::SetSignal(const short &feeChannelID,const short &dynodeID,const int &value){
   fGlobalFeeChannelID.push_back(feeChannelID);
   fDynodeID.push_back(dynodeID);
-  fSignalValue.push_back(value);
+  fADCCount.push_back(value);
 }
 
 //-------------------------------------------------------------------
@@ -32,7 +32,7 @@ int DmpEvtRdcBgoBar::GetSignal(const short &dynodeID) const{
       break;
     }
   }
-  return (index == -1)?-100:fSignalValue[index];
+  return (index == -1)?-100:fADCCount[index];
 }
 
 //-------------------------------------------------------------------

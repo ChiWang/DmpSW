@@ -10,6 +10,6 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
-#pragma link C++ class DmpEvtMCNudMSD+;
+#pragma link C++ class DmpEvtMCNudBlock+;
 
 #endif

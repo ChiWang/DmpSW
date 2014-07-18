@@ -39,7 +39,7 @@ private:
    //*    Bgo:    fGlobalFeeChannelID = FeeID*1000 + FeeChannelID. FeeID = 0x1{0,1,a,b,8,9...}, FeeChannelID = {0~78,156}
   std::vector<short>    fDynodeID;      // Dynode ID
    //*    Bgo:    fDynodeID = sideID*10 + dynodeID. sideID = {0,1}, dynodeID = {2,5,8}
-  std::vector<int>      fSignalValue;   // signal value (ADC)
+  std::vector<int>      fADCCount;      // signal value (ADC)
 
   ClassDef(DmpEvtRdcBgoBar,1)
 };
