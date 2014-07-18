@@ -7,7 +7,7 @@
 #include "TClonesArray.h"
 
 #include "DmpEvtRdcHeader.h"
-#include "DmpEvtRdcMSD.h"
+#include "DmpEvtRdcNudBlock.h"
 #include "DmpRdcAlgBT2012.h"
 #include "DmpRootIOSvc.h"
 
@@ -24,7 +24,7 @@ void DmpRdcAlgBT2012::InitializeNud(){
 // *  TODO: set method?
 // *
   fCNCTDoneNud = true;
-  fNudBlockSet = new TClonesArray("DmpEvtRdcMSD",5);
+  fNudBlockSet = new TClonesArray("DmpEvtRdcNudBlock",5);
   if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Nud",fNudBlockSet)){
     fIniStatus = false;
     return;

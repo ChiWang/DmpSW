@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEvtMCNudBlock.h, 2014-07-18 09:59:26 DAMPE $
+ *  $Id: DmpEvtMCNudBlock.h, 2014-07-18 22:13:03 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
  *    Yang LIU (liuy@ustc.edu) 05/05/2014
