@@ -40,7 +40,7 @@ G4bool DmpSimNudSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
   short blockID = boost::lexical_cast<short>(blockName);
   DmpEvtMCNudBlock *aBlock = 0;
   for(short i=0;i<fBlockSet->GetEntriesFast();++i){
-    if(((DmpEvtMCNudBlock*)fBlockSet->At(i))->GetBlockID() == blockID){
+    if(((DmpEvtMCNudBlock*)fBlockSet->At(i))->GetGlobalBlockID() == blockID){
       aBlock = (DmpEvtMCNudBlock*)fBlockSet->At(i);
       break;
     }
@@ -48,7 +48,7 @@ G4bool DmpSimNudSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
   if(aBlock == 0){
     DmpLogDebug<<"\thit a new block: "<<blockID<<DmpLogEndl;
     aBlock = (DmpEvtMCNudBlock*)fBlockSet->New(fBlockSet->GetEntriesFast());
-    aBlock->SetBlockID(blockID);
+    aBlock->SetGlobalBlockID(blockID);
   }
   aBlock->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,aStep->GetPreStepPoint()->GetGlobalTime()/ns);
   return true;

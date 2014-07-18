@@ -19,9 +19,9 @@ class DmpEvtMCNudBlock : public TObject{
 public:
   DmpEvtMCNudBlock();
   ~DmpEvtMCNudBlock();
-  void  SetBlockID(const short &id)    {fGlobalBlockID = id;}
+  void  SetGlobalBlockID(const short &id)    {fGlobalBlockID = id;}
   void  AddG4Hit(const double &e,const double &t);     // invoke from G4Step or Sensitive Detector
-  const short&  GetBlockID() const     {return fGlobalBlockID;}
+  const short&  GetGlobalBlockID() const     {return fGlobalBlockID;}
   const double& GetStartTime() const  {return fMinTime;}
   const double& GetStopTime() const   {return fMaxTime;}
   std::vector<double> GetEnergy() const   {return fEnergy;}

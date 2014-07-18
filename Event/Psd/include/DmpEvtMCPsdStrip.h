@@ -1,28 +1,28 @@
 /*
- *  $Id: DmpEvtMCPsdMSD.h, 2014-06-10 16:35:31 DAMPE $
+ *  $Id: DmpEvtMCPsdStrip.h, 2014-07-18 10:40:23 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 16/12/2013
 */
 
-#ifndef DmpEvtMCPsdMSD_H
-#define DmpEvtMCPsdMSD_H
+#ifndef DmpEvtMCPsdStrip_H
+#define DmpEvtMCPsdStrip_H
 
 #include <map>
 #include "TObject.h"
 
-class DmpEvtMCPsdMSD : public TObject{
+class DmpEvtMCPsdStrip : public TObject{
 /*
- *  DmpEvtMCPsdMSD
+ *  DmpEvtMCPsdStrip
  *
- *      This class used to descrip a Psd strip.
+ *      This class used to descrip one Psd strip.
 */
 public:
-  DmpEvtMCPsdMSD();
-  ~DmpEvtMCPsdMSD();
-  void  SetSDID(const short &id)   {fSDID = id;}
+  DmpEvtMCPsdStrip();
+  ~DmpEvtMCPsdStrip();
+  void  SetGlobalStripID(const short &id)   {fGlobalStripID = id;}
   void  AddG4Hit(const double &e,const double &x,const double &y,const double &z);     // invoke from G4Step or Sensitive Detector
   void  SetBackTrack(const int&,const double&);
-  const short&  GetSDID() const    {return fSDID;}
+  const short&  GetGlobalStripID() const    {return fGlobalStripID;}
   const double& GetEnergy() const  {return fEnergy;}
   const double& PositionX() const  {return fPosX;}
   const double& PositionY() const  {return fPosY;}
@@ -30,14 +30,14 @@ public:
   std::map<int,double>  GetBackTrack() const {return fBackTrack;}
 
 private:
-  short     fSDID;          // unique sensitive detector(minimum detector unit) ID. Psd strip ID. fSDID =  layerID*100 + stripID
+  short     fGlobalStripID; // unique sensitive detector(minimum detector unit) ID. Psd strip ID. fGlobalStripID =  layerID*100 + stripID
   double    fEnergy;        // total e. unit MeV
   double    fPosX;          // unit mm, position x
   double    fPosY;          // unit mm, position y
   double    fPosZ;          // unit mm, position z
   std::map<int,double>      fBackTrack;     // key = id of back track, value = Total energy deposited in this strip by this back track
 
-  ClassDef(DmpEvtMCPsdMSD,1)
+  ClassDef(DmpEvtMCPsdStrip,1)
 };
 
 #endif
