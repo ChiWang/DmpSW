@@ -21,7 +21,6 @@ DmpCore::DmpCore()
   fTerminateRun(false)
 {
   std::cout<<"**************************************************"<<std::endl;
-  // do not use DmpLogxxx at here
   std::cout<<"      Offline software of DAMPE (DMPSW)"<<std::endl;
   std::cout<<"      version:  1.0.2"<<std::endl;
   std::cout<<"**************************************************"<<std::endl;
@@ -70,10 +69,10 @@ bool DmpCore::Run(){
   long evtID = 0;
   while(not fTerminateRun){
     if(evtID%1000 == 0){
-      DmpLogInfo<<"\tevent ID = "<<evtID<<DmpLogEndl;
+      std::cout<<"\t [DmpCore::Run] event ID = "<<evtID<<std::endl;
     }
     if(not DmpRootIOSvc::GetInstance()->PrepareEvent(evtID)){
-      DmpLogInfo<<"End of reading input trees"<<DmpLogEndl;
+      std::cout<<"\t [DmpCore::Run] End of reading input trees"<<std::endl;
       fTerminateRun = true;
       break;
     }
@@ -87,6 +86,38 @@ bool DmpCore::Run(){
     }
   }
   std::cout<<"  [DmpCore::Run] Done\n"<<std::endl;
+  return true;
+}
+
+//-------------------------------------------------------------------
+bool DmpCore::ExecuteEvent(const long &evtID){
+  if(not fInitializeDone){
+    return false;
+  }
+  std::cout<<"\n  [DmpCore::ExecuteEvent] execute event: ID = "<<evtID<<std::endl;
+  if(DmpRootIOSvc::GetInstance()->PrepareEvent(evtID)){
+    if(fAlgMgr->ProcessOneEvent()){
+      std::cout<<"  [DmpCore::ExecuteEvent] Done\n"<<std::endl;
+    }else{
+      std::cout<<"  [DmpCore::ExecuteEvent] Break...\n"<<std::endl;
+    }
+  }else{
+    DmpLogError<<"\n  [DmpCore::ExecuteEvent] prepare event("<<evtID<<") failed..."<<std::endl;
+    return false;
+  }
+  return true;
+}
+
+//-------------------------------------------------------------------
+bool DmpCore::ExecuteEvent(const std::string &time){
+  if(not fInitializeDone){
+    return false;
+  }
+  std::cout<<"\n  [DmpCore::ExecuteEvent] event time = "<<time<<std::endl;
+// *
+// *  TODO:  finish me
+// *
+  std::cout<<"  [DmpCore::ExecuteEvent] Done\n"<<std::endl;
   return true;
 }
 
@@ -106,7 +137,7 @@ bool DmpCore::Finalize(){
 #include <boost/lexical_cast.hpp>
 void DmpCore::Set(const std::string &type,const std::string &value){
   if(OptMap.find(type) == OptMap.end()){
-    DmpLogError<<"No argument type: "<<type<<DmpLogEndl;
+    DmpLogError<<"\t[DmpCore::Set] No argument type: "<<type<<DmpLogEndl;
     throw;
   }
   switch(OptMap[type]){
