@@ -21,7 +21,10 @@ DmpAlgorithmManager::~DmpAlgorithmManager(){
 //-------------------------------------------------------------------
 bool DmpAlgorithmManager::ProcessOneEvent(){
   for(std::list<DmpVAlg*>::iterator it = fElements.begin();it != fElements.end();++it){
-    if(not (*it)->ProcessThisEvent())  return false;
+    if(not (*it)->ProcessThisEvent()){
+      DmpLogError<<"  [DmpAlgorithmManager::ProcessOneEvent] "<<(*it)->Name()<<" failed...\n"<<DmpLogEndl;
+      return false;
+    }
   }
   return true;
 }

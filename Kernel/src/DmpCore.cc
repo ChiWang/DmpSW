@@ -18,7 +18,8 @@ DmpCore::DmpCore()
   fStartTime(0),
   fStopTime(0),
   fInitializeDone(false),
-  fTerminateRun(false)
+  fTerminateRun(false),
+  fCurrentEventID(0)    // must == 0
 {
   std::cout<<"**************************************************"<<std::endl;
   std::cout<<"      Offline software of DAMPE (DMPSW)"<<std::endl;
@@ -66,21 +67,21 @@ bool DmpCore::Run(){
 // *  TODO: use cut of time range??
 // *
   DmpRootIOSvc::GetInstance()->PrepareMetaData();
-  long evtID = 0;
   while(not fTerminateRun){
-    if(evtID%1000 == 0){
-      std::cout<<"\t [DmpCore::Run] event ID = "<<evtID<<std::endl;
+    if(fCurrentEventID%1000 == 0){
+      std::cout<<"\t [DmpCore::Run] event ID = "<<fCurrentEventID<<std::endl;
     }
-    if(not DmpRootIOSvc::GetInstance()->PrepareEvent(evtID)){
+    if(DmpRootIOSvc::GetInstance()->PrepareEvent(fCurrentEventID)){
+      if(fAlgMgr->ProcessOneEvent()){
+        DmpRootIOSvc::GetInstance()->FillEvent();
+      }
+      ++fCurrentEventID;
+    }else{
       std::cout<<"\t [DmpCore::Run] End of reading input trees"<<std::endl;
       fTerminateRun = true;
       break;
     }
-    if(fAlgMgr->ProcessOneEvent()){
-      DmpRootIOSvc::GetInstance()->FillEvent();
-    }
-    ++evtID;
-    if(evtID == fMaxEventNo){
+    if(fCurrentEventID == fMaxEventNo){
       fTerminateRun = true;
       break;
     }
@@ -94,15 +95,14 @@ bool DmpCore::ExecuteEvent(const long &evtID){
   if(not fInitializeDone){
     return false;
   }
-  std::cout<<"\n  [DmpCore::ExecuteEvent] execute event: ID = "<<evtID<<std::endl;
-  if(DmpRootIOSvc::GetInstance()->PrepareEvent(evtID)){
+  fCurrentEventID = evtID;
+  std::cout<<"\n  [DmpCore::ExecuteEvent] execute event: ID = "<<fCurrentEventID<<std::endl;
+  if(DmpRootIOSvc::GetInstance()->PrepareEvent(fCurrentEventID)){
     if(fAlgMgr->ProcessOneEvent()){
       std::cout<<"  [DmpCore::ExecuteEvent] Done\n"<<std::endl;
-    }else{
-      std::cout<<"  [DmpCore::ExecuteEvent] Break...\n"<<std::endl;
     }
   }else{
-    DmpLogError<<"\n  [DmpCore::ExecuteEvent] prepare event("<<evtID<<") failed..."<<std::endl;
+    DmpLogError<<"\n  [DmpCore::ExecuteEvent] prepare event("<<evtID<<") failed..."<<DmpLogEndl;
     return false;
   }
   return true;

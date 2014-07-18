@@ -33,6 +33,7 @@ public:     // binding functions
 
 public:
   const long& GetMaxEventNumber() const {return fMaxEventNo;}
+  const long& GetCurrentEventID() const {return fCurrentEventID;}
   bool EventInTimeWindow(const long &second) const;
   const bool& InitializeDone() const {return fInitializeDone;}
 
@@ -60,6 +61,9 @@ private:
   bool      fInitializeDone;        // default is false
   bool      fTerminateRun;          // concrete algorithm could set this value
   std::map<std::string,short>    OptMap; // option map
+
+private:
+  long      fCurrentEventID;        // the current event ID (processing)
 
 };
 
