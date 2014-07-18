@@ -60,8 +60,6 @@ struct DmpVSvcWrapper : public DmpVSvc, boost::python::wrapper<DmpVSvc>{
 };
 
 //BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(SetLogLevel_Wrap,DmpCore::SetLogLevel,1,2)
-bool (DmpCore::*ExecuteEvent_ID)(const long&) = &DmpCore::ExecuteEvent;
-bool (DmpCore::*ExecuteEvent_Time)(const std::string&) = &DmpCore::ExecuteEvent;
 
 //-------------------------------------------------------------------
 BOOST_PYTHON_MODULE(libDmpKernel){
@@ -115,8 +113,8 @@ BOOST_PYTHON_MODULE(libDmpKernel){
     .staticmethod("GetInstance")
     .def("Initialize",  &DmpCore::Initialize)
     .def("Run",         &DmpCore::Run)
-    .def("ExecuteEvent",ExecuteEvent_ID)
-    .def("ExecuteEvent",ExecuteEvent_Time)
+    .def("ExecuteEventID",&DmpCore::ExecuteEventID)
+    .def("ExecuteEventTime",&DmpCore::ExecuteEventTime)
     .def("Finalize",    &DmpCore::Finalize)
     .def("Set", &DmpCore::Set)
     //.def("SetLogLevel", &DmpCore::SetLogLevel, SetLogLevel_Wrap())

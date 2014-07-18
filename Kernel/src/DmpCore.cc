@@ -91,7 +91,7 @@ bool DmpCore::Run(){
 }
 
 //-------------------------------------------------------------------
-bool DmpCore::ExecuteEvent(const long &evtID){
+bool DmpCore::ExecuteEventID(const long &evtID){
   if(not fInitializeDone){
     return false;
   }
@@ -109,7 +109,7 @@ bool DmpCore::ExecuteEvent(const long &evtID){
 }
 
 //-------------------------------------------------------------------
-bool DmpCore::ExecuteEvent(const std::string &time){
+bool DmpCore::ExecuteEventTime(const std::string &time){
   if(not fInitializeDone){
     return false;
   }
