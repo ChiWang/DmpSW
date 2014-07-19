@@ -7,7 +7,7 @@
 #include "TClonesArray.h"
 
 #include "DmpEvtRdcHeader.h"
-#include "DmpEvtRdcMSD.h"
+#include "DmpEvtRdcPsdStrip.h"
 #include "DmpRdcAlgBT2012.h"
 #include "DmpRootIOSvc.h"
 
@@ -24,7 +24,7 @@ void DmpRdcAlgBT2012::InitializePsd(){
 // *  TODO:  check connector right?
 // *
   fCNCTDonePsd = true;
-  fPsdStripSet = new TClonesArray("DmpEvtRdcMSD",90);
+  fPsdStripSet = new TClonesArray("DmpEvtRdcPsdStrip",90);
   if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Psd",fPsdStripSet)){
     fIniStatus = false;
     return;
@@ -109,7 +109,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
 void DmpRdcAlgBT2012::AppendSignalPsd(const int &id,const int &v){
 // *
 // *  TODO: example bgo
-// *
+// 
 }
 
 //-------------------------------------------------------------------

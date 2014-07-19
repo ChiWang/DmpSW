@@ -7,7 +7,7 @@
 #include "TClonesArray.h"
 
 #include "DmpEvtRdcHeader.h"
-#include "DmpEvtRdcMSD.h"
+#include "DmpEvtRdcStkLadder.h"
 #include "DmpRdcAlgBT2012.h"
 #include "DmpRootIOSvc.h"
 
@@ -24,7 +24,7 @@ void DmpRdcAlgBT2012::InitializeStk(){
 // *  TODO: set method?
 // *
   fCNCTDoneStk = true;
-  fStkLadderSet = new TClonesArray("DmpEvtRdcMSD",90); // TODO ,size ??
+  fStkLadderSet = new TClonesArray("DmpEvtRdcStkLadder",190); // TODO ,size ??
   if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Stk",fStkLadderSet)){
     fIniStatus = false;
     return;

@@ -10,7 +10,7 @@
 #include "G4TouchableHistory.hh"
 
 #include "DmpSimStkSD.h"
-#include "DmpEvtMCStkMSD.h"
+#include "DmpEvtMCStkStrip.h"
 #include "DmpRootIOSvc.h"
 
 //-------------------------------------------------------------------
@@ -18,7 +18,7 @@ DmpSimStkSD::DmpSimStkSD()
  :G4VSensitiveDetector("StkSD"),
   fStripSet(0)
 {
-  fStripSet = new TClonesArray("DmpEvtMCStkMSD",74000); // strips number = layer(6) * block(4) * ladder(4) * strip(384*2)
+  fStripSet = new TClonesArray("DmpEvtMCStkStrip",74000); // strips number = layer(6) * block(4) * ladder(4) * strip(384*2)
 // *
 // *  TODO:  check Register status
 // *
@@ -41,17 +41,17 @@ G4bool DmpSimStkSD::ProcessHits(G4Step *aStep,G4TouchableHistory*){
   std::string stripName = theTouchable->GetVolume(1)->GetName();
   stripName.assign(stripName.end()-4,stripName.end());        // get ID
   int stripID = boost::lexical_cast<int>(stripName);
-  DmpEvtMCStkMSD *aStrip = 0;
+  DmpEvtMCStkStrip *aStrip = 0;
   for(int i=0;i<fStripSet->GetEntriesFast();++i){
-    if(((DmpEvtMCStkMSD*)fStripSet->At(i))->GetSDID() == stripID){
-      aStrip = (DmpEvtMCStkMSD*)fStripSet->At(i);
+    if(((DmpEvtMCStkStrip*)fStripSet->At(i))->GetGlobalStripID() == stripID){
+      aStrip = (DmpEvtMCStkStrip*)fStripSet->At(i);
       break;
     }
   }
   if(aStrip == 0){
     DmpLogDebug<<"\t[Stk] hit a new strip: "<<stripID<<DmpLogEndl;
-    aStrip = (DmpEvtMCStkMSD*)fStripSet->New(fStripSet->GetEntriesFast());
-    aStrip->SetSDID(stripID);
+    aStrip = (DmpEvtMCStkStrip*)fStripSet->New(fStripSet->GetEntriesFast());
+    aStrip->SetGlobalStripID(stripID);
   }
   G4ThreeVector position = aStep->GetPreStepPoint()->GetPosition();
   aStrip->AddG4Hit(aStep->GetTotalEnergyDeposit()/MeV,position.x()/mm,position.y()/mm,position.z()/mm);

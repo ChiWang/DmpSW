@@ -12,7 +12,7 @@
 #pragma link off all namespaces;
 // Rdc
 #pragma link C++ class DmpEvtRdcHeader+;
-#pragma link C++ class DmpEvtRdcMSD+;
+//#pragma link C++ class DmpEvtRdcMSD+;
 // simulation
 #pragma link C++ class DmpEvtMCPrimaryParticle+;
 

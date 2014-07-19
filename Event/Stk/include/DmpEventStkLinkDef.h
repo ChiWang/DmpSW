@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEventStkLinkDef.h, 2014-05-01 21:12:10 DAMPE $
+ *  $Id: DmpEventStkLinkDef.h, 2014-07-19 10:54:24 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/01/2014
 */
@@ -10,7 +10,8 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
-#pragma link C++ class DmpEvtMCStkMSD+;
+#pragma link C++ class DmpEvtRdcStkLadder+;
+#pragma link C++ class DmpEvtMCStkStrip+;
 
 #endif
 

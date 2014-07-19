@@ -1,14 +1,14 @@
 /*
- *  $Id: DmpEvtMCStkMSD.cc, 2014-06-09 14:18:26 DAMPE $
+ *  $Id: DmpEvtMCStkStrip.cc, 2014-06-09 14:18:26 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 05/06/2014
 */
 
-#include "DmpEvtMCStkMSD.h"
+#include "DmpEvtMCStkStrip.h"
 
 //-------------------------------------------------------------------
-DmpEvtMCStkMSD::DmpEvtMCStkMSD()
- :fSDID(0),
+DmpEvtMCStkStrip::DmpEvtMCStkStrip()
+ :fGlobalStripID(0),
   fEnergy(0),
   fPosX(0),
   fPosY(0),
@@ -17,11 +17,11 @@ DmpEvtMCStkMSD::DmpEvtMCStkMSD()
 }
 
 //-------------------------------------------------------------------
-DmpEvtMCStkMSD::~DmpEvtMCStkMSD(){
+DmpEvtMCStkStrip::~DmpEvtMCStkStrip(){
 }
 
 //-------------------------------------------------------------------
-void  DmpEvtMCStkMSD::AddG4Hit(const double &e,const double& x,const double &y,const double &z){
+void  DmpEvtMCStkStrip::AddG4Hit(const double &e,const double& x,const double &y,const double &z){
   double totE = e + fEnergy;
   fPosX = (e*x + fEnergy*fPosX)/totE;
   fPosY = (e*y + fEnergy*fPosY)/totE;
@@ -31,7 +31,7 @@ void  DmpEvtMCStkMSD::AddG4Hit(const double &e,const double& x,const double &y,c
 
 //-------------------------------------------------------------------
 #include <iostream>
-void DmpEvtMCStkMSD::SetBackTrack(const int &id,const double &e){
+void DmpEvtMCStkStrip::SetBackTrack(const int &id,const double &e){
   if(fBackTrack.find(id) != fBackTrack.end()){
     fBackTrack[id] += e;
   }else{
