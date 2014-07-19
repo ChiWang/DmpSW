@@ -4,7 +4,7 @@
  *  Author(s):
  *    Dong LIU (dliu13@mail.ustc.edu.cn)
  *-----------------------------------------------------
- *  use this command to create a template of event
+ *  use this command to create a template of service
  *-----------------------------------------------------
 EOF
 
@@ -120,6 +120,34 @@ public:
 EOF
 }
 
+#-------------------------------------------------------------------
+SourceFile(){
+cat > $1/src/DmpSvc${1}.cc <<EOF
+#include "DmpSvc$1.h"
+
+//-------------------------------------------------------------------
+DmpSvc${1}::DmpSvc${1}()
+ :DmpVSvc("${1}")
+{
+}
+
+//-------------------------------------------------------------------
+DmpSvc${1}::~DmpSvc${1}(){
+}
+
+//-------------------------------------------------------------------
+bool DmpSvc${1}::Initialize(){
+  return true;
+}
+
+//-------------------------------------------------------------------
+bool DmpSvc${1}::Finalize(){
+  return true;
+}
+
+EOF
+}
+
 # main
 #-------------------------------------------------------------------
 if [ $# != 1 ];then
@@ -133,5 +161,6 @@ Readme $1
 SConstruct $1
 Binding $1
 HeaderFile $1
+SourceFile $1
 
 
