@@ -22,7 +22,7 @@ DmpSimNudSD::DmpSimNudSD()
 // *
 // *  TODO:  check Register status
 // *
-  DmpRootIOSvc::GetInstance()->RegisterObject("Event/MCTruth/Nud",fBlockSet);
+  gRootIOSvc->RegisterObject("Event/MCTruth/Nud",fBlockSet);
 }
 
 //-------------------------------------------------------------------

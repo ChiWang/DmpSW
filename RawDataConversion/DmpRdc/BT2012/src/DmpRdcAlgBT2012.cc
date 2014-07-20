@@ -93,7 +93,7 @@ bool DmpRdcAlgBT2012::Initialize(){
     return fIniStatus;
   }
   fEvtHeader = new DmpEvtRdcHeader();
-  if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/EventHeader","DmpEvtRdcHeader",fEvtHeader)){
+  if(not gRootIOSvc->RegisterObject("Event/Rdc/EventHeader","DmpEvtRdcHeader",fEvtHeader)){
     fIniStatus = false;
     return fIniStatus;
   }

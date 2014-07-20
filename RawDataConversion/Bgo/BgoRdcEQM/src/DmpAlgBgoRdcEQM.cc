@@ -27,6 +27,12 @@ DmpAlgBgoRdcEQM::DmpAlgBgoRdcEQM()
 
 //-------------------------------------------------------------------
 DmpAlgBgoRdcEQM::~DmpAlgBgoRdcEQM(){
+  if(fEvtHeader){
+    delete fEvtHeader;
+  }
+  if(fBgoBarSet){
+    delete fBgoBarSet;
+  }
 }
 
 //-------------------------------------------------------------------
@@ -66,12 +72,12 @@ bool DmpAlgBgoRdcEQM::Initialize(){
     if(not SetConnector()) return false;
   }
   fEvtHeader = new DmpEvtRdcHeader();
-  if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/EventHeader","DmpEvtRdcHeader",fEvtHeader)){
+  if(not gRootIOSvc->RegisterObject("Event/Rdc/EventHeader","DmpEvtRdcHeader",fEvtHeader)){
     fIniStatus = false;
     return fIniStatus;
   }
   fBgoBarSet = new TClonesArray("DmpEvtRdcBgoBar",300);
-  if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Bgo",fBgoBarSet)){
+  if(not gRootIOSvc->RegisterObject("Event/Rdc/Bgo",fBgoBarSet)){
     fIniStatus = false;
     return fIniStatus;
   }
@@ -80,13 +86,7 @@ bool DmpAlgBgoRdcEQM::Initialize(){
 
 //-------------------------------------------------------------------
 bool DmpAlgBgoRdcEQM::Finalize(){
-  if(fEvtHeader){
-    delete fEvtHeader;
-  }
-  if(fBgoBarSet){
-    fBgoBarSet->Delete();
-    delete fBgoBarSet;
-  }
+  fBgoBarSet->Delete();
   return true;
 }
 

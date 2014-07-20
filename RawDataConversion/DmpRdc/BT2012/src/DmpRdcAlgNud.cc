@@ -25,7 +25,7 @@ void DmpRdcAlgBT2012::InitializeNud(){
 // *
   fCNCTDoneNud = true;
   fNudBlockSet = new TClonesArray("DmpEvtRdcNudBlock",5);
-  if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Nud",fNudBlockSet)){
+  if(not gRootIOSvc->RegisterObject("Event/Rdc/Nud",fNudBlockSet)){
     fIniStatus = false;
     return;
   }

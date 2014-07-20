@@ -27,7 +27,7 @@ DmpCore::DmpCore()
   std::cout<<"**************************************************"<<std::endl;
   fAlgMgr = DmpAlgorithmManager::GetInstance();
   fSvcMgr = DmpServiceManager::GetInstance();
-  fSvcMgr->Append(DmpRootIOSvc::GetInstance());
+  fSvcMgr->Append(gRootIOSvc);
   OptMap.insert(std::make_pair("LogLevel",  0));    // value: None, Error, Warning, Info, Debug
   OptMap.insert(std::make_pair("EventNumber",1));   // value: any number
   OptMap.insert(std::make_pair("StartTime", 2));    // value: format 20131231-1430
@@ -66,14 +66,14 @@ bool DmpCore::Run(){
 // *
 // *  TODO: use cut of time range??
 // *
-  DmpRootIOSvc::GetInstance()->PrepareMetaData();
+  gRootIOSvc->PrepareMetaData();
   while(not fTerminateRun){
     if(fCurrentEventID%5000 == 0){
       std::cout<<"\t [DmpCore::Run] event ID = "<<fCurrentEventID<<std::endl;
     }
-    if(DmpRootIOSvc::GetInstance()->PrepareEvent(fCurrentEventID)){
+    if(gRootIOSvc->PrepareEvent(fCurrentEventID)){
       if(fAlgMgr->ProcessOneEvent()){
-        DmpRootIOSvc::GetInstance()->FillEvent();
+        gRootIOSvc->FillEvent();
       }
       ++fCurrentEventID;
     }else{
@@ -97,7 +97,7 @@ bool DmpCore::ExecuteEventID(const long &evtID){
   }
   fCurrentEventID = evtID;
   std::cout<<"\n  [DmpCore::ExecuteEvent] execute event: ID = "<<fCurrentEventID<<std::endl;
-  if(DmpRootIOSvc::GetInstance()->PrepareEvent(fCurrentEventID)){
+  if(gRootIOSvc->PrepareEvent(fCurrentEventID)){
     if(fAlgMgr->ProcessOneEvent()){
       std::cout<<"  [DmpCore::ExecuteEvent] Done\n"<<std::endl;
     }

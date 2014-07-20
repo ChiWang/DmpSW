@@ -22,7 +22,7 @@ DmpSimBgoSD::DmpSimBgoSD()
 // *
 // *  TODO:  check Register status
 // *
-  DmpRootIOSvc::GetInstance()->RegisterObject("Event/MCTruth/Bgo",fBarSet);
+  gRootIOSvc->RegisterObject("Event/MCTruth/Bgo",fBarSet);
 }
 
 //-------------------------------------------------------------------

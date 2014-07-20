@@ -269,3 +269,5 @@ bool DmpRootIOSvc::NewBranchInInputTree(const std::string &treeName)const{
   return false;
 }
 
+DmpRootIOSvc *gRootIOSvc = DmpRootIOSvc::GetInstance();
+

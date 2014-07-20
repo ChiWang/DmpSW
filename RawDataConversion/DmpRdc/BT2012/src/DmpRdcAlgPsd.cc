@@ -25,7 +25,7 @@ void DmpRdcAlgBT2012::InitializePsd(){
 // *
   fCNCTDonePsd = true;
   fPsdStripSet = new TClonesArray("DmpEvtRdcPsdStrip",90);
-  if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Psd",fPsdStripSet)){
+  if(not gRootIOSvc->RegisterObject("Event/Rdc/Psd",fPsdStripSet)){
     fIniStatus = false;
     return;
   }

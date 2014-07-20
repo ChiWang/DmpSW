@@ -186,6 +186,8 @@ template<typename T> bool DmpRootIOSvc::RegisterObject(const std::string &path,T
   return true;
 }
 
+//-------------------------------------------------------------------
+extern DmpRootIOSvc  *gRootIOSvc;
 
 #endif
 

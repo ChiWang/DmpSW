@@ -22,7 +22,7 @@ DmpSimPsdSD::DmpSimPsdSD()
 // *
 // *  TODO:  check Register status
 // *
-  DmpRootIOSvc::GetInstance()->RegisterObject("Event/MCTruth/Psd",fStripSet);
+  gRootIOSvc->RegisterObject("Event/MCTruth/Psd",fStripSet);
 }
 
 //-------------------------------------------------------------------

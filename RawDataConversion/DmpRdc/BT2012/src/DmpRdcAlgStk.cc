@@ -25,7 +25,7 @@ void DmpRdcAlgBT2012::InitializeStk(){
 // *
   fCNCTDoneStk = true;
   fStkLadderSet = new TClonesArray("DmpEvtRdcStkLadder",190); // TODO ,size ??
-  if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Stk",fStkLadderSet)){
+  if(not gRootIOSvc->RegisterObject("Event/Rdc/Stk",fStkLadderSet)){
     fIniStatus = false;
     return;
   }

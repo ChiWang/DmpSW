@@ -51,7 +51,7 @@ void DmpRdcAlgBT2012::InitializeBgo(){
   }
   fCNCTDoneBgo = true;
   fBgoBarSet = new TClonesArray("DmpEvtRdcBgoBar",300);
-  if(not DmpRootIOSvc::GetInstance()->RegisterObject("Event/Rdc/Bgo",fBgoBarSet)){
+  if(not gRootIOSvc->RegisterObject("Event/Rdc/Bgo",fBgoBarSet)){
     fIniStatus = false;
     return;
   }
@@ -159,10 +159,7 @@ void DmpRdcAlgBT2012::AppendSignalBgo(const int &globalFeeChannelID, const int &
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::FinalizeBgo(){
-  if(fBgoBarSet){
-    fBgoBarSet->Delete();
-    delete fBgoBarSet;
-  }
+  fBgoBarSet->Delete();
   return true;
 }
 
