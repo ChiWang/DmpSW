@@ -59,12 +59,13 @@ void DmpRdcAlgBT2012::InitializeBgo(){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
+  static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
+  static short  runMode;
+  static short data=0;
+  static unsigned short data2=0;
   fBgoBarSet->Delete();
   DmpLogDebug<<"[Bgo] from "<<fFile.tellg();
 //-------------------------------------------------------------------
-  static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
-  static short data=0;
-  static unsigned short data2=0;
   for (feeCounts=0;feeCounts<fFEENoBgo;++feeCounts) {
     fFile.read((char*)(&data),1);
     if (data!=0xeb) {
@@ -87,24 +88,16 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
     }
     fFile.read((char*)(&data),1);       // run mode and FEE ID
     feeID = data%16;
-    if(feeCounts == 0){
-      fEvtHeader->SetRunMode(DmpDetectorID::kBgo,data/16-fFEETypeBgo);
-    }
-    /*
-    }else{
-      if(fEvtHeader->GetRunMode(DmpDetectorID::kBgo) != data/16-fFEETypeBgo){
-        fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeID,DmpEvtRdcHeader::NotMatch_RunMode);
-        return false;
-      }
-    }
-    */
+    runMode = data2/16-fFEETypeBgo;
+    //if(feeCounts == 0){
+    fEvtHeader->SetRunMode(DmpDetectorID::kBgo,runMode);
     fFile.read((char*)(&data),1);       // data length, 2 bytes
     fFile.read((char*)(&data2),1);
     nBytes = data*256+data2-2-2-2;        // 2 bytes for data length, 2 bytes for 0x0000, 2 bytes for CRC
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
-    if(fEvtHeader->GetRunMode(DmpDetectorID::kBgo) == DmpRunMode::kCompress){
+    if(runMode == DmpRunMode::kCompress){
       nSignal = nBytes/3;
       DmpLogDebug<<"\tFEE ID "<<feeID<<" signalNo = "<<nSignal<<DmpLogEndl;
       for(short i=0;i<nSignal;++i){     // kCompress

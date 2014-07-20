@@ -40,6 +40,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventNud(){
 // *  TODO: check conversion Nud
 // *
   static short feeID=0, nBytes=0, nSignal=0, data=0;
+  static short runMode;
   static unsigned short data2=0;
   fFile.read((char*)(&data),1);
   if(data!=0xeb){
@@ -55,7 +56,8 @@ bool DmpRdcAlgBT2012::ProcessThisEventNud(){
   fEvtHeader->SetTrigger(DmpDetectorID::kNud,data);
   fFile.read((char*)(&data),1);     // run mode and FEE ID
   feeID = data%16;
-  fEvtHeader->SetRunMode(DmpDetectorID::kNud,data/16-fFEETypeNud);
+  runMode = data2/16-fFEETypeNud;
+  fEvtHeader->SetRunMode(DmpDetectorID::kNud,runMode);
   fFile.read((char*)(&data),1);     // data length, 2 Bytes
   fFile.read((char*)(&data2),1);
   nBytes = data*256+data2-2-2;            // 2 bytes for data length, 2 bytes for CRC
@@ -63,7 +65,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventNud(){
 // *  TODO: mode == k0Compress && data length == xxx
 // *
   //if (fEvtHeader->GetRunMode(DmpDetectorID::kNud) == DmpDetectorID::k0Compress) 
-  if(fEvtHeader->GetRunMode(DmpDetectorID::kNud) == DmpRunMode::k0Compress){
+  if(runMode == DmpRunMode::k0Compress){
     nSignal = nBytes/2;
     DmpLogDebug<<"\t---> signalNo = "<<nSignal<<DmpLogEndl;
     for(short i=0;i<nSignal;++i){     // k0Compress

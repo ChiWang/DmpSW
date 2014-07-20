@@ -37,6 +37,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
   DmpLogDebug<<"[Psd] from "<<fFile.tellg();
 //-------------------------------------------------------------------
   static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
+  static short runMode;
   static short data=0;
   static unsigned short data2=0;
   for(feeCounts=0;feeCounts<fFEENoPsd;++feeCounts){
@@ -62,10 +63,12 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
     }
     fFile.read((char*)(&data),1);       // run mode and FEE ID
     feeID = data%16;
+    runMode = data2/16-fFEETypePsd;
+    //if(feeCounts == 0){
+    fEvtHeader->SetRunMode(DmpDetectorID::kPsd,runMode);
+    //}
     /*
-    if(feeCounts == 0){
-      fEvtHeader->SetRunMode(DmpDetectorID::kPsd,data/16-fFEETypePsd);
-    }else{
+    else{
       if(fEvtHeader->GetRunMode(DmpDetectorID::kPsd) != data/16-fFEETypePsd){
         fEvtHeader->SetErrorLog(DmpDetectorID::kPsd,feeID,DmpEvtRdcHeader::NotMatch_RunMode);
         return false;
@@ -78,7 +81,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
-    if(fEvtHeader->GetRunMode(DmpDetectorID::kPsd) == DmpRunMode::k0Compress){
+    if(runMode == DmpRunMode::k0Compress){
       nSignal = nBytes/2;
       DmpLogDebug<<"\t---> signalNo = "<<nSignal<<DmpLogEndl;
       for(short i=0;i<nSignal;++i){     // k0Compress

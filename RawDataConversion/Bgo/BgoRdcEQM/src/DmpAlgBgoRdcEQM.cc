@@ -188,6 +188,7 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventHeader(){
 //-------------------------------------------------------------------
 bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
   static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
+  static short runMode = 0;
   static short feeTypeBgo = 0;
   static char data=0;
   static unsigned char data2=0;
@@ -209,24 +210,15 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
     fInFilePtr.read((char*)(&data2),1);      // reserved 1 byte
     fInFilePtr.read((char*)(&data2),1);      // run mode and FEE ID
     feeID = data2%16;
-    if(feeCounts == 0){
-      fEvtHeader->SetRunMode(DmpDetectorID::kBgo,data2/16-feeTypeBgo);
-    }
-    /*
-    }else{
-      if(fEvtHeader->GetRunMode(DmpDetectorID::kBgo) != data2/16-feeTypeBgo){
-        fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeID,DmpEvtRdcHeader::NotMatch_RunMode);
-        return false;
-      }
-    }
-    */
+    runMode = data2/16-feeTypeBgo;
+    fEvtHeader->SetRunMode(DmpDetectorID::kBgo,runMode);
     fInFilePtr.read((char*)(&data),1);      // data length, 2 bytes
     fInFilePtr.read((char*)(&data2),1);
     nBytes = data*256+data2-2-2-2;      // 2 bytes for data length, 2 bytes for trigger, 2 bytes for CRC
 // *
 // *  TODO: check data length
 // *
-    if(fEvtHeader->GetRunMode(DmpDetectorID::kBgo) == DmpRunMode::kCompress){
+    if(runMode == DmpRunMode::kCompress){
       nSignal = nBytes/3;
       DmpLogDebug<<"\tFEE ID "<<feeID<<" signalNo = "<<nSignal<<DmpLogEndl;
       for(short i=0;i<nSignal;++i){     // kCompress

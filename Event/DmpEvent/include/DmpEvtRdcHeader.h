@@ -9,6 +9,7 @@
 
 
 #include <map>
+#include <vector>
 #include "TObject.h"
 
 #include "DmpDetectorID.h"
@@ -37,22 +38,21 @@ public:
   };
   void  SetErrorLog(DmpDetectorID::Type id,const short &FeeID,const DataErrorType &type);
   void  SetTime(const short&,const short&);
-  //void  GenerateStatus();
-  void  SetTrigger(DmpDetectorID::Type id,const short &v)   {fTrigger.insert(std::make_pair(id,v));}
-  void  SetRunMode(DmpDetectorID::Type id,const short &v)   {fRunMode.insert(std::make_pair(id,v));}
+  void  SetTrigger(DmpDetectorID::Type id,short v)  {fTrigger.insert(std::make_pair(id,v));}
+  void  SetRunMode(DmpDetectorID::Type id,short v);
   void  Reset();
   bool  IsGoodEvent() const;
   const long& GetSecond() const {return fSec;}
   const short& GetMillisecond() const {return fMillisec;}
   std::map<short,short> GetStatus() const {return fStatus;}
   short GetTrigger(DmpDetectorID::Type id = DmpDetectorID::kWhole) const;
-  short GetRunMode(DmpDetectorID::Type) const;
+  int GetRunMode(DmpDetectorID::Type id) const {return fRunMode.find(id)->second;}
 
 private:
   long      fSec;           // second
   short     fMillisec;      // millisecond
   std::map<short,short>     fTrigger;       // 4 subDet + satellite trigger
-  std::map<short,short>     fRunMode;
+  std::map<short,int>       fRunMode;
   std::map<short,short>     fStatus;        // status for this event
   /*
    * fStatus[DmpDetector::kWhole] is for global check, check all subDet

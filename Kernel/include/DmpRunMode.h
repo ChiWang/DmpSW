@@ -9,7 +9,7 @@
 
 namespace DmpRunMode{
   enum Type{
-    kUnknow = -1,
+    kUnknow = 0,
     k0Compress = 1,
     kCompress = 5,
     kCalPed = 6,

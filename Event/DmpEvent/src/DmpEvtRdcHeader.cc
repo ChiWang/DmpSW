@@ -64,6 +64,22 @@ void DmpEvtRdcHeader::SetTime(const short &n,const short &v){
 }
 
 //-------------------------------------------------------------------
+void DmpEvtRdcHeader::SetRunMode(DmpDetectorID::Type id, short v){
+  if(fRunMode.find(id) == fRunMode.end()){
+    fRunMode[id] = v;
+    return;
+  }else{
+    if(fRunMode[id] != v){
+      if(fRunMode[id] > 0){
+        fRunMode[id] = 0 - (fRunMode[id]*10 + v);
+      }else{
+        fRunMode[id] = fRunMode[id]*10 - v;
+      }
+    }
+  }
+}
+
+//-------------------------------------------------------------------
 void DmpEvtRdcHeader::Reset(){
   fSec = 0;
   fMillisec = 0;
@@ -97,14 +113,4 @@ short DmpEvtRdcHeader::GetTrigger(DmpDetectorID::Type id) const{
   }
   return fTrigger.find(id)->second;
 }
-
-//-------------------------------------------------------------------
-short DmpEvtRdcHeader::GetRunMode(DmpDetectorID::Type id) const{
-  if(fRunMode.find(id) == fRunMode.end()){
-    DmpLogError<<"No detector ID "<<id<<DmpLogEndl;
-    return -1;
-  }
-  return fRunMode.find(id)->second;
-}
-
 
