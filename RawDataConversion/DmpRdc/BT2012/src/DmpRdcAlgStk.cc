@@ -9,7 +9,7 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcStkLadder.h"
 #include "DmpRdcAlgBT2012.h"
-#include "DmpRootIOSvc.h"
+#include "DmpDataBufSvc.h"
 
 //-------------------------------------------------------------------
 void DmpRdcAlgBT2012::InitializeStk(){
@@ -25,7 +25,7 @@ void DmpRdcAlgBT2012::InitializeStk(){
 // *
   fCNCTDoneStk = true;
   fStkLadderSet = new TClonesArray("DmpEvtRdcStkLadder",190); // TODO ,size ??
-  if(not gRootIOSvc->RegisterObject("Event/Rdc/Stk",fStkLadderSet)){
+  if(not gDataBufSvc->RegisterObject("Event/Rdc/Stk",fStkLadderSet)){
     fIniStatus = false;
     return;
   }
@@ -51,14 +51,5 @@ void DmpRdcAlgBT2012::AppendSignalStk(const int &id,const int &v){
 // *
 // *  TODO: example bgo
 // *
-}
-
-//-------------------------------------------------------------------
-bool DmpRdcAlgBT2012::FinalizeStk(){
-  if(fStkLadderSet){
-    fStkLadderSet->Delete();
-    delete fStkLadderSet;
-  }
-  return true;
 }
 

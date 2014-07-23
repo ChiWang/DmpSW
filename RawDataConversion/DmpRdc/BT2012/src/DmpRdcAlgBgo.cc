@@ -10,7 +10,7 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcBgoBar.h"
 #include "DmpRdcAlgBT2012.h"
-#include "DmpRootIOSvc.h"
+#include "DmpDataBufSvc.h"
 
 //-------------------------------------------------------------------
 #include <boost/filesystem/path.hpp>
@@ -51,7 +51,7 @@ void DmpRdcAlgBT2012::InitializeBgo(){
   }
   fCNCTDoneBgo = true;
   fBgoBarSet = new TClonesArray("DmpEvtRdcBgoBar",300);
-  if(not gRootIOSvc->RegisterObject("Event/Rdc/Bgo",fBgoBarSet)){
+  if(not gDataBufSvc->RegisterObject("Event/Rdc/Bgo",fBgoBarSet)){
     fIniStatus = false;
     return;
   }
@@ -148,12 +148,6 @@ void DmpRdcAlgBT2012::AppendSignalBgo(const int &globalFeeChannelID, const int &
     aBgoBar = (DmpEvtRdcBgoBar*)fBgoBarSet->At(index);
   }
   aBgoBar->SetSignal(globalFeeChannelID,fMapBgo[globalFeeChannelID]%100,v);
-}
-
-//-------------------------------------------------------------------
-bool DmpRdcAlgBT2012::FinalizeBgo(){
-  fBgoBarSet->Delete();
-  return true;
 }
 
 

@@ -8,6 +8,7 @@
 
 #include "DmpCore.h"
 #include "DmpRootIOSvc.h"
+#include "DmpDataBufSvc.h"
 
 //-------------------------------------------------------------------
 DmpCore::DmpCore()
@@ -28,6 +29,7 @@ DmpCore::DmpCore()
   fAlgMgr = DmpAlgorithmManager::GetInstance();
   fSvcMgr = DmpServiceManager::GetInstance();
   fSvcMgr->Append(gRootIOSvc);
+  fSvcMgr->Append(gDataBufSvc);
   OptMap.insert(std::make_pair("LogLevel",  0));    // value: None, Error, Warning, Info, Debug
   OptMap.insert(std::make_pair("EventNumber",1));   // value: any number
   OptMap.insert(std::make_pair("StartTime", 2));    // value: format 20131231-1430
@@ -53,7 +55,7 @@ bool DmpCore::Initialize(){
     fStopTime = DeltaTime("21130101-0000");
   }
   fInitializeDone = true;
-  std::cout<<"  [DmpCore::Initialize] ... initialized successfully\n"<<std::endl;
+  std::cout<<"  [DmpCore::Initialize] ... initialized successfully"<<std::endl;
   return true;
 }
 
@@ -68,7 +70,10 @@ bool DmpCore::Run(){
 // *
   gRootIOSvc->PrepareMetaData();
   while(not fTerminateRun){
-    if(fCurrentEventID%5000 == 0){
+    if(fCurrentEventID == fMaxEventNo){
+      fTerminateRun = true;
+      break;
+    }else if(fCurrentEventID%5000 == 0){
       std::cout<<"\t [DmpCore::Run] event ID = "<<fCurrentEventID<<std::endl;
     }
     if(gRootIOSvc->PrepareEvent(fCurrentEventID)){
@@ -77,16 +82,11 @@ bool DmpCore::Run(){
       }
       ++fCurrentEventID;
     }else{
-      std::cout<<"\t [DmpCore::Run] End of reading input trees"<<std::endl;
-      fTerminateRun = true;
-      break;
-    }
-    if(fCurrentEventID == fMaxEventNo){
       fTerminateRun = true;
       break;
     }
   }
-  std::cout<<"  [DmpCore::Run] Done\n"<<std::endl;
+  std::cout<<"  [DmpCore::Run] Done"<<std::endl;
   return true;
 }
 
@@ -97,14 +97,11 @@ bool DmpCore::ExecuteEventID(const long &evtID){
   }
   fCurrentEventID = evtID;
   std::cout<<"\n  [DmpCore::ExecuteEvent] execute event: ID = "<<fCurrentEventID<<std::endl;
+  gRootIOSvc->PrepareMetaData();
   if(gRootIOSvc->PrepareEvent(fCurrentEventID)){
-    if(fAlgMgr->ProcessOneEvent()){
-      std::cout<<"  [DmpCore::ExecuteEvent] Done\n"<<std::endl;
-    }
-  }else{
-    DmpLogError<<"\n  [DmpCore::ExecuteEvent] prepare event("<<evtID<<") failed..."<<DmpLogEndl;
-    return false;
+    fAlgMgr->ProcessOneEvent();
   }
+  std::cout<<"  [DmpCore::ExecuteEvent] Done\n"<<std::endl;
   return true;
 }
 
@@ -129,7 +126,7 @@ bool DmpCore::Finalize(){
   //*
   fAlgMgr->Finalize();
   fSvcMgr->Finalize();
-  std::cout<<"  [DmpCore::Finalize] ... finalized successfully\n"<<std::endl;
+  std::cout<<"  [DmpCore::Finalize] ... finalized successfully"<<std::endl;
   return true;
 }
 

@@ -43,7 +43,6 @@ private:    // Bgo
   void InitializeBgo();
   bool ProcessThisEventBgo();
   void AppendSignalBgo(const int&,const int&);
-  bool FinalizeBgo();
 
 private:    // Psd
   TClonesArray      *fPsdStripSet;
@@ -55,7 +54,7 @@ private:    // Psd
   void InitializePsd();
   bool ProcessThisEventPsd();
   void AppendSignalPsd(const int&,const int&);
-  bool FinalizePsd();
+  //bool FinalizePsd();
 
 private:    // Nud
   TClonesArray      *fNudBlockSet;
@@ -66,7 +65,6 @@ private:    // Nud
   void InitializeNud();
   bool ProcessThisEventNud();
   void AppendSignalNud(const int&,const int&);
-  bool FinalizeNud();
 
 private:    // Stk
   TClonesArray      *fStkLadderSet;
@@ -78,7 +76,6 @@ private:    // Stk
   void InitializeStk();
   bool ProcessThisEventStk();
   void AppendSignalStk(const int&,const int&);
-  bool FinalizeStk();
 
 };
 

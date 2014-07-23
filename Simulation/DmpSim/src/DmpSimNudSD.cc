@@ -12,6 +12,7 @@
 #include "DmpSimNudSD.h"
 #include "DmpEvtMCNudBlock.h"
 #include "DmpRootIOSvc.h"
+#include "DmpDataBufSvc.h"
 
 //-------------------------------------------------------------------
 DmpSimNudSD::DmpSimNudSD()
@@ -22,7 +23,7 @@ DmpSimNudSD::DmpSimNudSD()
 // *
 // *  TODO:  check Register status
 // *
-  gRootIOSvc->RegisterObject("Event/MCTruth/Nud",fBlockSet);
+  gDataBufSvc->RegisterObject("Event/MCTruth/Nud",fBlockSet);
 }
 
 //-------------------------------------------------------------------

@@ -9,7 +9,7 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcBgoBar.h"
 #include "DmpAlgBgoRdcEQM.h"
-#include "DmpRootIOSvc.h"
+#include "DmpDataBufSvc.h"
 
 //-------------------------------------------------------------------
 DmpAlgBgoRdcEQM::DmpAlgBgoRdcEQM()
@@ -27,12 +27,12 @@ DmpAlgBgoRdcEQM::DmpAlgBgoRdcEQM()
 
 //-------------------------------------------------------------------
 DmpAlgBgoRdcEQM::~DmpAlgBgoRdcEQM(){
-  if(fEvtHeader){
-    delete fEvtHeader;
-  }
-  if(fBgoBarSet){
-    delete fBgoBarSet;
-  }
+  //if(fEvtHeader){
+  //  delete fEvtHeader;
+  //}
+  //if(fBgoBarSet){
+  //  delete fBgoBarSet;
+  //}
 }
 
 //-------------------------------------------------------------------
@@ -72,12 +72,12 @@ bool DmpAlgBgoRdcEQM::Initialize(){
     if(not SetConnector()) return false;
   }
   fEvtHeader = new DmpEvtRdcHeader();
-  if(not gRootIOSvc->RegisterObject("Event/Rdc/EventHeader","DmpEvtRdcHeader",fEvtHeader)){
+  if(not gDataBufSvc->RegisterObject("Event/Rdc/EventHeader",fEvtHeader,"DmpEvtRdcHeader")){
     fIniStatus = false;
     return fIniStatus;
   }
   fBgoBarSet = new TClonesArray("DmpEvtRdcBgoBar",300);
-  if(not gRootIOSvc->RegisterObject("Event/Rdc/Bgo",fBgoBarSet)){
+  if(not gDataBufSvc->RegisterObject("Event/Rdc/Bgo",fBgoBarSet)){
     fIniStatus = false;
     return fIniStatus;
   }

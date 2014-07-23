@@ -1,12 +1,12 @@
 /*
- *  $Id: DmpRootIOSvc.cc, 2014-06-23 02:12:51 DAMPE $
+ *  $Id: DmpRootIOSvc.cc, 2014-07-21 09:38:44 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 20/05/2014
 */
 
-//#include <boost/algorithm/string.hpp>
-//#include "TTree.h"
-//#include "TFile.h"
+#include <boost/algorithm/string.hpp>
+#include "TTree.h"
+#include "TFile.h"
 #include "TClonesArray.h"
 
 #include "DmpRootIOSvc.h"
@@ -65,22 +65,12 @@ void DmpRootIOSvc::Set(const std::string &option,const std::string &argv){
     }
     case 3: // OutData/WriteList
     {
-      std::vector<std::string>  tempList;
-      boost::split(tempList,argv,boost::is_any_of(";"));
-      for(short i=0;i<tempList.size();++i){
+      boost::split(fWriteList,argv,boost::is_any_of(";"));
+      for(short i=0;i<fWriteList.size();++i){
         std::vector<std::string>  temp;
-        boost::split(temp,tempList[i],boost::is_any_of("/"));
+        boost::split(temp,fWriteList[i],boost::is_any_of("/"));
         if(3 != temp.size()){
-          DmpLogError<<"Wrong path of writing data: "<<tempList[i]<<DmpLogEndl;
-          fIniStatus = false;
-          return;
-        }
-        if("Event" == temp[0]){
-          fWriteListEvt.push_back(tempList[i]);
-        }else if("Metadata" == temp[0]){
-          fWriteListMeta.push_back(tempList[i]);
-        }else{
-          DmpLogError<<"Wrong path of writing data: "<<tempList[i]<<DmpLogEndl;
+          DmpLogError<<"Wrong path of writing data: "<<fWriteList[i]<<DmpLogEndl;
           fIniStatus = false;
           return;
         }
@@ -115,18 +105,11 @@ bool DmpRootIOSvc::Initialize(){
     }
     if(fInFileName.string() == fOutFileName.string()){
       fOutRootFile = fInRootFile;
-    }else if(0 != fWriteListEvt.size() || 0 != fWriteListMeta.size()){
+    }else if(0 != fWriteList.size()){
       if(not boost::filesystem::exists(fOutFileName.parent_path())){
         boost::filesystem::create_directories(fOutFileName.parent_path());
       }
       fOutRootFile = new TFile(fOutFileName.string().c_str(),"RECREATE");
-      if(0 != fWriteListEvt.size()){
-        fOutRootFile->mkdir("Event");
-      }
-      if(0 != fWriteListMeta.size()){
-        fOutRootFile->mkdir("Metadata");
-      }
-      //fOutRootFile->mkdir("Calibration");
     }
   }
   DmpLogDebug<<"[DmpRootIOSvc::Initialize] ... initialization done "<<DmpLogEndl;  
@@ -138,13 +121,24 @@ bool DmpRootIOSvc::Finalize(){
   if(not gCore->InitializeDone()){
     return true;
   }
+  // save trees
   if(fOutRootFile){
     DmpLogInfo<<"[DmpRootIOSvc::Finalize] +--Writing "<<fOutFileName<<DmpLogEndl;
-    SaveMetadata();
-    SaveEventdata();
+    for(DmpRootIOFolderMap::iterator aFolderMap=fOutTreeSet.begin();aFolderMap != fOutTreeSet.end();++aFolderMap){
+      DmpRootIOTreeMap aTreeMap = aFolderMap->second;
+      DmpLogInfo<<"[DmpRootIOSvc::Finalize] |  +--folder: "<<aFolderMap->first<<DmpLogEndl;
+      fOutRootFile->mkdir((aFolderMap->first).c_str());
+      fOutRootFile->cd((aFolderMap->first).c_str());
+      for(DmpRootIOTreeMap::iterator it= aTreeMap.begin();it!=aTreeMap.end();++it){
+        DmpLogInfo<<"[DmpRootIOSvc::Finalize] |  |  +--tree: "<<it->first<<", entries = "<<it->second->GetEntries()<<DmpLogEndl;
+        it->second->Write();
+        delete it->second;
+      }
+    }
     DmpLogInfo<<"[DmpRootIOSvc::Finalize] +--Done"<<DmpLogEndl;
   }
-  if(fInRootFile){  // must after Savexxxx
+  // delete root files
+  if(fInRootFile){
     fInRootFile->Close();
     delete fInRootFile;
   }
@@ -156,110 +150,105 @@ bool DmpRootIOSvc::Finalize(){
 }
 
 //-------------------------------------------------------------------
-TObject* DmpRootIOSvc::ReadObject(const std::string &path){
-  // check path level
-  std::vector<std::string>  temp;
-  boost::split(temp,path,boost::is_any_of("/"));
-  if(3 != temp.size()){
-    DmpLogError<<"[DmpRootIOSvc::ReadObject] input a wrong path: "<<path<<DmpLogEndl;
-    return 0;
-  }
-  TObject *dataPtr = 0;
-  // find object
-  if(fTempDataBuf_MyClass.find(path) != fTempDataBuf_MyClass.end()){    // find it in fTempDataBuf_MyClass
-    dataPtr = fTempDataBuf_MyClass[path];
-  }else if(fTempDataBuf_TClonesArray.find(path) != fTempDataBuf_TClonesArray.end()){    // find it in fTempDataBuf_TClonesArray
-    dataPtr = fTempDataBuf_TClonesArray[path];
-  }else if(fInputDataBuf.find(path) != fInputDataBuf.end()){   // find it in fInputDataBuf
-    dataPtr = fInputDataBuf[path];
-  }else{    // find it in input root file, and insert it into fInputDataBuf
-    std::string treeName = temp[0]+"/"+temp[1];
-    if(fInEvtTreeSet.find(treeName) == fInEvtTreeSet.end()){
-      fInEvtTreeSet.insert(std::make_pair(treeName,(TTree*)fInRootFile->Get(treeName.c_str())));
-      fInEvtEntries.insert(std::make_pair(treeName,fInEvtTreeSet[treeName]->GetEntries()));
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
+bool DmpRootIOSvc::WriteValid(const std::string &folderName,const std::string &treeName, const std::string &branchName){
+  // check write list
+  bool inWriteList=false, noBranch=false;
+  std::string path = folderName+"/"+treeName+"/"+branchName;
+  for(short i=0;i<fWriteList.size();++i){
+    if(path == fWriteList[i]){
+      inWriteList = true;
+      break;
     }
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-    if(not fInEvtTreeSet[treeName]->GetListOfBranches()->FindObject(temp[2].c_str())){
-      DmpLogError<<"the branch "<<temp[2]<<" not in "<<treeName<<DmpLogEndl;
-      return 0;
-    }
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-    fInEvtTreeSet[treeName]->SetBranchAddress(temp[2].c_str(),&dataPtr);
-    fInputDataBuf.insert(std::make_pair(path,dataPtr));
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
   }
-  return dataPtr;
+  // check branch
+  TTree *theTree = GetOutputTree(folderName,treeName);
+  if(0 == theTree->GetListOfBranches()->FindObject(branchName.c_str())){
+    noBranch = true;
+  }else{
+    DmpLogError<<"[DmpRootIOSvc::WriteValid] the "<<path<<" existing..."<<DmpLogEndl;
+  }
+  return (inWriteList && noBranch);
+}
+
+//-------------------------------------------------------------------
+TTree* DmpRootIOSvc::GetOutputTree(const std::string &folderName,const std::string &treeName){
+  TTree *tree = 0;
+  if(fOutTreeSet.find(folderName) != fOutTreeSet.end()){
+    if(fOutTreeSet[folderName].find(treeName) != fOutTreeSet[folderName].end()){
+      tree = fOutTreeSet[folderName][treeName];
+    }
+  }else{
+    DmpRootIOTreeMap aNewFolder;
+    fOutTreeSet.insert(std::make_pair(folderName,aNewFolder));
+  }
+  if(0 == tree){
+    tree = new TTree(treeName.c_str(),treeName.c_str());
+    fOutTreeSet[folderName].insert(std::make_pair(treeName,tree));
+  }
+  return tree;
+}
+
+//-------------------------------------------------------------------
+TTree* DmpRootIOSvc::GetInputTree(const std::string &folderName,const std::string &treeName){
+  TTree *theTree = 0;
+  if(fInTreeSet.find(folderName) != fInTreeSet.end()){
+    if(fInTreeSet[folderName].find(treeName) != fInTreeSet[folderName].end()){
+      theTree = fInTreeSet[folderName][treeName];
+    }
+  }else{
+    DmpRootIOTreeMap  aNewFolder;
+    fInTreeSet.insert(std::make_pair(folderName,aNewFolder));
+  }
+  if(0 == theTree){
+    std::string foldrAndTreeName = folderName+"/"+treeName;
+    theTree = dynamic_cast<TTree*>(fInRootFile->Get(foldrAndTreeName.c_str()));
+    if(theTree){
+      fInTreeSet[folderName].insert(std::make_pair(treeName,theTree));
+      fEntriesOfTree.insert(std::make_pair(foldrAndTreeName,theTree->GetEntries()));
+    }
+  }
+  return theTree;
 }
 
 //-------------------------------------------------------------------
 void DmpRootIOSvc::PrepareMetaData(){
-  for(DmpTreeSet::iterator it=fOutMetaTreeSet.begin();it!=fOutMetaTreeSet.end();++it){
-    it->second->GetEntry();
+  for(DmpRootIOFolderMap::iterator aFolder=fInTreeSet.begin();aFolder!=fInTreeSet.end();++aFolder){
+    if("Event" == aFolder->first){
+      continue;
+    }
+    for(DmpRootIOTreeMap::iterator it=fInTreeSet[aFolder->first].begin();it!=fInTreeSet[aFolder->first].end();++it){
+      it->second->GetEntry();
+    }
   }
 }
 
 //-------------------------------------------------------------------
 bool DmpRootIOSvc::PrepareEvent(const long &evtID){
-  if(0 == fInEvtTreeSet.size()){
+  if(0 == fInTreeSet.size()){
     // some algorithm not use input root file, like Sim and Rdc
     return true;
   }
-  bool atLeastOneTree = false;
-  for(DmpTreeSet::iterator it=fInEvtTreeSet.begin();it!=fInEvtTreeSet.end();++it){
-    if(evtID >= fInEvtEntries[it->first]){
-      continue;
+  DmpLogInfo<<"[DmpRootIOSvc::PrepareEvent] reading event ID = "<<evtID<<DmpLogEndl;
+  bool atLeastONeTree = false;
+  for(DmpRootIOTreeMap::iterator it=fInTreeSet["Event"].begin();it!=fInTreeSet["Event"].end();++it){
+    if(evtID < fEntriesOfTree["Event/"+it->first]){
+      it->second->GetEntry(evtID);
+      atLeastONeTree = true;
     }
-    atLeastOneTree = true;
-    it->second->GetEntry(evtID);
-    DmpLogInfo<<it->first<<"\tevent ID = "<<evtID<<DmpLogEndl;
   }
-  return atLeastOneTree;
+  return atLeastONeTree;
 }
 
 //-------------------------------------------------------------------
 void DmpRootIOSvc::FillEvent(){
-  DmpLogDebug<<"Fill event "<<DmpLogEndl;
-  for(DmpTreeSet::iterator it=fOutEvtTreeSet.begin();it!=fOutEvtTreeSet.end();++it){
+  for(DmpRootIOTreeMap::iterator it=fOutTreeSet["Event"].begin();it!=fOutTreeSet["Event"].end();++it){
     DmpLogDebug<<it->first<<"\tFill event "<<it->second->GetEntries()<<DmpLogEndl;
     it->second->Fill();
   }
 }
 
 //-------------------------------------------------------------------
-void DmpRootIOSvc::SaveMetadata(){
-  if(0 == fOutMetaTreeSet.size()){
-    DmpLogInfo<<"[DmpRootIOSvc::Finalize] |  +--No metadata to be stored..."<<DmpLogEndl;
-    return;
-  }else{
-    DmpLogInfo<<"[DmpRootIOSvc::Finalize] |  +--Saving metadata..."<<DmpLogEndl;
-  }
-  fOutRootFile->cd("Metadata");
-  for(DmpTreeSet::iterator it=fOutMetaTreeSet.begin();it!=fOutMetaTreeSet.end();++it){
-    DmpLogInfo<<"[DmpRootIOSvc::Finalize] |  |  +--tree: "<<it->first<<DmpLogEndl;
-    it->second->Fill();
-    it->second->Write();
-    delete it->second;
-  }
-}
-
-//-------------------------------------------------------------------
-void DmpRootIOSvc::SaveEventdata(){
-  if(0 == fOutEvtTreeSet.size()){
-    DmpLogInfo<<"[DmpRootIOSvc::Finalize] |  +--No event data to be stored..."<<DmpLogEndl;
-    return;
-  }else{
-    DmpLogInfo<<"[DmpRootIOSvc::Finalize] |  +--Saving event data..."<<DmpLogEndl;
-  }
-  fOutRootFile->cd("Event");
-  for(DmpTreeSet::iterator it=fOutEvtTreeSet.begin();it != fOutEvtTreeSet.end();++it){
-    DmpLogInfo<<"[DmpRootIOSvc::Finalize] |  |  +--tree: "<<it->first<<", entries = "<<it->second->GetEntries()<<DmpLogEndl;
-    it->second->Write();
-    delete it->second;
-  }
-}
-
-//-------------------------------------------------------------------
+/*
 bool DmpRootIOSvc::NewBranchInInputTree(const std::string &treeName)const{
   if(fOutFileName.string()  == fInFileName.string()){
     if(fInRootFile->Get(treeName.c_str())){
@@ -268,6 +257,8 @@ bool DmpRootIOSvc::NewBranchInInputTree(const std::string &treeName)const{
   }
   return false;
 }
+*/
 
+//-------------------------------------------------------------------
 DmpRootIOSvc *gRootIOSvc = DmpRootIOSvc::GetInstance();
 

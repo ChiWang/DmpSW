@@ -7,8 +7,7 @@
 #include "TClonesArray.h"
 
 #include "DmpEvtRdcHeader.h"
-//#include "DmpEvtRdcMSD.h"
-#include "DmpRootIOSvc.h"
+#include "DmpDataBufSvc.h"
 #include "DmpRdcAlgBT2012.h"
 
 //-------------------------------------------------------------------
@@ -93,7 +92,7 @@ bool DmpRdcAlgBT2012::Initialize(){
     return fIniStatus;
   }
   fEvtHeader = new DmpEvtRdcHeader();
-  if(not gRootIOSvc->RegisterObject("Event/Rdc/EventHeader","DmpEvtRdcHeader",fEvtHeader)){
+  if(not gDataBufSvc->RegisterObject("Event/Rdc/EventHeader",fEvtHeader,"DmpEvtRdcHeader")){
     fIniStatus = false;
     return fIniStatus;
   }
@@ -163,13 +162,13 @@ bool DmpRdcAlgBT2012::ProcessThisEvent(){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::Finalize(){
-  if(fEvtHeader){
-    delete fEvtHeader;
-  }
-  FinalizePsd();
-  FinalizeStk();
-  FinalizeBgo();
-  FinalizeNud();
+// *
+// *  TODO:  delete elements.
+// *
+  //fPsdStripSet->Delete();
+  //fStkLadderSet->Delete();
+  fBgoBarSet->Delete();
+  //fNudBlockSet->Delete();
   return true;
 }
 
