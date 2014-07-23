@@ -1,11 +1,10 @@
 /*
- *  $Id: DmpDataBufSvc.cc, 2014-07-20 15:09:44 DAMPE $
+ *  $Id: DmpDataBufSvc.cc, 2014-07-23 12:10:26 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 20/07/2014
 */
 
 #include <boost/algorithm/string.hpp>
-//#include "TTree.h"
 #include "DmpDataBufSvc.h"
 
 //-------------------------------------------------------------------
@@ -77,26 +76,10 @@ TObject* DmpDataBufSvc::ReadObject(const std::string &path){
       TTree *findTree = gRootIOSvc->GetInputTree(folderName,treeName);
       if(findTree){
         findTree->SetBranchAddress(branchName.c_str(),&dataPtr);
-        fDataBufPool[folderName][treeName].insert(std::make_pair(branchName,dataPtr));
+        fInputDataBufPool[folderName][treeName].insert(std::make_pair(branchName,dataPtr));
       }
     }
   }
-  /*
-  {    // find it in input root file, and insert it into fInputDataBuf
-    std::string treeName = temp[0]+"/"+temp[1];
-    if(fInEvtTreeSet.find(treeName) == fInEvtTreeSet.end()){
-      fInEvtTreeSet.insert(std::make_pair(treeName,(TTree*)fInRootFile->Get(treeName.c_str())));
-      fInEvtEntries.insert(std::make_pair(treeName,fInEvtTreeSet[treeName]->GetEntries()));
-std::cout<<"DEBUG: "<<__FILE__<<"("<<__LINE__<<"), in "<<__PRETTY_FUNCTION__<<std::endl;
-    }
-    if(not fInEvtTreeSet[treeName]->GetListOfBranches()->FindObject(temp[2].c_str())){
-      DmpLogError<<"the branch "<<temp[2]<<" not in "<<treeName<<DmpLogEndl;
-      return 0;
-    }
-    fInEvtTreeSet[treeName]->SetBranchAddress(temp[2].c_str(),&dataPtr);
-    fInputDataBuf.insert(std::make_pair(path,dataPtr));
-  }
-  */
   return dataPtr;
 }
 
