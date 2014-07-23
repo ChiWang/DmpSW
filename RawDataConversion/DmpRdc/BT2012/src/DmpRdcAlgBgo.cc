@@ -128,7 +128,7 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
 void DmpRdcAlgBT2012::AppendSignalBgo(const int &globalFeeChannelID, const int &v){
   static DmpEvtRdcBgoBar *aBgoBar = 0;
   static short i=0, globalBarID=0;
-  if(fMapBgo[globalFeeChannelID] == 0){
+  if(fMapBgo.find(globalFeeChannelID) == fMapBgo.end()){
     DmpLogError<<"Connector Key Wrong. Global Fee Channel ID: "<<globalFeeChannelID<<". ADC = "<<v<<DmpLogEndl;
     return;
   }else{

@@ -260,7 +260,7 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
 void DmpAlgBgoRdcEQM::AppendThisSignal(const int &globalFeeChannelID, const int &v){
   static DmpEvtRdcBgoBar *aBgoBar = 0;
   static short i=0, globalBarID=0;
-  if(fCNCTMapBgo[globalFeeChannelID] == 0){
+  if(fCNCTMapBgo.find(globalFeeChannelID) == fCNCTMapBgo.end()){
     DmpLogError<<"Connector Key Wrong. Global Fee Channel ID: "<<globalFeeChannelID<<". ADC = "<<v<<DmpLogEndl;
     return;
   }else{
