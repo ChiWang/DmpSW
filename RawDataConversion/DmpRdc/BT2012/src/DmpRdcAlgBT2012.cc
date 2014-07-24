@@ -7,7 +7,7 @@
 #include "TClonesArray.h"
 
 #include "DmpEvtRdcHeader.h"
-#include "DmpDataBufSvc.h"
+#include "DmpDataBuffer.h"
 #include "DmpRdcAlgBT2012.h"
 
 //-------------------------------------------------------------------
@@ -92,7 +92,7 @@ bool DmpRdcAlgBT2012::Initialize(){
     return fIniStatus;
   }
   fEvtHeader = new DmpEvtRdcHeader();
-  if(not gDataBufSvc->RegisterObject("Event/Rdc/EventHeader",fEvtHeader,"DmpEvtRdcHeader")){
+  if(not gDataBuffer->RegisterObject("Event/Rdc/EventHeader",fEvtHeader,"DmpEvtRdcHeader")){
     fIniStatus = false;
     return fIniStatus;
   }

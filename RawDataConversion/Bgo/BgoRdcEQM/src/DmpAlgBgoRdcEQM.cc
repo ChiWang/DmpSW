@@ -9,7 +9,7 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcBgoBar.h"
 #include "DmpAlgBgoRdcEQM.h"
-#include "DmpDataBufSvc.h"
+#include "DmpDataBuffer.h"
 
 //-------------------------------------------------------------------
 DmpAlgBgoRdcEQM::DmpAlgBgoRdcEQM()
@@ -72,12 +72,12 @@ bool DmpAlgBgoRdcEQM::Initialize(){
     if(not SetConnector()) return false;
   }
   fEvtHeader = new DmpEvtRdcHeader();
-  if(not gDataBufSvc->RegisterObject("Event/Rdc/EventHeader",fEvtHeader,"DmpEvtRdcHeader")){
+  if(not gDataBuffer->RegisterObject("Event/Rdc/EventHeader",fEvtHeader,"DmpEvtRdcHeader")){
     fIniStatus = false;
     return fIniStatus;
   }
   fBgoBarSet = new TClonesArray("DmpEvtRdcBgoBar",300);
-  if(not gDataBufSvc->RegisterObject("Event/Rdc/Bgo",fBgoBarSet)){
+  if(not gDataBuffer->RegisterObject("Event/Rdc/Bgo",fBgoBarSet)){
     fIniStatus = false;
     return fIniStatus;
   }

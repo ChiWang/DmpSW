@@ -9,7 +9,7 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcStkLadder.h"
 #include "DmpRdcAlgBT2012.h"
-#include "DmpDataBufSvc.h"
+#include "DmpDataBuffer.h"
 
 //-------------------------------------------------------------------
 void DmpRdcAlgBT2012::InitializeStk(){
@@ -25,7 +25,7 @@ void DmpRdcAlgBT2012::InitializeStk(){
 // *
   fCNCTDoneStk = true;
   fStkLadderSet = new TClonesArray("DmpEvtRdcStkLadder",190); // TODO ,size ??
-  if(not gDataBufSvc->RegisterObject("Event/Rdc/Stk",fStkLadderSet)){
+  if(not gDataBuffer->RegisterObject("Event/Rdc/Stk",fStkLadderSet)){
     fIniStatus = false;
     return;
   }

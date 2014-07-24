@@ -10,7 +10,7 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcBgoBar.h"
 #include "DmpRdcAlgBT2012.h"
-#include "DmpDataBufSvc.h"
+#include "DmpDataBuffer.h"
 
 //-------------------------------------------------------------------
 #include <boost/filesystem/path.hpp>
@@ -51,7 +51,7 @@ void DmpRdcAlgBT2012::InitializeBgo(){
   }
   fCNCTDoneBgo = true;
   fBgoBarSet = new TClonesArray("DmpEvtRdcBgoBar",300);
-  if(not gDataBufSvc->RegisterObject("Event/Rdc/Bgo",fBgoBarSet)){
+  if(not gDataBuffer->RegisterObject("Event/Rdc/Bgo",fBgoBarSet)){
     fIniStatus = false;
     return;
   }

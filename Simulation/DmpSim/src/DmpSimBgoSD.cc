@@ -11,8 +11,7 @@
 
 #include "DmpSimBgoSD.h"
 #include "DmpEvtMCBgoBar.h"
-#include "DmpRootIOSvc.h"
-#include "DmpDataBufSvc.h"
+#include "DmpDataBuffer.h"
 
 //-------------------------------------------------------------------
 DmpSimBgoSD::DmpSimBgoSD()
@@ -23,7 +22,7 @@ DmpSimBgoSD::DmpSimBgoSD()
 // *
 // *  TODO:  check Register status
 // *
-  gDataBufSvc->RegisterObject("Event/MCTruth/Bgo",fBarSet);
+  gDataBuffer->RegisterObject("Event/MCTruth/Bgo",fBarSet);
 }
 
 //-------------------------------------------------------------------

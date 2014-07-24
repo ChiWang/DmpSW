@@ -11,8 +11,7 @@
 
 #include "DmpSimPsdSD.h"
 #include "DmpEvtMCPsdStrip.h"
-#include "DmpRootIOSvc.h"
-#include "DmpDataBufSvc.h"
+#include "DmpDataBuffer.h"
 
 //-------------------------------------------------------------------
 DmpSimPsdSD::DmpSimPsdSD()
@@ -23,7 +22,7 @@ DmpSimPsdSD::DmpSimPsdSD()
 // *
 // *  TODO:  check Register status
 // *
-  gDataBufSvc->RegisterObject("Event/MCTruth/Psd",fStripSet);
+  gDataBuffer->RegisterObject("Event/MCTruth/Psd",fStripSet);
 }
 
 //-------------------------------------------------------------------

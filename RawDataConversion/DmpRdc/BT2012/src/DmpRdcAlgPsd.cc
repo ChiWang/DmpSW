@@ -9,7 +9,7 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcPsdStrip.h"
 #include "DmpRdcAlgBT2012.h"
-#include "DmpDataBufSvc.h"
+#include "DmpDataBuffer.h"
 
 //-------------------------------------------------------------------
 void DmpRdcAlgBT2012::InitializePsd(){
@@ -25,7 +25,7 @@ void DmpRdcAlgBT2012::InitializePsd(){
 // *
   fCNCTDonePsd = true;
   fPsdStripSet = new TClonesArray("DmpEvtRdcPsdStrip",90);
-  if(not gDataBufSvc->RegisterObject("Event/Rdc/Psd",fPsdStripSet)){
+  if(not gDataBuffer->RegisterObject("Event/Rdc/Psd",fPsdStripSet)){
     fIniStatus = false;
     return;
   }

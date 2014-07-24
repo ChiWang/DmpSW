@@ -9,7 +9,7 @@
 #include "DmpEvtRdcHeader.h"
 #include "DmpEvtRdcNudBlock.h"
 #include "DmpRdcAlgBT2012.h"
-#include "DmpDataBufSvc.h"
+#include "DmpDataBuffer.h"
 
 //-------------------------------------------------------------------
 void DmpRdcAlgBT2012::InitializeNud(){
@@ -25,7 +25,7 @@ void DmpRdcAlgBT2012::InitializeNud(){
 // *
   fCNCTDoneNud = true;
   fNudBlockSet = new TClonesArray("DmpEvtRdcNudBlock",5);
-  if(not gDataBufSvc->RegisterObject("Event/Rdc/Nud",fNudBlockSet)){
+  if(not gDataBuffer->RegisterObject("Event/Rdc/Nud",fNudBlockSet)){
     fIniStatus = false;
     return;
   }

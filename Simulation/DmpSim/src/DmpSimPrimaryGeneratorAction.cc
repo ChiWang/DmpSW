@@ -8,8 +8,7 @@
 
 #include "DmpSimPrimaryGeneratorAction.h"
 #include "DmpEvtMCPrimaryParticle.h"
-#include "DmpRootIOSvc.h"
-#include "DmpDataBufSvc.h"
+#include "DmpDataBuffer.h"
 #include "DmpCore.h"
 
 DmpSimPrimaryGeneratorAction::DmpSimPrimaryGeneratorAction()
@@ -20,7 +19,7 @@ DmpSimPrimaryGeneratorAction::DmpSimPrimaryGeneratorAction()
   //fGPS->SetNumberOfParticles(1);
   //fGPS->SetParticleDefinition(particle);
   fPrimaryParticle = new DmpEvtMCPrimaryParticle();
-  gDataBufSvc->RegisterObject("Event/MCTruth/PrimaryParticle",fPrimaryParticle,"DmpEvtMCPrimaryParticle");
+  gDataBuffer->RegisterObject("Event/MCTruth/PrimaryParticle",fPrimaryParticle,"DmpEvtMCPrimaryParticle");
 }
 
 //-------------------------------------------------------------------

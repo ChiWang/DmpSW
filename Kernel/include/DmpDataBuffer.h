@@ -1,42 +1,35 @@
 /*
- *  $Id: DmpDataBufSvc.h, 2014-07-20 09:17:43 DAMPE $
+ *  $Id: DmpDataBuffer.h, 2014-07-24 15:11:17 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 20/07/2014
 */
 
-#ifndef DmpDataBufSvc_H
-#define DmpDataBufSvc_H
+#ifndef DmpDataBuffer_H
+#define DmpDataBuffer_H
 
 #include "TTree.h"
-//#include "DmpVSvc.h"
 #include "DmpRootIOSvc.h"
 
 class TObject;
 
-class DmpDataBufSvc : public DmpVSvc{
+class DmpDataBuffer{
 /*
- *  DmpDataBufSvc
+ *  DmpDataBuffer
  *
- *      it's the second element in DmpServiceManager, first should be DmpRootIOSvc(it has writeList)
  *      it's a singleton for eanch job
  *      it manages all data pointers.
  */
 public:
-  static DmpDataBufSvc* GetInstance(){
-    static DmpDataBufSvc instance;
+  static DmpDataBuffer* GetInstance(){
+    static DmpDataBuffer instance;
     return &instance;
   }
-  ~DmpDataBufSvc();
-  //void Set(const std::string&,const std::string&);
-  bool Initialize();
-  bool Finalize();
-
-public:
+  ~DmpDataBuffer();
   template<typename T> bool RegisterObject(const std::string &path,T *&dataPtr,const std::string &className="TClonesArray");   // path = Folder/Tree/Branch
   TObject* ReadObject(const std::string &path);  // if path/dataPtr not in any data buffer, use dataPtr to read a branch from input rootfile;
 
 private:
-  DmpDataBufSvc();
+  DmpDataBuffer();
   bool PathCheck(const std::string &checkMe,std::string &folderName, std::string &treeName, std::string &branchName);
 
 private:
@@ -50,7 +43,7 @@ typedef std::map<std::string, DmpDataBufTreeMap>        DmpDataBufFolderMap;    
 };
 
 //-------------------------------------------------------------------
-template<typename T> bool DmpDataBufSvc::RegisterObject(const std::string &path,T *&dataPtr,const std::string &className){
+template<typename T> bool DmpDataBuffer::RegisterObject(const std::string &path,T *&dataPtr,const std::string &className){
   // path check
   std::string folderName, treeName, branchName;
   if(not PathCheck(path,folderName,treeName,branchName)){
@@ -84,7 +77,7 @@ template<typename T> bool DmpDataBufSvc::RegisterObject(const std::string &path,
 }
 
 //-------------------------------------------------------------------
-extern DmpDataBufSvc  *gDataBufSvc;
+extern DmpDataBuffer  *gDataBuffer;
 
 #endif
 

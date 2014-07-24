@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpCore.cc, 2014-07-08 09:06:35 DAMPE $
+ *  $Id: DmpCore.cc, 2014-07-24 17:27:30 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 22/04/2014
 */
@@ -8,7 +8,6 @@
 
 #include "DmpCore.h"
 #include "DmpRootIOSvc.h"
-#include "DmpDataBufSvc.h"
 
 //-------------------------------------------------------------------
 DmpCore::DmpCore()
@@ -29,7 +28,6 @@ DmpCore::DmpCore()
   fAlgMgr = DmpAlgorithmManager::GetInstance();
   fSvcMgr = DmpServiceManager::GetInstance();
   fSvcMgr->Append(gRootIOSvc);
-  fSvcMgr->Append(gDataBufSvc);
   OptMap.insert(std::make_pair("LogLevel",  0));    // value: None, Error, Warning, Info, Debug
   OptMap.insert(std::make_pair("EventNumber",1));   // value: any number
   OptMap.insert(std::make_pair("StartTime", 2));    // value: format 20131231-1430
@@ -48,9 +46,6 @@ bool DmpCore::Initialize(){
   std::cout<<"\n  [DmpCore::Initialize] Initialize..."<<std::endl;
   if(not fSvcMgr->Initialize()) return false;
   if(not fAlgMgr->Initialize()) return false;
-  if(-1 == fMaxEventNo){
-    fMaxEventNo = 1234567890;
-  }
   if(0 == fStopTime){
     fStopTime = DeltaTime("21130101-0000");
   }
