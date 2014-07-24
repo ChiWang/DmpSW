@@ -43,7 +43,6 @@ public:
 
 private:
   DmpRootIOSvc();
-  //bool NewBranchInInputTree(const std::string &t)const;
 
 private:
 typedef std::map<std::string, TTree*>  DmpRootIOTreeMap;                // key is "Tree"

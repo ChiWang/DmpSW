@@ -46,6 +46,7 @@ bool DmpCore::Initialize(){
   std::cout<<"\n  [DmpCore::Initialize] Initialize..."<<std::endl;
   if(not fSvcMgr->Initialize()) return false;
   if(not fAlgMgr->Initialize()) return false;
+  gRootIOSvc->PrepareMetaData();
   if(0 == fStopTime){
     fStopTime = DeltaTime("21130101-0000");
   }
@@ -63,7 +64,6 @@ bool DmpCore::Run(){
 // *
 // *  TODO: use cut of time range??
 // *
-  gRootIOSvc->PrepareMetaData();
   while(not fTerminateRun){
     if(fCurrentEventID == fMaxEventNo){
       fTerminateRun = true;
