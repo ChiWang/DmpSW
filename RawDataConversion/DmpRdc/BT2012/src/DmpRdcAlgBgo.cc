@@ -61,14 +61,14 @@ void DmpRdcAlgBT2012::InitializeBgo(){
 bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
   static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
   static short  runMode;
-  static short data=0;
-  static unsigned short data2=0;
+  static char data=0;
+  static unsigned char data2=0;
   fBgoBarSet->Delete();
   DmpLogDebug<<"[Bgo] from "<<fFile.tellg();
 //-------------------------------------------------------------------
   for (feeCounts=0;feeCounts<fFEENoBgo;++feeCounts) {
     fFile.read((char*)(&data2),1);
-    if (data!=0xeb) {
+    if (data2!=0xeb) {
       fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeCounts+1,DmpEvtRdcHeader::NotFind_0xeb);
       return false;
     }
