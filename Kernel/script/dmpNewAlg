@@ -109,7 +109,7 @@ public:
   ~DmpAlg${1}();
 
   //void Set(const std::string &type,const std::string &value);
-  // if you need to set some options for your algorithm at tun time. Overload Set()
+  // if you need to set some options for your algorithm at run time. Overload Set()
   bool Initialize();
   bool ProcessThisEvent();
   bool Finalize();

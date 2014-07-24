@@ -67,27 +67,27 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
   DmpLogDebug<<"[Bgo] from "<<fFile.tellg();
 //-------------------------------------------------------------------
   for (feeCounts=0;feeCounts<fFEENoBgo;++feeCounts) {
-    fFile.read((char*)(&data),1);
+    fFile.read((char*)(&data2),1);
     if (data!=0xeb) {
       fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeCounts+1,DmpEvtRdcHeader::NotFind_0xeb);
       return false;
     }
-    fFile.read((char*)(&data),1);
-    if (data!=0x90) {
+    fFile.read((char*)(&data2),1);
+    if (data2!=0x90) {
       fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeCounts+1,DmpEvtRdcHeader::NotFind_0x90);
       return false;
     }
-    fFile.read((char*)(&data),1);       // trigger
+    fFile.read((char*)(&data2),1);       // trigger
     if(feeCounts == 0){
-      fEvtHeader->SetTrigger(DmpDetectorID::kBgo,data);
+      fEvtHeader->SetTrigger(DmpDetectorID::kBgo,data2);
     }else{
-      if(fEvtHeader->GetTrigger(DmpDetectorID::kBgo) != data){
+      if(fEvtHeader->GetTrigger(DmpDetectorID::kBgo) != data2){
         fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeCounts+1,DmpEvtRdcHeader::NotMatch_Trigger);
         return false;
       }
     }
-    fFile.read((char*)(&data),1);       // run mode and FEE ID
-    feeID = data%16;
+    fFile.read((char*)(&data2),1);       // run mode and FEE ID
+    feeID = data2%16;
     runMode = data2/16-fFEETypeBgo;
     //if(feeCounts == 0){
     fEvtHeader->SetRunMode(DmpDetectorID::kBgo,runMode);
@@ -115,10 +115,10 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
         AppendSignalBgo(feeID*1000+i,(data*256+data2)&0x3fff);
       }
     }
-    fFile.read((char*)(&data),1);       // 2 bytes for 0x0000
-    fFile.read((char*)(&data),1);       // must split them, 2 bytes for 0x0000
-    fFile.read((char*)(&data),1);       // 2 bytes for CRC
-    fFile.read((char*)(&data),1);       // must spplit them, 2 bytes for CRC
+    fFile.read((char*)(&data2),1);       // 2 bytes for 0x0000
+    fFile.read((char*)(&data2),1);       // must split them, 2 bytes for 0x0000
+    fFile.read((char*)(&data2),1);       // 2 bytes for CRC
+    fFile.read((char*)(&data2),1);       // must spplit them, 2 bytes for CRC
   }
 //-------------------------------------------------------------------
   return true;

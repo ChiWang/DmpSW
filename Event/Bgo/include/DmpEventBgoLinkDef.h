@@ -14,8 +14,8 @@
 #pragma link C++ class DmpEvtMCBgoBar+;
 #pragma link C++ class DmpEvtBgoShower+;
 //-------------------------------------------------------------------
-// for Calibration
-#pragma link C++ class DmpCalBgoBarPed+;
+// for Calibration data
+#pragma link C++ class DmpDataBgoBarPed+;
 #pragma link C++ class DmpCalDataBgoMSDMip+;
 #pragma link C++ class DmpCalDataBgoMSDRel+;
 
