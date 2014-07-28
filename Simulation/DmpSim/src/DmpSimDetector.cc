@@ -5,6 +5,8 @@
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 26/02/2014
 */
 
+#include <unistd.h>
+
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 #include "G4GDMLParser.hh"
