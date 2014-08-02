@@ -42,7 +42,7 @@ typedef std::map<short, DmpRdcFeeData>  DmpRdcFeeDataBuffer;
 /*
  *  DmpRdcFeeDataBuffer
  * key:     Fee id
- * value:   Fee data, size is data length
+ * value:   object of DmpRdcFeeData
  */
 typedef std::map<short, DmpRdcFeeDataBuffer>  DmpRdcSubDetDataBuffer;
 /*
