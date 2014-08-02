@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpRdcAlgEQM.h, 2014-08-01 10:58:20 DAMPE $
+ *  $Id: DmpRdcAlgEQM.h, 2014-08-02 21:33:05 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 01/08/2014
 */
@@ -9,9 +9,19 @@
 
 #include <fstream>
 #include <vector>
+#include "DmpRunMode.h"
 
 class TClonesArray;
 class DmpEvtHeader;
+
+struct DmpRdcFeeData{
+  DmpRdcFeeData():FeeID(-1),RunMode(DmpRunMode::kUnknow),Trigger(-1),CRCStatus(true){}
+  short FeeID;
+  short RunMode;
+  short Trigger;
+  std::map<short,int>   Signal; // key is channel id, value is ADC count
+  bool CRCStatus;
+};
 
 class DmpRdcAlgEQM : public DmpVAlg{
 /*
@@ -28,25 +38,31 @@ public:
   bool Finalize();
 
 private:
-typedef std::map<short, std::vector>  DmpRdcFeeDataBuffer;
+typedef std::map<short, DmpRdcFeeData>  DmpRdcFeeDataBuffer;
 /*
  *  DmpRdcFeeDataBuffer
  * key:     Fee id
  * value:   Fee data, size is data length
  */
+typedef std::map<short, DmpRdcFeeDataBuffer>  DmpRdcSubDetDataBuffer;
+/*
+ *  DmpRdcSubDetDataBuffer
+ * key:     package count
+ *
+ */
   std::string       fInDataName;    // input data name
   std::ifstream     fFile;          // in data stream
-  std::map<short,DmpRdcFeeDataBuffer>  fHeaderBuffer;       // data buffer for event header
-  std::map<short,DmpRdcFeeDataBuffer>  fBgoBuffer;          // data buffer for Bgo
+  DmpRdcSubDetDataBuffer  fHeaderBuffer;       // data buffer for event header
+  DmpRdcSubDetDataBuffer  fBgoBuffer;          // data buffer for Bgo
   /*
    * key:
    *    event id
    * value:
    *    a vector of DmpRdcFeeDataBuffer
    */
-  std::map<short,DmpRdcFeeDataBuffer>  fPsdBuffer;          // data buffer for Psd
-  std::map<short,DmpRdcFeeDataBuffer>  fStkBuffer;          // data buffer for Stk
-  std::map<short,DmpRdcFeeDataBuffer>  fNudBuffer;          // data buffer for Nud
+  DmpRdcSubDetDataBuffer  fPsdBuffer;          // data buffer for Psd
+  DmpRdcSubDetDataBuffer  fStkBuffer;          // data buffer for Stk
+  DmpRdcSubDetDataBuffer  fNudBuffer;          // data buffer for Nud
 
 private:
   bool ReadDataIntoDataBuffer();
