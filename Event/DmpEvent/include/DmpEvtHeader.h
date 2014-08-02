@@ -1,79 +1,72 @@
 /*
- *  $Id: DmpEvtRdcHeader.h, 2014-05-29 21:41:45 DAMPE $
+ *  $Id: DmpEvtHeader.h, 2014-07-31 09:28:55 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
 
-#ifndef DmpEvtRdcHeader_H
-#define DmpEvtRdcHeader_H
-
+#ifndef DmpEvtHeader_H
+#define DmpEvtHeader_H
 
 #include <map>
-#include <vector>
 #include "TObject.h"
 
 #include "DmpDetectorID.h"
 #include "DmpRunMode.h"
+#include "DmpDataError.h"
 
-//-------------------------------------------------------------------
-class DmpEvtRdcHeader : public TObject{
+
+class DmpEvtHeader : public TObject{
 /*
- * DmpEvtRdcHeader
- *
- * Anywhere could use this singleton
+ * DmpEvtHeader
  *
 */
 public:
-  DmpEvtRdcHeader();
-  ~DmpEvtRdcHeader();
+  DmpEvtHeader();
+  ~DmpEvtHeader();
 
-  enum DataErrorType{
-    Good = 0,
-    NotFind_0xeb = 1,
-    NotFind_0x90 = 2,
-    //NotMatch_RunMode = 3,
-    Wrong_DataLength = 4,
-    NotMatch_Trigger = 5,
-    Wrong_CRC = 6
-  };
-  void  SetErrorLog(DmpDetectorID::Type id,const short &FeeID,const DataErrorType &type);
-  void  SetTime(const short&,const short&);
-  void  SetTrigger(DmpDetectorID::Type id,short v)  {fTrigger.insert(std::make_pair(id,v));}
-  void  SetRunMode(DmpDetectorID::Type id,short v);
-  void  Reset();
+  void  Reset();                // invoke it at the begin of Rdc::ProcessThisEvent
+  void  SetTrigger(short v) {fTrigger = v;}     // trigger of satellite
+  void  SetHexTime(const short &v) {fHexTime.push_back(v);}
+  void  SetFeeErrorTag(DmpDetectorID::Type id,const short &FeeID,const DmpDataError::Type &type);
+  void  SetFeeStatus(DmpDetectorID::Type id,const short &FeeID,short trigger,short runMode);
+  bool  TriggersMatch(DmpDetectorID::Type id=DmpDetectorID::kWhole)const;
   bool  IsGoodEvent() const;
-  const long& GetSecond() const {return fSec;}
-  const short& GetMillisecond() const {return fMillisec;}
-  std::map<short,short> GetStatus() const {return fStatus;}
   short GetTrigger(DmpDetectorID::Type id = DmpDetectorID::kWhole) const;
-  int GetRunMode(DmpDetectorID::Type id) const {return fRunMode.find(id)->second;}
+  std::map<short,short> GetErrorTag(DmpDetectorID::Type id) const {return fErrorTag.find(id)->second;}
+  std::map<short,short> GetRunMode(DmpDetectorID::Type id) const {return fFeeRunMode.find(id)->second;}
+  void PrintTime(const std::string &argv = "hex") const;
 
 private:
-  long      fSec;           // second
-  short     fMillisec;      // millisecond
-  std::map<short,short>     fTrigger;       // 4 subDet + satellite trigger
-  std::map<short,int>       fRunMode;
-  std::map<short,short>     fStatus;        // status for this event
-  /*
-   * fStatus[DmpDetector::kWhole] is for global check, check all subDet
-   *    good event:         0
-   *    triggers match?
-   *    run mode match?
-   *
-   * fStatus[key] is for Fee of subDet
-   *    key = subDet ID * 100 + Fee ID
-   *    value = DataErrorType
-   *
-   */
-  short     fTime[8];       //! not save
+  short     fTrigger;       // trigger from satellite
+  std::vector<short>    fHexTime;       // save me
   /*
    *    8 bytes from satellite
-   *    fTime[0~5] = second
-   *    fTime[6~7] = millisecond
-   *
+   *    fHexTime[0~5] = second
+   *    fHexTime[6~7] = millisecond
+   */
+  std::map<short,std::map<short,short> >    fFeeTrigger;
+  /*
+   *    fFeeTrigger[key_0][key_1]
+   *    key_0:  detector id
+   *        4 subDet
+   *    key_1:  fee id
+   */
+  std::map<short,std::map<short,short> >    fFeeRunMode;
+  /*
+   *    fFeeRunMode[key_0][key_1]
+   *    key_0:  detector id
+   *        4 subDet
+   *    key_1:  fee id
+   */
+  std::map<short,std::map<short,short> >    fErrorTag;        // status for this event
+  /*
+   *    fErrorTag[key_0][key_1]
+   *    key_0:  detector id
+   *        4 subDet
+   *    key_1:  fee id
    */
 
-  ClassDef(DmpEvtRdcHeader,1)
+  ClassDef(DmpEvtHeader,1)
 };
 
 #endif

@@ -1,116 +1,172 @@
 /*
- *  $Id: DmpEvtRdcHeader.cc, 2014-05-29 21:41:42 DAMPE $
+ *  $Id: DmpEvtRdcHeader.cc, 2014-07-28 10:01:33 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 28/04/2014
 */
 
-#include "DmpEvtRdcHeader.h"
+#include "DmpEvtHeader.h"
 #include "DmpLog.h"
 
-ClassImp(DmpEvtRdcHeader)
+ClassImp(DmpEvtHeader)
 
 //-------------------------------------------------------------------
-DmpEvtRdcHeader::DmpEvtRdcHeader()
- :fSec(0),
-  fMillisec(0)
+DmpEvtHeader::DmpEvtHeader()
+ :fTrigger(-1),
 {
   for(short i=0;i<8;++i){
-    fTime[i] = 0;
+    fHexTime[i] = 0;
   }
 }
 
 //-------------------------------------------------------------------
-DmpEvtRdcHeader::~DmpEvtRdcHeader(){
+DmpEvtHeader::~DmpEvtHeader(){
 }
 
 //-------------------------------------------------------------------
-void DmpEvtRdcHeader::SetErrorLog(DmpDetectorID::Type id,const short &FeeID,const DataErrorType &type){
-  fStatus.insert(std::make_pair(id*100+FeeID,type));
+void DmpEvtHeader::Reset(){
+  fHexTime.clear();
+//-------------------------------------------------------------------
+  for(std::map<short,std::map<short,short> >::iterator it=fFeeTrigger.begin(); it != fFeeTrigger.end();++it){
+    it->second.clear();
+  }
+  fFeeTrigger.clear();
+//-------------------------------------------------------------------
+  for(std::map<short,std::map<short,short> >::iterator it=fFeeRunMode.begin(); it != fFeeRunMode.end();++it){
+    it->second.clear();
+  }
+  fFeeRunMode.clear();
+//-------------------------------------------------------------------
+  for(std::map<short,std::map<short,short> >::iterator it=fErrorTag.begin(); it != fErrorTag.end();++it){
+    it->second.clear();
+  }
+  fErrorTag.clear();
+}
+
+//-------------------------------------------------------------------
+void DmpEvtHeader::SetFeeErrorTag(DmpDetectorID::Type id,const short &FeeID,const DmpDataError::Type &type){
+  if(fErrorTag.find(id) == fErrorTag.end()){
+    std::map<short,short>   newmap;
+    fErrorTag.insert(std::make_pair(id,newmap));
+  }
+  if(fErrorTag[id].find(FeeID) == fErrorTag[id].end()){
+    fErrorTag[id].insert(std::make_pair(FeeID,type));
+  }else{
+// *
+// *  TODO:  one Fee, 2 type errors
+// *
+    DmpLogError<<"\tfind the Fee id("<<FeeID<<") two times in this event..";
+  }
   switch(type){
-    case NotFind_0xeb:
+    case DmpDataError::NotFind_0xeb:
       DmpLogError<<"\tnot find 0xeb\t";
       break;
-    case NotFind_0x90:
+    case DmpDataError::NotFind_0x90:
       DmpLogError<<"\tnot find 0x90\t";
       break;
-    case Wrong_DataLength:
+    case DmpDataError::DataLength_Wrong:
       DmpLogError<<"\tdata length float\t";
       break;
-    //case NotMatch_RunMode:
-    //  DmpLogError<<"\trun mode not match\t";
-    //  break;
-    case NotMatch_Trigger:
-      DmpLogError<<"\ttrigger not match\t";
-      break;
-    case Wrong_CRC:
+    case DmpDataError::CRC_Wrong:
       DmpLogError<<"\tCRC wrong\t";
       break;
   }
-  std::cout<<"Time: ";
-  for(std::size_t i=0;i<8;++i){
-    std::cout<<" "<<std::hex<<fTime[i];
-  }
-  std::cout<<std::dec<<std::endl;
+  PrintTime();
 }
 
 //-------------------------------------------------------------------
-void DmpEvtRdcHeader::SetTime(const short &n,const short &v){
-  fTime[n]=v;
-  if(n < 6){
-    fSec = fSec*256 + v;
+void DmpEvtHeader::SetFeeStatus(DmpDetectorID::Type id,const short &FeeID,short trigger,short runMode){
+  if(fFeeTrigger.find(id) == fFeeTrigger.end()){
+    std::map<short,short>  newmap;
+    fFeeTrigger.insert(std::make_pair(id,newmap));
+  }
+  if(fFeeTrigger[id].find(FeeID) == fFeeTrigger[id].end()){
+    fFeeTrigger[id].insert(std::make_pair(FeeID,trigger));
   }else{
-    fMillisec = fMillisec*256 + v;
+    DmpLogError<<"Find Fee 0x"<<FeeID<<" two times..."<<DmpLogEndl;
+  }
+    //-------------------------------------------------------------------
+  if(fFeeRunMode.find(id) == fFeeRunMode.end()){
+    std::map<short, short> newmap;
+    fFeeRunMode.insert(std::make_pair(id,newmap));
+  }
+  if(fFeeRunMode[id].find(FeeID) == fFeeRunMode[id].end()){
+    fFeeRunMode[id].insert(std::make_pair(FeeID,runMode));
+  }else{
+    DmpLogError<<"Find Fee 0x"<<FeeID<<" two times..."<<DmpLogEndl;
   }
 }
 
 //-------------------------------------------------------------------
-void DmpEvtRdcHeader::SetRunMode(DmpDetectorID::Type id, short v){
-  if(fRunMode.find(id) == fRunMode.end()){
-    fRunMode[id] = v;
-    return;
+bool DmpEvtHeader::IsGoodEvent() const{
+  bool v = true;
+//-------------------------------------------------------------------
+// no fee errors
+  if(0 != fErrorTag.size()){
+    v = false;
+  }
+//-------------------------------------------------------------------
+// all sub-det triggers match
+  v = TriggersMatch();
+  return v;
+}
+
+//-------------------------------------------------------------------
+short DmpEvtHeader::GetTrigger(DmpDetectorID::Type id) const{
+  short v = -1;
+  if(DmpDetectorID::kWhole == id){
+    v = fTrigger;
   }else{
-    if(fRunMode[id] != v){
-      if(fRunMode[id] > 0){
-        fRunMode[id] = 0 - (fRunMode[id]*10 + v);
-      }else{
-        fRunMode[id] = fRunMode[id]*10 - v;
+    if(fFeeTrigger.find(id) == fFeeTrigger.end()){
+      DmpLogError<<"No detector ID "<<id<<DmpLogEndl;
+      v = -1;
+    }else{
+      v = fFeeTrigger.find(id)->second.begin()->second;
+      for(std::map<short,short>::const_iterator it=fFeeTrigger.find(id)->second.begin();it!=fFeeTrigger.find(id)->second.end();++it){
+        if(it->second != v){
+          DmpLogError<<"triggers not match"<<DmpLogEndl;
+          v = -1;
+          break;
+        }
       }
     }
   }
+  return v;
 }
 
 //-------------------------------------------------------------------
-void DmpEvtRdcHeader::Reset(){
-  fSec = 0;
-  fMillisec = 0;
-  fTrigger.clear();
-  fRunMode.clear();
-  fStatus.clear();
-  fStatus.insert(std::make_pair(DmpDetectorID::kWhole,0));
-}
-
-//-------------------------------------------------------------------
-bool DmpEvtRdcHeader::IsGoodEvent() const{
-  if(0 == fStatus.find(DmpDetectorID::kWhole)->second){
-    return true;
+void DmpEvtHeader::PrintTime(const std::string &type)const{
+  if("hex" == type){
+    std::cout<<"Time: ";
+    for(std::size_t i=0;i<fHexTime.size();++i){
+      std::cout<<" "<<std::hex<<fHexTime[i];
+    }
+    std::cout<<std::dec<<std::endl;
+  }else{
+// *
+// *  TODO: 
+// *
   }
-  return false;
 }
 
 //-------------------------------------------------------------------
-short DmpEvtRdcHeader::GetTrigger(DmpDetectorID::Type id) const{
-  if(fTrigger.find(id) == fTrigger.end()){
-    DmpLogError<<"No detector ID "<<id<<DmpLogEndl;
-    return -1;
-  }
-  if(id == DmpDetectorID::kWhole){
-    for(std::map<short,short>::const_iterator it=fTrigger.begin();it!=fTrigger.end();++it){
-      if(it->second != fTrigger.find(id)->second){
-        DmpLogError<<"triggers not match"<<DmpLogEndl;
-        return -1;
+bool DmpEvtHeader::TriggersMatch(DmpDetectorID::Type id) const{
+  if(DmpDetectorID::kWhole != id){
+    if(fFeeTrigger.find(id) != fFeeTrigger.end()){
+      for(std::map<short,short>::const_iterator it = fFeeTrigger.find(id).begin();it != fFeeTrigger[id].end();++it){
+        if(it->second != fFeeTrigger.find(id).begin()->second){
+          return false;
+        }
+      }
+    }else{
+      DmpLogError<<"not detector in this event. detector id =  "<<id<<DmpLogEndl;
+    }
+  }else{
+    for(std::map<short,std::map<short,short> >::const_iterator it=fFeeTrigger.begin(); it!=fFeeTrigger.end();++it){
+      if(it->second.begin()->second != fTrigger){
+        return false;
       }
     }
   }
-  return fTrigger.find(id)->second;
+  return true;
 }
 
