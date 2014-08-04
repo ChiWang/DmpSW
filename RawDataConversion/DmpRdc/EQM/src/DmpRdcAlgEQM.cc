@@ -73,19 +73,16 @@ bool ProcessThisEvent(){
 // *
 // *  TODO:  check DmpCore::Run() event id and IO svc of event id....
 // *
-  fActiveSubDet = false;
-  ReadDataIntoDataBuffer();     // invoke this function many times, then fStkBuffer.size will == 1, and size of DataBuffer of others > 1
-  if(fStkBuffer.size == 1){
-    short id = fStkBuffer.begin()->first;
-    fActiveSubDet = true;
-    ProcessThisEventHeader(id);   // read data(this id) from it data buffer, and ***then delete*** this data in that buffer
-    ProcessThisEventPsd(id);
-    ProcessThisEventStk(id);
-    ProcessThisEventBgo(id);
-    ProcessThisEventNud(id);
-    // then fStkBuffer.size = 0
+  while(not fActiveSubDet){
+    ReadDataIntoDataBuffer();     // invoke this function many times, then fStkBuffer.size will == 1(set fActiveSubDet == true and return), and size of DataBuffer of others > 1
   }
-  return fActiveSubDet;     // if not ture, will not fill this event
+  short id = fStkBuffer.begin()->first;
+  ProcessThisEventHeader(id);   // read data(this id) from it data buffer, and ***then delete*** this data in that buffer
+  ProcessThisEventPsd(id);
+  ProcessThisEventStk(id);
+  ProcessThisEventBgo(id);
+  ProcessThisEventNud(id);
+  return true;
 }
 
 //-------------------------------------------------------------------
@@ -96,5 +93,4 @@ bool DmpRdcAlgEQM::Finalize(){
   fNudBlockSet->Delete();
   return true;
 }
-
 
