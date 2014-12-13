@@ -6,7 +6,7 @@
 
 #include "TClonesArray.h"
 
-#include "DmpEvtRdcHeader.h"
+#include "DmpEvtHeader.h"
 #include "DmpEvtRdcPsdStrip.h"
 #include "DmpRdcAlgBT2012.h"
 #include "DmpDataBuffer.h"
@@ -36,45 +36,27 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
   fPsdStripSet->Delete();
   DmpLogDebug<<"[Psd] from "<<fFile.tellg();
 //-------------------------------------------------------------------
-  static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
+  static short feeCounts=0, trigger=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
   static short runMode;
-  static short data=0;
-  static unsigned short data2=0;
+  static char data=0;
+  static unsigned char data2=0;
   for(feeCounts=0;feeCounts<fFEENoPsd;++feeCounts){
-    fFile.read((char*)(&data),1);
-    if (data!=0xeb) {
-      DmpLogError<<"value "<<std::hex<<data<<std::dec<<DmpLogEndl;
-      fEvtHeader->SetErrorLog(DmpDetectorID::kPsd,feeCounts+1,DmpEvtRdcHeader::NotFind_0xeb);
+    fFile.read((char*)(&data2),1);
+    if (data2!=0xeb) {
+      fEvtHeader->SetFeeErrorTag(DmpDetectorID::kPsd,feeCounts+1,DmpDataError::NotFind_0xeb);
       return false;
     }
-    fFile.read((char*)(&data),1);
-    if (data!=0x90) {
-      fEvtHeader->SetErrorLog(DmpDetectorID::kPsd,feeCounts+1,DmpEvtRdcHeader::NotFind_0x90);
+    fFile.read((char*)(&data2),1);
+    if (data2!=0x90) {
+      fEvtHeader->SetFeeErrorTag(DmpDetectorID::kPsd,feeCounts+1,DmpDataError::NotFind_0x90);
       return false;
     }
-    fFile.read((char*)(&data),1);       // trigger
-    if(feeCounts == 0){
-      fEvtHeader->SetTrigger(DmpDetectorID::kPsd,data);
-    }else{
-      if(fEvtHeader->GetTrigger(DmpDetectorID::kPsd) != data){
-        fEvtHeader->SetErrorLog(DmpDetectorID::kPsd,feeCounts+1,DmpEvtRdcHeader::NotMatch_Trigger);
-        return false;
-      }
-    }
-    fFile.read((char*)(&data),1);       // run mode and FEE ID
-    feeID = data%16;
+    fFile.read((char*)(&data2),1);       // trigger
+    trigger = data2;
+    fFile.read((char*)(&data2),1);       // run mode and FEE ID
+    feeID = data2%16;
     runMode = data2/16-fFEETypePsd;
-    //if(feeCounts == 0){
-    fEvtHeader->SetRunMode(DmpDetectorID::kPsd,runMode);
-    //}
-    /*
-    else{
-      if(fEvtHeader->GetRunMode(DmpDetectorID::kPsd) != data/16-fFEETypePsd){
-        fEvtHeader->SetErrorLog(DmpDetectorID::kPsd,feeID,DmpEvtRdcHeader::NotMatch_RunMode);
-        return false;
-      }
-    }
-    */
+    fEvtHeader->SetFeeStatus(DmpDetectorID::kPsd,feeID,trigger,runMode);
     fFile.read((char*)(&data),1);       // data length, 2 bytes
     fFile.read((char*)(&data2),1);
     nBytes = data*256+data2-2-2-2;        // 2 bytes for data length, 2 bytes for 0x0000, 2 bytes for CRC
@@ -99,10 +81,10 @@ bool DmpRdcAlgBT2012::ProcessThisEventPsd(){
         AppendSignalPsd(fMapPsd[feeID*1000+channelID],data*256+data2);
       }
     }
-    fFile.read((char*)(&data),1);       // 2 bytes for 0x0000
-    fFile.read((char*)(&data),1);       // must split them, 2 bytes for 0x0000
-    fFile.read((char*)(&data),1);       // 2 bytes for CRC
-    fFile.read((char*)(&data),1);       // must spplit them, 2 bytes for CRC
+    fFile.read((char*)(&data2),1);       // 2 bytes for 0x0000
+    fFile.read((char*)(&data2),1);       // must split them, 2 bytes for 0x0000
+    fFile.read((char*)(&data2),1);       // 2 bytes for CRC
+    fFile.read((char*)(&data2),1);       // must spplit them, 2 bytes for CRC
   }
 //-------------------------------------------------------------------
   return true;

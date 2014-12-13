@@ -1,5 +1,5 @@
 /*
- *  $Id: DmpEvtHeader.h, 2014-07-31 09:28:55 DAMPE $
+ *  $Id: DmpEvtHeader.h, 2014-08-05 13:59:29 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 13/12/2013
 */
@@ -25,19 +25,21 @@ public:
   ~DmpEvtHeader();
 
   void  Reset();                // invoke it at the begin of Rdc::ProcessThisEvent
-  void  SetTrigger(short v) {fTrigger = v;}     // trigger of satellite
+  void  SetPackageID(short v) {fPackageID = v;}     // trigger of satellite
   void  SetHexTime(const short &v) {fHexTime.push_back(v);}
-  void  SetFeeErrorTag(DmpDetectorID::Type id,const short &FeeID,const DmpDataError::Type &type);
-  void  SetFeeStatus(DmpDetectorID::Type id,const short &FeeID,short trigger,short runMode);
-  bool  TriggersMatch(DmpDetectorID::Type id=DmpDetectorID::kWhole)const;
-  bool  IsGoodEvent() const;
-  short GetTrigger(DmpDetectorID::Type id = DmpDetectorID::kWhole) const;
-  std::map<short,short> GetErrorTag(DmpDetectorID::Type id) const {return fErrorTag.find(id)->second;}
+  void  AddFeeErrorTag(DmpDetectorID::Type id,const short &FeeID,const DmpDataError::Type &type);
+  void  SetTrigger(DmpDetectorID::Type id,std::map<short,short> triggers)  {fFeeTrigger.insert(std::make_pair(id,triggers));}
+  void  SetRunMode(DmpDetectorID::Type id,std::map<short,short> modes)  {fFeeRunMode.insert(std::make_pair(id,modes));}
+  short GetTrigger(DmpDetectorID::Type id = DmpDetectorID::kWhole) const;   // if not match, return -1
+  std::map<short,short> GetErrorTag(DmpDetectorID::Type id) const {return fFeeErrorTag.find(id)->second;}
   std::map<short,short> GetRunMode(DmpDetectorID::Type id) const {return fFeeRunMode.find(id)->second;}
-  void PrintTime(const std::string &argv = "hex") const;
+  bool  TriggersMatch(DmpDetectorID::Type id=DmpDetectorID::kWhole)const;
+  bool  RunModesMatch(DmpDetectorID::Type)const;
+  bool  IsGoodEvent() const;
+  void  PrintTime(const std::string &argv = "hex") const;
 
 private:
-  short     fTrigger;       // trigger from satellite
+  short     fPackageID;       // trigger from satellite
   std::vector<short>    fHexTime;       // save me
   /*
    *    8 bytes from satellite
@@ -58,9 +60,9 @@ private:
    *        4 subDet
    *    key_1:  fee id
    */
-  std::map<short,std::map<short,short> >    fErrorTag;        // status for this event
+  std::map<short,std::map<short,short> >    fFeeErrorTag;        // status for this event
   /*
-   *    fErrorTag[key_0][key_1]
+   *    fFeeErrorTag[key_0][key_1]
    *    key_0:  detector id
    *        4 subDet
    *    key_1:  fee id

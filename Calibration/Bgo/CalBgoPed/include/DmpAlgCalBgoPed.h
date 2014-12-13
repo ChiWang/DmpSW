@@ -23,18 +23,22 @@ public:
   DmpAlgCalBgoPed();
   ~DmpAlgCalBgoPed();
 
-  //void Set(const std::string &type,const std::string &value);
+  void Set(const std::string &type,const std::string &value);
   // if you need to set some options for your algorithm at run time. Overload Set()
   bool Initialize();
   bool ProcessThisEvent();
   bool Finalize();
 
 private:
-typedef  std::map<std::string,TH1F*>
+typedef  std::map<short,TH1F*>   Dmp1DMapTH1F;   // key is dynode ID = side_ID*10 + dynode_ID
+typedef  std::map<short,Dmp1DMapTH1F>   Dmp2DMapTH1F;   // key is dynode ID = side_ID*10 + dynode_ID
   DmpEvtRdcHeader       *fRawDataEvtHeader;
   TClonesArray          *fRawDataBgo;
   TClonesArray          *fCalDataBgo;
-  std::map<std::string,TH1F*>    fPedHistOneBar;
+  Dmp2DMapTH1F          fPedHist;      // key is global bar ID = layer_ID*100 + bar_ID
+
+private:
+  std::string           fHistRootFileName;
 
 };
 

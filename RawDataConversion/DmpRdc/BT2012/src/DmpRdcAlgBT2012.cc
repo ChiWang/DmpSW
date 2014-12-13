@@ -6,7 +6,7 @@
 
 #include "TClonesArray.h"
 
-#include "DmpEvtRdcHeader.h"
+#include "DmpEvtHeader.h"
 #include "DmpDataBuffer.h"
 #include "DmpRdcAlgBT2012.h"
 
@@ -91,8 +91,8 @@ bool DmpRdcAlgBT2012::Initialize(){
     fIniStatus = false;
     return fIniStatus;
   }
-  fEvtHeader = new DmpEvtRdcHeader();
-  if(not gDataBuffer->RegisterObject("Event/Rdc/EventHeader",fEvtHeader,"DmpEvtRdcHeader")){
+  fEvtHeader = new DmpEvtHeader();
+  if(not gDataBuffer->RegisterObject("Event/Rdc/EventHeader",fEvtHeader,"DmpEvtHeader")){
     fIniStatus = false;
     return fIniStatus;
   }
@@ -174,7 +174,7 @@ bool DmpRdcAlgBT2012::Finalize(){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::ProcessThisEventHeader(){
-  static short tmp=0;
+  static unsigned short tmp=0;
   fEvtHeader->Reset();
 //-------------------------------------------------------------------
   DmpLogDebug<<"[Header] from "<<fFile.tellg();
@@ -188,12 +188,12 @@ bool DmpRdcAlgBT2012::ProcessThisEventHeader(){
   if (tmp!=0x13)    return false;
   fFile.read((char*)(&tmp),1);      // this needed
   fFile.read((char*)(&tmp),1);      // trigger
-  fEvtHeader->SetTrigger(DmpDetectorID::kWhole,tmp);
+  fEvtHeader->SetPackageID(tmp);
   fFile.read((char*)(&tmp),1);      // Datalength
   fFile.read((char*)(&tmp),1);      // Datalength
   for(std::size_t index=0;index<8;++index){     // size = 8
     fFile.read((char*)(&tmp),1);
-    fEvtHeader->SetTime(index,tmp);
+    fEvtHeader->SetHexTime(tmp);
   }
 //-------------------------------------------------------------------
   return true;

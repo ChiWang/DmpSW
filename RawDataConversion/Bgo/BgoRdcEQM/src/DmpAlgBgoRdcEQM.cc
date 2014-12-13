@@ -6,7 +6,7 @@
 
 #include "TClonesArray.h"
 
-#include "DmpEvtRdcHeader.h"
+#include "DmpEvtHeader.h"
 #include "DmpEvtRdcBgoBar.h"
 #include "DmpAlgBgoRdcEQM.h"
 #include "DmpDataBuffer.h"
@@ -71,8 +71,8 @@ bool DmpAlgBgoRdcEQM::Initialize(){
     // setup connector
     if(not SetConnector()) return false;
   }
-  fEvtHeader = new DmpEvtRdcHeader();
-  if(not gDataBuffer->RegisterObject("Event/Rdc/EventHeader",fEvtHeader,"DmpEvtRdcHeader")){
+  fEvtHeader = new DmpEvtHeader();
+  if(not gDataBuffer->RegisterObject("Event/Rdc/EventHeader",fEvtHeader,"DmpEvtHeader")){
     fIniStatus = false;
     return fIniStatus;
   }
@@ -174,7 +174,7 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventHeader(){
 // *
   fInFilePtr.read((char*)(&tmp),1);      // this needed
   fInFilePtr.read((char*)(&tmp),1);      // trigger
-  fEvtHeader->SetTrigger(DmpDetectorID::kWhole,tmp);
+  fEvtHeader->SetTrigger(tmp);
   fInFilePtr.read((char*)(&tmp),1);      // Datalength
   fInFilePtr.read((char*)(&tmp),1);      // Datalength
   for (std::size_t index=0;index<8;++index) {     // size = 8
@@ -187,7 +187,7 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventHeader(){
 
 //-------------------------------------------------------------------
 bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
-  static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
+  static short feeCounts=0, trigger=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
   static short runMode = 0;
   static short feeTypeBgo = 0;
   static char data=0;
@@ -199,19 +199,18 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
   for(feeCounts=0;feeCounts<16;++feeCounts){
     fInFilePtr.read((char*)(&data2),1);
     if(data2 != 0xeb){
-      fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeCounts+1,DmpEvtRdcHeader::NotFind_0xeb);
+      fEvtHeader->SetFeeErrorTag(DmpDetectorID::kBgo,feeCounts+1,DmpDataError::NotFind_0xeb);
       return false;
     }
     fInFilePtr.read((char*)(&data2),1);
     if(data2 != 0x90){
-      fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeCounts+1,DmpEvtRdcHeader::NotFind_0x90);
+      fEvtHeader->SetFeeErrorTag(DmpDetectorID::kBgo,feeCounts+1,DmpDataError::NotFind_0x90);
       return false;
     }
     fInFilePtr.read((char*)(&data2),1);      // reserved 1 byte
     fInFilePtr.read((char*)(&data2),1);      // run mode and FEE ID
     feeID = data2%16;
     runMode = data2/16-feeTypeBgo;
-    fEvtHeader->SetRunMode(DmpDetectorID::kBgo,runMode);
     fInFilePtr.read((char*)(&data),1);      // data length, 2 bytes
     fInFilePtr.read((char*)(&data2),1);
     nBytes = data*256+data2-2-2-2;      // 2 bytes for data length, 2 bytes for trigger, 2 bytes for CRC
@@ -241,14 +240,8 @@ bool DmpAlgBgoRdcEQM::ProcessThisEventBgo(){
     }
     fInFilePtr.read((char*)(&data2),1);      // trigger status
     fInFilePtr.read((char*)(&data2),1);      // trigger
-    if(feeCounts == 0){
-      fEvtHeader->SetTrigger(DmpDetectorID::kBgo,data2);
-    }else{
-      if(fEvtHeader->GetTrigger(DmpDetectorID::kBgo) != data2){
-        fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeCounts+1,DmpEvtRdcHeader::NotMatch_Trigger);
-        return false;
-      }
-    }
+    trigger = data2;
+    fEvtHeader->SetFeeStatus(DmpDetectorID::kBgo,feeID,trigger,runMode);
     fInFilePtr.read((char*)(&data2),1);      // 2 bytes for CRC
     fInFilePtr.read((char*)(&data2),1);      // must spplit them, 2 bytes for CRC
   }

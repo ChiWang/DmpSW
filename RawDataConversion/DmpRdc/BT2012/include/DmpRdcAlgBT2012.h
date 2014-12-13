@@ -12,7 +12,7 @@
 #include "DmpVAlg.h"
 
 class TClonesArray;
-class DmpEvtRdcHeader;
+class DmpEvtHeader;
 
 class DmpRdcAlgBT2012 : public DmpVAlg{
 /*
@@ -30,7 +30,7 @@ public:
 private:    // for all
   std::string       fInDataName;    // input data name
   std::ifstream     fFile;          // in data stream
-  DmpEvtRdcHeader   *fEvtHeader;    // save me
+  DmpEvtHeader   *fEvtHeader;    // save me
   bool ProcessThisEventHeader();    // convert event header
 
 private:    // Bgo

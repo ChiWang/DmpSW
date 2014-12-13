@@ -7,7 +7,7 @@
 
 #include "TClonesArray.h"
 
-#include "DmpEvtRdcHeader.h"
+#include "DmpEvtHeader.h"
 #include "DmpEvtRdcBgoBar.h"
 #include "DmpRdcAlgBT2012.h"
 #include "DmpDataBuffer.h"
@@ -59,47 +59,40 @@ void DmpRdcAlgBT2012::InitializeBgo(){
 
 //-------------------------------------------------------------------
 bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
-  static short feeCounts=0, feeID=0, nBytes=0, nSignal=0, channelID=0;
-  static short  runMode;
   static char data=0;
   static unsigned char data2=0;
+  std::map<short,short> triggers,runModes;
   fBgoBarSet->Delete();
   DmpLogDebug<<"[Bgo] from "<<fFile.tellg();
 //-------------------------------------------------------------------
-  for (feeCounts=0;feeCounts<fFEENoBgo;++feeCounts) {
+  for (short feeCounts=0;feeCounts<fFEENoBgo;++feeCounts) {
     fFile.read((char*)(&data2),1);
     if (data2!=0xeb) {
-      fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeCounts+1,DmpEvtRdcHeader::NotFind_0xeb);
+      fEvtHeader->AddFeeErrorTag(DmpDetectorID::kBgo,feeCounts+1,DmpDataError::NotFind_0xeb);
       return false;
     }
     fFile.read((char*)(&data2),1);
     if (data2!=0x90) {
-      fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeCounts+1,DmpEvtRdcHeader::NotFind_0x90);
+      fEvtHeader->AddFeeErrorTag(DmpDetectorID::kBgo,feeCounts+1,DmpDataError::NotFind_0x90);
       return false;
     }
     fFile.read((char*)(&data2),1);       // trigger
-    if(feeCounts == 0){
-      fEvtHeader->SetTrigger(DmpDetectorID::kBgo,data2);
-    }else{
-      if(fEvtHeader->GetTrigger(DmpDetectorID::kBgo) != data2){
-        fEvtHeader->SetErrorLog(DmpDetectorID::kBgo,feeCounts+1,DmpEvtRdcHeader::NotMatch_Trigger);
-        return false;
-      }
-    }
+    short trigger = data2;
     fFile.read((char*)(&data2),1);       // run mode and FEE ID
-    feeID = data2%16;
-    runMode = data2/16-fFEETypeBgo;
-    //if(feeCounts == 0){
-    fEvtHeader->SetRunMode(DmpDetectorID::kBgo,runMode);
+    short feeID = data2%16;
+    triggers.insert(std::make_pair(feeID,trigger));
+    runModes.insert(std::make_pair(feeID,data2/16-fFEETypeBgo));
     fFile.read((char*)(&data),1);       // data length, 2 bytes
     fFile.read((char*)(&data2),1);
-    nBytes = data*256+data2-2-2-2;        // 2 bytes for data length, 2 bytes for 0x0000, 2 bytes for CRC
+    short nBytes = data*256+data2-2-2-2;        // 2 bytes for data length, 2 bytes for 0x0000, 2 bytes for CRC
 // *
 // *  TODO: mode == k0Compress && data length == xxx
 // *
-    if(runMode == DmpRunMode::kCompress){
+    short nSignal=0;
+    if(runModes[feeID] == DmpRunMode::kCompress){
       nSignal = nBytes/3;
       DmpLogDebug<<"\tFEE ID "<<feeID<<" signalNo = "<<nSignal<<DmpLogEndl;
+      short channelID;
       for(short i=0;i<nSignal;++i){     // kCompress
         fFile.read((char*)(&channelID),1);
         fFile.read((char*)(&data),1);
@@ -120,6 +113,8 @@ bool DmpRdcAlgBT2012::ProcessThisEventBgo(){
     fFile.read((char*)(&data2),1);       // 2 bytes for CRC
     fFile.read((char*)(&data2),1);       // must spplit them, 2 bytes for CRC
   }
+  fEvtHeader->SetTrigger(DmpDetectorID::kBgo,triggers);
+  fEvtHeader->SetRunMode(DmpDetectorID::kBgo,runModes);
 //-------------------------------------------------------------------
   return true;
 }

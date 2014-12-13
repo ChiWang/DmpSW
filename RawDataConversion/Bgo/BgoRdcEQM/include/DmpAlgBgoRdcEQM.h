@@ -11,7 +11,7 @@
 #include "DmpVAlg.h"
 
 class TClonesArray;
-class DmpEvtRdcHeader;
+class DmpEvtHeader;
 
 class DmpAlgBgoRdcEQM : public DmpVAlg{
 /*
@@ -37,7 +37,7 @@ private:
 private:
   std::string       fInDataName;        // input data name
   std::ifstream     fInFilePtr;         // in data stream
-  DmpEvtRdcHeader   *fEvtHeader;        // event header. out data
+  DmpEvtHeader   *fEvtHeader;        // event header. out data
 
 private:
   TClonesArray      *fBgoBarSet;        // Bgo output. out data

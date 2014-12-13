@@ -11,7 +11,7 @@
 #pragma link off all functions;
 #pragma link off all namespaces;
 // Rdc
-#pragma link C++ class DmpEvtRdcHeader+;
+#pragma link C++ class DmpEvtHeader+;
 //#pragma link C++ class DmpEvtRdcMSD+;
 // simulation
 #pragma link C++ class DmpEvtMCPrimaryParticle+;

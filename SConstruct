@@ -62,7 +62,7 @@ envBase = Environment(ENV = os.environ)
 #--------------------------------------------------------------------
 version='0.0.1'
 #prefix='/usr/local'
-prefix='Install'
+prefix='./Install'
 if os.environ.has_key('DMPSWSYS'):
     prefix=os.environ['DMPSWSYS']
 else:

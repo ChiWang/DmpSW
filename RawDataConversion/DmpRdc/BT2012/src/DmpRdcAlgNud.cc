@@ -1,12 +1,12 @@
 /*
- *  $Id: DmpRdcAlgNud.cc, 2014-05-28 11:05:19 DAMPE $
+ *  $Id: DmpRdcAlgNud.cc, 2014-07-31 10:00:54 DAMPE $
  *  Author(s):
  *    Chi WANG (chiwang@mail.ustc.edu.cn) 09/03/2014
 */
 
 #include "TClonesArray.h"
 
-#include "DmpEvtRdcHeader.h"
+#include "DmpEvtHeader.h"
 #include "DmpEvtRdcNudBlock.h"
 #include "DmpRdcAlgBT2012.h"
 #include "DmpDataBuffer.h"
@@ -39,25 +39,26 @@ bool DmpRdcAlgBT2012::ProcessThisEventNud(){
 // *
 // *  TODO: check conversion Nud
 // *
-  static short feeID=0, nBytes=0, nSignal=0, data=0;
+  static short trigger=0, feeID=0, nBytes=0, nSignal=0;
   static short runMode;
+  static char data=0;
   static unsigned short data2=0;
-  fFile.read((char*)(&data),1);
-  if(data!=0xeb){
-    fEvtHeader->SetErrorLog(DmpDetectorID::kNud,0,DmpEvtRdcHeader::NotFind_0xeb);
+  fFile.read((char*)(&data2),1);
+  if(data2!=0xeb){
+    fEvtHeader->AddFeeErrorTag(DmpDetectorID::kNud,0,DmpDataError::NotFind_0xeb);
     return false;
   }
-  fFile.read((char*)(&data),1);
-  if (data!=0x90) {
-    fEvtHeader->SetErrorLog(DmpDetectorID::kNud,0,DmpEvtRdcHeader::NotFind_0x90);
+  fFile.read((char*)(&data2),1);
+  if (data2!=0x90) {
+    fEvtHeader->AddFeeErrorTag(DmpDetectorID::kNud,0,DmpDataError::NotFind_0x90);
     return false;
   }
-  fFile.read((char*)(&data),1);     // trigger
-  fEvtHeader->SetTrigger(DmpDetectorID::kNud,data);
-  fFile.read((char*)(&data),1);     // run mode and FEE ID
-  feeID = data%16;
+  fFile.read((char*)(&data2),1);     // trigger
+  trigger = data2;
+  fFile.read((char*)(&data2),1);     // run mode and FEE ID
+  feeID = data2%16;
   runMode = data2/16-fFEETypeNud;
-  fEvtHeader->SetRunMode(DmpDetectorID::kNud,runMode);
+  fEvtHeader->SetFeeStatus(DmpDetectorID::kNud,feeID,trigger,runMode);
   fFile.read((char*)(&data),1);     // data length, 2 Bytes
   fFile.read((char*)(&data2),1);
   nBytes = data*256+data2-2-2;            // 2 bytes for data length, 2 bytes for CRC
@@ -82,8 +83,8 @@ bool DmpRdcAlgBT2012::ProcessThisEventNud(){
     for(short i=0;i<nSignal;++i){     // kCompress
     }
   }
-  fFile.read((char*)(&data),1);     // 2 bytes for CRC
-  fFile.read((char*)(&data),1);     // 2 bytes for CRC, MUST split them
+  fFile.read((char*)(&data2),1);     // 2 bytes for CRC
+  fFile.read((char*)(&data2),1);     // 2 bytes for CRC, MUST split them
 //-------------------------------------------------------------------
   return true;
 }

@@ -9,13 +9,15 @@
 #include "DmpSimPrimaryGeneratorAction.h"
 #include "DmpEvtMCPrimaryParticle.h"
 #include "DmpDataBuffer.h"
-#include "DmpCore.h"
+#include "DmpMetadataSim.h"
+//#include "DmpCore.h"
 
 DmpSimPrimaryGeneratorAction::DmpSimPrimaryGeneratorAction()
  :fGPS(0),
   fPrimaryParticle(0)
 {
   fGPS = new G4GeneralParticleSource();
+  fGPS->
   //fGPS->SetNumberOfParticles(1);
   //fGPS->SetParticleDefinition(particle);
   fPrimaryParticle = new DmpEvtMCPrimaryParticle();

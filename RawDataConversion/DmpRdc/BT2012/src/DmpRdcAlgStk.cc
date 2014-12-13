@@ -6,7 +6,7 @@
 
 #include "TClonesArray.h"
 
-#include "DmpEvtRdcHeader.h"
+#include "DmpEvtHeader.h"
 #include "DmpEvtRdcStkLadder.h"
 #include "DmpRdcAlgBT2012.h"
 #include "DmpDataBuffer.h"
